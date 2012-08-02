@@ -1,0 +1,59 @@
+                                  SCANHEAD.TXT
+
+                            $Date: 01/10/2008 19:16 $
+
+                Header Structure For ScanSuite Files
+
+    The current data file used for SCAN files consists of a 4100 (1004 Hex)
+    byte header followed by the data.
+
+              ***************************************************
+ 
+
+                                  Decimal Byte
+                                     Offset
+                                  -----------
+char[98]                         /*    0  EMPTY BLOCK FOR EXPANSION               */
+Uint16        ScanAxes           /*   98  XY (0), XZ (1) or YZ (2)                */
+Uint16        ImageWidthPx       /*  100  Number of px in X                       */
+Uint16        ImageHeightPx      /*  102  Number of px in Y                       */
+Uint16        ImageDepthPx       /*  104  Number of px in Y                       */
+Uint16        XOverScanPx        /*  106  Number of overscan pixels in X          */
+Uint16        YOverScanPx        /*  108  Number of overscan pixels in Y          */
+Uint16        ZOverScanPx        /*  110  Number of overscan pixels in Z          */
+double        TimePPixel         /*  112  Bin time for APD counts per px          */
+double        XScanSizeNm        /*  120  Physical size in X of scan area in nm   */
+double        YScanSizeNm        /*  128  Physical size in Y of scan area in nm   */
+double        ZScanSizeNm        /*  136  Physical size in Z of scan area in nm   */
+double        InitXNm            /*  144  Scan X start position in nm             */
+double        InitYNm            /*  152  Scan Y start position in nm             */
+double        InitZNm            /*  160  Scan Z start position in nm             */
+Uint16        DataType           /*  168  experiment data type                    */
+                                 /*         0 =   Uint32                          */
+                                 /*         1 =   RESERVED                        */
+                                 /*         2 =   RESERVED                        */
+                                 /*         3 =   RESERVED                        */
+Uint16        Channels           /*  170  Number of channnels                     */                                                                      
+Char[3948]                       /*  172  EMPTY BLOCK FOR EXPANSION               */
+
+                                 START OF DATA
+                             --------------------
+
+ As stated in the comments that accompany the routines in PaintToScreen, the scan data in file is always presented as follows:
+
+ The physical Image:       The array holding the data with corresponding bitmap coordinates:
+ 
+ -------------             [p00 p01 p02 p10 p11 p12 p20 p21 p22]
+ |p20 p21 p22|               |   |   |   |   |   |   |   |   |
+ |p10 p11 p12|              b02 b12 b22 b01 b11 b21 b00 b10 b20
+ |p00 p01 p02|              Count down in the bimap (b coordinates) for Y and count up for X!!!
+ -------------
+
+ The bitmap:
+
+         X
+ (b00)--(b10)--(b20)
+   |      |      |
+ (b01)--(b11)--(b21)Y
+   |      |      |
+ (b02)--(b12)--(b22)

@@ -1,0 +1,230 @@
+Building documentation...
+Initializing...
+Merging XML documentation...
+Building file mapping...
+Loading XSLT files...
+    namespace.xslt
+    namespacehierarchy.xslt
+    type.xslt
+    typehierarchy.xslt
+    allmembers.xslt
+    individualmembers.xslt
+    event.xslt
+    member.xslt
+    memberoverload.xslt
+    property.xslt
+    field.xslt
+    htmlcontents.xslt
+Generating HTML pages...
+Noogen.Validation.html
+Noogen.ValidationHierarchy.html
+Noogen.Validation.CustomValidationEventArgs.html
+Noogen.Validation.CustomValidationEventArgsMembers.html
+Noogen.Validation.CustomValidationEventArgsConstructor.html
+Noogen.Validation.CustomValidationEventArgsFields.html
+Noogen.Validation.CustomValidationEventArgs._ValidationRule.html
+Noogen.Validation.CustomValidationEventArgs._Value.html
+Noogen.Validation.CustomValidationEventArgsProperties.html
+Noogen.Validation.CustomValidationEventArgs.ErrorMessage.html
+Noogen.Validation.CustomValidationEventArgs.IsValid.html
+Noogen.Validation.CustomValidationEventArgs.ValidationRule.html
+Noogen.Validation.CustomValidationEventArgs.Value.html
+Noogen.Validation.CustomValidationEventHandler.html
+Noogen.Validation.ValidationCompareOperator.html
+Noogen.Validation.ValidationDataType.html
+Noogen.Validation.ValidationProvider.html
+Noogen.Validation.ValidationProviderMembers.html
+Noogen.Validation.ValidationProviderConstructor.html
+Noogen.Validation.ValidationProviderConstructor1.html
+Noogen.Validation.ValidationProviderConstructor2.html
+Noogen.Validation.ValidationProviderFields.html
+Noogen.Validation.ValidationProvider._DefaultValidationRule.html
+Noogen.Validation.ValidationProvider._ErrorProvider.html
+Noogen.Validation.ValidationProvider._ValidationRules.html
+Noogen.Validation.ValidationProvider.components.html
+Noogen.Validation.ValidationProviderProperties.html
+Noogen.Validation.ValidationProvider.BlinkRate.html
+Noogen.Validation.ValidationProvider.BlinkStyle.html
+Noogen.Validation.ValidationProvider.Icon.html
+Noogen.Validation.ValidationProviderMethods.html
+Noogen.Validation.ValidationProvider.CanExtend.html
+Noogen.Validation.ValidationProvider.CompareValidate.html
+Noogen.Validation.ValidationProvider.CustomValidate.html
+Noogen.Validation.ValidationProvider.DataTypeValidate.html
+Noogen.Validation.ValidationProvider.Dispose.html
+Noogen.Validation.ValidationProvider.GetIconAlignment.html
+Noogen.Validation.ValidationProvider.GetIconPadding.html
+Noogen.Validation.ValidationProvider.GetValidationRule.html
+Noogen.Validation.ValidationProvider.InitializeComponent.html
+Noogen.Validation.ValidationProvider.IsDefaultRange.html
+Noogen.Validation.ValidationProvider.RangeValidate.html
+Noogen.Validation.ValidationProvider.RegularExpressionValidate.html
+Noogen.Validation.ValidationProvider.RequiredFieldValidate.html
+Noogen.Validation.ValidationProvider.SetIconAlignment.html
+Noogen.Validation.ValidationProvider.SetIconPadding.html
+Noogen.Validation.ValidationProvider.SetValidationRule.html
+Noogen.Validation.ValidationProvider.Validate_overloads.html
+Noogen.Validation.ValidationProvider.Validate_overload_1.html
+Noogen.Validation.ValidationProvider.Validate_overload_2.html
+Noogen.Validation.ValidationProvider.ValidationMessages.html
+Noogen.Validation.ValidationRule.html
+Noogen.Validation.ValidationRuleMembers.html
+Noogen.Validation.ValidationRuleConstructor.html
+Noogen.Validation.ValidationRuleFields.html
+Noogen.Validation.ValidationRule._DataType.html
+Noogen.Validation.ValidationRule._ErrorMessage.html
+Noogen.Validation.ValidationRule._InitialValue.html
+Noogen.Validation.ValidationRule._IsCaseSensitive.html
+Noogen.Validation.ValidationRule._IsRequired.html
+Noogen.Validation.ValidationRule._IsValid.html
+Noogen.Validation.ValidationRule._MaximumValue.html
+Noogen.Validation.ValidationRule._MinimumValue.html
+Noogen.Validation.ValidationRule._Operator.html
+Noogen.Validation.ValidationRule._RegExPattern.html
+Noogen.Validation.ValidationRule._ValueToCompare.html
+Noogen.Validation.ValidationRule.ResultErrorMessage.html
+Noogen.Validation.ValidationRuleProperties.html
+Noogen.Validation.ValidationRule.DataType.html
+Noogen.Validation.ValidationRule.ErrorMessage.html
+Noogen.Validation.ValidationRule.InitialValue.html
+Noogen.Validation.ValidationRule.IsCaseSensitive.html
+Noogen.Validation.ValidationRule.IsRequired.html
+Noogen.Validation.ValidationRule.IsValid.html
+Noogen.Validation.ValidationRule.MaximumValue.html
+Noogen.Validation.ValidationRule.MinimumValue.html
+Noogen.Validation.ValidationRule.Operator.html
+Noogen.Validation.ValidationRule.RegExPattern.html
+Noogen.Validation.ValidationRule.ValueToCompare.html
+Noogen.Validation.ValidationRuleMethods.html
+Noogen.Validation.ValidationRule.Clone.html
+Noogen.Validation.ValidationRule.Compare.html
+Noogen.Validation.ValidationRule.OnCustomValidationMethod.html
+Noogen.Validation.ValidationRuleEvents.html
+Noogen.Validation.ValidationRule.CustomValidationMethod.html
+Noogen.Validation.ValidationUtil.html
+Noogen.Validation.ValidationUtilMembers.html
+Noogen.Validation.ValidationUtilConstructor.html
+Noogen.Validation.ValidationUtilMethods.html
+Noogen.Validation.ValidationUtil.CompareValues.html
+Noogen.Validation.ValidationUtil.EvaluateIsValid.html
+Noogen.Validation.ValidationUtil.FileToString_overloads.html
+Noogen.Validation.ValidationUtil.FileToString_overload_1.html
+Noogen.Validation.ValidationUtil.FileToString_overload_2.html
+Noogen.Validation.ValidationUtil.ObjectToXmlString.html
+Noogen.Validation.ValidationUtil.StringToFile_overloads.html
+Noogen.Validation.ValidationUtil.StringToFile_overload_2.html
+Noogen.Validation.ValidationUtil.StringToFile_overload_1.html
+Noogen.Validation.ValidationUtil.ValidateRegEx.html
+Noogen.Validation.ValidationUtil.XmlStringToObject.html
+Noogen.Validation.Design.html
+Noogen.Validation.DesignHierarchy.html
+Noogen.Validation.Design.RegExPattern.html
+Noogen.Validation.Design.RegExPatternMembers.html
+Noogen.Validation.Design.RegExPatternConstructor.html
+Noogen.Validation.Design.RegExPatternFields.html
+Noogen.Validation.Design.RegExPattern._ErrorMessage.html
+Noogen.Validation.Design.RegExPattern._Pattern.html
+Noogen.Validation.Design.RegExPattern._PatternName.html
+Noogen.Validation.Design.RegExPattern._TestValue.html
+Noogen.Validation.Design.RegExPatternProperties.html
+Noogen.Validation.Design.RegExPattern.ErrorMessage.html
+Noogen.Validation.Design.RegExPattern.Pattern.html
+Noogen.Validation.Design.RegExPattern.PatternName.html
+Noogen.Validation.Design.RegExPattern.TestValue.html
+Noogen.Validation.Design.RegExPatternCollection.html
+Noogen.Validation.Design.RegExPatternCollectionMembers.html
+Noogen.Validation.Design.RegExPatternCollectionConstructor.html
+Noogen.Validation.Design.RegExPatternCollectionProperties.html
+Noogen.Validation.Design.RegExPatternCollection.Item.html
+Noogen.Validation.Design.RegExPatternCollectionMethods.html
+Noogen.Validation.Design.RegExPatternCollection.Add.html
+Noogen.Validation.Design.ValidationProviderDesigner.html
+Noogen.Validation.Design.ValidationProviderDesignerMembers.html
+Noogen.Validation.Design.ValidationProviderDesignerConstructor.html
+Noogen.Validation.Design.ValidationProviderDesignerFields.html
+Noogen.Validation.Design.ValidationProviderDesigner._ComponentChangeService.html
+Noogen.Validation.Design.ValidationProviderDesigner._DesignerHost.html
+Noogen.Validation.Design.ValidationProviderDesignerMethods.html
+Noogen.Validation.Design.ValidationProviderDesigner.CustomInitialize.html
+Noogen.Validation.Design.ValidationProviderDesigner.EditValidationRulesHandler.html
+Noogen.Validation.Design.ValidationRuleConverter.html
+Noogen.Validation.Design.ValidationRuleConverterMembers.html
+Noogen.Validation.Design.ValidationRuleConverterConstructor.html
+Noogen.Validation.Design.ValidationRuleConverterMethods.html
+Noogen.Validation.Design.ValidationRuleConverter.CanConvertTo.html
+Noogen.Validation.Design.ValidationRuleConverter.ConvertTo.html
+Noogen.Validation.Design.ValidationRuleDesignForm.html
+Noogen.Validation.Design.ValidationRuleDesignFormMembers.html
+Noogen.Validation.Design.ValidationRuleDesignFormConstructor.html
+Noogen.Validation.Design.ValidationRuleDesignFormConstructor1.html
+Noogen.Validation.Design.ValidationRuleDesignFormConstructor2.html
+Noogen.Validation.Design.ValidationRuleDesignFormFields.html
+Noogen.Validation.Design.ValidationRuleDesignForm._ComponentChangeService.html
+Noogen.Validation.Design.ValidationRuleDesignForm._DesignerHost.html
+Noogen.Validation.Design.ValidationRuleDesignForm._LocalValidationProvider.html
+Noogen.Validation.Design.ValidationRuleDesignForm._RegExPatterns.html
+Noogen.Validation.Design.ValidationRuleDesignForm._TestValueValidationRule.html
+Noogen.Validation.Design.ValidationRuleDesignForm._ValidationComponents.html
+Noogen.Validation.Design.ValidationRuleDesignForm._ValidationProvider.html
+Noogen.Validation.Design.ValidationRuleDesignForm.CloseButton.html
+Noogen.Validation.Design.ValidationRuleDesignForm.components.html
+Noogen.Validation.Design.ValidationRuleDesignForm.ControlsDropDownList.html
+Noogen.Validation.Design.ValidationRuleDesignForm.label1.html
+Noogen.Validation.Design.ValidationRuleDesignForm.label2.html
+Noogen.Validation.Design.ValidationRuleDesignForm.label3.html
+Noogen.Validation.Design.ValidationRuleDesignForm.label4.html
+Noogen.Validation.Design.ValidationRuleDesignForm.label5.html
+Noogen.Validation.Design.ValidationRuleDesignForm.LoadPatternsButton.html
+Noogen.Validation.Design.ValidationRuleDesignForm.NewButton.html
+Noogen.Validation.Design.ValidationRuleDesignForm.openFileDialog1.html
+Noogen.Validation.Design.ValidationRuleDesignForm.propertyGrid1.html
+Noogen.Validation.Design.ValidationRuleDesignForm.RegExErrorMessageTextBox.html
+Noogen.Validation.Design.ValidationRuleDesignForm.RegExPatternsDropDownList.html
+Noogen.Validation.Design.ValidationRuleDesignForm.RegExPatternTextBox.html
+Noogen.Validation.Design.ValidationRuleDesignForm.RegExTestValueTextBox.html
+Noogen.Validation.Design.ValidationRuleDesignForm.SaveButton.html
+Noogen.Validation.Design.ValidationRuleDesignForm.tabControl1.html
+Noogen.Validation.Design.ValidationRuleDesignForm.tabPage1.html
+Noogen.Validation.Design.ValidationRuleDesignForm.tabPage2.html
+Noogen.Validation.Design.ValidationRuleDesignForm.toolTip1.html
+Noogen.Validation.Design.ValidationRuleDesignForm.UsePatternButton.html
+Noogen.Validation.Design.ValidationRuleDesignFormMethods.html
+Noogen.Validation.Design.ValidationRuleDesignForm.AddInputControl.html
+Noogen.Validation.Design.ValidationRuleDesignForm.CloseButton_Click.html
+Noogen.Validation.Design.ValidationRuleDesignForm.ControlsDropDownList_SelectedIndexChanged.html
+Noogen.Validation.Design.ValidationRuleDesignForm.Dispose.html
+Noogen.Validation.Design.ValidationRuleDesignForm.GetInputControls.html
+Noogen.Validation.Design.ValidationRuleDesignForm.InitializeComponent.html
+Noogen.Validation.Design.ValidationRuleDesignForm.LoadPatternsButton_Click.html
+Noogen.Validation.Design.ValidationRuleDesignForm.NewButton_Click.html
+Noogen.Validation.Design.ValidationRuleDesignForm.propertyGrid1_PropertyValueChanged.html
+Noogen.Validation.Design.ValidationRuleDesignForm.RegExTestValueTextBox_TextChanged.html
+Noogen.Validation.Design.ValidationRuleDesignForm.SaveButton_Click.html
+Noogen.Validation.Design.ValidationRuleDesignForm.tabControl1_SelectedIndexChanged.html
+Noogen.Validation.Design.ValidationRuleDesignForm.TestPatternButton_Click.html
+Noogen.Validation.Design.ValidationRuleDesignForm.UsePatternButton_Click.html
+Noogen.Validation.Design.ValidationRuleEditor.html
+Noogen.Validation.Design.ValidationRuleEditorMembers.html
+Noogen.Validation.Design.ValidationRuleEditorConstructor.html
+Noogen.Validation.Design.ValidationRuleEditorMethods.html
+Noogen.Validation.Design.ValidationRuleEditor.EditValue.html
+Noogen.Validation.Design.ValidationRuleEditor.GetEditStyle.html
+Compiling HTML Help file...
+Compiling Html Help file
+Microsoft HTML Help Compiler 4.74.8702
+
+Compiling c:\Noogen\Validation\ValidationProvider\Help\ndoc_msdn_temp\ApiHelp.chm
+
+
+Compile time: 0 minutes, 4 seconds
+195	Topics
+1,252	Local links
+0	Internet links
+9	Graphics
+
+
+Created c:\Noogen\Validation\ValidationProvider\Help\ndoc_msdn_temp\ApiHelp.chm, 92,418 bytes
+Compression decreased file by 513,995 bytes.
+
+Html Help compile complete
+Done.

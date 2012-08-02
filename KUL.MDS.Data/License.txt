@@ -1,0 +1,36 @@
+﻿ This library is very loosely based on xylib library.
+ 
+ I am not very experienced with licensing issues so I include the original license here:
+ ---------------------------------------------------------------------------------------
+ 
+ Public API of xylib library.
+ Licence: Lesser GNU Public License 2.1 (LGPL) 
+ $Id: xylib.h 412 2008-03-20 13:49:48Z wojdyr $
+
+ xylib is a library for reading files that contain x-y data from powder
+ diffraction, spectroscopy or other experimental methods.
+
+ It is recommended to set LC_NUMERIC="C" (or other locale with the same 
+ numeric format) before reading files.
+ 
+ Usually, we first call load_file() to read file from disk. It stores 
+ all data from the file in class DataSet. 
+ DataSet contains a list of Blocks, each Blocks contains a list of Columns, 
+ and each Column contains a list of values. 
+
+ It may sound complex, but IMO it can't be made simpler.
+ It's analogical to a spreadsheet. One OOCalc or Excel file (which 
+ corresponds to xylib::DataSet) contains a number of sheets (Blocks), 
+ but usually only one is used. We can view each sheet as a list of columns. 
+
+ In xylib all columns in one block must have equal length. 
+ Several filetypes always contain only one Block with two Columns.
+ In this case we can take coordinates of the 15th point as:
+    double x = get_block(0)->get_column(1)->get_value(14);
+    double y = get_block(0)->get_column(2)->get_value(14);
+ Note that blocks and points are numbered from 0, but columns are numbered
+ from 1, because the column 0 returns index of point.
+ All values are stored as floating-point numbers, even if they are integers
+ in the file.
+ DataSet and Block contain also MetaData, which is a string to string map.
+ 

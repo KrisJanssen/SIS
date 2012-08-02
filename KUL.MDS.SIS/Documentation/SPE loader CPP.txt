@@ -1,0 +1,208 @@
+Initial import, migrate all of the code from fityk SVN repository.
+
+    1 // Implementation of class WinspecSpeDataSet for reading meta-info
+    2 // and xy-data from WinSpec SPE Format
+    3 // Licence: Lesser GNU Public License 2.1 (LGPL)
+    4 // $Id: ds_winspec_spe.cpp $
+    5 
+    6 /*
+    7 
+    8 FORMAT DESCRIPTION:
+    9 ====================
+   10 Princeton Instruments WinSpec SPE format. One kind of spectroscopy formats
+   11 used by Princeton Instruments (PI). The Official programs to deal with this
+   12 format is WinView/WinSpec.
+   13 
+   14 ///////////////////////////////////////////////////////////////////////////////
+   15     * Name in progam:   spe
+   16     * Extension name:   spe
+   17     * Binary/Text:      binary
+   18     * Multi-blocks:     Y
+   19 
+   20 ///////////////////////////////////////////////////////////////////////////////
+   21     * Format details:
+   22 According to the format specification, SPE format has several versions (v1.43,
+   23 v1.6 and the newest v2.25). But we need not implement every version of it,
+   24 because it's back-ward compatible.
+   25 
+   26 All data files must begin with a 4100-byte header. There are lots of fields
+   27 stored in the header in a fixed offset.
+   28 NOTE: there are 2 issues must be aware of when implementing this format.
+   29 1. Data are stored in Little-Endian, binary raw format.
+   30 2. Its own types (SPE_DATA_LONG etc) have different lengths compared with those
+   31 types in C/C++
+   32 
+   33 Data begins right after the header, with offset 4100.
+   34 
+   35 ///////////////////////////////////////////////////////////////////////////////
+   36     * Implementation Ref of xylib:
+   37 mainly based on the file format specification: A file format specification
+   38 sent us by David Hovis <dbh6@case.edu> (the documents came with his equipment)
+   39 and a SPE reading program written by Pablo Bianucci <pbian@physics.utexas.edu>.
+   40 
+   41 */
+   42 
+   43 #include "ds_winspec_spe.h"
+   44 #include "util.h"
+   45 #include <cmath>
+   46 
+   47 using namespace std;
+   48 using namespace xylib::util;
+   49 
+   50 namespace xylib {
+   51 
+   52 const FormatInfo WinspecSpeDataSet::fmt_info(
+   53     FT_SPE,
+   54     "spe",
+   55     "Princeton Instruments WinSpec SPE Format",
+   56     vector<string>(1, "spe"),
+   57     true,                       // whether binary
+   58     true                        // whether has multi-blocks
+   59 );
+   60 
+   61 bool WinspecSpeDataSet::check(istream &f) {
+   62     // make sure file size > 4100
+   63     f.seekg(-1, ios_base::end);
+   64     long file_sz = f.tellg();
+   65     if (file_sz <= 4100) {
+   66         return false;
+   67     }
+   68 
+   69     // datatype field in header ONLY can be 0~3
+   70     f.seekg(108);
+   71     spe_dt data_type = static_cast<spe_dt>(read_uint16_le(f));
+   72     if (data_type < SPE_DATA_FLOAT || data_type > SPE_DATA_UINT) {
+   73         return false;
+   74     }
+   75 
+   76     // additional if-condition can be added
+   77 
+   78     f.seekg(0);
+   79     return true;
+   80 }
+   81 
+   82 
+   83 void WinspecSpeDataSet::load_data(std::istream &f)
+   84 {
+   85     if (!check(f)) {
+   86         throw XY_Error("file is not the expected " + get_filetype() + " format");
+   87     }
+   88     clear();
+   89 
+   90     // only read necessary params from file header
+   91     f.ignore(42);
+   92     int xdim = read_uint16_le(f);
+   93     f.ignore(64);
+   94     spe_dt data_type = static_cast<spe_dt>(read_uint16_le(f));
+   95 
+   96     f.ignore(546);
+   97     int ydim = read_uint16_le(f);
+   98     f.ignore(788);
+   99     size_t num_frames = read_uint32_le(f);
+  100 
+  101     spe_calib x_calib, y_calib;
+  102     f.ignore(1550);     // move ptr to x_calib start
+  103     read_calib(f, x_calib);
+  104     read_calib(f, y_calib);
+  105 
+  106     int dim;
+  107     spe_calib *calib;
+  108     if (1 == ydim) {
+  109         dim = xdim;
+  110         calib = &x_calib;
+  111     } else if (1 == xdim) {
+  112         dim = ydim;
+  113         calib = &y_calib;
+  114     } else {
+  115         throw XY_Error("xylib does not support 2-D images");
+  116     }
+  117 
+  118     f.ignore(122);      // move ptr to frames-start
+  119     for (unsigned frm = 0; frm < num_frames; ++frm) {
+  120         VecColumn *p_xcol = new VecColumn;
+  121         if ((1 == calib->polynom_order) || (!calib->calib_valid)) {
+  122             // it's linear, so step is fixed
+  123             p_xcol->fixed_step = true;
+  124         }
+  125 
+  126         VecColumn *p_ycol = new VecColumn;
+  127         Block *p_blk = new Block;
+  128         p_blk->add_column(p_xcol, Block::CT_X);
+  129         p_blk->add_column(p_ycol, Block::CT_Y);
+  130 
+  131         for (int pt = 0; pt < dim; ++pt) {
+  132             double x = idx_to_calib_val(pt, calib);
+  133             double y = 0;
+  134             switch (data_type) {
+  135             case SPE_DATA_FLOAT:
+  136                 y = read_flt_le(f);
+  137                 break;
+  138             case SPE_DATA_LONG:
+  139                 y = read_uint32_le(f);
+  140                 break;
+  141             case SPE_DATA_INT:
+  142                 y = read_int16_le(f);
+  143                 break;
+  144             case SPE_DATA_UINT:
+  145                 y = read_uint16_le(f);
+  146                 break;
+  147             default:
+  148                 break;
+  149             }
+  150 
+  151             p_xcol->add_val(x);
+  152             p_ycol->add_val(x);
+  153         }
+  154 
+  155         blocks.push_back(p_blk);
+  156     }
+  157 }
+  158 
+  159 
+  160 // internally-used helper functions
+  161 ///////////////////////////////////////////////////////////////////////////////
+  162 
+  163 // get the calibration value of index 'idx'
+  164 double WinspecSpeDataSet::idx_to_calib_val(int idx, const spe_calib *calib)
+  165 {
+  166     double re = 0;
+  167 
+  168     // Sanity checks
+  169     if (!calib) {
+  170         throw XY_Error("invalid calib structure");
+  171     }
+  172 
+  173     my_assert(calib->polynom_order <= 6, "bad polynom header found");
+  174 
+  175     if (!calib->calib_valid) {
+  176         return idx;        // if invalid, use idx as X instead
+  177     }
+  178 
+  179     for (int i = 0; i <= calib->polynom_order; ++i) {
+  180         re += calib->polynom_coeff[i] * pow(double(idx + 1), double(i));
+  181     }
+  182 
+  183     return re;
+  184 }
+  185 
+  186 
+  187 // read some fields of calib. 'offset' is the offset of the structure in file
+  188 void WinspecSpeDataSet::read_calib(istream &f, spe_calib &calib)
+  189 {
+  190     f.ignore(98);
+  191     my_read(f, &calib.calib_valid, 1);
+  192 
+  193     f.ignore(2);
+  194     my_read(f, &calib.polynom_order, 1);
+  195 
+  196     f.ignore(161);
+  197     for (int i = 0; i < 6; ++i) {
+  198         calib.polynom_coeff[i] = read_dbl_le(f);
+  199     }
+  200 
+  201     f.ignore(178);  // skip all of the left fields in calib
+  202 }
+  203 
+  204 } // end of namespace xylib
+  205 
+  206 
