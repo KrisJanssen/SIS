@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectroscopy Imaging Suite", "KUL.MDS.SIS\Spectroscopy Imaging Suite.csproj", "{633F5B3A-C20B-42DE-9D58-651FB8C5886F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A52D6403-0252-4A82-8C53-122B3CC036FC} = {A52D6403-0252-4A82-8C53-122B3CC036FC}
@@ -13,8 +13,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KUL.MDS.SerialTerminal", "KUL.MDS.SerialTerminal\KUL.MDS.SerialTerminal.csproj", "{ABD27080-6E3B-4981-B16A-885E17CA2AF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KUL.MDS.Validation", "KUL.MDS.Validation\KUL.MDS.Validation.csproj", "{A52D6403-0252-4A82-8C53-122B3CC036FC}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "RISInstaller", "RISInstaller\RISInstaller.vdproj", "{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KUL.MDS.ScanModes", "KUL.MDS.ScanModes\KUL.MDS.ScanModes.csproj", "{C30788B7-5765-4215-90E4-D973CE0C15F2}"
 EndProject
@@ -87,16 +85,6 @@ Global
 		{A52D6403-0252-4A82-8C53-122B3CC036FC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A52D6403-0252-4A82-8C53-122B3CC036FC}.Release|Win32.ActiveCfg = Release|Any CPU
 		{A52D6403-0252-4A82-8C53-122B3CC036FC}.Release|Win32.Build.0 = Release|Any CPU
-		{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}.Debug|Any CPU.ActiveCfg = Debug
-		{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}.Debug|Mixed Platforms.Build.0 = Debug
-		{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}.Debug|Win32.ActiveCfg = Debug
-		{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}.Debug|Win32.Build.0 = Debug
-		{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}.Release|Any CPU.ActiveCfg = Release
-		{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}.Release|Mixed Platforms.ActiveCfg = Release
-		{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}.Release|Mixed Platforms.Build.0 = Release
-		{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}.Release|Win32.ActiveCfg = Release
-		{76D5A9CB-9D3B-4833-9BEB-C53F09D3A3F3}.Release|Win32.Build.0 = Release
 		{C30788B7-5765-4215-90E4-D973CE0C15F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C30788B7-5765-4215-90E4-D973CE0C15F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C30788B7-5765-4215-90E4-D973CE0C15F2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

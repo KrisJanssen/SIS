@@ -28,7 +28,7 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -43,6 +43,7 @@
     <ApplicationVersion>0.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -67,6 +68,7 @@
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -90,6 +92,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=1.1.0.0, Culture=neutral, PublicKeyToken=9a0d19ffd4e7fe67, processorArchitecture=MSIL">
@@ -125,6 +128,7 @@
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -173,18 +177,14 @@
     <Compile Include="Forms\ScanSettingsForm.Designer.cs">
       <DependentUpon>ScanSettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SplashForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\SplashForm.cs" />
     <Compile Include="Forms\TrajectoryPlotForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\TrajectoryPlotForm.Designer.cs">
       <DependentUpon>TrajectoryPlotForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SPEViewForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\SPEViewForm.cs" />
     <Compile Include="Documents\ScanDocument.cs" />
     <Compile Include="Forms\ProgressBarForm.cs">
       <SubType>Form</SubType>
@@ -192,9 +192,7 @@
     <Compile Include="Forms\ProgressBarForm.Designer.cs">
       <DependentUpon>ProgressBarForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ScanViewForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\ScanViewForm.cs" />
     <Compile Include="Forms\ScanViewForm.Designer.cs">
       <DependentUpon>ScanViewForm.cs</DependentUpon>
     </Compile>
@@ -202,9 +200,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\MainForm.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -218,9 +214,7 @@
     <Compile Include="Documents\TestDocument.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Forms\TestViewForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\TestViewForm.cs" />
     <EmbeddedResource Include="Forms\BlendImageForm.resx">
       <DependentUpon>BlendImageForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -266,6 +260,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Documentation\Controlling GPIB Instrument.pdf" />
     <None Include="Documentation\Raman Imaging Timing Implementation.pptx" />
     <None Include="Properties\Settings.settings">
