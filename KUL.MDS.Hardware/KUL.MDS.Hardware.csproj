@@ -65,7 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcquisitionSettings.cs" />
     <Compile Include="APD.cs" />
+    <Compile Include="APDSettings.cs" />
+    <Compile Include="IDetector.cs" />
     <Compile Include="PhotoDiode.cs" />
     <Compile Include="E7XX\E7XXController.cs" />
     <Compile Include="MaxVoltageExceededException.cs" />
@@ -81,6 +84,7 @@
     </Compile>
     <Compile Include="StageNotEngagedException.cs" />
     <Compile Include="StageNotReleasedException.cs" />
+    <Compile Include="TimeHarpSettings.cs" />
     <Compile Include="TimingClock.cs" />
   </ItemGroup>
   <ItemGroup>
