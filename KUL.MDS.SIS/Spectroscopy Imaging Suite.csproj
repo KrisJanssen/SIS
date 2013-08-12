@@ -7,8 +7,7 @@
     <ProjectGuid>{633F5B3A-C20B-42DE-9D58-651FB8C5886F}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>SIS</AssemblyName>
@@ -221,6 +220,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Forms\TestViewForm.cs" />
+    <None Include="Resources\Icon.ico" />
     <EmbeddedResource Include="Forms\BlendImageForm.resx">
       <DependentUpon>BlendImageForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -254,7 +254,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
