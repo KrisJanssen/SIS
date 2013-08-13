@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KUL.MDS.Systemlayer</RootNamespace>
     <AssemblyName>KUL.MDS.Systemlayer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -106,7 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KUL.MDS.Base\KUL.MDS.Base.csproj">
-      <Project>{4E58EEFC-82A4-4AFD-82C8-718F8A453D12}</Project>
+      <Project>{4e58eefc-82a4-4afd-82c8-718f8a453d12}</Project>
       <Name>KUL.MDS.Base</Name>
     </ProjectReference>
   </ItemGroup>

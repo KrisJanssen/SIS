@@ -225,6 +225,7 @@ namespace KUL.MDS.Library
             InitializeComponent();
 
             //  Add any initialization after the InitializeComponent() call.
+            this.SetStyle(ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             this.SetStyle(ControlStyles.DoubleBuffer, true);
 
