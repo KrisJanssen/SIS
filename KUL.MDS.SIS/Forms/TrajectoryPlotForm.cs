@@ -81,5 +81,12 @@ namespace KUL.MDS.SIS.Forms
             this.YCoordGraph.AxisChange();
             this.XYCoordGraph.AxisChange();
         }
+
+        private void TrajectoryPlotForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason != CloseReason.UserClosing) return;
+            e.Cancel = true;
+            Hide();
+        }
     }
 }

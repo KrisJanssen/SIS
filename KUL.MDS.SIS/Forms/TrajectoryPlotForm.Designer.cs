@@ -72,13 +72,13 @@
             this.XCoordGraph.Dock = System.Windows.Forms.DockStyle.Fill;
             this.XCoordGraph.Location = new System.Drawing.Point(3, 3);
             this.XCoordGraph.Name = "XCoordGraph";
-            this.XCoordGraph.ScrollGrace = 0;
-            this.XCoordGraph.ScrollMaxX = 0;
-            this.XCoordGraph.ScrollMaxY = 0;
-            this.XCoordGraph.ScrollMaxY2 = 0;
-            this.XCoordGraph.ScrollMinX = 0;
-            this.XCoordGraph.ScrollMinY = 0;
-            this.XCoordGraph.ScrollMinY2 = 0;
+            this.XCoordGraph.ScrollGrace = 0D;
+            this.XCoordGraph.ScrollMaxX = 0D;
+            this.XCoordGraph.ScrollMaxY = 0D;
+            this.XCoordGraph.ScrollMaxY2 = 0D;
+            this.XCoordGraph.ScrollMinX = 0D;
+            this.XCoordGraph.ScrollMinY = 0D;
+            this.XCoordGraph.ScrollMinY2 = 0D;
             this.XCoordGraph.Size = new System.Drawing.Size(370, 330);
             this.XCoordGraph.TabIndex = 0;
             // 
@@ -98,13 +98,13 @@
             this.YCoordGraph.Dock = System.Windows.Forms.DockStyle.Fill;
             this.YCoordGraph.Location = new System.Drawing.Point(3, 3);
             this.YCoordGraph.Name = "YCoordGraph";
-            this.YCoordGraph.ScrollGrace = 0;
-            this.YCoordGraph.ScrollMaxX = 0;
-            this.YCoordGraph.ScrollMaxY = 0;
-            this.YCoordGraph.ScrollMaxY2 = 0;
-            this.YCoordGraph.ScrollMinX = 0;
-            this.YCoordGraph.ScrollMinY = 0;
-            this.YCoordGraph.ScrollMinY2 = 0;
+            this.YCoordGraph.ScrollGrace = 0D;
+            this.YCoordGraph.ScrollMaxX = 0D;
+            this.YCoordGraph.ScrollMaxY = 0D;
+            this.YCoordGraph.ScrollMaxY2 = 0D;
+            this.YCoordGraph.ScrollMinX = 0D;
+            this.YCoordGraph.ScrollMinY = 0D;
+            this.YCoordGraph.ScrollMinY2 = 0D;
             this.YCoordGraph.Size = new System.Drawing.Size(370, 330);
             this.YCoordGraph.TabIndex = 0;
             // 
@@ -124,13 +124,13 @@
             this.XYCoordGraph.Dock = System.Windows.Forms.DockStyle.Fill;
             this.XYCoordGraph.Location = new System.Drawing.Point(3, 3);
             this.XYCoordGraph.Name = "XYCoordGraph";
-            this.XYCoordGraph.ScrollGrace = 0;
-            this.XYCoordGraph.ScrollMaxX = 0;
-            this.XYCoordGraph.ScrollMaxY = 0;
-            this.XYCoordGraph.ScrollMaxY2 = 0;
-            this.XYCoordGraph.ScrollMinX = 0;
-            this.XYCoordGraph.ScrollMinY = 0;
-            this.XYCoordGraph.ScrollMinY2 = 0;
+            this.XYCoordGraph.ScrollGrace = 0D;
+            this.XYCoordGraph.ScrollMaxX = 0D;
+            this.XYCoordGraph.ScrollMaxY = 0D;
+            this.XYCoordGraph.ScrollMaxY2 = 0D;
+            this.XYCoordGraph.ScrollMinX = 0D;
+            this.XYCoordGraph.ScrollMinY = 0D;
+            this.XYCoordGraph.ScrollMinY2 = 0D;
             this.XYCoordGraph.Size = new System.Drawing.Size(370, 330);
             this.XYCoordGraph.TabIndex = 0;
             // 
@@ -145,6 +145,7 @@
             this.MinimizeBox = false;
             this.Name = "TrajectoryPlotForm";
             this.Text = "TrajectoryPlotForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TrajectoryPlotForm_FormClosing);
             this.graphTabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
