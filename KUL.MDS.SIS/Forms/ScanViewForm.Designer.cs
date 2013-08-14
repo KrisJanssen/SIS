@@ -93,6 +93,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
             this.ccdControl1 = new KUL.MDS.WPFControls.CCDControl.UI.CCDControl();
+            this.checkBoxDMA = new System.Windows.Forms.CheckBox();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -191,6 +192,7 @@
             this.tableLayoutPanel1.Controls.Add(this.m_btnScanSettings, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.m_nupdFilenameCount, 2, 5);
             this.tableLayoutPanel1.Controls.Add(this.m_chkbxAutosave, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxDMA, 4, 5);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -894,6 +896,16 @@
             this.elementHost2.Text = "elementHost2";
             this.elementHost2.Child = this.ccdControl1;
             // 
+            // checkBoxDMA
+            // 
+            this.checkBoxDMA.AutoSize = true;
+            this.checkBoxDMA.Location = new System.Drawing.Point(439, 173);
+            this.checkBoxDMA.Name = "checkBoxDMA";
+            this.checkBoxDMA.Size = new System.Drawing.Size(78, 17);
+            this.checkBoxDMA.TabIndex = 77;
+            this.checkBoxDMA.Text = "Use DMA?";
+            this.checkBoxDMA.UseVisualStyleBackColor = true;
+            // 
             // ScanViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -990,6 +1002,7 @@
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.CheckBox checkBox9;
         private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox checkBoxDMA;
 
     }
 }
