@@ -9,6 +9,7 @@ using KUL.MDS.ScanModes;
 using KUL.MDS.WPFControls;
 using System.Collections.Generic;
 using KUL.MDS.SystemLayer;
+using System.IO;
 
 namespace KUL.MDS.SIS.Forms
 {
@@ -1075,6 +1076,98 @@ namespace KUL.MDS.SIS.Forms
         }
 
         #endregion
+
+        private void buttonExp_Click(object sender, EventArgs e)
+        {
+            // Acces the ScanDocument object related to this form.
+            ScanDocument _docDocument = this.Document as ScanDocument;
+
+            uint[] _uintChannelData1 = _docDocument.GetChannelData(0);
+            uint[] _uintChannelData2 = _docDocument.GetChannelData(1);
+            int _iImageHeight = _docDocument.ImageHeightPx;
+            int _iImageWidth = _docDocument.ImageWidthPx;
+
+            int _iXOverScanPx = _docDocument.XOverScanPx;
+
+            string _strData1 = 
+                "Exp. Date:       " + _docDocument.Modified.ToString() + "\r\n" +
+                "Scan Duration:   " + _docDocument.ScanDuration.ToString() + "\r\n" +
+                "Scan Axes:       " + _docDocument.ScanAxes.ToString() + "\r\n" +
+                "----------------------------------------------\r\n" +
+                "Image Width Px:  " + _docDocument.ImageWidthPx.ToString() + "\r\n" +
+                "Image Heigth Px: " + _docDocument.ImageHeightPx.ToString() + "\r\n" +
+                "Image Depth Px:  " + _docDocument.ImageDepthPx.ToString() + "\r\n" +
+
+                "X Over Scan px:  " + _docDocument.XOverScanPx.ToString() + "\r\n" +
+                "Y Over Scan px:  " + _docDocument.YOverScanPx.ToString() + "\r\n" +
+                "Z Over Scan px:  " + _docDocument.ZOverScanPx.ToString() + "\r\n" +
+
+                "Initial X nm:  " + _docDocument.InitialX.ToString() + "\r\n" +
+                "Initial Y nm: " + _docDocument.InitialY.ToString() + "\r\n" +
+                "Initial Z nm:  " + _docDocument.InitialZ.ToString() + "\r\n" +
+
+                "Image Width nm:  " + _docDocument.XScanSizeNm.ToString() + "\r\n" +
+                "Image Heigth nm: " + _docDocument.YScanSizeNm.ToString() + "\r\n" +
+                "Image Depth nm:  " + _docDocument.ZScanSizeNm.ToString() + "\r\n";
+
+            for (int _intI = 0; _intI < _iImageHeight; _intI++)
+            {
+                for (int _intJ = 0; _intJ < _iImageWidth + _iXOverScanPx; _intJ++)
+                {
+                    _strData1 = _strData1 + _uintChannelData1[_intI * (_iImageWidth + _iXOverScanPx) + _intJ].ToString() + "\t";
+                }
+                _strData1 = _strData1 + "\r\n";
+            }
+
+            string _strData2 =
+                "Exp. Date:       " + _docDocument.Modified.ToString() + "\r\n" +
+                "Scan Duration:   " + _docDocument.ScanDuration.ToString() + "\r\n" +
+                "Scan Axes:       " + _docDocument.ScanAxes.ToString() + "\r\n" +
+                "----------------------------------------------\r\n" +
+                "Image Width Px:  " + _docDocument.ImageWidthPx.ToString() + "\r\n" +
+                "Image Heigth Px: " + _docDocument.ImageHeightPx.ToString() + "\r\n" +
+                "Image Depth Px:  " + _docDocument.ImageDepthPx.ToString() + "\r\n" +
+
+                "X Over Scan px:  " + _docDocument.XOverScanPx.ToString() + "\r\n" +
+                "Y Over Scan px:  " + _docDocument.YOverScanPx.ToString() + "\r\n" +
+                "Z Over Scan px:  " + _docDocument.ZOverScanPx.ToString() + "\r\n" +
+
+                "Initial X nm:  " + _docDocument.InitialX.ToString() + "\r\n" +
+                "Initial Y nm: " + _docDocument.InitialY.ToString() + "\r\n" +
+                "Initial Z nm:  " + _docDocument.InitialZ.ToString() + "\r\n" +
+
+                "Image Width nm:  " + _docDocument.XScanSizeNm.ToString() + "\r\n" +
+                "Image Heigth nm: " + _docDocument.YScanSizeNm.ToString() + "\r\n" +
+                "Image Depth nm:  " + _docDocument.ZScanSizeNm.ToString() + "\r\n";
+
+            for (int _intI = 0; _intI < _iImageHeight; _intI++)
+            {
+                for (int _intJ = 0; _intJ < _iImageWidth + _iXOverScanPx; _intJ++)
+                {
+                    _strData2 = _strData1 + _uintChannelData2[_intI * (_iImageWidth + _iXOverScanPx) + _intJ].ToString() + "\t";
+                }
+                _strData2 = _strData1 + "\r\n";
+            }
+
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sr = new StreamWriter(dialog.FileName.Replace(".txt", "_CH1.txt")))
+                {
+                    sr.Write(_strData1);
+                    sr.Close();
+                }
+                using (StreamWriter sr = new StreamWriter(dialog.FileName.Replace(".txt", "_CH2.txt")))
+                {
+                    sr.Write(_strData2);
+                    sr.Close();
+                }
+               
+            }
+
+        }
 
     }
 }

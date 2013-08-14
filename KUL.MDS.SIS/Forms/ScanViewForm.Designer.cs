@@ -63,6 +63,7 @@
             this.m_btnScanSettings = new System.Windows.Forms.Button();
             this.m_nupdFilenameCount = new System.Windows.Forms.NumericUpDown();
             this.m_chkbxAutosave = new System.Windows.Forms.CheckBox();
+            this.checkBoxDMA = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
@@ -88,12 +89,12 @@
             this.lblColorBarMaxInt2 = new System.Windows.Forms.Label();
             this.lblColorBarMinInt2 = new System.Windows.Forms.Label();
             this.btnImageFit = new System.Windows.Forms.Button();
+            this.buttonExp = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.m_txtbxScanPropertiesFromFile = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
             this.ccdControl1 = new KUL.MDS.WPFControls.CCDControl.UI.CCDControl();
-            this.checkBoxDMA = new System.Windows.Forms.CheckBox();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -484,6 +485,16 @@
             this.m_chkbxAutosave.Text = "Auto-save";
             this.m_chkbxAutosave.UseVisualStyleBackColor = true;
             // 
+            // checkBoxDMA
+            // 
+            this.checkBoxDMA.AutoSize = true;
+            this.checkBoxDMA.Location = new System.Drawing.Point(439, 173);
+            this.checkBoxDMA.Name = "checkBoxDMA";
+            this.checkBoxDMA.Size = new System.Drawing.Size(78, 17);
+            this.checkBoxDMA.TabIndex = 77;
+            this.checkBoxDMA.Text = "Use DMA?";
+            this.checkBoxDMA.UseVisualStyleBackColor = true;
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -530,6 +541,7 @@
             this.tableLayoutPanel3.Controls.Add(this.lblColorBarMaxInt2, 7, 0);
             this.tableLayoutPanel3.Controls.Add(this.lblColorBarMinInt2, 7, 9);
             this.tableLayoutPanel3.Controls.Add(this.btnImageFit, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.buttonExp, 3, 8);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -854,6 +866,18 @@
             this.btnImageFit.UseVisualStyleBackColor = true;
             this.btnImageFit.Click += new System.EventHandler(this.btnImageFit_Click);
             // 
+            // buttonExp
+            // 
+            this.tableLayoutPanel3.SetColumnSpan(this.buttonExp, 2);
+            this.buttonExp.Location = new System.Drawing.Point(518, 323);
+            this.buttonExp.Name = "buttonExp";
+            this.tableLayoutPanel3.SetRowSpan(this.buttonExp, 2);
+            this.buttonExp.Size = new System.Drawing.Size(122, 74);
+            this.buttonExp.TabIndex = 49;
+            this.buttonExp.Text = "EXPORT";
+            this.buttonExp.UseVisualStyleBackColor = true;
+            this.buttonExp.Click += new System.EventHandler(this.buttonExp_Click);
+            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -895,16 +919,6 @@
             this.elementHost2.TabIndex = 1;
             this.elementHost2.Text = "elementHost2";
             this.elementHost2.Child = this.ccdControl1;
-            // 
-            // checkBoxDMA
-            // 
-            this.checkBoxDMA.AutoSize = true;
-            this.checkBoxDMA.Location = new System.Drawing.Point(439, 173);
-            this.checkBoxDMA.Name = "checkBoxDMA";
-            this.checkBoxDMA.Size = new System.Drawing.Size(78, 17);
-            this.checkBoxDMA.TabIndex = 77;
-            this.checkBoxDMA.Text = "Use DMA?";
-            this.checkBoxDMA.UseVisualStyleBackColor = true;
             // 
             // ScanViewForm
             // 
@@ -1003,6 +1017,7 @@
         private System.Windows.Forms.CheckBox checkBox9;
         private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.CheckBox checkBoxDMA;
+        private System.Windows.Forms.Button buttonExp;
 
     }
 }
