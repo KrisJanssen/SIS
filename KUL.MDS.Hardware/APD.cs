@@ -15,7 +15,7 @@ namespace KUL.MDS.Hardware
         private string m_sBoardID;          /* "Dev2" for analog */
                                             /* "Dev2" for digital */
         private string m_sPulseGenCtr;      /* "Ctr1" for analog */
-        private string m_sPulseGenTimeBase; /* "80MHzTimebase" for analog */
+        private int m_iPulseGenTimeBase;    /* "80MHzTimebase" for analog */
         private string m_sPulseGenTrigger;  /* "RTSI0" for analog */
                                             /* "PFI27" for digital */
         private string m_sAPDTTLCounter;    /* "Ctr0" for analog */
@@ -48,14 +48,14 @@ namespace KUL.MDS.Hardware
         public APD(
             string __sBoardID, 
             string __sPulseGenCtr, 
-            string __sPulseGenTimeBase, 
+            int __sPulseGenTimeBase, 
             string __sPulseGenTrigger,
             string __sAPDTTLCounter,
             string __sAPDInputLine)
         {
             this.m_sBoardID = __sBoardID;
             this.m_sPulseGenCtr = __sPulseGenCtr;
-            this.m_sPulseGenTimeBase = __sPulseGenTimeBase;
+            this.m_iPulseGenTimeBase = __sPulseGenTimeBase;
             this.m_sPulseGenTrigger = __sPulseGenTrigger;
             this.m_sAPDTTLCounter = __sAPDTTLCounter;
             this.m_sAPDInputLine = __sAPDInputLine;
@@ -72,7 +72,7 @@ namespace KUL.MDS.Hardware
             try
             {
                 // Calculate how many ticks the photon counting should take.
-                int _iBinTicks = Convert.ToInt32(__dBinTimeMilisec * 80000);
+                int _iBinTicks = Convert.ToInt32(__dBinTimeMilisec * m_iPulseGenTimeBase * 1000);
 
                 // Create new task instances that will be passed to the private member tasks.
                 Task _daqtskTiming = new Task();
@@ -84,10 +84,10 @@ namespace KUL.MDS.Hardware
                 _daqtskTiming.COChannels.CreatePulseChannelTicks(
                     "/" + m_sBoardID + "/" + m_sPulseGenCtr, 
                     "TimedPulse", 
-                    "/" + m_sBoardID + "/" + m_sPulseGenTimeBase, 
-                    COPulseIdleState.Low, 
-                    80, 
-                    80, 
+                    "/" + m_sBoardID + "/" + m_iPulseGenTimeBase.ToString() + "MHzTimebase", 
+                    COPulseIdleState.Low,
+                     m_iPulseGenTimeBase,
+                     m_iPulseGenTimeBase, 
                     _iBinTicks);
 
                 // We want to sync voltage out to Analog Piezo or  Digital Piezo with measurement without software intervention.
@@ -128,6 +128,9 @@ namespace KUL.MDS.Hardware
                 // TODO: Evaluate the behavior of this setting. It might be necessary to deal with zero counts correctly although this is not 
                 // likeley because an APD probably has non-zero dark count!
                 _daqtskAPD.CIChannels.All.DuplicateCountPrevention = true;
+
+                // Boards that do not support multiple DMA channels might want to use interrupts instead.
+                _daqtskAPD.CIChannels.All.DataTransferMechanism = CIDataTransferMechanism.Interrupts;
 
                 // We only want to collect as many counts as there are pixels or "steps" in the image.
                 // Every time we read from the buffer we will read all samples that are there at once.
