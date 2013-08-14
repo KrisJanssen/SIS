@@ -106,7 +106,6 @@
             // 
             // valprovSISValidationProvider
             // 
-            this.valprovSISValidationProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
             this.valprovSISValidationProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("valprovSISValidationProvider.Icon")));
             // 
             // bckgwrkPerformScan
@@ -262,9 +261,9 @@
             // 
             // m_txtbxGoToZ
             // 
-            this.m_txtbxGoToZ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxGoToZ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxGoToZ.Location = new System.Drawing.Point(330, 139);
             this.m_txtbxGoToZ.Name = "m_txtbxGoToZ";
             this.m_txtbxGoToZ.Size = new System.Drawing.Size(103, 20);
@@ -273,9 +272,9 @@
             // 
             // m_txtbxGoToY
             // 
-            this.m_txtbxGoToY.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxGoToY.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxGoToY.Location = new System.Drawing.Point(221, 139);
             this.m_txtbxGoToY.Name = "m_txtbxGoToY";
             this.m_txtbxGoToY.Size = new System.Drawing.Size(103, 20);
@@ -284,9 +283,9 @@
             // 
             // m_txtbxGoToX
             // 
-            this.m_txtbxGoToX.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxGoToX.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxGoToX.Location = new System.Drawing.Point(112, 139);
             this.m_txtbxGoToX.Name = "m_txtbxGoToX";
             this.m_txtbxGoToX.Size = new System.Drawing.Size(103, 20);
@@ -485,8 +484,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.tableLayoutPanel3);
             this.groupBox2.Location = new System.Drawing.Point(9, 262);
             this.groupBox2.Name = "groupBox2";
@@ -750,7 +749,7 @@
             this.scanImageControl1.Size = new System.Drawing.Size(400, 400);
             this.scanImageControl1.StretchImageToFit = true;
             this.scanImageControl1.TabIndex = 32;
-            this.scanImageControl1.ZoomFactor = 1;
+            this.scanImageControl1.ZoomFactor = 1D;
             this.scanImageControl1.ZoomOnMouseWheel = true;
             this.scanImageControl1.OnPositionSelected += new System.EventHandler(this.scanImageControl1_OnPositionSelected);
             // 
@@ -772,7 +771,7 @@
             this.scanImageControl2.Size = new System.Drawing.Size(400, 400);
             this.scanImageControl2.StretchImageToFit = true;
             this.scanImageControl2.TabIndex = 28;
-            this.scanImageControl2.ZoomFactor = 1;
+            this.scanImageControl2.ZoomFactor = 1D;
             this.scanImageControl2.ZoomOnMouseWheel = true;
             this.scanImageControl2.OnPositionSelected += new System.EventHandler(this.scanImageControl2_OnPositionSelected);
             // 
@@ -793,7 +792,7 @@
             this.drwcnvColorBar2.Size = new System.Drawing.Size(19, 394);
             this.drwcnvColorBar2.StretchImageToFit = true;
             this.drwcnvColorBar2.TabIndex = 29;
-            this.drwcnvColorBar2.ZoomFactor = 1;
+            this.drwcnvColorBar2.ZoomFactor = 1D;
             this.drwcnvColorBar2.ZoomOnMouseWheel = false;
             // 
             // drwcnvColorBar1
@@ -813,7 +812,7 @@
             this.drwcnvColorBar1.Size = new System.Drawing.Size(19, 394);
             this.drwcnvColorBar1.StretchImageToFit = true;
             this.drwcnvColorBar1.TabIndex = 33;
-            this.drwcnvColorBar1.ZoomFactor = 1;
+            this.drwcnvColorBar1.ZoomFactor = 1D;
             this.drwcnvColorBar1.ZoomOnMouseWheel = false;
             // 
             // lblColorBarMaxInt2

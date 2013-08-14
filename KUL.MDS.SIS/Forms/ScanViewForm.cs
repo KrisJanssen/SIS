@@ -75,8 +75,8 @@ namespace KUL.MDS.SIS.Forms
             // 6) Input terminal carrying TTLs from physical APD
             //
             // TODO: Put this stuff in some sort of config file/the Windows registry.
-            this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr1", 20, "PFI27", "Ctr0", "PFI39");
-            this.m_apdAPD2 = new KUL.MDS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35");
+            this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr1", 20, "PFI27", "Ctr0", "PFI39", false);
+            this.m_apdAPD2 = new KUL.MDS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", false);
             //this.m_pdPhotoDiode = new KUL.MDS.Hardware.PhotoDiode("Dev2", "Ctr0", "80MHzTimebase", "RTSI0", "ai0");
 
             // For Analog stage controllers we need a global timing source.

@@ -15,12 +15,16 @@ namespace KUL.MDS.Hardware
         private string m_sBoardID;          /* "Dev2" for analog */
                                             /* "Dev2" for digital */
         private string m_sPulseGenCtr;      /* "Ctr1" for analog */
-        private int m_iPulseGenTimeBase;    /* "80MHzTimebase" for analog */
         private string m_sPulseGenTrigger;  /* "RTSI0" for analog */
                                             /* "PFI27" for digital */
         private string m_sAPDTTLCounter;    /* "Ctr0" for analog */
         private string m_sAPDInputLine;     /* "PFI39" for analog */
                                             /* "PFI39" for digital */
+
+        private int m_iPulseGenTimeBase;    /* "80MHzTimebase" for analog */
+
+        private bool m_bUseDMA;
+
         // Count readers.
         private CounterReader m_rdrCountReader;
 
@@ -51,7 +55,8 @@ namespace KUL.MDS.Hardware
             int __sPulseGenTimeBase, 
             string __sPulseGenTrigger,
             string __sAPDTTLCounter,
-            string __sAPDInputLine)
+            string __sAPDInputLine,
+            bool __bUseDMA)
         {
             this.m_sBoardID = __sBoardID;
             this.m_sPulseGenCtr = __sPulseGenCtr;
@@ -60,6 +65,7 @@ namespace KUL.MDS.Hardware
             this.m_sAPDTTLCounter = __sAPDTTLCounter;
             this.m_sAPDInputLine = __sAPDInputLine;
             this.m_dTotalCountsRead = 0;
+            this.m_bUseDMA = __bUseDMA;
         }
 
         /// <summary>
@@ -129,8 +135,11 @@ namespace KUL.MDS.Hardware
                 // likeley because an APD probably has non-zero dark count!
                 _daqtskAPD.CIChannels.All.DuplicateCountPrevention = true;
 
-                // Boards that do not support multiple DMA channels might want to use interrupts instead.
-                _daqtskAPD.CIChannels.All.DataTransferMechanism = CIDataTransferMechanism.Interrupts;
+                if (!m_bUseDMA)
+                {
+                    // Boards that do not support multiple DMA channels might want to use interrupts instead.
+                    _daqtskAPD.CIChannels.All.DataTransferMechanism = CIDataTransferMechanism.Interrupts;
+                }
 
                 // We only want to collect as many counts as there are pixels or "steps" in the image.
                 // Every time we read from the buffer we will read all samples that are there at once.
