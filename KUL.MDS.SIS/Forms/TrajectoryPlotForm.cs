@@ -68,6 +68,10 @@ namespace KUL.MDS.SIS.Forms
                 list3.Add(this.m_NMCoordinates[0, i], this.m_NMCoordinates[1, i]);
             }
 
+            this.XCoordGraph.GraphPane.CurveList.Clear();
+            this.YCoordGraph.GraphPane.CurveList.Clear();
+            this.XYCoordGraph.GraphPane.CurveList.Clear();
+
             LineItem myCurve1 = this.XCoordGraph.GraphPane.AddCurve("X",
                   list1, Color.Red, SymbolType.None);
 
