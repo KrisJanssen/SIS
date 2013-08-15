@@ -308,7 +308,7 @@ namespace KUL.MDS.MDITemplate
         // remain uninitialized for the lifetime of the application domain in which your program is running.
         static MdiParentForm()
         {
-            new Thread(FocusPrintThread).Start();
+            //new Thread(FocusPrintThread).Start();
         }
 
         private static string GetControlName(Control control)
