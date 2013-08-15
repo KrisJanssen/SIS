@@ -84,6 +84,10 @@ namespace KUL.MDS.SIS.Forms
             this.XCoordGraph.AxisChange();
             this.YCoordGraph.AxisChange();
             this.XYCoordGraph.AxisChange();
+
+            this.XCoordGraph.Invalidate();
+            this.YCoordGraph.Invalidate();
+            this.XYCoordGraph.Invalidate();
         }
 
         private void TrajectoryPlotForm_FormClosing(object sender, FormClosingEventArgs e)
