@@ -8,6 +8,8 @@ namespace KUL.MDS.Hardware
 {
     public class PIDigitalStage : IPiezoStage
     {
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         #region Members.
 
         // Create variables to keep track of the currently set voltage to the Piezo stage.
@@ -292,8 +294,9 @@ namespace KUL.MDS.Hardware
         /// </summary>
         public void Initialize()
         {
+            _logger.Fatal("Initializing....");
             this.m_iControllerID = E7XXController.ConnectNIgpib(0, 4);
-
+            
             if (this.m_iControllerID < 0)
             {
                 // This is an error condition. The stage is certainly not ready.

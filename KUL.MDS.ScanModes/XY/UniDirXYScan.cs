@@ -12,6 +12,7 @@ namespace KUL.MDS.ScanModes
     [ScanMode("Unidirectional XY Scan")]
     public class UniDirXYScan : Scanmode
     {
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         #region Methods.
 
         /// <summary>
@@ -61,6 +62,7 @@ namespace KUL.MDS.ScanModes
                 __dMaxSpeed,
                 __dCycleTime)
         {
+            _logger.Info("XY Scan says hi!!!");
             // Set the scan axes.
             this.m_iScanAxes = (int)ScanAxesTypes.XY;
 

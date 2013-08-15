@@ -26,6 +26,8 @@ namespace KUL.MDS.SIS
 {
     internal sealed class Startup
     {
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        
         private static Startup m_strtInstance;
         private static DateTime m_dtStartupTime;
         private string[] m_sArgs;
@@ -239,7 +241,7 @@ namespace KUL.MDS.SIS
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
 #endif
-
+            _logger.Info("Starting");
             // Initialize some misc. Windows Forms settings.
             Application.SetCompatibleTextRenderingDefault(false);
             Application.EnableVisualStyles();
