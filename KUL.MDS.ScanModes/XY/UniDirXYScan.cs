@@ -62,7 +62,6 @@ namespace KUL.MDS.ScanModes
                 __dMaxSpeed,
                 __dCycleTime)
         {
-            _logger.Info("XY Scan says hi!!!");
             // Set the scan axes.
             this.m_iScanAxes = (int)ScanAxesTypes.XY;
 

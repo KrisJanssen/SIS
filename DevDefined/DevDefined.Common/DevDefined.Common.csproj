@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6B39450C-D9F3-4A54-9A05-4BBA38E0BF90}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DevDefined.Common</RootNamespace>
+    <AssemblyName>DevDefined.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\Binaries\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="LinFu.Core, Version=2.2.0.19938, Culture=neutral, PublicKeyToken=a4c63a184389506f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\LinFu.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\log4net-1.2.11\bin\net\4.0\release\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Appenders\BufferedInvoker.cs" />
+    <Compile Include="Appenders\ColoredItem.cs" />
+    <Compile Include="Appenders\ColoredRichTextBoxAppender.cs" />
+    <Compile Include="Appenders\TextBoxAppender.cs" />
+    <Compile Include="DisposableAction.cs" />
+    <Compile Include="ExtendedContainer\ExtendedComponentBuilder.cs" />
+    <Compile Include="ExtendedContainer\ExtendedConfigurationParametersInspector.cs" />
+    <Compile Include="ExtendedContainer\ExtendedWindsorContainer.cs" />
+    <Compile Include="Dates\TimeSpanUtility.cs" />
+    <Compile Include="DelegateDefinitions.cs" />
+    <Compile Include="Dsl\AbstractNode.cs" />
+    <Compile Include="Dsl\Batch.cs" />
+    <Compile Include="Dsl\ComponentDsl.cs" />
+    <Compile Include="Dsl\ComponentEvaluationScope.cs" />
+    <Compile Include="Dsl\ComponentNode.cs" />
+    <Compile Include="Dsl\DslEvaluationScope.cs" />
+    <Compile Include="Dsl\DslExtensions.cs" />
+    <Compile Include="Dsl\DslToXml.cs" />
+    <Compile Include="Dsl\INode.cs" />
+    <Compile Include="Dsl\ItemNode.cs" />
+    <Compile Include="Dsl\NamedNode.cs" />
+    <Compile Include="Dsl\NodeWriter.cs" />
+    <Compile Include="Dsl\SectionNode.cs" />
+    <Compile Include="Dsl\StandardDsl.cs" />
+    <Compile Include="Dsl\TextNode.cs" />
+    <Compile Include="Extensions\Annotations\AnnotationStore.cs" />
+    <Compile Include="Extensions\Annotations\ClassAnnotation.cs" />
+    <Compile Include="Extensions\Annotations\IAnnotation.cs" />
+    <Compile Include="Extensions\Annotations\MemberAnnotation.cs" />
+    <Compile Include="Extensions\CommonExtensions.cs" />
+    <Compile Include="Extensions\PathExtensions.cs" />
+    <Compile Include="IO\Extensions.cs" />
+    <Compile Include="FileManager\DefaultFileManager.cs" />
+    <Compile Include="FileManager\IFileManager.cs" />
+    <Compile Include="FileManager\MimeTypeRegister.cs" />
+    <Compile Include="FileManager\WellKnownMimeTypes.cs" />
+    <Compile Include="Hash\Hasher.cs" />
+    <Compile Include="IO\NotifyingMemoryStream.cs" />
+    <Compile Include="IO\NotifyingStream.cs" />
+    <Compile Include="IO\RelativeUrlResolver.cs" />
+    <Compile Include="IO\VolatileByteArray.cs" />
+    <Compile Include="LocalData\ILocalData.cs" />
+    <Compile Include="LocalData\LocalData.cs" />
+    <Compile Include="LocalData\PerLocalLifestyle.cs" />
+    <Compile Include="Observable\AbstractObservable.cs" />
+    <Compile Include="Observable\AbstractObservableDecorator.cs" />
+    <Compile Include="Observable\AbstractObserverDecorator.cs" />
+    <Compile Include="Observable\ActionObserver.cs" />
+    <Compile Include="Observable\AllObservable.cs" />
+    <Compile Include="Observable\AllObserver.cs" />
+    <Compile Include="Observable\ChangeObservable.cs" />
+    <Compile Include="Observable\ChangeObserver.cs" />
+    <Compile Include="Observable\ConcatObserver.cs" />
+    <Compile Include="Observable\EventObservable.cs" />
+    <Compile Include="Observable\IntegerExtensions.cs" />
+    <Compile Include="Observable\IObservable.cs" />
+    <Compile Include="Observable\IObserver.cs" />
+    <Compile Include="Observable\LastObservable.cs" />
+    <Compile Include="Observable\LastObserver.cs" />
+    <Compile Include="Observable\ObservableExtensions.cs" />
+    <Compile Include="Observable\ObservableSink.cs" />
+    <Compile Include="Observable\ObservableTimer.cs" />
+    <Compile Include="Observable\PeriodicObserveable.cs" />
+    <Compile Include="Observable\PredicateObservable.cs" />
+    <Compile Include="Observable\PredicateObserver.cs" />
+    <Compile Include="Observable\PeriodicObserver.cs" />
+    <Compile Include="Observable\SelectObservable.cs" />
+    <Compile Include="Observable\SelectObserver.cs" />
+    <Compile Include="Observable\SkipObservable.cs" />
+    <Compile Include="Observable\SkipObserver.cs" />
+    <Compile Include="Observable\TakeObservable.cs" />
+    <Compile Include="Observable\TakeObserver.cs" />
+    <Compile Include="Observable\TimerElapsed.cs" />
+    <Compile Include="Pipeline\Filter.cs" />
+    <Compile Include="Pipeline\GenericOperation.cs" />
+    <Compile Include="Pipeline\IOperation.cs" />
+    <Compile Include="Pipeline\Pipeline.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BaseDictionary.cs" />
+    <Compile Include="Compilation\Helpers.cs" />
+    <Compile Include="Compilation\SwitchCompiler.cs" />
+    <Compile Include="Reflection\StaticReflectionHelper.cs" />
+    <Compile Include="Collections\RingBuffer.cs" />
+    <Compile Include="WeakRef\WeakDictionary.cs" />
+    <Compile Include="WeakRef\WeakKeyComparer_T.cs" />
+    <Compile Include="WeakRef\WeakKeyDictionary.cs" />
+    <Compile Include="WeakRef\WeakKeyReference_T.cs" />
+    <Compile Include="WeakRef\WeakNullReference_T.cs" />
+    <Compile Include="WeakRef\WeakReference_T.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

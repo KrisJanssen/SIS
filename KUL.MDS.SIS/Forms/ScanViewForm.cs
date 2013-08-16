@@ -10,6 +10,9 @@ using KUL.MDS.WPFControls;
 using System.Collections.Generic;
 using KUL.MDS.SystemLayer;
 using System.IO;
+using log4net;
+using log4net.Layout;
+using DevDefined.Common.Appenders;
 
 namespace KUL.MDS.SIS.Forms
 {
@@ -43,6 +46,9 @@ namespace KUL.MDS.SIS.Forms
         private double m_dXSel;
         private double m_dYSel;
         private AForge.Imaging.Filters.Add m_filter = new AForge.Imaging.Filters.Add();
+
+        // Informing the user of Debug output.
+        private ColoredRichTextBoxAppender m_ColRTApp;
 
         #endregion
 
@@ -79,6 +85,13 @@ namespace KUL.MDS.SIS.Forms
             this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr1", 20, "PFI27", "Ctr0", "PFI39", this.checkBoxDMA.Checked);
             this.m_apdAPD2 = new KUL.MDS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", this.checkBoxDMA.Checked);
             //this.m_pdPhotoDiode = new KUL.MDS.Hardware.PhotoDiode("Dev2", "Ctr0", "80MHzTimebase", "RTSI0", "ai0");
+            
+            // Create a new ColoredRichTextBoxAppender and give it a standard layout.
+            this.m_ColRTApp = new DevDefined.Common.Appenders.ColoredRichTextBoxAppender(this.richTextBox1,1000,500);
+            this.m_ColRTApp.Layout = new PatternLayout();
+
+            // Add the appender to the log4net root. 
+            ((log4net.Repository.Hierarchy.Hierarchy)log4net.LogManager.GetLoggerRepository()).Root.AddAppender(this.m_ColRTApp);
 
             // For Analog stage controllers we need a global timing source.
             //m_clckGlobalSync = new TimingClock();

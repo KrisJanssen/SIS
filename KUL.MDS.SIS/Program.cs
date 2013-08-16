@@ -241,7 +241,7 @@ namespace KUL.MDS.SIS
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
 #endif
-            _logger.Info("Starting");
+            
             // Initialize some misc. Windows Forms settings.
             Application.SetCompatibleTextRenderingDefault(false);
             Application.EnableVisualStyles();
@@ -266,6 +266,7 @@ namespace KUL.MDS.SIS
 
             // The rest of the code is put in a separate method so that certain DLL's
             // won't get delay loaded until after we try to do repairs.
+            _logger.Info("Running Startup, stage 2 ...");
             StartStage2();
         }
 
@@ -357,6 +358,8 @@ namespace KUL.MDS.SIS
         [STAThread]
         public static int Main(string[] args)
         {
+            _logger.Info("Entering Main ...");
+
             m_dtStartupTime = DateTime.Now;
 
 #if !DEBUG
@@ -364,6 +367,7 @@ namespace KUL.MDS.SIS
             {
 #endif
 
+            _logger.Info("Running Startup, stage 1 ...");
             m_strtInstance = new Startup(args);
             m_strtInstance.StartStage1();
 

@@ -95,6 +95,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
             this.ccdControl1 = new KUL.MDS.WPFControls.CCDControl.UI.CCDControl();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -881,6 +882,7 @@
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.richTextBox1);
             this.groupBox1.Controls.Add(this.m_txtbxScanPropertiesFromFile);
             this.groupBox1.Location = new System.Drawing.Point(624, -1);
             this.groupBox1.Name = "groupBox1";
@@ -891,13 +893,12 @@
             // 
             // m_txtbxScanPropertiesFromFile
             // 
-            this.m_txtbxScanPropertiesFromFile.Dock = System.Windows.Forms.DockStyle.Fill;
             this.m_txtbxScanPropertiesFromFile.Location = new System.Drawing.Point(3, 16);
             this.m_txtbxScanPropertiesFromFile.Multiline = true;
             this.m_txtbxScanPropertiesFromFile.Name = "m_txtbxScanPropertiesFromFile";
             this.m_txtbxScanPropertiesFromFile.ReadOnly = true;
             this.m_txtbxScanPropertiesFromFile.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.m_txtbxScanPropertiesFromFile.Size = new System.Drawing.Size(546, 227);
+            this.m_txtbxScanPropertiesFromFile.Size = new System.Drawing.Size(227, 227);
             this.m_txtbxScanPropertiesFromFile.TabIndex = 0;
             this.m_txtbxScanPropertiesFromFile.WordWrap = false;
             // 
@@ -919,6 +920,16 @@
             this.elementHost2.TabIndex = 1;
             this.elementHost2.Text = "elementHost2";
             this.elementHost2.Child = this.ccdControl1;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(237, 16);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.richTextBox1.Size = new System.Drawing.Size(309, 224);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
             // 
             // ScanViewForm
             // 
@@ -1018,6 +1029,7 @@
         private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.CheckBox checkBoxDMA;
         private System.Windows.Forms.Button buttonExp;
+        private System.Windows.Forms.RichTextBox richTextBox1;
 
     }
 }

@@ -252,7 +252,7 @@ namespace KUL.MDS.Hardware
 
             if (this.IsError(E7XXController.IsMoving(this.m_iControllerID, "", _iIsMoving)))
             {
-                Tracing.Ping("Error while executing IsMoving() query: " + this.m_sCurrentError);
+                _logger.Error("Error while executing IsMoving() query: " + this.m_sCurrentError);
             }
 
             if (_iIsMoving[0] == 1)
@@ -276,7 +276,7 @@ namespace KUL.MDS.Hardware
 
             if (this.IsError(E7XXController.IsMoving(this.m_iControllerID, "", _iIsGeneratorRunning))) ;
             {
-                Tracing.Ping("Error while executing IsMoving() query: " + this.m_sCurrentError);
+                _logger.Error("Error while executing IsMoving() query: " + this.m_sCurrentError);
             }
 
             if (_iIsGeneratorRunning[0] == 1)
@@ -308,14 +308,14 @@ namespace KUL.MDS.Hardware
                 // CST MUST be the very first function we call!
                 if (this.IsError(E7XXController.CST(this.m_iControllerID, "1234", "ID-STAGE \nID-STAGE \nID-STAGE \nNOSTAGE \n")))
                 {
-                    Tracing.Ping("Error while executing CST(): " + this.m_sCurrentError);
+                    _logger.Error("Error while executing CST(): " + this.m_sCurrentError);
                 }
 
                 // Initialize axes and stop all wave generators that might be running.
                 // We MUST call INI directly after CST. If we don't, other functions might not work properly.
                 if (this.IsError(E7XXController.INI(this.m_iControllerID, "")))
                 {
-                    Tracing.Ping("Error while executing INI(): " + this.m_sCurrentError);
+                    _logger.Error("Error while executing INI(): " + this.m_sCurrentError);
                 }
 
                 // For debug purposes. We can read back the activated axes.
@@ -332,7 +332,7 @@ namespace KUL.MDS.Hardware
 
                 if (this.IsError(E7XXController.qIDN(this.m_iControllerID, _sbIDN, 1024)))
                 {
-                    Tracing.Ping("Error while executing qIDN() query: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing qIDN() query: " + this.m_sCurrentError);
                 }
                 else
                 {
@@ -344,7 +344,7 @@ namespace KUL.MDS.Hardware
 
                 if (this.IsError(E7XXController.SVO(m_iControllerID, "123", _iValues)))
                 {
-                    Tracing.Ping("Error while executing SVO(): " + this.m_sCurrentError);
+                    _logger.Error("Error while executing SVO(): " + this.m_sCurrentError);
                 }
 
                 // Wait a bit
@@ -372,7 +372,7 @@ namespace KUL.MDS.Hardware
             // Setting a different table rate requires elevation of privileges.
             if (this.IsError(E7XXController.CCL(this.m_iControllerID, 1, "ADVANCED")))
             {
-                Tracing.Ping("Error while executing CCL(): " + this.m_sCurrentError);
+                _logger.Error("Error while executing CCL(): " + this.m_sCurrentError);
             }
 
             // The Table Rate parameter: 0x13000109.
@@ -384,7 +384,7 @@ namespace KUL.MDS.Hardware
             // Actually set the value for 0x13000109 (table rate).
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "1", _uiParam, _dVal, null)))
             {
-                Tracing.Ping("Error while executing SPA(): " + this.m_sCurrentError);
+                _logger.Error("Error while executing SPA(): " + this.m_sCurrentError);
             }
 
             Thread.Sleep(1000);
@@ -392,7 +392,7 @@ namespace KUL.MDS.Hardware
             // De-elevate privileges.
             if (this.IsError(E7XXController.CCL(this.m_iControllerID, 0, ""))) ;
             {
-                Tracing.Ping("Error while executing CCL(): " + this.m_sCurrentError);
+                _logger.Error("Error while executing CCL(): " + this.m_sCurrentError);
             }
         }
 
@@ -410,7 +410,7 @@ namespace KUL.MDS.Hardware
             // Send the command.
             if (this.IsError(E7XXController.SVO(this.m_iControllerID, "123", _iValues)))
             {
-                Tracing.Ping("Error while executing SVO(): " + this.m_sCurrentError);
+                _logger.Error("Error while executing SVO(): " + this.m_sCurrentError);
             }
 
             // Wait a bit...
@@ -441,7 +441,7 @@ namespace KUL.MDS.Hardware
         {
             if (this.IsError(E7XXController.GOH(this.m_iControllerID, "123")))
             {
-                Tracing.Ping("Error while executing GOH(): " + this.m_sCurrentError);
+                _logger.Error("Error while executing GOH(): " + this.m_sCurrentError);
             }
 
             while (this.Moving())
@@ -459,6 +459,8 @@ namespace KUL.MDS.Hardware
         /// <param name="__dZPosNm">Desired Z coordinate in nm.</param>
         public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
         {
+            _logger.Info("Moving absolute to: X: " + __dXPosNm.ToString() + " nm Y: " + __dYPosNm.ToString() + " nm Z: " + __dZPosNm.ToString() + " nm");
+
             if (this.m_bIsInitialized && !(this.m_iControllerID < 0))
             {
                 // Get the requested positions in um.
@@ -467,38 +469,40 @@ namespace KUL.MDS.Hardware
                 // Send the GCS MVR command.
                 if (this.IsError(E7XXController.MOV(this.m_iControllerID, "123", _dValues)))
                 {
-                    Tracing.Ping("Error while executing MOV(): " + this.m_sCurrentError);
+                    _logger.Error("Error while executing MOV(): " + this.m_sCurrentError);
                 }
-
-                // Create an array of doubles to store positional values read back from the stage.
-                //double[] _dPositions = new double[3];
-
-                //while (this.Moving())
-                //{
-                //    // Wait a bit...
-                //    Thread.Sleep(100);
-
-                //    // Query the position of the stage.
-                //    this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
-
-                //    // Convert the read values to nm.
-                //    this.m_dXPosCurrent = _dPositions[0] * 1000;
-                //    this.m_dYPosCurrent = _dPositions[1] * 1000;
-
-                //    // Raise a PositionChanged event.
-                //    if (PositionChanged != null)
-                //    {
-                //        PositionChanged(this, new EventArgs());
-                //    }
-                //}
-
-                // Wait a bit.
-                Thread.Sleep(2000);
-
-                // Raise a PositionChanged event.
-                if (PositionChanged != null)
+                else
                 {
-                    PositionChanged(this, new EventArgs());
+                    // Create an array of doubles to store positional values read back from the stage.
+                    //double[] _dPositions = new double[3];
+
+                    //while (this.Moving())
+                    //{
+                    //    // Wait a bit...
+                    //    Thread.Sleep(100);
+
+                    //    // Query the position of the stage.
+                    //    this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
+
+                    //    // Convert the read values to nm.
+                    //    this.m_dXPosCurrent = _dPositions[0] * 1000;
+                    //    this.m_dYPosCurrent = _dPositions[1] * 1000;
+
+                    //    // Raise a PositionChanged event.
+                    //    if (PositionChanged != null)
+                    //    {
+                    //        PositionChanged(this, new EventArgs());
+                    //    }
+                    //}
+
+                    // Wait a bit.
+                    Thread.Sleep(2000);
+
+                    // Raise a PositionChanged event.
+                    if (PositionChanged != null)
+                    {
+                        PositionChanged(this, new EventArgs());
+                    }
                 }
             }
         }
@@ -511,13 +515,15 @@ namespace KUL.MDS.Hardware
         /// <param name="__dZPosNm">Desired relative Z coordinate in nm</param>
         public void MoveRel(double __dXPosNm, double __dYPosNm, double __dZPosNm)
         {
+            _logger.Info("Moving relativee by: X: " + __dXPosNm.ToString() + " nm Y: " + __dYPosNm.ToString() + " nm Z: " + __dZPosNm.ToString() + " nm");
+
             // Get the requested positions in um.
             double[] _dValues = { __dXPosNm / 1000, __dYPosNm / 1000, __dZPosNm / 1000 };
 
             // Send the GCS MVR command.
             if (this.IsError(E7XXController.MVR(this.m_iControllerID, "123", _dValues)))
             {
-                Tracing.Ping("Error while executing MVR(): " + this.m_sCurrentError);
+                _logger.Error("Error while executing MVR(): " + this.m_sCurrentError);
             }
 
             //// Create an array of doubles to store positional values read back from the stage.
@@ -558,6 +564,8 @@ namespace KUL.MDS.Hardware
         /// <param name="__scmScanMode">Scanmode that holds all spatial information for a scan and defines it completely.</param>
         public void Scan(ScanModes.Scanmode __scmScanMode, bool __bResend)
         {
+            _logger.Info("Starting Scan ...");
+
             #region Move to Initial Position
 
             this.MoveAbs(__scmScanMode.InitialX, __scmScanMode.InitialY, __scmScanMode.InitialZ);
@@ -568,6 +576,7 @@ namespace KUL.MDS.Hardware
 
             #region Coordinate Programming
 
+            _logger.Info("Programming coordinates ...");
             double[] _dXCoord = new double[__scmScanMode.NMScanCoordinates.Length / 3];
             double[] _dYCoord = new double[__scmScanMode.NMScanCoordinates.Length / 3];
             double[] _dZCoord = new double[__scmScanMode.NMScanCoordinates.Length / 3];
@@ -589,7 +598,7 @@ namespace KUL.MDS.Hardware
                 // Prepare the wave table for point storage.
                 if (this.IsError(E7XXController.WMS(this.m_iControllerID, "12", _iTablePoints)))
                 {
-                    Tracing.Ping("Error while executing WMS(): " + this.m_sCurrentError);
+                    _logger.Error("Error while executing WMS(): " + this.m_sCurrentError);
                 }
 
                 if (__bResend)
@@ -597,12 +606,12 @@ namespace KUL.MDS.Hardware
                     // Store the X Wave in controller memory
                     if (this.IsError(E7XXController.WAV_PNT(this.m_iControllerID, "1", 0, _dXCoord.Length, 0, _dXCoord)))
                     {
-                        Tracing.Ping("Error while executing WAV_PNT() for axis 1: " + this.m_sCurrentError);
+                        _logger.Error("Error while executing WAV_PNT() for axis 1: " + this.m_sCurrentError);
                     }
                     // Store the Y Wave in controller memory
                     if (this.IsError(E7XXController.WAV_PNT(this.m_iControllerID, "2", 0, _dYCoord.Length, 0, _dYCoord)))
                     {
-                        Tracing.Ping("Error while executing WAV_PNT() for axis 2: " + this.m_sCurrentError);
+                        _logger.Error("Error while executing WAV_PNT() for axis 2: " + this.m_sCurrentError);
                     }
                 }
             }
@@ -619,7 +628,7 @@ namespace KUL.MDS.Hardware
                 // Prepare the wave table for point storage.
                 if (this.IsError(E7XXController.WMS(this.m_iControllerID, "13", _iTablePoints)))
                 {
-                    Tracing.Ping("Error while executing WMS(): " + this.m_sCurrentError);
+                    _logger.Error("Error while executing WMS(): " + this.m_sCurrentError);
                 }
 
                 if (__bResend)
@@ -627,12 +636,12 @@ namespace KUL.MDS.Hardware
                     // Store the X Wave in controller memory
                     if (this.IsError(E7XXController.WAV_PNT(this.m_iControllerID, "1", 0, _dXCoord.Length, 0, _dXCoord)))
                     {
-                        Tracing.Ping("Error while executing WAV_PNT() for axis 1: " + this.m_sCurrentError);
+                        _logger.Error("Error while executing WAV_PNT() for axis 1: " + this.m_sCurrentError);
                     }
                     // Store the Z Wave in controller memory
                     if (this.IsError(E7XXController.WAV_PNT(this.m_iControllerID, "3", 0, _dZCoord.Length, 0, _dZCoord)))
                     {
-                        Tracing.Ping("Error while executing WAV_PNT() for axis 3: " + this.m_sCurrentError);
+                        _logger.Error("Error while executing WAV_PNT() for axis 3: " + this.m_sCurrentError);
                     }
                 }
             }
@@ -649,7 +658,7 @@ namespace KUL.MDS.Hardware
                 // Prepare the wave table for point storage.
                 if (this.IsError(E7XXController.WMS(this.m_iControllerID, "23", _iTablePoints)))
                 {
-                    Tracing.Ping("Error while executing WMS(): " + this.m_sCurrentError);
+                    _logger.Error("Error while executing WMS(): " + this.m_sCurrentError);
                 }
 
                 if (__bResend)
@@ -657,12 +666,12 @@ namespace KUL.MDS.Hardware
                     // Store the X Wave in controller memory
                     if (this.IsError(E7XXController.WAV_PNT(this.m_iControllerID, "2", 0, _dXCoord.Length, 0, _dXCoord)))
                     {
-                        Tracing.Ping("Error while executing WAV_PNT() for axis 2: " + this.m_sCurrentError);
+                        _logger.Error("Error while executing WAV_PNT() for axis 2: " + this.m_sCurrentError);
                     }
                     // Store the Y Wave in controller memory
                     if (this.IsError(E7XXController.WAV_PNT(this.m_iControllerID, "3", 0, _dYCoord.Length, 0, _dYCoord)))
                     {
-                        Tracing.Ping("Error while executing WAV_PNT() for axis 3: " + this.m_sCurrentError);
+                        _logger.Error("Error while executing WAV_PNT() for axis 3: " + this.m_sCurrentError);
                     }
                 }
             }
@@ -691,7 +700,7 @@ namespace KUL.MDS.Hardware
             // Actually set the value for 0x13000003 (repeat number).
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "1", _uiParam, _dVal, null)))
             {
-                Tracing.Ping("Error while executing SPA() to set the repeat number (0x13000003) for system: " + this.m_sCurrentError);
+                _logger.Error("Error while executing SPA() to set the repeat number (0x13000003) for system: " + this.m_sCurrentError);
             }
 
             #endregion
@@ -701,7 +710,7 @@ namespace KUL.MDS.Hardware
             // Clear previously set trigger points.
             if (this.IsError(E7XXController.TWC(this.m_iControllerID)))
             {
-                Tracing.Ping("Error while executing TWC(): " + this.m_sCurrentError);
+                _logger.Error("Error while executing TWC(): " + this.m_sCurrentError);
             }
 
             // Configure triggers -> Pulse Trigger, so we need to set 0x13000900 for the wave generators involved.
@@ -715,26 +724,26 @@ namespace KUL.MDS.Hardware
             // Actually set the value for 0x13000900 for the correct wave generator.
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "1", _uiParam, _dTrigVal, null)))
             {
-                Tracing.Ping("Error while executing SPA() to set trigger type (0x13000900) for trigger 1: " + this.m_sCurrentError);
+                _logger.Error("Error while executing SPA() to set trigger type (0x13000900) for trigger 1: " + this.m_sCurrentError);
             }
 
             _dTrigVal[0] = __scmScanMode.Trig2Type;
             // Actually set the value for 0x13000900 for the correct wave generator.
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "2", _uiParam, _dTrigVal, null)))
             {
-                Tracing.Ping("Error while executing SPA() to set trigger type (0x13000900) for trigger 2: " + this.m_sCurrentError);
+                _logger.Error("Error while executing SPA() to set trigger type (0x13000900) for trigger 2: " + this.m_sCurrentError);
             }
             _dTrigVal[0] = __scmScanMode.Trig3Type;
             // Actually set the value for 0x13000900 for the correct wave generator.
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "3", _uiParam, _dTrigVal, null)))
             {
-                Tracing.Ping("Error while executing SPA() to set trigger type (0x13000900) for trigger 3: " + this.m_sCurrentError);
+                _logger.Error("Error while executing SPA() to set trigger type (0x13000900) for trigger 3: " + this.m_sCurrentError);
             }
             _dTrigVal[0] = __scmScanMode.Trig4Type;
             // Actually set the value for 0x13000900 for the correct wave generator.
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "4", _uiParam, _dTrigVal, null)))
             {
-                Tracing.Ping("Error while executing SPA() to set trigger type (0x13000900) for trigger 4: " + this.m_sCurrentError);
+                _logger.Error("Error while executing SPA() to set trigger type (0x13000900) for trigger 4: " + this.m_sCurrentError);
             }
 
             int[] _iWavePoints = new int[2];
@@ -749,7 +758,7 @@ namespace KUL.MDS.Hardware
                 int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_1, E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
                 if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
-                    Tracing.Ping("Error while executing TWS() for trigger 1: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing TWS() for trigger 1: " + this.m_sCurrentError);
                 }
             }
 
@@ -763,7 +772,7 @@ namespace KUL.MDS.Hardware
                 int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_2, E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
                 if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
-                    Tracing.Ping("Error while executing TWS() for trigger 2: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing TWS() for trigger 2: " + this.m_sCurrentError);
                 }
             }
 
@@ -777,7 +786,7 @@ namespace KUL.MDS.Hardware
                 int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_3, E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
                 if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
-                    Tracing.Ping("Error while executing TWS() for trigger 3: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing TWS() for trigger 3: " + this.m_sCurrentError);
                 }
             }
 
@@ -791,7 +800,7 @@ namespace KUL.MDS.Hardware
                 int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_4, E7XXController.BIT_TRG_LINE_4 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
                 if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
-                    Tracing.Ping("Error while executing TWS() for trigger 4: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing TWS() for trigger 4: " + this.m_sCurrentError);
                 }
             }
 
@@ -805,7 +814,7 @@ namespace KUL.MDS.Hardware
                 int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_2, E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
                 if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
-                    Tracing.Ping("Error while executing TWS() for trigger 12: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing TWS() for trigger 12: " + this.m_sCurrentError);
                 }
             }
 
@@ -819,7 +828,7 @@ namespace KUL.MDS.Hardware
                 int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_3, E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
                 if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
-                    Tracing.Ping("Error while executing TWS() for trigger 13: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing TWS() for trigger 13: " + this.m_sCurrentError);
                 }
             }
 
@@ -833,7 +842,7 @@ namespace KUL.MDS.Hardware
                 int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_4, E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_4 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
                 if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
-                    Tracing.Ping("Error while executing TWS() for trigger 14: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing TWS() for trigger 14: " + this.m_sCurrentError);
                 }
             }
 
@@ -847,7 +856,7 @@ namespace KUL.MDS.Hardware
                 int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_3, E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
                 if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
-                    Tracing.Ping("Error while executing TWS() for trigger 23: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing TWS() for trigger 23: " + this.m_sCurrentError);
                 }
             }
 
@@ -861,7 +870,7 @@ namespace KUL.MDS.Hardware
                 int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_4, E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_4 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
                 if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
-                    Tracing.Ping("Error while executing TWS() for trigger 24: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing TWS() for trigger 24: " + this.m_sCurrentError);
                 }
             }
 
@@ -875,7 +884,7 @@ namespace KUL.MDS.Hardware
                 int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_LINE_4, E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_LINE_4 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
                 if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
-                    Tracing.Ping("Error while executing TWS() for trigger 34: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing TWS() for trigger 34: " + this.m_sCurrentError);
                 }
             }
 
@@ -893,7 +902,7 @@ namespace KUL.MDS.Hardware
                 this.m_sAxes = "12";
                 if (this.IsError(E7XXController.WGO(this.m_iControllerID, "12", _iStartMod)))
                 {
-                    Tracing.Ping("Error while executing WGO() to start the wave generator: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing WGO() to start the wave generator: " + this.m_sCurrentError);
                 }
             }
 
@@ -907,7 +916,7 @@ namespace KUL.MDS.Hardware
                 this.m_sAxes = "13";
                 if (this.IsError(E7XXController.WGO(this.m_iControllerID, "13", _iStartMod)))
                 {
-                    Tracing.Ping("Error while executing WGO() to start the wave generator: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing WGO() to start the wave generator: " + this.m_sCurrentError);
                 }
             }
 
@@ -921,7 +930,7 @@ namespace KUL.MDS.Hardware
                 this.m_sAxes = "23";
                 if (this.IsError(E7XXController.WGO(this.m_iControllerID, "23", _iStartMod)))
                 {
-                    Tracing.Ping("Error while executing WGO() to start the wave generator: " + this.m_sCurrentError);
+                    _logger.Error("Error while executing WGO() to start the wave generator: " + this.m_sCurrentError);
                 }
             }
 
@@ -958,11 +967,16 @@ namespace KUL.MDS.Hardware
         /// </summary>
         public void Stop()
         {
+            _logger.Info("Stopping Piezo movement ...");
             // We set the wave generators to 0 to stop them.
             int[] _iValues = { 0, 0 };
             if (this.IsError(E7XXController.WGO(this.m_iControllerID, this.m_sAxes, _iValues)))
             {
-                Tracing.Ping("Error while executing WGO() to stop the wave generator: " + this.m_sCurrentError);
+                _logger.Error("Error while executing WGO() to stop the wave generator: " + this.m_sCurrentError);
+            }
+            else
+            {
+                _logger.Info("Piezo stopped!");
             }
         }
 

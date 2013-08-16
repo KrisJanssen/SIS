@@ -2,6 +2,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 
 //
+// Enable log4net logging by loading the log4net configuration from app.config
+//
+[assembly: log4net.Config.XmlConfigurator]
+
+//
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
@@ -57,4 +62,3 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
 
-[assembly: log4net.Config.XmlConfigurator]

@@ -269,7 +269,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Documentation\Controlling GPIB Instrument.pdf" />
     <None Include="Documentation\Raman Imaging Timing Implementation.pptx" />
     <None Include="Properties\Settings.settings">
@@ -314,6 +316,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DevDefined\DevDefined.Common\DevDefined.Common.csproj">
+      <Project>{6b39450c-d9f3-4a54-9a05-4bba38e0bf90}</Project>
+      <Name>DevDefined.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KUL.MDS.Data\KUL.MDS.Data.csproj">
       <Project>{3B5BCD2B-A0BD-497D-9869-A1298AA32CE4}</Project>
       <Name>KUL.MDS.Data</Name>
