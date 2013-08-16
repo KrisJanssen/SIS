@@ -68,7 +68,7 @@
       <HintPath>..\..\Binaries\LinFu.Core.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\log4net-1.2.11\bin\net\4.0\release\log4net.dll</HintPath>
+      <HintPath>..\..\Binaries\log4net-1.2.11\binaries\net\4.0\release\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
