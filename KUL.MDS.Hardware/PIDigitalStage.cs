@@ -294,7 +294,7 @@ namespace KUL.MDS.Hardware
         /// </summary>
         public void Initialize()
         {
-            _logger.Fatal("Initializing....");
+            _logger.Info("Initializing Piezo....");
             this.m_iControllerID = E7XXController.ConnectNIgpib(0, 4);
             
             if (this.m_iControllerID < 0)

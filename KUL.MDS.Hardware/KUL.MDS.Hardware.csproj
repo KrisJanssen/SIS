@@ -52,6 +52,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\Binaries\log4net-1.2.11\Binaries\net\4.0\release\log4net.dll</HintPath>
@@ -72,9 +75,9 @@
     <Compile Include="AcquisitionSettings.cs" />
     <Compile Include="APD.cs" />
     <Compile Include="APDSettings.cs" />
+    <Compile Include="E7XXController.cs" />
     <Compile Include="IDetector.cs" />
     <Compile Include="PhotoDiode.cs" />
-    <Compile Include="E7XX\E7XXController.cs" />
     <Compile Include="MaxVoltageExceededException.cs" />
     <Compile Include="MinVoltageExceededException.cs" />
     <Compile Include="PIAnalogStage.cs" />
@@ -113,11 +116,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="E7XX\E7XX_GCS_DLL.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -134,7 +132,20 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="E7XX_GCS_DLL.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
