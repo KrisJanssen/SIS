@@ -106,9 +106,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>External References\AForge.Math.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Binaries\log4net-1.2.11\binaries\net\4.0\release\log4net.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\Binaries\log4net-1.2.11\Binaries\net\4.0\release\log4net.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
