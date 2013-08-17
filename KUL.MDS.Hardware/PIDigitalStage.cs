@@ -299,6 +299,8 @@ namespace KUL.MDS.Hardware
             
             if (this.m_iControllerID < 0)
             {
+                _logger.Error("Unable to connect to piezo... check connections!");
+
                 // This is an error condition. The stage is certainly not ready.
                 this.m_bIsInitialized = false;
             }
@@ -424,40 +426,47 @@ namespace KUL.MDS.Hardware
         /// </summary>
         public void Release()
         {
-            // Home all axes.
-            this.Home();
-
-            // We need to disable servo so we set 0's.
-            int[] _iValues = { 0, 0, 0 };
-
-            // Send the command.
-            if (this.IsError(E7XXController.SVO(this.m_iControllerID, "123", _iValues)))
+            if (this.m_bIsInitialized)
             {
-                _logger.Error("Error while executing SVO(): " + this.m_sCurrentError);
+                // Home all axes.
+                this.Home();
+
+                // We need to disable servo so we set 0's.
+                int[] _iValues = { 0, 0, 0 };
+
+                // Send the command.
+                if (this.IsError(E7XXController.SVO(this.m_iControllerID, "123", _iValues)))
+                {
+                    _logger.Error("Error while executing SVO(): " + this.m_sCurrentError);
+                }
+                else
+                {
+                    _logger.Info("Servos are off!");
+                }
+
+                // Wait a bit...
+                Thread.Sleep(100);
+
+                // Close the connection.
+                E7XXController.CloseConnection(this.m_iControllerID);
+
+                // Wait a bit...
+                Thread.Sleep(100);
+
+                // There should be no more valid ID available.
+                this.m_iControllerID = -1;
+
+                // This stage is no longer initialized!
+                this.m_bIsInitialized = false;
+
+                if (EngagedChanged != null)
+                {
+                    EngagedChanged(this, new EventArgs());
+                }
             }
             else
             {
-                _logger.Info("Servos are off!");
-            }
-
-            // Wait a bit...
-            Thread.Sleep(100);
-
-            // Close the connection.
-            E7XXController.CloseConnection(this.m_iControllerID);
-
-            // Wait a bit...
-            Thread.Sleep(100);
-
-            // There should be no more valid ID available.
-            this.m_iControllerID = -1;
-
-            // This stage is no longer initialized!
-            this.m_bIsInitialized = false;
-
-            if (EngagedChanged != null)
-            {
-                EngagedChanged(this, new EventArgs());
+                _logger.Info("Doing nothing, piezo is already off!");
             }
         }
 
