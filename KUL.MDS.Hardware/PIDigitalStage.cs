@@ -318,14 +318,27 @@ namespace KUL.MDS.Hardware
                     _logger.Error("Error while executing INI(): " + this.m_sCurrentError);
                 }
 
-                // For debug purposes. We can read back the activated axes.
-                //StringBuilder test = new StringBuilder(1024);
-                //this.IsError(E7XXController.qCST(this.m_iControllerID,"1234", test, 1024));
+                // We can read back the activated stages.
+                StringBuilder _sbStages = new StringBuilder(1024);
+                if (this.IsError(E7XXController.qCST(this.m_iControllerID, "1234", _sbStages, 1024)))
+                {
+                    _logger.Error("Error while executing qCST(): " + this.m_sCurrentError);
+                }
+                else
+                {
+                    _logger.Info("Activated stages: " + _sbStages.ToString());
+                }
 
                 // For debug purposes. Check to see if Axis configuration succeeded.
-                //StringBuilder _sbAxes = new StringBuilder(9);
-                //this.IsError(E7XXController.qSAI(this.m_iControllerID, _sbAxes, 9));
-                //this.m_sAxes = _sbAxes.ToString();
+                StringBuilder _sbAxes = new StringBuilder(9);
+                if (this.IsError(E7XXController.qSAI(this.m_iControllerID, _sbAxes, 9)))
+                {
+                    _logger.Error("Error while executing qSAI(): " + this.m_sCurrentError);
+                }
+                else
+                {
+                    _logger.Info("Activated axes: " + _sbAxes.ToString());
+                }
 
                 // Get the ID string of the controller. Not really necessary but...
                 StringBuilder _sbIDN = new StringBuilder(1024);
@@ -337,6 +350,7 @@ namespace KUL.MDS.Hardware
                 else
                 {
                     this.m_sIDN = _sbIDN.ToString();
+                    _logger.Info("IDN: " + this.m_sIDN);
                 }
 
                 // Turn servo on to actually be able to command positions to the stage.
@@ -346,15 +360,19 @@ namespace KUL.MDS.Hardware
                 {
                     _logger.Error("Error while executing SVO(): " + this.m_sCurrentError);
                 }
+                else
+                {
+                    _logger.Info("Servo engaged!");
+                }
 
                 // Wait a bit
                 Thread.Sleep(100);
+
+                // Zero
                 this.Home();
 
                 // If we got here communication with the controller is working properly.
                 this.m_bIsInitialized = true;
-
-                
             }
             if (EngagedChanged != null)
             {
@@ -381,10 +399,15 @@ namespace KUL.MDS.Hardware
             // Calculate the amount of ticks.
             double[] _dVal = { Math.Round((__dCycleTimeMilisec * 1000) / 200.0, 0) };
 
-            // Actually set the value for 0x13000109 (table rate).
+            // Actually set the value for 0x13000109 (table rate). This is an integer multiplier of the internal clock 
+            // to cover longer amounts of time with the same number of points.
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "1", _uiParam, _dVal, null)))
             {
                 _logger.Error("Error while executing SPA(): " + this.m_sCurrentError);
+            }
+            else
+            {
+                _logger.Info("Table rate multiplier is now: " + _dVal[0].ToString());
             }
 
             Thread.Sleep(1000);
@@ -411,6 +434,10 @@ namespace KUL.MDS.Hardware
             if (this.IsError(E7XXController.SVO(this.m_iControllerID, "123", _iValues)))
             {
                 _logger.Error("Error while executing SVO(): " + this.m_sCurrentError);
+            }
+            else
+            {
+                _logger.Info("Servos are off!");
             }
 
             // Wait a bit...
@@ -968,6 +995,7 @@ namespace KUL.MDS.Hardware
         public void Stop()
         {
             _logger.Info("Stopping Piezo movement ...");
+
             // We set the wave generators to 0 to stop them.
             int[] _iValues = { 0, 0 };
             if (this.IsError(E7XXController.WGO(this.m_iControllerID, this.m_sAxes, _iValues)))
