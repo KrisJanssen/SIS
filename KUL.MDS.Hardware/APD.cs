@@ -7,6 +7,8 @@ namespace KUL.MDS.Hardware
 {
     public class APD
     {
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        
         // The Various NI-Daqmx tasks.
         private Task m_daqtskAPDCount;
         private Task m_daqtskTimingPulse;
@@ -78,18 +80,20 @@ namespace KUL.MDS.Hardware
             try
             {
                 // Calculate how many ticks the photon counting should take.
-                int _iBinTicks = Convert.ToInt32(__dBinTimeMilisec * m_iPulseGenTimeBase * 1000);
+                // e.g. 0.5E-3 s * 20E6 ticks/s = 10000 ticks
+                // 20000000 ticks/second or 20000 ticks per ms or 10000 ticks per 0.5 ms
+                int _iBinTicks = Convert.ToInt32(__dBinTimeMilisec * m_iPulseGenTimeBase);
 
                 // Create new task instances that will be passed to the private member tasks.
-                Task _daqtskTiming = new Task();
+                Task _daqtskGate = new Task();
                 Task _daqtskAPD = new Task();
 
                 // Setup a pulsechannel that will determine the bin time for photon counts.
                 // This channel will create a single delayed edge upon triggering by the global sync pulsetrain or another source. 
                 // High time of the pulse determines bin time.
-                _daqtskTiming.COChannels.CreatePulseChannelTicks(
+                _daqtskGate.COChannels.CreatePulseChannelTicks(
                     "/" + m_sBoardID + "/" + m_sPulseGenCtr, 
-                    "TimedPulse", 
+                    "GatePulse", 
                     "/" + m_sBoardID + "/" + m_iPulseGenTimeBase.ToString() + "MHzTimebase", 
                     COPulseIdleState.Low,
                      m_iPulseGenTimeBase,
@@ -100,20 +104,20 @@ namespace KUL.MDS.Hardware
                 // Therefore we tap into the global sync pulsetrain of another timing source which is available from the RTSI cable (analog)
                 // or a PFI line (digital) to sync photon counting with movement.
                 // For each pixel a single pulse with a high duration equal to the photon binning time will be generated.
-                _daqtskTiming.Triggers.StartTrigger.ConfigureDigitalEdgeTrigger(
+                _daqtskGate.Triggers.StartTrigger.ConfigureDigitalEdgeTrigger(
                     "/" + m_sBoardID + "/" + m_sPulseGenTrigger, 
                     DigitalEdgeStartTriggerEdge.Rising);
 
                 // This trigger will occur for every pixel so it should be retriggerable.
-                _daqtskTiming.Triggers.StartTrigger.Retriggerable = true;
-                _daqtskTiming.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, 1);
+                _daqtskGate.Triggers.StartTrigger.Retriggerable = true;
+                _daqtskGate.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, 1);
 
                 // Be sure to route the timing pulse to the RTSI line to make it available on all the installed DAQ boards of the system.
                 // For syncing of other detection processess.
                 DaqSystem.Local.ConnectTerminals("/Dev1/Ctr0InternalOutput", "/Dev1/RTSI0");
 
-                _daqtskTiming.Control(TaskAction.Verify);
-                _daqtskTiming.Control(TaskAction.Commit);
+                _daqtskGate.Control(TaskAction.Verify);
+                _daqtskGate.Control(TaskAction.Commit);
 
                 // Setup countertask for the actual timed APD counting.
                 // We will actually measure the width of the counting timing pulse in # of TTLs of the APD, thus effectively counting photons.
@@ -145,13 +149,17 @@ namespace KUL.MDS.Hardware
                 // Every time we read from the buffer we will read all samples that are there at once.
                 _daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, __iSteps);
                 _daqtskAPD.Stream.ReadAllAvailableSamples = true;
+                
+                // Check buffers in debug.
+                _logger.Debug("Board buffer size: " + _daqtskAPD.Stream.Buffer.InputOnBoardBufferSize.ToString());
+                _logger.Debug("Buffer size: " + _daqtskAPD.Stream.Buffer.InputBufferSize.ToString());
 
                 // Commit before start to speed things up.
                 _daqtskAPD.Control(TaskAction.Verify);
                 _daqtskAPD.Control(TaskAction.Commit);
 
                 // Finally pass the tasks.
-                this.m_daqtskTimingPulse = _daqtskTiming;
+                this.m_daqtskTimingPulse = _daqtskGate;
                 this.m_daqtskAPDCount = _daqtskAPD;
             }
 
@@ -161,7 +169,7 @@ namespace KUL.MDS.Hardware
                 this.m_daqtskAPDCount = null;
 
                 // Inform the user about the error.
-                //MessageBox.Show(ex.Message);
+                _logger.Error("An exception occurred setting up APD!", ex);
             }
         }
 
