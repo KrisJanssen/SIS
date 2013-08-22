@@ -150,12 +150,16 @@ namespace KUL.MDS.Hardware
                 _daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, __iSteps);
                 _daqtskAPD.Stream.ReadAllAvailableSamples = true;
                 
-                // Check buffers in debug.
-                _logger.Debug("Board buffer size: " + _daqtskAPD.Stream.Buffer.InputOnBoardBufferSize.ToString());
-                _logger.Debug("Buffer size: " + _daqtskAPD.Stream.Buffer.InputBufferSize.ToString());
+                
 
-                // Commit before start to speed things up.
+                // Verify
                 _daqtskAPD.Control(TaskAction.Verify);
+                
+                // Check buffers in debug.
+                //_logger.Debug("Board buffer size: " + _daqtskAPD.Stream.Buffer.InputOnBoardBufferSize.ToString());
+                _logger.Debug("Buffer size " + this.m_sBoardID + ": " + _daqtskAPD.Stream.Buffer.InputBufferSize.ToString() + " samples");
+                
+                // Commit before start to speed things up.
                 _daqtskAPD.Control(TaskAction.Commit);
 
                 // Finally pass the tasks.
