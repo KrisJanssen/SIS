@@ -318,6 +318,19 @@ namespace KUL.MDS.Hardware
                 if (this.IsError(E7XXController.INI(this.m_iControllerID, "")))
                 {
                     _logger.Error("Error while executing INI(): " + this.m_sCurrentError);
+                } 
+                
+                // Get the ID string of the controller. Not really necessary but...
+                StringBuilder _sbIDN = new StringBuilder(1024);
+
+                if (this.IsError(E7XXController.qIDN(this.m_iControllerID, _sbIDN, 1024)))
+                {
+                    _logger.Error("Error while executing qIDN() query: " + this.m_sCurrentError);
+                }
+                else
+                {
+                    this.m_sIDN = _sbIDN.ToString();
+                    _logger.Info("IDN: " + this.m_sIDN);
                 }
 
                 // We can read back the activated stages.
@@ -341,20 +354,7 @@ namespace KUL.MDS.Hardware
                 {
                     _logger.Info("Activated axes: " + _sbAxes.ToString());
                 }
-
-                // Get the ID string of the controller. Not really necessary but...
-                StringBuilder _sbIDN = new StringBuilder(1024);
-
-                if (this.IsError(E7XXController.qIDN(this.m_iControllerID, _sbIDN, 1024)))
-                {
-                    _logger.Error("Error while executing qIDN() query: " + this.m_sCurrentError);
-                }
-                else
-                {
-                    this.m_sIDN = _sbIDN.ToString();
-                    _logger.Info("IDN: " + this.m_sIDN);
-                }
-
+                
                 // Turn servo on to actually be able to command positions to the stage.
                 int[] _iValues = { 1, 1, 1 };
 
@@ -415,7 +415,7 @@ namespace KUL.MDS.Hardware
             Thread.Sleep(1000);
 
             // De-elevate privileges.
-            if (this.IsError(E7XXController.CCL(this.m_iControllerID, 0, ""))) ;
+            if (this.IsError(E7XXController.CCL(this.m_iControllerID, 0, "ADVANCED")))
             {
                 _logger.Error("Error while executing CCL(): " + this.m_sCurrentError);
             }
