@@ -68,7 +68,6 @@ namespace KUL.MDS.Hardware
             this.m_sAPDInputLine = __sAPDInputLine;
             this.m_dTotalCountsRead = 0;
             this.m_bUseDMA = __bUseDMA;
-            DaqSystem.Local.LoadDevice(this.m_sBoardID).
         }
 
         /// <summary>
