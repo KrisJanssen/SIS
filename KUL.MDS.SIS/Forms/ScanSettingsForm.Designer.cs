@@ -327,9 +327,9 @@
             // 
             // m_txtbxSetInitX
             // 
-            this.m_txtbxSetInitX.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetInitX.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetInitX.Location = new System.Drawing.Point(147, 3);
             this.m_txtbxSetInitX.Name = "m_txtbxSetInitX";
             this.m_txtbxSetInitX.Size = new System.Drawing.Size(138, 20);
@@ -343,9 +343,9 @@
             // 
             // m_txtbxSetInitY
             // 
-            this.m_txtbxSetInitY.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetInitY.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetInitY.Location = new System.Drawing.Point(147, 32);
             this.m_txtbxSetInitY.Name = "m_txtbxSetInitY";
             this.m_txtbxSetInitY.Size = new System.Drawing.Size(138, 20);
@@ -359,9 +359,9 @@
             // 
             // m_txtbxSetInitZ
             // 
-            this.m_txtbxSetInitZ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetInitZ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetInitZ.Location = new System.Drawing.Point(147, 61);
             this.m_txtbxSetInitZ.Name = "m_txtbxSetInitZ";
             this.m_txtbxSetInitZ.Size = new System.Drawing.Size(138, 20);
@@ -375,9 +375,9 @@
             // 
             // m_txtbxSetImageWidth
             // 
-            this.m_txtbxSetImageWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetImageWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetImageWidth.Location = new System.Drawing.Point(147, 90);
             this.m_txtbxSetImageWidth.Name = "m_txtbxSetImageWidth";
             this.m_txtbxSetImageWidth.Size = new System.Drawing.Size(138, 20);
@@ -391,9 +391,9 @@
             // 
             // m_txtbxSetImageHeight
             // 
-            this.m_txtbxSetImageHeight.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetImageHeight.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetImageHeight.Location = new System.Drawing.Point(147, 119);
             this.m_txtbxSetImageHeight.Name = "m_txtbxSetImageHeight";
             this.m_txtbxSetImageHeight.Size = new System.Drawing.Size(138, 20);
@@ -407,9 +407,9 @@
             // 
             // m_txtbxSetImageDepth
             // 
-            this.m_txtbxSetImageDepth.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetImageDepth.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetImageDepth.Location = new System.Drawing.Point(147, 148);
             this.m_txtbxSetImageDepth.Name = "m_txtbxSetImageDepth";
             this.m_txtbxSetImageDepth.Size = new System.Drawing.Size(138, 20);
@@ -423,9 +423,9 @@
             // 
             // m_txtbxSetOverScanPxX
             // 
-            this.m_txtbxSetOverScanPxX.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetOverScanPxX.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetOverScanPxX.Location = new System.Drawing.Point(147, 177);
             this.m_txtbxSetOverScanPxX.Name = "m_txtbxSetOverScanPxX";
             this.m_txtbxSetOverScanPxX.Size = new System.Drawing.Size(138, 20);
@@ -439,9 +439,9 @@
             // 
             // m_txtbxSetOverScanPxY
             // 
-            this.m_txtbxSetOverScanPxY.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetOverScanPxY.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetOverScanPxY.Location = new System.Drawing.Point(147, 206);
             this.m_txtbxSetOverScanPxY.Name = "m_txtbxSetOverScanPxY";
             this.m_txtbxSetOverScanPxY.Size = new System.Drawing.Size(138, 20);
@@ -455,9 +455,9 @@
             // 
             // m_txtbxSetOverScanPxZ
             // 
-            this.m_txtbxSetOverScanPxZ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetOverScanPxZ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetOverScanPxZ.Location = new System.Drawing.Point(147, 235);
             this.m_txtbxSetOverScanPxZ.Name = "m_txtbxSetOverScanPxZ";
             this.m_txtbxSetOverScanPxZ.Size = new System.Drawing.Size(138, 20);
@@ -471,9 +471,9 @@
             // 
             // m_txtbxSetImageWidthnm
             // 
-            this.m_txtbxSetImageWidthnm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetImageWidthnm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetImageWidthnm.Location = new System.Drawing.Point(147, 264);
             this.m_txtbxSetImageWidthnm.Name = "m_txtbxSetImageWidthnm";
             this.m_txtbxSetImageWidthnm.Size = new System.Drawing.Size(138, 20);
@@ -487,9 +487,9 @@
             // 
             // m_txtbxSetImageHeightnm
             // 
-            this.m_txtbxSetImageHeightnm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetImageHeightnm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetImageHeightnm.Location = new System.Drawing.Point(147, 293);
             this.m_txtbxSetImageHeightnm.Name = "m_txtbxSetImageHeightnm";
             this.m_txtbxSetImageHeightnm.Size = new System.Drawing.Size(138, 20);
@@ -503,9 +503,9 @@
             // 
             // m_txtbxSetImageDepthnm
             // 
-            this.m_txtbxSetImageDepthnm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetImageDepthnm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetImageDepthnm.Location = new System.Drawing.Point(147, 322);
             this.m_txtbxSetImageDepthnm.Name = "m_txtbxSetImageDepthnm";
             this.m_txtbxSetImageDepthnm.Size = new System.Drawing.Size(138, 20);
@@ -519,14 +519,14 @@
             // 
             // m_txtbxSetTimePPixel
             // 
-            this.m_txtbxSetTimePPixel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtbxSetTimePPixel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_txtbxSetTimePPixel.Location = new System.Drawing.Point(147, 351);
             this.m_txtbxSetTimePPixel.Name = "m_txtbxSetTimePPixel";
             this.m_txtbxSetTimePPixel.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetTimePPixel.TabIndex = 13;
-            this.m_txtbxSetTimePPixel.Text = "0.5";
+            this.m_txtbxSetTimePPixel.Text = "0.2";
             validationRule13.InitialValue = "0.2";
             validationRule13.MaximumValue = "20";
             validationRule13.MinimumValue = "0.2";
@@ -571,7 +571,6 @@
             // 
             // validationProvider1
             // 
-            this.validationProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
             this.validationProvider1.Icon = ((System.Drawing.Icon)(resources.GetObject("validationProvider1.Icon")));
             // 
             // ScanSettingsForm
