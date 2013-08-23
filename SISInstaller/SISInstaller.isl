@@ -4500,7 +4500,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Spectroscopy Imaging Suite.Primary output</td><td/></row>
-		<row><td>ProductCode</td><td>{A6129E30-4471-47A5-867B-69BCAFCEA797}</td><td/></row>
+		<row><td>ProductCode</td><td>{B18011D3-3138-4B13-BD88-F99BB9A71D48}</td><td/></row>
 		<row><td>ProductName</td><td>SIS</td><td/></row>
 		<row><td>ProductVersion</td><td>0.00.0000</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
@@ -4515,7 +4515,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>SERIALNUMBER</td><td/><td/></row>
 		<row><td>SERIALNUMVALSUCCESSRETVAL</td><td>1</td><td/></row>
 		<row><td>SHOWLAUNCHPROGRAM</td><td>-1</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;DOTNETVERSION45FULL;ISACTIONPROP2</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;DOTNETVERSION45FULL;ISACTIONPROP2</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
 		<row><td>UpgradeCode</td><td>{0122B683-412F-47A4-B8BE-074239B5B00F}</td><td/></row>
@@ -4791,8 +4791,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">Remove</col>
 		<col def="s72">ActionProperty</col>
 		<col def="S72">ISDisplayName</col>
-		<row><td>{00000000-0000-0000-0000-000000000000}</td><td>***ALL_VERSIONS***</td><td></td><td></td><td>2</td><td/><td>ISFOUNDNEWERPRODUCTVERSION</td><td>ISPreventDowngrade</td></row>
-		<row><td>{0122B683-412F-47A4-B8BE-074239B5B00F}</td><td></td><td>0.00.0001</td><td></td><td>768</td><td/><td>ISACTIONPROP2</td><td>Upgrade</td></row>
+		<row><td>{0122B683-412F-47A4-B8BE-074239B5B00F}</td><td></td><td></td><td></td><td>0</td><td/><td>ISACTIONPROP2</td><td>Upgrade</td></row>
 	</table>
 
 	<table name="Verb">

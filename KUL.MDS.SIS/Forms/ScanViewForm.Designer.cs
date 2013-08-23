@@ -48,6 +48,7 @@
             this.m_lblGoToZ = new System.Windows.Forms.Label();
             this.m_lblGoToY = new System.Windows.Forms.Label();
             this.m_lblGoToX = new System.Windows.Forms.Label();
+            this.scanModeComboBox1 = new KUL.MDS.SIS.Controls.ScanModeComboBox();
             this.btnScanStart = new System.Windows.Forms.Button();
             this.lblStageVoltageEngaged = new System.Windows.Forms.Label();
             this.btnStageOFF = new System.Windows.Forms.Button();
@@ -95,7 +96,6 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
             this.ccdControl1 = new KUL.MDS.WPFControls.CCDControl.UI.CCDControl();
-            this.scanModeComboBox1 = new KUL.MDS.SIS.Controls.ScanModeComboBox();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -328,6 +328,15 @@
             this.m_lblGoToX.TabIndex = 62;
             this.m_lblGoToX.Text = "GotoX";
             this.m_lblGoToX.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // scanModeComboBox1
+            // 
+            this.scanModeComboBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scanModeComboBox1.FormattingEnabled = true;
+            this.scanModeComboBox1.Location = new System.Drawing.Point(3, 71);
+            this.scanModeComboBox1.Name = "scanModeComboBox1";
+            this.scanModeComboBox1.Size = new System.Drawing.Size(103, 21);
+            this.scanModeComboBox1.TabIndex = 60;
             // 
             // btnScanStart
             // 
@@ -921,15 +930,6 @@
             this.elementHost2.TabIndex = 1;
             this.elementHost2.Text = "elementHost2";
             this.elementHost2.Child = this.ccdControl1;
-            // 
-            // scanModeComboBox1
-            // 
-            this.scanModeComboBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scanModeComboBox1.FormattingEnabled = true;
-            this.scanModeComboBox1.Location = new System.Drawing.Point(3, 71);
-            this.scanModeComboBox1.Name = "scanModeComboBox1";
-            this.scanModeComboBox1.Size = new System.Drawing.Size(103, 21);
-            this.scanModeComboBox1.TabIndex = 60;
             // 
             // ScanViewForm
             // 
