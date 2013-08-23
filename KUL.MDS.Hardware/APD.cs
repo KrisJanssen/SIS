@@ -119,6 +119,8 @@ namespace KUL.MDS.Hardware
                 _daqtskGate.Control(TaskAction.Verify);
                 _daqtskGate.Control(TaskAction.Commit);
 
+                _logger.Info("Exact pixel time is " + _iBinTicks + " ticks of " + m_iPulseGenTimeBase.ToString() + " MHz Timebase");
+
                 // Setup countertask for the actual timed APD counting.
                 // We will actually measure the width of the counting timing pulse in # of TTLs of the APD, thus effectively counting photons.
                 _daqtskAPD.CIChannels.CreatePulseWidthChannel(
