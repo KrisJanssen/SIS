@@ -8,6 +8,7 @@ using KUL.MDS.SIS.Documents;
 using KUL.MDS.SerialTerminal;
 using KUL.MDS.AppResources;
 using System.Threading;
+using AutoUpdaterDotNET;
 
 namespace KUL.MDS.SIS
 {
@@ -81,12 +82,19 @@ namespace KUL.MDS.SIS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.ClientSize = new System.Drawing.Size(672, 68);
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "MainForm";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
 		}
 
 		#endregion
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            AutoUpdater.Start("https://dl.dropboxusercontent.com/u/17174999/SIS/SIS.xml");
+        }
 
         #region TO BE REMOVED
 

@@ -44,7 +44,7 @@
     <PublisherName>KU Leuven</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>0.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -336,6 +336,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutoUpdater.NET\AutoUpdater.NET.csproj">
+      <Project>{fb9e7e6b-b19f-4f37-a708-2996190cef13}</Project>
+      <Name>AutoUpdater.NET</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DevDefined\DevDefined.Common\DevDefined.Common.csproj">
       <Project>{6b39450c-d9f3-4a54-9a05-4bba38e0bf90}</Project>
       <Name>DevDefined.Common</Name>

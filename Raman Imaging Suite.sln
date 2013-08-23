@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevDefined.Common", "DevDef
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevDefined.Tools", "DevDefined\DevDefined.Tools\DevDefined.Tools.csproj", "{612260F5-9371-434A-A3F0-B73AB668ECEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdater.NET", "AutoUpdater.NET\AutoUpdater.NET.csproj", "{FB9E7E6B-B19F-4F37-A708-2996190CEF13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -222,6 +224,16 @@ Global
 		{612260F5-9371-434A-A3F0-B73AB668ECEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{612260F5-9371-434A-A3F0-B73AB668ECEB}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{612260F5-9371-434A-A3F0-B73AB668ECEB}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
