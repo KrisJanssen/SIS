@@ -341,6 +341,7 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
+		<row><td>KUL.MDS.Hardware.Content_Files</td><td>{9A541C4D-971D-4EB8-97E3-2FBF1386E6D9}</td><td>INSTALLDIR</td><td>2</td><td/><td>kul.mds.hardware.content_fil</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent1</td><td>{E5322CE9-1CDC-46D0-B727-90782C07E851}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Spectroscopy_Imaging_Suite.Primary_output</td><td>{5B09FFF7-16B3-4DCE-BA35-6614B3FA1648}</td><td>INSTALLDIR</td><td>2</td><td/><td>spectroscopy_imaging_suite.p</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
@@ -1863,6 +1864,7 @@
 	<table name="FeatureComponents">
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>AlwaysInstall</td><td>KUL.MDS.Hardware.Content_Files</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent1</td></row>
 		<row><td>AlwaysInstall</td><td>Spectroscopy_Imaging_Suite.Primary_output</td></row>
 	</table>
@@ -1879,6 +1881,7 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
+		<row><td>kul.mds.hardware.content_fil</td><td>KUL.MDS.Hardware.Content_Files</td><td>KUL.MDS.Hardware.Content Files</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KUL.MDS.Hardware&gt;|ContentFiles</td><td>3</td><td/></row>
 		<row><td>spectroscopy_imaging_suite.p</td><td>Spectroscopy_Imaging_Suite.Primary_output</td><td>Spectroscopy Imaging Suite.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Spectroscopy Imaging Suite&gt;|Built</td><td>3</td><td/></row>
 	</table>
 
@@ -2136,6 +2139,7 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
+		<row><td>KUL.MDS.Hardware.Content_Files</td><td/><td/><td>_65FEE8A6_E903_472D_82B3_19773CB8D2E5_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent1</td><td/><td/><td>_62827F35_88F7_41E9_A536_39CF581FABA4_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Spectroscopy_Imaging_Suite.Primary_output</td><td/><td/><td>_5815DCD7_11CF_4FE7_8DF8_6A5AD51F82B0_FILTER</td><td/><td/><td/><td/></row>
 	</table>
@@ -2454,6 +2458,7 @@
 		<row><td>ISProductFolder</td><td/><td/><td>1</td></row>
 		<row><td>ISProjectDataFolder</td><td/><td/><td>1</td></row>
 		<row><td>ISProjectFolder</td><td/><td/><td>1</td></row>
+		<row><td>KUL.MDS.Hardware</td><td>KUL.MDS.Hardware\KUL.MDS.Hardware.csproj</td><td/><td>2</td></row>
 		<row><td>ProgramFilesFolder</td><td/><td/><td>1</td></row>
 		<row><td>Spectroscopy Imaging Suite</td><td>KUL.MDS.SIS\Spectroscopy Imaging Suite.csproj</td><td/><td>2</td></row>
 		<row><td>SystemFolder</td><td/><td/><td>1</td></row>
@@ -4115,7 +4120,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{D8D50D42-4D8F-4A57-A1EC-3210FCEE6155}</td></row>
 		<row><td>ISUSSignature</td><td>{846AE823-6CFB-44A4-BDB5-550B9FCF7E26}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewShortcuts,viewSetupTypes,viewUI,viewRelease,viewCustomActions,viewInstallScriptStd,viewSystemSearch,viewTextMessages,viewBillboards,viewObjects,viewAppFiles,viewSupportFiles</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewShortcuts,viewSetupTypes,viewUI,viewRelease,viewCustomActions,viewInstallScriptStd,viewSystemSearch,viewTextMessages,viewBillboards,viewObjects,viewAppFiles,viewSupportFiles,viewUpdateService,viewUpgradePaths</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>

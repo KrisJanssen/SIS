@@ -32,5 +32,9 @@
 			<Name>Spectroscopy Imaging Suite</Name>
 			<Project>{633F5B3A-C20B-42DE-9D58-651FB8C5886F}</Project>
 		</ProjectReference>
+		<ProjectReference Include="..\KUL.MDS.Hardware\KUL.MDS.Hardware.csproj">
+			<Name>KUL.MDS.Hardware</Name>
+			<Project>{92578237-0A47-4AC3-A7B9-B84239BCB72E}</Project>
+		</ProjectReference>
 	</ItemGroup>
 </Project>
