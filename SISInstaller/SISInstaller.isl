@@ -4502,7 +4502,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Spectroscopy Imaging Suite.Primary output</td><td/></row>
 		<row><td>ProductCode</td><td>{A6129E30-4471-47A5-867B-69BCAFCEA797}</td><td/></row>
 		<row><td>ProductName</td><td>SIS</td><td/></row>
-		<row><td>ProductVersion</td><td>0.00.0001</td><td/></row>
+		<row><td>ProductVersion</td><td>0.00.0000</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
