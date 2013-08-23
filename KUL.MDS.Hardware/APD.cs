@@ -82,7 +82,7 @@ namespace KUL.MDS.Hardware
                 // Calculate how many ticks the photon counting should take.
                 // e.g. 0.5E-3 s * 20E6 ticks/s = 10000 ticks
                 // 20000000 ticks/second or 20000 ticks per ms or 10000 ticks per 0.5 ms
-                int _iBinTicks = Convert.ToInt32(__dBinTimeMilisec * m_iPulseGenTimeBase);
+                int _iBinTicks = Convert.ToInt32(__dBinTimeMilisec * m_iPulseGenTimeBase * 1000);
 
                 // Create new task instances that will be passed to the private member tasks.
                 Task _daqtskGate = new Task();
