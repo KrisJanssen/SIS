@@ -530,7 +530,7 @@
             validationRule13.InitialValue = "0.2";
             validationRule13.MaximumValue = "20";
             validationRule13.MinimumValue = "0.2";
-            validationRule13.Operator = KUL.MDS.Validation.ValidationCompareOperator.GreaterThan;
+            validationRule13.Operator = KUL.MDS.Validation.ValidationCompareOperator.GreaterThanEqual;
             validationRule13.ValueToCompare = "0.2";
             this.validationProvider1.SetValidationRule(this.m_txtbxSetTimePPixel, validationRule13);
             // 
