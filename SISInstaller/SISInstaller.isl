@@ -4500,7 +4500,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Spectroscopy Imaging Suite.Primary output</td><td/></row>
-		<row><td>ProductCode</td><td>{3113FF57-9556-431A-A0CF-6998C5B2BC20}</td><td/></row>
+		<row><td>ProductCode</td><td>{90C112EC-4CF0-4848-BADD-5D24766A6215}</td><td/></row>
 		<row><td>ProductName</td><td>SIS</td><td/></row>
 		<row><td>ProductVersion</td><td>0.00.0000</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
