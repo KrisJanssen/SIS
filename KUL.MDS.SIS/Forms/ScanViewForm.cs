@@ -71,7 +71,11 @@ namespace KUL.MDS.SIS.Forms
 
             // Initialize form buttons.
             InitInterface();
-
+            string test = "A I,0,3,25196757\r\nA S,0,0,1000\r\nA V,0,3,-12598378496\r\nA E,1000,0,0\r\nA I,1000000,3,0X";
+            KUL.MDS.Hardware.DSCProtocol kak = KUL.MDS.Hardware.DSCProtocol.FromString(test);
+            Double[,] testc = kak.DSPCoordinates;
+            this.m_frmTrajectoryForm.Visible = true;
+            this.m_frmTrajectoryForm.NMCoordinates = testc;
             // This version of the imaging suite operates with 2 APDs
             // Parameters needed are:
             // 1) Board ID

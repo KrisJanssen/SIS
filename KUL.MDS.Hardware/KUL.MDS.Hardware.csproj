@@ -93,6 +93,8 @@
     <Compile Include="AcquisitionSettings.cs" />
     <Compile Include="APD.cs" />
     <Compile Include="APDSettings.cs" />
+    <Compile Include="YanusIV\DSCProtocol.cs" />
+    <Compile Include="YanusIV\DSCCommand.cs" />
     <Compile Include="E7XXController.cs" />
     <Compile Include="IDetector.cs" />
     <Compile Include="PhotoDiode.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="StageNotReleasedException.cs" />
     <Compile Include="TimeHarpSettings.cs" />
     <Compile Include="TimingClock.cs" />
+    <Compile Include="YanusIV\YanusIV.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KUL.MDS.Library\KUL.MDS.Library.csproj">
