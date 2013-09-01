@@ -71,8 +71,9 @@ namespace KUL.MDS.SIS.Forms
 
             // Initialize form buttons.
             InitInterface();
-            string test = "A I,0,3,25196757\r\nA S,0,0,1000\r\nA V,0,3,-12598378496\r\nA E,1000,0,0\r\nA I,1000000,3,0X";
-            KUL.MDS.Hardware.DSCProtocol kak = KUL.MDS.Hardware.DSCProtocol.FromString(test);
+            string testCircle = "A V,0,3,0;A V,0,4,5000000000;A S,0,2,300;A S,0,2,2;A I,0,3,10000000;A J,0,3,-10000;A J,0,4,-10000;A J,1000,4,10000;A J,2000,3,10000;A J,3000,4,-10000;A J,4000,3,0;A E,4000,2,0;A E,8000,2,0;A J,2400000,4,0;A V,2400001,3,0;A V,2400001,4,0";
+            string testTriangle = "A V,0,3,0;A S,0,9,5;A I,0,3,10;A I,250,3,-10;A E,500,9,0;A I,2501,3,0";
+            KUL.MDS.Hardware.DSCProtocol kak = KUL.MDS.Hardware.DSCProtocol.FromString(testCircle);
             Double[,] testc = kak.DSPCoordinates;
             this.m_frmTrajectoryForm.Visible = true;
             this.m_frmTrajectoryForm.NMCoordinates = testc;

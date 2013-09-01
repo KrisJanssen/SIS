@@ -52,7 +52,7 @@ namespace KUL.MDS.Hardware
 
             ulong _ui64PrevCmdCycle = 0;
             int _iCmdIndex = 0;
-            Stack<Tuple<int, long>> _stLoopStack = new Stack<Tuple<int,long>>();
+            Stack<LoopTracker> _stLoopStack = new Stack<LoopTracker>();
             List<long> _li64CoordsX = new List<long>();
             List<long> _li64CoordsY = new List<long>();
 
@@ -68,17 +68,17 @@ namespace KUL.MDS.Hardware
 
             // We need to generate all points in the protocol so we check the number of cycles mentioned in the last protocol command.
             ulong _ui64PointsToGenerate = this.m_lCmdList.Last().Cycle;
-            
+
             // We need to generate coordinates for as many cycles as we have just determined.
             while (_ui64PointsGenerated < _ui64PointsToGenerate)
             {
                 // Get the command to process...
-                DSCCommand  _dscCmd = this.m_lCmdList[_iCmdIndex];
+                DSCCommand _dscCmd = this.m_lCmdList[_iCmdIndex];
 
                 // If we processed all commands in the same cycle, we can get to updating values...
                 if (_dscCmd.Cycle > _ui64PrevCmdCycle)
                 {
-                    for (ulong _iI = 0; _iI < _dscCmd.Cycle; _iI++)
+                    for (ulong _iI = 0; _iI < _dscCmd.Cycle - _ui64PrevCmdCycle; _iI++)
                     {
                         // Update positions first!
                         _li64CoordsX.Add(_i64CurrPosX);
@@ -110,6 +110,8 @@ namespace KUL.MDS.Hardware
                         {
                             _i64CurrPosY = _dscCmd.Value;
                         }
+                        // We are done with the current command, store its cycle!
+                        _ui64PrevCmdCycle = _dscCmd.Cycle;
 
                         break;
 
@@ -122,6 +124,9 @@ namespace KUL.MDS.Hardware
                         {
                             _i64CurrPosY += _dscCmd.Value;
                         }
+                        // We are done with the current command, store its cycle!
+                        _ui64PrevCmdCycle = _dscCmd.Cycle;
+
                         break;
 
                     case ScanCommand.scan_cmd_set_increment_1:
@@ -133,6 +138,9 @@ namespace KUL.MDS.Hardware
                         {
                             _i64CurrIncY = _dscCmd.Value;
                         }
+                        // We are done with the current command, store its cycle!
+                        _ui64PrevCmdCycle = _dscCmd.Cycle;
+
                         break;
 
                     case ScanCommand.scan_cmd_set_increment_2:
@@ -144,27 +152,41 @@ namespace KUL.MDS.Hardware
                         {
                             _i64CurrIncIncY = _dscCmd.Value;
                         }
+                        // We are done with the current command, store its cycle!
+                        _ui64PrevCmdCycle = _dscCmd.Cycle;
+
                         break;
 
                     case ScanCommand.scan_cmd_loop_start:
 
                         // Push the current index of the loopstart command onto the stack, along with the number of necessary no. of iterations.
-                        _stLoopStack.Push(new Tuple<int, long>(_iCmdIndex, _dscCmd.Value));
+                        _stLoopStack.Push(new LoopTracker(_iCmdIndex, _dscCmd.Cycle, 0, 0, _dscCmd.Value));
                         break;
 
                     case ScanCommand.scan_cmd_loop_end:
-                        Tuple<int, long> _tCurrLoop = _stLoopStack.Pop();
-
-                        // Go back to the loop start.
-                        _iCmdIndex = _tCurrLoop.Item1;
+                        LoopTracker _ltCurrLoop = _stLoopStack.Pop();
 
                         // Substract 1 from the number of iterations to generate!
-                        _tCurrLoop = new Tuple<int, long>(_tCurrLoop.Item1, _tCurrLoop.Item2 - 1);
+                        _ltCurrLoop.CurrentIteration += 1;
 
-                        if (_tCurrLoop.Item2 > 0)
+                        // Very important! Save the cycle of the End command! This allows us to calculate length of the loop in cycles!
+                        _ltCurrLoop.EndCommandCycle = _dscCmd.Cycle;
+
+                        if ((long)_ltCurrLoop.CurrentIteration < _ltCurrLoop.Iterations)
                         {
-                            _stLoopStack.Push(_tCurrLoop);
+                            // Go back to the loop start.
+                            _iCmdIndex = _ltCurrLoop.StartCommandIndex;
+
+                            // Push the modified LoopTracker
+                            _stLoopStack.Push(_ltCurrLoop);
+                            // We are done with the current command, store its cycle!
+                            _ui64PrevCmdCycle = _ltCurrLoop.StartCommandCycle;
                         }
+                        else
+                        {
+                            _ui64PrevCmdCycle = (_ltCurrLoop.EndCommandCycle - _ltCurrLoop.StartCommandCycle) * (ulong)_ltCurrLoop.Iterations;
+                        }
+
 
                         break;
 
@@ -189,7 +211,7 @@ namespace KUL.MDS.Hardware
 
         public static DSCProtocol FromString(string __sProtocol)
         {
-            
+
             List<DSCCommand> _lCmdList = new List<DSCCommand>();
 
             // The regex we will use to scan commands is the following:
@@ -203,10 +225,10 @@ namespace KUL.MDS.Hardware
             // followed by either a positive or negative integral number.
 
             // Create the regex
-            Regex _rexPattern = new Regex(@"A\s+[0,V,R,I,J,S,E,U,D],\d+,[0,3,4,5,7],\-?\d+");
+            Regex _rexPattern = new Regex(@"A\s+[0,V,R,I,J,S,E,U,D],\d+,[0-9],\-?\d+");
             // Get matches
             MatchCollection _mtchCommandStrings = _rexPattern.Matches(__sProtocol);
-           
+
             // Iterate and process matches
             foreach (Capture c in _mtchCommandStrings)
             {
@@ -246,17 +268,35 @@ namespace KUL.MDS.Hardware
                         break;
                 }
                 _sCurent = _sCurent.Substring(c.Value.IndexOf(" ") + 1);
-                string[] _sParts = _sCurent.Split(new string[]{","}, StringSplitOptions.None);
+                string[] _sParts = _sCurent.Split(new string[] { "," }, StringSplitOptions.None);
                 _dspcNew.Cycle = Convert.ToUInt64(_sParts[1]);
                 _dspcNew.Channel = (DSCChannel)Convert.ToInt16(_sParts[2]);
                 _dspcNew.Value = Convert.ToInt64(_sParts[3]);
                 _lCmdList.Add(_dspcNew);
-                
+
                 //c.Value; // write the value to the console "pattern"
             }
 
             DSCProtocol _dscpNewProtocol = new DSCProtocol(_lCmdList);
             return _dscpNewProtocol;
+        }
+
+        public struct LoopTracker
+        {
+            public int StartCommandIndex;
+            public ulong StartCommandCycle;
+            public ulong EndCommandCycle;
+            public long CurrentIteration;
+            public long Iterations;
+
+            public LoopTracker(int __iSCI, ulong __SCC, ulong __ECC, long __iI, long __iIs)
+            {
+                StartCommandIndex = __iSCI;
+                StartCommandCycle = __SCC;
+                EndCommandCycle = __ECC;
+                CurrentIteration = __iI;
+                Iterations = __iIs;
+            }
         }
     }
 }
