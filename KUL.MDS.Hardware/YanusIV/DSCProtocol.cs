@@ -29,9 +29,9 @@ namespace KUL.MDS.Hardware
                 {
                     _sbCmdString.Append("A ");
                     _sbCmdString.Append((char)_dscCmd.ScanCmd + ",");
-                    _sbCmdString.Append(_dscCmd.Cycle.ToString("%u") + ",");
-                    _sbCmdString.Append(_dscCmd.Channel.ToString("%d") + ",");
-                    _sbCmdString.Append(_dscCmd.Value.ToString("%.0f"));
+                    _sbCmdString.Append(_dscCmd.Cycle.ToString() + ",");
+                    _sbCmdString.Append(_dscCmd.Channel.ToString() + ",");
+                    _sbCmdString.Append(_dscCmd.Value.ToString());
                     _sbCmdString.Append("\r\n");
                 }
                 return _sbCmdString.ToString();
@@ -184,9 +184,10 @@ namespace KUL.MDS.Hardware
                         }
                         else
                         {
+                            // When the final iteration of the loop is finished, the DSC will have generated Looplength * iterations of cycles and hence,
+                            // The actual command cycle needs to be calsulated for correct processing in relation to the next command!
                             _ui64PrevCmdCycle = (_ltCurrLoop.EndCommandCycle - _ltCurrLoop.StartCommandCycle) * (ulong)_ltCurrLoop.Iterations;
                         }
-
 
                         break;
 
@@ -198,6 +199,7 @@ namespace KUL.MDS.Hardware
                 _iCmdIndex += 1;
             }
 
+            // Convert the coordinate lists for X and Y to simple arrays...
             coord = new double[2, _li64CoordsX.Count];
 
             for (int _iI = 0; _iI < _li64CoordsX.Count; _iI++)
@@ -281,7 +283,8 @@ namespace KUL.MDS.Hardware
             return _dscpNewProtocol;
         }
 
-        public struct LoopTracker
+        // Simple struct to help unroll DSCProtocols containing loops.
+        private struct LoopTracker
         {
             public int StartCommandIndex;
             public ulong StartCommandCycle;
