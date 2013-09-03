@@ -140,37 +140,49 @@ namespace KUL.MDS.Hardware
 
         void IPiezoStage.Initialize()
         {
-            this.m_prtComm = CommPort.Instance;
-            CommSettings.Read();
+            IntPtr dev = new IntPtr();
+            //int test = TillLSMDevice.LSM_Execute(kak);
+            int test = TillLSMDevice.LSM_Open("COM1", ref dev);
+            
+            _logger.Debug("test: " + test.ToString());
+            _logger.Debug( "pointer: " + dev.ToString());
 
-            this.m_prtComm.DataReceived += OnDataReceived;
-            this.m_prtComm.StatusChanged += OnStatusChanged;
+            test = TillLSMDevice.LSM_Execute(dev);
+            _logger.Debug("exec: " + test.ToString());
+            test = TillLSMDevice.LSM_Close(dev);
+            _logger.Debug("test: " + test.ToString());
 
-            _logger.Debug("Trying to open YanusIV COM");
-            this.m_prtComm.Open();
+            //this.m_prtComm = CommPort.Instance;
+            //CommSettings.Read();
 
-            if (this.m_prtComm.IsOpen)
-            {
-                this.m_prtComm.Send("R");
-            }
-            else
-            {
-                this.m_errCurrentError = Error.SCAN_CMD_UNKONWN_COMMAND;
-            }
+            //this.m_prtComm.DataReceived += OnDataReceived;
+            //this.m_prtComm.StatusChanged += OnStatusChanged;
 
-            Thread.Sleep(1000);
+            //_logger.Debug("Trying to open YanusIV COM");
+            //this.m_prtComm.Open();
 
-            if (this.m_errCurrentError == Error.SCAN_CMD_NO_ERROR)
-            {
-                _logger.Debug("Engage seems to have worked");
-                _logger.Debug(this.m_errCurrentError.ToString());
-                this.m_bIsInitialized = true;
-            }
-            else
-            {
-                this.m_prtComm.DataReceived -= OnDataReceived;
-                this.m_prtComm.StatusChanged -= OnStatusChanged;
-            }
+            //if (this.m_prtComm.IsOpen)
+            //{
+            //    this.m_prtComm.Send("R");
+            //}
+            //else
+            //{
+            //    this.m_errCurrentError = Error.SCAN_CMD_UNKONWN_COMMAND;
+            //}
+
+            //Thread.Sleep(1000);
+
+            //if (this.m_errCurrentError == Error.SCAN_CMD_NO_ERROR)
+            //{
+            //    _logger.Debug("Engage seems to have worked");
+            //    _logger.Debug(this.m_errCurrentError.ToString());
+            //    this.m_bIsInitialized = true;
+            //}
+            //else
+            //{
+            //    this.m_prtComm.DataReceived -= OnDataReceived;
+            //    this.m_prtComm.StatusChanged -= OnStatusChanged;
+            //}
         }
 
         private void OnStatusChanged(string param)

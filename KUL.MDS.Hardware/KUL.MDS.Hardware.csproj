@@ -96,6 +96,7 @@
     <Compile Include="APDSettings.cs" />
     <Compile Include="ComPort\ComPort.cs" />
     <Compile Include="ComPort\ComSettings.cs" />
+    <Compile Include="Till.cs" />
     <Compile Include="YanusIV\DSCProtocol.cs" />
     <Compile Include="YanusIV\DSCCommand.cs" />
     <Compile Include="E7XXController.cs" />
@@ -160,6 +161,13 @@
     <Content Include="E7XX_GCS_DLL.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="tillimic.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="log4cxx.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="tilllsm.h" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
