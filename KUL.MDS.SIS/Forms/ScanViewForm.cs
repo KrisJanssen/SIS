@@ -77,9 +77,9 @@ namespace KUL.MDS.SIS.Forms
             string test2 = "A V,0,3,-13230033189;A V,0,4,12654814354;A I,0,3,11914332;A I,0,4,0;A S,111,9,453;A I,2245,3,-486321378;A I,2245,4,-1030879;A I,2300,3,11914332;A I,2300,4,0;A E,2411,9,0;A I,1044145,3,0;A I,1044145,4,0;";
             KUL.MDS.Hardware.DSCProtocol kak = KUL.MDS.Hardware.DSCProtocol.FromString(test2);
             //MessageBox.Show(kak.DSPString);
-            Double[,] testc = kak.DSPCoordinates;
-            this.m_frmTrajectoryForm.Visible = true;
-            this.m_frmTrajectoryForm.NMCoordinates = testc;
+            //Double[,] testc = kak.DSPCoordinates;
+            //this.m_frmTrajectoryForm.Visible = true;
+            //this.m_frmTrajectoryForm.NMCoordinates = testc;
             // This version of the imaging suite operates with 2 APDs
             // Parameters needed are:
             // 1) Board ID

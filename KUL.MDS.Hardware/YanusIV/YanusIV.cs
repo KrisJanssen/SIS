@@ -163,18 +163,24 @@ namespace KUL.MDS.Hardware
             if (this.m_errCurrentError == Error.SCAN_CMD_NO_ERROR)
             {
                 _logger.Debug("Engage seems to have worked");
+                _logger.Debug(this.m_errCurrentError.ToString());
                 this.m_bIsInitialized = true;
+            }
+            else
+            {
+                this.m_prtComm.DataReceived -= OnDataReceived;
+                this.m_prtComm.StatusChanged -= OnStatusChanged;
             }
         }
 
         private void OnStatusChanged(string param)
         {
-            _logger.Info("YanusIV says: " + param);
+            _logger.Info("YanusIV Status says: " + param);
         }
 
         private void OnDataReceived(string param)
         {
-            _logger.Debug("YanusIV says: " + param);
+            _logger.Debug("YanusIV Response says: " + param);
             this.ParseResponse(param);
         }
 
@@ -185,21 +191,30 @@ namespace KUL.MDS.Hardware
         /// <param name="__sResponse"></param>
         private void ParseResponse(string __sResponse)
         {
+            // YanusIV echoes the command it received. Local echo and actual error code might arrive at the same time,
+            // We have to rely on the fact that all YanusIV communication is terminated by \r, hence, we need to split the responses at \r,,,
+            string[] _sSplitResponse = __sResponse.Split('\r');
+            
             // All possible errors are in the Error enum.
             // We will get them and check the incoming data against all of them.
             var _vErros = EnumUtil.GetValues<Error>();
 
-            foreach (var e in _vErros)
+            // Run through the response and check against all errors.
+            foreach (string s in _sSplitResponse)
             {
-                // If our response equals an error we will throw an error event!
-                if (((Error)e).ToString() == __sResponse)
+                foreach (Error e in _vErros)
                 {
-                    this.m_errCurrentError = ((Error)e);
-
-                    // Throw an ErrorOccurred event to inform the user.
-                    if (ErrorOccurred != null || (Error)e != Error.SCAN_CMD_NO_ERROR)
+                    // If our response equals an error we will throw an error event!
+                    if (((int)e).ToString() == s)
                     {
-                        ErrorOccurred(this, new EventArgs());
+                        _logger.Debug("Throwing Error!");
+                        this.m_errCurrentError = ((Error)e);
+
+                        // Throw an ErrorOccurred event to inform the user.
+                        if (ErrorOccurred != null || (Error)e != Error.SCAN_CMD_NO_ERROR)
+                        {
+                            ErrorOccurred(this, new EventArgs());
+                        }
                     }
                 }
             }
