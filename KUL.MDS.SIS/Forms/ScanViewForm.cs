@@ -107,7 +107,8 @@ namespace KUL.MDS.SIS.Forms
             #region Piezo
 
             // The piezo stage is the most critical hardware resource. To prevent conflicts it is created as a singleton instance.
-            this.m_Stage = KUL.MDS.Hardware.PIDigitalStage.Instance;
+            //this.m_Stage = KUL.MDS.Hardware.PIDigitalStage.Instance;
+            this.m_Stage = KUL.MDS.Hardware.YanusIV.Instance;
 
             // Hook up EventHandler methods to the events of the stage.
             this.m_Stage.PositionChanged += new EventHandler(m_Stage_PositionChanged);

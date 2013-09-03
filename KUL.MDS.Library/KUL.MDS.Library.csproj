@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComboBoxItem.cs" />
+    <Compile Include="EnumUtil.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="UtilityDialogs.cs" />
     <Compile Include="ImageBlender.cs" />
