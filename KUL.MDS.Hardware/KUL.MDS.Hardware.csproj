@@ -96,7 +96,8 @@
     <Compile Include="APDSettings.cs" />
     <Compile Include="ComPort\ComPort.cs" />
     <Compile Include="ComPort\ComSettings.cs" />
-    <Compile Include="Till.cs" />
+    <Compile Include="YanusIV\TILLIMIC_DLL.cs" />
+    <Compile Include="YanusIV\TillIMIC.cs" />
     <Compile Include="YanusIV\DSCProtocol.cs" />
     <Compile Include="YanusIV\DSCCommand.cs" />
     <Compile Include="E7XXController.cs" />

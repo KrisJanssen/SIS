@@ -8,6 +8,9 @@ namespace KUL.MDS.Hardware
 {
     internal static class TillLSMDevice
     {
+        /// <summary>
+        /// Error conditions returned by tillimic.dll
+        /// </summary>
         public enum LSM_Error
         {
             None = 0,
