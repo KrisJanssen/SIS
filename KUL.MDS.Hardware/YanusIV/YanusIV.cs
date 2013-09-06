@@ -207,12 +207,12 @@ namespace KUL.MDS.Hardware
                     // If our response equals an error we will throw an error event!
                     if (((int)e).ToString() == s)
                     {
-                        _logger.Debug("Throwing Error!");
                         this.m_errCurrentError = ((Error)e);
 
                         // Throw an ErrorOccurred event to inform the user.
-                        if (ErrorOccurred != null || (Error)e != Error.SCAN_CMD_NO_ERROR)
+                        if (ErrorOccurred != null && (Error)e != Error.SCAN_CMD_NO_ERROR)
                         {
+                            _logger.Debug("Throwing Error!");
                             ErrorOccurred(this, new EventArgs());
                         }
                     }
@@ -230,6 +230,11 @@ namespace KUL.MDS.Hardware
             if (this.m_prtComm.IsOpen)
             {
                 this.m_prtComm.Close();
+                this.m_bIsInitialized = false;
+            }
+            else
+            {
+                this.m_bIsInitialized = false;
             }
         }
 
@@ -237,17 +242,19 @@ namespace KUL.MDS.Hardware
         {
             if (this.m_prtComm.IsOpen)
             {
-                this.m_prtComm.Send("V,3,0;");
-                this.m_prtComm.Send("V,4,0;");
+                this.m_prtComm.Send("V 3,0");
+                this.m_prtComm.Send("V 4,0");
             }
         }
 
         void IPiezoStage.MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
         {
+            Int64 X = Convert.ToInt64(Math.Round(__dXPosNm));
+            Int64 Y = Convert.ToInt64(Math.Round(__dYPosNm));
             if (this.m_prtComm.IsOpen)
             {
-                this.m_prtComm.Send("V,3,200;");
-                this.m_prtComm.Send("V,4,200;");
+                this.m_prtComm.Send("V 3," + X.ToString());
+                this.m_prtComm.Send("V 4," + Y.ToString());
             }
         }
 
