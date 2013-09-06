@@ -47,8 +47,14 @@ namespace KUL.MDS.Hardware
         [StructLayout(LayoutKind.Sequential)]
         public struct LSM_Coordinate
         {
-            double X;///< The X coordinate
-            double Y;///< The Y coordinate
+            public LSM_Coordinate(double __dX, double __dY)
+            {
+                X = __dX;
+                Y = __dY;
+            }
+
+            public double X;///< The X coordinate
+            public double Y;///< The Y coordinate
         };
 
         public delegate void ProtocolDoneCb(System.IntPtr context);

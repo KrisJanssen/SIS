@@ -142,15 +142,15 @@ namespace KUL.MDS.Hardware
         {
             IntPtr dev = new IntPtr();
             //int test = TillLSMDevice.LSM_Execute(kak);
-            int test = TillLSMDevice.LSM_Open("COM1", ref dev);
+            //int test = TillLSMDevice.LSM_Open("COM1", ref dev);
             
-            _logger.Debug("test: " + test.ToString());
-            _logger.Debug( "pointer: " + dev.ToString());
+            //_logger.Debug("test: " + test.ToString());
+            //_logger.Debug( "pointer: " + dev.ToString());
 
-            test = TillLSMDevice.LSM_Execute(dev);
-            _logger.Debug("exec: " + test.ToString());
-            test = TillLSMDevice.LSM_Close(dev);
-            _logger.Debug("test: " + test.ToString());
+            //test = TillLSMDevice.LSM_Execute(dev);
+            //_logger.Debug("exec: " + test.ToString());
+            //test = TillLSMDevice.LSM_Close(dev);
+            //_logger.Debug("test: " + test.ToString());
 
             //this.m_prtComm = CommPort.Instance;
             //CommSettings.Read();

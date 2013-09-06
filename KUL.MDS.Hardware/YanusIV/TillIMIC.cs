@@ -149,16 +149,25 @@ namespace KUL.MDS.Hardware
         {
             // Always assume the worst...
             bool _bIsError = true;
+            // Int that will hold the error code.
+            this.m_errCurrentError = (TillLSMDevice.LSM_Error)__iResult;
 
             if (__iResult != 0)
             {
-                // Int that will hold the error code.
-                this.m_errCurrentError = (TillLSMDevice.LSM_Error) __iResult;
-
-                // Throw an ErrorOccurred event to inform the user.
-                if (ErrorOccurred != null)
+                // This is a hack... for some reason the controller insists on returning 1 (Unknown Error) instead of 0.
+                if (__iResult == 1)
                 {
-                    ErrorOccurred(this, new EventArgs());
+                    this.m_errCurrentError = TillLSMDevice.LSM_Error.None;
+                    _logger.Debug("TillIMIC returned 1!");
+                    _bIsError = false;
+                }
+                else
+                {
+                    // Throw an ErrorOccurred event to inform the user.
+                    if (ErrorOccurred != null)
+                    {
+                        ErrorOccurred(this, new EventArgs());
+                    }
                 }
             }
             else
@@ -170,12 +179,28 @@ namespace KUL.MDS.Hardware
             return _bIsError;
         }
 
+        private bool IsCalibrated()
+        {
+            bool _bIsCalibrated = false;
+
+            if (IsError(TillLSMDevice.LSM_IsCalibrated(this.m_iptrControllerID, ref _bIsCalibrated)))
+            {
+                _logger.Error("Error checking for TillIMIC calibration!");
+                _bIsCalibrated = false;
+            }
+
+            _logger.Debug("Calibration? : " + _bIsCalibrated.ToString());
+ 
+            return _bIsCalibrated;
+        }
+
         void IPiezoStage.Initialize()
         {
             // Create a pointer to store the device handle.
             this.m_iptrControllerID = new IntPtr();
-
-            if (!IsError(TillLSMDevice.LSM_Open(ConfigurationManager.AppSettings["PortName"], ref this.m_iptrControllerID)))
+            int i = 1;
+            //if (!IsError(TillLSMDevice.LSM_Open(ConfigurationManager.AppSettings["PortName"], ref this.m_iptrControllerID)))
+            if (!IsError(TillLSMDevice.LSM_Open("COM1", ref this.m_iptrControllerID)))
             {
                 _logger.Info("TillIMIC device handle created: " + this.m_iptrControllerID.ToString()); 
                 this.m_bIsInitialized = true;
@@ -209,12 +234,54 @@ namespace KUL.MDS.Hardware
 
         void IPiezoStage.Home()
         {
-            throw new NotImplementedException();
+            TillLSMDevice.LSM_Coordinate _cTarget = new TillLSMDevice.LSM_Coordinate(0.0, 0.0);
+
+            if (this.m_bIsInitialized)
+            {
+                if (IsError(TillLSMDevice.LSM_GetRestPosition(this.m_iptrControllerID, ref _cTarget)))
+                {
+                    _logger.Error("Error getting resting position");
+                }
+                else
+                {
+                    if (IsError(TillLSMDevice.LSM_SetGalvoRawPosition(this.m_iptrControllerID, _cTarget)))
+                    {
+                        _logger.Error("Error setting position in raw coordinates");
+                    }
+                    else
+                    {
+                        _logger.Info("Galvo home! @ pos: " + _cTarget.X.ToString() + "," + _cTarget.Y.ToString());
+                    }
+                }
+            }
         }
 
         void IPiezoStage.MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
         {
-            throw new NotImplementedException();
+            TillLSMDevice.LSM_Coordinate _cTarget = new TillLSMDevice.LSM_Coordinate(__dXPosNm, __dYPosNm);
+
+            if (this.m_bIsInitialized & IsCalibrated())
+            {
+                if (IsError(TillLSMDevice.LSM_SetPoint(this.m_iptrControllerID, _cTarget)))
+                {
+                    _logger.Error("Error setting position in pixelcoordinates");
+                }
+                else
+                {
+                    _logger.Info("Pixel position changed: " + _cTarget.X.ToString() + "," + _cTarget.Y.ToString());
+                }
+            }
+            else
+            {
+                if (IsError(TillLSMDevice.LSM_SetGalvoRawPosition(this.m_iptrControllerID, _cTarget)))
+                {
+                    _logger.Error("Error setting position in raw coordinates");
+                }
+                else
+                {
+                    _logger.Info("Raw position changed: " + _cTarget.X.ToString() + "," + _cTarget.Y.ToString());
+                }
+            }
         }
 
         void IPiezoStage.MoveRel(double __dXPosNm, double __dYPosNm, double __dZPosNm)
@@ -229,7 +296,21 @@ namespace KUL.MDS.Hardware
 
         void IPiezoStage.Stop()
         {
-            throw new NotImplementedException();
+            if (this.m_bIsInitialized)
+            {
+                if (IsError(TillLSMDevice.LSM_Abort(this.m_iptrControllerID)))
+                {
+                    _logger.Error("Error trying to abort!");
+                }
+                else
+                {
+                    _logger.Info("Scan aborted!");
+                }
+            }
+            else
+            {
+                _logger.Info("Was not running anyway...!");
+            }
         }
 
         #endregion
