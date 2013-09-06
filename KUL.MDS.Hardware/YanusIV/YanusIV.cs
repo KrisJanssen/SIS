@@ -138,7 +138,7 @@ namespace KUL.MDS.Hardware
             this.m_bIsInitialized = false;
         }
 
-        void IPiezoStage.Initialize()
+        public void Initialize()
         {
             this.m_prtComm = CommPort.Instance;
             CommSettings.Read();
@@ -184,6 +184,38 @@ namespace KUL.MDS.Hardware
             this.ParseResponse(param);
         }
 
+        private long NmtoAngle(double _dVal)
+        {
+            long _lAngleVal = 0;
+
+            long _lRangenm = 220000;
+
+            double _dRangeAngle = 12.5;
+
+            double _dDegpernm = _dRangeAngle / _lRangenm;
+
+            double _dDegperint16 = 15.0 / Int16.MaxValue;
+
+            double _dAngleInt = Math.Round((_dVal * _dDegpernm) / _dDegperint16, 2);
+
+            _lAngleVal = Convert.ToInt64(_dAngleInt * 1048576);
+
+            return _lAngleVal;
+        }
+
+        private void SendIfAvailable(string __sCmd)
+        {
+            if (this.m_prtComm != null && this.m_prtComm.IsOpen)
+            {
+                _logger.Debug(__sCmd);
+                this.m_prtComm.Send(__sCmd);
+            }
+            else
+            {
+                _logger.Error("Check Comm!");
+            }
+        }
+
         // This probably needs improving...
         /// <summary>
         ///
@@ -220,12 +252,12 @@ namespace KUL.MDS.Hardware
             }
         }
 
-        void IPiezoStage.Configure(double __dCycleTimeMilisec, int __iSteps)
+        public void Configure(double __dCycleTimeMilisec, int __iSteps)
         {
             throw new NotImplementedException();
         }
 
-        void IPiezoStage.Release()
+        public void Release()
         {
             if (this.m_prtComm.IsOpen)
             {
@@ -238,39 +270,48 @@ namespace KUL.MDS.Hardware
             }
         }
 
-        void IPiezoStage.Home()
+        public void Home()
         {
-            if (this.m_prtComm.IsOpen)
-            {
-                this.m_prtComm.Send("V 3,0");
-                this.m_prtComm.Send("V 4,0");
-            }
+            this.MoveAbs(0.0, 0.0, 0.0);
         }
 
-        void IPiezoStage.MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
+        private string QuickValueCmd(DSCChannel __dscChan, long __lVal)
         {
-            Int64 X = Convert.ToInt64(Math.Round(__dXPosNm));
-            Int64 Y = Convert.ToInt64(Math.Round(__dYPosNm));
-            if (this.m_prtComm.IsOpen)
-            {
-                this.m_prtComm.Send("V 3," + X.ToString());
-                this.m_prtComm.Send("V 4," + Y.ToString());
-            }
+            string _sCmd = string.Empty;
+
+            _sCmd += ((char)DSPCommand.DSP_CMD_SET_VALUE).ToString() + " " + ((int)__dscChan).ToString() + "," + __lVal.ToString();
+
+            return _sCmd;
         }
 
-        void IPiezoStage.MoveRel(double __dXPosNm, double __dYPosNm, double __dZPosNm)
+        public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
+        {
+            // Moving axis...
+            string _sCmdX = QuickValueCmd(DSCChannel.X, NmtoAngle(__dXPosNm));
+            string _sCmdY = QuickValueCmd(DSCChannel.Y, NmtoAngle(__dYPosNm));
+
+            // Debug
+            _logger.Debug("YIV send: " + _sCmdX);
+            _logger.Debug("YIV send: " + _sCmdY);
+
+            //  Send it!
+            this.SendIfAvailable(_sCmdX);
+            this.SendIfAvailable(_sCmdY);
+        }
+
+        public void MoveRel(double __dXPosNm, double __dYPosNm, double __dZPosNm)
         {
             throw new NotImplementedException();
         }
 
-        void IPiezoStage.Scan(ScanModes.Scanmode __scmScanMode, bool __bResend)
+        public void Scan(ScanModes.Scanmode __scmScanMode, bool __bResend)
         {
             throw new NotImplementedException();
         }
 
-        void IPiezoStage.Stop()
+        public void Stop()
         {
-            throw new NotImplementedException();
+            string _sCmd = ((char)DSPCommand.DSP_CMD_DO_NOTHING).ToString();
         }
 
         #endregion
