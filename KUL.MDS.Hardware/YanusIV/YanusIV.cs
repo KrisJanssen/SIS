@@ -180,8 +180,50 @@ namespace KUL.MDS.Hardware
 
         private void OnDataReceived(string param)
         {
-            _logger.Debug("YanusIV Response says: " + param);
-            this.ParseResponse(param);
+            // if we detect a line terminator, add line to output
+            int index;
+            while (param.Length > 0 &&
+                ((index = param.IndexOf("\r")) != -1 ||
+                (index = param.IndexOf("\n")) != -1))
+            {
+                String StringIn = param.Substring(0, index);
+                param = param.Remove(0, index + 1);
+                _logger.Debug("YanusIV Response says: " + m_sPartialResponse);
+                this.ParseResponse(m_sPartialResponse);
+                
+                m_sPartialResponse = null;	// terminate partial line
+            }
+
+            // if we have data remaining, add a partial line
+            if (param.Length > 0)
+            {
+                AddData(param);
+            }
+            //_logger.Debug("YanusIV Response says: " + param);
+            //this.ParseResponse(param);
+        }
+
+
+        /// <summary>
+        /// Partial line for AddData().
+        /// </summary>
+        private string m_sPartialResponse = null;
+
+        /// <summary>
+        /// Add data to the output.
+        /// </summary>
+        /// <param name="__sIn"></param>
+        /// <returns></returns>
+        private void AddData(String __sIn)
+        {
+            //String _sOut = PrepareData(__sIn);
+
+            // if we have a partial line, add to it.
+            if (m_sPartialResponse != null)
+            {
+                // tack it on
+                m_sPartialResponse += __sIn;
+            }
         }
 
         private long NmtoAngle(double _dVal)
