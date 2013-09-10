@@ -182,22 +182,28 @@ namespace KUL.MDS.Hardware
         {
             // if we detect a line terminator, add line to output
             int index;
+            String StringIn;
+
+
             while (param.Length > 0 &&
                 ((index = param.IndexOf("\r")) != -1 ||
                 (index = param.IndexOf("\n")) != -1))
             {
-                String StringIn = param.Substring(0, index);
+                m_sPartialResponse += param.Substring(0, index);
                 param = param.Remove(0, index + 1);
                 _logger.Debug("YanusIV Response says: " + m_sPartialResponse);
-                this.ParseResponse(m_sPartialResponse);
+                if (m_sPartialResponse != null)
+                {
+                    this.ParseResponse(m_sPartialResponse);
+                }
                 
-                m_sPartialResponse = null;	// terminate partial line
+                //m_sPartialResponse = null;	// terminate partial line
             }
 
             // if we have data remaining, add a partial line
             if (param.Length > 0)
             {
-                AddData(param);
+                m_sPartialResponse += param;
             }
             //_logger.Debug("YanusIV Response says: " + param);
             //this.ParseResponse(param);
@@ -209,22 +215,6 @@ namespace KUL.MDS.Hardware
         /// </summary>
         private string m_sPartialResponse = null;
 
-        /// <summary>
-        /// Add data to the output.
-        /// </summary>
-        /// <param name="__sIn"></param>
-        /// <returns></returns>
-        private void AddData(String __sIn)
-        {
-            //String _sOut = PrepareData(__sIn);
-
-            // if we have a partial line, add to it.
-            if (m_sPartialResponse != null)
-            {
-                // tack it on
-                m_sPartialResponse += __sIn;
-            }
-        }
 
         private long NmtoAngle(double _dVal)
         {
@@ -292,6 +282,7 @@ namespace KUL.MDS.Hardware
                     }
                 }
             }
+            m_sPartialResponse = null;
         }
 
         public void Configure(double __dCycleTimeMilisec, int __iSteps)
