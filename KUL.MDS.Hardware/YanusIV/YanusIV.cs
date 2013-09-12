@@ -33,6 +33,9 @@ namespace KUL.MDS.Hardware
         // We need a ComPort...
         private CommPort m_prtComm;
 
+        // Place to store partial output...
+        private string m_sPartialResponse = null;
+
         #endregion
 
         #region Properties.
@@ -168,8 +171,15 @@ namespace KUL.MDS.Hardware
             }
             else
             {
+                _logger.Debug("Something went wrong initializing YanusIV");
                 this.m_prtComm.DataReceived -= OnDataReceived;
                 this.m_prtComm.StatusChanged -= OnStatusChanged;
+
+                if (this.m_prtComm.IsOpen)
+                {
+                    this.m_prtComm.Close();
+                }
+
             }
         }
 
@@ -182,8 +192,6 @@ namespace KUL.MDS.Hardware
         {
             // if we detect a line terminator, add line to output
             int index;
-            String StringIn;
-
 
             while (param.Length > 0 &&
                 ((index = param.IndexOf("\r")) != -1 ||
@@ -196,8 +204,6 @@ namespace KUL.MDS.Hardware
                 {
                     this.ParseResponse(m_sPartialResponse);
                 }
-                
-                //m_sPartialResponse = null;	// terminate partial line
             }
 
             // if we have data remaining, add a partial line
@@ -205,16 +211,7 @@ namespace KUL.MDS.Hardware
             {
                 m_sPartialResponse += param;
             }
-            //_logger.Debug("YanusIV Response says: " + param);
-            //this.ParseResponse(param);
         }
-
-
-        /// <summary>
-        /// Partial line for AddData().
-        /// </summary>
-        private string m_sPartialResponse = null;
-
 
         private long NmtoAngle(double _dVal)
         {
@@ -330,6 +327,14 @@ namespace KUL.MDS.Hardware
             //  Send it!
             this.SendIfAvailable(_sCmdX);
             this.SendIfAvailable(_sCmdY);
+
+            this.m_dXPosCurrent = __dXPosNm;
+            this.m_dYPosCurrent = __dYPosNm;
+
+            if (PositionChanged != null)
+            {
+                PositionChanged(this, new EventArgs());
+            }
         }
 
         public void MoveRel(double __dXPosNm, double __dYPosNm, double __dZPosNm)
