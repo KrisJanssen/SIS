@@ -862,8 +862,8 @@ namespace KUL.MDS.SIS.Forms
                 this.btnStop.Enabled = true;
 
                 // this.m_clckGlobalSync.SetupClock(this.m_clckGlobalSync.Frequency(_docDocument.TimePPixel, 0.1F));
-                this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
-                this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+                //this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+                //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                 //this.m_pdPhotoDiode.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
 
                 // Prepare the stage control task for writing as many samples as necessary to complete the scan.
@@ -909,8 +909,8 @@ namespace KUL.MDS.SIS.Forms
             //List<UInt32> _lui32AllReadValues2 = new List<UInt32>(_docDocument.PixelCount);
 
             // Start the APD. It will now count photons every time it is triggered by either a clock or a digital controller.
-            this.m_apdAPD1.StartAPDAcquisition();
-            this.m_apdAPD2.StartAPDAcquisition();
+            //this.m_apdAPD1.StartAPDAcquisition();
+            //this.m_apdAPD2.StartAPDAcquisition();
             //this.m_pdPhotoDiode.StartAPDAcquisition();
 
             // Initiate stage scan movement.
@@ -920,107 +920,107 @@ namespace KUL.MDS.SIS.Forms
             //while ((_readsamples1 < _docDocument.PixelCount) & (_bStop != true))
             //while ((_readsamples1 < _docDocument.PixelCount) & (_readsamples2 < _docDocument.PixelCount) & (_bStop != true))
             //while ((_readsamples2 < _docDocument.PixelCount) & (_bStop != true))
-            while (_bStop != true)
-            {
-                // Update the UI every 0.1 seconds, more than fast enough.
-                Thread.Sleep(100);
+            //while (_bStop != true)
+            //{
+            //    // Update the UI every 0.1 seconds, more than fast enough.
+            //    Thread.Sleep(100);
 
-                // Perform a read of all samples currently in the buffer.
-                if (_readsamples1 < _docDocument.PixelCount)
-                {
-                    _ui32SingleReadValues1 = this.m_apdAPD1.Read();
+            //    // Perform a read of all samples currently in the buffer.
+            //    if (_readsamples1 < _docDocument.PixelCount)
+            //    {
+            //        _ui32SingleReadValues1 = this.m_apdAPD1.Read();
 
-                    // Add the read samples to the previously read samples in memory.
-                    for (int _i = 0; _i < _ui32SingleReadValues1.Length; _i++)
-                    {
-                        _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
+            //        // Add the read samples to the previously read samples in memory.
+            //        for (int _i = 0; _i < _ui32SingleReadValues1.Length; _i++)
+            //        {
+            //            _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
 
-                        // For debug purposes.
-                        //_ui32AllReadValues1[_readsamples1 + _i] = (UInt32)RandomClass.Next(1, 1600);
-                    }
-                    //_lui32AllReadValues1.AddRange(_ui32SingleReadValues1);
+            //            // For debug purposes.
+            //            //_ui32AllReadValues1[_readsamples1 + _i] = (UInt32)RandomClass.Next(1, 1600);
+            //        }
+            //        //_lui32AllReadValues1.AddRange(_ui32SingleReadValues1);
 
-                    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                    _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
-                }
-                if (_readsamples2 < _docDocument.PixelCount)
-                {
-                    _ui32SingleReadValues2 = this.m_apdAPD2.Read();
+            //        // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+            //        _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
+            //    }
+            //    if (_readsamples2 < _docDocument.PixelCount)
+            //    {
+            //        _ui32SingleReadValues2 = this.m_apdAPD2.Read();
 
-                    for (int _i = 0; _i < _ui32SingleReadValues2.Length; _i++)
-                    {
-                        _ui32AllReadValues2[_readsamples2 + _i] = _ui32SingleReadValues2[_i];
+            //        for (int _i = 0; _i < _ui32SingleReadValues2.Length; _i++)
+            //        {
+            //            _ui32AllReadValues2[_readsamples2 + _i] = _ui32SingleReadValues2[_i];
 
-                        // For debug purposes.
-                        //_ui32AllReadValues2[_readsamples2 + _i] = (UInt32)RandomClass.Next(1, 1600);
-                    }
-                    //_lui32AllReadValues2.AddRange(_ui32SingleReadValues2);
+            //            // For debug purposes.
+            //            //_ui32AllReadValues2[_readsamples2 + _i] = (UInt32)RandomClass.Next(1, 1600);
+            //        }
+            //        //_lui32AllReadValues2.AddRange(_ui32SingleReadValues2);
 
-                    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                    _readsamples2 = _readsamples2 + _ui32SingleReadValues2.Length;
-                }
-                //if (_readsamplesa < _docDocument.PixelCount * 100)
-                //{
-                //    _dSingleReadValuesa = this.m_pdPhotoDiode.Read();
+            //        // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+            //        _readsamples2 = _readsamples2 + _ui32SingleReadValues2.Length;
+            //    }
+            //    //if (_readsamplesa < _docDocument.PixelCount * 100)
+            //    //{
+            //    //    _dSingleReadValuesa = this.m_pdPhotoDiode.Read();
 
-                //    for (int _i = 0; _i < _dSingleReadValuesa.Length; _i++)
-                //    {
-                //        _dAllreadValuesa[_readsamplesa + _i] = _dSingleReadValuesa[_i];
+            //    //    for (int _i = 0; _i < _dSingleReadValuesa.Length; _i++)
+            //    //    {
+            //    //        _dAllreadValuesa[_readsamplesa + _i] = _dSingleReadValuesa[_i];
 
-                //        // For debug purposes.
-                //        //_ui32AllReadValues2[_readsamples2 + _i] = (UInt32)RandomClass.Next(1, 1600);
-                //    }
-                //    //_lui32AllReadValues2.AddRange(_ui32SingleReadValues2);
+            //    //        // For debug purposes.
+            //    //        //_ui32AllReadValues2[_readsamples2 + _i] = (UInt32)RandomClass.Next(1, 1600);
+            //    //    }
+            //    //    //_lui32AllReadValues2.AddRange(_ui32SingleReadValues2);
 
-                //    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                //    _readsamplesa = _readsamplesa + _dSingleReadValuesa.Length;
-                //    Tracing.Ping("Analog Samples Read: " + _readsamplesa.ToString());
-                //}
+            //    //    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+            //    //    _readsamplesa = _readsamplesa + _dSingleReadValuesa.Length;
+            //    //    Tracing.Ping("Analog Samples Read: " + _readsamplesa.ToString());
+            //    //}
 
-                // Assign processed data to the actual document opject. This should only be done in the case of bidirectional scanning.
-                _docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
-                _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues2));
-                //_docDocument.StoreChannelData(0, _Scan.PostProcessData(_lui32AllReadValues1.ToArray()));
-                //_docDocument.StoreChannelData(1, _Scan.PostProcessData(_lui32AllReadValues2.ToArray()));
+            //    // Assign processed data to the actual document opject. This should only be done in the case of bidirectional scanning.
+            //    _docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
+            //    _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues2));
+            //    //_docDocument.StoreChannelData(0, _Scan.PostProcessData(_lui32AllReadValues1.ToArray()));
+            //    //_docDocument.StoreChannelData(1, _Scan.PostProcessData(_lui32AllReadValues2.ToArray()));
 
-                if ((_readsamples1 == _docDocument.PixelCount) & (_readsamples2 == _docDocument.PixelCount))
-                {
-                    if (!this.checkBoxCont.Checked)
-                    {
-                        _bStop = true;
-                    }
-                    if (this.checkBoxCont.Checked)
-                    {
-                        _bStop = false;
-                        this.m_Stage.MoveAbs(0.0, 0.0, 0.0);
-                        this.m_apdAPD1.StopAPDAcquisition();
-                        this.m_apdAPD2.StopAPDAcquisition();
-                        this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
-                        this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
-                        this.m_apdAPD1.StartAPDAcquisition();
-                        this.m_apdAPD2.StartAPDAcquisition();
-                        this.m_Stage.Scan(_Scan, false);
-                        _readsamples1 = 0;
-                        _readsamples2 = 0;
-                    }
-                }
+            //    if ((_readsamples1 == _docDocument.PixelCount) & (_readsamples2 == _docDocument.PixelCount))
+            //    {
+            //        if (!this.checkBoxCont.Checked)
+            //        {
+            //            _bStop = true;
+            //        }
+            //        if (this.checkBoxCont.Checked)
+            //        {
+            //            _bStop = false;
+            //            this.m_Stage.MoveAbs(0.0, 0.0, 0.0);
+            //            this.m_apdAPD1.StopAPDAcquisition();
+            //            this.m_apdAPD2.StopAPDAcquisition();
+            //            this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+            //            this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+            //            this.m_apdAPD1.StartAPDAcquisition();
+            //            this.m_apdAPD2.StartAPDAcquisition();
+            //            this.m_Stage.Scan(_Scan, false);
+            //            _readsamples1 = 0;
+            //            _readsamples2 = 0;
+            //        }
+            //    }
 
-                // Update the UI.
-                if (InvokeRequired)
-                {
-                    // Get the in memory bitmap to the screen.
-                    Invoke(new UIUpdateDelegate(PaintToScreen));
-                    // Update the rest of the UI.
-                    Invoke(new UIUpdateDelegate(UpdateUI));
-                }
+            //    // Update the UI.
+            //    if (InvokeRequired)
+            //    {
+            //        // Get the in memory bitmap to the screen.
+            //        Invoke(new UIUpdateDelegate(PaintToScreen));
+            //        // Update the rest of the UI.
+            //        Invoke(new UIUpdateDelegate(UpdateUI));
+            //    }
 
-                // Check if the worker was not cancelled.
-                if (bckgwrkPerformScan.CancellationPending)
-                {
-                    __evargsE.Cancel = true;
-                    _bStop = true;
-                }
-            }
+            //    // Check if the worker was not cancelled.
+            //    if (bckgwrkPerformScan.CancellationPending)
+            //    {
+            //        __evargsE.Cancel = true;
+            //        _bStop = true;
+            //    }
+            //}
 
             // Stop the globalsync and dispose of it.
             //m_daqtskGlobalSync.Stop();
@@ -1047,8 +1047,8 @@ namespace KUL.MDS.SIS.Forms
 
             // Stop the move task for the stage.
             //m_daqtskTimingPulse.Stop();
-            this.m_apdAPD1.StopAPDAcquisition();
-            this.m_apdAPD2.StopAPDAcquisition();
+            //this.m_apdAPD1.StopAPDAcquisition();
+            //this.m_apdAPD2.StopAPDAcquisition();
             //this.m_pdPhotoDiode.StopAPDAcquisition();
         }
 

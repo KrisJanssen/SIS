@@ -204,11 +204,26 @@ namespace KUL.MDS.Hardware
             {
                 _logger.Info("TillIMIC device handle created: " + this.m_iptrControllerID.ToString()); 
                 this.m_bIsInitialized = true;
+                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(0.0, 0.0), new TillLSMDevice.LSM_Coordinate(34359738368.0, 34359738368.0))))
+                {
+                    _logger.Info("Added origin 0,0");
+                }
+                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(100.0, 0.0), new TillLSMDevice.LSM_Coordinate(-34359738368.0, 34359738368.0))))
+                {
+                    _logger.Info("Added origin 100,0");
+                }
+                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(100.0, 0.0), new TillLSMDevice.LSM_Coordinate(34359738368.0, -34359738368.0))))
+                {
+                    _logger.Info("Added origin 0,100");
+                }
+                _logger.Debug(this.IsCalibrated().ToString());
             }
             else
             {
                 this.m_bIsInitialized = false;
             }
+
+            
         }
 
         void IPiezoStage.Configure(double __dCycleTimeMilisec, int __iSteps)
