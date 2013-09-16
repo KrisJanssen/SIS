@@ -204,15 +204,16 @@ namespace KUL.MDS.Hardware
             {
                 _logger.Info("TillIMIC device handle created: " + this.m_iptrControllerID.ToString()); 
                 this.m_bIsInitialized = true;
-                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(0.0, 0.0), new TillLSMDevice.LSM_Coordinate(34359738368.0, 34359738368.0))))
+                double maxval = Convert.ToDouble(34359738368);
+                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(0.0, 0.0), new TillLSMDevice.LSM_Coordinate(maxval, maxval))))
                 {
                     _logger.Info("Added origin 0,0");
                 }
-                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(100.0, 0.0), new TillLSMDevice.LSM_Coordinate(-34359738368.0, 34359738368.0))))
+                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(100.0, 0.0), new TillLSMDevice.LSM_Coordinate(-maxval, maxval))))
                 {
                     _logger.Info("Added origin 100,0");
                 }
-                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(100.0, 0.0), new TillLSMDevice.LSM_Coordinate(34359738368.0, -34359738368.0))))
+                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(0.0, 100.0), new TillLSMDevice.LSM_Coordinate(maxval, -maxval))))
                 {
                     _logger.Info("Added origin 0,100");
                 }
@@ -235,12 +236,17 @@ namespace KUL.MDS.Hardware
         {
             if (this.m_bIsInitialized)
             {
+                if (!IsError(TillLSMDevice.LSM_ResetCalibration(this.m_iptrControllerID)))
+                {
+                    _logger.Info("TillIMIC device calibration reset!");
+                }
                 if (IsError(TillLSMDevice.LSM_Close(this.m_iptrControllerID)))
                 {
                     _logger.Error("Error while releasing TillIMIC device: " + this.m_errCurrentError.ToString());
                 }
                 else
                 {
+                    //TillLSMDevice.UnloadModule();
                     this.m_bIsInitialized = false;
                     _logger.Info("TillIMIC device released!");
                 }
