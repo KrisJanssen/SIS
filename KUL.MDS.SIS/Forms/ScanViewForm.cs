@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;  //for images
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
@@ -10,6 +11,7 @@ using KUL.MDS.WPFControls;
 using System.Collections.Generic;
 using KUL.MDS.SystemLayer;
 using System.IO;
+using System.Runtime.InteropServices;	//for Marshalling data and other functions for managed <-> unmanaged code interactions
 using log4net;
 using log4net.Layout;
 using DevDefined.Common.Appenders;
@@ -1123,15 +1125,7 @@ namespace KUL.MDS.SIS.Forms
                 "Image Heigth nm: " + _docDocument.YScanSizeNm.ToString() + "\r\n" +
                 "Image Depth nm:  " + _docDocument.ZScanSizeNm.ToString() + "\r\n";
 
-            for (int _intI = 0; _intI < _iImageHeight; _intI++)
-            {
-                for (int _intJ = 0; _intJ < _iImageWidth + _iXOverScanPx; _intJ++)
-                {
-                    _strData1 = _strData1 + _uintChannelData1[_intI * (_iImageWidth + _iXOverScanPx) + _intJ].ToString() + "\t";
-                }
-                _strData1 = _strData1 + "\r\n";
-            }
-
+            
             string _strData2 =
                 "Exp. Date:       " + _docDocument.Modified.ToString() + "\r\n" +
                 "Scan Duration:   " + _docDocument.ScanDuration.ToString() + "\r\n" +
@@ -1152,32 +1146,93 @@ namespace KUL.MDS.SIS.Forms
                 "Image Width nm:  " + _docDocument.XScanSizeNm.ToString() + "\r\n" +
                 "Image Heigth nm: " + _docDocument.YScanSizeNm.ToString() + "\r\n" +
                 "Image Depth nm:  " + _docDocument.ZScanSizeNm.ToString() + "\r\n";
-
-            for (int _intI = 0; _intI < _iImageHeight; _intI++)
-            {
-                for (int _intJ = 0; _intJ < _iImageWidth + _iXOverScanPx; _intJ++)
-                {
-                    _strData2 = _strData1 + _uintChannelData2[_intI * (_iImageWidth + _iXOverScanPx) + _intJ].ToString() + "\t";
-                }
-                _strData2 = _strData1 + "\r\n";
-            }
+                        
 
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                using (StreamWriter sr = new StreamWriter(dialog.FileName.Replace(".txt", "_CH1.txt")))
+                using (StreamWriter sr = new StreamWriter(dialog.FileName.Replace(".txt", "_CH1.txt")))  //write Channel 1 picture to ASCII file
                 {
-                    sr.Write(_strData1);
+                    sr.Write(_strData1);  //write header info to file
+
+                    for (int _intI = 0; _intI < _iImageHeight; _intI++)  //write pixel values to file
+                    {
+                        for (int _intJ = 0; _intJ < _iImageWidth + _iXOverScanPx; _intJ++)
+                        {
+                            sr.Write(_uintChannelData1[_intI * (_iImageWidth + _iXOverScanPx) + _intJ].ToString() + "\t");
+                        }
+                        sr.Write("\r\n");
+                    }
+                                        
                     sr.Close();
                 }
-                using (StreamWriter sr = new StreamWriter(dialog.FileName.Replace(".txt", "_CH2.txt")))
+
+                using (StreamWriter sr = new StreamWriter(dialog.FileName.Replace(".txt", "_CH2.txt")))  //write Channel 2 picture to ASCII file
                 {
-                    sr.Write(_strData2);
+                    sr.Write(_strData2);  //write header info to file
+
+                    for (int _intI = 0; _intI < _iImageHeight; _intI++)  //write pixel values to file
+                    {
+                        for (int _intJ = 0; _intJ < _iImageWidth + _iXOverScanPx; _intJ++)
+                        {
+                            sr.Write(_uintChannelData2[_intI * (_iImageWidth + _iXOverScanPx) + _intJ].ToString() + "\t");
+                        }
+                        sr.Write("\r\n");
+                    }
+
                     sr.Close();
                 }
-               
+                
+
+                //// Save pixel arrays corresponding to CH1 and CH2 as bitmap files
+                //int _iPixelCount = (_iImageWidth + _iXOverScanPx) * _iImageHeight;  //The capacity of the pixel buffer (usually equals to the overall pixel counts)
+                //string _filePathAndName = dialog.FileName.Replace(".txt", "");  //make the file path and name without file type extension
+
+                //// Create the bitmap
+                //Bitmap bitmapImage2D = new Bitmap((_iImageWidth + _iXOverScanPx), _iImageHeight, PixelFormat.Format32bppRgb);
+
+                //// CH1 to bitmap:
+                //// Lock bitmap and return bitmap data                    
+                //BitmapData bitmapData = bitmapImage2D.LockBits(new System.Drawing.Rectangle(0, 0, (_iImageWidth + _iXOverScanPx), _iImageHeight), ImageLockMode.ReadWrite, PixelFormat.Format32bppRgb);
+
+                //// Byte per byte copy of _uintChannelData1[] array to location given by the pointer bitmapData.Scan0 (basically to the bitmapImage2D)
+                //Marshal.Copy((int[])(object)_uintChannelData1, 0, bitmapData.Scan0, _iPixelCount);  //note that we need to convert _uintChannelData1 from an unsigned array to a signed array in order to make the Marshal.Copy() work
+
+                //// Unlock bitmap
+                //bitmapImage2D.UnlockBits(bitmapData);
+
+                //// Save bitmap image of CH1 to file
+                //try
+                //{
+                //    bitmapImage2D.Save(_filePathAndName + "_CH1.bmp", ImageFormat.Bmp);  //save the image as ".bmp" to file
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show("Exception:" + ex + "\r\nThe bitmap image file: " + _filePathAndName + "_CH1.bmp" + " could not be saved!");
+                //}
+                
+
+                //// CH2 to bitmap:
+                //// Lock bitmap and return bitmap data                    
+                //bitmapData = bitmapImage2D.LockBits(new System.Drawing.Rectangle(0, 0, (_iImageWidth + _iXOverScanPx), _iImageHeight), ImageLockMode.ReadWrite, PixelFormat.Format32bppRgb);
+
+                //// Byte per byte copy of _uintChannelData1[] array to location given by the pointer bitmapData.Scan0 (basically to the bitmapImage2D)
+                //Marshal.Copy((int[])(object)_uintChannelData2, 0, bitmapData.Scan0, _iPixelCount);  //note that we need to convert _uintChannelData1 from an unsigned array to a signed array in order to make the Marshal.Copy() work
+
+                //// Unlock bitmap
+                //bitmapImage2D.UnlockBits(bitmapData);
+
+                //// Save bitmap image of CH2 to file
+                //try
+                //{
+                //    bitmapImage2D.Save(_filePathAndName + "_CH2.bmp", ImageFormat.Bmp);  //save the image as ".bmp" to file
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show("Exception:" + ex + "\r\nThe bitmap image file: " + _filePathAndName + "_CH2.bmp" + " could not be saved!");
+                //}
             }
 
         }
