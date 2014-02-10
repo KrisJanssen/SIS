@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Other\PointScan.cs" />
     <Compile Include="XY\BidirScanMode.cs" />
     <Compile Include="XY\BiDirScan.cs" />
     <Compile Include="XY\STEDXMultiLineScan.cs" />
