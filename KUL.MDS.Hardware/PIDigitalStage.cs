@@ -321,6 +321,16 @@ namespace KUL.MDS.Hardware
                     _sbBuffer.Clear();
                 }
 
+                // We can read back the activated stages.
+                if (this.IsError(E7XXController.qCST(this.m_iControllerID, "1234", _sbBuffer, 1024)))
+                {
+                    _logger.Error("Error while executing qCST(): " + this.m_sCurrentError);
+                }
+                else
+                {
+                    _logger.Info("Activated stages Pre: " + _sbBuffer.ToString());
+                }
+
                 // We only need axis 1,2 and 3 so those are the only ones we activate.
                 // CST MUST be the very first function we call!
                 if (this.IsError(E7XXController.CST(this.m_iControllerID, "1234", "ID-STAGE \nID-STAGE \nID-STAGE \nNOSTAGE \n")))
@@ -347,14 +357,13 @@ namespace KUL.MDS.Hardware
                 }
 
                 // We can read back the activated stages.
-                StringBuilder _sbStages = new StringBuilder(1024);
-                if (this.IsError(E7XXController.qCST(this.m_iControllerID, "1234", _sbStages, 1024)))
+                if (this.IsError(E7XXController.qCST(this.m_iControllerID, "1234", _sbBuffer, 1024)))
                 {
                     _logger.Error("Error while executing qCST(): " + this.m_sCurrentError);
                 }
                 else
                 {
-                    _logger.Info("Activated stages: " + _sbStages.ToString());
+                    _logger.Info("Activated stages: " + _sbBuffer.ToString());
                 }
 
                 // For debug purposes. Check to see if Axis configuration succeeded.
