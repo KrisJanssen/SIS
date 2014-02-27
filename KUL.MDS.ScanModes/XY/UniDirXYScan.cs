@@ -208,8 +208,11 @@ namespace KUL.MDS.ScanModes
             // Fill the 2D array containing all coordinates for both X and Y.
             for (int _iI = 0; _iI < this.m_iPtsPerScanline; _iI++)
             {
+                // Bugfix. All wave generator movement is RELATIVE to positions set via absolute movements or analog operation. 
+                // We should therefore never take the initial position into account. It is handled outside of the scan definition.
                 _dMovement[0, _iI] = _dX[_iI];
                 _dMovement[1, _iI] = _dY[_iI];
+                //_dMovement[2, _iI] = this.m_dInitZPosNm;
                 _dMovement[2, _iI] = this.m_dInitZPosNm;
             }
 
