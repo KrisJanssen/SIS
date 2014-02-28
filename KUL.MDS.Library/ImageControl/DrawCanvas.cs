@@ -8,6 +8,7 @@ namespace KUL.MDS.Library
     [System.Runtime.InteropServices.ComVisible(false)]
     public partial class DrawCanvas : UserControl
     {
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         #region Members.
 
         private int m_iDrawHeight;
