@@ -949,6 +949,10 @@ namespace KUL.MDS.Hardware
             #endregion
 
             #region Wave Generator Start
+            int[] _iChannels = {1, 2};
+            int[] _iRecOpt = {2, 2};
+            int[] _iTrigOpt = { };
+            E7XXController.DRC(this.m_iControllerID, _iChannels, "12", _iRecOpt, _iTrigOpt);
 
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.XY)
             {
