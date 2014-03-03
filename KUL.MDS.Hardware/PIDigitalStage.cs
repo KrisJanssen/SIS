@@ -952,7 +952,11 @@ namespace KUL.MDS.Hardware
             int[] _iChannels = {1, 2};
             int[] _iRecOpt = {2, 2};
             int[] _iTrigOpt = { };
-            E7XXController.DRC(this.m_iControllerID, _iChannels, "12", _iRecOpt, _iTrigOpt);
+
+            if (this.IsError(E7XXController.DRC(this.m_iControllerID, _iChannels, "12", _iRecOpt, _iTrigOpt)))
+            {
+                _logger.Error("Error while executing DRC(): " + this.m_sCurrentError);
+            }
 
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.XY)
             {
