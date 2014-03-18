@@ -4,39 +4,67 @@ namespace SIS.OpticalSystem
 {
     public class Microscope
     {
+        private double m_dn;
+        private double m_dNA;
+
+        private int m_iLambdaEm;
+        private int m_iLambdaEx;
+
         public Microscope(int __iLambdaEx, int __iLambdaEm, double __dn, double __dNA)
         {
+            this.m_iLambdaEx = __iLambdaEx;
+            this.m_iLambdaEm = __iLambdaEm;
+            this.m_dn = __dn;
+            this.m_dNA = __dNA;
         }
 
-        public static int CFCriticalDistanceXY(int __iLambdaEx, double __dn, double __dAlpha)
+        public int CFCriticalDistanceXY
         {
-            return Convert.ToInt32(Math.Round(__iLambdaEx / (8 * __dn * Math.Sin(__dAlpha))));
+            get
+            {
+                return Convert.ToInt32(Math.Round(m_iLambdaEx / (8 * m_dn * Math.Sin(Alpha))));
+            }
         }
 
-        public static int CFCriticalDistanceZ(int __iLambdaEx, double __dn, double __dAlpha)
+        public int CFCriticalDistanceZ
         {
-            return Convert.ToInt32(Math.Round(__iLambdaEx / (4 * __dn * (1 - Math.Cos(__dAlpha)))));
+            get
+            {
+                return Convert.ToInt32(Math.Round(m_iLambdaEx / (4 * m_dn * (1 - Math.Cos(Alpha)))));
+            }
 
         }
 
-        public static int WFCriticalDistanceXY(int __iLambdaEm, double __dn, double __dAlpha)
+        public int WFCriticalDistanceXY
         {
-            return Convert.ToInt32(Math.Round(__iLambdaEm / (4 * __dn * Math.Sin(__dAlpha))));
+            get
+            {
+                return Convert.ToInt32(Math.Round(m_iLambdaEm / (4 * m_dn * Math.Sin(Alpha))));
+            }
         }
 
-        public static int WFCriticalDistanceZ(int __iLambdaEm, double __dn, double __dAlpha)
+        public int WFCriticalDistanceZ
         {
-            return Convert.ToInt32(Math.Round(__iLambdaEm / (2 * __dn * (1 - Math.Cos(__dAlpha)))));
+            get
+            {
+                return Convert.ToInt32(Math.Round(m_iLambdaEm / (2 * m_dn * (1 - Math.Cos(Alpha)))));
+            }
         }
 
-        public static double NA(double __dn, double __dAlpha)
+        public double NA
         {
-            return __dn * Math.Sin(__dAlpha);
+            get
+            {
+                return this.m_dNA;
+            }
         }
 
-        public static double Alpha(double __dn, double __dNA)
+        public double Alpha
         {
-            return Math.Asin(__dNA / __dn);
+            get
+            {
+                return Math.Asin(this.m_dNA / this.m_dn);
+            }
         }
 
 
