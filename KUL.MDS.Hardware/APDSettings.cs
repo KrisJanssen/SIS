@@ -10,7 +10,7 @@ namespace KUL.MDS.Hardware
     {
         APDSettings()
         {
-            this.m_iDetectorType = (int)DetectorTypes.APD;
+            this.m_iDetectorType = (int)DetectorTypes.TimeHarp;
         }
     }
 }

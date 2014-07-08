@@ -45,7 +45,7 @@ namespace KUL.MDS.SIS
 
             // Display a warning for the Development version.
             // This will be removed in the final builds...
-            Utility.InfoBox(null, Resources.GetString("Startup.MDIwarning"));
+            //Utility.InfoBox(null, Resources.GetString("Startup.MDIwarning"));
 
             base.SplashForm = new SISSplashForm();
             base.SplashForm.TopMost = true;
@@ -72,20 +72,21 @@ namespace KUL.MDS.SIS
 
 		private void InitializeComponent()
 		{
-            this.SuspendLayout();
-            // 
-            // m_statusBar
-            // 
-            this.m_statusBar.Location = new System.Drawing.Point(0, 46);
-            // 
-            // MainForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            this.ClientSize = new System.Drawing.Size(672, 68);
-            this.Location = new System.Drawing.Point(0, 0);
-            this.Name = "MainForm";
-            this.Load += new System.EventHandler(this.MainForm_Load);
-            this.ResumeLayout(false);
+			this.SuspendLayout();
+			// 
+			// m_statusBar
+			// 
+			this.m_statusBar.Location = new System.Drawing.Point(0, 46);
+			// 
+			// MainForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.ClientSize = new System.Drawing.Size(672, 68);
+			this.Location = new System.Drawing.Point(0, 0);
+			this.Name = "MainForm";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.ResumeLayout(false);
 
 		}
 
@@ -94,7 +95,7 @@ namespace KUL.MDS.SIS
         private void MainForm_Load(object sender, EventArgs e)
         {
             AutoUpdater.Start("https://dl.dropboxusercontent.com/u/17174999/SIS/SIS.xml");
-        }
+		}
 
         #region TO BE REMOVED
 

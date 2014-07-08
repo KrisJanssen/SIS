@@ -28,7 +28,7 @@ namespace KUL.MDS.Hardware
         // Counts read.
         private long m_dTotalCountsRead;
 
-        public long TotalSamplesAcuired
+        public long TotalSamplesAcquired
         {
             get
             {

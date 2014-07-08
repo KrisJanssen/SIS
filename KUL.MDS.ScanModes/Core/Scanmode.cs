@@ -28,6 +28,7 @@ namespace KUL.MDS.ScanModes
         protected double m_dXScanSizeNm;
         protected double m_dYScanSizeNm;
         protected double m_dZScanSizeNm;
+        protected double m_dTimePPixel;
         protected double m_dBorderWidthX;
         protected double m_dMaxSpeed;
         protected double m_dCycleTime;
@@ -443,6 +444,14 @@ namespace KUL.MDS.ScanModes
             }
         }
 
+        public double TimePPixel
+        {
+            get
+            {
+                return this.m_dTimePPixel;
+            }
+        }
+
         public double InitialX
         {
             get
@@ -556,6 +565,7 @@ namespace KUL.MDS.ScanModes
         /// <param name="__dXScanSizeNm">The width (X-dimension) of the image to acquire in nm</param>
         /// <param name="__dYScanSizeNm">The height (Y-dimension) of the image to acquire in nm</param>
         /// <param name="__dZScanSizeNm">The depth (Z-dimension) of the image to acquire in nm</param>
+        /// <param name="__dTimePPixel">The time per pixel in ms</param>
         /// <param name="__iSpeedupPct">Value between 0 and 1 to indicate amount of speedup points in relation to image pixels</param>
         /// <param name="__iReturnSpeedFactor">Value to indicate how much faster return speed is relative to forward speed</param>
         /// <param name="__dMaxSpeed">This parameter is RESERVED for future use</param>
@@ -573,6 +583,7 @@ namespace KUL.MDS.ScanModes
             double __dXScanSizeNm,
             double __dYScanSizeNm,
             double __dZScanSizeNm,
+            double __dTimePPixel,
             int __iSpeedupPct,
             int __iReturnSpeedFactor,
             double __dMaxSpeed,
@@ -590,6 +601,7 @@ namespace KUL.MDS.ScanModes
             this.m_dXScanSizeNm = __dXScanSizeNm;
             this.m_dYScanSizeNm = __dYScanSizeNm;
             this.m_dZScanSizeNm = __dZScanSizeNm;
+            this.m_dTimePPixel = __dTimePPixel;
             this.m_dSpeedupPct = (double)__iSpeedupPct / 100;
 
             if ((0 < __iReturnSpeedFactor) && (__iReturnSpeedFactor < 4))
@@ -647,10 +659,10 @@ namespace KUL.MDS.ScanModes
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="__ui32Rawdata"></param>
+        /// <param name="__uint32Rawdata"></param>
         /// <returns></returns>
         public abstract UInt32[] PostProcessData(
-            UInt32[] __ui32Rawdata);
+            UInt32[] __uint32Rawdata);
 
         #endregion
     }

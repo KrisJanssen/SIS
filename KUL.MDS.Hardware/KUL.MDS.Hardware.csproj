@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KUL.MDS.Hardware</RootNamespace>
     <AssemblyName>KUL.MDS.Hardware</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -42,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,15 +64,20 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
@@ -86,13 +92,24 @@
       <HintPath>Daqmx\NationalInstruments.DAQmx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcquisitionSettings.cs" />
     <Compile Include="APD.cs" />
     <Compile Include="APDSettings.cs" />
+    <Compile Include="ComPort\ComPort.cs" />
+    <Compile Include="ComPort\ComSettings.cs" />
+    <Compile Include="PQTimeHarp.cs" />
+    <Compile Include="TimeHarp\TimeHarpDLL.cs" />
+    <Compile Include="TimeHarp\TimeHarpDefinitions.cs" />
+    <Compile Include="YanusIV\TILLIMIC_DLL.cs" />
+    <Compile Include="YanusIV\TillIMIC.cs" />
+    <Compile Include="YanusIV\DSCProtocol.cs" />
+    <Compile Include="YanusIV\DSCCommand.cs" />
     <Compile Include="E7XXController.cs" />
     <Compile Include="IDetector.cs" />
     <Compile Include="PhotoDiode.cs" />
@@ -111,6 +128,7 @@
     <Compile Include="StageNotReleasedException.cs" />
     <Compile Include="TimeHarpSettings.cs" />
     <Compile Include="TimingClock.cs" />
+    <Compile Include="YanusIV\YanusIV.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KUL.MDS.Library\KUL.MDS.Library.csproj">
@@ -154,6 +172,16 @@
     <Content Include="E7XX_GCS_DLL.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TimeHarp\THLib.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="tillimic.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="log4cxx.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="tilllsm.h" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

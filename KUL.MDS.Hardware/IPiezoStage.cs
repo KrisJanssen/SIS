@@ -102,6 +102,14 @@ namespace KUL.MDS.Hardware
         void Configure(double __dCycleTimeMilisec, int __iSteps);
 
         /// <summary>
+        /// Setup stage - pass few variables to stage prior to starting the scanning
+        /// <param name="__iTypeOfScan">The type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)</param>
+        /// <param name="__iFrameMarker">The frame synchronization marker that the galvo rises upon a beginning of a frame</param>
+        /// <param name="__iLineMarker">The line synchronization marker that the galvo rises upon a beginning of a line</param>
+        /// </summary>
+        void Setup(int __iTypeOfScan, int __iFrameMarker, int __iLineMarker);        
+
+        /// <summary>
         /// Release the stage hardware and free up all resources. Leaves the stage in a safe state.
         /// </summary>
         void Release();

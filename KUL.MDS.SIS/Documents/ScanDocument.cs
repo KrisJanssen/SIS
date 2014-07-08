@@ -25,7 +25,7 @@ namespace KUL.MDS.SIS.Documents
         private UInt16 m_iScanAxes;
 
         private UInt16 m_iDataType = 0;
-        private UInt32[] m_ui32Pixels;
+        private UInt32[] m_uint32Pixels;
 
         private double m_dblScanDuration;
 
@@ -45,25 +45,55 @@ namespace KUL.MDS.SIS.Documents
 
             this.m_scnstSettings = new ScanSettings();
 
-            this.m_scnstSettings.ImageWidthPx = 256;
-            this.m_scnstSettings.ImageHeightPx = 256;
+            // Set default for Scan Settings Section
+            this.m_scnstSettings.ImageWidthPx = 250;
+            this.m_scnstSettings.ImageHeightPx = 250;
             this.m_scnstSettings.ImageDepthPx = 0;
             this.m_scnstSettings.XOverScanPx = 0;
             this.m_scnstSettings.YOverScanPx = 0;
             this.m_scnstSettings.ZOverScanPx = 0;
-            this.m_scnstSettings.TimePPixel = 2;
-            this.m_scnstSettings.XScanSizeNm = 1000;
-            this.m_scnstSettings.YScanSizeNm = 1000;
+            this.m_scnstSettings.TimePPixel = 0.2;
+            this.m_scnstSettings.XScanSizeNm = 5000;
+            this.m_scnstSettings.YScanSizeNm = 5000;
             this.m_scnstSettings.ZScanSizeNm = 0;
             this.m_scnstSettings.InitXNm = 0;
             this.m_scnstSettings.InitYNm = 0;
             this.m_scnstSettings.InitZNm = 0;
             this.m_scnstSettings.Channels = 2;
             this.m_scnstSettings.Annotation = string.Empty;
+
+            // Set default for Galvo Settings Section
+            this.m_scnstSettings.GalvoSerialPortName = "COM1";  // the name of the serial port where the galvo is connected to
+            this.m_scnstSettings.GalvoFrameMarker = 2;  // the frame synchronization marker that the galvo rises upon a beginning of a frame
+            this.m_scnstSettings.GalvoLineMarker = 4;  // the line synchronization marker that the galvo rises upon a beginning of a line
+            this.m_scnstSettings.GalvoMagnificationObjective = 100.0;  //the magnification of the objective
+            this.m_scnstSettings.GalvoScanLensFocalLength = 40.0;  //the focal length of the scan lens in [mm]
+            this.m_scnstSettings.GalvoRangeAngleDegrees = 4.125;  // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
+            this.m_scnstSettings.GalvoRangeAngleInt = 4096.0;  // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
+            
+            // Set default for Time Harp Settings Section
+            this.m_scnstSettings.TimeHarpFrameMarker = this.m_scnstSettings.GalvoFrameMarker;  // tells Time Harp the value of the frame synchronization marker that the galvo rises upon a beginning of a frame
+            this.m_scnstSettings.TimeHarpLineMarker = this.m_scnstSettings.GalvoLineMarker;  // tells Time Harp the value of the line synchronization marker that the galvo rises upon a beginning of a line
+            this.m_scnstSettings.TimeHarpMarkerEdge = 1;  // set the active TTL edge (0 - falling edge, 1 - rising edge). Note that this defines the type of edge used from the frame/line marker TTL pulse (so it must be the same as the outputed TTL from YanusIV).
+            this.m_scnstSettings.TimeHarpMeasurementMode = 0;  // there are two possible modes: 0 - one-time histogramming and TTTR modes; 1 - continuous mode. Note that we need mode 0 in order to get raw photon data (arrival time) and build an image.
+            this.m_scnstSettings.TimeHarpRangeCode = 0;  // set the timing resolution of Time Harp, range (0..5). Note that then the timing resolution is base_timing_resolution*2^(_iRangeCode); base_timing_resolution is the time resolution of Time Harp (~30ps for Time Harp 200)
+            this.m_scnstSettings.TimeHarpOffset = 0;  //set offset
+            this.m_scnstSettings.TimeHarpCFDZeroCross = 20;  //CFD zero cross voltage level in [mV]
+            this.m_scnstSettings.TimeHarpCFDMin = 50;  //CFD discrimination voltage level in [mV]
+            this.m_scnstSettings.TimeHarpSyncLevel = -50;  //Sync voltage level [mV]
+        
+            this.m_scnstSettings.TimeHarpGlobalTTTRBufferSize = 100;  // global TTTR buffer size in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
+            this.m_scnstSettings.TimeHarpLinePTTTRBufferSize = 50;  // line PTTTR buffer size in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
+            this.m_scnstSettings.TimeHarpFrameTimeOut = 200;  // the max time period after which the processed pixels so far will be returned as a frame
+            this.m_scnstSettings.TimeHarpFiFoTimeOut = this.m_scnstSettings.TimeHarpFrameTimeOut;  // the max time period after which the recorded raw Time Harp events will be read from the Time Harp FiFo buffer
+            this.m_scnstSettings.TimeHarpNameTTTRFile = "time_harp_file";  // the name (without the path and extension) of the data file with raw photon data (the TTTR binary file)
+
+            // Set other default values
             this.m_iDataType = 0;
 
             this.m_dblScanDuration = 0;
 
+            // ALocate pixels
             this.AllocatePixels();
         }
 
@@ -150,7 +180,7 @@ namespace KUL.MDS.SIS.Documents
         {
             get
             {
-                return m_ui32Pixels.Length / this.m_scnstSettings.Channels;
+                return m_uint32Pixels.Length / this.m_scnstSettings.Channels;
             }
         }
 
@@ -225,7 +255,7 @@ namespace KUL.MDS.SIS.Documents
                 UInt32[] _Max = new UInt32[this.m_scnstSettings.Channels];
                 for (int _iI = 0; _iI < this.m_scnstSettings.Channels; _iI++)
                 {
-                    _Max[_iI] = FindMax(this.m_ui32Pixels, _iI, this.m_ui32Pixels.Length / this.m_scnstSettings.Channels);
+                    _Max[_iI] = FindMax(this.m_uint32Pixels, _iI, this.m_uint32Pixels.Length / this.m_scnstSettings.Channels);
                 }
                 return _Max;
             }
@@ -238,7 +268,7 @@ namespace KUL.MDS.SIS.Documents
                 UInt32[] _Min = new UInt32[this.m_scnstSettings.Channels];
                 for (int _iI = 0; _iI < this.m_scnstSettings.Channels; _iI++)
                 {
-                    _Min[_iI] = FindMin(this.m_ui32Pixels, _iI, this.m_ui32Pixels.Length / this.m_scnstSettings.Channels);
+                    _Min[_iI] = FindMin(this.m_uint32Pixels, _iI, this.m_uint32Pixels.Length / this.m_scnstSettings.Channels);
                 }
                 return _Min;
             }
@@ -350,7 +380,7 @@ namespace KUL.MDS.SIS.Documents
                 #region Restore UInt32 from 4 bytes
 
                 // Read all the bytes in groups of 4.
-                for (_iI = 0; _iI < this.m_ui32Pixels.Length; _iI++)
+                for (_iI = 0; _iI < this.m_uint32Pixels.Length; _iI++)
                 {
                     _bByte = _brdrReader.ReadByte();
                     _ui32Data = (UInt32)_bByte;
@@ -361,7 +391,7 @@ namespace KUL.MDS.SIS.Documents
                     _bByte = _brdrReader.ReadByte();
                     _ui32Data += (UInt32)_bByte * 16777216;
 
-                    this.m_ui32Pixels[_iI] = _ui32Data;
+                    this.m_uint32Pixels[_iI] = _ui32Data;
                 }
 
                 #endregion
@@ -449,7 +479,7 @@ namespace KUL.MDS.SIS.Documents
 
                 for (int _intI = 0; _intI < ((this.m_scnstSettings.ImageWidthPx + this.m_scnstSettings.XOverScanPx) * (this.m_scnstSettings.ImageHeightPx + this.m_scnstSettings.YOverScanPx) * this.m_scnstSettings.Channels); _intI++)
                 {
-                    _lData = this.m_ui32Pixels[_intI];
+                    _lData = this.m_uint32Pixels[_intI];
 
                     for (int _intJ = 0; _intJ < 4; _intJ++)
                     {
@@ -468,6 +498,14 @@ namespace KUL.MDS.SIS.Documents
                 fResult = false;
             }
 
+
+			// Store also the raw TTTR file
+			if (fResult)
+			{
+
+			}
+
+
             return fResult;
         }
 
@@ -484,73 +522,81 @@ namespace KUL.MDS.SIS.Documents
 
         public UInt32[] GetChannelData(int __iChannel)
         {
-            int _iPixelCount = this.m_ui32Pixels.Length / this.m_scnstSettings.Channels;
-            UInt32[] _ui32ChannelData = new UInt32[_iPixelCount];
+            int _iPixelCount = this.m_uint32Pixels.Length / this.m_scnstSettings.Channels;
+            UInt32[] _uint32ChannelData = new UInt32[_iPixelCount];
 
             int _iStart = __iChannel * _iPixelCount;
 
-            for (int _iI = 0; _iI < _iPixelCount; _iI++)
-            {
-                _ui32ChannelData[_iI] = this.m_ui32Pixels[_iStart + _iI];
-            }
+            // Get pixels buffer from the Scan Document pixels buffer
+            Array.Copy(this.m_uint32Pixels, _iStart, _uint32ChannelData, 0 , _iPixelCount); 
 
-            return _ui32ChannelData;
+            //for (int _iI = 0; _iI < _iPixelCount; _iI++)
+            //{
+            //    _uint32ChannelData[_iI] = this.m_uint32Pixels[_iStart + _iI];
+            //}
+
+            return _uint32ChannelData;
         }
 
-        public void StoreChannelData(int __iChannel, UInt32[] __ui32Values)
+        public void StoreChannelData(int __iChannel, UInt32[] __uint32Values, int __iSourceIndex, int __iLength)
         {
-            int _iPixelCount = this.m_ui32Pixels.Length / this.m_scnstSettings.Channels;
+            int _iPixelCount = this.m_uint32Pixels.Length / this.m_scnstSettings.Channels;
 
             int _iStart = __iChannel * _iPixelCount;
 
-            for (int _iI = 0; _iI < _iPixelCount; _iI++)
-            {
-                this.m_ui32Pixels[_iStart + _iI] = __ui32Values[_iI];
-            }
+            // Store input pixels buffer to the Scan Document pixels buffer
+            //Array.Copy(__uint32Values, 0, this.m_uint32Pixels, _iStart, _iPixelCount);
+			Array.Copy(__uint32Values, __iSourceIndex, this.m_uint32Pixels, _iStart + __iSourceIndex, __iLength);
+            
+            //for (int _iI = 0; _iI < _iPixelCount; _iI++)
+            //{
+            //    this.m_uint32Pixels[_iStart + _iI] = __uint32Values[_iI];
+            //}            
         }
 
         private void AllocatePixels()
         {
             // Make room for this.m_iChannels times the amount of pixels in the image.
-            this.m_ui32Pixels = new UInt32[(this.m_scnstSettings.ImageWidthPx + this.m_scnstSettings.XOverScanPx) * (this.m_scnstSettings.ImageHeightPx + this.m_scnstSettings.YOverScanPx) * this.m_scnstSettings.Channels];
+            this.m_uint32Pixels = new UInt32[(this.m_scnstSettings.ImageWidthPx + this.m_scnstSettings.XOverScanPx) * (this.m_scnstSettings.ImageHeightPx + this.m_scnstSettings.YOverScanPx) * this.m_scnstSettings.Channels];
 
             // Set all pixels to 0 initially.
-            for (int _iI = 0; _iI < (this.m_ui32Pixels.Length); _iI++)
-            {
-                this.m_ui32Pixels[_iI] = 0;
-            }
+            Array.Clear(this.m_uint32Pixels, 0, this.m_uint32Pixels.Length);
+            //for (int _iI = 0; _iI < (this.m_uint32Pixels.Length); _iI++)
+            //{
+            //    this.m_uint32Pixels[_iI] = 0;
+            //}
         }
 
         private UInt32 FindMin(UInt32[] __dArray, int __iChannel, int __iPixelCount)
         {
             int _iStart = __iChannel * __iPixelCount;
             int _iStop = (__iChannel + 1) * __iPixelCount;
-            UInt32 _ui32Min = UInt32.MaxValue;
+            UInt32 _uint32Min = UInt32.MaxValue;
 
             for (int _iI = _iStart; _iI < _iStop; _iI++)
             {
-                if (__dArray[_iI] < _ui32Min)
+                if (__dArray[_iI] < _uint32Min)
                 {
-                    _ui32Min = __dArray[_iI];
+                    _uint32Min = __dArray[_iI];
                 }
             }
-            return _ui32Min;
+            return _uint32Min;
         }
 
         private UInt32 FindMax(UInt32[] __dArray, int __iChannel, int __iPixelCount)
         {
             int _iStart = __iChannel * __iPixelCount;
             int _iStop = (__iChannel + 1) * __iPixelCount;
-            UInt32 _ui32Max = UInt32.MinValue;
+            UInt32 _uint32Max = UInt32.MinValue;
 
             for (int _iI = _iStart; _iI < _iStop; _iI++)
             {
-                if (__dArray[_iI] > _ui32Max)
+                if (__dArray[_iI] > _uint32Max)
                 {
-                    _ui32Max = __dArray[_iI];
+                    _uint32Max = __dArray[_iI];
                 }
             }
-            return _ui32Max;
+            return _uint32Max;
         }
 
         //private T FindMin<T>(List<T> __lList) where T : IComparable

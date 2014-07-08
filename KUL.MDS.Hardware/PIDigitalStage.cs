@@ -274,7 +274,7 @@ namespace KUL.MDS.Hardware
             // Create a new int[] that will be NULL initially.
             int[] _iIsGeneratorRunning = new int[1];
 
-            if (this.IsError(E7XXController.IsMoving(this.m_iControllerID, "", _iIsGeneratorRunning))) ;
+            if (this.IsError(E7XXController.IsMoving(this.m_iControllerID, "", _iIsGeneratorRunning)))
             {
                 _logger.Error("Error while executing IsMoving() query: " + this.m_sCurrentError);
             }
@@ -306,31 +306,6 @@ namespace KUL.MDS.Hardware
             }
             else
             {
-                // Return buffer for all our queries to the controller.
-                StringBuilder _sbBuffer = new StringBuilder(1024);
-
-                // Query the available stage types. Not necessary, but informative
-                if (this.IsError(E7XXController.qVST(this.m_iControllerID, _sbBuffer, 1024)))
-                {
-                    _logger.Error("Error while executing CST(): " + this.m_sCurrentError);
-                }
-                else
-                {
-                    this.m_sIDN = _sbBuffer.ToString();
-                    _logger.Info("qVST: " + this.m_sIDN);
-                    _sbBuffer.Clear();
-                }
-
-                // We can read back the activated stages.
-                if (this.IsError(E7XXController.qCST(this.m_iControllerID, "1234", _sbBuffer, 1024)))
-                {
-                    _logger.Error("Error while executing qCST(): " + this.m_sCurrentError);
-                }
-                else
-                {
-                    _logger.Info("Activated stages Pre: " + _sbBuffer.ToString());
-                }
-
                 // We only need axis 1,2 and 3 so those are the only ones we activate.
                 // CST MUST be the very first function we call!
                 if (this.IsError(E7XXController.CST(this.m_iControllerID, "1234", "ID-STAGE \nID-STAGE \nID-STAGE \nNOSTAGE \n")))
@@ -344,26 +319,29 @@ namespace KUL.MDS.Hardware
                 {
                     _logger.Error("Error while executing INI(): " + this.m_sCurrentError);
                 } 
+                
+                // Get the ID string of the controller. Not really necessary but...
+                StringBuilder _sbIDN = new StringBuilder(1024);
 
-                if (this.IsError(E7XXController.qIDN(this.m_iControllerID, _sbBuffer, 1024)))
+                if (this.IsError(E7XXController.qIDN(this.m_iControllerID, _sbIDN, 1024)))
                 {
                     _logger.Error("Error while executing qIDN() query: " + this.m_sCurrentError);
                 }
                 else
                 {
-                    this.m_sIDN = _sbBuffer.ToString();
+                    this.m_sIDN = _sbIDN.ToString();
                     _logger.Info("IDN: " + this.m_sIDN);
-                    _sbBuffer.Clear();
                 }
 
                 // We can read back the activated stages.
-                if (this.IsError(E7XXController.qCST(this.m_iControllerID, "1234", _sbBuffer, 1024)))
+                StringBuilder _sbStages = new StringBuilder(1024);
+                if (this.IsError(E7XXController.qCST(this.m_iControllerID, "1234", _sbStages, 1024)))
                 {
                     _logger.Error("Error while executing qCST(): " + this.m_sCurrentError);
                 }
                 else
                 {
-                    _logger.Info("Activated stages: " + _sbBuffer.ToString());
+                    _logger.Info("Activated stages: " + _sbStages.ToString());
                 }
 
                 // For debug purposes. Check to see if Axis configuration succeeded.
@@ -441,6 +419,17 @@ namespace KUL.MDS.Hardware
             {
                 _logger.Error("Error while executing CCL(): " + this.m_sCurrentError);
             }
+        }
+
+        /// <summary>
+        /// Setup stage - pass few variables to stage prior to starting the scanning
+        /// <param name="__iTypeOfScan">The type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)</param>
+        /// <param name="__iFrameMarker">The frame synchronization marker that the galvo rises upon a beginning of a frame</param>
+        /// <param name="__iLineMarker">The line synchronization marker that the galvo rises upon a beginning of a line</param>
+        /// </summary>
+        public void Setup(int __iTypeOfScan, int __iFrameMarker, int __iLineMarker)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -949,14 +938,6 @@ namespace KUL.MDS.Hardware
             #endregion
 
             #region Wave Generator Start
-            int[] _iChannels = {1, 2};
-            int[] _iRecOpt = {2, 2};
-            int[] _iTrigOpt = { };
-
-            if (this.IsError(E7XXController.DRC(this.m_iControllerID, _iChannels, "12", _iRecOpt, _iTrigOpt)))
-            {
-                _logger.Error("Error while executing DRC(): " + this.m_sCurrentError);
-            }
 
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.XY)
             {

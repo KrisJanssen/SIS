@@ -25,6 +25,7 @@ namespace KUL.MDS.ScanModes
         /// <param name="__dInitYPos">The physical start Y-position for the scan in nm</param>
         /// <param name="__dXScanSizeNm">The physical width of the scan in nm</param>
         /// <param name="__dYScanSizeNm">The physical height of the scan in nm</param>
+        /// <param name="__dTimePPixel">The time per pixel in ms</param>
         /// <param name="__dMaxSpeed">This parameter is RESERVED for future use</param>
         /// <param name="__dCycleTime">This parameter is RESERVED for future use</param>
         public UniDirXYScan(
@@ -40,6 +41,7 @@ namespace KUL.MDS.ScanModes
             double __dXScanSizeNm,
             double __dYScanSizeNm,
             double __dZScanSizeNm,
+            double __dTimePPixel,
             int __iSpeedupFactor,
             int __iReturnSpeedFactor,
             double __dMaxSpeed,
@@ -56,6 +58,7 @@ namespace KUL.MDS.ScanModes
                 __dXScanSizeNm,
                 __dYScanSizeNm,
                 __dZScanSizeNm,
+                __dTimePPixel,
                 __iSpeedupFactor,
                 __iReturnSpeedFactor,
                 __dMaxSpeed,
@@ -208,11 +211,8 @@ namespace KUL.MDS.ScanModes
             // Fill the 2D array containing all coordinates for both X and Y.
             for (int _iI = 0; _iI < this.m_iPtsPerScanline; _iI++)
             {
-                // Bugfix. All wave generator movement is RELATIVE to positions set via absolute movements or analog operation. 
-                // We should therefore never take the initial position into account. It is handled outside of the scan definition.
                 _dMovement[0, _iI] = _dX[_iI];
                 _dMovement[1, _iI] = _dY[_iI];
-                //_dMovement[2, _iI] = this.m_dInitZPosNm;
                 _dMovement[2, _iI] = this.m_dInitZPosNm;
             }
 

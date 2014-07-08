@@ -24,7 +24,8 @@ namespace KUL.MDS.ScanModes
         /// <param name="__dInitXPos">The physical start X-position for the scan in nm</param>
         /// <param name="__dInitYPos">The physical start Y-position for the scan in nm</param>
         /// <param name="__dXScanSizeNm">The physical width of the scan in nm</param>
-        /// <param name="__dYScanSizeNm">The physical height of the scan in nm</param>
+        /// <param name="__dYScanSizeNm">The physical height of the scan in nm</param>        
+        /// <param name="__dTimePPixel">The time per pixel in ms</param>
         /// <param name="__dMaxSpeed">This parameter is RESERVED for future use</param>
         /// <param name="__dCycleTime">This parameter is RESERVED for future use</param>
         public STEDUniDirXYScan(
@@ -40,6 +41,7 @@ namespace KUL.MDS.ScanModes
             double __dXScanSizeNm,
             double __dYScanSizeNm,
             double __dZScanSizeNm,
+            double __dTimePPixel,
             int __iSpeedupFactor,
             int __iReturnSpeedFactor,
             double __dMaxSpeed,
@@ -56,6 +58,7 @@ namespace KUL.MDS.ScanModes
                 __dXScanSizeNm,
                 __dYScanSizeNm,
                 __dZScanSizeNm,
+                __dTimePPixel,
                 __iSpeedupFactor,
                 __iReturnSpeedFactor,
                 __dMaxSpeed,
