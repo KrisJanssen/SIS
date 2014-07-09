@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("Spectroscopy Imaging Suite")]
 [assembly: AssemblyDescription("Application for Imaging")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("KUL-MDS")]
+[assembly: AssemblyCompany("Kris Janssen")]
 [assembly: AssemblyProduct("Spectroscopy Imaging Suite")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]

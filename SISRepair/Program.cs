@@ -1,13 +1,4 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
-
-// I made this little utility because I was getting a lot of crash logs that
+﻿// I made this little utility because I was getting a lot of crash logs that
 // said the strings or resources files were missing. Reinstalling almost 
 // always fixed the problem. I had this happen on my own system a few times,
 // but I could never figure out the cause. So what this utility does is

@@ -1,13 +1,4 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) Rick Brewster, Tom Jackson, and past contributors.            //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
-
-using Microsoft.Ink;
+﻿using Microsoft.Ink;
 using Microsoft.StylusInput;
 using Microsoft.StylusInput.PluginData;
 using SIS;

@@ -238,7 +238,9 @@
     <Compile Include="Forms\ProgressBarForm.Designer.cs">
       <DependentUpon>ProgressBarForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ScanViewForm.cs" />
+    <Compile Include="Forms\ScanViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\ScanViewForm.Designer.cs">
       <DependentUpon>ScanViewForm.cs</DependentUpon>
     </Compile>
@@ -246,7 +248,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.cs" />
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -261,6 +265,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Forms\TestViewForm.cs" />
+    <None Include="KUL.MDS.SIS.licenseheader" />
     <None Include="Resources\Icon.ico" />
     <EmbeddedResource Include="Forms\BlendImageForm.resx">
       <DependentUpon>BlendImageForm.cs</DependentUpon>
@@ -410,6 +415,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="External References\" />
+    <Folder Include="License\" />
     <Folder Include="Settings\" />
   </ItemGroup>
   <ItemGroup>
