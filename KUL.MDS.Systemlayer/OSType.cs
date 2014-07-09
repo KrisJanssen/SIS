@@ -1,19 +1,37 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OSType.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The os type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
+    /// <summary>
+    /// The os type.
+    /// </summary>
     public enum OSType
     {
-        Unknown = 0,
-        Workstation = (int)NativeConstants.VER_NT_WORKSTATION,
-        DomainController = (int)NativeConstants.VER_NT_DOMAIN_CONTROLLER,
-        Server = (int)NativeConstants.VER_NT_SERVER,
+        /// <summary>
+        /// The unknown.
+        /// </summary>
+        Unknown = 0, 
+
+        /// <summary>
+        /// The workstation.
+        /// </summary>
+        Workstation = (int)NativeConstants.VER_NT_WORKSTATION, 
+
+        /// <summary>
+        /// The domain controller.
+        /// </summary>
+        DomainController = (int)NativeConstants.VER_NT_DOMAIN_CONTROLLER, 
+
+        /// <summary>
+        /// The server.
+        /// </summary>
+        Server = (int)NativeConstants.VER_NT_SERVER, 
     }
 }

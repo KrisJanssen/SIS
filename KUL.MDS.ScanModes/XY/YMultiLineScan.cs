@@ -1,4 +1,13 @@
-﻿namespace SIS.ScanModes.XY
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="YMultiLineScan.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Object supplies the necessary coordinates to a stage based upon the physical parameters that fully describe a unidirectional scan
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SIS.ScanModes.XY
 {
     using System;
     using System.Collections.Generic;
@@ -13,56 +22,98 @@
     [ScanMode("Y Multi Line Scan")]
     public class YMultiLineScan : Scanmode
     {
-        #region Methods.
+        #region Constructors and Destructors
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="YMultiLineScan"/> class. 
         /// StedUniDirScan constructor
         /// </summary>
-        /// <param name="__iImageWidthPx">The width (X-dimension) of the image to acquire in pixels</param>
-        /// <param name="__iImageHeightPx">The height (Y-dimension) of the image to acquire in pixels</param>
-        /// <param name="__iXOverScanPx">The amount of extra pixels to scan in the X Dimension</param>
-        /// <param name="__iYOverScanPx">The amount of extra pixels to scan in the Y Dimension</param>
-        /// <param name="__dInitXPos">The physical start X-position for the scan in nm</param>
-        /// <param name="__dInitYPos">The physical start Y-position for the scan in nm</param>
-        /// <param name="__dXScanSizeNm">The physical width of the scan in nm</param>
-        /// <param name="__dYScanSizeNm">The physical height of the scan in nm</param>
-        /// <param name="__dTimepPixel">The time per pixel in ms</param>
-        /// <param name="__dMaxSpeed">This parameter is RESERVED for future use</param>
-        /// <param name="__dCycleTime">This parameter is RESERVED for future use</param>
+        /// <param name="__iImageWidthPx">
+        /// The width (X-dimension) of the image to acquire in pixels
+        /// </param>
+        /// <param name="__iImageHeightPx">
+        /// The height (Y-dimension) of the image to acquire in pixels
+        /// </param>
+        /// <param name="__iImageDepthPx">
+        /// The __i Image Depth Px.
+        /// </param>
+        /// <param name="__iXOverScanPx">
+        /// The amount of extra pixels to scan in the X Dimension
+        /// </param>
+        /// <param name="__iYOverScanPx">
+        /// The amount of extra pixels to scan in the Y Dimension
+        /// </param>
+        /// <param name="__iZOverScanPx">
+        /// The __i Z Over Scan Px.
+        /// </param>
+        /// <param name="__dInitXPos">
+        /// The physical start X-position for the scan in nm
+        /// </param>
+        /// <param name="__dInitYPos">
+        /// The physical start Y-position for the scan in nm
+        /// </param>
+        /// <param name="__dInitZPos">
+        /// The __d Init Z Pos.
+        /// </param>
+        /// <param name="__dXScanSizeNm">
+        /// The physical width of the scan in nm
+        /// </param>
+        /// <param name="__dYScanSizeNm">
+        /// The physical height of the scan in nm
+        /// </param>
+        /// <param name="__dZScanSizeNm">
+        /// The __d Z Scan Size Nm.
+        /// </param>
+        /// <param name="__dTimePPixel">
+        /// The __d Time P Pixel.
+        /// </param>
+        /// <param name="__iSpeedupFactor">
+        /// The __i Speedup Factor.
+        /// </param>
+        /// <param name="__iReturnSpeedFactor">
+        /// The __i Return Speed Factor.
+        /// </param>
+        /// <param name="__dMaxSpeed">
+        /// This parameter is RESERVED for future use
+        /// </param>
+        /// <param name="__dCycleTime">
+        /// This parameter is RESERVED for future use
+        /// </param>
         public YMultiLineScan(
-            int __iImageWidthPx,
-            int __iImageHeightPx,
-            int __iImageDepthPx,
-            int __iXOverScanPx,
-            int __iYOverScanPx,
-            int __iZOverScanPx,
-            double __dInitXPos,
-            double __dInitYPos,
-            double __dInitZPos,
-            double __dXScanSizeNm,
-            double __dYScanSizeNm,
-            double __dZScanSizeNm,
-            double __dTimePPixel,
-            int __iSpeedupFactor,
-            int __iReturnSpeedFactor,
-            double __dMaxSpeed,
+            int __iImageWidthPx, 
+            int __iImageHeightPx, 
+            int __iImageDepthPx, 
+            int __iXOverScanPx, 
+            int __iYOverScanPx, 
+            int __iZOverScanPx, 
+            double __dInitXPos, 
+            double __dInitYPos, 
+            double __dInitZPos, 
+            double __dXScanSizeNm, 
+            double __dYScanSizeNm, 
+            double __dZScanSizeNm, 
+            double __dTimePPixel, 
+            int __iSpeedupFactor, 
+            int __iReturnSpeedFactor, 
+            double __dMaxSpeed, 
             double __dCycleTime)
-            : base(__iImageWidthPx,
-                __iImageHeightPx,
-                __iImageDepthPx,
-                __iXOverScanPx,
-                __iYOverScanPx,
-                __iZOverScanPx,
-                __dInitXPos,
-                __dInitYPos,
-                __dInitZPos,
-                __dXScanSizeNm,
-                __dYScanSizeNm,
-                __dZScanSizeNm,
-                __dTimePPixel,
-                __iSpeedupFactor,
-                __iReturnSpeedFactor,
-                __dMaxSpeed,
+            : base(
+                __iImageWidthPx, 
+                __iImageHeightPx, 
+                __iImageDepthPx, 
+                __iXOverScanPx, 
+                __iYOverScanPx, 
+                __iZOverScanPx, 
+                __dInitXPos, 
+                __dInitYPos, 
+                __dInitZPos, 
+                __dXScanSizeNm, 
+                __dYScanSizeNm, 
+                __dZScanSizeNm, 
+                __dTimePPixel, 
+                __iSpeedupFactor, 
+                __iReturnSpeedFactor, 
+                __dMaxSpeed, 
                 __dCycleTime)
         {
             // Set the scan axes.
@@ -71,30 +122,43 @@
             // Y-Movement forward.
             // Speed up points are 10% of the total pixels of the imageheight.
             this.m_iYPSfwd = Convert.ToInt32(Math.Round(this.m_iImageHeightPx * this.m_dSpeedupPct, 0));
+
             // Dead time where the piezo is allowed to settle before a movement.
             this.m_iYPAfwd = this.m_iYPSfwd * 1;
+
             // Dead time where the piezo is allowed to settle after a movement.
             this.m_iYPEfwd = this.m_iYPAfwd;
+
             // The Curve points are the points that will actually be measured.
             this.m_iYCPfwd = this.m_iImageHeightPx + this.m_iYOverScanPx + 2 * this.m_iYPSfwd;
+
             // The Segment points are all points including curve
             this.m_iYPTfwd = this.m_iYPAfwd + this.m_iYCPfwd + this.m_iYPEfwd;
+
             // Calculate the required amplitude to set in order to have a real scanning distance as requested.
-            this.m_dYGLfwd = (((double)this.m_dYScanSizeNm / (double)(this.m_iImageHeightPx)) * (double)(this.m_iImageHeightPx + this.m_iYOverScanPx)) * ((double)(this.m_iYCPfwd - this.m_iYPSfwd) / (double)(this.m_iYCPfwd - (2 * this.m_iYPSfwd)));
+            this.m_dYGLfwd = (((double)this.m_dYScanSizeNm / (double)this.m_iImageHeightPx)
+                              * (double)(this.m_iImageHeightPx + this.m_iYOverScanPx))
+                             * ((double)(this.m_iYCPfwd - this.m_iYPSfwd)
+                                / (double)(this.m_iYCPfwd - (2 * this.m_iYPSfwd)));
 
             // Y-Movement backward.
             // Speed up points are 10% of the total pixels of the imagewidth.
             this.m_iYPSbckwd = this.m_iYPSfwd;
+
             // Dead time where the piezo is allowed to settle before a movement.
             this.m_iYPAbckwd = this.m_iYPAfwd;
+
             // Dead time where the piezo is allowed to settle after a movement.
             this.m_iYPEbckwd = this.m_iYPEfwd;
+
             // The Curve points are the points that will actually be measured.
             this.m_iYCPbckwd = Convert.ToInt32(Math.Round((double)this.m_iYCPfwd / this.m_iReturnSpeedFactor, 0));
-            //this.m_iXCPbckwd = this.m_iXCPfwd;
+
+            // this.m_iXCPbckwd = this.m_iXCPfwd;
             // The Segment points are all points including curve
             this.m_iYPTbckwd = this.m_iYPAbckwd + this.m_iYCPbckwd + this.m_iYPEbckwd;
-            //this.m_iXPTbckwd = this.m_iXPTfwd;
+
+            // this.m_iXPTbckwd = this.m_iXPTfwd;
             // Calculate the required amplitude to set in order to have a real scanning distance as requested.
             this.m_dYGLbckwd = -this.m_dYGLfwd;
 
@@ -143,13 +207,43 @@
             this.m_iRepeatNumber = this.m_iImageWidthPx + this.m_iXOverScanPx;
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The post process data.
+        /// </summary>
+        /// <param name="__ui32Rawdata">
+        /// The __ui 32 rawdata.
+        /// </param>
+        /// <returns>
+        /// The <see cref="uint[]"/>.
+        /// </returns>
+        public override uint[] PostProcessData(uint[] __ui32Rawdata)
+        {
+            // Finally we return the processed data.
+            // In this case, no processing is necessary, data are already in the correct order.
+            return __ui32Rawdata;
+        }
+
+        #endregion
+
         // TODO: Implement.
+        #region Methods
+
+        /// <summary>
+        /// The calculate analog scan coordinates.
+        /// </summary>
         protected override void CalculateAnalogScanCoordinates()
         {
-            //this.m_dScanCoordinates = _dMovement;
+            // this.m_dScanCoordinates = _dMovement;
         }
 
         // This method calculates XY scan coordinates expressed in nm for general use.
+        /// <summary>
+        /// The calculate nm scan coordinates.
+        /// </summary>
         protected override void CalculateNMScanCoordinates()
         {
             // The 2D array that will store all scan coordinates for both X and Y and that will be returned.
@@ -164,17 +258,18 @@
 
             // Generate the Forward segment for Y and append it to the full list of coordinates, it will be repeated twice.
             _dCurrentSegmentfwd = ScanUtility.LinSegment(
-                this.m_iYPAfwd,
-                this.m_iYPSfwd,
-                this.m_iYCPfwd,
-                0.0,
+                this.m_iYPAfwd, 
+                this.m_iYPSfwd, 
+                this.m_iYCPfwd, 
+                0.0, 
                 this.m_dYGLfwd);
 
             // Generate the Backward segment for Y and append it to the full list of coordinates, it will be repeated twice.
             _dCurrentSegmentbckwd = ScanUtility.LinSegment(
-                this.m_iYPAbckwd, this.m_iYPSbckwd,
-                this.m_iYCPbckwd,
-                0.0 + this.m_dYGLfwd,
+                this.m_iYPAbckwd, 
+                this.m_iYPSbckwd, 
+                this.m_iYCPbckwd, 
+                0.0 + this.m_dYGLfwd, 
                 this.m_dYGLbckwd);
 
             // The X motion will go Forward/Backward/Forward/Backward so we add segments accordingly.
@@ -187,10 +282,11 @@
             // Fill the 2D array containing all coordinates for both X and Y.
             for (int _iI = 0; _iI < this.m_iPtsPerScanline; _iI++)
             {
-                //_dMovement[0, _iI] = this.m_dInitXPosNm;
+                // _dMovement[0, _iI] = this.m_dInitXPosNm;
                 _dMovement[0, _iI] = 0;
                 _dMovement[1, _iI] = _dY[_iI];
-                //_dMovement[2, _iI] = this.m_dInitZPosNm;
+
+                // _dMovement[2, _iI] = this.m_dInitZPosNm;
                 _dMovement[2, _iI] = 0;
             }
 
@@ -198,36 +294,23 @@
             this.m_dNMScanCoordinates = _dMovement;
         }
 
+        #endregion
+
         // The physical Image:       The array holding the data with corresponding bitmap coordinates:
-        // 
         // -------------             [p00 p01 p02 p10 p11 p12 p20 p21 p22]
         // |p20 p21 p22|               |   |   |   |   |   |   |   |   |
         // |p10 p11 p12|              b02 b12 b22 b01 b11 b21 b00 b10 b20
         // |p00 p01 p02|              Count down in the bitmap (b coordinates) for Y and count up for X!!!
         // -------------
-        //
         // The bitmap:
-        //
-        //         X
+        // X
         // (b00)--(b10)--(b20)
-        //   |      |      |
+        // |      |      |
         // (b01)--(b11)--(b21)Y
-        //   |      |      |
+        // |      |      |
         // (b02)--(b12)--(b22)
-        //
-        //
         // During the scan data always get stored in an array in the order they come in. This way, data will be in an array in the right way if
         // unidirectional, left to right scanning is used. Should one use unidirectional RIGHT to LEFT scanning or 2 directional scanning then 
         // the acquired array of intensities needs to be post processed. This is not the case here however.
-        //
-        public override UInt32[] PostProcessData(
-            UInt32[] __ui32Rawdata)
-        {
-            // Finally we return the processed data.
-            // In this case, no processing is necessary, data are already in the correct order.
-            return __ui32Rawdata;
-        }
-
-        #endregion
     }
 }

@@ -1,4 +1,13 @@
-﻿namespace SIS.Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ScanModeComboBox.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The scan mode combo box.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SIS.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -6,18 +15,35 @@
     using System.Reflection;
     using System.Windows.Forms;
 
-    using global::SIS.Library;
-    using global::SIS.ScanModes.Core;
-    using global::SIS.Systemlayer;
-
+    using SIS.Library;
     using SIS.Resources;
+    using SIS.ScanModes.Core;
+    using SIS.Systemlayer;
 
+    /// <summary>
+    /// The scan mode combo box.
+    /// </summary>
     public partial class ScanModeComboBox : ComboBox
     {
+        #region Fields
+
+        /// <summary>
+        /// The m_b is populated.
+        /// </summary>
         private bool m_bIsPopulated = false;
 
+        /// <summary>
+        /// The m_scmc scan modes.
+        /// </summary>
         private ScanModeCollection m_scmcScanModes;
 
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScanModeComboBox"/> class.
+        /// </summary>
         public ScanModeComboBox()
         {
             this.InitializeComponent();
@@ -26,18 +52,23 @@
             {
                 this.PopulateMenu();
             }
-            
         }
-        
-        //protected override void OnDropDown(EventArgs e)
-        //{
-        //    if (!this.m_bIsPopulated)
-        //    {
-        //        PopulateMenu();
-        //    }
-        //    base.OnDropDown(e);
-        //}
 
+        #endregion
+
+        // protected override void OnDropDown(EventArgs e)
+        // {
+        // if (!this.m_bIsPopulated)
+        // {
+        // PopulateMenu();
+        // }
+        // base.OnDropDown(e);
+        // }
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the scan modes.
+        /// </summary>
         public ScanModeCollection ScanModes
         {
             get
@@ -51,39 +82,9 @@
             }
         }
 
-        private void PopulateMenu()
-        {
-            this.Items.Clear();
+        #endregion
 
-            this.AddScanModesToComboBox();
-        }
-
-        private void AddScanModesToComboBox()
-        {
-            if (this.m_scmcScanModes == null)
-            {
-                this.m_scmcScanModes = GatherScanModes();
-            }
-            ScanModeCollection _colScanModesCollection = this.m_scmcScanModes;
-            Type[] effectTypes = _colScanModesCollection.Scanmodes;
-
-            foreach (Type type in effectTypes)
-            {
-                try
-                {
-                    ScanModeAttribute[] _ScanModeAttributes = type.GetCustomAttributes(typeof(ScanModeAttribute), true) as ScanModeAttribute[];
-                    this.Items.Add(new ComboBoxItem<Type>(_ScanModeAttributes[0].Name, type));
-                }
-
-                catch
-                {
-                    // We don't want a DLL that can't be figured out to cause the app to crash
-                    continue;
-                }
-            }
-
-            this.SelectedIndex = 0;
-        }
+        #region Methods
 
         /// <summary>
         /// Loads additional ScanMode objects from dlls in the scanmode plugin directory.
@@ -108,7 +109,6 @@
             {
                 dirExists = Directory.Exists(effectsDir);
             }
-
             catch
             {
                 dirExists = false;
@@ -128,7 +128,6 @@
                         pluginAssembly = Assembly.LoadFrom(filePath);
                         assemblies.Add(pluginAssembly);
                     }
-
                     catch (Exception ex)
                     {
                         Tracing.Ping("Exception while loading " + filePath + ": " + ex.ToString());
@@ -139,5 +138,48 @@
             ScanModeCollection ec = new ScanModeCollection(assemblies);
             return ec;
         }
+
+        /// <summary>
+        /// The add scan modes to combo box.
+        /// </summary>
+        private void AddScanModesToComboBox()
+        {
+            if (this.m_scmcScanModes == null)
+            {
+                this.m_scmcScanModes = GatherScanModes();
+            }
+
+            ScanModeCollection _colScanModesCollection = this.m_scmcScanModes;
+            Type[] effectTypes = _colScanModesCollection.Scanmodes;
+
+            foreach (Type type in effectTypes)
+            {
+                try
+                {
+                    ScanModeAttribute[] _ScanModeAttributes =
+                        type.GetCustomAttributes(typeof(ScanModeAttribute), true) as ScanModeAttribute[];
+                    this.Items.Add(new ComboBoxItem<Type>(_ScanModeAttributes[0].Name, type));
+                }
+                catch
+                {
+                    // We don't want a DLL that can't be figured out to cause the app to crash
+                    continue;
+                }
+            }
+
+            this.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// The populate menu.
+        /// </summary>
+        private void PopulateMenu()
+        {
+            this.Items.Clear();
+
+            this.AddScanModesToComboBox();
+        }
+
+        #endregion
     }
 }

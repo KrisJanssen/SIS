@@ -1,77 +1,98 @@
-﻿namespace SIS.Data
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="WinspecSPEDataSet.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The winspec spe data set.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SIS.Data
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
+    /// <summary>
+    /// The winspec spe data set.
+    /// </summary>
     [Document("WinSpec Data", ".spe")]
-    class WinspecSPEDataSet : DataSet
+    internal class WinspecSPEDataSet : DataSet
     {
-        private enum HeaderSize
-        {
-            SPE_HEADER_SIZE = 4100, // Fixed binary header size
-        }
+        #region Constructors and Destructors
 
-        // Datatypes of DATA point in spe_file.
-        private enum DataType
-        {
-            SPE_DATA_FLOAT = 0,     // size: 4 bytes
-            SPE_DATA_LONG = 1,      // size: 4 bytes
-            SPE_DATA_INT = 2,       // size: 2 bytes
-            SPE_DATA_UINT = 3,      // size: 2 bytes
-        }
-
-        // Calibration structure in SPE format.
-        // NOTE: fields that we don't care have been commented out
-        private struct SpeCalib
-        {
-            public SpeCalib(int calib, int order)
-            {
-                this.Offset = 0;
-                this.Factor = 0;
-                this.current_unit = (char)0;
-                this.CalibValid = (char)calib;
-                this.PolynomOrder = (char)order;
-                this.PolynomCoeff = new double[6];
-                this.LaserPosition = 0;
-            }
-
-            public double Offset;                    // +0 offset for absolute data scaling
-            public double Factor;                    // +8 factor for absolute data scaling 
-            public char current_unit;                // +16 selected scaling unit 
-            //    char reserved1;                    // +17 reserved 
-            //    char string[40];                   // +18 special string for scaling 
-            //    char reserved2[40];                // +58 reserved
-            public char CalibValid;                  // +98 flag of whether calibration is valid
-            //    char input_unit;                   // +99 current input units for  "calib-value" 
-            //    char polynom_unit;                 // +100 linear UNIT and used 
-            // in the "polynom-coeff" 
-            public char PolynomOrder;                // +101 ORDER of calibration POLYNOM 
-            //    char calib_count;                  // +102 valid calibration data pairs 
-            //    double pixel_position[10];         // +103 pixel pos. of calibration data 
-            //    double calib_value[10];            // +183 calibration VALUE at above pos 
-            public double[] PolynomCoeff;            // +263 polynom COEFFICIENTS 
-            public double LaserPosition;             // +311 laser wavenumber for relativ WN 
-            //    char reserved3;                    // +319 reserved 
-            //    unsigned char new_calib_flag;      // +320 If set to 200, valid label below 
-            //    char calib_label[81];              // +321 Calibration label (NULL term'd) 
-            //    char expansion[87];                // +402 Calibration Expansion area 
-        };
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WinspecSPEDataSet"/> class.
+        /// </summary>
         public WinspecSPEDataSet()
             : base()
         {
             this.FormatInfo = new FormatInfo(
-                "spe",
-                "Princeton Instruments WinSpec",
-                new List<string> { "spe" },
-                true,
+                "spe", 
+                "Princeton Instruments WinSpec", 
+                new List<string> { "spe" }, 
+                true, 
                 true);
         }
 
-        public override bool IsCorrectFormat(System.IO.FileStream fs)
+        #endregion
+
+        #region Enums
+
+        /// <summary>
+        /// The data type.
+        /// </summary>
+        private enum DataType
         {
-            System.IO.BinaryReader _brdrReader = new System.IO.BinaryReader(fs);
-            
+            /// <summary>
+            /// The sp e_ dat a_ float.
+            /// </summary>
+            SPE_DATA_FLOAT = 0, // size: 4 bytes
+
+            /// <summary>
+            /// The sp e_ dat a_ long.
+            /// </summary>
+            SPE_DATA_LONG = 1, // size: 4 bytes
+
+            /// <summary>
+            /// The sp e_ dat a_ int.
+            /// </summary>
+            SPE_DATA_INT = 2, // size: 2 bytes
+
+            /// <summary>
+            /// The sp e_ dat a_ uint.
+            /// </summary>
+            SPE_DATA_UINT = 3, // size: 2 bytes
+        }
+
+        /// <summary>
+        /// The header size.
+        /// </summary>
+        private enum HeaderSize
+        {
+            /// <summary>
+            /// The sp e_ heade r_ size.
+            /// </summary>
+            SPE_HEADER_SIZE = 4100, // Fixed binary header size
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The is correct format.
+        /// </summary>
+        /// <param name="fs">
+        /// The fs.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public override bool IsCorrectFormat(FileStream fs)
+        {
+            BinaryReader _brdrReader = new System.IO.BinaryReader(fs);
+
             // Make sure file size > 4100 (data begins after a 4100-byte header).
             if (fs.Length <= 4100)
             {
@@ -87,12 +108,21 @@
             {
                 return false;
             }
+
             return true;
         }
 
-        public override void LoadData(System.IO.FileStream __fsFileStream) 
+        /// <summary>
+        /// The load data.
+        /// </summary>
+        /// <param name="__fsFileStream">
+        /// The __fs file stream.
+        /// </param>
+        /// <exception cref="UnexpectedFormatException">
+        /// </exception>
+        public override void LoadData(FileStream __fsFileStream)
         {
-            System.IO.BinaryReader _brdrReader = new System.IO.BinaryReader(__fsFileStream);
+            BinaryReader _brdrReader = new System.IO.BinaryReader(__fsFileStream);
 
             // only read necessary params from file header
             __fsFileStream.Seek(42, System.IO.SeekOrigin.Begin);
@@ -102,13 +132,13 @@
             __fsFileStream.Seek(656, System.IO.SeekOrigin.Begin);
             int _iYDimension = (int)_brdrReader.ReadInt16();
             __fsFileStream.Seek(1446, System.IO.SeekOrigin.Begin);
-            UInt32 numframes = (UInt32)_brdrReader.ReadInt32();
+            uint numframes = (UInt32)_brdrReader.ReadInt32();
 
             // Start reading the XCalibStruct.
             SpeCalib XCalib = new SpeCalib(0, 0);
             __fsFileStream.Seek(3000, System.IO.SeekOrigin.Begin);
             XCalib.Offset = (double)_brdrReader.ReadDouble();
-            __fsFileStream.Seek(3008, System.IO.SeekOrigin.Begin);   
+            __fsFileStream.Seek(3008, System.IO.SeekOrigin.Begin);
             XCalib.Factor = (double)_brdrReader.ReadDouble();
             __fsFileStream.Seek(3016, System.IO.SeekOrigin.Begin);
             XCalib.current_unit = (char)_brdrReader.ReadChar();
@@ -130,7 +160,7 @@
 
             // Start reading the YCalibStruct.
             SpeCalib YCalib = new SpeCalib(0, 0);
-            __fsFileStream.Seek(3489, System.IO.SeekOrigin.Begin);   // move ptr to x_calib start
+            __fsFileStream.Seek(3489, System.IO.SeekOrigin.Begin); // move ptr to x_calib start
             YCalib.Offset = (double)_brdrReader.ReadDouble();
             __fsFileStream.Seek(3497, System.IO.SeekOrigin.Begin);
             YCalib.Factor = (double)_brdrReader.ReadDouble();
@@ -151,38 +181,38 @@
 
             __fsFileStream.Seek(3800, System.IO.SeekOrigin.Begin);
             YCalib.LaserPosition = (double)_brdrReader.ReadDouble();
-            
+
             int _iDimension;
             SpeCalib _calCurrCalib;
-            if (_iYDimension == 1) 
+            if (_iYDimension == 1)
             {
                 _iDimension = _iXDimension;
                 _calCurrCalib = XCalib;
-            } 
-            else if (_iXDimension == 1) 
+            }
+            else if (_iXDimension == 1)
             {
                 _iDimension = _iYDimension;
                 _calCurrCalib = YCalib;
-            } 
-            else 
+            }
+            else
             {
                 throw new UnexpectedFormatException("xylib does not support 2-D images");
             }
-            
-            __fsFileStream.Seek(4100, System.IO.SeekOrigin.Begin);      // move ptr to frames-start
-            for (int frm = 0; frm < (int)numframes; frm++) 
+
+            __fsFileStream.Seek(4100, System.IO.SeekOrigin.Begin); // move ptr to frames-start
+            for (int frm = 0; frm < (int)numframes; frm++)
             {
                 Block _blkBlock = new Block();
-                
+
                 Column _colXCol = this.GetCalibColumn(_calCurrCalib, _iDimension);
-                _blkBlock.AddColumn(_colXCol, "", true);
-                
+                _blkBlock.AddColumn(_colXCol, string.Empty, true);
+
                 ListColumn _colYCol = new ListColumn();
 
-                for (int i = 0; i < _iDimension; ++i) 
+                for (int i = 0; i < _iDimension; ++i)
                 {
                     double _dYVal = 0;
-                    switch (_dtDataType) 
+                    switch (_dtDataType)
                     {
                         case DataType.SPE_DATA_FLOAT:
                             _dYVal = (double)_brdrReader.ReadSingle();
@@ -199,13 +229,31 @@
                         default:
                             break;
                     }
+
                     _colYCol.AddValue(_dYVal);
                 }
-                _blkBlock.AddColumn(_colYCol, "", true);
+
+                _blkBlock.AddColumn(_colYCol, string.Empty, true);
                 this.m_blcklstBlocks.Add(_blkBlock);
             }
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The get calib column.
+        /// </summary>
+        /// <param name="__calCalib">
+        /// The __cal calib.
+        /// </param>
+        /// <param name="_iDimension">
+        /// The _i dimension.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Column"/>.
+        /// </returns>
         private Column GetCalibColumn(SpeCalib __calCalib, int _iDimension)
         {
             this.FormatAssert(__calCalib.PolynomOrder <= 6, "bad polynom header");
@@ -228,10 +276,95 @@
                     {
                         x += __calCalib.PolynomCoeff[_iJ] * Math.Pow(_iI + 1.0f, (double)_iJ);
                     }
+
                     _colXCol.AddValue(x);
                 }
+
                 return _colXCol;
             }
         }
+
+        #endregion
+
+        /// <summary>
+        /// The spe calib.
+        /// </summary>
+        private struct SpeCalib
+        {
+            // char reserved1;                    // +17 reserved 
+            // char string[40];                   // +18 special string for scaling 
+            // char reserved2[40];                // +58 reserved
+            #region Fields
+
+            /// <summary>
+            /// The calib valid.
+            /// </summary>
+            public char CalibValid; // +98 flag of whether calibration is valid
+
+            /// <summary>
+            /// The factor.
+            /// </summary>
+            public double Factor; // +8 factor for absolute data scaling 
+
+            // char input_unit;                   // +99 current input units for  "calib-value" 
+            // char polynom_unit;                 // +100 linear UNIT and used 
+            // in the "polynom-coeff" 
+
+            /// <summary>
+            /// The laser position.
+            /// </summary>
+            public double LaserPosition; // +311 laser wavenumber for relativ WN 
+
+            /// <summary>
+            /// The offset.
+            /// </summary>
+            public double Offset; // +0 offset for absolute data scaling
+
+            /// <summary>
+            /// The polynom coeff.
+            /// </summary>
+            public double[] PolynomCoeff; // +263 polynom COEFFICIENTS 
+
+            /// <summary>
+            /// The polynom order.
+            /// </summary>
+            public char PolynomOrder; // +101 ORDER of calibration POLYNOM 
+
+            /// <summary>
+            /// The current_unit.
+            /// </summary>
+            public char current_unit; // +16 selected scaling unit 
+
+            #endregion
+
+            #region Constructors and Destructors
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="SpeCalib"/> struct.
+            /// </summary>
+            /// <param name="calib">
+            /// The calib.
+            /// </param>
+            /// <param name="order">
+            /// The order.
+            /// </param>
+            public SpeCalib(int calib, int order)
+            {
+                this.Offset = 0;
+                this.Factor = 0;
+                this.current_unit = (char)0;
+                this.CalibValid = (char)calib;
+                this.PolynomOrder = (char)order;
+                this.PolynomCoeff = new double[6];
+                this.LaserPosition = 0;
+            }
+
+            #endregion
+
+            // char reserved3;                    // +319 reserved 
+            // unsigned char new_calib_flag;      // +320 If set to 200, valid label below 
+            // char calib_label[81];              // +321 Calibration label (NULL term'd) 
+            // char expansion[87];                // +402 Calibration Expansion area 
+        };
     }
 }

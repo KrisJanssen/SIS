@@ -1,27 +1,57 @@
-using Castle.MicroKernel;
-using Castle.MicroKernel.ModelBuilder;
-using Castle.MicroKernel.ModelBuilder.Inspectors;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExtendedComponentBuilder.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The extended component builder.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Common.ExtendedContainer
 {
-  public class ExtendedComponentBuilder : DefaultComponentModelBuilder
-  {
-    public ExtendedComponentBuilder(IKernel kernel) : base(kernel)
-    {
-    }
+    using Castle.MicroKernel;
+    using Castle.MicroKernel.ModelBuilder;
+    using Castle.MicroKernel.ModelBuilder.Inspectors;
 
-    protected override void InitializeContributors()
+    /// <summary>
+    /// The extended component builder.
+    /// </summary>
+    public class ExtendedComponentBuilder : DefaultComponentModelBuilder
     {
-      AddContributor(new GenericInspector());
-      AddContributor(new ConfigurationModelInspector());
-      AddContributor(new ExtendedConfigurationParametersInspector());
-      AddContributor(new LifestyleModelInspector());
-      AddContributor(new ConstructorDependenciesModelInspector());
-      AddContributor(new PropertiesDependenciesModelInspector());
-      AddContributor(new LifecycleModelInspector());
-      AddContributor(new InterceptorInspector());
-      AddContributor(new ComponentActivatorInspector());
-      AddContributor(new ComponentProxyInspector());
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExtendedComponentBuilder"/> class.
+        /// </summary>
+        /// <param name="kernel">
+        /// The kernel.
+        /// </param>
+        public ExtendedComponentBuilder(IKernel kernel)
+            : base(kernel)
+        {
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The initialize contributors.
+        /// </summary>
+        protected override void InitializeContributors()
+        {
+            this.AddContributor(new GenericInspector());
+            this.AddContributor(new ConfigurationModelInspector());
+            this.AddContributor(new ExtendedConfigurationParametersInspector());
+            this.AddContributor(new LifestyleModelInspector());
+            this.AddContributor(new ConstructorDependenciesModelInspector());
+            this.AddContributor(new PropertiesDependenciesModelInspector());
+            this.AddContributor(new LifecycleModelInspector());
+            this.AddContributor(new InterceptorInspector());
+            this.AddContributor(new ComponentActivatorInspector());
+            this.AddContributor(new ComponentProxyInspector());
+        }
+
+        #endregion
     }
-  }
 }

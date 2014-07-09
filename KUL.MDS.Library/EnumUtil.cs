@@ -1,21 +1,38 @@
-﻿namespace SIS.Library
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EnumUtil.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The enum util.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SIS.Library
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// The enum util.
+    /// </summary>
     public static class EnumUtil
     {
+        #region Public Methods and Operators
+
         /// <summary>
-        /// This method can be used to run through the 'elements' of an Enum.
-        /// 
-        /// E.g. var values = EnumUtil.GetValues<Foos>();
+        /// The get values.
         /// </summary>
-        /// <typeparam name="T">The enum type</typeparam>
-        /// <returns>An array of the values of the constants of the enum.</returns>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IEnumerable"/>.
+        /// </returns>
         public static IEnumerable<T> GetValues<T>()
         {
             return Enum.GetValues(typeof(T)).Cast<T>();
         }
+
+        #endregion
     }
 }

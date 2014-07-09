@@ -1,22 +1,12 @@
-//============================================================================
-//ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright © 2006  John Champion
-//
-//This library is free software; you can redistribute it and/or
-//modify it under the terms of the GNU Lesser General Public
-//License as published by the Free Software Foundation; either
-//version 2.1 of the License, or (at your option) any later version.
-//
-//This library is distributed in the hope that it will be useful,
-//but WITHOUT ANY WARRANTY; without even the implied warranty of
-//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//Lesser General Public License for more details.
-//
-//You should have received a copy of the GNU Lesser General Public
-//License along with this library; if not, write to the Free Software
-//Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-//=============================================================================
-
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Link.cs">
+//   
+// </copyright>
+// <summary>
+//   A class that maintains hyperlink information for a clickable object on the graph.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
     using System;
@@ -24,279 +14,349 @@ namespace ZedGraph.ZedGraph
     using System.Security.Permissions;
 
     /// <summary>
-	/// A class that maintains hyperlink information for a clickable object on the graph.
-	/// </summary>
-	/// 
-	/// <author> John Champion </author>
-	/// <version> $Revision: 3.6 $ $Date: 2007-04-16 00:03:02 $ </version>
-	// /// <seealso cref="ZedGraph.Web.IsImageMap"/>
-	[Serializable]
-	public class Link : ISerializable, ICloneable
-	{
+    /// A class that maintains hyperlink information for a clickable object on the graph.
+    /// </summary>
+    /// 
+    /// <author> John Champion </author>
+    /// <version> $Revision: 3.6 $ $Date: 2007-04-16 00:03:02 $ </version>
+    // /// <seealso cref="ZedGraph.Web.IsImageMap"/>
+    [Serializable]
+    public class Link : ISerializable, ICloneable
+    {
+        #region Constants
 
-	#region Fields
+        /// <summary>
+        /// Current schema value that defines the version of the serialized file
+        /// </summary>
+        /// <remarks>
+        /// schema started with 10 for ZedGraph version 5
+        /// </remarks>
+        public const int schema = 10;
 
-		/// <summary>
-		/// Internal field that stores the title string for this link.  
-		/// </summary>
-		internal string _title;
+        #endregion
 
-		/// <summary>
-		/// Internal field that stores the url string for this link
-		/// </summary>
-		internal string _url;
+        #region Fields
 
-		/// <summary>
-		/// Internal field that stores the target string for this link
-		/// </summary>
-		internal string _target;
+        /// <summary>
+        /// A tag object for use by the user.  This can be used to store additional
+        /// information associated with the <see cref="Link"/>.  ZedGraph does
+        /// not use this value for any purpose.
+        /// </summary>
+        /// <remarks>
+        /// Note that, if you are going to Serialize ZedGraph data, then any type
+        /// that you store in <see cref="Tag"/> must be a serializable type (or
+        /// it will cause an exception).
+        /// </remarks>
+        public object Tag;
 
-		/// <summary>
-		/// Internal field that determines if this link is "live".
-		/// </summary>
-		internal bool _isEnabled;
+        /// <summary>
+        /// Internal field that determines if this link is "live".
+        /// </summary>
+        internal bool _isEnabled;
 
-	#endregion
+        /// <summary>
+        /// Internal field that stores the target string for this link
+        /// </summary>
+        internal string _target;
 
-	#region Properties
+        /// <summary>
+        /// Internal field that stores the title string for this link.  
+        /// </summary>
+        internal string _title;
 
-		/// <summary>
-		/// Gets or sets the title string for this link.
-		/// </summary>
-		/// <remarks>
-		/// For web controls, this title will be shown as a tooltip when the mouse
-		/// hovers over the area of the object that owns this link.  Set the value to
-		/// <see cref="String.Empty" /> to have no title.
-		/// </remarks>
-		public string Title
-		{
-			get { return this._title; }
-			set { this._title = value; }
-		}
+        /// <summary>
+        /// Internal field that stores the url string for this link
+        /// </summary>
+        internal string _url;
 
-		/// <summary>
-		/// Gets or sets the url string for this link.
-		/// </summary>
-		/// <remarks>
-		/// Set this value to <see cref="String.Empty" /> if you don't want to have
-		/// a hyperlink associated with the object to which this link belongs.
-		/// </remarks>
-		public string Url
-		{
-			get { return this._url; }
-			set { this._url = value; }
-		}
+        #endregion
 
-		/// <summary>
-		/// Gets or sets the target string for this link.
-		/// </summary>
-		/// <remarks>
-		/// This value should be set to a valid target associated with the "Target"
-		/// property of an html hyperlink.  Typically, this would be "_blank" to open
-		/// a new browser window, or "_self" to open in the current browser.
-		/// </remarks>
-		public string Target
-		{
-			get { return this._target != string.Empty ? this._target : "_self"; }
-			set { this._target = value; }
-		}
+        #region Constructors and Destructors
 
-		/// <summary>
-		/// A tag object for use by the user.  This can be used to store additional
-		/// information associated with the <see cref="Link"/>.  ZedGraph does
-		/// not use this value for any purpose.
-		/// </summary>
-		/// <remarks>
-		/// Note that, if you are going to Serialize ZedGraph data, then any type
-		/// that you store in <see cref="Tag"/> must be a serializable type (or
-		/// it will cause an exception).
-		/// </remarks>
-		public object Tag;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Link"/> class. 
+        /// Default constructor.  Set all properties to string.Empty, or null.
+        /// </summary>
+        public Link()
+        {
+            this._title = string.Empty;
+            this._url = string.Empty;
+            this._target = string.Empty;
+            this.Tag = null;
+            this._isEnabled = false;
+        }
 
-		/// <summary>
-		/// Gets or sets a property that determines if this link is active.  True to have
-		/// a clickable link, false to ignore the link.
-		/// </summary>
-		public bool IsEnabled
-		{
-			get { return this._isEnabled; }
-			set { this._isEnabled = value; }
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Link"/> class. 
+        /// Construct a Link instance from a specified title, url, and target.
+        /// </summary>
+        /// <param name="title">
+        /// The title for the link (which shows up in the tooltip).
+        /// </param>
+        /// <param name="url">
+        /// The URL destination for the link.
+        /// </param>
+        /// <param name="target">
+        /// The target for the link (typically "_blank" or "_self").
+        /// </param>
+        public Link(string title, string url, string target)
+        {
+            this._title = title;
+            this._url = url;
+            this._target = target;
+            this.Tag = null;
+            this._isEnabled = true;
+        }
 
-		/// <summary>
-		/// Gets a value that indicates if this <see cref="Link" /> is enabled
-		/// (see <see cref="IsEnabled" />), and that either the
-		/// <see cref="Url" /> or the <see cref="Title" /> is non-null.
-		/// </summary>
-		public bool IsActive
-		{
-			get { return this._isEnabled && ( this._url != null || this._title != null ); }
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Link"/> class. 
+        /// The Copy Constructor
+        /// </summary>
+        /// <param name="rhs">
+        /// The <see cref="Link"/> object from which to copy
+        /// </param>
+        public Link(Link rhs)
+        {
+            // Copy value types
+            this._title = rhs._title;
+            this._url = rhs._url;
+            this._target = rhs._target;
+            this._isEnabled = false;
 
-	#endregion
+            // copy reference types by cloning
+            if (rhs.Tag is ICloneable)
+            {
+                this.Tag = ((ICloneable)rhs.Tag).Clone();
+            }
+            else
+            {
+                this.Tag = rhs.Tag;
+            }
+        }
 
-	#region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Link"/> class. 
+        /// Constructor for deserializing objects
+        /// </summary>
+        /// <param name="info">
+        /// A <see cref="SerializationInfo"/> instance that defines the serialized data
+        /// </param>
+        /// <param name="context">
+        /// A <see cref="StreamingContext"/> instance that contains the serialized data
+        /// </param>
+        protected Link(SerializationInfo info, StreamingContext context)
+        {
+            // The schema value is just a file version parameter.  You can use it to make future versions
+            // backwards compatible as new member variables are added to classes
+            int sch = info.GetInt32("schema");
 
-		/// <summary>
-		/// Default constructor.  Set all properties to string.Empty, or null.
-		/// </summary>
-		public Link()
-		{
-			this._title = string.Empty;
-			this._url = string.Empty;
-			this._target = string.Empty;
-			this.Tag = null;
-			this._isEnabled = false;
-		}
+            this._title = info.GetString("title");
+            this._url = info.GetString("url");
+            this._target = info.GetString("target");
+            this._isEnabled = info.GetBoolean("isEnabled");
+            this.Tag = info.GetValue("Tag", typeof(object));
+        }
 
-		/// <summary>
-		/// Construct a Link instance from a specified title, url, and target.
-		/// </summary>
-		/// <param name="title">The title for the link (which shows up in the tooltip).</param>
-		/// <param name="url">The URL destination for the link.</param>
-		/// <param name="target">The target for the link (typically "_blank" or "_self").</param>
-		public Link( string title, string url, string target )
-		{
-			this._title = title;
-			this._url = url;
-			this._target = target;
-			this.Tag = null;
-			this._isEnabled = true;
-		}
+        #endregion
 
-		/// <summary>
-		/// The Copy Constructor
-		/// </summary>
-		/// <param name="rhs">The <see cref="Link"/> object from which to copy</param>
-		public Link( Link rhs )
-		{
-			// Copy value types
-			this._title = rhs._title;
-			this._url = rhs._url;
-			this._target = rhs._target;
-			this._isEnabled = false;
+        #region Public Properties
 
-			// copy reference types by cloning
-			if ( rhs.Tag is ICloneable )
-				this.Tag = ((ICloneable) rhs.Tag).Clone();
-			else
-				this.Tag = rhs.Tag;
-		}
+        /// <summary>
+        /// Gets a value that indicates if this <see cref="Link" /> is enabled
+        /// (see <see cref="IsEnabled" />), and that either the
+        /// <see cref="Url" /> or the <see cref="Title" /> is non-null.
+        /// </summary>
+        public bool IsActive
+        {
+            get
+            {
+                return this._isEnabled && (this._url != null || this._title != null);
+            }
+        }
 
-		/// <summary>
-		/// Implement the <see cref="ICloneable" /> interface in a typesafe manner by just
-		/// calling the typed version of <see cref="Clone" />
-		/// </summary>
-		/// <returns>A deep copy of this object</returns>
-		object ICloneable.Clone()
-		{
-			return this.Clone();
-		}
+        /// <summary>
+        /// Gets or sets a property that determines if this link is active.  True to have
+        /// a clickable link, false to ignore the link.
+        /// </summary>
+        public bool IsEnabled
+        {
+            get
+            {
+                return this._isEnabled;
+            }
 
-		/// <summary>
-		/// Typesafe, deep-copy clone method.
-		/// </summary>
-		/// <returns>A new, independent copy of this class</returns>
-		public Link Clone()
-		{
-			return new Link( this );
-		}
+            set
+            {
+                this._isEnabled = value;
+            }
+        }
 
+        /// <summary>
+        /// Gets or sets the target string for this link.
+        /// </summary>
+        /// <remarks>
+        /// This value should be set to a valid target associated with the "Target"
+        /// property of an html hyperlink.  Typically, this would be "_blank" to open
+        /// a new browser window, or "_self" to open in the current browser.
+        /// </remarks>
+        public string Target
+        {
+            get
+            {
+                return this._target != string.Empty ? this._target : "_self";
+            }
 
-	#endregion
+            set
+            {
+                this._target = value;
+            }
+        }
 
-	#region methods
+        /// <summary>
+        /// Gets or sets the title string for this link.
+        /// </summary>
+        /// <remarks>
+        /// For web controls, this title will be shown as a tooltip when the mouse
+        /// hovers over the area of the object that owns this link.  Set the value to
+        /// <see cref="String.Empty" /> to have no title.
+        /// </remarks>
+        public string Title
+        {
+            get
+            {
+                return this._title;
+            }
 
-		/// <summary>
-		/// Create a URL for a <see cref="CurveItem" /> that includes the index of the
-		/// point that was selected.
-		/// </summary>
-		/// <remarks>
-		/// An "index" parameter is added to the <see cref="Url" /> property for this
-		/// link to indicate which point was selected.  Further, if the 
-		/// X or Y axes that correspond to this <see cref="CurveItem" /> are of
-		/// <see cref="AxisType.Text" />, then an
-		/// additional parameter will be added containing the text value that
-		/// corresponds to the <paramref name="index" /> of the selected point.
-		/// The <see cref="XAxis" /> text parameter will be labeled "xtext", and
-		/// the <see cref="YAxis" /> text parameter will be labeled "ytext".
-		/// </remarks>
-		/// <param name="index">The zero-based index of the selected point</param>
-		/// <param name="pane">The <see cref="GraphPane" /> of interest</param>
-		/// <param name="curve">The <see cref="CurveItem" /> for which to
-		/// make the url string.</param>
-		/// <returns>A string containing the url with an index parameter added.</returns>
-		public virtual string MakeCurveItemUrl( GraphPane pane, CurveItem curve, int index )
-		{
-			string url = this._url;
+            set
+            {
+                this._title = value;
+            }
+        }
 
-			if ( url.IndexOf( '?' ) >= 0 )
-				url += "&index=" + index.ToString();
-			else
-				url += "?index=" + index.ToString();
+        /// <summary>
+        /// Gets or sets the url string for this link.
+        /// </summary>
+        /// <remarks>
+        /// Set this value to <see cref="String.Empty" /> if you don't want to have
+        /// a hyperlink associated with the object to which this link belongs.
+        /// </remarks>
+        public string Url
+        {
+            get
+            {
+                return this._url;
+            }
 
-			Axis xAxis = curve.GetXAxis( pane );
-			if (	xAxis.Type == AxisType.Text && index >= 0 &&
-					xAxis.Scale.TextLabels != null &&
-					index <= xAxis.Scale.TextLabels.Length )
-				url += "&xtext=" + xAxis.Scale.TextLabels[index];
+            set
+            {
+                this._url = value;
+            }
+        }
 
-			Axis yAxis = curve.GetYAxis( pane );
-			if (	yAxis != null && yAxis.Type == AxisType.Text && index >= 0 &&
-					yAxis.Scale.TextLabels != null &&
-					index <= yAxis.Scale.TextLabels.Length )
-				url += "&ytext=" + yAxis.Scale.TextLabels[index];
+        #endregion
 
-			return url;
-		}
-	#endregion
+        #region Public Methods and Operators
 
-	#region Serialization
+        /// <summary>
+        /// Typesafe, deep-copy clone method.
+        /// </summary>
+        /// <returns>A new, independent copy of this class</returns>
+        public Link Clone()
+        {
+            return new Link(this);
+        }
 
-		/// <summary>
-		/// Current schema value that defines the version of the serialized file
-		/// </summary>
-		/// <remarks>
-		/// schema started with 10 for ZedGraph version 5
-		/// </remarks>
-		public const int schema = 10;
+        /// <summary>
+        /// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
+        /// </summary>
+        /// <param name="info">
+        /// A <see cref="SerializationInfo"/> instance that defines the serialized data
+        /// </param>
+        /// <param name="context">
+        /// A <see cref="StreamingContext"/> instance that contains the serialized data
+        /// </param>
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("schema", schema);
+            info.AddValue("title", this._title);
+            info.AddValue("url", this._url);
+            info.AddValue("target", this._target);
+            info.AddValue("isEnabled", this._isEnabled);
+            info.AddValue("Tag", this.Tag);
+        }
 
-		/// <summary>
-		/// Constructor for deserializing objects
-		/// </summary>
-		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data
-		/// </param>
-		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
-		/// </param>
-		protected Link( SerializationInfo info, StreamingContext context )
-		{
-			// The schema value is just a file version parameter.  You can use it to make future versions
-			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32( "schema" );
+        /// <summary>
+        /// Create a URL for a <see cref="CurveItem"/> that includes the index of the
+        /// point that was selected.
+        /// </summary>
+        /// <remarks>
+        /// An "index" parameter is added to the <see cref="Url"/> property for this
+        /// link to indicate which point was selected.  Further, if the 
+        /// X or Y axes that correspond to this <see cref="CurveItem"/> are of
+        /// <see cref="AxisType.Text"/>, then an
+        /// additional parameter will be added containing the text value that
+        /// corresponds to the <paramref name="index"/> of the selected point.
+        /// The <see cref="XAxis"/> text parameter will be labeled "xtext", and
+        /// the <see cref="YAxis"/> text parameter will be labeled "ytext".
+        /// </remarks>
+        /// <param name="pane">
+        /// The <see cref="GraphPane"/> of interest
+        /// </param>
+        /// <param name="curve">
+        /// The <see cref="CurveItem"/> for which to
+        /// make the url string.
+        /// </param>
+        /// <param name="index">
+        /// The zero-based index of the selected point
+        /// </param>
+        /// <returns>
+        /// A string containing the url with an index parameter added.
+        /// </returns>
+        public virtual string MakeCurveItemUrl(GraphPane pane, CurveItem curve, int index)
+        {
+            string url = this._url;
 
-			this._title = info.GetString( "title" );
-			this._url = info.GetString( "url" );
-			this._target = info.GetString( "target" );
-			this._isEnabled = info.GetBoolean( "isEnabled" );
-			this.Tag = info.GetValue( "Tag", typeof(object) );
-		}
-		/// <summary>
-		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
-		/// </summary>
-		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
-		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
-		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
-		{
-			info.AddValue( "schema", schema );
-			info.AddValue( "title", this._title );
-			info.AddValue( "url", this._url );
-			info.AddValue( "target", this._target );
-			info.AddValue( "isEnabled", this._isEnabled );
-			info.AddValue( "Tag", this.Tag );
-		}
+            if (url.IndexOf('?') >= 0)
+            {
+                url += "&index=" + index.ToString();
+            }
+            else
+            {
+                url += "?index=" + index.ToString();
+            }
 
-	#endregion
+            Axis xAxis = curve.GetXAxis(pane);
+            if (xAxis.Type == AxisType.Text && index >= 0 && xAxis.Scale.TextLabels != null
+                && index <= xAxis.Scale.TextLabels.Length)
+            {
+                url += "&xtext=" + xAxis.Scale.TextLabels[index];
+            }
 
-	}
+            Axis yAxis = curve.GetYAxis(pane);
+            if (yAxis != null && yAxis.Type == AxisType.Text && index >= 0 && yAxis.Scale.TextLabels != null
+                && index <= yAxis.Scale.TextLabels.Length)
+            {
+                url += "&ytext=" + yAxis.Scale.TextLabels[index];
+            }
+
+            return url;
+        }
+
+        #endregion
+
+        #region Explicit Interface Methods
+
+        /// <summary>
+        /// Implement the <see cref="ICloneable" /> interface in a typesafe manner by just
+        /// calling the typed version of <see cref="Clone" />
+        /// </summary>
+        /// <returns>A deep copy of this object</returns>
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+        }
+
+        #endregion
+    }
 }

@@ -1,4 +1,13 @@
-﻿namespace SIS.WPFControls.CCDControl
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CCDControl.xaml.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Interaction logic for WebcanControl.xaml
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SIS.WPFControls.CCDControl
 {
     using System.Collections.ObjectModel;
     using System.Windows;
@@ -10,34 +19,171 @@
     /// </summary>
     public partial class CCDControl : UserControl
     {
-        #region Variables
+        // Using a DependencyProperty as the backing store for WebcamRotation.  This enables animation, styling, binding, etc...
+        #region Static Fields
+
+        /// <summary>
+        /// The selected images property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedImagesProperty = DependencyProperty.Register(
+            "SelectedImages", 
+            typeof(ObservableCollection<BitmapSource>), 
+            typeof(CCDControl), 
+            new UIPropertyMetadata(new ObservableCollection<BitmapSource>()));
+
+        /// <summary>
+        /// The selected webcam moniker string property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedWebcamMonikerStringProperty =
+            DependencyProperty.Register(
+                "SelectedWebcamMonikerString", 
+                typeof(string), 
+                typeof(CCDControl), 
+                new UIPropertyMetadata(string.Empty, new PropertyChangedCallback(SelectedWebcamMonikerString_Changed)));
+
+        /// <summary>
+        /// The selected webcam property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedWebcamProperty = DependencyProperty.Register(
+            "SelectedWebcam", 
+            typeof(CCDDevice), 
+            typeof(CCDControl), 
+            new UIPropertyMetadata(null));
+
+        /// <summary>
+        /// The target ellipse diameter property.
+        /// </summary>
+        public static readonly DependencyProperty TargetEllipseDiameterProperty =
+            DependencyProperty.Register(
+                "TargetEllipseDiameter", 
+                typeof(double), 
+                typeof(CCDControl), 
+                new UIPropertyMetadata(50d));
+
+        /// <summary>
+        /// The webcam rotation property.
+        /// </summary>
+        public static readonly DependencyProperty WebcamRotationProperty = DependencyProperty.Register(
+            "WebcamRotation", 
+            typeof(double), 
+            typeof(CCDControl), 
+            new UIPropertyMetadata(180d));
+
         #endregion
 
-        #region Constructor & destructor
+        #region Constructors and Destructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CCDControl"/> class.
+        /// </summary>
         public CCDControl()
         {
             // Initialize component
-            InitializeComponent();
+            this.InitializeComponent();
 
             //// Subscribe command bindings
-            //CommandBindings.Add(new CommandBinding(Input.CaptureImageCommands.CaptureImage,
-            //    new ExecutedRoutedEventHandler(CaptureImage_Executed), new CanExecuteRoutedEventHandler(CaptureImage_CanExecute)));
-            //CommandBindings.Add(new CommandBinding(Input.CaptureImageCommands.RemoveImage,
-            //    new ExecutedRoutedEventHandler(RemoveImage_Executed)));
-            //CommandBindings.Add(new CommandBinding(Input.CaptureImageCommands.ClearAllImages,
-            //    new ExecutedRoutedEventHandler(ClearAllImages_Executed)));
+            // CommandBindings.Add(new CommandBinding(Input.CaptureImageCommands.CaptureImage,
+            // new ExecutedRoutedEventHandler(CaptureImage_Executed), new CanExecuteRoutedEventHandler(CaptureImage_CanExecute)));
+            // CommandBindings.Add(new CommandBinding(Input.CaptureImageCommands.RemoveImage,
+            // new ExecutedRoutedEventHandler(RemoveImage_Executed)));
+            // CommandBindings.Add(new CommandBinding(Input.CaptureImageCommands.ClearAllImages,
+            // new ExecutedRoutedEventHandler(ClearAllImages_Executed)));
 
             // Create default device
-            //SelectedWebcamMonikerString = (CCDDevice.DeviceMonikers.Length > 0) ? CCDDevice.DeviceMonikers[0].MonikerString : "";
-            this.SelectedWebcamMonikerString = "";
+            // SelectedWebcamMonikerString = (CCDDevice.DeviceMonikers.Length > 0) ? CCDDevice.DeviceMonikers[0].MonikerString : "";
+            this.SelectedWebcamMonikerString = string.Empty;
             this.Unloaded += new RoutedEventHandler(this.CCDControl_Unloaded);
         }
 
-        void CCDControl_Unloaded(object sender, RoutedEventArgs e)
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Wrapper for the SelectedImages dependency property
+        /// </summary>
+        public ObservableCollection<BitmapSource> SelectedImages
         {
-            this.SelectedWebcamMonikerString = "";
+            get
+            {
+                return (ObservableCollection<BitmapSource>)this.GetValue(SelectedImagesProperty);
+            }
+
+            set
+            {
+                this.SetValue(SelectedImagesProperty, value);
+            }
         }
+
+        /// <summary>
+        /// Wrapper for the SelectedWebcam dependency property
+        /// </summary>
+        public CCDDevice SelectedWebcam
+        {
+            get
+            {
+                return (CCDDevice)this.GetValue(SelectedWebcamProperty);
+            }
+
+            set
+            {
+                this.SetValue(SelectedWebcamProperty, value);
+            }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedWebcam.  This enables animation, styling, binding, etc...
+
+        /// <summary>
+        /// Wrapper for the SelectedWebcamMonikerString dependency property
+        /// </summary>
+        public string SelectedWebcamMonikerString
+        {
+            get
+            {
+                return (string)this.GetValue(SelectedWebcamMonikerStringProperty);
+            }
+
+            set
+            {
+                this.SetValue(SelectedWebcamMonikerStringProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the target ellipse diameter.
+        /// </summary>
+        public double TargetEllipseDiameter
+        {
+            get
+            {
+                return (double)this.GetValue(TargetEllipseDiameterProperty);
+            }
+
+            set
+            {
+                this.SetValue(TargetEllipseDiameterProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Wrapper for the WebcamRotation dependency property
+        /// </summary>
+        public double WebcamRotation
+        {
+            get
+            {
+                return (double)this.GetValue(WebcamRotationProperty);
+            }
+
+            set
+            {
+                this.SetValue(WebcamRotationProperty, value);
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Disposes the object
@@ -50,131 +196,21 @@
 
         #endregion
 
-        //#region Command bindings
-        ///// <summary>
-        ///// Determines whether the CaptureImage command can be executed
-        ///// </summary>
-        ///// <param name="sender">Sender</param>
-        ///// <param name="e">EventArgs</param>
-        //private void CaptureImage_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        //{
-        //    // Check if there is a valid webcam
-        //    e.CanExecute = (SelectedWebcam != null);
-        //}
-
-        ///// <summary>
-        ///// Invoked when the CaptureImage command is executed
-        ///// </summary>
-        ///// <param name="sender">Sender</param>
-        ///// <param name="e">EventArgs</param>
-        //private void CaptureImage_Executed(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    //// Store current image in the webcam
-        //    BitmapSource bitmap = webcamPlayer.CurrentBitmap;
-        //    if (bitmap != null)
-        //    {
-        //        SelectedImages.Add(bitmap);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Invoked when the RemoveImage command is executed
-        ///// </summary>
-        ///// <param name="sender">Sender</param>
-        ///// <param name="e">EventArgs</param>
-        //private void RemoveImage_Executed(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    // Store current image in the webcam
-        //    BitmapSource bitmap = e.Parameter as BitmapSource;
-        //    if (bitmap != null)
-        //    {
-        //        SelectedImages.Remove(bitmap);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Invoked when the ClearAllImages command is executed
-        ///// </summary>
-        ///// <param name="sender">Sender</param>
-        ///// <param name="e">EventArgs</param>
-        //private void ClearAllImages_Executed(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    // Clear all images
-        //    SelectedImages.Clear();
-        //}
-        //#endregion
-
-        #region Properties
-        /// <summary>
-        /// Wrapper for the WebcamRotation dependency property
-        /// </summary>
-        public double WebcamRotation
-        {
-            get { return (double)this.GetValue(WebcamRotationProperty); }
-            set { this.SetValue(WebcamRotationProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for WebcamRotation.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty WebcamRotationProperty =
-            DependencyProperty.Register("WebcamRotation", typeof(double), typeof(CCDControl), new UIPropertyMetadata(180d));
-
-        public double TargetEllipseDiameter
-        {
-            get { return (double)this.GetValue(TargetEllipseDiameterProperty); }
-            set { this.SetValue(TargetEllipseDiameterProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for WebcamRotation.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TargetEllipseDiameterProperty =
-            DependencyProperty.Register("TargetEllipseDiameter", typeof(double), typeof(CCDControl), new UIPropertyMetadata(50d));
-
-        /// <summary>
-        /// Wrapper for the SelectedWebcam dependency property
-        /// </summary>
-        public CCDDevice SelectedWebcam
-        {
-            get { return (CCDDevice)this.GetValue(SelectedWebcamProperty); }
-            set { this.SetValue(SelectedWebcamProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SelectedWebcam.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedWebcamProperty =
-            DependencyProperty.Register("SelectedWebcam", typeof(CCDDevice), typeof(CCDControl), new UIPropertyMetadata(null));
-
-        /// <summary>
-        /// Wrapper for the SelectedWebcamMonikerString dependency property
-        /// </summary>
-        public string SelectedWebcamMonikerString
-        {
-            get { return (string)this.GetValue(SelectedWebcamMonikerStringProperty); }
-            set { this.SetValue(SelectedWebcamMonikerStringProperty, value); }
-        }
-
         // Using a DependencyProperty as the backing store for SelectedWebcamMonikerString.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedWebcamMonikerStringProperty = DependencyProperty.Register("SelectedWebcamMonikerString", typeof(string),
-            typeof(CCDControl), new UIPropertyMetadata("", new PropertyChangedCallback(SelectedWebcamMonikerString_Changed)));
-
-        /// <summary>
-        /// Wrapper for the SelectedImages dependency property
-        /// </summary>
-        public ObservableCollection<BitmapSource> SelectedImages
-        {
-            get { return (ObservableCollection<BitmapSource>)this.GetValue(SelectedImagesProperty); }
-            set { this.SetValue(SelectedImagesProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SelectedImages.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedImagesProperty = DependencyProperty.Register("SelectedImages", typeof(ObservableCollection<BitmapSource>),
-            typeof(CCDControl), new UIPropertyMetadata(new ObservableCollection<BitmapSource>()));
-        #endregion
-
         #region Methods
+
         /// <summary>
         /// Invoked when the SelectedWebcamMonikerString dependency property has changed
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
-        private static void SelectedWebcamMonikerString_Changed(DependencyObject __depoSender, DependencyPropertyChangedEventArgs __deppropcheaE)
+        /// <param name="__depoSender">
+        /// The __depo Sender.
+        /// </param>
+        /// <param name="__deppropcheaE">
+        /// The __deppropchea E.
+        /// </param>
+        private static void SelectedWebcamMonikerString_Changed(
+            DependencyObject __depoSender, 
+            DependencyPropertyChangedEventArgs __deppropcheaE)
         {
             // Get typed sender
             CCDControl _CCDSender = (CCDControl)__depoSender;
@@ -188,18 +224,42 @@
                 if (_CCDSender.SelectedWebcam == null)
                 {
                     // Create it
-                    _CCDSender.SelectedWebcam = new CCDDevice("");
+                    _CCDSender.SelectedWebcam = new CCDDevice(string.Empty);
                 }
 
                 // Now set the moniker string
                 _CCDSender.SelectedWebcam.MonikerString = _sNewMonikerString;
             }
         }
-        #endregion
 
+        /// <summary>
+        /// The ccd control_ unloaded.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void CCDControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            this.SelectedWebcamMonikerString = string.Empty;
+        }
+
+        /// <summary>
+        /// The btn ccd off_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void btnCCDOff_Click(object sender, RoutedEventArgs e)
         {
             this.SelectedWebcamMonikerString = string.Empty;
         }
+
+        #endregion
     }
 }

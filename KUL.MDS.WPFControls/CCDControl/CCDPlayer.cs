@@ -1,20 +1,12 @@
-﻿///////////////////////////////////////////////////////////////////////////////
-// CapPlayer v1.1
-//
-// This software is released into the public domain.  You are free to use it
-// in any way you like, except that you may not sell this source code.
-//
-// This software is provided "as is" with no expressed or implied warranty.
-// I accept no liability for any damage or loss of business that this software
-// may cause.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="CCDPlayer.cs">
+//   
+// </copyright>
+// <summary>
+//   The ccd player.
+// </summary>
 // 
-// This source code is originally written by Tamir Khason (see http://blogs.microsoft.co.il/blogs/tamir
-// or http://www.codeplex.com/wpfcap).
-// 
-// Modifications are made by Geert van Horrik (CatenaLogic, see http://blog.catenalogic.com) 
-//
-///////////////////////////////////////////////////////////////////////////////
-
+// --------------------------------------------------------------------------------------------------------------------
 namespace SIS.WPFControls.CCDControl
 {
     using System;
@@ -24,16 +16,125 @@ namespace SIS.WPFControls.CCDControl
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
 
+    /// <summary>
+    /// The ccd player.
+    /// </summary>
     public class CCDPlayer : Image, IDisposable
     {
-        #region Variables
+        // Using a DependencyProperty as the backing store for Device.  This enables animation, styling, binding, etc...
+        #region Static Fields
+
+        /// <summary>
+        /// The device property.
+        /// </summary>
+        public static readonly DependencyProperty DeviceProperty = DependencyProperty.Register(
+            "Device", 
+            typeof(CCDDevice), 
+            typeof(CCDPlayer), 
+            new UIPropertyMetadata(null, new PropertyChangedCallback(DeviceProperty_Changed)));
+
+        /// <summary>
+        /// The framerate property.
+        /// </summary>
+        public static readonly DependencyProperty FramerateProperty = DependencyProperty.Register(
+            "Framerate", 
+            typeof(float), 
+            typeof(CCDPlayer), 
+            new UIPropertyMetadata(default(float)));
+
+        /// <summary>
+        /// The rotation property.
+        /// </summary>
+        public static readonly DependencyProperty RotationProperty = DependencyProperty.Register(
+            "Rotation", 
+            typeof(double), 
+            typeof(CCDPlayer), 
+            new UIPropertyMetadata(0d, new PropertyChangedCallback(RotationProperty_Changed)));
+
         #endregion
 
-        #region Constructor & destructor
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CCDPlayer"/> class.
+        /// </summary>
         public CCDPlayer()
         {
         }
 
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the current bitmap
+        /// </summary>
+        public BitmapSource CurrentBitmap
+        {
+            get
+            {
+                // Return right value
+                return (this.Device != null)
+                           ? new TransformedBitmap(this.Device.BitmapSource.Clone(), new RotateTransform(this.Rotation))
+                           : null;
+            }
+        }
+
+        /// <summary>
+        /// Wrapper for the Device dependency property
+        /// </summary>
+        public CCDDevice Device
+        {
+            get
+            {
+                return (CCDDevice)this.GetValue(DeviceProperty);
+            }
+
+            set
+            {
+                this.SetValue(DeviceProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Wrapper for the framerate dependency property
+        /// </summary>
+        public float Framerate
+        {
+            get
+            {
+                return (float)this.GetValue(FramerateProperty);
+            }
+
+            set
+            {
+                this.SetValue(FramerateProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Wrapper for the Rotation dependency property
+        /// </summary>
+        public double Rotation
+        {
+            get
+            {
+                return (double)this.GetValue(RotationProperty);
+            }
+
+            set
+            {
+                this.SetValue(RotationProperty, value);
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
         public void Dispose()
         {
             // Check whether we have a valid device
@@ -46,68 +147,30 @@ namespace SIS.WPFControls.CCDControl
                 this.Device = null;
             }
         }
-        #endregion
 
-        #region Properties
-        /// <summary>
-        /// Wrapper for the Device dependency property
-        /// </summary>
-        public CCDDevice Device
-        {
-            get { return (CCDDevice)this.GetValue(DeviceProperty); }
-            set { this.SetValue(DeviceProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Device.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DeviceProperty = DependencyProperty.Register("Device", typeof(CCDDevice), 
-            typeof(CCDPlayer), new UIPropertyMetadata(null, new PropertyChangedCallback(DeviceProperty_Changed)));
-
-        /// <summary>
-        /// Wrapper for the Rotation dependency property
-        /// </summary>
-        public double Rotation
-        {
-            get { return (double)this.GetValue(RotationProperty); }
-            set { this.SetValue(RotationProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Rotation.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RotationProperty = DependencyProperty.Register("Rotation", typeof(double), typeof(CCDPlayer), 
-            new UIPropertyMetadata(0d, new PropertyChangedCallback(RotationProperty_Changed)));
-
-        /// <summary>
-        /// Wrapper for the framerate dependency property
-        /// </summary>
-        public float Framerate
-        {
-            get { return (float)this.GetValue(FramerateProperty); }
-            set { this.SetValue(FramerateProperty, value); }
-        }
-
-        public static readonly DependencyProperty FramerateProperty =
-            DependencyProperty.Register("Framerate", typeof(float), typeof(CCDPlayer), new UIPropertyMetadata(default(float)));
-
-        /// <summary>
-        /// Gets the current bitmap
-        /// </summary>
-        public BitmapSource CurrentBitmap
-        {
-            get
-            {
-                // Return right value
-                return (this.Device != null) ? new TransformedBitmap(this.Device.BitmapSource.Clone(), new RotateTransform(this.Rotation)) : null;
-            }
-        }
         #endregion
 
         #region Methods
-        static void DeviceProperty_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+
+        /// <summary>
+        /// The device property_ changed.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private static void DeviceProperty_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             // Get the sender
             CCDPlayer typedSender = sender as CCDPlayer;
 
             // Make sure that we are not in design mode
-            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(typedSender)) return;
+            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(typedSender))
+            {
+                return;
+            }
 
             // Unsubscribe from previous device
             CCDDevice oldDevice = e.OldValue as CCDDevice;
@@ -119,16 +182,16 @@ namespace SIS.WPFControls.CCDControl
 
             if ((typedSender != null) && (e.NewValue != null))
             {
-            //    // Make sure that we are not in design mode
-            //    if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(typedSender)) return;
+                // // Make sure that we are not in design mode
+                // if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(typedSender)) return;
 
-            //    // Unsubscribe from previous device
-            //    CapDevice oldDevice = e.OldValue as CapDevice;
-            //    if (oldDevice != null)
-            //    {
-            //        // Clean up
-            //        typedSender.CleanUpDevice(oldDevice);
-            //    }
+                // // Unsubscribe from previous device
+                // CapDevice oldDevice = e.OldValue as CapDevice;
+                // if (oldDevice != null)
+                // {
+                // // Clean up
+                // typedSender.CleanUpDevice(oldDevice);
+                // }
 
                 // Subscribe to new one
                 CCDDevice newDevice = e.NewValue as CCDDevice;
@@ -140,7 +203,16 @@ namespace SIS.WPFControls.CCDControl
             }
         }
 
-        static void RotationProperty_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// The rotation property_ changed.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private static void RotationProperty_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             // Get the sender
             CCDPlayer typedSender = sender as CCDPlayer;
@@ -154,11 +226,16 @@ namespace SIS.WPFControls.CCDControl
         /// <summary>
         /// Cleans up a specific device
         /// </summary>
-        /// <param name="device">Device to clean up</param>
-        void CleanUpDevice(CCDDevice device)
+        /// <param name="device">
+        /// Device to clean up
+        /// </param>
+        private void CleanUpDevice(CCDDevice device)
         {
             // Check if there even is a device
-            if (device == null) return;
+            if (device == null)
+            {
+                return;
+            }
 
             // Stop
             device.Stop();
@@ -170,9 +247,13 @@ namespace SIS.WPFControls.CCDControl
         /// <summary>
         /// Invoked when a new bitmap is ready
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
-        void device_OnNewBitmapReady(object sender, EventArgs e)
+        /// <param name="sender">
+        /// Sender
+        /// </param>
+        /// <param name="e">
+        /// EventArgs
+        /// </param>
+        private void device_OnNewBitmapReady(object sender, EventArgs e)
         {
             // Create new binding for the framerate
             Binding b = new Binding();
@@ -188,6 +269,7 @@ namespace SIS.WPFControls.CCDControl
                 this.Source = typedSender.BitmapSource;
             }
         }
+
         #endregion
     }
 }

@@ -1,11 +1,11 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PropertyItem2.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Re-implements System.Drawing.PropertyItem so that the data is serializable.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
@@ -24,49 +24,85 @@ namespace SIS.Systemlayer
     [Serializable]
     internal sealed class PropertyItem2
     {
-        private const string piElementName = "exif";
+        #region Constants
+
+        /// <summary>
+        /// The id property name.
+        /// </summary>
         private const string idPropertyName = "id";
+
+        /// <summary>
+        /// The len property name.
+        /// </summary>
         private const string lenPropertyName = "len";
+
+        /// <summary>
+        /// The pi element name.
+        /// </summary>
+        private const string piElementName = "exif";
+
+        /// <summary>
+        /// The type property name.
+        /// </summary>
         private const string typePropertyName = "type";
+
+        /// <summary>
+        /// The value property name.
+        /// </summary>
         private const string valuePropertyName = "value";
 
+        #endregion
+
+        #region Static Fields
+
+        /// <summary>
+        /// The property item image.
+        /// </summary>
+        private static Image propertyItemImage;
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        /// The id.
+        /// </summary>
         private int id;
+
+        /// <summary>
+        /// The len.
+        /// </summary>
         private int len;
+
+        /// <summary>
+        /// The type.
+        /// </summary>
         private short type;
+
+        /// <summary>
+        /// The value.
+        /// </summary>
         private byte[] value;
 
-        public int Id
-        {
-            get
-            {
-                return this.id;
-            }
-        }
+        #endregion
 
-        public int Len
-        {
-            get
-            {
-                return this.len;
-            }
-        }
+        #region Constructors and Destructors
 
-        public short Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
-
-        public byte[] Value
-        {
-            get
-            {
-                return (byte[])this.value.Clone();
-            }
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyItem2"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <param name="len">
+        /// The len.
+        /// </param>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
         public PropertyItem2(int id, int len, short type, byte[] value)
         {
             this.id = id;
@@ -88,45 +124,67 @@ namespace SIS.Systemlayer
             }
         }
 
-        public string ToBlob()
-        {
-            string blob = string.Format("<{0} {1}=\"{2}\" {3}=\"{4}\" {5}=\"{6}\" {7}=\"{8}\" />",
-                piElementName,
-                idPropertyName, this.id.ToString(CultureInfo.InvariantCulture),
-                lenPropertyName, this.len.ToString(CultureInfo.InvariantCulture),
-                typePropertyName, this.type.ToString(CultureInfo.InvariantCulture),
-                valuePropertyName, Convert.ToBase64String(this.value));
+        #endregion
 
-            return blob;
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the id.
+        /// </summary>
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public PropertyItem ToPropertyItem()
+        /// <summary>
+        /// Gets the len.
+        /// </summary>
+        public int Len
         {
-            PropertyItem pi = GetPropertyItem();
-
-            pi.Id = this.Id;
-            pi.Len = this.Len;
-            pi.Type = this.Type;
-            pi.Value = this.Value;
-
-            return pi;
+            get
+            {
+                return this.len;
+            }
         }
 
-        public static PropertyItem2 FromPropertyItem(PropertyItem pi)
+        /// <summary>
+        /// Gets the type.
+        /// </summary>
+        public short Type
         {
-            return new PropertyItem2(pi.Id, pi.Len, pi.Type, pi.Value);
+            get
+            {
+                return this.type;
+            }
         }
 
-        private static string GetProperty(string blob, string propertyName)
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        public byte[] Value
         {
-            string findMe = propertyName + "=\"";
-            int startIndex = blob.IndexOf(findMe) + findMe.Length;
-            int endIndex = blob.IndexOf("\"", startIndex);
-            string propertyValue = blob.Substring(startIndex, endIndex - startIndex);
-            return propertyValue;
+            get
+            {
+                return (byte[])this.value.Clone();
+            }
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The from blob.
+        /// </summary>
+        /// <param name="blob">
+        /// The blob.
+        /// </param>
+        /// <returns>
+        /// The <see cref="PropertyItem2"/>.
+        /// </returns>
         public static PropertyItem2 FromBlob(string blob)
         {
             PropertyItem2 pi2;
@@ -160,18 +218,101 @@ namespace SIS.Systemlayer
             return pi2;
         }
 
-        // System.Drawing.Imaging.PropertyItem does not have a public constructor
-        // So, as per the documentation, we have to "steal" one.
-        // Quite ridiculous.
-        // This depends on PropertyItem.png being an embedded resource in this assembly.
-        private static Image propertyItemImage;
+        /// <summary>
+        /// The from property item.
+        /// </summary>
+        /// <param name="pi">
+        /// The pi.
+        /// </param>
+        /// <returns>
+        /// The <see cref="PropertyItem2"/>.
+        /// </returns>
+        public static PropertyItem2 FromPropertyItem(PropertyItem pi)
+        {
+            return new PropertyItem2(pi.Id, pi.Len, pi.Type, pi.Value);
+        }
 
+        /// <summary>
+        /// The to blob.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public string ToBlob()
+        {
+            string blob = string.Format(
+                "<{0} {1}=\"{2}\" {3}=\"{4}\" {5}=\"{6}\" {7}=\"{8}\" />", 
+                piElementName, 
+                idPropertyName, 
+                this.id.ToString(CultureInfo.InvariantCulture), 
+                lenPropertyName, 
+                this.len.ToString(CultureInfo.InvariantCulture), 
+                typePropertyName, 
+                this.type.ToString(CultureInfo.InvariantCulture), 
+                valuePropertyName, 
+                Convert.ToBase64String(this.value));
+
+            return blob;
+        }
+
+        /// <summary>
+        /// The to property item.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="PropertyItem"/>.
+        /// </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public PropertyItem ToPropertyItem()
+        {
+            PropertyItem pi = GetPropertyItem();
+
+            pi.Id = this.Id;
+            pi.Len = this.Len;
+            pi.Type = this.Type;
+            pi.Value = this.Value;
+
+            return pi;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The get property.
+        /// </summary>
+        /// <param name="blob">
+        /// The blob.
+        /// </param>
+        /// <param name="propertyName">
+        /// The property name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        private static string GetProperty(string blob, string propertyName)
+        {
+            string findMe = propertyName + "=\"";
+            int startIndex = blob.IndexOf(findMe) + findMe.Length;
+            int endIndex = blob.IndexOf("\"", startIndex);
+            string propertyValue = blob.Substring(startIndex, endIndex - startIndex);
+            return propertyValue;
+        }
+
+        /// <summary>
+        /// The get property item.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="PropertyItem"/>.
+        /// </returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         private static PropertyItem GetPropertyItem()
         {
             if (propertyItemImage == null)
             {
-                Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("PaintDotNet.SystemLayer.PropertyItem.png");
+                Stream stream =
+                    Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream("PaintDotNet.SystemLayer.PropertyItem.png");
                 propertyItemImage = Image.FromStream(stream);
             }
 
@@ -183,5 +324,7 @@ namespace SIS.Systemlayer
 
             return pi;
         }
+
+        #endregion
     }
 }

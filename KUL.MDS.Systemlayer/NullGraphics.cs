@@ -1,11 +1,14 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NullGraphics.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Sometimes you need a Graphics instance when you don't really have access to one.
+//   Example situations include retrieving the bounds or scanlines of a Region.
+//   So use this to create a 'null' Graphics instance that effectively eats all
+//   rendering calls.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
@@ -18,21 +21,32 @@ namespace SIS.Systemlayer
     /// So use this to create a 'null' Graphics instance that effectively eats all
     /// rendering calls.
     /// </summary>
-    public sealed class NullGraphics
-        : IDisposable
+    public sealed class NullGraphics : IDisposable
     {
-        private IntPtr hdc = IntPtr.Zero;
-        private Graphics graphics = null;
+        #region Fields
+
+        /// <summary>
+        /// The disposed.
+        /// </summary>
         private bool disposed = false;
 
-        public Graphics Graphics
-        {
-            get
-            {
-                return this.graphics;
-            }
-        }
+        /// <summary>
+        /// The graphics.
+        /// </summary>
+        private Graphics graphics = null;
 
+        /// <summary>
+        /// The hdc.
+        /// </summary>
+        private IntPtr hdc = IntPtr.Zero;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullGraphics"/> class.
+        /// </summary>
         public NullGraphics()
         {
             this.hdc = SafeNativeMethods.CreateCompatibleDC(IntPtr.Zero);
@@ -45,17 +59,52 @@ namespace SIS.Systemlayer
             this.graphics = Graphics.FromHdc(this.hdc);
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="NullGraphics"/> class. 
+        /// </summary>
         ~NullGraphics()
         {
             this.Dispose(false);
         }
 
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the graphics.
+        /// </summary>
+        public Graphics Graphics
+        {
+            get
+            {
+                return this.graphics;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        /// <param name="disposing">
+        /// The disposing.
+        /// </param>
         private void Dispose(bool disposing)
         {
             if (!this.disposed)
@@ -70,5 +119,7 @@ namespace SIS.Systemlayer
                 this.disposed = true;
             }
         }
+
+        #endregion
     }
 }

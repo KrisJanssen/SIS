@@ -1,18 +1,28 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IDisposedEvent.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The DisposedEvent interface.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Base
 {
     using System;
 
+    /// <summary>
+    /// The DisposedEvent interface.
+    /// </summary>
     public interface IDisposedEvent
     {
+        #region Public Events
+
+        /// <summary>
+        /// The disposed.
+        /// </summary>
         event EventHandler Disposed;
+
+        #endregion
     }
 }

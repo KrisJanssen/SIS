@@ -1,20 +1,12 @@
-﻿///////////////////////////////////////////////////////////////////////////////
-// FilterInfo v1.1
-//
-// This software is released into the public domain.  You are free to use it
-// in any way you like, except that you may not sell this source code.
-//
-// This software is provided "as is" with no expressed or implied warranty.
-// I accept no liability for any damage or loss of business that this software
-// may cause.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="FilterInfo.cs">
+//   
+// </copyright>
+// <summary>
+//   FilterInfo class
+// </summary>
 // 
-// This source code is originally written by Tamir Khason (see http://blogs.microsoft.co.il/blogs/tamir
-// or http://www.codeplex.com/wpfcap).
-// 
-// Modifications are made by Geert van Horrik (CatenaLogic, see http://blog.catenalogic.com) 
-//
-///////////////////////////////////////////////////////////////////////////////
-
+// --------------------------------------------------------------------------------------------------------------------
 namespace SIS.WPFControls.CCDControl
 {
     using System;
@@ -26,24 +18,29 @@ namespace SIS.WPFControls.CCDControl
     /// </summary>
     public class FilterInfo : IComparable
     {
-        #region Win32
-        [DllImport("ole32.dll")]
-        public static extern int CreateBindCtx(int reserved, out IBindCtx ppbc);
+        #region Fields
 
-        [DllImport("ole32.dll", CharSet = CharSet.Unicode)]
-        public static extern int MkParseDisplayName(IBindCtx pbc, string szUserName, ref int pchEaten, out IMoniker ppmk);
-        #endregion
-
-        #region Variables
-        private readonly string _name;
-        private readonly string _monikerString;
-        #endregion
-
-        #region Constructor & destructor
         /// <summary>
+        /// The _moniker string.
+        /// </summary>
+        private readonly string _monikerString;
+
+        /// <summary>
+        /// The _name.
+        /// </summary>
+        private readonly string _name;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FilterInfo"/> class. 
         /// Initializes a new filter info object
         /// </summary>
-        /// <param name="monikerString">Moniker string to base the filter on</param>
+        /// <param name="monikerString">
+        /// Moniker string to base the filter on
+        /// </param>
         public FilterInfo(string monikerString)
         {
             // Store values
@@ -52,25 +49,20 @@ namespace SIS.WPFControls.CCDControl
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="FilterInfo"/> class. 
         /// Initializes a new filter info object
         /// </summary>
-        /// <param name="moniker">Moniker to base the filter on</param>
+        /// <param name="moniker">
+        /// Moniker to base the filter on
+        /// </param>
         internal FilterInfo(IMoniker moniker)
             : this(GetMonikerString(moniker))
-        { }
+        {
+        }
+
         #endregion
 
-        #region Properties
-        /// <summary>
-        /// Gets the name
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this._name;
-            }
-        }
+        #region Public Properties
 
         /// <summary>
         /// Gets the Moniker String
@@ -82,14 +74,100 @@ namespace SIS.WPFControls.CCDControl
                 return this._monikerString;
             }
         }
+
+        /// <summary>
+        /// Gets the name
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this._name;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The create bind ctx.
+        /// </summary>
+        /// <param name="reserved">
+        /// The reserved.
+        /// </param>
+        /// <param name="ppbc">
+        /// The ppbc.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        [DllImport("ole32.dll")]
+        public static extern int CreateBindCtx(int reserved, out IBindCtx ppbc);
+
+        /// <summary>
+        /// The mk parse display name.
+        /// </summary>
+        /// <param name="pbc">
+        /// The pbc.
+        /// </param>
+        /// <param name="szUserName">
+        /// The sz user name.
+        /// </param>
+        /// <param name="pchEaten">
+        /// The pch eaten.
+        /// </param>
+        /// <param name="ppmk">
+        /// The ppmk.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        [DllImport("ole32.dll", CharSet = CharSet.Unicode)]
+        public static extern int MkParseDisplayName(
+            IBindCtx pbc, 
+            string szUserName, 
+            ref int pchEaten, 
+            out IMoniker ppmk);
+
+        /// <summary>
+        /// Compares the current object to another object
+        /// </summary>
+        /// <param name="value">
+        /// Value to compare the current object to
+        /// </param>
+        /// <returns>
+        /// If 0, the values are equal
+        /// </returns>
+        public int CompareTo(object value)
+        {
+            // Get the object as filter info
+            FilterInfo f = (FilterInfo)value;
+
+            // Check if we have a valid object
+            if (f == null)
+            {
+                // No, so different
+                return 1;
+            }
+
+            // Valid object, compare the names
+            return this.Name.CompareTo(f.Name);
+        }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Creates a specific filter based on the moniker
         /// </summary>
-        /// <param name="filterMoniker">FilterMoniker to create the </param>
-        /// <returns>Filter or null</returns>
+        /// <param name="filterMoniker">
+        /// FilterMoniker to create the 
+        /// </param>
+        /// <returns>
+        /// Filter or null
+        /// </returns>
         internal static IBaseFilter CreateFilter(string filterMoniker)
         {
             // Declare variables
@@ -123,12 +201,16 @@ namespace SIS.WPFControls.CCDControl
         /// <summary>
         /// Gets the moniker string for a specific moniker
         /// </summary>
-        /// <param name="moniker">Moniker to retrieve the moniker string of</param>
-        /// <returns>Moniker string</returns>
+        /// <param name="moniker">
+        /// Moniker to retrieve the moniker string of
+        /// </param>
+        /// <returns>
+        /// Moniker string
+        /// </returns>
         private static string GetMonikerString(IMoniker moniker)
         {
             // Declare variables
-            string result = "";
+            string result = string.Empty;
 
             // Get the display name of the moniker
             moniker.GetDisplayName(null, null, out result);
@@ -140,12 +222,16 @@ namespace SIS.WPFControls.CCDControl
         /// <summary>
         /// Gets the name of a specific moniker
         /// </summary>
-        /// <param name="moniker">Moniker object to get the name of</param>
-        /// <returns>Name of a specific moniker</returns>
+        /// <param name="moniker">
+        /// Moniker object to get the name of
+        /// </param>
+        /// <returns>
+        /// Name of a specific moniker
+        /// </returns>
         private static string GetName(IMoniker moniker)
         {
             // Declare variables
-            Object bagObj = null;
+            object bagObj = null;
             IPropertyBag bag = null;
 
             try
@@ -156,7 +242,7 @@ namespace SIS.WPFControls.CCDControl
                 bag = (IPropertyBag)bagObj;
 
                 // Try to retrieve the friendly name
-                object val = "";
+                object val = string.Empty;
                 int hr = bag.Read("FriendlyName", ref val, IntPtr.Zero);
                 if (hr != 0)
                 {
@@ -193,14 +279,18 @@ namespace SIS.WPFControls.CCDControl
         /// <summary>
         /// Gets the name of a specific moniker
         /// </summary>
-        /// <param name="monikerString">Moniker string to get the name of</param>
-        /// <returns>Name of a specific moniker</returns>
+        /// <param name="monikerString">
+        /// Moniker string to get the name of
+        /// </param>
+        /// <returns>
+        /// Name of a specific moniker
+        /// </returns>
         private static string GetName(string monikerString)
         {
             // Declare variables
             IBindCtx bindCtx = null;
             IMoniker moniker = null;
-            string name = "";
+            string name = string.Empty;
             int n = 0;
 
             // Create binding context
@@ -226,26 +316,6 @@ namespace SIS.WPFControls.CCDControl
             return name;
         }
 
-        /// <summary>
-        /// Compares the current object to another object
-        /// </summary>
-        /// <param name="value">Value to compare the current object to</param>
-        /// <returns>If 0, the values are equal</returns>
-        public int CompareTo(object value)
-        {
-            // Get the object as filter info
-            FilterInfo f = (FilterInfo)value;
-
-            // Check if we have a valid object
-            if (f == null)
-            {
-                // No, so different
-                return 1;
-            }
-
-            // Valid object, compare the names
-            return (this.Name.CompareTo(f.Name));
-        }
         #endregion
     }
 }

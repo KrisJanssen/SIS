@@ -1,22 +1,47 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NativeConstants.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The native constants.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer.GpcWrapper
 {
+    /// <summary>
+    /// The native constants.
+    /// </summary>
     internal static class NativeConstants
     {
-        public enum gpc_op                                 
+        #region Enums
+
+        /// <summary>
+        /// The gpc_op.
+        /// </summary>
+        public enum gpc_op
         {
-            GPC_DIFF = 0,
-            GPC_INT = 1,
-            GPC_XOR = 2,
+            /// <summary>
+            /// The gp c_ diff.
+            /// </summary>
+            GPC_DIFF = 0, 
+
+            /// <summary>
+            /// The gp c_ int.
+            /// </summary>
+            GPC_INT = 1, 
+
+            /// <summary>
+            /// The gp c_ xor.
+            /// </summary>
+            GPC_XOR = 2, 
+
+            /// <summary>
+            /// The gp c_ union.
+            /// </summary>
             GPC_UNION = 3
         }
+
+        #endregion
     }
 }

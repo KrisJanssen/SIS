@@ -1,11 +1,12 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserSessions.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Encapsulates information and events about the current user session.
+//   This relates to Terminal Services in Windows.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
@@ -19,47 +20,36 @@ namespace SIS.Systemlayer
     /// </summary>
     public static class UserSessions
     {
-        private static OurControl messageControl;
+        #region Static Fields
+
+        /// <summary>
+        /// The last remote session value.
+        /// </summary>
         private static bool lastRemoteSessionValue;
-        private static EventHandler sessionChanged;
-        private static int sessionChangedCount;
+
+        /// <summary>
+        /// The lock object.
+        /// </summary>
         private static object lockObject = new object();
 
-        private sealed class OurControl
-            : Control
-        {
-            public event EventHandler WmWtSessionChange;
+        /// <summary>
+        /// The message control.
+        /// </summary>
+        private static OurControl messageControl;
 
-            private void OnWmWtSessionChange()
-            {
-                if (this.WmWtSessionChange != null)
-                {
-                    this.WmWtSessionChange(this, EventArgs.Empty);
-                }
-            }
+        /// <summary>
+        /// The session changed.
+        /// </summary>
+        private static EventHandler sessionChanged;
 
-            protected override void WndProc(ref Message m)
-            {
-                switch (m.Msg)
-                {
-                    case NativeConstants.WM_WTSSESSION_CHANGE:
-                        this.OnWmWtSessionChange();
-                        break;
+        /// <summary>
+        /// The session changed count.
+        /// </summary>
+        private static int sessionChangedCount;
 
-                    default:
-                        base.WndProc(ref m);
-                        break;
-                }
-            }
-        }
+        #endregion
 
-        private static void OnSessionChanged()
-        {
-            if (sessionChanged != null)
-            {
-                sessionChanged(null, EventArgs.Empty);
-            }
-        }
+        #region Public Events
 
         /// <summary>
         /// Occurs when the user changes between sessions. This event will only be
@@ -86,7 +76,9 @@ namespace SIS.Systemlayer
                         messageControl.CreateControl(); // force the HWND to be created
                         messageControl.WmWtSessionChange += new EventHandler(SessionStrobeHandler);
 
-                        SafeNativeMethods.WTSRegisterSessionNotification(messageControl.Handle, NativeConstants.NOTIFY_FOR_ALL_SESSIONS);
+                        SafeNativeMethods.WTSRegisterSessionNotification(
+                            messageControl.Handle, 
+                            NativeConstants.NOTIFY_FOR_ALL_SESSIONS);
                         lastRemoteSessionValue = IsRemote;
                     }
                 }
@@ -105,7 +97,6 @@ namespace SIS.Systemlayer
                         {
                             SafeNativeMethods.WTSUnRegisterSessionNotification(messageControl.Handle);
                         }
-
                         catch (EntryPointNotFoundException)
                         {
                         }
@@ -116,6 +107,10 @@ namespace SIS.Systemlayer
                 }
             }
         }
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Determines whether the user is running within a remoted session (Terminal Server, Remote Desktop).
@@ -136,6 +131,30 @@ namespace SIS.Systemlayer
             }
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The on session changed.
+        /// </summary>
+        private static void OnSessionChanged()
+        {
+            if (sessionChanged != null)
+            {
+                sessionChanged(null, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// The session strobe handler.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private static void SessionStrobeHandler(object sender, EventArgs e)
         {
             if (IsRemote != lastRemoteSessionValue)
@@ -143,6 +162,58 @@ namespace SIS.Systemlayer
                 lastRemoteSessionValue = IsRemote;
                 OnSessionChanged();
             }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// The our control.
+        /// </summary>
+        private sealed class OurControl : Control
+        {
+            #region Public Events
+
+            /// <summary>
+            /// The wm wt session change.
+            /// </summary>
+            public event EventHandler WmWtSessionChange;
+
+            #endregion
+
+            #region Methods
+
+            /// <summary>
+            /// The wnd proc.
+            /// </summary>
+            /// <param name="m">
+            /// The m.
+            /// </param>
+            protected override void WndProc(ref Message m)
+            {
+                switch (m.Msg)
+                {
+                    case NativeConstants.WM_WTSSESSION_CHANGE:
+                        this.OnWmWtSessionChange();
+                        break;
+
+                    default:
+                        base.WndProc(ref m);
+                        break;
+                }
+            }
+
+            /// <summary>
+            /// The on wm wt session change.
+            /// </summary>
+            private void OnWmWtSessionChange()
+            {
+                if (this.WmWtSessionChange != null)
+                {
+                    this.WmWtSessionChange(this, EventArgs.Empty);
+                }
+            }
+
+            #endregion
         }
     }
 }

@@ -1,23 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DisposableAction.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The disposable action.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Common
 {
-  public class DisposableAction : IDisposable
-  {
-    readonly Action _action;
+    using System;
 
-    public DisposableAction(Action action)
+    /// <summary>
+    /// The disposable action.
+    /// </summary>
+    public class DisposableAction : IDisposable
     {
-      if (action == null) throw new ArgumentNullException("action");
-      _action = action;
-    }
+        #region Fields
 
-    public void Dispose()
-    {
-      _action();
+        /// <summary>
+        /// The _action.
+        /// </summary>
+        private readonly Action _action;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DisposableAction"/> class.
+        /// </summary>
+        /// <param name="action">
+        /// The action.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
+        public DisposableAction(Action action)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
+            this._action = action;
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        public void Dispose()
+        {
+            this._action();
+        }
+
+        #endregion
     }
-  }
 }

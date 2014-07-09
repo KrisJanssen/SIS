@@ -1,26 +1,59 @@
-using System.Collections.Generic;
-using System.Linq;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Pipeline.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Implments a pipeline, which can be used to combine on or more filters together in sequence.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Common.Pipeline
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     /// Implments a pipeline, which can be used to combine on or more filters together in sequence.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TContext"></typeparam>
+    /// <typeparam name="T">
+    /// </typeparam>
+    /// <typeparam name="TContext">
+    /// </typeparam>
     public class Pipeline<T, TContext> : IOperation<T, TContext>
     {
+        #region Fields
+
+        /// <summary>
+        /// The _operations.
+        /// </summary>
         private readonly List<IOperation<T, TContext>> _operations = new List<IOperation<T, TContext>>();
 
-        #region IOperation<T,TContext> Members
+        #endregion
 
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The execute.
+        /// </summary>
+        /// <param name="input">
+        /// The input.
+        /// </param>
+        /// <param name="context">
+        /// The context.
+        /// </param>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
         public T Execute(T input, TContext context)
         {
             Filter<T, TContext> composedFilter = null;
 
-            foreach (var operation in _operations)
+            foreach (var operation in this._operations)
             {
-                if (composedFilter == null) composedFilter = operation.Execute;
+                if (composedFilter == null)
+                {
+                    composedFilter = operation.Execute;
+                }
                 else
                 {
                     IOperation<T, TContext> outerOperation = operation;
@@ -32,36 +65,67 @@ namespace DevDefined.Common.Pipeline
             return composedFilter(input, context);
         }
 
-        #endregion
-
-        public void SetSource(T source)
+        /// <summary>
+        /// The execute.
+        /// </summary>
+        /// <param name="context">
+        /// The context.
+        /// </param>
+        public void Execute(TContext context)
         {
-            _operations.Insert(0, new GenericOperation<T, TContext>((T input) => source));
+            this.Execute(default(T), context);
         }
 
+        /// <summary>
+        /// The execute.
+        /// </summary>
+        public void Execute()
+        {
+            this.Execute(default(TContext));
+        }
+
+        /// <summary>
+        /// The register.
+        /// </summary>
+        /// <param name="filters">
+        /// The filters.
+        /// </param>
         public void Register(params Filter<T, TContext>[] filters)
         {
             if (filters != null)
             {
                 IEnumerable<IOperation<T, TContext>> wrappedFilters =
-                    filters.Select<Filter<T, TContext>, IOperation<T, TContext>>(filter => new GenericOperation<T, TContext>(filter));
-                _operations.AddRange(wrappedFilters);
+                    filters.Select<Filter<T, TContext>, IOperation<T, TContext>>(
+                        filter => new GenericOperation<T, TContext>(filter));
+                this._operations.AddRange(wrappedFilters);
             }
         }
 
+        /// <summary>
+        /// The register.
+        /// </summary>
+        /// <param name="operations">
+        /// The operations.
+        /// </param>
         public void Register(params IOperation<T, TContext>[] operations)
         {
-            if (operations != null) _operations.AddRange(operations);
+            if (operations != null)
+            {
+                this._operations.AddRange(operations);
+            }
         }
 
-        public void Execute(TContext context)
+        /// <summary>
+        /// The set source.
+        /// </summary>
+        /// <param name="source">
+        /// The source.
+        /// </param>
+        public void SetSource(T source)
         {
-            Execute(default(T), context);
+            this._operations.Insert(0, new GenericOperation<T, TContext>((T input) => source));
         }
 
-        public void Execute()
-        {
-            Execute(default(TContext));
-        }
+        #endregion
     }
 }

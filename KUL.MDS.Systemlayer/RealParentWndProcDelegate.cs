@@ -1,15 +1,21 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RealParentWndProcDelegate.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The real parent wnd proc delegate.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
     using System.Windows.Forms;
 
+    /// <summary>
+    /// The real parent wnd proc delegate.
+    /// </summary>
+    /// <param name="m">
+    /// The m.
+    /// </param>
     public delegate void RealParentWndProcDelegate(ref Message m);
 }

@@ -1,4 +1,13 @@
-﻿namespace SIS.Hardware
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PhotoDiode.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The photo diode.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SIS.Hardware
 {
     using System;
 
@@ -6,50 +15,98 @@
 
     using SIS.Systemlayer;
 
+    /// <summary>
+    /// The photo diode.
+    /// </summary>
     public class PhotoDiode
     {
         // The Various NI-Daqmx tasks.
-        private Task m_daqtskAPDCount;
-        private Task m_daqtskTimingPulse;
+        #region Fields
 
-        // Strings holding NI Channel names for Tasks.
-        private string m_sBoardID;          /* "Dev2" for analog */
-                                            /* "Dev2" for digital */
-        private string m_sPulseGenCtr;      /* "Ctr1" for analog */
-        private string m_sPulseGenTimeBase; /* "80MHzTimebase" for analog */
-        private string m_sPulseGenTrigger;  /* "RTSI0" for analog */
-                                            /* "PFI27" for digital */
-        private string m_sAPDTTLCounter;    /* "Ctr0" for analog */
-        private string m_sAPDInputLine;     /* "PFI39" for analog */
-                                            /* "PFI39" for digital */
-        // Count readers.
-        private AnalogSingleChannelReader m_rdrCountReader;
-
-        // Counts read.
+        /// <summary>
+        /// The m_d total counts read.
+        /// </summary>
         private long m_dTotalCountsRead;
 
-        public long TotalSamplesAcquired
-        {
-            get
-            {
-                return this.m_dTotalCountsRead;
-            }
-        }
+        /// <summary>
+        /// The m_daqtsk apd count.
+        /// </summary>
+        private Task m_daqtskAPDCount;
+
+        /// <summary>
+        /// The m_daqtsk timing pulse.
+        /// </summary>
+        private Task m_daqtskTimingPulse;
+
+        /// <summary>
+        /// The m_rdr count reader.
+        /// </summary>
+        private AnalogSingleChannelReader m_rdrCountReader;
+
+        /// <summary>
+        /// The m_s apd input line.
+        /// </summary>
+        private string m_sAPDInputLine; /* "PFI39" for analog */
+
+        /// <summary>
+        /// The m_s apdttl counter.
+        /// </summary>
+        private string m_sAPDTTLCounter; /* "Ctr0" for analog */
+
+        // Strings holding NI Channel names for Tasks.
+        /// <summary>
+        /// The m_s board id.
+        /// </summary>
+        private string m_sBoardID; /* "Dev2" for analog */
+
+        /* "Dev2" for digital */
+
+        /// <summary>
+        /// The m_s pulse gen ctr.
+        /// </summary>
+        private string m_sPulseGenCtr; /* "Ctr1" for analog */
+
+        /// <summary>
+        /// The m_s pulse gen time base.
+        /// </summary>
+        private string m_sPulseGenTimeBase; /* "80MHzTimebase" for analog */
+
+        /// <summary>
+        /// The m_s pulse gen trigger.
+        /// </summary>
+        private string m_sPulseGenTrigger; /* "RTSI0" for analog */
+
+        #endregion
+
+        /* "PFI27" for digital */
 
         // Constructor
+        #region Constructors and Destructors
+
         /// <summary>
+        /// Initializes a new instance of the <see cref="PhotoDiode"/> class. 
         /// An APD Hardware object that takes care of photon counting.
         /// </summary>
-        /// <param name="__sBoardID">The ID of the NI counter board to be used. This board should have at least 2 counters and 2 PFI lines, eg. Dev2.</param>
-        /// <param name="__sPulseGenCtr">The counter to take care of generating a block pulse that delimits bin time, eg. Ctr1.</param>
-        /// <param name="__sPulseGenTimeBase">The timebase of the board. Preferably use a board that has 80MHzTimebase for optimal time resolution.</param>
-        /// <param name="__sPulseGenTrigger">The trigger to fire one block pulse with bintime length. For analog this should be RTSI0, for digital this is a trigger line on a PFI.</param>
-        /// <param name="__sAPDTTLCounter">The counter that counts the actual photons, eg. Ctr0.</param>
+        /// <param name="__sBoardID">
+        /// The ID of the NI counter board to be used. This board should have at least 2 counters and 2 PFI lines, eg. Dev2.
+        /// </param>
+        /// <param name="__sPulseGenCtr">
+        /// The counter to take care of generating a block pulse that delimits bin time, eg. Ctr1.
+        /// </param>
+        /// <param name="__sPulseGenTimeBase">
+        /// The timebase of the board. Preferably use a board that has 80MHzTimebase for optimal time resolution.
+        /// </param>
+        /// <param name="__sPulseGenTrigger">
+        /// The trigger to fire one block pulse with bintime length. For analog this should be RTSI0, for digital this is a trigger line on a PFI.
+        /// </param>
+        /// <param name="__sAPDTTLCounter">
+        /// The counter that counts the actual photons, eg. Ctr0.
+        /// </param>
         public PhotoDiode(
             string __sBoardID, 
             string __sPulseGenCtr, 
             string __sPulseGenTimeBase, 
-            string __sPulseGenTrigger,
+            string __sPulseGenTrigger, 
             string __sAPDTTLCounter)
         {
             this.m_sBoardID = __sBoardID;
@@ -60,11 +117,47 @@
             this.m_dTotalCountsRead = 0;
         }
 
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the total samples acquired.
+        /// </summary>
+        public long TotalSamplesAcquired
+        {
+            get
+            {
+                return this.m_dTotalCountsRead;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Returns all counts in buffer.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="double[]"/>.
+        /// </returns>
+        public double[] Read()
+        {
+            double[] _dValues = this.m_rdrCountReader.ReadMultiSample(-1);
+            this.m_dTotalCountsRead = this.m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
+            return _dValues;
+        }
+
         /// <summary>
         /// Prepares the APD hardware for a specific image acquisition.
         /// </summary>
-        /// <param name="__dBinTimems">The photon counting bin time in miliseconds. This time is padded by 80 ticks of an 80MHz clock so be sure that the stage cycle time is bigger than this!</param>
-        /// <param name="__iSteps">The total number of pixels to acquire.</param>
+        /// <param name="__dBinTimeMilisec">
+        /// The __d Bin Time Milisec.
+        /// </param>
+        /// <param name="__iSteps">
+        /// The total number of pixels to acquire.
+        /// </param>
         public void SetupAPDCountAndTiming(double __dBinTimeMilisec, int __iSteps)
         {
             try
@@ -84,8 +177,8 @@
                     "/" + this.m_sBoardID + "/" + this.m_sPulseGenCtr, 
                     "TimedPulse", 
                     "/" + this.m_sBoardID + "/" + this.m_sPulseGenTimeBase, 
-                    COPulseIdleState.Low,
-                    (_iBinTicks / 500) * 200,
+                    COPulseIdleState.Low, 
+                    (_iBinTicks / 500) * 200, 
                     _iBinTicks / 500, 
                     _iBinTicks / 500);
 
@@ -113,23 +206,22 @@
                     10.0d, 
                     AIVoltageUnits.Volts);
 
-                //_daqtskAPD.Timing.ConfigureSampleClock(
-                //    "/" + m_sBoardID + "/" + m_sPulseGenCtr + "InternalOutput", 
-                //    1000.0d, 
-                //    SampleClockActiveEdge.Rising, 
-                //    SampleQuantityMode.FiniteSamples, 
-                //    1000);
-
+                // _daqtskAPD.Timing.ConfigureSampleClock(
+                // "/" + m_sBoardID + "/" + m_sPulseGenCtr + "InternalOutput", 
+                // 1000.0d, 
+                // SampleClockActiveEdge.Rising, 
+                // SampleQuantityMode.FiniteSamples, 
+                // 1000);
                 _daqtskAPD.Timing.ConfigureSampleClock(
-                   "/" + this.m_sBoardID + "/RTSI0",
-                   1000.0d,
-                   SampleClockActiveEdge.Rising,
-                   SampleQuantityMode.FiniteSamples,
-                   1000);
+                    "/" + this.m_sBoardID + "/RTSI0", 
+                    1000.0d, 
+                    SampleClockActiveEdge.Rising, 
+                    SampleQuantityMode.FiniteSamples, 
+                    1000);
 
                 // We only want to collect as many counts as there are pixels or "steps" in the image.
                 // Every time we read from the buffer we will read all samples that are there at once.
-                //_daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples);
+                // _daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples);
                 _daqtskAPD.Stream.ReadAllAvailableSamples = true;
 
                 // Commit before start to speed things up.
@@ -140,7 +232,6 @@
                 this.m_daqtskTimingPulse = _daqtskTiming;
                 this.m_daqtskAPDCount = _daqtskAPD;
             }
-
             catch (DaqException ex)
             {
                 this.m_daqtskTimingPulse = null;
@@ -162,22 +253,12 @@
 
             // Create an instance of a reader to get counts from the HW buffer.
             this.m_rdrCountReader = new AnalogSingleChannelReader(this.m_daqtskAPDCount.Stream);
+
             // Start the task that counts the TTL's coming from the APD first.
             this.m_daqtskAPDCount.Start();
 
             // Now start the pulse with duration of bintime. The length of this pulse will be measured in TTL ticks from the actual APD.
             this.m_daqtskTimingPulse.Start();
-        }
-
-        /// <summary>
-        /// Returns all counts in buffer.
-        /// </summary>
-        /// <returns></returns>
-        public Double[] Read()
-        {
-            Double[] _dValues = this.m_rdrCountReader.ReadMultiSample(-1);
-            this.m_dTotalCountsRead = this.m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
-            return _dValues;
         }
 
         /// <summary>
@@ -187,6 +268,7 @@
         {
             // Stop the pulse whose width is measured in TTL's coming from the APD.
             this.m_daqtskTimingPulse.Stop();
+
             // Stop the task that counts the TTL's
             this.m_daqtskAPDCount.Stop();
 
@@ -200,5 +282,7 @@
             this.m_daqtskTimingPulse.Dispose();
             this.m_daqtskAPDCount.Dispose();
         }
+
+        #endregion
     }
 }

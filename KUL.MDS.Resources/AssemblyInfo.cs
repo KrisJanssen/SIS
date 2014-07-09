@@ -1,11 +1,13 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) Rick Brewster, Tom Jackson, and past contributors.            //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   AssemblyInfo.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
 
 using System;
 using System.Reflection;
@@ -16,27 +18,24 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
 
-//
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-//
 [assembly: AssemblyTitle("SIS Resources")]
 [assembly: AssemblyDescription("Imaging software written in C#.")]
 [assembly: AssemblyCompany("MDS")]
 [assembly: AssemblyProduct("SIS")]
-[assembly: AssemblyCopyright("Copyright © 2009 Kris Janssen. Portions Copyright © 2009 Rick Brewster and dotPDN LLC. All Rights Reserved.")]
+[assembly:
+    AssemblyCopyright(
+        "Copyright © 2009 Kris Janssen. Portions Copyright © 2009 Rick Brewster and dotPDN LLC. All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-//
 // Version information for an assembly consists of the following four values:
-//
 //      Major Version
 //      Minor Version 
 //      Build Number
 //      Revision
-//
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("0.0.*")]
@@ -47,12 +46,9 @@ using System.Runtime.InteropServices;
 // Use this to hold the current milestone title, such as "Milestone 2" or "Beta 3"
 [assembly: AssemblyConfiguration("Alpha")]
 
-//
 // In order to sign your assembly you must specify a key to use. Refer to the 
 // Microsoft .NET Framework documentation for more information on assembly signing.
-//
 // Use the attributes below to control which key is used for signing. 
-//
 // Notes: 
 //   (*) If no key is specified, the assembly is not signed.
 //   (*) KeyName refers to a key that has been installed in the Crypto Service
@@ -71,11 +67,9 @@ using System.Runtime.InteropServices;
 //       attribute as [assembly: AssemblyKeyFile("..\\..\\mykey.snk")]
 //   (*) Delay Signing is an advanced option - see the Microsoft .NET Framework
 //       documentation for more information on this.
-//
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
-
 [assembly: StringFreezing()]
 [assembly: Dependency("System.Windows.Forms", LoadHint.Always)]
 [assembly: Dependency("System.Drawing", LoadHint.Always)]

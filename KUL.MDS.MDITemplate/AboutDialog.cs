@@ -1,11 +1,11 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AboutDialog.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The about dialog.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.MDITemplate
 {
@@ -15,21 +15,53 @@ namespace SIS.MDITemplate
     using SIS.Library;
     using SIS.Resources;
 
-    internal class AboutDialog 
-        : BaseForm
+    /// <summary>
+    /// The about dialog.
+    /// </summary>
+    internal class AboutDialog : BaseForm
     {
-        private System.Windows.Forms.Button okButton;
-        private System.Windows.Forms.Label creditsLabel;
-        private System.Windows.Forms.RichTextBox richCreditsBox;
-        private System.Windows.Forms.TextBox copyrightLabel;
-        private Label versionLabel;
+        #region Fields
+
+        /// <summary>
+        /// The copyright label.
+        /// </summary>
+        private TextBox copyrightLabel;
+
+        /// <summary>
+        /// The credits label.
+        /// </summary>
+        private Label creditsLabel;
+
+        /// <summary>
+        /// The ok button.
+        /// </summary>
+        private Button okButton;
+
+        /// <summary>
+        /// The rich credits box.
+        /// </summary>
+        private RichTextBox richCreditsBox;
+
+        /// <summary>
+        /// The sis banner.
+        /// </summary>
         private Banner sisBanner;
 
+        /// <summary>
+        /// The version label.
+        /// </summary>
+        private Label versionLabel;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AboutDialog"/> class.
+        /// </summary>
         public AboutDialog()
         {
-            //
             // Required for Windows Form Designer support
-            //
             this.InitializeComponent();
 
             this.richCreditsBox.BackColor = SystemColors.Window;
@@ -37,8 +69,10 @@ namespace SIS.MDITemplate
             string textFormat = Resources.GetString("AboutDialog.Text.Format");
             this.Text = string.Format(textFormat, Info.GetBareProductName());
 
-            this.sisBanner.BannerText = string.Empty;// Info.GetFriendlyVersionString();
-            this.richCreditsBox.LoadFile(Resources.GetResourceStream("Files.AboutCredits.rtf"), RichTextBoxStreamType.RichText);
+            this.sisBanner.BannerText = string.Empty; // Info.GetFriendlyVersionString();
+            this.richCreditsBox.LoadFile(
+                Resources.GetResourceStream("Files.AboutCredits.rtf"), 
+                RichTextBoxStreamType.RichText);
             this.copyrightLabel.Text = Info.GetCopyrightString();
 
             this.Icon = Info.AppIcon;
@@ -57,7 +91,10 @@ namespace SIS.MDITemplate
             this.versionLabel.Text = Info.GetFullAppName();
         }
 
-        #region Windows Form Designer generated code
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -71,9 +108,8 @@ namespace SIS.MDITemplate
             this.sisBanner = new Banner();
             this.versionLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
+
             // okButton
-            // 
             this.okButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.okButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -81,27 +117,25 @@ namespace SIS.MDITemplate
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 0;
-            // 
+
             // creditsLabel
-            // 
             this.creditsLabel.Location = new System.Drawing.Point(7, 132);
             this.creditsLabel.Name = "creditsLabel";
             this.creditsLabel.Size = new System.Drawing.Size(200, 16);
             this.creditsLabel.TabIndex = 5;
-            // 
+
             // richCreditsBox
-            // 
             this.richCreditsBox.CausesValidation = false;
             this.richCreditsBox.Location = new System.Drawing.Point(10, 153);
             this.richCreditsBox.Name = "richCreditsBox";
             this.richCreditsBox.ReadOnly = true;
             this.richCreditsBox.Size = new System.Drawing.Size(476, 187);
             this.richCreditsBox.TabIndex = 6;
-            this.richCreditsBox.Text = "";
-            this.richCreditsBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichCreditsBox_LinkClicked);
-            // 
+            this.richCreditsBox.Text = string.Empty;
+            this.richCreditsBox.LinkClicked +=
+                new System.Windows.Forms.LinkClickedEventHandler(this.RichCreditsBox_LinkClicked);
+
             // copyrightLabel
-            // 
             this.copyrightLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.copyrightLabel.Location = new System.Drawing.Point(10, 95);
             this.copyrightLabel.Multiline = true;
@@ -109,26 +143,23 @@ namespace SIS.MDITemplate
             this.copyrightLabel.ReadOnly = true;
             this.copyrightLabel.Size = new System.Drawing.Size(481, 36);
             this.copyrightLabel.TabIndex = 4;
-            // 
+
             // pdnBanner
-            // 
             this.sisBanner.BannerFont = new System.Drawing.Font("Tahoma", 10F);
             this.sisBanner.BannerText = "headingText";
             this.sisBanner.Location = new System.Drawing.Point(0, 0);
             this.sisBanner.Name = "pdnBanner";
             this.sisBanner.Size = new System.Drawing.Size(495, 71);
             this.sisBanner.TabIndex = 7;
-            // 
+
             // versionLabel
-            // 
             this.versionLabel.AutoSize = true;
             this.versionLabel.Location = new System.Drawing.Point(7, 77);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(0, 13);
             this.versionLabel.TabIndex = 8;
-            // 
+
             // AboutDialog
-            // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -156,16 +187,25 @@ namespace SIS.MDITemplate
             this.Controls.SetChildIndex(this.versionLabel, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
-        #endregion
 
-        private void RichCreditsBox_LinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e)
+        /// <summary>
+        /// The rich credits box_ link clicked.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void RichCreditsBox_LinkClicked(object sender, LinkClickedEventArgs e)
         {
             if (null != e.LinkText && e.LinkText.StartsWith("http://"))
             {
                 Info.OpenUrl(this, e.LinkText);
             }
         }
+
+        #endregion
     }
 }

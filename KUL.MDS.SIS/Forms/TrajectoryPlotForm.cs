@@ -1,4 +1,13 @@
-﻿namespace SIS.Forms
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TrajectoryPlotForm.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The trajectory plot form.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SIS.Forms
 {
     using System;
     using System.Drawing;
@@ -6,24 +15,25 @@
 
     using ZedGraph.ZedGraph;
 
+    /// <summary>
+    /// The trajectory plot form.
+    /// </summary>
     public partial class TrajectoryPlotForm : Form
     {
+        #region Fields
+
+        /// <summary>
+        /// The m_ nm coordinates.
+        /// </summary>
         private double[,] m_NMCoordinates;
 
-        private event EventHandler DataChanged;
+        #endregion
 
-        public double[,] NMCoordinates
-        {
-            set
-            {
-                this.m_NMCoordinates = value;
-                if (this.DataChanged != null)
-                {
-                    this.DataChanged(this, new EventArgs());
-                }
-            }
-        }
+        #region Constructors and Destructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrajectoryPlotForm"/> class.
+        /// </summary>
         public TrajectoryPlotForm()
         {
             this.InitializeComponent();
@@ -51,7 +61,48 @@
             this.DataChanged += new EventHandler(this.TrajectoryPlotForm_DataChanged);
         }
 
-        void TrajectoryPlotForm_DataChanged(object sender, EventArgs e)
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// The data changed.
+        /// </summary>
+        private event EventHandler DataChanged;
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Sets the nm coordinates.
+        /// </summary>
+        public double[,] NMCoordinates
+        {
+            set
+            {
+                this.m_NMCoordinates = value;
+                if (this.DataChanged != null)
+                {
+                    this.DataChanged(this, new EventArgs());
+                }
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The trajectory plot form_ data changed.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void TrajectoryPlotForm_DataChanged(object sender, EventArgs e)
         {
             PointPairList list1 = new PointPairList();
             PointPairList list2 = new PointPairList();
@@ -68,14 +119,11 @@
             this.YCoordGraph.GraphPane.CurveList.Clear();
             this.XYCoordGraph.GraphPane.CurveList.Clear();
 
-            LineItem myCurve1 = this.XCoordGraph.GraphPane.AddCurve("X",
-                  list1, Color.Red, SymbolType.None);
+            LineItem myCurve1 = this.XCoordGraph.GraphPane.AddCurve("X", list1, Color.Red, SymbolType.None);
 
-            LineItem myCurve2 = this.YCoordGraph.GraphPane.AddCurve("Y",
-                  list2, Color.Red, SymbolType.None);
+            LineItem myCurve2 = this.YCoordGraph.GraphPane.AddCurve("Y", list2, Color.Red, SymbolType.None);
 
-            LineItem myCurve3 = this.XYCoordGraph.GraphPane.AddCurve("XY",
-                 list3, Color.Red, SymbolType.None);
+            LineItem myCurve3 = this.XYCoordGraph.GraphPane.AddCurve("XY", list3, Color.Red, SymbolType.None);
 
             this.XCoordGraph.AxisChange();
             this.YCoordGraph.AxisChange();
@@ -86,11 +134,26 @@
             this.XYCoordGraph.Invalidate();
         }
 
+        /// <summary>
+        /// The trajectory plot form_ form closing.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void TrajectoryPlotForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason != CloseReason.UserClosing) return;
+            if (e.CloseReason != CloseReason.UserClosing)
+            {
+                return;
+            }
+
             e.Cancel = true;
             this.Hide();
         }
+
+        #endregion
     }
 }

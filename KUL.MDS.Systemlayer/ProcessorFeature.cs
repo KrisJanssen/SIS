@@ -1,22 +1,40 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProcessorFeature.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The processor feature.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
     using System;
 
+    /// <summary>
+    /// The processor feature.
+    /// </summary>
     [Flags]
     public enum ProcessorFeature
     {
-        DEP = 1,
-        SSE = 2,
-        SSE2 = 4,
-        SSE3 = 8,
+        /// <summary>
+        /// The dep.
+        /// </summary>
+        DEP = 1, 
+
+        /// <summary>
+        /// The sse.
+        /// </summary>
+        SSE = 2, 
+
+        /// <summary>
+        /// The ss e 2.
+        /// </summary>
+        SSE2 = 4, 
+
+        /// <summary>
+        /// The ss e 3.
+        /// </summary>
+        SSE3 = 8, 
     }
 }

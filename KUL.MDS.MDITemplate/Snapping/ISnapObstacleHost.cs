@@ -1,19 +1,26 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ISnapObstacleHost.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The SnapObstacleHost interface.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.MDITemplate.Snapping
 {
+    /// <summary>
+    /// The SnapObstacleHost interface.
+    /// </summary>
     public interface ISnapObstacleHost
     {
-        SnapObstacle SnapObstacle
-        {
-            get;
-        }
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the snap obstacle.
+        /// </summary>
+        SnapObstacle SnapObstacle { get; }
+
+        #endregion
     }
 }

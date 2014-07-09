@@ -1,17 +1,46 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MessengerStatusBar.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The messenger status bar.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace SIS.MDITemplate
 {
     using System.Windows.Forms;
 
+    /// <summary>
+    /// The messenger status bar.
+    /// </summary>
     public class MessengerStatusBar : StatusBar
-	{
-		public MessengerStatusBar()
-		{
-			StatusBarMessenger.Message += new StatusBarMessenger.MessageHandler(this.StatusBarMessenger_Message);
-		}
+    {
+        #region Constructors and Destructors
 
-		private void StatusBarMessenger_Message(string sMessage)
-		{
-			this.Text = sMessage;
-		}
-	}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessengerStatusBar"/> class.
+        /// </summary>
+        public MessengerStatusBar()
+        {
+            StatusBarMessenger.Message += new StatusBarMessenger.MessageHandler(this.StatusBarMessenger_Message);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The status bar messenger_ message.
+        /// </summary>
+        /// <param name="sMessage">
+        /// The s message.
+        /// </param>
+        private void StatusBarMessenger_Message(string sMessage)
+        {
+            this.Text = sMessage;
+        }
+
+        #endregion
+    }
 }

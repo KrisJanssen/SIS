@@ -1,55 +1,97 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
-
-// I made this little utility because I was getting a lot of crash logs that
-// said the strings or resources files were missing. Reinstalling almost 
-// always fixed the problem. I had this happen on my own system a few times,
-// but I could never figure out the cause. So what this utility does is
-// run an MSI reinstall operation with a flag telling it to only replace
-// missing files. The main PaintDotNet.exe can detect this situation of
-// missing files and it then gives the user the ability to run this utility
-// by clicking a button.
-// This utility must have a UAC manifest for requiring administrator, and it
-// should also be signed with Authenticode so that the UAC consent UI in
-// Vista does not give horrible warnings.
-// -Rick Brewster
-
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
-using System.Threading;
-using System.Text;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Program.cs">
+//   
+// </copyright>
+// <summary>
+//   The program.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 namespace SISRepair
 {
+    using System;
+    using System.Globalization;
+    using System.Runtime.InteropServices;
+    using System.Security.Principal;
+    using System.Threading;
+
+    using Microsoft.Win32;
+
+    /// <summary>
+    /// The program.
+    /// </summary>
     public sealed class Program
     {
-        [DllImport("msi.dll", CharSet = CharSet.Unicode)]
-        internal static extern uint MsiReinstallProductW(
-            [MarshalAs(UnmanagedType.LPWStr)] string szProduct,
-            uint dwReinstallMode);
+        #region Constants
 
-        internal const uint REINSTALLMODE_REPAIR = 0x00000001;
-        internal const uint REINSTALLMODE_FILEMISSING = 0x00000002;
-        internal const uint REINSTALLMODE_FILEOLDERVERSION = 0x00000004;
+        /// <summary>
+        /// The reinstallmod e_ fileequalversion.
+        /// </summary>
         internal const uint REINSTALLMODE_FILEEQUALVERSION = 0x00000008;
+
+        /// <summary>
+        /// The reinstallmod e_ fileexact.
+        /// </summary>
         internal const uint REINSTALLMODE_FILEEXACT = 0x00000010;
-        internal const uint REINSTALLMODE_FILEVERIFY = 0x00000020;
+
+        /// <summary>
+        /// The reinstallmod e_ filemissing.
+        /// </summary>
+        internal const uint REINSTALLMODE_FILEMISSING = 0x00000002;
+
+        /// <summary>
+        /// The reinstallmod e_ fileolderversion.
+        /// </summary>
+        internal const uint REINSTALLMODE_FILEOLDERVERSION = 0x00000004;
+
+        /// <summary>
+        /// The reinstallmod e_ filereplace.
+        /// </summary>
         internal const uint REINSTALLMODE_FILEREPLACE = 0x00000040;
+
+        /// <summary>
+        /// The reinstallmod e_ fileverify.
+        /// </summary>
+        internal const uint REINSTALLMODE_FILEVERIFY = 0x00000020;
+
+        /// <summary>
+        /// The reinstallmod e_ machinedata.
+        /// </summary>
         internal const uint REINSTALLMODE_MACHINEDATA = 0x00000080;
-        internal const uint REINSTALLMODE_USERDATA = 0x00000100;
-        internal const uint REINSTALLMODE_SHORTCUT = 0x00000200;
+
+        /// <summary>
+        /// The reinstallmod e_ package.
+        /// </summary>
         internal const uint REINSTALLMODE_PACKAGE = 0x00000400;
 
+        /// <summary>
+        /// The reinstallmod e_ repair.
+        /// </summary>
+        internal const uint REINSTALLMODE_REPAIR = 0x00000001;
+
+        /// <summary>
+        /// The reinstallmod e_ shortcut.
+        /// </summary>
+        internal const uint REINSTALLMODE_SHORTCUT = 0x00000200;
+
+        /// <summary>
+        /// The reinstallmod e_ userdata.
+        /// </summary>
+        internal const uint REINSTALLMODE_USERDATA = 0x00000100;
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The main.
+        /// </summary>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public static int Main(string[] args)
         {
             int returnVal = 0;
@@ -58,7 +100,6 @@ namespace SISRepair
             {
                 returnVal = MainImpl(args);
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine();
@@ -78,6 +119,36 @@ namespace SISRepair
             return returnVal;
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The msi reinstall product w.
+        /// </summary>
+        /// <param name="szProduct">
+        /// The sz product.
+        /// </param>
+        /// <param name="dwReinstallMode">
+        /// The dw reinstall mode.
+        /// </param>
+        /// <returns>
+        /// The <see cref="uint"/>.
+        /// </returns>
+        [DllImport("msi.dll", CharSet = CharSet.Unicode)]
+        internal static extern uint MsiReinstallProductW(
+            [MarshalAs(UnmanagedType.LPWStr)] string szProduct, 
+            uint dwReinstallMode);
+
+        /// <summary>
+        /// The main impl.
+        /// </summary>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         private static int MainImpl(string[] args)
         {
             bool success = true;
@@ -123,9 +194,11 @@ namespace SISRepair
             if (success)
             {
                 Console.Write("* Retrieving MSI product code GUID: ");
-                string productCodeString = (string)key.GetValue("ProductCode", null, RegistryValueOptions.DoNotExpandEnvironmentNames);
+                string productCodeString =
+                    (string)key.GetValue("ProductCode", null, RegistryValueOptions.DoNotExpandEnvironmentNames);
                 Guid productCodeGuid = new Guid(productCodeString);
-                productCode = productCodeGuid.ToString("B", CultureInfo.InvariantCulture).ToUpper(CultureInfo.InvariantCulture);
+                productCode =
+                    productCodeGuid.ToString("B", CultureInfo.InvariantCulture).ToUpper(CultureInfo.InvariantCulture);
                 Console.WriteLine(productCode);
             }
 
@@ -147,5 +220,7 @@ namespace SISRepair
 
             return returnVal;
         }
+
+        #endregion
     }
 }

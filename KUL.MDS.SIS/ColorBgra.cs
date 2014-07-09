@@ -1,11 +1,13 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ColorBgra.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   This is our pixel format that we will work with. It is always 32-bits / 4-bytes and is
+//   always laid out in BGRA order.
+//   Generally used with the Surface class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS
 {
@@ -17,7 +19,7 @@ namespace SIS
     using System.Reflection;
     using System.Runtime.InteropServices;
 
-    using global::SIS.Library;
+    using SIS.Library;
 
     /// <summary>
     /// This is our pixel format that we will work with. It is always 32-bits / 4-bytes and is
@@ -28,15 +30,27 @@ namespace SIS
     [StructLayout(LayoutKind.Explicit)]
     public struct ColorBgra
     {
+        /// <summary>
+        /// The b.
+        /// </summary>
         [FieldOffset(0)]
         public byte B;
 
+        /// <summary>
+        /// The g.
+        /// </summary>
         [FieldOffset(1)]
         public byte G;
 
+        /// <summary>
+        /// The r.
+        /// </summary>
         [FieldOffset(2)]
         public byte R;
 
+        /// <summary>
+        /// The a.
+        /// </summary>
         [FieldOffset(3)]
         public byte A;
 
@@ -47,19 +61,52 @@ namespace SIS
         [FieldOffset(0)]
         public uint Bgra;
 
+        /// <summary>
+        /// The blue channel.
+        /// </summary>
         public const int BlueChannel = 0;
+
+        /// <summary>
+        /// The green channel.
+        /// </summary>
         public const int GreenChannel = 1;
+
+        /// <summary>
+        /// The red channel.
+        /// </summary>
         public const int RedChannel = 2;
+
+        /// <summary>
+        /// The alpha channel.
+        /// </summary>
         public const int AlphaChannel = 3;
 
+        /// <summary>
+        /// The size of.
+        /// </summary>
         public const int SizeOf = 4;
 
+        /// <summary>
+        /// The parse hex string.
+        /// </summary>
+        /// <param name="hexString">
+        /// The hex string.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public static ColorBgra ParseHexString(string hexString)
         {
             uint value = Convert.ToUInt32(hexString, 16);
             return ColorBgra.FromUInt32(value);
         }
 
+        /// <summary>
+        /// The to hex string.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public string ToHexString()
         {
             int rgbNumber = (this.R << 16) | (this.G << 8) | this.B;
@@ -85,6 +132,12 @@ namespace SIS
         /// <summary>
         /// Gets or sets the byte value of the specified color channel.
         /// </summary>
+        /// <param name="channel">
+        /// The channel.
+        /// </param>
+        /// <returns>
+        /// The <see cref="byte"/>.
+        /// </returns>
         public unsafe byte this[int channel]
         {
             get
@@ -135,7 +188,9 @@ namespace SIS
         /// <summary>
         /// Returns the maximum value out of the B, G, and R values. Alpha is ignored.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// The <see cref="byte"/>.
+        /// </returns>
         public byte GetMaxColorChannelValue()
         {
             return Math.Max(this.B, Math.Max(this.G, this.R));
@@ -144,7 +199,9 @@ namespace SIS
         /// <summary>
         /// Returns the average of the B, G, and R values. Alpha is ignored.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// The <see cref="byte"/>.
+        /// </returns>
         public byte GetAverageColorChannelValue()
         {
             return (byte)((this.B + this.G + this.R) / 3);
@@ -169,9 +226,14 @@ namespace SIS
         /// <summary>
         /// Compares two ColorBgra instance to determine if they are equal.
         /// </summary>
+        /// <param name="obj">
+        /// The obj.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public override bool Equals(object obj)
         {
-
             if (obj != null && obj is ColorBgra && ((ColorBgra)obj).Bgra == this.Bgra)
             {
                 return true;
@@ -185,7 +247,9 @@ namespace SIS
         /// <summary>
         /// Returns a hash code for this color value.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public override int GetHashCode()
         {
             unchecked
@@ -211,6 +275,12 @@ namespace SIS
         /// <summary>
         /// Returns a new ColorBgra with the same color values but with a new alpha component value.
         /// </summary>
+        /// <param name="newA">
+        /// The new A.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public ColorBgra NewAlpha(byte newA)
         {
             return ColorBgra.FromBgra(this.B, this.G, this.R, newA);
@@ -219,6 +289,21 @@ namespace SIS
         /// <summary>
         /// Creates a new ColorBgra instance with the given color and alpha values.
         /// </summary>
+        /// <param name="r">
+        /// The r.
+        /// </param>
+        /// <param name="g">
+        /// The g.
+        /// </param>
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <param name="a">
+        /// The a.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         [Obsolete("Use FromBgra() instead (make sure to swap the order of your b and r parameters)")]
         public static ColorBgra FromRgba(byte r, byte g, byte b, byte a)
         {
@@ -228,6 +313,18 @@ namespace SIS
         /// <summary>
         /// Creates a new ColorBgra instance with the given color values, and 255 for alpha.
         /// </summary>
+        /// <param name="r">
+        /// The r.
+        /// </param>
+        /// <param name="g">
+        /// The g.
+        /// </param>
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         [Obsolete("Use FromBgr() instead (make sure to swap the order of your b and r parameters)")]
         public static ColorBgra FromRgb(byte r, byte g, byte b)
         {
@@ -237,6 +334,21 @@ namespace SIS
         /// <summary>
         /// Creates a new ColorBgra instance with the given color and alpha values.
         /// </summary>
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <param name="g">
+        /// The g.
+        /// </param>
+        /// <param name="r">
+        /// The r.
+        /// </param>
+        /// <param name="a">
+        /// The a.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public static ColorBgra FromBgra(byte b, byte g, byte r, byte a)
         {
             ColorBgra color = new ColorBgra();
@@ -247,31 +359,76 @@ namespace SIS
         /// <summary>
         /// Creates a new ColorBgra instance with the given color and alpha values.
         /// </summary>
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <param name="g">
+        /// The g.
+        /// </param>
+        /// <param name="r">
+        /// The r.
+        /// </param>
+        /// <param name="a">
+        /// The a.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public static ColorBgra FromBgraClamped(int b, int g, int r, int a)
         {
             return FromBgra(
-                Utility.ClampToByte(b),
-                Utility.ClampToByte(g),
-                Utility.ClampToByte(r),
+                Utility.ClampToByte(b), 
+                Utility.ClampToByte(g), 
+                Utility.ClampToByte(r), 
                 Utility.ClampToByte(a));
         }
 
         /// <summary>
         /// Creates a new ColorBgra instance with the given color and alpha values.
         /// </summary>
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <param name="g">
+        /// The g.
+        /// </param>
+        /// <param name="r">
+        /// The r.
+        /// </param>
+        /// <param name="a">
+        /// The a.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public static ColorBgra FromBgraClamped(float b, float g, float r, float a)
         {
             return FromBgra(
-                Utility.ClampToByte(b),
-                Utility.ClampToByte(g),
-                Utility.ClampToByte(r),
+                Utility.ClampToByte(b), 
+                Utility.ClampToByte(g), 
+                Utility.ClampToByte(r), 
                 Utility.ClampToByte(a));
         }
 
         /// <summary>
         /// Packs color and alpha values into a 32-bit integer.
         /// </summary>
-        public static UInt32 BgraToUInt32(byte b, byte g, byte r, byte a)
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <param name="g">
+        /// The g.
+        /// </param>
+        /// <param name="r">
+        /// The r.
+        /// </param>
+        /// <param name="a">
+        /// The a.
+        /// </param>
+        /// <returns>
+        /// The <see cref="uint"/>.
+        /// </returns>
+        public static uint BgraToUInt32(byte b, byte g, byte r, byte a)
         {
             return (uint)b + ((uint)g << 8) + ((uint)r << 16) + ((uint)a << 24);
         }
@@ -279,7 +436,22 @@ namespace SIS
         /// <summary>
         /// Packs color and alpha values into a 32-bit integer.
         /// </summary>
-        public static UInt32 BgraToUInt32(int b, int g, int r, int a)
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <param name="g">
+        /// The g.
+        /// </param>
+        /// <param name="r">
+        /// The r.
+        /// </param>
+        /// <param name="a">
+        /// The a.
+        /// </param>
+        /// <returns>
+        /// The <see cref="uint"/>.
+        /// </returns>
+        public static uint BgraToUInt32(int b, int g, int r, int a)
         {
             return (uint)b + ((uint)g << 8) + ((uint)r << 16) + ((uint)a << 24);
         }
@@ -287,6 +459,18 @@ namespace SIS
         /// <summary>
         /// Creates a new ColorBgra instance with the given color values, and 255 for alpha.
         /// </summary>
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <param name="g">
+        /// The g.
+        /// </param>
+        /// <param name="r">
+        /// The r.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public static ColorBgra FromBgr(byte b, byte g, byte r)
         {
             return FromBgra(b, g, r, 255);
@@ -295,7 +479,13 @@ namespace SIS
         /// <summary>
         /// Constructs a new ColorBgra instance with the given 32-bit value.
         /// </summary>
-        public static ColorBgra FromUInt32(UInt32 bgra)
+        /// <param name="bgra">
+        /// The bgra.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
+        public static ColorBgra FromUInt32(uint bgra)
         {
             ColorBgra color = new ColorBgra();
             color.Bgra = bgra;
@@ -306,7 +496,13 @@ namespace SIS
         /// Constructs a new ColorBgra instance given a 32-bit signed integer that represents an R,G,B triple.
         /// Alpha will be initialized to 255.
         /// </summary>
-        public static ColorBgra FromOpaqueInt32(Int32 bgr)
+        /// <param name="bgr">
+        /// The bgr.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
+        public static ColorBgra FromOpaqueInt32(int bgr)
         {
             if (bgr < 0 || bgr > 0xffffff)
             {
@@ -320,6 +516,17 @@ namespace SIS
             return color;
         }
 
+        /// <summary>
+        /// The to opaque int 32.
+        /// </summary>
+        /// <param name="color">
+        /// The color.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// </exception>
         public static int ToOpaqueInt32(ColorBgra color)
         {
             if (color.A != 255)
@@ -333,6 +540,12 @@ namespace SIS
         /// <summary>
         /// Constructs a new ColorBgra instance from the values in the given Color instance.
         /// </summary>
+        /// <param name="c">
+        /// The c.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public static ColorBgra FromColor(Color c)
         {
             return FromBgra(c.B, c.G, c.R, c.A);
@@ -341,6 +554,9 @@ namespace SIS
         /// <summary>
         /// Converts this ColorBgra instance to a Color instance.
         /// </summary>
+        /// <returns>
+        /// The <see cref="Color"/>.
+        /// </returns>
         public Color ToColor()
         {
             return Color.FromArgb(this.A, this.R, this.G, this.B);
@@ -349,11 +565,24 @@ namespace SIS
         /// <summary>
         /// Smoothly blends between two colors.
         /// </summary>
+        /// <param name="ca">
+        /// The ca.
+        /// </param>
+        /// <param name="cb">
+        /// The cb.
+        /// </param>
+        /// <param name="cbAlpha">
+        /// The cb Alpha.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public static ColorBgra Blend(ColorBgra ca, ColorBgra cb, byte cbAlpha)
         {
-            //uint caA = (uint)Utility.FastScaleByteByByte((byte)(255 - cbAlpha), ca.A);
+            // uint caA = (uint)Utility.FastScaleByteByByte((byte)(255 - cbAlpha), ca.A);
             uint caA = 1;
-            //uint cbA = (uint)Utility.FastScaleByteByByte(cbAlpha, cb.A);
+
+            // uint cbA = (uint)Utility.FastScaleByteByByte(cbAlpha, cb.A);
             uint cbA = 2;
             uint cbAT = caA + cbA;
 
@@ -380,13 +609,22 @@ namespace SIS
         /// <summary>
         /// Linearly interpolates between two color values.
         /// </summary>
-        /// <param name="from">The color value that represents 0 on the lerp number line.</param>
-        /// <param name="to">The color value that represents 1 on the lerp number line.</param>
-        /// <param name="frac">A value in the range [0, 1].</param>
+        /// <param name="from">
+        /// The color value that represents 0 on the lerp number line.
+        /// </param>
+        /// <param name="to">
+        /// The color value that represents 1 on the lerp number line.
+        /// </param>
+        /// <param name="frac">
+        /// A value in the range [0, 1].
+        /// </param>
         /// <remarks>
         /// This method does a simple lerp on each color value and on the alpha channel. It does
         /// not properly take into account the alpha channel's effect on color blending.
         /// </remarks>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public static ColorBgra Lerp(ColorBgra from, ColorBgra to, float frac)
         {
             ColorBgra ret = new ColorBgra();
@@ -402,13 +640,22 @@ namespace SIS
         /// <summary>
         /// Linearly interpolates between two color values.
         /// </summary>
-        /// <param name="from">The color value that represents 0 on the lerp number line.</param>
-        /// <param name="to">The color value that represents 1 on the lerp number line.</param>
-        /// <param name="frac">A value in the range [0, 1].</param>
+        /// <param name="from">
+        /// The color value that represents 0 on the lerp number line.
+        /// </param>
+        /// <param name="to">
+        /// The color value that represents 1 on the lerp number line.
+        /// </param>
+        /// <param name="frac">
+        /// A value in the range [0, 1].
+        /// </param>
         /// <remarks>
         /// This method does a simple lerp on each color value and on the alpha channel. It does
         /// not properly take into account the alpha channel's effect on color blending.
         /// </remarks>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public static ColorBgra Lerp(ColorBgra from, ColorBgra to, double frac)
         {
             ColorBgra ret = new ColorBgra();
@@ -424,14 +671,49 @@ namespace SIS
         /// <summary>
         /// Blends four colors together based on the given weight values.
         /// </summary>
-        /// <returns>The blended color.</returns>
+        /// <param name="c1">
+        /// The c 1.
+        /// </param>
+        /// <param name="w1">
+        /// The w 1.
+        /// </param>
+        /// <param name="c2">
+        /// The c 2.
+        /// </param>
+        /// <param name="w2">
+        /// The w 2.
+        /// </param>
+        /// <param name="c3">
+        /// The c 3.
+        /// </param>
+        /// <param name="w3">
+        /// The w 3.
+        /// </param>
+        /// <param name="c4">
+        /// The c 4.
+        /// </param>
+        /// <param name="w4">
+        /// The w 4.
+        /// </param>
+        /// <returns>
+        /// The blended color.
+        /// </returns>
         /// <remarks>
         /// The weights should be 16-bit fixed point numbers that add up to 65536 ("1.0").
         /// 4W16IP means "4 colors, weights, 16-bit integer precision"
         /// </remarks>
-        public static ColorBgra BlendColors4W16IP(ColorBgra c1, uint w1, ColorBgra c2, uint w2, ColorBgra c3, uint w3, ColorBgra c4, uint w4)
+        public static ColorBgra BlendColors4W16IP(
+            ColorBgra c1, 
+            uint w1, 
+            ColorBgra c2, 
+            uint w2, 
+            ColorBgra c3, 
+            uint w3, 
+            ColorBgra c4, 
+            uint w4)
         {
 #if DEBUG
+
             /*
             if ((w1 + w2 + w3 + w4) != 65536)
             {
@@ -456,9 +738,18 @@ namespace SIS
             }
             else
             {
-                b = (uint)((((long)c1.A * c1.B * w1) + ((long)c2.A * c2.B * w2) + ((long)c3.A * c3.B * w3) + ((long)c4.A * c4.B * w4)) / af);
-                g = (uint)((((long)c1.A * c1.G * w1) + ((long)c2.A * c2.G * w2) + ((long)c3.A * c3.G * w3) + ((long)c4.A * c4.G * w4)) / af);
-                r = (uint)((((long)c1.A * c1.R * w1) + ((long)c2.A * c2.R * w2) + ((long)c3.A * c3.R * w3) + ((long)c4.A * c4.R * w4)) / af);
+                b =
+                    (uint)
+                    ((((long)c1.A * c1.B * w1) + ((long)c2.A * c2.B * w2) + ((long)c3.A * c3.B * w3)
+                      + ((long)c4.A * c4.B * w4)) / af);
+                g =
+                    (uint)
+                    ((((long)c1.A * c1.G * w1) + ((long)c2.A * c2.G * w2) + ((long)c3.A * c3.G * w3)
+                      + ((long)c4.A * c4.G * w4)) / af);
+                r =
+                    (uint)
+                    ((((long)c1.A * c1.R * w1) + ((long)c2.A * c2.R * w2) + ((long)c3.A * c3.R * w3)
+                      + ((long)c4.A * c4.R * w4)) / af);
             }
 
             return ColorBgra.FromBgra((byte)b, (byte)g, (byte)r, (byte)a);
@@ -467,8 +758,12 @@ namespace SIS
         /// <summary>
         /// Blends the colors based on the given weight values.
         /// </summary>
-        /// <param name="c">The array of color values.</param>
-        /// <param name="w">The array of weight values.</param>
+        /// <param name="c">
+        /// The array of color values.
+        /// </param>
+        /// <param name="w">
+        /// The array of weight values.
+        /// </param>
         /// <returns>
         /// The weights should be fixed point numbers. 
         /// The total summation of the weight values will be treated as "1.0".
@@ -476,7 +771,8 @@ namespace SIS
         /// the total summation of the weight values.
         /// </returns>
         /// <remarks>
-        /// "WAIP" stands for "weights, arbitrary integer precision"</remarks>
+        /// "WAIP" stands for "weights, arbitrary integer precision"
+        /// </remarks>
         public static ColorBgra BlendColorsWAIP(ColorBgra[] c, uint[] w)
         {
             if (c.Length != w.Length)
@@ -534,14 +830,19 @@ namespace SIS
         /// <summary>
         /// Blends the colors based on the given weight values.
         /// </summary>
-        /// <param name="c">The array of color values.</param>
-        /// <param name="w">The array of weight values.</param>
+        /// <param name="c">
+        /// The array of color values.
+        /// </param>
+        /// <param name="w">
+        /// The array of weight values.
+        /// </param>
         /// <returns>
         /// Each color will be blended in proportionally to its weight value respective to 
         /// the total summation of the weight values.
         /// </returns>
         /// <remarks>
-        /// "WAIP" stands for "weights, floating-point"</remarks>
+        /// "WAIP" stands for "weights, floating-point"
+        /// </remarks>
         public static ColorBgra BlendColorsWFP(ColorBgra[] c, double[] w)
         {
             if (c.Length != w.Length)
@@ -597,6 +898,15 @@ namespace SIS
             return ColorBgra.FromBgra((byte)b, (byte)g, (byte)r, (byte)a);
         }
 
+        /// <summary>
+        /// The blend.
+        /// </summary>
+        /// <param name="colors">
+        /// The colors.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
         public static ColorBgra Blend(ColorBgra[] colors)
         {
             unsafe
@@ -611,10 +921,15 @@ namespace SIS
         /// <summary>
         /// Smoothly blends the given colors together, assuming equal weighting for each one.
         /// </summary>
-        /// <param name="colors"></param>
-        /// <param name="colorCount"></param>
-        /// <returns></returns>
-        public unsafe static ColorBgra Blend(ColorBgra* colors, int count)
+        /// <param name="colors">
+        /// </param>
+        /// <param name="count">
+        /// The count.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ColorBgra"/>.
+        /// </returns>
+        public static unsafe ColorBgra Blend(ColorBgra* colors, int count)
         {
             if (count < 0)
             {
@@ -659,6 +974,12 @@ namespace SIS
             return ColorBgra.FromBgra(b, g, r, a);
         }
 
+        /// <summary>
+        /// The to string.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string ToString()
         {
             return "B: " + this.B + ", G: " + this.G + ", R: " + this.R + ", A: " + this.A;
@@ -675,7 +996,7 @@ namespace SIS
         /// <summary>
         /// Casts a UInt32 to a ColorBgra.
         /// </summary>
-        public static explicit operator ColorBgra(UInt32 uint32)
+        public static explicit operator ColorBgra(uint uint32)
         {
             return ColorBgra.FromUInt32(uint32);
         }
@@ -683,6 +1004,9 @@ namespace SIS
         // Colors: copied from System.Drawing.Color's list (don't worry I didn't type it in 
         // manually, I used a code generator w/ reflection ...)
 
+        /// <summary>
+        /// Gets the transparent.
+        /// </summary>
         public static ColorBgra Transparent
         {
             get
@@ -691,6 +1015,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the alice blue.
+        /// </summary>
         public static ColorBgra AliceBlue
         {
             get
@@ -699,6 +1026,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the antique white.
+        /// </summary>
         public static ColorBgra AntiqueWhite
         {
             get
@@ -707,6 +1037,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the aqua.
+        /// </summary>
         public static ColorBgra Aqua
         {
             get
@@ -715,6 +1048,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the aquamarine.
+        /// </summary>
         public static ColorBgra Aquamarine
         {
             get
@@ -723,6 +1059,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the azure.
+        /// </summary>
         public static ColorBgra Azure
         {
             get
@@ -731,6 +1070,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the beige.
+        /// </summary>
         public static ColorBgra Beige
         {
             get
@@ -739,6 +1081,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the bisque.
+        /// </summary>
         public static ColorBgra Bisque
         {
             get
@@ -747,6 +1092,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the black.
+        /// </summary>
         public static ColorBgra Black
         {
             get
@@ -755,6 +1103,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the blanched almond.
+        /// </summary>
         public static ColorBgra BlanchedAlmond
         {
             get
@@ -763,6 +1114,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the blue.
+        /// </summary>
         public static ColorBgra Blue
         {
             get
@@ -771,6 +1125,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the blue violet.
+        /// </summary>
         public static ColorBgra BlueViolet
         {
             get
@@ -779,6 +1136,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the brown.
+        /// </summary>
         public static ColorBgra Brown
         {
             get
@@ -787,6 +1147,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the burly wood.
+        /// </summary>
         public static ColorBgra BurlyWood
         {
             get
@@ -795,6 +1158,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the cadet blue.
+        /// </summary>
         public static ColorBgra CadetBlue
         {
             get
@@ -803,6 +1169,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the chartreuse.
+        /// </summary>
         public static ColorBgra Chartreuse
         {
             get
@@ -811,6 +1180,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the chocolate.
+        /// </summary>
         public static ColorBgra Chocolate
         {
             get
@@ -819,6 +1191,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the coral.
+        /// </summary>
         public static ColorBgra Coral
         {
             get
@@ -827,6 +1202,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the cornflower blue.
+        /// </summary>
         public static ColorBgra CornflowerBlue
         {
             get
@@ -835,6 +1213,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the cornsilk.
+        /// </summary>
         public static ColorBgra Cornsilk
         {
             get
@@ -843,6 +1224,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the crimson.
+        /// </summary>
         public static ColorBgra Crimson
         {
             get
@@ -851,6 +1235,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the cyan.
+        /// </summary>
         public static ColorBgra Cyan
         {
             get
@@ -859,6 +1246,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark blue.
+        /// </summary>
         public static ColorBgra DarkBlue
         {
             get
@@ -867,6 +1257,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark cyan.
+        /// </summary>
         public static ColorBgra DarkCyan
         {
             get
@@ -875,6 +1268,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark goldenrod.
+        /// </summary>
         public static ColorBgra DarkGoldenrod
         {
             get
@@ -883,6 +1279,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark gray.
+        /// </summary>
         public static ColorBgra DarkGray
         {
             get
@@ -891,6 +1290,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark green.
+        /// </summary>
         public static ColorBgra DarkGreen
         {
             get
@@ -899,6 +1301,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark khaki.
+        /// </summary>
         public static ColorBgra DarkKhaki
         {
             get
@@ -907,6 +1312,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark magenta.
+        /// </summary>
         public static ColorBgra DarkMagenta
         {
             get
@@ -915,6 +1323,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark olive green.
+        /// </summary>
         public static ColorBgra DarkOliveGreen
         {
             get
@@ -923,6 +1334,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark orange.
+        /// </summary>
         public static ColorBgra DarkOrange
         {
             get
@@ -931,6 +1345,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark orchid.
+        /// </summary>
         public static ColorBgra DarkOrchid
         {
             get
@@ -939,6 +1356,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark red.
+        /// </summary>
         public static ColorBgra DarkRed
         {
             get
@@ -947,6 +1367,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark salmon.
+        /// </summary>
         public static ColorBgra DarkSalmon
         {
             get
@@ -955,6 +1378,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark sea green.
+        /// </summary>
         public static ColorBgra DarkSeaGreen
         {
             get
@@ -963,6 +1389,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark slate blue.
+        /// </summary>
         public static ColorBgra DarkSlateBlue
         {
             get
@@ -971,6 +1400,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark slate gray.
+        /// </summary>
         public static ColorBgra DarkSlateGray
         {
             get
@@ -979,6 +1411,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark turquoise.
+        /// </summary>
         public static ColorBgra DarkTurquoise
         {
             get
@@ -987,6 +1422,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dark violet.
+        /// </summary>
         public static ColorBgra DarkViolet
         {
             get
@@ -995,6 +1433,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the deep pink.
+        /// </summary>
         public static ColorBgra DeepPink
         {
             get
@@ -1003,6 +1444,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the deep sky blue.
+        /// </summary>
         public static ColorBgra DeepSkyBlue
         {
             get
@@ -1011,6 +1455,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dim gray.
+        /// </summary>
         public static ColorBgra DimGray
         {
             get
@@ -1019,6 +1466,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the dodger blue.
+        /// </summary>
         public static ColorBgra DodgerBlue
         {
             get
@@ -1027,6 +1477,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the firebrick.
+        /// </summary>
         public static ColorBgra Firebrick
         {
             get
@@ -1035,6 +1488,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the floral white.
+        /// </summary>
         public static ColorBgra FloralWhite
         {
             get
@@ -1043,6 +1499,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the forest green.
+        /// </summary>
         public static ColorBgra ForestGreen
         {
             get
@@ -1051,6 +1510,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the fuchsia.
+        /// </summary>
         public static ColorBgra Fuchsia
         {
             get
@@ -1059,6 +1521,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the gainsboro.
+        /// </summary>
         public static ColorBgra Gainsboro
         {
             get
@@ -1067,6 +1532,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the ghost white.
+        /// </summary>
         public static ColorBgra GhostWhite
         {
             get
@@ -1075,6 +1543,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the gold.
+        /// </summary>
         public static ColorBgra Gold
         {
             get
@@ -1083,6 +1554,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the goldenrod.
+        /// </summary>
         public static ColorBgra Goldenrod
         {
             get
@@ -1091,6 +1565,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the gray.
+        /// </summary>
         public static ColorBgra Gray
         {
             get
@@ -1099,6 +1576,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the green.
+        /// </summary>
         public static ColorBgra Green
         {
             get
@@ -1107,6 +1587,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the green yellow.
+        /// </summary>
         public static ColorBgra GreenYellow
         {
             get
@@ -1115,6 +1598,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the honeydew.
+        /// </summary>
         public static ColorBgra Honeydew
         {
             get
@@ -1123,6 +1609,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the hot pink.
+        /// </summary>
         public static ColorBgra HotPink
         {
             get
@@ -1131,6 +1620,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the indian red.
+        /// </summary>
         public static ColorBgra IndianRed
         {
             get
@@ -1139,6 +1631,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the indigo.
+        /// </summary>
         public static ColorBgra Indigo
         {
             get
@@ -1147,6 +1642,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the ivory.
+        /// </summary>
         public static ColorBgra Ivory
         {
             get
@@ -1155,6 +1653,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the khaki.
+        /// </summary>
         public static ColorBgra Khaki
         {
             get
@@ -1163,6 +1664,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the lavender.
+        /// </summary>
         public static ColorBgra Lavender
         {
             get
@@ -1171,6 +1675,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the lavender blush.
+        /// </summary>
         public static ColorBgra LavenderBlush
         {
             get
@@ -1179,6 +1686,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the lawn green.
+        /// </summary>
         public static ColorBgra LawnGreen
         {
             get
@@ -1187,6 +1697,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the lemon chiffon.
+        /// </summary>
         public static ColorBgra LemonChiffon
         {
             get
@@ -1195,6 +1708,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light blue.
+        /// </summary>
         public static ColorBgra LightBlue
         {
             get
@@ -1203,6 +1719,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light coral.
+        /// </summary>
         public static ColorBgra LightCoral
         {
             get
@@ -1211,6 +1730,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light cyan.
+        /// </summary>
         public static ColorBgra LightCyan
         {
             get
@@ -1219,6 +1741,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light goldenrod yellow.
+        /// </summary>
         public static ColorBgra LightGoldenrodYellow
         {
             get
@@ -1227,6 +1752,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light green.
+        /// </summary>
         public static ColorBgra LightGreen
         {
             get
@@ -1235,6 +1763,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light gray.
+        /// </summary>
         public static ColorBgra LightGray
         {
             get
@@ -1243,6 +1774,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light pink.
+        /// </summary>
         public static ColorBgra LightPink
         {
             get
@@ -1251,6 +1785,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light salmon.
+        /// </summary>
         public static ColorBgra LightSalmon
         {
             get
@@ -1259,6 +1796,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light sea green.
+        /// </summary>
         public static ColorBgra LightSeaGreen
         {
             get
@@ -1267,6 +1807,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light sky blue.
+        /// </summary>
         public static ColorBgra LightSkyBlue
         {
             get
@@ -1275,6 +1818,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light slate gray.
+        /// </summary>
         public static ColorBgra LightSlateGray
         {
             get
@@ -1283,6 +1829,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light steel blue.
+        /// </summary>
         public static ColorBgra LightSteelBlue
         {
             get
@@ -1291,6 +1840,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the light yellow.
+        /// </summary>
         public static ColorBgra LightYellow
         {
             get
@@ -1299,6 +1851,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the lime.
+        /// </summary>
         public static ColorBgra Lime
         {
             get
@@ -1307,6 +1862,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the lime green.
+        /// </summary>
         public static ColorBgra LimeGreen
         {
             get
@@ -1315,6 +1873,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the linen.
+        /// </summary>
         public static ColorBgra Linen
         {
             get
@@ -1323,6 +1884,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the magenta.
+        /// </summary>
         public static ColorBgra Magenta
         {
             get
@@ -1331,6 +1895,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the maroon.
+        /// </summary>
         public static ColorBgra Maroon
         {
             get
@@ -1339,6 +1906,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the medium aquamarine.
+        /// </summary>
         public static ColorBgra MediumAquamarine
         {
             get
@@ -1347,6 +1917,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the medium blue.
+        /// </summary>
         public static ColorBgra MediumBlue
         {
             get
@@ -1355,6 +1928,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the medium orchid.
+        /// </summary>
         public static ColorBgra MediumOrchid
         {
             get
@@ -1363,6 +1939,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the medium purple.
+        /// </summary>
         public static ColorBgra MediumPurple
         {
             get
@@ -1371,6 +1950,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the medium sea green.
+        /// </summary>
         public static ColorBgra MediumSeaGreen
         {
             get
@@ -1379,6 +1961,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the medium slate blue.
+        /// </summary>
         public static ColorBgra MediumSlateBlue
         {
             get
@@ -1387,6 +1972,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the medium spring green.
+        /// </summary>
         public static ColorBgra MediumSpringGreen
         {
             get
@@ -1395,6 +1983,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the medium turquoise.
+        /// </summary>
         public static ColorBgra MediumTurquoise
         {
             get
@@ -1403,6 +1994,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the medium violet red.
+        /// </summary>
         public static ColorBgra MediumVioletRed
         {
             get
@@ -1411,6 +2005,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the midnight blue.
+        /// </summary>
         public static ColorBgra MidnightBlue
         {
             get
@@ -1419,6 +2016,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the mint cream.
+        /// </summary>
         public static ColorBgra MintCream
         {
             get
@@ -1427,6 +2027,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the misty rose.
+        /// </summary>
         public static ColorBgra MistyRose
         {
             get
@@ -1435,6 +2038,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the moccasin.
+        /// </summary>
         public static ColorBgra Moccasin
         {
             get
@@ -1443,6 +2049,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the navajo white.
+        /// </summary>
         public static ColorBgra NavajoWhite
         {
             get
@@ -1451,6 +2060,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the navy.
+        /// </summary>
         public static ColorBgra Navy
         {
             get
@@ -1459,6 +2071,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the old lace.
+        /// </summary>
         public static ColorBgra OldLace
         {
             get
@@ -1467,6 +2082,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the olive.
+        /// </summary>
         public static ColorBgra Olive
         {
             get
@@ -1475,6 +2093,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the olive drab.
+        /// </summary>
         public static ColorBgra OliveDrab
         {
             get
@@ -1483,6 +2104,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the orange.
+        /// </summary>
         public static ColorBgra Orange
         {
             get
@@ -1491,6 +2115,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the orange red.
+        /// </summary>
         public static ColorBgra OrangeRed
         {
             get
@@ -1499,6 +2126,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the orchid.
+        /// </summary>
         public static ColorBgra Orchid
         {
             get
@@ -1507,6 +2137,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the pale goldenrod.
+        /// </summary>
         public static ColorBgra PaleGoldenrod
         {
             get
@@ -1515,6 +2148,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the pale green.
+        /// </summary>
         public static ColorBgra PaleGreen
         {
             get
@@ -1523,6 +2159,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the pale turquoise.
+        /// </summary>
         public static ColorBgra PaleTurquoise
         {
             get
@@ -1531,6 +2170,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the pale violet red.
+        /// </summary>
         public static ColorBgra PaleVioletRed
         {
             get
@@ -1539,6 +2181,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the papaya whip.
+        /// </summary>
         public static ColorBgra PapayaWhip
         {
             get
@@ -1547,6 +2192,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the peach puff.
+        /// </summary>
         public static ColorBgra PeachPuff
         {
             get
@@ -1555,6 +2203,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the peru.
+        /// </summary>
         public static ColorBgra Peru
         {
             get
@@ -1563,6 +2214,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the pink.
+        /// </summary>
         public static ColorBgra Pink
         {
             get
@@ -1571,6 +2225,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the plum.
+        /// </summary>
         public static ColorBgra Plum
         {
             get
@@ -1579,6 +2236,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the powder blue.
+        /// </summary>
         public static ColorBgra PowderBlue
         {
             get
@@ -1587,6 +2247,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the purple.
+        /// </summary>
         public static ColorBgra Purple
         {
             get
@@ -1595,6 +2258,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the red.
+        /// </summary>
         public static ColorBgra Red
         {
             get
@@ -1603,6 +2269,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the rosy brown.
+        /// </summary>
         public static ColorBgra RosyBrown
         {
             get
@@ -1611,6 +2280,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the royal blue.
+        /// </summary>
         public static ColorBgra RoyalBlue
         {
             get
@@ -1619,6 +2291,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the saddle brown.
+        /// </summary>
         public static ColorBgra SaddleBrown
         {
             get
@@ -1627,6 +2302,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the salmon.
+        /// </summary>
         public static ColorBgra Salmon
         {
             get
@@ -1635,6 +2313,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the sandy brown.
+        /// </summary>
         public static ColorBgra SandyBrown
         {
             get
@@ -1643,6 +2324,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the sea green.
+        /// </summary>
         public static ColorBgra SeaGreen
         {
             get
@@ -1651,6 +2335,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the sea shell.
+        /// </summary>
         public static ColorBgra SeaShell
         {
             get
@@ -1659,6 +2346,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the sienna.
+        /// </summary>
         public static ColorBgra Sienna
         {
             get
@@ -1667,6 +2357,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the silver.
+        /// </summary>
         public static ColorBgra Silver
         {
             get
@@ -1675,6 +2368,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the sky blue.
+        /// </summary>
         public static ColorBgra SkyBlue
         {
             get
@@ -1683,6 +2379,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the slate blue.
+        /// </summary>
         public static ColorBgra SlateBlue
         {
             get
@@ -1691,6 +2390,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the slate gray.
+        /// </summary>
         public static ColorBgra SlateGray
         {
             get
@@ -1699,6 +2401,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the snow.
+        /// </summary>
         public static ColorBgra Snow
         {
             get
@@ -1707,6 +2412,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the spring green.
+        /// </summary>
         public static ColorBgra SpringGreen
         {
             get
@@ -1715,6 +2423,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the steel blue.
+        /// </summary>
         public static ColorBgra SteelBlue
         {
             get
@@ -1723,6 +2434,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the tan.
+        /// </summary>
         public static ColorBgra Tan
         {
             get
@@ -1731,6 +2445,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the teal.
+        /// </summary>
         public static ColorBgra Teal
         {
             get
@@ -1739,6 +2456,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the thistle.
+        /// </summary>
         public static ColorBgra Thistle
         {
             get
@@ -1747,6 +2467,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the tomato.
+        /// </summary>
         public static ColorBgra Tomato
         {
             get
@@ -1755,6 +2478,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the turquoise.
+        /// </summary>
         public static ColorBgra Turquoise
         {
             get
@@ -1763,6 +2489,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the violet.
+        /// </summary>
         public static ColorBgra Violet
         {
             get
@@ -1771,6 +2500,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the wheat.
+        /// </summary>
         public static ColorBgra Wheat
         {
             get
@@ -1779,6 +2511,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the white.
+        /// </summary>
         public static ColorBgra White
         {
             get
@@ -1787,6 +2522,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the white smoke.
+        /// </summary>
         public static ColorBgra WhiteSmoke
         {
             get
@@ -1795,6 +2533,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the yellow.
+        /// </summary>
         public static ColorBgra Yellow
         {
             get
@@ -1803,6 +2544,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the yellow green.
+        /// </summary>
         public static ColorBgra YellowGreen
         {
             get
@@ -1811,6 +2555,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// Gets the zero.
+        /// </summary>
         public static ColorBgra Zero
         {
             get
@@ -1819,6 +2566,9 @@ namespace SIS
             }
         }
 
+        /// <summary>
+        /// The predefined colors.
+        /// </summary>
         private static Dictionary<string, ColorBgra> predefinedColors;
 
         /// <summary>

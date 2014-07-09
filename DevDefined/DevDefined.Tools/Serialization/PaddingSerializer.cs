@@ -1,35 +1,60 @@
-using System;
-using System.Text;
-using System.Windows.Forms;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PaddingSerializer.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   A class which can serialize a <see cref="Padding" /> instance to and from a simple
+//   string representation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Tools.Serialization
 {
+    using System;
+    using System.Text;
+    using System.Windows.Forms;
+
     /// <summary>
     /// A class which can serialize a <see cref="Padding" /> instance to and from a simple
     /// string representation.
     /// </summary>
     public static class PaddingSerializer
     {
+        #region Constants
+
+        /// <summary>
+        /// The padding seperator.
+        /// </summary>
         private const char PaddingSeperator = ',';
+
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Deserializes the padding.
         /// </summary>
-        /// <param name="encodedValue">The encoded value.</param>
-        /// <param name="defaultValue">The default value.</param>
-        /// <returns></returns>
+        /// <param name="encodedValue">
+        /// The encoded value.
+        /// </param>
+        /// <param name="defaultValue">
+        /// The default value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Padding"/>.
+        /// </returns>
         public static Padding DeserializePadding(string encodedValue, Padding defaultValue)
         {
             if (!string.IsNullOrEmpty(encodedValue))
             {
                 var intValues = new int[4];
-                string[] values = encodedValue.Split(new[] {PaddingSeperator});
+                string[] values = encodedValue.Split(new[] { PaddingSeperator });
 
                 if (values.Length >= 4)
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        if (!Int32.TryParse(values[i], out intValues[i]))
+                        if (!int.TryParse(values[i], out intValues[i]))
                         {
                             goto returnDefault;
                         }
@@ -47,8 +72,12 @@ namespace DevDefined.Tools.Serialization
         /// <summary>
         /// Serializes the padding.
         /// </summary>
-        /// <param name="padding">The padding.</param>
-        /// <returns></returns>
+        /// <param name="padding">
+        /// The padding.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public static string SerializePadding(Padding padding)
         {
             var builder = new StringBuilder();
@@ -62,5 +91,7 @@ namespace DevDefined.Tools.Serialization
 
             return builder.ToString();
         }
+
+        #endregion
     }
 }

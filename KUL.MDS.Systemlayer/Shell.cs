@@ -1,11 +1,11 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Shell.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The shell.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
@@ -24,6 +24,9 @@ namespace SIS.Systemlayer
 
     using SIS.Base;
 
+    /// <summary>
+    /// The shell.
+    /// </summary>
     public static class Shell
     {
         /// <summary>
@@ -69,14 +72,14 @@ namespace SIS.Systemlayer
                 if (!Security.IsAdministrator && !Security.CanElevateToAdministrator)
                 {
                     MessageBox.Show(
-                        null,
-                        "SIS has detected that some important installation files are missing. Repairing " +
-                        "this requires administrator privilege. Please run the 'SISRepair.exe' program in the installation " +
-                        "directory after logging in with a user that has administrator privilege." + Environment.NewLine +
-                        Environment.NewLine +
-                        "The missing files are: " + missingFilesSB.ToString(),
-                        "SIS",
-                        MessageBoxButtons.OK,
+                        null, 
+                        "SIS has detected that some important installation files are missing. Repairing "
+                        + "this requires administrator privilege. Please run the 'SISRepair.exe' program in the installation "
+                        + "directory after logging in with a user that has administrator privilege."
+                        + Environment.NewLine + Environment.NewLine + "The missing files are: "
+                        + missingFilesSB.ToString(), 
+                        "SIS", 
+                        MessageBoxButtons.OK, 
                         MessageBoxIcon.Error);
 
                     return false;
@@ -91,15 +94,14 @@ namespace SIS.Systemlayer
 
                 Label infoLabel = new Label();
                 form.Controls.Add(infoLabel);
-                infoLabel.Text =
-                    "SIS has detected that some important installation files are missing. If you click " +
-                    "the Repair button it will attempt to repair this and then continue loading." + Environment.NewLine +
-                    Environment.NewLine +
-                    "The missing files are: " + missingFilesSB.ToString();
+                infoLabel.Text = "SIS has detected that some important installation files are missing. If you click "
+                                 + "the Repair button it will attempt to repair this and then continue loading."
+                                 + Environment.NewLine + Environment.NewLine + "The missing files are: "
+                                 + missingFilesSB.ToString();
 
 #if DEBUG
-                infoLabel.Text += Environment.NewLine + Environment.NewLine +
-                    "*** Since this is a DEBUG build, you should probably add /skipRepairAttempt to the command-line.";
+                infoLabel.Text += Environment.NewLine + Environment.NewLine
+                                  + "*** Since this is a DEBUG build, you should probably add /skipRepairAttempt to the command-line.";
 #endif
 
                 infoLabel.Location = new Point(hMargin, vMargin);
@@ -112,17 +114,20 @@ namespace SIS.Systemlayer
 
                 Exception exception = null;
 
-                repairButton.Click +=
-                    delegate(object sender, EventArgs e)
+                repairButton.Click += delegate(object sender, EventArgs e)
                     {
                         form.DialogResult = DialogResult.Yes;
                         repairButton.Enabled = false;
 
                         try
                         {
-                            Shell.Execute(form, "SISRepair.exe", "/noPause", ExecutePrivilege.AsInvokerOrAsManifest, ExecuteWaitType.WaitForExit);
+                            Shell.Execute(
+                                form, 
+                                "SISRepair.exe", 
+                                "/noPause", 
+                                ExecutePrivilege.AsInvokerOrAsManifest, 
+                                ExecuteWaitType.WaitForExit);
                         }
-
                         catch (Exception ex)
                         {
                             exception = ex;
@@ -132,7 +137,9 @@ namespace SIS.Systemlayer
                 repairButton.AutoSize = true;
                 repairButton.PerformLayout();
                 repairButton.Width += 20;
-                repairButton.Location = new Point((form.ClientSize.Width - repairButton.Width) / 2, infoLabel.Bottom + vMargin * 2);
+                repairButton.Location = new Point(
+                    (form.ClientSize.Width - repairButton.Width) / 2, 
+                    infoLabel.Bottom + vMargin * 2);
                 repairButton.FlatStyle = FlatStyle.System;
                 UI.EnableShield(repairButton, true);
 
@@ -160,19 +167,24 @@ namespace SIS.Systemlayer
                     throw new Exception("Error while attempting to repair", exception);
                 }
             }
-
             catch (Exception ex)
             {
-                throw new Exception("Could not repair installation after it was determined that the following files are missing: " +
-                    missingFilesSB.ToString(), ex);
+                throw new Exception(
+                    "Could not repair installation after it was determined that the following files are missing: "
+                    + missingFilesSB.ToString(), 
+                    ex);
             }
         }
 
         /// <summary>
         /// Opens the requested directory in the shell's file/folder browser.
         /// </summary>
-        /// <param name="parent">The window that is currently in the foreground.</param>
-        /// <param name="folderPath">The folder to open.</param>
+        /// <param name="parent">
+        /// The window that is currently in the foreground.
+        /// </param>
+        /// <param name="folderPath">
+        /// The folder to open.
+        /// </param>
         /// <remarks>
         /// This UI is presented modelessly, in another process, and in the foreground.
         /// Error handling and messaging (error dialogs) will be handled by the shell,
@@ -210,17 +222,35 @@ namespace SIS.Systemlayer
 #if false
         [Obsolete("Do not use this method.", true)]
         public static void Execute(
-            IWin32Window parent,
-            string exePath,
-            string args,
+            IWin32Window parent, 
+            string exePath, 
+            string args, 
             bool requireAdmin)
         {
             Execute(parent, exePath, args, requireAdmin ? ExecutePrivilege.RequireAdmin : ExecutePrivilege.AsInvokerOrAsManifest, ExecuteWaitType.ReturnImmediately);
         }
 #endif
 
+        /// <summary>
+        /// The update exe file name.
+        /// </summary>
         private const string updateExeFileName = "UpdateMonitor.exe";
 
+        /// <summary>
+        /// The execute hand off.
+        /// </summary>
+        /// <param name="parent">
+        /// The parent.
+        /// </param>
+        /// <param name="exePath">
+        /// The exe path.
+        /// </param>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        /// <param name="hProcess">
+        /// The h process.
+        /// </param>
         private delegate int ExecuteHandOff(IWin32Window parent, string exePath, string args, out IntPtr hProcess);
 
         /// <summary>
@@ -244,6 +274,9 @@ namespace SIS.Systemlayer
         /// (e.g. via a "requiresAdministrator" UAC manifest), this parameter should be 
         /// set to AsInvokerOrAsManifest.
         /// </param>
+        /// <param name="execWaitType">
+        /// The exec Wait Type.
+        /// </param>
         /// <remarks>
         /// If administrator privilege is required, a consent UI may be displayed asking the
         /// user to approve the action. A parent window must be provided in this case so that
@@ -263,10 +296,10 @@ namespace SIS.Systemlayer
         /// There was an error launching the program.
         /// </exception>
         public static void Execute(
-            IWin32Window parent,
-            string exePath,
-            string args,
-            ExecutePrivilege execPrivilege,
+            IWin32Window parent, 
+            string exePath, 
+            string args, 
+            ExecutePrivilege execPrivilege, 
             ExecuteWaitType execWaitType)
         {
             if (exePath == null)
@@ -282,11 +315,11 @@ namespace SIS.Systemlayer
             // If this action requires admin privilege, but the user does not have this
             // privilege and is not capable of acquiring this privilege, then we will
             // throw an exception.
-            if (execPrivilege == ExecutePrivilege.RequireAdmin &&
-                !Security.IsAdministrator &&
-                !Security.CanElevateToAdministrator)
+            if (execPrivilege == ExecutePrivilege.RequireAdmin && !Security.IsAdministrator
+                && !Security.CanElevateToAdministrator)
             {
-                throw new SecurityException("Executable requires administrator privilege, but user is not an administrator and cannot elevate");
+                throw new SecurityException(
+                    "Executable requires administrator privilege, but user is not an administrator and cannot elevate");
             }
 
             ExecuteHandOff executeHandOff = null;
@@ -309,6 +342,7 @@ namespace SIS.Systemlayer
                     {
                         executeHandOff = new ExecuteHandOff(ExecAsInvokerOrAsManifest);
                     }
+
                     break;
 
                 default:
@@ -333,8 +367,8 @@ namespace SIS.Systemlayer
                 else if (execWaitType == ExecuteWaitType.RelaunchPdnOnExit)
                 {
                     bool bResult2 = SafeNativeMethods.SetHandleInformation(
-                        hProcess,
-                        NativeConstants.HANDLE_FLAG_INHERIT,
+                        hProcess, 
+                        NativeConstants.HANDLE_FLAG_INHERIT, 
                         NativeConstants.HANDLE_FLAG_INHERIT);
 
                     RelaunchPdnHelperPart2(updateMonitorExePath, hProcess);
@@ -356,8 +390,7 @@ namespace SIS.Systemlayer
             }
             else
             {
-                if (nResult == NativeConstants.ERROR_CANCELLED ||
-                    nResult == NativeConstants.ERROR_TIMEOUT)
+                if (nResult == NativeConstants.ERROR_CANCELLED || nResult == NativeConstants.ERROR_TIMEOUT)
                 {
                     // no problem
                 }
@@ -372,7 +405,6 @@ namespace SIS.Systemlayer
                     {
                         File.Delete(updateMonitorExePath);
                     }
-
                     catch (Exception)
                     {
                     }
@@ -384,11 +416,51 @@ namespace SIS.Systemlayer
             GC.KeepAlive(parent);
         }
 
-        private static int ExecAsInvokerOrAsManifest(IWin32Window parent, string exePath, string args, out IntPtr hProcess)
+        /// <summary>
+        /// The exec as invoker or as manifest.
+        /// </summary>
+        /// <param name="parent">
+        /// The parent.
+        /// </param>
+        /// <param name="exePath">
+        /// The exe path.
+        /// </param>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        /// <param name="hProcess">
+        /// The h process.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        private static int ExecAsInvokerOrAsManifest(
+            IWin32Window parent, 
+            string exePath, 
+            string args, 
+            out IntPtr hProcess)
         {
             return ExecShellExecuteEx(parent, exePath, args, null, out hProcess);
         }
 
+        /// <summary>
+        /// The exec require admin.
+        /// </summary>
+        /// <param name="parent">
+        /// The parent.
+        /// </param>
+        /// <param name="exePath">
+        /// The exe path.
+        /// </param>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        /// <param name="hProcess">
+        /// The h process.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         private static int ExecRequireAdmin(IWin32Window parent, string exePath, string args, out IntPtr hProcess)
         {
             const string runAs = "runas";
@@ -406,10 +478,28 @@ namespace SIS.Systemlayer
             return ExecShellExecuteEx(parent, exePath, args, verb, out hProcess);
         }
 
+        /// <summary>
+        /// The exec require non admin.
+        /// </summary>
+        /// <param name="parent">
+        /// The parent.
+        /// </param>
+        /// <param name="exePath">
+        /// The exe path.
+        /// </param>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        /// <param name="hProcess">
+        /// The h process.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         private static int ExecRequireNonAdmin(IWin32Window parent, string exePath, string args, out IntPtr hProcess)
         {
             int nError = NativeConstants.ERROR_SUCCESS;
-            string commandLine = "\"" + exePath + "\"" + (args == null ? "" : (" " + args));
+            string commandLine = "\"" + exePath + "\"" + (args == null ? string.Empty : (" " + args));
 
             string dir;
 
@@ -417,7 +507,6 @@ namespace SIS.Systemlayer
             {
                 dir = Path.GetDirectoryName(exePath);
             }
-
             catch (Exception)
             {
                 dir = null;
@@ -444,7 +533,9 @@ namespace SIS.Systemlayer
                 uint dwThreadId = SafeNativeMethods.GetWindowThreadProcessId(hWndShell, out dwPID);
                 if (0 == dwPID)
                 {
-                    NativeMethods.ThrowOnWin32Error("GetWindowThreadProcessId returned 0", NativeErrors.ERROR_FILE_NOT_FOUND);
+                    NativeMethods.ThrowOnWin32Error(
+                        "GetWindowThreadProcessId returned 0", 
+                        NativeErrors.ERROR_FILE_NOT_FOUND);
                 }
 
                 hShellProcess = NativeMethods.OpenProcess(NativeConstants.PROCESS_QUERY_INFORMATION, false, dwPID);
@@ -454,8 +545,8 @@ namespace SIS.Systemlayer
                 }
 
                 bool optResult = NativeMethods.OpenProcessToken(
-                    hShellProcess,
-                    NativeConstants.TOKEN_ASSIGN_PRIMARY | NativeConstants.TOKEN_DUPLICATE | NativeConstants.TOKEN_QUERY,
+                    hShellProcess, 
+                    NativeConstants.TOKEN_ASSIGN_PRIMARY | NativeConstants.TOKEN_DUPLICATE | NativeConstants.TOKEN_QUERY, 
                     out hShellProcessToken);
 
                 if (!optResult)
@@ -464,11 +555,11 @@ namespace SIS.Systemlayer
                 }
 
                 bool dteResult = NativeMethods.DuplicateTokenEx(
-                    hShellProcessToken,
-                    NativeConstants.MAXIMUM_ALLOWED,
-                    IntPtr.Zero,
-                    NativeConstants.SECURITY_IMPERSONATION_LEVEL.SecurityImpersonation,
-                    NativeConstants.TOKEN_TYPE.TokenPrimary,
+                    hShellProcessToken, 
+                    NativeConstants.MAXIMUM_ALLOWED, 
+                    IntPtr.Zero, 
+                    NativeConstants.SECURITY_IMPERSONATION_LEVEL.SecurityImpersonation, 
+                    NativeConstants.TOKEN_TYPE.TokenPrimary, 
                     out hTokenCopy);
 
                 if (!dteResult)
@@ -481,14 +572,14 @@ namespace SIS.Systemlayer
                 bstrDir = Marshal.StringToBSTR(dir);
 
                 bool cpwtResult = NativeMethods.CreateProcessWithTokenW(
-                    hTokenCopy,
-                    0,
-                    bstrExePath,
-                    bstrCommandLine,
-                    0,
-                    IntPtr.Zero,
-                    bstrDir,
-                    IntPtr.Zero,
+                    hTokenCopy, 
+                    0, 
+                    bstrExePath, 
+                    bstrCommandLine, 
+                    0, 
+                    IntPtr.Zero, 
+                    bstrDir, 
+                    IntPtr.Zero, 
                     out procInfo);
 
                 if (cpwtResult)
@@ -503,14 +594,12 @@ namespace SIS.Systemlayer
                     nError = Marshal.GetLastWin32Error();
                 }
             }
-
             catch (Win32Exception ex)
             {
                 Tracing.Ping(ex.ToString());
                 nError = ex.ErrorCode;
                 hProcess = IntPtr.Zero;
             }
-
             finally
             {
                 if (bstrExePath != IntPtr.Zero)
@@ -565,7 +654,33 @@ namespace SIS.Systemlayer
             return nError;
         }
 
-        private static int ExecShellExecuteEx(IWin32Window parent, string exePath, string args, string verb, out IntPtr hProcess)
+        /// <summary>
+        /// The exec shell execute ex.
+        /// </summary>
+        /// <param name="parent">
+        /// The parent.
+        /// </param>
+        /// <param name="exePath">
+        /// The exe path.
+        /// </param>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        /// <param name="verb">
+        /// The verb.
+        /// </param>
+        /// <param name="hProcess">
+        /// The h process.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        private static int ExecShellExecuteEx(
+            IWin32Window parent, 
+            string exePath, 
+            string args, 
+            string verb, 
+            out IntPtr hProcess)
         {
             string dir;
 
@@ -573,7 +688,6 @@ namespace SIS.Systemlayer
             {
                 dir = Path.GetDirectoryName(exePath);
             }
-
             catch (Exception)
             {
                 dir = null;
@@ -582,10 +696,8 @@ namespace SIS.Systemlayer
             NativeStructs.SHELLEXECUTEINFO sei = new NativeStructs.SHELLEXECUTEINFO();
             sei.cbSize = (uint)Marshal.SizeOf(typeof(NativeStructs.SHELLEXECUTEINFO));
 
-            sei.fMask =
-                NativeConstants.SEE_MASK_NOCLOSEPROCESS |
-                NativeConstants.SEE_MASK_NO_CONSOLE |
-                NativeConstants.SEE_MASK_FLAG_DDEWAIT;
+            sei.fMask = NativeConstants.SEE_MASK_NOCLOSEPROCESS | NativeConstants.SEE_MASK_NO_CONSOLE
+                        | NativeConstants.SEE_MASK_FLAG_DDEWAIT;
 
             sei.lpVerb = verb;
             sei.lpDirectory = dir;
@@ -613,6 +725,12 @@ namespace SIS.Systemlayer
             return nResult;
         }
 
+        /// <summary>
+        /// The relaunch pdn helper part 1.
+        /// </summary>
+        /// <param name="updateMonitorExePath">
+        /// The update monitor exe path.
+        /// </param>
         private static void RelaunchPdnHelperPart1(out string updateMonitorExePath)
         {
             string srcDir = Application.StartupPath;
@@ -633,6 +751,15 @@ namespace SIS.Systemlayer
             updateMonitorExePath = dstPath;
         }
 
+        /// <summary>
+        /// The relaunch pdn helper part 2.
+        /// </summary>
+        /// <param name="updateMonitorExePath">
+        /// The update monitor exe path.
+        /// </param>
+        /// <param name="hProcess">
+        /// The h process.
+        /// </param>
         private static void RelaunchPdnHelperPart2(string updateMonitorExePath, IntPtr hProcess)
         {
             string args = hProcess.ToInt64().ToString(CultureInfo.InstalledUICulture);
@@ -660,8 +787,8 @@ namespace SIS.Systemlayer
             IntPtr hProcess = thisProcess.Handle;
 
             bool bResult = SafeNativeMethods.SetHandleInformation(
-                hProcess,
-                NativeConstants.HANDLE_FLAG_INHERIT,
+                hProcess, 
+                NativeConstants.HANDLE_FLAG_INHERIT, 
                 NativeConstants.HANDLE_FLAG_INHERIT);
 
             if (!bResult)
@@ -675,12 +802,20 @@ namespace SIS.Systemlayer
         /// <summary>
         /// Launches the default browser and opens the given URL.
         /// </summary>
-        /// <param name="url">The URL to show. The maximum length is 512 characters.</param>
+        /// <param name="owner">
+        /// The owner.
+        /// </param>
+        /// <param name="url">
+        /// The URL to show. The maximum length is 512 characters.
+        /// </param>
         /// <remarks>
         /// This method will not present an error dialog if the URL could not be launched.
         /// Note: This method must only be used by SIS, and not any plugins. It may
         /// change or be removed in future versions.
         /// </remarks>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public static bool LaunchUrl(IWin32Window owner, string url)
         {
             if (url.Length > 512)
@@ -710,7 +845,6 @@ namespace SIS.Systemlayer
                     Execute(owner, quotedUrl, null, executePrivilege, ExecuteWaitType.ReturnImmediately);
                     success = true;
                 }
-
                 catch (Exception ex)
                 {
                     Tracing.Ping("Exception while using method 1 to launch url, " + quotedUrl + ", :" + ex.ToString());
@@ -730,10 +864,11 @@ namespace SIS.Systemlayer
                     Execute(owner, shellExePath, quotedUrl, executePrivilege, ExecuteWaitType.ReturnImmediately);
                     success = true;
                 }
-
                 catch (Exception ex)
                 {
-                    Tracing.Ping("Exception while using method 2 to launch url through '" + shellExePath + "', " + quotedUrl + ", : " + ex.ToString());
+                    Tracing.Ping(
+                        "Exception while using method 2 to launch url through '" + shellExePath + "', " + quotedUrl
+                        + ", : " + ex.ToString());
                     success = false;
                 }
             }
@@ -741,12 +876,31 @@ namespace SIS.Systemlayer
             return success;
         }
 
-        [Obsolete("Use SISInfo.OpenUrl() instead. Shell.LaunchUrl() must only be used by SIS code, not by plugins.", true)]
+        /// <summary>
+        /// The open url.
+        /// </summary>
+        /// <param name="owner">
+        /// The owner.
+        /// </param>
+        /// <param name="url">
+        /// The url.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        [Obsolete("Use SISInfo.OpenUrl() instead. Shell.LaunchUrl() must only be used by SIS code, not by plugins.", 
+            true)]
         public static bool OpenUrl(IWin32Window owner, string url)
         {
             return LaunchUrl(owner, url);
         }
 
+        /// <summary>
+        /// The add to recent documents list.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
         public static void AddToRecentDocumentsList(string fileName)
         {
             // Apparently SHAddToRecentDocs can block for a very long period of time when certain
@@ -754,6 +908,12 @@ namespace SIS.Systemlayer
             ThreadPool.QueueUserWorkItem(new WaitCallback(AddToRecentDocumentsListImpl), fileName);
         }
 
+        /// <summary>
+        /// The add to recent documents list impl.
+        /// </summary>
+        /// <param name="fileNameObj">
+        /// The file name obj.
+        /// </param>
         private static void AddToRecentDocumentsListImpl(object fileNameObj)
         {
             string fileName = (string)fileNameObj;
@@ -764,7 +924,6 @@ namespace SIS.Systemlayer
                 bstrFileName = Marshal.StringToBSTR(fileName);
                 NativeMethods.SHAddToRecentDocs(NativeConstants.SHARD_PATHW, bstrFileName);
             }
-
             finally
             {
                 if (bstrFileName != IntPtr.Zero)
@@ -776,6 +935,24 @@ namespace SIS.Systemlayer
         }
 
         // TODO: convert to extension method in the 4.0 codebase, which can use .NET 3.5
+        /// <summary>
+        /// The map.
+        /// </summary>
+        /// <param name="mapFrom">
+        /// The map from.
+        /// </param>
+        /// <param name="mappings">
+        /// The mappings.
+        /// </param>
+        /// <typeparam name="T1">
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T2"/>.
+        /// </returns>
+        /// <exception cref="KeyNotFoundException">
+        /// </exception>
         private static T2 Map<T1, T2>(T1 mapFrom, Pair<T1, T2>[] mappings)
         {
             foreach (Pair<T1, T2> mapping in mappings)
@@ -789,6 +966,18 @@ namespace SIS.Systemlayer
             throw new KeyNotFoundException();
         }
 
+        /// <summary>
+        /// The get csidl path.
+        /// </summary>
+        /// <param name="csidl">
+        /// The csidl.
+        /// </param>
+        /// <param name="tryCreateIfAbsent">
+        /// The try create if absent.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         private static string GetCSIDLPath(int csidl, bool tryCreateIfAbsent)
         {
             // First, try calling SHGetFolderPathW with the "CSIDL_FLAG_CREATE" flag. However, if it 
@@ -796,7 +985,14 @@ namespace SIS.Systemlayer
             // from this function.
             int csidlWithFlags = csidl | (tryCreateIfAbsent ? NativeConstants.CSIDL_FLAG_CREATE : 0);
             StringBuilder sbWithFlags = new StringBuilder(NativeConstants.MAX_PATH);
-            Do.TryBool(() => NativeMethods.SHGetFolderPathW(IntPtr.Zero, csidlWithFlags, IntPtr.Zero, NativeConstants.SHGFP_TYPE_CURRENT, sbWithFlags));
+            Do.TryBool(
+                () =>
+                NativeMethods.SHGetFolderPathW(
+                    IntPtr.Zero, 
+                    csidlWithFlags, 
+                    IntPtr.Zero, 
+                    NativeConstants.SHGFP_TYPE_CURRENT, 
+                    sbWithFlags));
 
             StringBuilder sb = new StringBuilder(NativeConstants.MAX_PATH);
             NativeMethods.SHGetFolderPathW(IntPtr.Zero, csidl, IntPtr.Zero, NativeConstants.SHGFP_TYPE_CURRENT, sb);
@@ -813,16 +1009,53 @@ namespace SIS.Systemlayer
             return path;
         }
 
-        private static readonly Pair<VirtualFolderName, int>[] pathMappings = new Pair<VirtualFolderName, int>[]
-            {
-                Pair.Create(VirtualFolderName.SystemProgramFiles, NativeConstants.CSIDL_PROGRAM_FILES),
-                Pair.Create(VirtualFolderName.UserDesktop, NativeConstants.CSIDL_DESKTOP_DIRECTORY),
-                Pair.Create(VirtualFolderName.UserDocuments, NativeConstants.CSIDL_PERSONAL),
-                Pair.Create(VirtualFolderName.UserLocalAppData, NativeConstants.CSIDL_LOCAL_APPDATA),
-                Pair.Create(VirtualFolderName.UserPictures, NativeConstants.CSIDL_MYPICTURES),
-                Pair.Create(VirtualFolderName.UserRoamingAppData, NativeConstants.CSIDL_APPDATA) 
-            };
+        /// <summary>
+        /// The path mappings.
+        /// </summary>
+        private static readonly Pair<VirtualFolderName, int>[] pathMappings = new[]
+                                                                                  {
+                                                                                      Pair.Create(
+                                                                                          VirtualFolderName
+                                                                                          .SystemProgramFiles, 
+                                                                                          NativeConstants
+                                                                                          .CSIDL_PROGRAM_FILES), 
+                                                                                      Pair.Create(
+                                                                                          VirtualFolderName.UserDesktop, 
+                                                                                          NativeConstants
+                                                                                          .CSIDL_DESKTOP_DIRECTORY), 
+                                                                                      Pair.Create(
+                                                                                          VirtualFolderName
+                                                                                          .UserDocuments, 
+                                                                                          NativeConstants.CSIDL_PERSONAL), 
+                                                                                      Pair.Create(
+                                                                                          VirtualFolderName
+                                                                                          .UserLocalAppData, 
+                                                                                          NativeConstants
+                                                                                          .CSIDL_LOCAL_APPDATA), 
+                                                                                      Pair.Create(
+                                                                                          VirtualFolderName.UserPictures, 
+                                                                                          NativeConstants
+                                                                                          .CSIDL_MYPICTURES), 
+                                                                                      Pair.Create(
+                                                                                          VirtualFolderName
+                                                                                          .UserRoamingAppData, 
+                                                                                          NativeConstants.CSIDL_APPDATA)
+                                                                                  };
 
+        /// <summary>
+        /// The get virtual path.
+        /// </summary>
+        /// <param name="folderName">
+        /// The folder name.
+        /// </param>
+        /// <param name="tryCreateIfAbsent">
+        /// The try create if absent.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        /// <exception cref="InvalidEnumArgumentException">
+        /// </exception>
         public static string GetVirtualPath(VirtualFolderName folderName, bool tryCreateIfAbsent)
         {
             try
@@ -831,7 +1064,6 @@ namespace SIS.Systemlayer
                 string path = GetCSIDLPath(csidl, tryCreateIfAbsent);
                 return path;
             }
-
             catch (KeyNotFoundException)
             {
                 throw new InvalidEnumArgumentException("folderName", (int)folderName, typeof(VirtualFolderName));

@@ -1,23 +1,48 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ApplicationSettingsKey.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The application settings key.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace SIS.MDITemplate
 {
     using System.Windows.Forms;
 
     using Microsoft.Win32;
 
+    /// <summary>
+    /// The application settings key.
+    /// </summary>
     public sealed class ApplicationSettingsKey
-	{
-		static public RegistryKey Get(bool fWrite)
-		{
-			string sAppPath = string.Format(@"Software\{0}\{1}", Application.CompanyName, Application.ProductName);
-			
-			RegistryKey key = Registry.CurrentUser.OpenSubKey(sAppPath, fWrite);
-			
-			if (key == null)
-			{
-				key = Registry.CurrentUser.CreateSubKey(sAppPath);
-			}
+    {
+        #region Public Methods and Operators
 
-			return key;
-		}		
-	}
+        /// <summary>
+        /// The get.
+        /// </summary>
+        /// <param name="fWrite">
+        /// The f write.
+        /// </param>
+        /// <returns>
+        /// The <see cref="RegistryKey"/>.
+        /// </returns>
+        public static RegistryKey Get(bool fWrite)
+        {
+            string sAppPath = string.Format(@"Software\{0}\{1}", Application.CompanyName, Application.ProductName);
+
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(sAppPath, fWrite);
+
+            if (key == null)
+            {
+                key = Registry.CurrentUser.CreateSubKey(sAppPath);
+            }
+
+            return key;
+        }
+
+        #endregion
+    }
 }

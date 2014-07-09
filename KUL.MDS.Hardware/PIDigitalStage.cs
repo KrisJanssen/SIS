@@ -1,38 +1,167 @@
-﻿namespace SIS.Hardware
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PIDigitalStage.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The pi digital stage.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SIS.Hardware
 {
     using System;
     using System.Text;
     using System.Threading;
 
+    using log4net;
+
     using SIS.ScanModes.Core;
     using SIS.ScanModes.Enums;
 
+    /// <summary>
+    /// The pi digital stage.
+    /// </summary>
     public class PIDigitalStage : IPiezoStage
     {
-        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        #region Static Fields
 
-        #region Members.
+        /// <summary>
+        /// The _logger.
+        /// </summary>
+        private static readonly ILog _logger =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        // Create variables to keep track of the currently set voltage to the Piezo stage.
-        private double m_dXPosCurrent;
-        private double m_dYPosCurrent;
-        private double m_dZPosCurrent;
-        private int m_iSamplesToStageCurrent;
+        /// <summary>
+        /// The m_instance.
+        /// </summary>
+        private static volatile PIDigitalStage m_instance;
 
-        // Some properties of the stage.
-        private int m_iControllerID;
-        private string m_sIDN;
-        private string m_sCurrentError;
-        private string m_sAxes;
-        double m_dFreq;
-        int m_iSteps;
-
-        // Status of the stage
-        private bool m_bIsInitialized;
+        /// <summary>
+        /// The m_sync root.
+        /// </summary>
+        private static object m_syncRoot = new object();
 
         #endregion
 
-        #region Properties.
+        #region Fields
+
+        /// <summary>
+        /// The m_b is initialized.
+        /// </summary>
+        private bool m_bIsInitialized;
+
+        /// <summary>
+        /// The m_d freq.
+        /// </summary>
+        private double m_dFreq;
+
+        // Create variables to keep track of the currently set voltage to the Piezo stage.
+        /// <summary>
+        /// The m_d x pos current.
+        /// </summary>
+        private double m_dXPosCurrent;
+
+        /// <summary>
+        /// The m_d y pos current.
+        /// </summary>
+        private double m_dYPosCurrent;
+
+        /// <summary>
+        /// The m_d z pos current.
+        /// </summary>
+        private double m_dZPosCurrent;
+
+        // Some properties of the stage.
+        /// <summary>
+        /// The m_i controller id.
+        /// </summary>
+        private int m_iControllerID;
+
+        /// <summary>
+        /// The m_i samples to stage current.
+        /// </summary>
+        private int m_iSamplesToStageCurrent;
+
+        /// <summary>
+        /// The m_i steps.
+        /// </summary>
+        private int m_iSteps;
+
+        /// <summary>
+        /// The m_s axes.
+        /// </summary>
+        private string m_sAxes;
+
+        /// <summary>
+        /// The m_s current error.
+        /// </summary>
+        private string m_sCurrentError;
+
+        /// <summary>
+        /// The m_s idn.
+        /// </summary>
+        private string m_sIDN;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="PIDigitalStage"/> class from being created. 
+        /// Constructor. Private because it is part of a Singleton pattern.
+        /// </summary>
+        private PIDigitalStage()
+        {
+            // The PIAnalogStage object should be instantiated in an uninitialized state.
+            this.m_bIsInitialized = false;
+        }
+
+        #endregion
+
+        #region Public Events
+
+        /// <summary>
+        /// Event thrown whenever the stage is switched on, or off.
+        /// </summary>
+        public event EventHandler EngagedChanged;
+
+        /// <summary>
+        /// Event thrown whenever the hardware generated an error.
+        /// </summary>
+        public event EventHandler ErrorOccurred;
+
+        /// <summary>
+        /// Event thrown whenever the stage changed position.
+        /// </summary>
+        public event EventHandler PositionChanged;
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        public static PIDigitalStage Instance
+        {
+            get
+            {
+                if (m_instance == null)
+                {
+                    lock (m_syncRoot)
+                    {
+                        if (m_instance == null)
+                        {
+                            m_instance = new PIDigitalStage();
+                        }
+                    }
+                }
+
+                return m_instance;
+            }
+        }
+
+        // Status of the stage
 
         /// <summary>
         /// This string holds the last error generated by the hardware. "No Error" will be returned if no error occurred.
@@ -42,6 +171,46 @@
             get
             {
                 return this.m_sCurrentError;
+            }
+        }
+
+        /// <summary>
+        /// True if the stage hardware is initialized and ready for use. False otherwise.
+        /// </summary>
+        public bool IsInitialized
+        {
+            get
+            {
+                return this.m_bIsInitialized;
+            }
+        }
+
+        /// <summary>
+        /// True is the stage is moving.
+        /// </summary>
+        public bool IsMoving
+        {
+            get
+            {
+                if (this.Moving() || this.GeneratorRunning())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the total number of moves already performed during a scan.
+        /// </summary>
+        public int SamplesWritten
+        {
+            get
+            {
+                return this.m_iSamplesToStageCurrent;
             }
         }
 
@@ -105,289 +274,19 @@
             }
         }
 
-        /// <summary>
-        /// Returns the total number of moves already performed during a scan.
-        /// </summary>
-        public int SamplesWritten
-        {
-            get
-            {
-                return this.m_iSamplesToStageCurrent;
-            }
-        }
-
-        /// <summary>
-        /// True if the stage hardware is initialized and ready for use. False otherwise.
-        /// </summary>
-        public bool IsInitialized
-        {
-            get
-            {
-                return this.m_bIsInitialized;
-            }
-        }
-
-        /// <summary>
-        /// True is the stage is moving.
-        /// </summary>
-        public bool IsMoving
-        {
-            get
-            {
-                if (this.Moving() || this.GeneratorRunning())
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
         #endregion
 
-        #region Events.
-
-        /// <summary>
-        /// Event thrown whenever the stage changed position.
-        /// </summary>
-        public event EventHandler PositionChanged;
-
-        /// <summary>
-        /// Event thrown whenever the hardware generated an error.
-        /// </summary>
-        public event EventHandler ErrorOccurred;
-
-        /// <summary>
-        /// Event thrown whenever the stage is switched on, or off.
-        /// </summary>
-        public event EventHandler EngagedChanged;
-
-        #endregion
-
-        #region Singleton Pattern.
-
-        // This class operates according to a singleton pattern. Having multiple PIAnalogStage could be dangerous because the hardware
-        // could be left in an unknown state.
-        private static volatile PIDigitalStage m_instance;
-        private static object m_syncRoot = new object();
-
-        public static PIDigitalStage Instance
-        {
-            get
-            {
-                if (m_instance == null)
-                {
-                    lock (m_syncRoot)
-                    {
-                        if (m_instance == null)
-                        {
-                            m_instance = new PIDigitalStage();
-                        }
-                    }
-                }
-
-                return m_instance;
-            }
-        }
-        #endregion
-
-        #region Methods.
-
-        // The constructor obviously needs to be private to prevent normal instantiation.
-        /// <summary>
-        /// Constructor. Private because it is part of a Singleton pattern.
-        /// </summary>
-        private PIDigitalStage()
-        {
-            // The PIAnalogStage object should be instantiated in an uninitialized state.
-            this.m_bIsInitialized = false;
-        }
-
-        /// <summary>
-        /// True if the E7XX API command that was checked returns an error. An ErrorOcurred event will be raised so that
-        /// the user can be informed of the controller error status.
-        /// </summary>
-        /// <param name="__iResult">Integer indicating the error status of an E7XX API command.</param>
-        /// <returns>Boolean indicating the error status.</returns>
-        private bool IsError(int __iResult)
-        {
-            if (__iResult != 1)
-            {
-                // Int that will hold the error code.
-                int _iError = E7XXController.GetError(this.m_iControllerID);
-
-                // Buffer to hold the human readable error message.
-                StringBuilder _sbError = new StringBuilder(1024);
-
-                // Actually get the human readable error message based on the returned error code.
-                E7XXController.TranslateError(_iError, _sbError, 1024);
-
-                // Set the current error.
-                this.m_sCurrentError = _sbError.ToString();
-
-                // Throw an ErrorOccurred event to inform the user.
-                if (this.ErrorOccurred != null)
-                {
-                    this.ErrorOccurred(this, new EventArgs());
-                }
-
-                //Return a boolean to indicate status.
-                return true;
-            }
-            else
-            {
-                this.m_sCurrentError = "No Error";
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// True if the stage is performing any kind of movement.
-        /// </summary>
-        /// <returns>Boolean indicating the movement status.</returns>
-        private bool Moving()
-        {
-            int[] _iIsMoving = new int[1];
-
-            if (this.IsError(E7XXController.IsMoving(this.m_iControllerID, "", _iIsMoving)))
-            {
-                _logger.Error("Error while executing IsMoving() query: " + this.m_sCurrentError);
-            }
-
-            if (_iIsMoving[0] == 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// True if any wave generator is running.
-        /// </summary>
-        /// <returns>Boolean indicating the scan status.</returns>
-        private bool GeneratorRunning()
-        {
-            // Create a new int[] that will be NULL initially.
-            int[] _iIsGeneratorRunning = new int[1];
-
-            if (this.IsError(E7XXController.IsMoving(this.m_iControllerID, "", _iIsGeneratorRunning)))
-            {
-                _logger.Error("Error while executing IsMoving() query: " + this.m_sCurrentError);
-            }
-
-            if (_iIsGeneratorRunning[0] == 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Initialize the stage hardware to prepare it for move and scan operations.
-        /// </summary>
-        public void Initialize()
-        {
-            _logger.Info("Initializing Piezo....");
-            this.m_iControllerID = E7XXController.ConnectNIgpib(0, 4);
-            
-            if (this.m_iControllerID < 0)
-            {
-                _logger.Error("Unable to connect to piezo... check connections!");
-
-                // This is an error condition. The stage is certainly not ready.
-                this.m_bIsInitialized = false;
-            }
-            else
-            {
-                // We only need axis 1,2 and 3 so those are the only ones we activate.
-                // CST MUST be the very first function we call!
-                if (this.IsError(E7XXController.CST(this.m_iControllerID, "1234", "ID-STAGE \nID-STAGE \nID-STAGE \nNOSTAGE \n")))
-                {
-                    _logger.Error("Error while executing CST(): " + this.m_sCurrentError);
-                }
-
-                // Initialize axes and stop all wave generators that might be running.
-                // We MUST call INI directly after CST. If we don't, other functions might not work properly.
-                if (this.IsError(E7XXController.INI(this.m_iControllerID, "")))
-                {
-                    _logger.Error("Error while executing INI(): " + this.m_sCurrentError);
-                } 
-                
-                // Get the ID string of the controller. Not really necessary but...
-                StringBuilder _sbIDN = new StringBuilder(1024);
-
-                if (this.IsError(E7XXController.qIDN(this.m_iControllerID, _sbIDN, 1024)))
-                {
-                    _logger.Error("Error while executing qIDN() query: " + this.m_sCurrentError);
-                }
-                else
-                {
-                    this.m_sIDN = _sbIDN.ToString();
-                    _logger.Info("IDN: " + this.m_sIDN);
-                }
-
-                // We can read back the activated stages.
-                StringBuilder _sbStages = new StringBuilder(1024);
-                if (this.IsError(E7XXController.qCST(this.m_iControllerID, "1234", _sbStages, 1024)))
-                {
-                    _logger.Error("Error while executing qCST(): " + this.m_sCurrentError);
-                }
-                else
-                {
-                    _logger.Info("Activated stages: " + _sbStages.ToString());
-                }
-
-                // For debug purposes. Check to see if Axis configuration succeeded.
-                StringBuilder _sbAxes = new StringBuilder(9);
-                if (this.IsError(E7XXController.qSAI(this.m_iControllerID, _sbAxes, 9)))
-                {
-                    _logger.Error("Error while executing qSAI(): " + this.m_sCurrentError);
-                }
-                else
-                {
-                    _logger.Info("Activated axes: " + _sbAxes.ToString());
-                }
-                
-                // Turn servo on to actually be able to command positions to the stage.
-                int[] _iValues = { 1, 1, 1 };
-
-                if (this.IsError(E7XXController.SVO(this.m_iControllerID, "123", _iValues)))
-                {
-                    _logger.Error("Error while executing SVO(): " + this.m_sCurrentError);
-                }
-                else
-                {
-                    _logger.Info("Servo engaged!");
-                }
-
-                // Wait a bit
-                Thread.Sleep(100);
-
-                // Zero
-                this.Home();
-
-                // If we got here communication with the controller is working properly.
-                this.m_bIsInitialized = true;
-            }
-            if (this.EngagedChanged != null)
-            {
-                this.EngagedChanged(this, new EventArgs());
-            }
-        }
+        #region Public Methods and Operators
 
         /// <summary>
         /// Configure the stage to perform scans at a set rate, that is, a set time per pixel.
         /// </summary>
-        /// <param name="__dCycleTimeMilisec">The amount of time in ms between subsequent position updates.</param>
-        /// <param name="__iSteps">The amount of pixels in a scan.</param>
+        /// <param name="__dCycleTimeMilisec">
+        /// The amount of time in ms between subsequent position updates.
+        /// </param>
+        /// <param name="__iSteps">
+        /// The amount of pixels in a scan.
+        /// </param>
         public void Configure(double __dCycleTimeMilisec, int __iSteps)
         {
             // Setting a different table rate requires elevation of privileges.
@@ -423,14 +322,239 @@
         }
 
         /// <summary>
-        /// Setup stage - pass few variables to stage prior to starting the scanning
-        /// <param name="__iTypeOfScan">The type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)</param>
-        /// <param name="__iFrameMarker">The frame synchronization marker that the galvo rises upon a beginning of a frame</param>
-        /// <param name="__iLineMarker">The line synchronization marker that the galvo rises upon a beginning of a line</param>
+        /// Move the stage to its home position.
         /// </summary>
-        public void Setup(int __iTypeOfScan, int __iFrameMarker, int __iLineMarker)
+        public void Home()
         {
-            throw new NotImplementedException();
+            if (this.IsError(E7XXController.GOH(this.m_iControllerID, "123")))
+            {
+                _logger.Error("Error while executing GOH(): " + this.m_sCurrentError);
+            }
+
+            while (this.Moving())
+            {
+                // Wait a bit...
+                Thread.Sleep(100);
+            }
+        }
+
+        /// <summary>
+        /// Initialize the stage hardware to prepare it for move and scan operations.
+        /// </summary>
+        public void Initialize()
+        {
+            _logger.Info("Initializing Piezo....");
+            this.m_iControllerID = E7XXController.ConnectNIgpib(0, 4);
+
+            if (this.m_iControllerID < 0)
+            {
+                _logger.Error("Unable to connect to piezo... check connections!");
+
+                // This is an error condition. The stage is certainly not ready.
+                this.m_bIsInitialized = false;
+            }
+            else
+            {
+                // We only need axis 1,2 and 3 so those are the only ones we activate.
+                // CST MUST be the very first function we call!
+                if (
+                    this.IsError(
+                        E7XXController.CST(this.m_iControllerID, "1234", "ID-STAGE \nID-STAGE \nID-STAGE \nNOSTAGE \n")))
+                {
+                    _logger.Error("Error while executing CST(): " + this.m_sCurrentError);
+                }
+
+                // Initialize axes and stop all wave generators that might be running.
+                // We MUST call INI directly after CST. If we don't, other functions might not work properly.
+                if (this.IsError(E7XXController.INI(this.m_iControllerID, string.Empty)))
+                {
+                    _logger.Error("Error while executing INI(): " + this.m_sCurrentError);
+                }
+
+                // Get the ID string of the controller. Not really necessary but...
+                StringBuilder _sbIDN = new StringBuilder(1024);
+
+                if (this.IsError(E7XXController.qIDN(this.m_iControllerID, _sbIDN, 1024)))
+                {
+                    _logger.Error("Error while executing qIDN() query: " + this.m_sCurrentError);
+                }
+                else
+                {
+                    this.m_sIDN = _sbIDN.ToString();
+                    _logger.Info("IDN: " + this.m_sIDN);
+                }
+
+                // We can read back the activated stages.
+                StringBuilder _sbStages = new StringBuilder(1024);
+                if (this.IsError(E7XXController.qCST(this.m_iControllerID, "1234", _sbStages, 1024)))
+                {
+                    _logger.Error("Error while executing qCST(): " + this.m_sCurrentError);
+                }
+                else
+                {
+                    _logger.Info("Activated stages: " + _sbStages.ToString());
+                }
+
+                // For debug purposes. Check to see if Axis configuration succeeded.
+                StringBuilder _sbAxes = new StringBuilder(9);
+                if (this.IsError(E7XXController.qSAI(this.m_iControllerID, _sbAxes, 9)))
+                {
+                    _logger.Error("Error while executing qSAI(): " + this.m_sCurrentError);
+                }
+                else
+                {
+                    _logger.Info("Activated axes: " + _sbAxes.ToString());
+                }
+
+                // Turn servo on to actually be able to command positions to the stage.
+                int[] _iValues = { 1, 1, 1 };
+
+                if (this.IsError(E7XXController.SVO(this.m_iControllerID, "123", _iValues)))
+                {
+                    _logger.Error("Error while executing SVO(): " + this.m_sCurrentError);
+                }
+                else
+                {
+                    _logger.Info("Servo engaged!");
+                }
+
+                // Wait a bit
+                Thread.Sleep(100);
+
+                // Zero
+                this.Home();
+
+                // If we got here communication with the controller is working properly.
+                this.m_bIsInitialized = true;
+            }
+
+            if (this.EngagedChanged != null)
+            {
+                this.EngagedChanged(this, new EventArgs());
+            }
+        }
+
+        /// <summary>
+        /// Perform an absolute move of the stage.
+        /// </summary>
+        /// <param name="__dXPosNm">
+        /// Desired X coordinate in nm.
+        /// </param>
+        /// <param name="__dYPosNm">
+        /// Desired Y coordinate in nm.
+        /// </param>
+        /// <param name="__dZPosNm">
+        /// Desired Z coordinate in nm.
+        /// </param>
+        public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
+        {
+            _logger.Info(
+                "Moving absolute to: X: " + __dXPosNm.ToString() + " nm Y: " + __dYPosNm.ToString() + " nm Z: "
+                + __dZPosNm.ToString() + " nm");
+
+            if (this.m_bIsInitialized && !(this.m_iControllerID < 0))
+            {
+                // Get the requested positions in um.
+                double[] _dValues = { __dXPosNm / 1000, __dYPosNm / 1000, __dZPosNm / 1000 };
+
+                // Send the GCS MVR command.
+                if (this.IsError(E7XXController.MOV(this.m_iControllerID, "123", _dValues)))
+                {
+                    _logger.Error("Error while executing MOV(): " + this.m_sCurrentError);
+                }
+                else
+                {
+                    // Create an array of doubles to store positional values read back from the stage.
+                    // double[] _dPositions = new double[3];
+
+                    // while (this.Moving())
+                    // {
+                    // // Wait a bit...
+                    // Thread.Sleep(100);
+
+                    // // Query the position of the stage.
+                    // this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
+
+                    // // Convert the read values to nm.
+                    // this.m_dXPosCurrent = _dPositions[0] * 1000;
+                    // this.m_dYPosCurrent = _dPositions[1] * 1000;
+
+                    // // Raise a PositionChanged event.
+                    // if (PositionChanged != null)
+                    // {
+                    // PositionChanged(this, new EventArgs());
+                    // }
+                    // }
+
+                    // Wait a bit.
+                    Thread.Sleep(2000);
+
+                    // Raise a PositionChanged event.
+                    if (this.PositionChanged != null)
+                    {
+                        this.PositionChanged(this, new EventArgs());
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Perform a relative move of the stage.
+        /// </summary>
+        /// <param name="__dXPosNm">
+        /// Desired relative X coordinate in nm
+        /// </param>
+        /// <param name="__dYPosNm">
+        /// Desired relative Y coordinate in nm
+        /// </param>
+        /// <param name="__dZPosNm">
+        /// Desired relative Z coordinate in nm
+        /// </param>
+        public void MoveRel(double __dXPosNm, double __dYPosNm, double __dZPosNm)
+        {
+            _logger.Info(
+                "Moving relativee by: X: " + __dXPosNm.ToString() + " nm Y: " + __dYPosNm.ToString() + " nm Z: "
+                + __dZPosNm.ToString() + " nm");
+
+            // Get the requested positions in um.
+            double[] _dValues = { __dXPosNm / 1000, __dYPosNm / 1000, __dZPosNm / 1000 };
+
+            // Send the GCS MVR command.
+            if (this.IsError(E7XXController.MVR(this.m_iControllerID, "123", _dValues)))
+            {
+                _logger.Error("Error while executing MVR(): " + this.m_sCurrentError);
+            }
+
+            //// Create an array of doubles to store positional values read back from the stage.
+            // double[] _dPositions = new double[3];
+
+            // while (this.Moving())
+            // {
+            // // Wait a bit...
+            // Thread.Sleep(100);
+
+            // // Query the position of the stage.
+            // this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
+
+            // // Convert the read values to nm.
+            // this.m_dXPosCurrent = _dPositions[0] * 1000;
+            // this.m_dYPosCurrent = _dPositions[1] * 1000;
+
+            // // Raise a PositionChanged event.
+            // if (PositionChanged != null)
+            // {
+            // PositionChanged(this, new EventArgs());
+            // }
+            // }
+
+            // Wait a bit.
+            Thread.Sleep(2000);
+
+            // Raise a PositionChanged event.
+            if (this.PositionChanged != null)
+            {
+                this.PositionChanged(this, new EventArgs());
+            }
         }
 
         /// <summary>
@@ -483,144 +607,21 @@
         }
 
         /// <summary>
-        /// Move the stage to its home position.
-        /// </summary>
-        public void Home()
-        {
-            if (this.IsError(E7XXController.GOH(this.m_iControllerID, "123")))
-            {
-                _logger.Error("Error while executing GOH(): " + this.m_sCurrentError);
-            }
-
-            while (this.Moving())
-            {
-                // Wait a bit...
-                Thread.Sleep(100);
-            }
-        }
-
-        /// <summary>
-        /// Perform an absolute move of the stage.
-        /// </summary>
-        /// <param name="__dXPosNm">Desired X coordinate in nm.</param>
-        /// <param name="__dYPosNm">Desired Y coordinate in nm.</param>
-        /// <param name="__dZPosNm">Desired Z coordinate in nm.</param>
-        public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
-        {
-            _logger.Info("Moving absolute to: X: " + __dXPosNm.ToString() + " nm Y: " + __dYPosNm.ToString() + " nm Z: " + __dZPosNm.ToString() + " nm");
-
-            if (this.m_bIsInitialized && !(this.m_iControllerID < 0))
-            {
-                // Get the requested positions in um.
-                double[] _dValues = { __dXPosNm / 1000, __dYPosNm / 1000, __dZPosNm / 1000 };
-
-                // Send the GCS MVR command.
-                if (this.IsError(E7XXController.MOV(this.m_iControllerID, "123", _dValues)))
-                {
-                    _logger.Error("Error while executing MOV(): " + this.m_sCurrentError);
-                }
-                else
-                {
-                    // Create an array of doubles to store positional values read back from the stage.
-                    //double[] _dPositions = new double[3];
-
-                    //while (this.Moving())
-                    //{
-                    //    // Wait a bit...
-                    //    Thread.Sleep(100);
-
-                    //    // Query the position of the stage.
-                    //    this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
-
-                    //    // Convert the read values to nm.
-                    //    this.m_dXPosCurrent = _dPositions[0] * 1000;
-                    //    this.m_dYPosCurrent = _dPositions[1] * 1000;
-
-                    //    // Raise a PositionChanged event.
-                    //    if (PositionChanged != null)
-                    //    {
-                    //        PositionChanged(this, new EventArgs());
-                    //    }
-                    //}
-
-                    // Wait a bit.
-                    Thread.Sleep(2000);
-
-                    // Raise a PositionChanged event.
-                    if (this.PositionChanged != null)
-                    {
-                        this.PositionChanged(this, new EventArgs());
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Perform a relative move of the stage.
-        /// </summary>
-        /// <param name="__dXPosNm">Desired relative X coordinate in nm</param>
-        /// <param name="__dYPosNm">Desired relative Y coordinate in nm</param>
-        /// <param name="__dZPosNm">Desired relative Z coordinate in nm</param>
-        public void MoveRel(double __dXPosNm, double __dYPosNm, double __dZPosNm)
-        {
-            _logger.Info("Moving relativee by: X: " + __dXPosNm.ToString() + " nm Y: " + __dYPosNm.ToString() + " nm Z: " + __dZPosNm.ToString() + " nm");
-
-            // Get the requested positions in um.
-            double[] _dValues = { __dXPosNm / 1000, __dYPosNm / 1000, __dZPosNm / 1000 };
-
-            // Send the GCS MVR command.
-            if (this.IsError(E7XXController.MVR(this.m_iControllerID, "123", _dValues)))
-            {
-                _logger.Error("Error while executing MVR(): " + this.m_sCurrentError);
-            }
-
-            //// Create an array of doubles to store positional values read back from the stage.
-            //double[] _dPositions = new double[3];
-
-            //while (this.Moving())
-            //{
-            //    // Wait a bit...
-            //    Thread.Sleep(100);
-
-            //    // Query the position of the stage.
-            //    this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
-
-            //    // Convert the read values to nm.
-            //    this.m_dXPosCurrent = _dPositions[0] * 1000;
-            //    this.m_dYPosCurrent = _dPositions[1] * 1000;
-
-            //    // Raise a PositionChanged event.
-            //    if (PositionChanged != null)
-            //    {
-            //        PositionChanged(this, new EventArgs());
-            //    }
-            //}
-
-            // Wait a bit.
-            Thread.Sleep(2000);
-
-            // Raise a PositionChanged event.
-            if (this.PositionChanged != null)
-            {
-                this.PositionChanged(this, new EventArgs());
-            }
-        }
-
-        /// <summary>
         /// Perform a scan.
         /// </summary>
-        /// <param name="__scmScanMode">Scanmode that holds all spatial information for a scan and defines it completely.</param>
+        /// <param name="__scmScanMode">
+        /// Scanmode that holds all spatial information for a scan and defines it completely.
+        /// </param>
+        /// <param name="__bResend">
+        /// The __b Resend.
+        /// </param>
         public void Scan(Scanmode __scmScanMode, bool __bResend)
         {
             _logger.Info("Starting Scan ...");
 
-            #region Move to Initial Position
-
             this.MoveAbs(__scmScanMode.InitialX, __scmScanMode.InitialY, __scmScanMode.InitialZ);
 
             Thread.Sleep(2000);
-
-            #endregion
 
             #region Coordinate Programming
 
@@ -656,6 +657,7 @@
                     {
                         _logger.Error("Error while executing WAV_PNT() for axis 1: " + this.m_sCurrentError);
                     }
+
                     // Store the Y Wave in controller memory
                     if (this.IsError(E7XXController.WAV_PNT(this.m_iControllerID, "2", 0, _dYCoord.Length, 0, _dYCoord)))
                     {
@@ -686,6 +688,7 @@
                     {
                         _logger.Error("Error while executing WAV_PNT() for axis 1: " + this.m_sCurrentError);
                     }
+
                     // Store the Z Wave in controller memory
                     if (this.IsError(E7XXController.WAV_PNT(this.m_iControllerID, "3", 0, _dZCoord.Length, 0, _dZCoord)))
                     {
@@ -716,6 +719,7 @@
                     {
                         _logger.Error("Error while executing WAV_PNT() for axis 2: " + this.m_sCurrentError);
                     }
+
                     // Store the Y Wave in controller memory
                     if (this.IsError(E7XXController.WAV_PNT(this.m_iControllerID, "3", 0, _dYCoord.Length, 0, _dYCoord)))
                     {
@@ -727,13 +731,12 @@
             #endregion
 
             // For debug purposes. Read back the stored waves from controller memory.
-            //double[] _data1 = new double[_dYCoord.Length];
-            //double[] _data2 = new double[_dYCoord.Length];
-            //string axis1 = "1";
-            //this.IsError(E7XXController.qGWD(this.m_iControllerID, Convert.ToChar(axis1), 0, _dXCoord.Length, _data1));
-            //string axis2 = "2";
-            //this.IsError(E7XXController.qGWD(this.m_iControllerID, Convert.ToChar(axis2), 0, _dYCoord.Length, _data2));
-
+            // double[] _data1 = new double[_dYCoord.Length];
+            // double[] _data2 = new double[_dYCoord.Length];
+            // string axis1 = "1";
+            // this.IsError(E7XXController.qGWD(this.m_iControllerID, Convert.ToChar(axis1), 0, _dXCoord.Length, _data1));
+            // string axis2 = "2";
+            // this.IsError(E7XXController.qGWD(this.m_iControllerID, Convert.ToChar(axis2), 0, _dYCoord.Length, _data2));
             #endregion
 
             #region Repeat Number Set
@@ -748,7 +751,9 @@
             // Actually set the value for 0x13000003 (repeat number).
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "1", _uiParam, _dVal, null)))
             {
-                _logger.Error("Error while executing SPA() to set the repeat number (0x13000003) for system: " + this.m_sCurrentError);
+                _logger.Error(
+                    "Error while executing SPA() to set the repeat number (0x13000003) for system: "
+                    + this.m_sCurrentError);
             }
 
             #endregion
@@ -769,29 +774,43 @@
             double[] _dTrigVal = new double[1];
 
             _dTrigVal[0] = __scmScanMode.Trig1Type;
+
             // Actually set the value for 0x13000900 for the correct wave generator.
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "1", _uiParam, _dTrigVal, null)))
             {
-                _logger.Error("Error while executing SPA() to set trigger type (0x13000900) for trigger 1: " + this.m_sCurrentError);
+                _logger.Error(
+                    "Error while executing SPA() to set trigger type (0x13000900) for trigger 1: "
+                    + this.m_sCurrentError);
             }
 
             _dTrigVal[0] = __scmScanMode.Trig2Type;
+
             // Actually set the value for 0x13000900 for the correct wave generator.
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "2", _uiParam, _dTrigVal, null)))
             {
-                _logger.Error("Error while executing SPA() to set trigger type (0x13000900) for trigger 2: " + this.m_sCurrentError);
+                _logger.Error(
+                    "Error while executing SPA() to set trigger type (0x13000900) for trigger 2: "
+                    + this.m_sCurrentError);
             }
+
             _dTrigVal[0] = __scmScanMode.Trig3Type;
+
             // Actually set the value for 0x13000900 for the correct wave generator.
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "3", _uiParam, _dTrigVal, null)))
             {
-                _logger.Error("Error while executing SPA() to set trigger type (0x13000900) for trigger 3: " + this.m_sCurrentError);
+                _logger.Error(
+                    "Error while executing SPA() to set trigger type (0x13000900) for trigger 3: "
+                    + this.m_sCurrentError);
             }
+
             _dTrigVal[0] = __scmScanMode.Trig4Type;
+
             // Actually set the value for 0x13000900 for the correct wave generator.
             if (this.IsError(E7XXController.SPA(this.m_iControllerID, "4", _uiParam, _dTrigVal, null)))
             {
-                _logger.Error("Error while executing SPA() to set trigger type (0x13000900) for trigger 4: " + this.m_sCurrentError);
+                _logger.Error(
+                    "Error while executing SPA() to set trigger type (0x13000900) for trigger 4: "
+                    + this.m_sCurrentError);
             }
 
             int[] _iWavePoints = new int[2];
@@ -801,10 +820,17 @@
                 // Actually set trigger points based on the scanmode.
                 _iWavePoints[0] = __scmScanMode.Trig1Start;
                 _iWavePoints[1] = __scmScanMode.Trig1End;
+
                 // Trigger high on first point (bit 1 = 1, bit 8 = 0 so 1), trigger high for all points between first and last point 
                 // (bit 8 = 1 and bit 1 = 1 so 257)
-                int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_1, E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
-                if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
+                int[] _iTriggerLevels =
+                    {
+                        E7XXController.BIT_TRG_LINE_1, 
+                        E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_ALL_CURVE_POINTS
+                    };
+                if (
+                    this.IsError(
+                        E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
                     _logger.Error("Error while executing TWS() for trigger 1: " + this.m_sCurrentError);
                 }
@@ -815,10 +841,17 @@
                 // Actually set trigger points based on the scanmode.
                 _iWavePoints[0] = __scmScanMode.Trig2Start;
                 _iWavePoints[1] = __scmScanMode.Trig2End;
+
                 // Trigger high on first point (bit 1 = 1, bit 8 = 0 so 1), trigger high for all points between first and last point 
                 // (bit 8 = 1 and bit 1 = 1 so 257)
-                int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_2, E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
-                if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
+                int[] _iTriggerLevels =
+                    {
+                        E7XXController.BIT_TRG_LINE_2, 
+                        E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_ALL_CURVE_POINTS
+                    };
+                if (
+                    this.IsError(
+                        E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
                     _logger.Error("Error while executing TWS() for trigger 2: " + this.m_sCurrentError);
                 }
@@ -829,10 +862,17 @@
                 // Actually set trigger points based on the scanmode.
                 _iWavePoints[0] = __scmScanMode.Trig3Start;
                 _iWavePoints[1] = __scmScanMode.Trig3End;
+
                 // Trigger high on first point (bit 1 = 1, bit 8 = 0 so 1), trigger high for all points between first and last point 
                 // (bit 8 = 1 and bit 1 = 1 so 257)
-                int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_3, E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
-                if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
+                int[] _iTriggerLevels =
+                    {
+                        E7XXController.BIT_TRG_LINE_3, 
+                        E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_ALL_CURVE_POINTS
+                    };
+                if (
+                    this.IsError(
+                        E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
                     _logger.Error("Error while executing TWS() for trigger 3: " + this.m_sCurrentError);
                 }
@@ -843,10 +883,17 @@
                 // Actually set trigger points based on the scanmode.
                 _iWavePoints[0] = __scmScanMode.Trig4Start;
                 _iWavePoints[1] = __scmScanMode.Trig4End;
+
                 // Trigger high on first point (bit 1 = 1, bit 8 = 0 so 1), trigger high for all points between first and last point 
                 // (bit 8 = 1 and bit 1 = 1 so 257)
-                int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_4, E7XXController.BIT_TRG_LINE_4 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
-                if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
+                int[] _iTriggerLevels =
+                    {
+                        E7XXController.BIT_TRG_LINE_4, 
+                        E7XXController.BIT_TRG_LINE_4 + E7XXController.BIT_TRG_ALL_CURVE_POINTS
+                    };
+                if (
+                    this.IsError(
+                        E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
                     _logger.Error("Error while executing TWS() for trigger 4: " + this.m_sCurrentError);
                 }
@@ -857,10 +904,18 @@
                 // Actually set trigger points based on the scanmode.
                 _iWavePoints[0] = __scmScanMode.Trig1Start;
                 _iWavePoints[1] = __scmScanMode.Trig1End;
+
                 // Trigger high on first point (bit 1 = 1, bit 8 = 0 so 1), trigger high for all points between first and last point 
                 // (bit 8 = 1 and bit 1 = 1 so 257)
-                int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_2, E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
-                if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
+                int[] _iTriggerLevels =
+                    {
+                        E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_2, 
+                        E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_2
+                        + E7XXController.BIT_TRG_ALL_CURVE_POINTS
+                    };
+                if (
+                    this.IsError(
+                        E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
                     _logger.Error("Error while executing TWS() for trigger 12: " + this.m_sCurrentError);
                 }
@@ -871,10 +926,18 @@
                 // Actually set trigger points based on the scanmode.
                 _iWavePoints[0] = __scmScanMode.Trig1Start;
                 _iWavePoints[1] = __scmScanMode.Trig1End;
+
                 // Trigger high on first point (bit 1 = 1, bit 8 = 0 so 1), trigger high for all points between first and last point 
                 // (bit 8 = 1 and bit 1 = 1 so 257)
-                int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_3, E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
-                if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
+                int[] _iTriggerLevels =
+                    {
+                        E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_3, 
+                        E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_3
+                        + E7XXController.BIT_TRG_ALL_CURVE_POINTS
+                    };
+                if (
+                    this.IsError(
+                        E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
                     _logger.Error("Error while executing TWS() for trigger 13: " + this.m_sCurrentError);
                 }
@@ -885,10 +948,18 @@
                 // Actually set trigger points based on the scanmode.
                 _iWavePoints[0] = __scmScanMode.Trig1Start;
                 _iWavePoints[1] = __scmScanMode.Trig1End;
+
                 // Trigger high on first point (bit 1 = 1, bit 8 = 0 so 1), trigger high for all points between first and last point 
                 // (bit 8 = 1 and bit 1 = 1 so 257)
-                int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_4, E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_4 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
-                if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
+                int[] _iTriggerLevels =
+                    {
+                        E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_4, 
+                        E7XXController.BIT_TRG_LINE_1 + E7XXController.BIT_TRG_LINE_4
+                        + E7XXController.BIT_TRG_ALL_CURVE_POINTS
+                    };
+                if (
+                    this.IsError(
+                        E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
                     _logger.Error("Error while executing TWS() for trigger 14: " + this.m_sCurrentError);
                 }
@@ -899,10 +970,18 @@
                 // Actually set trigger points based on the scanmode.
                 _iWavePoints[0] = __scmScanMode.Trig2Start;
                 _iWavePoints[1] = __scmScanMode.Trig2End;
+
                 // Trigger high on first point (bit 1 = 1, bit 8 = 0 so 1), trigger high for all points between first and last point 
                 // (bit 8 = 1 and bit 1 = 1 so 257)
-                int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_3, E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
-                if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
+                int[] _iTriggerLevels =
+                    {
+                        E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_3, 
+                        E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_3
+                        + E7XXController.BIT_TRG_ALL_CURVE_POINTS
+                    };
+                if (
+                    this.IsError(
+                        E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
                     _logger.Error("Error while executing TWS() for trigger 23: " + this.m_sCurrentError);
                 }
@@ -913,10 +992,18 @@
                 // Actually set trigger points based on the scanmode.
                 _iWavePoints[0] = __scmScanMode.Trig2Start;
                 _iWavePoints[1] = __scmScanMode.Trig2End;
+
                 // Trigger high on first point (bit 1 = 1, bit 8 = 0 so 1), trigger high for all points between first and last point 
                 // (bit 8 = 1 and bit 1 = 1 so 257)
-                int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_4, E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_4 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
-                if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
+                int[] _iTriggerLevels =
+                    {
+                        E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_4, 
+                        E7XXController.BIT_TRG_LINE_2 + E7XXController.BIT_TRG_LINE_4
+                        + E7XXController.BIT_TRG_ALL_CURVE_POINTS
+                    };
+                if (
+                    this.IsError(
+                        E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
                     _logger.Error("Error while executing TWS() for trigger 24: " + this.m_sCurrentError);
                 }
@@ -927,10 +1014,18 @@
                 // Actually set trigger points based on the scanmode.
                 _iWavePoints[0] = __scmScanMode.Trig3Start;
                 _iWavePoints[1] = __scmScanMode.Trig3End;
+
                 // Trigger high on first point (bit 1 = 1, bit 8 = 0 so 1), trigger high for all points between first and last point 
                 // (bit 8 = 1 and bit 1 = 1 so 257)
-                int[] _iTriggerLevels = { E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_LINE_4, E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_LINE_4 + E7XXController.BIT_TRG_ALL_CURVE_POINTS };
-                if (this.IsError(E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
+                int[] _iTriggerLevels =
+                    {
+                        E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_LINE_4, 
+                        E7XXController.BIT_TRG_LINE_3 + E7XXController.BIT_TRG_LINE_4
+                        + E7XXController.BIT_TRG_ALL_CURVE_POINTS
+                    };
+                if (
+                    this.IsError(
+                        E7XXController.TWS(this.m_iControllerID, _iWavePoints, _iTriggerLevels, _iWavePoints.Length)))
                 {
                     _logger.Error("Error while executing TWS() for trigger 34: " + this.m_sCurrentError);
                 }
@@ -943,10 +1038,11 @@
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.XY)
             {
                 // Start the Wave Generators.
-                int[] _iStartMod = { 
-                                   E7XXController.BIT_WGO_START_DEFAULT, 
-                                   E7XXController.BIT_WGO_START_DEFAULT + E7XXController.BIT_WGO_START_AT_ENDPOSITION 
-                               };
+                int[] _iStartMod =
+                    {
+                        E7XXController.BIT_WGO_START_DEFAULT, 
+                        E7XXController.BIT_WGO_START_DEFAULT + E7XXController.BIT_WGO_START_AT_ENDPOSITION
+                    };
                 this.m_sAxes = "12";
                 if (this.IsError(E7XXController.WGO(this.m_iControllerID, "12", _iStartMod)))
                 {
@@ -957,10 +1053,11 @@
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.XZ)
             {
                 // Start the Wave Generators.
-                int[] _iStartMod = { 
-                                   E7XXController.BIT_WGO_START_DEFAULT, 
-                                   E7XXController.BIT_WGO_START_DEFAULT + E7XXController.BIT_WGO_START_AT_ENDPOSITION 
-                               };
+                int[] _iStartMod =
+                    {
+                        E7XXController.BIT_WGO_START_DEFAULT, 
+                        E7XXController.BIT_WGO_START_DEFAULT + E7XXController.BIT_WGO_START_AT_ENDPOSITION
+                    };
                 this.m_sAxes = "13";
                 if (this.IsError(E7XXController.WGO(this.m_iControllerID, "13", _iStartMod)))
                 {
@@ -971,10 +1068,11 @@
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.YZ)
             {
                 // Start the Wave Generators.
-                int[] _iStartMod = { 
-                                   E7XXController.BIT_WGO_START_DEFAULT, 
-                                   E7XXController.BIT_WGO_START_DEFAULT + E7XXController.BIT_WGO_START_AT_ENDPOSITION 
-                               };
+                int[] _iStartMod =
+                    {
+                        E7XXController.BIT_WGO_START_DEFAULT, 
+                        E7XXController.BIT_WGO_START_DEFAULT + E7XXController.BIT_WGO_START_AT_ENDPOSITION
+                    };
                 this.m_sAxes = "23";
                 if (this.IsError(E7XXController.WGO(this.m_iControllerID, "23", _iStartMod)))
                 {
@@ -987,27 +1085,44 @@
             #region REMOVE
 
             //// Create an array of doubles to store positional values read back from the stage.
-            //double[] _dPositions = new double[3];
+            // double[] _dPositions = new double[3];
 
-            //while (this.GeneratorRunning())
-            //{
-            //    // Wait a bit...
-            //    Thread.Sleep(100);
+            // while (this.GeneratorRunning())
+            // {
+            // // Wait a bit...
+            // Thread.Sleep(100);
 
-            //    // Query the position of the stage.
-            //    this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
+            // // Query the position of the stage.
+            // this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
 
-            //    // Convert the read values to nm.
-            //    this.m_dXPosCurrent = _dPositions[0] * 1000;
-            //    this.m_dYPosCurrent = _dPositions[1] * 1000;
+            // // Convert the read values to nm.
+            // this.m_dXPosCurrent = _dPositions[0] * 1000;
+            // this.m_dYPosCurrent = _dPositions[1] * 1000;
 
-            //    // Raise a PositionChanged event.
-            //    if (PositionChanged != null)
-            //    {
-            //        PositionChanged(this, new EventArgs());
-            //    }
-            //} 
+            // // Raise a PositionChanged event.
+            // if (PositionChanged != null)
+            // {
+            // PositionChanged(this, new EventArgs());
+            // }
+            // } 
             #endregion
+        }
+
+        /// <summary>
+        /// Setup stage - pass few variables to stage prior to starting the scanning
+        /// </summary>
+        /// <param name="__iTypeOfScan">
+        /// The type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
+        /// </param>
+        /// <param name="__iFrameMarker">
+        /// The frame synchronization marker that the galvo rises upon a beginning of a frame
+        /// </param>
+        /// <param name="__iLineMarker">
+        /// The line synchronization marker that the galvo rises upon a beginning of a line
+        /// </param>
+        public void Setup(int __iTypeOfScan, int __iFrameMarker, int __iLineMarker)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -1026,6 +1141,99 @@
             else
             {
                 _logger.Info("Piezo stopped!");
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// True if any wave generator is running.
+        /// </summary>
+        /// <returns>Boolean indicating the scan status.</returns>
+        private bool GeneratorRunning()
+        {
+            // Create a new int[] that will be NULL initially.
+            int[] _iIsGeneratorRunning = new int[1];
+
+            if (this.IsError(E7XXController.IsMoving(this.m_iControllerID, string.Empty, _iIsGeneratorRunning)))
+            {
+                _logger.Error("Error while executing IsMoving() query: " + this.m_sCurrentError);
+            }
+
+            if (_iIsGeneratorRunning[0] == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// True if the E7XX API command that was checked returns an error. An ErrorOcurred event will be raised so that
+        /// the user can be informed of the controller error status.
+        /// </summary>
+        /// <param name="__iResult">
+        /// Integer indicating the error status of an E7XX API command.
+        /// </param>
+        /// <returns>
+        /// Boolean indicating the error status.
+        /// </returns>
+        private bool IsError(int __iResult)
+        {
+            if (__iResult != 1)
+            {
+                // Int that will hold the error code.
+                int _iError = E7XXController.GetError(this.m_iControllerID);
+
+                // Buffer to hold the human readable error message.
+                StringBuilder _sbError = new StringBuilder(1024);
+
+                // Actually get the human readable error message based on the returned error code.
+                E7XXController.TranslateError(_iError, _sbError, 1024);
+
+                // Set the current error.
+                this.m_sCurrentError = _sbError.ToString();
+
+                // Throw an ErrorOccurred event to inform the user.
+                if (this.ErrorOccurred != null)
+                {
+                    this.ErrorOccurred(this, new EventArgs());
+                }
+
+                // Return a boolean to indicate status.
+                return true;
+            }
+            else
+            {
+                this.m_sCurrentError = "No Error";
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// True if the stage is performing any kind of movement.
+        /// </summary>
+        /// <returns>Boolean indicating the movement status.</returns>
+        private bool Moving()
+        {
+            int[] _iIsMoving = new int[1];
+
+            if (this.IsError(E7XXController.IsMoving(this.m_iControllerID, string.Empty, _iIsMoving)))
+            {
+                _logger.Error("Error while executing IsMoving() query: " + this.m_sCurrentError);
+            }
+
+            if (_iIsMoving[0] == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

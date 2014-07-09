@@ -1,17 +1,55 @@
-using System;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ChangeObservable.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The change observable.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Common.Observable
 {
-  public class ChangeObservable<T> : AbstractObservableDecorator<T>
-    where T : IEquatable<T>
-  {
-    public ChangeObservable(IObservable<T> innerObservable) : base(innerObservable)
-    {
-    }
+    using System;
 
-    protected override IObserver<T> DecorateObserver(IObserver<T> observer)
+    /// <summary>
+    /// The change observable.
+    /// </summary>
+    /// <typeparam name="T">
+    /// </typeparam>
+    public class ChangeObservable<T> : AbstractObservableDecorator<T>
+        where T : IEquatable<T>
     {
-      return new ChangeObserver<T>(observer);
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChangeObservable{T}"/> class.
+        /// </summary>
+        /// <param name="innerObservable">
+        /// The inner observable.
+        /// </param>
+        public ChangeObservable(IObservable<T> innerObservable)
+            : base(innerObservable)
+        {
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The decorate observer.
+        /// </summary>
+        /// <param name="observer">
+        /// The observer.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IObserver"/>.
+        /// </returns>
+        protected override IObserver<T> DecorateObserver(IObserver<T> observer)
+        {
+            return new ChangeObserver<T>(observer);
+        }
+
+        #endregion
     }
-  }
 }

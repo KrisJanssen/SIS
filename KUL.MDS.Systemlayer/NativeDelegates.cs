@@ -1,20 +1,36 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NativeDelegates.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The native delegates.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
     using System;
     using System.Runtime.InteropServices;
 
+    /// <summary>
+    /// The native delegates.
+    /// </summary>
     internal static class NativeDelegates
     {
+        #region Delegates
+
+        /// <summary>
+        /// The enum windows proc.
+        /// </summary>
+        /// <param name="hwnd">
+        /// The hwnd.
+        /// </param>
+        /// <param name="lParam">
+        /// The l param.
+        /// </param>
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool EnumWindowsProc(IntPtr hwnd, IntPtr lParam);
+
+        #endregion
     }
 }

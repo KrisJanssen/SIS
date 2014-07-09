@@ -1,11 +1,11 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SnapObstacleController.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The snap obstacle controller.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.MDITemplate.Snapping
 {
@@ -13,12 +13,86 @@ namespace SIS.MDITemplate.Snapping
 
     using SIS.MDITemplate.Events;
 
-    public sealed class SnapObstacleController
-        : SnapObstacle
+    /// <summary>
+    /// The snap obstacle controller.
+    /// </summary>
+    public sealed class SnapObstacleController : SnapObstacle
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SnapObstacleController"/> class.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="bounds">
+        /// The bounds.
+        /// </param>
+        /// <param name="snapRegion">
+        /// The snap region.
+        /// </param>
+        /// <param name="stickyEdges">
+        /// The sticky edges.
+        /// </param>
+        public SnapObstacleController(string name, Rectangle bounds, SnapRegion snapRegion, bool stickyEdges)
+            : base(name, bounds, snapRegion, stickyEdges)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SnapObstacleController"/> class.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="bounds">
+        /// The bounds.
+        /// </param>
+        /// <param name="snapRegion">
+        /// The snap region.
+        /// </param>
+        /// <param name="stickyEdges">
+        /// The sticky edges.
+        /// </param>
+        /// <param name="snapProximity">
+        /// The snap proximity.
+        /// </param>
+        /// <param name="snapDistance">
+        /// The snap distance.
+        /// </param>
+        public SnapObstacleController(
+            string name, 
+            Rectangle bounds, 
+            SnapRegion snapRegion, 
+            bool stickyEdges, 
+            int snapProximity, 
+            int snapDistance)
+            : base(name, bounds, snapRegion, stickyEdges, snapProximity, snapDistance)
+        {
+        }
+
+        #endregion
+
+        #region Public Events
+
+        /// <summary>
+        /// Raised when the SnapManager is requesting that the obstacle move and/or resize itself.
+        /// Usually this happens in response to another snap container with "sticky edges" changing
+        /// its boundary.
+        /// </summary>
+        public event HandledEventHandler<Rectangle> BoundsChangeRequested;
+
+        #endregion
+
+        #region Public Methods and Operators
+
         /// <summary>
         /// Used for the obstacle to report changes in the obstacles size and/or location.
         /// </summary>
+        /// <param name="bounds">
+        /// The bounds.
+        /// </param>
         public void SetBounds(Rectangle bounds)
         {
             if (this.bounds != bounds)
@@ -30,13 +104,19 @@ namespace SIS.MDITemplate.Snapping
             }
         }
 
-        /// <summary>
-        /// Raised when the SnapManager is requesting that the obstacle move and/or resize itself.
-        /// Usually this happens in response to another snap container with "sticky edges" changing
-        /// its boundary.
-        /// </summary>
-        public event HandledEventHandler<Rectangle> BoundsChangeRequested;
+        #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// The on bounds change requested.
+        /// </summary>
+        /// <param name="newBounds">
+        /// The new bounds.
+        /// </param>
+        /// <param name="handled">
+        /// The handled.
+        /// </param>
         protected override void OnBoundsChangeRequested(Rectangle newBounds, ref bool handled)
         {
             if (this.BoundsChangeRequested != null)
@@ -49,14 +129,6 @@ namespace SIS.MDITemplate.Snapping
             base.OnBoundsChangeRequested(newBounds, ref handled);
         }
 
-        public SnapObstacleController(string name, Rectangle bounds, SnapRegion snapRegion, bool stickyEdges)
-            : base(name, bounds, snapRegion, stickyEdges)
-        {
-        }
-
-        public SnapObstacleController(string name, Rectangle bounds, SnapRegion snapRegion, bool stickyEdges, int snapProximity, int snapDistance)
-            : base(name, bounds, snapRegion, stickyEdges, snapProximity, snapDistance)
-        {
-        }
+        #endregion
     }
 }

@@ -1,11 +1,11 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Security.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Security related static methods and properties.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
@@ -21,32 +21,16 @@ namespace SIS.Systemlayer
     /// </summary>
     public static class Security
     {
-        private static bool isAdmin = GetIsAdministrator();
-
-        private static bool GetIsAdministrator()
-        {
-            AppDomain domain = Thread.GetDomain();
-            domain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
-            WindowsPrincipal principal = (WindowsPrincipal)Thread.CurrentPrincipal;
-            return principal.IsInRole(WindowsBuiltInRole.Administrator);
-        }
+        #region Static Fields
 
         /// <summary>
-        /// Gets a flag indicating whether the user has administrator-level privileges.
+        /// The is admin.
         /// </summary>
-        /// <remarks>
-        /// This is used to control access to actions that require the user to be an administrator.
-        /// An example is checking for and installing updates, actions which are not normally able
-        /// to be performed by normal or "limited" users. A user must also be an administrator in
-        /// order to write to any Settings.SystemWide entries.
-        /// </remarks>
-        public static bool IsAdministrator
-        {
-            get
-            {
-                return isAdmin;
-            }
-        }
+        private static bool isAdmin = GetIsAdministrator();
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets a flag indicating whether the current user is able to elevate to obtain
@@ -73,44 +57,6 @@ namespace SIS.Systemlayer
                 {
                     return false;
                 }
-            }
-        }
-
-        private static bool IsUacEnabled
-        {
-            get
-            {
-                bool returnVal = false;
-                const string keyName = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System";
-                const string valueName = "EnableLUA";
-
-                try
-                {
-                    if (Environment.OSVersion.Version >= OS.WindowsVista)
-                    {
-                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(keyName, false))
-                        {
-                            if (key != null)
-                            {
-                                RegistryValueKind valueKind = key.GetValueKind(valueName);
-
-                                if (valueKind == RegistryValueKind.DWord)
-                                {
-                                    int value = unchecked((int)key.GetValue(valueName));
-                                    returnVal = (value == 1);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                catch (Exception ex)
-                {
-                    Tracing.Ping(ex.ToString());
-                    returnVal = false;
-                }
-
-                return returnVal;
             }
         }
 
@@ -145,14 +91,93 @@ namespace SIS.Systemlayer
         }
 
         /// <summary>
+        /// Gets a flag indicating whether the user has administrator-level privileges.
+        /// </summary>
+        /// <remarks>
+        /// This is used to control access to actions that require the user to be an administrator.
+        /// An example is checking for and installing updates, actions which are not normally able
+        /// to be performed by normal or "limited" users. A user must also be an administrator in
+        /// order to write to any Settings.SystemWide entries.
+        /// </remarks>
+        public static bool IsAdministrator
+        {
+            get
+            {
+                return isAdmin;
+            }
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets a value indicating whether is uac enabled.
+        /// </summary>
+        private static bool IsUacEnabled
+        {
+            get
+            {
+                bool returnVal = false;
+                const string keyName = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System";
+                const string valueName = "EnableLUA";
+
+                try
+                {
+                    if (Environment.OSVersion.Version >= OS.WindowsVista)
+                    {
+                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(keyName, false))
+                        {
+                            if (key != null)
+                            {
+                                RegistryValueKind valueKind = key.GetValueKind(valueName);
+
+                                if (valueKind == RegistryValueKind.DWord)
+                                {
+                                    int value = unchecked((int)key.GetValue(valueName));
+                                    returnVal = value == 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Tracing.Ping(ex.ToString());
+                    returnVal = false;
+                }
+
+                return returnVal;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
         /// Verifies that a file has a valid digital signature.
         /// </summary>
-        /// <param name="owner">The parent/owner window for any UI that may be shown.</param>
-        /// <param name="fileName">The path to the file to be validate.</param>
-        /// <param name="showNegativeUI">Whether or not to show a UI in the case that the signature can not be found or validated.</param>
-        /// <param name="showPositiveUI">Whether or not to show a UI in the case that the signature is successfully found and validated.</param>
-        /// <returns>true if the file has a digital signature that validates up to a trusted root, or false otherwise</returns>
-        public static bool VerifySignedFile(IWin32Window owner, string fileName, bool showNegativeUI, bool showPositiveUI)
+        /// <param name="owner">
+        /// The parent/owner window for any UI that may be shown.
+        /// </param>
+        /// <param name="fileName">
+        /// The path to the file to be validate.
+        /// </param>
+        /// <param name="showNegativeUI">
+        /// Whether or not to show a UI in the case that the signature can not be found or validated.
+        /// </param>
+        /// <param name="showPositiveUI">
+        /// Whether or not to show a UI in the case that the signature is successfully found and validated.
+        /// </param>
+        /// <returns>
+        /// true if the file has a digital signature that validates up to a trusted root, or false otherwise
+        /// </returns>
+        public static bool VerifySignedFile(
+            IWin32Window owner, 
+            string fileName, 
+            bool showNegativeUI, 
+            bool showPositiveUI)
         {
             unsafe
             {
@@ -179,8 +204,9 @@ namespace SIS.Systemlayer
                     {
                         wintrustData.dwUIChoice = NativeConstants.WTD_UI_NOGOOD;
                     }
-                    else // if (showNegativeUI && showPositiveUI)
+                    else
                     {
+                        // if (showNegativeUI && showPositiveUI)
                         wintrustData.dwUIChoice = NativeConstants.WTD_UI_ALL;
                     }
 
@@ -206,5 +232,25 @@ namespace SIS.Systemlayer
                 }
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The get is administrator.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private static bool GetIsAdministrator()
+        {
+            AppDomain domain = Thread.GetDomain();
+            domain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
+            WindowsPrincipal principal = (WindowsPrincipal)Thread.CurrentPrincipal;
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        #endregion
     }
 }

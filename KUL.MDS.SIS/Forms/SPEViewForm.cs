@@ -7,7 +7,6 @@
 //using System.Reflection;
 //using ZedGraph;
 
-
 //namespace KUL.MDS.SIS.Forms
 //{
 //    public class SPEViewForm : KUL.MDS.MDITemplate.MdiViewForm
@@ -85,7 +84,7 @@
 
 //        protected override void OnInitialUpdate()
 //        {
-            
+
 //            CreateGraph(zedGraphControl1);
 //        }
 
@@ -95,7 +94,6 @@
 
 //            KUL.MDS.Data.Column XCol = _docDocument.DataSet.GetBlock(0).GetColumn(1);
 //            KUL.MDS.Data.Column YCol = _docDocument.DataSet.GetBlock(0).GetColumn(2);
-
 
 //            // get a reference to the GraphPane
 
@@ -111,13 +109,11 @@
 
 //            double x, y1, y2;
 //            PointPairList list1 = new PointPairList();
-            
 
 //            for (int i = 0; i < (int)(XCol.GetPointCount()); i++)
 //            {
 //                list1.Add((double)(XCol.GetValue(i)), (double)(YCol.GetValue(i)));
 //            }
-
 
 //            // Generate a red curve with diamond
 
@@ -128,7 +124,6 @@
 
 //            // Generate a blue curve with circle
 
-            
 //            // Tell ZedGraph to refigure the
 
 //            // axes since the data have changed

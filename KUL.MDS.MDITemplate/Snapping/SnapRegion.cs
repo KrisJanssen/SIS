@@ -1,17 +1,27 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SnapRegion.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The snap region.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.MDITemplate.Snapping
 {
+    /// <summary>
+    /// The snap region.
+    /// </summary>
     public enum SnapRegion
     {
-        Interior,
+        /// <summary>
+        /// The interior.
+        /// </summary>
+        Interior, 
+
+        /// <summary>
+        /// The exterior.
+        /// </summary>
         Exterior
     }
 }

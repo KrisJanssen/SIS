@@ -1,26 +1,74 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SkipObserver.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The skip observer.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace DevDefined.Common.Observable
 {
-  public class SkipObserver<T> : AbstractObserverDecorator<T>
-  {
-    readonly int _numberToSkip;
-    int _skippedSoFar;
-
-    public SkipObserver(IObserver<T> innerObserver, int numberToSkip) : base(innerObserver)
+    /// <summary>
+    /// The skip observer.
+    /// </summary>
+    /// <typeparam name="T">
+    /// </typeparam>
+    public class SkipObserver<T> : AbstractObserverDecorator<T>
     {
-      _numberToSkip = numberToSkip;
-    }
+        #region Fields
 
+        /// <summary>
+        /// The _number to skip.
+        /// </summary>
+        private readonly int _numberToSkip;
 
-    public override void OnNext(T item)
-    {
-      if (_skippedSoFar < _numberToSkip)
-      {
-        _skippedSoFar++;
-      }
-      else
-      {
-        _innerObserver.OnNext(item);
-      }
+        /// <summary>
+        /// The _skipped so far.
+        /// </summary>
+        private int _skippedSoFar;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SkipObserver{T}"/> class.
+        /// </summary>
+        /// <param name="innerObserver">
+        /// The inner observer.
+        /// </param>
+        /// <param name="numberToSkip">
+        /// The number to skip.
+        /// </param>
+        public SkipObserver(IObserver<T> innerObserver, int numberToSkip)
+            : base(innerObserver)
+        {
+            this._numberToSkip = numberToSkip;
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The on next.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        public override void OnNext(T item)
+        {
+            if (this._skippedSoFar < this._numberToSkip)
+            {
+                this._skippedSoFar++;
+            }
+            else
+            {
+                this._innerObserver.OnNext(item);
+            }
+        }
+
+        #endregion
     }
-  }
 }

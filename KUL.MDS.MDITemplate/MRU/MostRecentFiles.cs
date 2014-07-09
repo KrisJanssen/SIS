@@ -1,11 +1,11 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MostRecentFiles.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Data structure to manage the Most Recently Used list of files.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.MDITemplate.MRU
 {
@@ -22,25 +22,55 @@ namespace SIS.MDITemplate.MRU
     /// </summary>
     internal class MostRecentFiles
     {
-        private Queue files; // contains MostRecentFile instances
-        private int maxCount;
+        #region Constants
+
+        /// <summary>
+        /// The icon size.
+        /// </summary>
         private const int iconSize = 56;
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        /// The files.
+        /// </summary>
+        private Queue files; // contains MostRecentFile instances
+
+        /// <summary>
+        /// The loaded.
+        /// </summary>
         private bool loaded = false;
 
+        /// <summary>
+        /// The max count.
+        /// </summary>
+        private int maxCount;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MostRecentFiles"/> class.
+        /// </summary>
+        /// <param name="maxCount">
+        /// The max count.
+        /// </param>
         public MostRecentFiles(int maxCount)
         {
             this.maxCount = maxCount;
             this.files = new Queue();
         }
 
-        public bool Loaded
-        {
-            get
-            {
-                return this.loaded;
-            }
-        }
+        #endregion
 
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the count.
+        /// </summary>
         public int Count
         {
             get
@@ -54,14 +84,9 @@ namespace SIS.MDITemplate.MRU
             }
         }
 
-        public int MaxCount
-        {
-            get
-            {
-                return this.maxCount;
-            }
-        }
-
+        /// <summary>
+        /// Gets the icon size.
+        /// </summary>
         public int IconSize
         {
             get
@@ -70,41 +95,38 @@ namespace SIS.MDITemplate.MRU
             }
         }
 
-        public MostRecentFile[] GetFileList()
+        /// <summary>
+        /// Gets a value indicating whether loaded.
+        /// </summary>
+        public bool Loaded
         {
-            if (!this.Loaded)
+            get
             {
-                this.LoadMruList();
+                return this.loaded;
             }
-
-            object[] array = this.files.ToArray();
-            MostRecentFile[] mrfArray = new MostRecentFile[array.Length];
-            array.CopyTo(mrfArray, 0);
-            return mrfArray;
         }
 
-        public bool Contains(string fileName)
+        /// <summary>
+        /// Gets the max count.
+        /// </summary>
+        public int MaxCount
         {
-            if (!this.Loaded)
+            get
             {
-                this.LoadMruList();
+                return this.maxCount;
             }
-
-            string lcFileName = fileName.ToLower();
-
-            foreach (MostRecentFile mrf in this.files)
-            {
-                string lcMrf = mrf.FileName.ToLower();
-
-                if (0 == String.Compare(lcMrf, lcFileName))
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The add.
+        /// </summary>
+        /// <param name="mrf">
+        /// The mrf.
+        /// </param>
         public void Add(MostRecentFile mrf)
         {
             if (!this.Loaded)
@@ -123,6 +145,120 @@ namespace SIS.MDITemplate.MRU
             }
         }
 
+        /// <summary>
+        /// The clear.
+        /// </summary>
+        public void Clear()
+        {
+            if (!this.Loaded)
+            {
+                this.LoadMruList();
+            }
+
+            foreach (MostRecentFile mrf in this.GetFileList())
+            {
+                this.Remove(mrf.FileName);
+            }
+        }
+
+        /// <summary>
+        /// The contains.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Contains(string fileName)
+        {
+            if (!this.Loaded)
+            {
+                this.LoadMruList();
+            }
+
+            string lcFileName = fileName.ToLower();
+
+            foreach (MostRecentFile mrf in this.files)
+            {
+                string lcMrf = mrf.FileName.ToLower();
+
+                if (0 == string.Compare(lcMrf, lcFileName))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// The get file list.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="MostRecentFile[]"/>.
+        /// </returns>
+        public MostRecentFile[] GetFileList()
+        {
+            if (!this.Loaded)
+            {
+                this.LoadMruList();
+            }
+
+            object[] array = this.files.ToArray();
+            MostRecentFile[] mrfArray = new MostRecentFile[array.Length];
+            array.CopyTo(mrfArray, 0);
+            return mrfArray;
+        }
+
+        /// <summary>
+        /// The load mru list.
+        /// </summary>
+        public void LoadMruList()
+        {
+            try
+            {
+                this.loaded = true;
+
+                this.Clear();
+
+                for (int i = 0; i < this.MaxCount; ++i)
+                {
+                    try
+                    {
+                        string mruName = "MRU" + i.ToString();
+                        string fileName = (string)Settings.CurrentUser.GetString(mruName);
+
+                        if (fileName != null)
+                        {
+                            Image thumb = Settings.CurrentUser.GetImage(mruName + "Thumb");
+
+                            if (fileName != null && thumb != null)
+                            {
+                                MostRecentFile mrf = new MostRecentFile(fileName, thumb);
+                                this.Add(mrf);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Ping("Exception when loading MRU list: " + ex.ToString());
+                this.Clear();
+            }
+        }
+
+        /// <summary>
+        /// The remove.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
         public void Remove(string fileName)
         {
             if (!this.Loaded)
@@ -148,61 +284,9 @@ namespace SIS.MDITemplate.MRU
             this.files = newQueue;
         }
 
-        public void Clear()
-        {
-            if (!this.Loaded)
-            {
-                this.LoadMruList();
-            }
-
-            foreach (MostRecentFile mrf in this.GetFileList())
-            {
-                this.Remove(mrf.FileName);
-            }
-        }
-
-        public void LoadMruList()
-        {
-            try
-            {
-                this.loaded = true;
-
-                //
-                this.Clear();
-
-                for (int i = 0; i < this.MaxCount; ++i)
-                {
-                    try
-                    {
-                        string mruName = "MRU" + i.ToString();
-                        string fileName = (string)Settings.CurrentUser.GetString(mruName);
-
-                        if (fileName != null)
-                        {
-                            Image thumb = Settings.CurrentUser.GetImage(mruName + "Thumb");
-
-                            if (fileName != null && thumb != null)
-                            {
-                                MostRecentFile mrf = new MostRecentFile(fileName, thumb);
-                                this.Add(mrf);
-                            }
-                        }
-                    }
-
-                    catch
-                    {
-                        break;
-                    }
-                }
-            }
-
-            catch (Exception ex)
-            {
-                Tracing.Ping("Exception when loading MRU list: " + ex.ToString());
-                this.Clear();
-            }
-        }
-
+        /// <summary>
+        /// The save mru list.
+        /// </summary>
         public void SaveMruList()
         {
             if (this.Loaded)
@@ -229,5 +313,7 @@ namespace SIS.MDITemplate.MRU
                 }
             }
         }
+
+        #endregion
     }
 }

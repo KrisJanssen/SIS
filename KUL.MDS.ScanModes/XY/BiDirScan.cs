@@ -2,7 +2,6 @@
 //using System.Collections.Generic;
 //using System.Text;
 
-
 //namespace KUL.MDS.ScanModes
 //{
 //    [ScanMode("Bidirectional Scan")]
@@ -261,3 +260,4 @@
 //        }
 //    }
 //}
+

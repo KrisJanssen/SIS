@@ -1,3 +1,12 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MdiParentForm.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The mdi parent form.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace SIS.MDITemplate
 {
     using System;
@@ -13,55 +22,159 @@ namespace SIS.MDITemplate
     using SIS.Resources;
     using SIS.Systemlayer;
 
-    //public class MdiParentForm : System.Windows.Forms.Form
+    // public class MdiParentForm : System.Windows.Forms.Form
+    /// <summary>
+    /// The mdi parent form.
+    /// </summary>
     public class MdiParentForm : BaseForm
     {
-        protected System.Windows.Forms.MainMenu m_menuMain = null;
-        protected MdiMenuItem m_menuItemFile = null;
-        protected MdiMenuItem m_menuItemFileOpen = null;
-        protected MdiMenuItem m_menuItemFileClose = null;
-        protected MdiMenuItem m_menuItemFileSave = null;
-        protected MdiMenuItem m_menuItemFileExit = null;
-        protected MdiMenuItem m_menuItemWindow = null;
-        protected MdiMenuItem m_menuItemHelp = null;
-        protected MdiMenuItem m_menuItemHelpAbout = null;
-        protected MdiMenuItem m_menuItemFileSeparator = null;
-        protected MessengerStatusBar m_statusBar = null;
-        protected MdiMenuItem m_menuItemFileSaveAs = null;
-        protected System.Windows.Forms.MenuItem m_menuItemFileSeparator2 = null;
-        protected MdiMenuItem m_menuItemFileNew = null;
-        private RecentFilesMenuItem m_menuItemRecentFiles = null;
-        private System.Windows.Forms.MenuItem m_menuItemFileSeperator2 = null;
+        /// <summary>
+        /// The m_menu main.
+        /// </summary>
+        protected MainMenu m_menuMain = null;
 
+        /// <summary>
+        /// The m_menu item file.
+        /// </summary>
+        protected MdiMenuItem m_menuItemFile = null;
+
+        /// <summary>
+        /// The m_menu item file open.
+        /// </summary>
+        protected MdiMenuItem m_menuItemFileOpen = null;
+
+        /// <summary>
+        /// The m_menu item file close.
+        /// </summary>
+        protected MdiMenuItem m_menuItemFileClose = null;
+
+        /// <summary>
+        /// The m_menu item file save.
+        /// </summary>
+        protected MdiMenuItem m_menuItemFileSave = null;
+
+        /// <summary>
+        /// The m_menu item file exit.
+        /// </summary>
+        protected MdiMenuItem m_menuItemFileExit = null;
+
+        /// <summary>
+        /// The m_menu item window.
+        /// </summary>
+        protected MdiMenuItem m_menuItemWindow = null;
+
+        /// <summary>
+        /// The m_menu item help.
+        /// </summary>
+        protected MdiMenuItem m_menuItemHelp = null;
+
+        /// <summary>
+        /// The m_menu item help about.
+        /// </summary>
+        protected MdiMenuItem m_menuItemHelpAbout = null;
+
+        /// <summary>
+        /// The m_menu item file separator.
+        /// </summary>
+        protected MdiMenuItem m_menuItemFileSeparator = null;
+
+        /// <summary>
+        /// The m_status bar.
+        /// </summary>
+        protected MessengerStatusBar m_statusBar = null;
+
+        /// <summary>
+        /// The m_menu item file save as.
+        /// </summary>
+        protected MdiMenuItem m_menuItemFileSaveAs = null;
+
+        /// <summary>
+        /// The m_menu item file separator 2.
+        /// </summary>
+        protected MenuItem m_menuItemFileSeparator2 = null;
+
+        /// <summary>
+        /// The m_menu item file new.
+        /// </summary>
+        protected MdiMenuItem m_menuItemFileNew = null;
+
+        /// <summary>
+        /// The m_menu item recent files.
+        /// </summary>
+        private RecentFilesMenuItem m_menuItemRecentFiles = null;
+
+        /// <summary>
+        /// The m_menu item file seperator 2.
+        /// </summary>
+        private MenuItem m_menuItemFileSeperator2 = null;
+
+        /// <summary>
+        /// The m_document types.
+        /// </summary>
         private DocumentTypes m_documentTypes = null;
+
+        /// <summary>
+        /// The components.
+        /// </summary>
         private IContainer components;
-        private System.Drawing.Image m_imageApplication = null;
+
+        /// <summary>
+        /// The m_image application.
+        /// </summary>
+        private Image m_imageApplication = null;
+
+        /// <summary>
+        /// The m_position serializer.
+        /// </summary>
         private FormPositionSerializer m_positionSerializer = null;
+
+        /// <summary>
+        /// The m_drag drop handler.
+        /// </summary>
         private FileDragDropHandler m_dragDropHandler = null;
-        static private MdiParentForm m_formMain = null;
+
+        /// <summary>
+        /// The m_form main.
+        /// </summary>
+        private static MdiParentForm m_formMain = null;
+
+        /// <summary>
+        /// The splash form.
+        /// </summary>
         private SplashForm splashForm = null;
 
         #region RECENT
 
+        /// <summary>
+        /// The queued instance messages.
+        /// </summary>
         private List<string> queuedInstanceMessages = new List<string>();
 
-        //Recently added;
+        // Recently added;
+        /// <summary>
+        /// The single instance manager.
+        /// </summary>
         private SingleInstanceManager singleInstanceManager = null;
 
+        /// <summary>
+        /// Gets or sets the splash form.
+        /// </summary>
         public SplashForm SplashForm
         {
             get
             {
                 return this.splashForm;
             }
+
             set
             {
                 this.splashForm = value;
             }
         }
 
-
-
+        /// <summary>
+        /// Gets or sets the single instance manager.
+        /// </summary>
         public SingleInstanceManager SingleInstanceManager
         {
             get
@@ -73,7 +186,8 @@ namespace SIS.MDITemplate
             {
                 if (this.singleInstanceManager != null)
                 {
-                    this.singleInstanceManager.InstanceMessageReceived -= new EventHandler(this.SingleInstanceManager_InstanceMessageReceived);
+                    this.singleInstanceManager.InstanceMessageReceived -=
+                        new EventHandler(this.SingleInstanceManager_InstanceMessageReceived);
                     this.singleInstanceManager.SetWindow(null);
                 }
 
@@ -82,16 +196,32 @@ namespace SIS.MDITemplate
                 if (this.singleInstanceManager != null)
                 {
                     this.singleInstanceManager.SetWindow(this);
-                    this.singleInstanceManager.InstanceMessageReceived += new EventHandler(this.SingleInstanceManager_InstanceMessageReceived);
+                    this.singleInstanceManager.InstanceMessageReceived +=
+                        new EventHandler(this.SingleInstanceManager_InstanceMessageReceived);
                 }
             }
         }
 
+        /// <summary>
+        /// The single instance manager_ instance message received.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void SingleInstanceManager_InstanceMessageReceived(object sender, EventArgs e)
         {
             this.BeginInvoke(new Procedure(this.ProcessQueuedInstanceMessages), null);
         }
 
+        /// <summary>
+        /// The on shown.
+        /// </summary>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
@@ -106,7 +236,9 @@ namespace SIS.MDITemplate
             }
         }
 
-
+        /// <summary>
+        /// The process queued instance messages.
+        /// </summary>
         private void ProcessQueuedInstanceMessages()
         {
             if (this.IsDisposed)
@@ -114,9 +246,7 @@ namespace SIS.MDITemplate
                 return;
             }
 
-            if (this.IsHandleCreated &&
-                !Info.IsExpired &&
-                this.singleInstanceManager != null)
+            if (this.IsHandleCreated && !Info.IsExpired && this.singleInstanceManager != null)
             {
                 string[] messages1 = this.singleInstanceManager.GetPendingInstanceMessages();
                 string[] messages2 = this.queuedInstanceMessages.ToArray();
@@ -145,6 +275,12 @@ namespace SIS.MDITemplate
             }
         }
 
+        /// <summary>
+        /// The wnd proc.
+        /// </summary>
+        /// <param name="m">
+        /// The m.
+        /// </param>
         protected override void WndProc(ref Message m)
         {
             if (this.singleInstanceManager != null)
@@ -155,14 +291,47 @@ namespace SIS.MDITemplate
             base.WndProc(ref m);
         }
 
+        /// <summary>
+        /// The argument action.
+        /// </summary>
         private enum ArgumentAction
         {
-            Open,
-            OpenUntitled,
-            Print,
+            /// <summary>
+            /// The open.
+            /// </summary>
+            Open, 
+
+            /// <summary>
+            /// The open untitled.
+            /// </summary>
+            OpenUntitled, 
+
+            /// <summary>
+            /// The print.
+            /// </summary>
+            Print, 
+
+            /// <summary>
+            /// The no op.
+            /// </summary>
             NoOp
         }
 
+        /// <summary>
+        /// The split message.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="action">
+        /// The action.
+        /// </param>
+        /// <param name="actionParm">
+        /// The action parm.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         private bool SplitMessage(string message, out ArgumentAction action, out string actionParm)
         {
             if (message.Length == 0)
@@ -195,6 +364,17 @@ namespace SIS.MDITemplate
             return true;
         }
 
+        /// <summary>
+        /// The process message.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        /// <exception cref="InvalidEnumArgumentException">
+        /// </exception>
         private bool ProcessMessage(string message)
         {
             if (this.IsDisposed)
@@ -224,7 +404,7 @@ namespace SIS.MDITemplate
 
                     if (this.IsCurrentModalForm && this.Enabled)
                     {
-                        //result = this.appWorkspace.OpenFileInNewWorkspace(actionParm);
+                        // result = this.appWorkspace.OpenFileInNewWorkspace(actionParm);
                         this.OpenDocument(actionParm);
                         result = true;
                     }
@@ -236,42 +416,41 @@ namespace SIS.MDITemplate
 
                     if (!string.IsNullOrEmpty(actionParm) && this.IsCurrentModalForm && this.Enabled)
                     {
-                        //result = this.appWorkspace.OpenFileInNewWorkspace(actionParm, false);
+                        // result = this.appWorkspace.OpenFileInNewWorkspace(actionParm, false);
                         this.OpenDocument(actionParm);
                         result = true;
 
                         if (result)
                         {
-                            //this.appWorkspace.ActiveDocumentWorkspace.SetDocumentSaveOptions(null, null, null);
-                            //this.appWorkspace.ActiveDocumentWorkspace.Document.Dirty = true;
+                            // this.appWorkspace.ActiveDocumentWorkspace.SetDocumentSaveOptions(null, null, null);
+                            // this.appWorkspace.ActiveDocumentWorkspace.Document.Dirty = true;
                         }
                     }
 
                     break;
 
-                //case ArgumentAction.Print:
-                //    Activate();
+                    // case ArgumentAction.Print:
+                    // Activate();
 
-                //    if (!string.IsNullOrEmpty(actionParm) && IsCurrentModalForm && Enabled)
-                //    {
-                //        result = this.appWorkspace.OpenFileInNewWorkspace(actionParm);
+                    // if (!string.IsNullOrEmpty(actionParm) && IsCurrentModalForm && Enabled)
+                    // {
+                    // result = this.appWorkspace.OpenFileInNewWorkspace(actionParm);
 
-                //        if (result)
-                //        {
-                //            DocumentWorkspace dw = this.appWorkspace.ActiveDocumentWorkspace;
-                //            PrintAction pa = new PrintAction();
-                //            dw.PerformAction(pa);
-                //            CloseWorkspaceAction cwa = new CloseWorkspaceAction(dw);
-                //            this.appWorkspace.PerformAction(cwa);
+                    // if (result)
+                    // {
+                    // DocumentWorkspace dw = this.appWorkspace.ActiveDocumentWorkspace;
+                    // PrintAction pa = new PrintAction();
+                    // dw.PerformAction(pa);
+                    // CloseWorkspaceAction cwa = new CloseWorkspaceAction(dw);
+                    // this.appWorkspace.PerformAction(cwa);
 
-                //            if (this.appWorkspace.DocumentWorkspaces.Length == 0)
-                //            {
-                //                Startup.CloseApplication();
-                //            }
-                //        }
-                //    }
-                //    break;
-
+                    // if (this.appWorkspace.DocumentWorkspaces.Length == 0)
+                    // {
+                    // Startup.CloseApplication();
+                    // }
+                    // }
+                    // }
+                    // break;
                 default:
                     throw new InvalidEnumArgumentException();
             }
@@ -279,10 +458,20 @@ namespace SIS.MDITemplate
             return result;
         }
 
+        /// <summary>
+        /// The application_ idle.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void Application_Idle(object sender, EventArgs e)
         {
-            if (!this.IsDisposed &&
-                (this.queuedInstanceMessages.Count > 0 || (this.singleInstanceManager != null && this.singleInstanceManager.AreMessagesPending)))
+            if (!this.IsDisposed
+                && (this.queuedInstanceMessages.Count > 0
+                    || (this.singleInstanceManager != null && this.singleInstanceManager.AreMessagesPending)))
             {
                 this.ProcessQueuedInstanceMessages();
             }
@@ -306,11 +495,23 @@ namespace SIS.MDITemplate
         // call the LoadLibrary method.
         // If a static constructor throws an exception, the runtime will not invoke it a second time, and the type will 
         // remain uninitialized for the lifetime of the application domain in which your program is running.
+        /// <summary>
+        /// Initializes static members of the <see cref="MdiParentForm"/> class.
+        /// </summary>
         static MdiParentForm()
         {
-            //new Thread(FocusPrintThread).Start();
+            // new Thread(FocusPrintThread).Start();
         }
 
+        /// <summary>
+        /// The get control name.
+        /// </summary>
+        /// <param name="control">
+        /// The control.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         private static string GetControlName(Control control)
         {
             if (control == null)
@@ -328,12 +529,18 @@ namespace SIS.MDITemplate
             return name;
         }
 
+        /// <summary>
+        /// The print focus.
+        /// </summary>
         private static void PrintFocus()
         {
             Control c = Utility.FindFocus();
             Tracing.Ping("Focused: " + GetControlName(c));
         }
 
+        /// <summary>
+        /// The focus print thread.
+        /// </summary>
         private static void FocusPrintThread()
         {
             Thread.CurrentThread.IsBackground = true;
@@ -350,7 +557,6 @@ namespace SIS.MDITemplate
                         form.BeginInvoke(new Procedure(PrintFocus));
                     }
                 }
-
                 catch
                 {
                 }
@@ -363,11 +569,20 @@ namespace SIS.MDITemplate
 
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MdiParentForm"/> class.
+        /// </summary>
         public MdiParentForm()
             : this(new string[0])
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MdiParentForm"/> class.
+        /// </summary>
+        /// <param name="__sArgs">
+        /// The __s args.
+        /// </param>
         public MdiParentForm(string[] __sArgs)
         {
             m_formMain = this;
@@ -382,7 +597,7 @@ namespace SIS.MDITemplate
             {
                 if (0 == string.Compare(_sArgument, "/dontForceGC"))
                 {
-                    //Utility.AllowGCFullCollect = false;
+                    // Utility.AllowGCFullCollect = false;
                 }
                 else if (0 == string.Compare(_sArgument, "/splash", true))
                 {
@@ -413,17 +628,16 @@ namespace SIS.MDITemplate
                         string fullPath = Path.GetFullPath(_sArgument);
                         _lFileNames.Add(fullPath);
                     }
-
                     catch (Exception)
                     {
                         _lFileNames.Add(_sArgument);
-                        //canSetCurrentDir = false;
+
+                        // canSetCurrentDir = false;
                     }
 
                     splash = true;
                 }
             }
-
 
             this.InitializeComponent();
 
@@ -434,10 +648,12 @@ namespace SIS.MDITemplate
                 this.Text = Application.ProductName;
 
                 this.m_menuItemHelpAbout.Text = string.Format("About {0}...", Application.ProductName);
-                this.m_menuItemRecentFiles.OpenFile += new RecentFilesMenuItem.OpenFileHandler(this.m_menuItemRecentFiles_OpenFile);
+                this.m_menuItemRecentFiles.OpenFile +=
+                    new RecentFilesMenuItem.OpenFileHandler(this.m_menuItemRecentFiles_OpenFile);
 
                 this.m_dragDropHandler = new FileDragDropHandler(this, this.m_documentTypes.Extensions);
-                this.m_dragDropHandler.FileDropped += new FileDragDropHandler.FileDropHandler(this.m_dragDropHandler_FileDropped);
+                this.m_dragDropHandler.FileDropped +=
+                    new FileDragDropHandler.FileDropHandler(this.m_dragDropHandler_FileDropped);
             }
 
             foreach (string _sFileName in _lFileNames)
@@ -448,17 +664,23 @@ namespace SIS.MDITemplate
             // no file specified? create a blank image
             if (_lFileNames.Count == 0)
             {
-                //MeasurementUnit units = Document.DefaultDpuUnit;
-                //double dpu = Document.GetDefaultDpu(units);
-                //Size newSize = this.appWorkspace.GetNewDocumentSize();
-                //this.appWorkspace.CreateBlankDocumentInNewWorkspace(newSize, units, dpu, true);
-                //this.appWorkspace.ActiveDocumentWorkspace.IncrementJustPaintWhite();
-                //this.appWorkspace.ActiveDocumentWorkspace.Document.Dirty = false;
+                // MeasurementUnit units = Document.DefaultDpuUnit;
+                // double dpu = Document.GetDefaultDpu(units);
+                // Size newSize = this.appWorkspace.GetNewDocumentSize();
+                // this.appWorkspace.CreateBlankDocumentInNewWorkspace(newSize, units, dpu, true);
+                // this.appWorkspace.ActiveDocumentWorkspace.IncrementJustPaintWhite();
+                // this.appWorkspace.ActiveDocumentWorkspace.Document.Dirty = false;
             }
 
             Application.Idle += new EventHandler(this.Application_Idle);
         }
 
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        /// <param name="disposing">
+        /// The disposing.
+        /// </param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -468,10 +690,12 @@ namespace SIS.MDITemplate
                     this.components.Dispose();
                 }
             }
+
             base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
+
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -496,146 +720,123 @@ namespace SIS.MDITemplate
             this.m_menuItemHelpAbout = new MdiMenuItem();
             this.m_statusBar = new MessengerStatusBar();
             this.SuspendLayout();
-            // 
+
             // m_menuMain
-            // 
-            this.m_menuMain.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.m_menuItemFile,
-            this.m_menuItemWindow,
-            this.m_menuItemHelp});
-            // 
+            this.m_menuMain.MenuItems.AddRange(
+                new MenuItem[] { this.m_menuItemFile, this.m_menuItemWindow, this.m_menuItemHelp });
+
             // m_menuItemFile
-            // 
             this.m_menuItemFile.Index = 0;
-            this.m_menuItemFile.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.m_menuItemFileNew,
-            this.m_menuItemFileOpen,
-            this.m_menuItemFileClose,
-            this.m_menuItemFileSeparator2,
-            this.m_menuItemFileSave,
-            this.m_menuItemFileSaveAs,
-            this.m_menuItemFileSeperator2,
-            this.m_menuItemRecentFiles,
-            this.m_menuItemFileSeparator,
-            this.m_menuItemFileExit});
+            this.m_menuItemFile.MenuItems.AddRange(
+                new[]
+                    {
+                        this.m_menuItemFileNew, this.m_menuItemFileOpen, this.m_menuItemFileClose, 
+                        this.m_menuItemFileSeparator2, this.m_menuItemFileSave, this.m_menuItemFileSaveAs, 
+                        this.m_menuItemFileSeperator2, this.m_menuItemRecentFiles, this.m_menuItemFileSeparator, 
+                        this.m_menuItemFileExit
+                    });
             this.m_menuItemFile.NeedsDocument = false;
             this.m_menuItemFile.StatusMessage = "Ready";
             this.m_menuItemFile.Text = "&File";
-            // 
+
             // m_menuItemFileNew
-            // 
             this.m_menuItemFileNew.Index = 0;
             this.m_menuItemFileNew.NeedsDocument = false;
             this.m_menuItemFileNew.Shortcut = System.Windows.Forms.Shortcut.CtrlN;
             this.m_menuItemFileNew.StatusMessage = "Create a new document";
             this.m_menuItemFileNew.Text = "&New...";
             this.m_menuItemFileNew.Click += new System.EventHandler(this.m_menuItemFileNew_Click);
-            // 
+
             // m_menuItemFileOpen
-            // 
             this.m_menuItemFileOpen.Index = 1;
             this.m_menuItemFileOpen.NeedsDocument = false;
             this.m_menuItemFileOpen.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
             this.m_menuItemFileOpen.StatusMessage = "Open a document file...";
             this.m_menuItemFileOpen.Text = "&Open...";
             this.m_menuItemFileOpen.Click += new System.EventHandler(this.m_menuFileOpen_Click);
-            // 
+
             // m_menuItemFileClose
-            // 
             this.m_menuItemFileClose.Index = 2;
             this.m_menuItemFileClose.NeedsDocument = true;
             this.m_menuItemFileClose.Shortcut = System.Windows.Forms.Shortcut.CtrlF4;
             this.m_menuItemFileClose.StatusMessage = "Close the current document";
             this.m_menuItemFileClose.Text = "&Close";
             this.m_menuItemFileClose.Click += new System.EventHandler(this.m_menuItemFileClose_Click);
-            // 
+
             // m_menuItemFileSeparator2
-            // 
             this.m_menuItemFileSeparator2.Index = 3;
             this.m_menuItemFileSeparator2.Text = "-";
-            // 
+
             // m_menuItemFileSave
-            // 
             this.m_menuItemFileSave.Index = 4;
             this.m_menuItemFileSave.NeedsDocument = true;
             this.m_menuItemFileSave.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
             this.m_menuItemFileSave.StatusMessage = "Save a document file...";
             this.m_menuItemFileSave.Text = "&Save";
             this.m_menuItemFileSave.Click += new System.EventHandler(this.m_menuItemFileSave_Click);
-            // 
+
             // m_menuItemFileSaveAs
-            // 
             this.m_menuItemFileSaveAs.Index = 5;
             this.m_menuItemFileSaveAs.NeedsDocument = true;
             this.m_menuItemFileSaveAs.StatusMessage = "Save the document to a different file...";
             this.m_menuItemFileSaveAs.Text = "Save &As...";
             this.m_menuItemFileSaveAs.Click += new System.EventHandler(this.m_menuItemFileSaveAs_Click);
-            // 
+
             // m_menuItemFileSeperator2
-            // 
             this.m_menuItemFileSeperator2.Index = 6;
             this.m_menuItemFileSeperator2.Text = "-";
-            // 
+
             // m_menuItemRecentFiles
-            // 
             this.m_menuItemRecentFiles.Enabled = false;
             this.m_menuItemRecentFiles.Index = 7;
             this.m_menuItemRecentFiles.NeedsDocument = false;
             this.m_menuItemRecentFiles.StatusMessage = "Open a file which has been previously opened...";
             this.m_menuItemRecentFiles.Text = "&Recent files";
-            // 
+
             // m_menuItemFileSeparator
-            // 
             this.m_menuItemFileSeparator.Index = 8;
             this.m_menuItemFileSeparator.NeedsDocument = false;
             this.m_menuItemFileSeparator.StatusMessage = "Ready";
             this.m_menuItemFileSeparator.Text = "-";
-            // 
+
             // m_menuItemFileExit
-            // 
             this.m_menuItemFileExit.Index = 9;
             this.m_menuItemFileExit.NeedsDocument = false;
             this.m_menuItemFileExit.Shortcut = System.Windows.Forms.Shortcut.AltF4;
             this.m_menuItemFileExit.StatusMessage = "Exit the application";
             this.m_menuItemFileExit.Text = "E&xit";
             this.m_menuItemFileExit.Click += new System.EventHandler(this.m_menuItemFileExit_Click);
-            // 
+
             // m_menuItemWindow
-            // 
             this.m_menuItemWindow.Index = 1;
             this.m_menuItemWindow.MdiList = true;
             this.m_menuItemWindow.NeedsDocument = true;
             this.m_menuItemWindow.StatusMessage = "Ready";
             this.m_menuItemWindow.Text = "&Window";
-            // 
+
             // m_menuItemHelp
-            // 
             this.m_menuItemHelp.Index = 2;
-            this.m_menuItemHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.m_menuItemHelpAbout});
+            this.m_menuItemHelp.MenuItems.AddRange(new MenuItem[] { this.m_menuItemHelpAbout });
             this.m_menuItemHelp.NeedsDocument = false;
             this.m_menuItemHelp.StatusMessage = "Ready";
             this.m_menuItemHelp.Text = "&Help";
-            // 
+
             // m_menuItemHelpAbout
-            // 
             this.m_menuItemHelpAbout.Index = 0;
             this.m_menuItemHelpAbout.NeedsDocument = false;
             this.m_menuItemHelpAbout.Shortcut = System.Windows.Forms.Shortcut.AltF12;
             this.m_menuItemHelpAbout.StatusMessage = "Display information about the application";
             this.m_menuItemHelpAbout.Text = "&About...";
             this.m_menuItemHelpAbout.Click += new System.EventHandler(this.m_menuItemHelpAbout_Click);
-            // 
+
             // m_statusBar
-            // 
             this.m_statusBar.Location = new System.Drawing.Point(0, 403);
             this.m_statusBar.Name = "m_statusBar";
             this.m_statusBar.Size = new System.Drawing.Size(672, 22);
             this.m_statusBar.TabIndex = 1;
             this.m_statusBar.Text = "Ready";
-            // 
+
             // MdiParentForm
-            // 
             this.AllowDrop = true;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(672, 425);
@@ -646,10 +847,16 @@ namespace SIS.MDITemplate
             this.Name = "MdiParentForm";
             this.Text = "MDIParentForm";
             this.ResumeLayout(false);
-
         }
+
         #endregion
 
+        /// <summary>
+        /// The on load.
+        /// </summary>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -660,6 +867,9 @@ namespace SIS.MDITemplate
             }
         }
 
+        /// <summary>
+        /// Gets or sets the active view.
+        /// </summary>
         public MdiViewForm ActiveView
         {
             get
@@ -673,6 +883,9 @@ namespace SIS.MDITemplate
             }
         }
 
+        /// <summary>
+        /// Gets or sets the application icon.
+        /// </summary>
         public Image ApplicationIcon
         {
             get
@@ -686,7 +899,10 @@ namespace SIS.MDITemplate
             }
         }
 
-        static public MdiParentForm MainForm
+        /// <summary>
+        /// Gets the main form.
+        /// </summary>
+        public static MdiParentForm MainForm
         {
             get
             {
@@ -694,12 +910,30 @@ namespace SIS.MDITemplate
             }
         }
 
-        private void m_menuItemFileExit_Click(object sender, System.EventArgs e)
+        /// <summary>
+        /// The m_menu item file exit_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void m_menuItemFileExit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void m_menuFileOpen_Click(object sender, System.EventArgs e)
+        /// <summary>
+        /// The m_menu file open_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void m_menuFileOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = this.m_documentTypes.OpenDialogFilter;
@@ -710,6 +944,12 @@ namespace SIS.MDITemplate
             }
         }
 
+        /// <summary>
+        /// The open document.
+        /// </summary>
+        /// <param name="sFile">
+        /// The s file.
+        /// </param>
         private void OpenDocument(string sFile)
         {
             string sFileLower = sFile.ToLower();
@@ -730,9 +970,10 @@ namespace SIS.MDITemplate
 
             if (document == null)
             {
-                MessageBox.Show("Couldn't open document",
-                    Application.ProductName,
-                    MessageBoxButtons.OK,
+                MessageBox.Show(
+                    "Couldn't open document", 
+                    Application.ProductName, 
+                    MessageBoxButtons.OK, 
                     MessageBoxIcon.Exclamation);
             }
             else
@@ -743,7 +984,16 @@ namespace SIS.MDITemplate
             this.UpdateMenuItems();
         }
 
-        private void m_menuItemFileSave_Click(object sender, System.EventArgs e)
+        /// <summary>
+        /// The m_menu item file save_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void m_menuItemFileSave_Click(object sender, EventArgs e)
         {
             MdiViewForm view = this.ActiveView;
 
@@ -765,7 +1015,16 @@ namespace SIS.MDITemplate
             }
         }
 
-        private void m_menuItemFileSaveAs_Click(object sender, System.EventArgs e)
+        /// <summary>
+        /// The m_menu item file save as_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void m_menuItemFileSaveAs_Click(object sender, EventArgs e)
         {
             MdiViewForm view = this.ActiveView;
 
@@ -778,16 +1037,26 @@ namespace SIS.MDITemplate
                 {
                     if (!view.Document.SaveDocument(dialog.FileName))
                     {
-                        MessageBox.Show("Couldn't save document",
-                            Application.ProductName,
-                            MessageBoxButtons.OK,
+                        MessageBox.Show(
+                            "Couldn't save document", 
+                            Application.ProductName, 
+                            MessageBoxButtons.OK, 
                             MessageBoxIcon.Exclamation);
                     }
                 }
             }
         }
 
-        private void m_menuItemFileClose_Click(object sender, System.EventArgs e)
+        /// <summary>
+        /// The m_menu item file close_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void m_menuItemFileClose_Click(object sender, EventArgs e)
         {
             MdiViewForm view = this.ActiveView;
 
@@ -797,7 +1066,16 @@ namespace SIS.MDITemplate
             }
         }
 
-        private void m_menuItemFileNew_Click(object sender, System.EventArgs e)
+        /// <summary>
+        /// The m_menu item file new_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void m_menuItemFileNew_Click(object sender, EventArgs e)
         {
             if (this.m_documentTypes.Count == 0)
             {
@@ -816,9 +1094,10 @@ namespace SIS.MDITemplate
 
             if (document == null)
             {
-                MessageBox.Show("Couldn't create document",
-                    Application.ProductName,
-                    MessageBoxButtons.OK,
+                MessageBox.Show(
+                    "Couldn't create document", 
+                    Application.ProductName, 
+                    MessageBoxButtons.OK, 
                     MessageBoxIcon.Exclamation);
             }
             else
@@ -830,15 +1109,25 @@ namespace SIS.MDITemplate
             }
         }
 
+        /// <summary>
+        /// The create view.
+        /// </summary>
+        /// <param name="document">
+        /// The document.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         private bool CreateView(MdiDocument document)
         {
             MdiViewForm view = document.CreateView();
 
             if (view == null)
             {
-                MessageBox.Show("Couldn't create view",
-                    Application.ProductName,
-                    MessageBoxButtons.OK,
+                MessageBox.Show(
+                    "Couldn't create view", 
+                    Application.ProductName, 
+                    MessageBoxButtons.OK, 
                     MessageBoxIcon.Exclamation);
                 return false;
             }
@@ -854,24 +1143,49 @@ namespace SIS.MDITemplate
             }
         }
 
-        private void m_menuItemHelpAbout_Click(object sender, System.EventArgs e)
+        /// <summary>
+        /// The m_menu item help about_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void m_menuItemHelpAbout_Click(object sender, EventArgs e)
         {
-            //AboutForm form = new AboutForm();
+            // AboutForm form = new AboutForm();
             AboutDialog form = new AboutDialog();
-            //form.ApplicationIcon = m_imageApplication;
+
+            // form.ApplicationIcon = m_imageApplication;
             form.ShowDialog();
         }
 
+        /// <summary>
+        /// The m_menu item recent files_ open file.
+        /// </summary>
+        /// <param name="sFile">
+        /// The s file.
+        /// </param>
         private void m_menuItemRecentFiles_OpenFile(string sFile)
         {
             this.OpenDocument(sFile);
         }
 
+        /// <summary>
+        /// The m_drag drop handler_ file dropped.
+        /// </summary>
+        /// <param name="sFileName">
+        /// The s file name.
+        /// </param>
         private void m_dragDropHandler_FileDropped(string sFileName)
         {
             this.OpenDocument(sFileName);
         }
 
+        /// <summary>
+        /// The update menu items.
+        /// </summary>
         private void UpdateMenuItems()
         {
             foreach (MdiMenuItem item in this.m_menuMain.MenuItems)
@@ -883,11 +1197,29 @@ namespace SIS.MDITemplate
             }
         }
 
+        /// <summary>
+        /// The view_ closed.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void view_Closed(object sender, EventArgs e)
         {
             this.UpdateMenuItems();
         }
 
+        /// <summary>
+        /// The view_ activated.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void view_Activated(object sender, EventArgs e)
         {
             this.UpdateMenuItems();

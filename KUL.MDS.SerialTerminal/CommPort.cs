@@ -1,3 +1,13 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CommPort.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   CommPort class creates a singleton instance
+//   of SerialPort (System.IO.Ports)
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace SIS.SerialTerminal
 {
     using System;
@@ -25,26 +35,88 @@ namespace SIS.SerialTerminal
     /// </remarks>
     public sealed class CommPort
     {
-        SerialPort _serialPort;
-        Thread _readThread;
-        bool _keepReading;
+        // begin Singleton pattern
+        #region Static Fields
 
-        //begin Singleton pattern
-        static readonly CommPort instance = new CommPort();
+        /// <summary>
+        /// The instance.
+        /// </summary>
+        private static readonly CommPort instance = new CommPort();
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        /// The data received.
+        /// </summary>
+        public EventHandler DataReceived;
+
+        /// <summary>
+        /// The status changed.
+        /// </summary>
+        public EventHandler StatusChanged;
+
+        /// <summary>
+        /// The _keep reading.
+        /// </summary>
+        private bool _keepReading;
+
+        /// <summary>
+        /// The _read thread.
+        /// </summary>
+        private Thread _readThread;
+
+        /// <summary>
+        /// The _serial port.
+        /// </summary>
+        private SerialPort _serialPort;
+
+        #endregion
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes static members of the <see cref="CommPort"/> class.
+        /// </summary>
         static CommPort()
         {
         }
 
-        CommPort()
+        /// <summary>
+        /// Prevents a default instance of the <see cref="CommPort"/> class from being created.
+        /// </summary>
+        private CommPort()
         {
             this._serialPort = new SerialPort();
             this._readThread = null;
             this._keepReading = false;
         }
 
+        #endregion
+
+        // end Singleton pattern
+
+        // begin Observer pattern
+        #region Delegates
+
+        /// <summary>
+        /// The event handler.
+        /// </summary>
+        /// <param name="param">
+        /// The param.
+        /// </param>
+        public delegate void EventHandler(string param);
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
         public static CommPort Instance
         {
             get
@@ -52,62 +124,38 @@ namespace SIS.SerialTerminal
                 return instance;
             }
         }
-        //end Singleton pattern
 
-        //begin Observer pattern
-        public delegate void EventHandler(string param);
-        public EventHandler StatusChanged;
-        public EventHandler DataReceived;
-        //end Observer pattern
-
-        private void StartReading()
+        /// <summary> Get the status of the serial port. </summary>
+        public bool IsOpen
         {
-            if (!this._keepReading)
+            get
             {
-                this._keepReading = true;
-                this._readThread = new Thread(this.ReadPort);
-                this._readThread.Start();
+                return this._serialPort.IsOpen;
             }
         }
 
-        private void StopReading()
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary> Close the serial port. </summary>
+        public void Close()
         {
-            if (this._keepReading)
-            {
-                this._keepReading = false;
-                this._readThread.Join();	//block until exits
-                this._readThread = null;
-            }
+            this.StopReading();
+            this._serialPort.Close();
+            this.StatusChanged("connection closed");
         }
 
-        /// <summary> Get the data and pass it on. </summary>
-        private void ReadPort()
+        /// <summary>
+        /// Get a list of the available ports. Already opened ports
+        /// are not returend. 
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string[]"/>.
+        /// </returns>
+        public string[] GetAvailablePorts()
         {
-            while (this._keepReading)
-            {
-                if (this._serialPort.IsOpen)
-                {
-                    byte[] readBuffer = new byte[this._serialPort.ReadBufferSize + 1];
-                    try
-                    {
-                        // If there are bytes available on the serial port,
-                        // Read returns up to "count" bytes, but will not block (wait)
-                        // for the remaining bytes. If there are no bytes available
-                        // on the serial port, Read will block until at least one byte
-                        // is available on the port, up until the ReadTimeout milliseconds
-                        // have elapsed, at which time a TimeoutException will be thrown.
-                        int count = this._serialPort.Read(readBuffer, 0, this._serialPort.ReadBufferSize);
-                        String SerialIn = System.Text.Encoding.ASCII.GetString(readBuffer, 0, count);
-                        this.DataReceived(SerialIn);
-                    }
-                    catch (TimeoutException) { }
-                }
-                else
-                {
-                    TimeSpan waitTime = new TimeSpan(0, 0, 0, 0, 50);
-                    Thread.Sleep(waitTime);
-                }
-            }
+            return SerialPort.GetPortNames();
         }
 
         /// <summary> Open the serial port with current settings. </summary>
@@ -133,74 +181,129 @@ namespace SIS.SerialTerminal
             }
             catch (IOException)
             {
-                this.StatusChanged(String.Format("{0} does not exist", Settings.Port.PortName));
+                this.StatusChanged(string.Format("{0} does not exist", Settings.Port.PortName));
             }
             catch (UnauthorizedAccessException)
             {
-                this.StatusChanged(String.Format("{0} already in use", Settings.Port.PortName));
+                this.StatusChanged(string.Format("{0} already in use", Settings.Port.PortName));
             }
 
             // Update the status
             if (this._serialPort.IsOpen)
             {
-                string p = this._serialPort.Parity.ToString().Substring(0, 1);   //First char
+                string p = this._serialPort.Parity.ToString().Substring(0, 1); // First char
                 string h = this._serialPort.Handshake.ToString();
                 if (this._serialPort.Handshake == Handshake.None)
+                {
                     h = "no handshake"; // more descriptive than "None"
+                }
 
-                this.StatusChanged(String.Format("{0}: {1} bps, {2}{3}{4}, {5}",
-                    this._serialPort.PortName, this._serialPort.BaudRate,
-                    this._serialPort.DataBits, p, (int)this._serialPort.StopBits, h));
+                this.StatusChanged(
+                    string.Format(
+                        "{0}: {1} bps, {2}{3}{4}, {5}", 
+                        this._serialPort.PortName, 
+                        this._serialPort.BaudRate, 
+                        this._serialPort.DataBits, 
+                        p, 
+                        (int)this._serialPort.StopBits, 
+                        h));
             }
             else
             {
-                this.StatusChanged(String.Format("{0} already in use", Settings.Port.PortName));
+                this.StatusChanged(string.Format("{0} already in use", Settings.Port.PortName));
             }
         }
 
-        /// <summary> Close the serial port. </summary>
-        public void Close()
-        {
-            this.StopReading();
-            this._serialPort.Close();
-            this.StatusChanged("connection closed");
-        }
-
-        /// <summary> Get the status of the serial port. </summary>
-        public bool IsOpen
-        {
-            get
-            {
-                return this._serialPort.IsOpen;
-            }
-        }
-
-        /// <summary> Get a list of the available ports. Already opened ports
-        /// are not returend. </summary>
-        public string[] GetAvailablePorts()
-        {
-            return SerialPort.GetPortNames();
-        }
-
-        /// <summary>Send data to the serial port after appending line ending. </summary>
-        /// <param name="data">An string containing the data to send. </param>
+        /// <summary>
+        /// Send data to the serial port after appending line ending. 
+        /// </summary>
+        /// <param name="data">
+        /// An string containing the data to send. 
+        /// </param>
         public void Send(string data)
         {
             if (this.IsOpen)
             {
-                string lineEnding = "";
+                string lineEnding = string.Empty;
                 switch (Settings.Option.AppendToSend)
                 {
                     case Settings.Option.AppendType.AppendCR:
-                        lineEnding = "\r"; break;
+                        lineEnding = "\r";
+                        break;
                     case Settings.Option.AppendType.AppendLF:
-                        lineEnding = "\n"; break;
+                        lineEnding = "\n";
+                        break;
                     case Settings.Option.AppendType.AppendCRLF:
-                        lineEnding = "\r\n"; break;
+                        lineEnding = "\r\n";
+                        break;
                 }
 
                 this._serialPort.Write(data + lineEnding);
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary> Get the data and pass it on. </summary>
+        private void ReadPort()
+        {
+            while (this._keepReading)
+            {
+                if (this._serialPort.IsOpen)
+                {
+                    byte[] readBuffer = new byte[this._serialPort.ReadBufferSize + 1];
+                    try
+                    {
+                        // If there are bytes available on the serial port,
+                        // Read returns up to "count" bytes, but will not block (wait)
+                        // for the remaining bytes. If there are no bytes available
+                        // on the serial port, Read will block until at least one byte
+                        // is available on the port, up until the ReadTimeout milliseconds
+                        // have elapsed, at which time a TimeoutException will be thrown.
+                        int count = this._serialPort.Read(readBuffer, 0, this._serialPort.ReadBufferSize);
+                        string SerialIn = System.Text.Encoding.ASCII.GetString(readBuffer, 0, count);
+                        this.DataReceived(SerialIn);
+                    }
+                    catch (TimeoutException)
+                    {
+                    }
+                }
+                else
+                {
+                    TimeSpan waitTime = new TimeSpan(0, 0, 0, 0, 50);
+                    Thread.Sleep(waitTime);
+                }
+            }
+        }
+
+        /// <summary>
+        /// The start reading.
+        /// </summary>
+        private void StartReading()
+        {
+            if (!this._keepReading)
+            {
+                this._keepReading = true;
+                this._readThread = new Thread(this.ReadPort);
+                this._readThread.Start();
+            }
+        }
+
+        /// <summary>
+        /// The stop reading.
+        /// </summary>
+        private void StopReading()
+        {
+            if (this._keepReading)
+            {
+                this._keepReading = false;
+                this._readThread.Join(); // block until exits
+                this._readThread = null;
+            }
+        }
+
+        #endregion
     }
 }

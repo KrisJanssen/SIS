@@ -1,18 +1,32 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VerticalSnapEdge.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The vertical snap edge.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.MDITemplate.Snapping
 {
+    /// <summary>
+    /// The vertical snap edge.
+    /// </summary>
     public enum VerticalSnapEdge
     {
-        Neither,
-        Left,
+        /// <summary>
+        /// The neither.
+        /// </summary>
+        Neither, 
+
+        /// <summary>
+        /// The left.
+        /// </summary>
+        Left, 
+
+        /// <summary>
+        /// The right.
+        /// </summary>
         Right
     }
 }

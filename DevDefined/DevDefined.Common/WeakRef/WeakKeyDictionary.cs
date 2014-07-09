@@ -1,40 +1,91 @@
-using System;
-using System.Collections.Generic;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="WeakKeyDictionary.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Dictionary where only the Key is a weak reference.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Common.WeakRef
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Dictionary where only the Key is a weak reference.
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    /// <typeparam name="TValue"></typeparam>
+    /// <typeparam name="TKey">
+    /// </typeparam>
+    /// <typeparam name="TValue">
+    /// </typeparam>
     public sealed class WeakKeyDictionary<TKey, TValue> : BaseDictionary<TKey, TValue>
-        where TKey : class
-        where TValue : class
+        where TKey : class where TValue : class
     {
+        #region Fields
+
+        /// <summary>
+        /// The comparer.
+        /// </summary>
         private readonly WeakKeyComparer<TKey> comparer;
+
+        /// <summary>
+        /// The dictionary.
+        /// </summary>
         private readonly Dictionary<object, TValue> dictionary;
 
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeakKeyDictionary{TKey,TValue}"/> class.
+        /// </summary>
         public WeakKeyDictionary()
             : this(0, null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeakKeyDictionary{TKey,TValue}"/> class.
+        /// </summary>
+        /// <param name="capacity">
+        /// The capacity.
+        /// </param>
         public WeakKeyDictionary(int capacity)
             : this(capacity, null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeakKeyDictionary{TKey,TValue}"/> class.
+        /// </summary>
+        /// <param name="comparer">
+        /// The comparer.
+        /// </param>
         public WeakKeyDictionary(IEqualityComparer<TKey> comparer)
             : this(0, comparer)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeakKeyDictionary{TKey,TValue}"/> class.
+        /// </summary>
+        /// <param name="capacity">
+        /// The capacity.
+        /// </param>
+        /// <param name="comparer">
+        /// The comparer.
+        /// </param>
         public WeakKeyDictionary(int capacity, IEqualityComparer<TKey> comparer)
         {
             this.comparer = new WeakKeyComparer<TKey>(comparer);
-            dictionary = new Dictionary<object, TValue>(capacity, this.comparer);
+            this.dictionary = new Dictionary<object, TValue>(capacity, this.comparer);
         }
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Returns the count of items in the dictionary.
@@ -47,71 +98,112 @@ namespace DevDefined.Common.WeakRef
         /// </summary>
         public override int Count
         {
-            get { return dictionary.Count; }
+            get
+            {
+                return this.dictionary.Count;
+            }
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The add.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
         public override void Add(TKey key, TValue value)
         {
-            if (key == null) throw new ArgumentNullException("key");
-            WeakReference<TKey> weakKey = new WeakKeyReference<TKey>(key, comparer);
-            dictionary.Add(weakKey, value);
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            WeakReference<TKey> weakKey = new WeakKeyReference<TKey>(key, this.comparer);
+            this.dictionary.Add(weakKey, value);
         }
 
-        public override bool ContainsKey(TKey key)
-        {
-            return dictionary.ContainsKey(key);
-        }
-
-        public override bool Remove(TKey key)
-        {
-            return dictionary.Remove(key);
-        }
-
-        public override bool TryGetValue(TKey key, out TValue value)
-        {
-            return dictionary.TryGetValue(key, out value);
-        }
-
-        protected override void SetValue(TKey key, TValue value)
-        {
-            WeakReference<TKey> weakKey = new WeakKeyReference<TKey>(key, comparer);
-            dictionary[weakKey] = value;
-        }
-
+        /// <summary>
+        /// The clear.
+        /// </summary>
         public override void Clear()
         {
-            dictionary.Clear();
+            this.dictionary.Clear();
         }
 
+        /// <summary>
+        /// The contains key.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public override bool ContainsKey(TKey key)
+        {
+            return this.dictionary.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// The get enumerator.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IEnumerator"/>.
+        /// </returns>
         public override IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            foreach (var kvp in dictionary)
+            foreach (var kvp in this.dictionary)
             {
-                var weakKey = (WeakReference<TKey>) (kvp.Key);
+                var weakKey = (WeakReference<TKey>)kvp.Key;
                 TKey key = weakKey.Target;
                 TValue value = kvp.Value;
 
                 if (weakKey.IsAlive)
+                {
                     yield return new KeyValuePair<TKey, TValue>(key, value);
+                }
             }
         }
 
-        // Removes the left-over weak references for entries in the dictionary
-        // whose key or value has already been reclaimed by the garbage
-        // collector. This will reduce the dictionary's Count by the number
-        // of dead key-value pairs that were eliminated.
+        /// <summary>
+        /// The remove.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public override bool Remove(TKey key)
+        {
+            return this.dictionary.Remove(key);
+        }
+
+        /// <summary>
+        /// The remove collected entries.
+        /// </summary>
         public void RemoveCollectedEntries()
         {
             List<object> toRemove = null;
 
-            foreach (var pair in dictionary)
+            foreach (var pair in this.dictionary)
             {
-                var weakKey = (WeakReference<TKey>) (pair.Key);
+                var weakKey = (WeakReference<TKey>)pair.Key;
 
                 if (!weakKey.IsAlive)
                 {
                     if (toRemove == null)
+                    {
                         toRemove = new List<object>();
+                    }
 
                     toRemove.Add(weakKey);
                 }
@@ -120,8 +212,48 @@ namespace DevDefined.Common.WeakRef
             if (toRemove != null)
             {
                 foreach (object key in toRemove)
-                    dictionary.Remove(key);
+                {
+                    this.dictionary.Remove(key);
+                }
             }
         }
+
+        /// <summary>
+        /// The try get value.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public override bool TryGetValue(TKey key, out TValue value)
+        {
+            return this.dictionary.TryGetValue(key, out value);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The set value.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        protected override void SetValue(TKey key, TValue value)
+        {
+            WeakReference<TKey> weakKey = new WeakKeyReference<TKey>(key, this.comparer);
+            this.dictionary[weakKey] = value;
+        }
+
+        #endregion
     }
 }

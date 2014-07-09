@@ -1,5 +1,13 @@
-﻿//#define REPORTLEAKS
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Memory.cs">
+//   
+// </copyright>
+// <summary>
+//   Contains methods for allocating, freeing, and performing operations on memory
+//   that is fixed (pinned) in memory.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 namespace SIS.Systemlayer
 {
     using System;
@@ -11,10 +19,22 @@ namespace SIS.Systemlayer
     /// that is fixed (pinned) in memory.
     /// </summary>
     [CLSCompliant(false)]
-    public unsafe static class Memory
+    public static unsafe class Memory
     {
+        #region Static Fields
+
+        /// <summary>
+        /// The h heap.
+        /// </summary>
         private static IntPtr hHeap;
 
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes static members of the <see cref="Memory"/> class.
+        /// </summary>
         static Memory()
         {
             hHeap = SafeNativeMethods.HeapCreate(0, IntPtr.Zero, IntPtr.Zero);
@@ -24,12 +44,12 @@ namespace SIS.Systemlayer
             try
             {
                 // Enable the low-fragmentation heap (LFH)
-                SafeNativeMethods.HeapSetInformation(hHeap,
-                    NativeConstants.HeapCompatibilityInformation,
-                    (void*)&info,
+                SafeNativeMethods.HeapSetInformation(
+                    hHeap, 
+                    NativeConstants.HeapCompatibilityInformation, 
+                    (void*)&info, 
                     sizeof(uint));
             }
-
             catch (Exception)
             {
                 // If that method isn't available, like on Win2K, don't worry about it.
@@ -37,6 +57,10 @@ namespace SIS.Systemlayer
 
             Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
         }
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets the total amount of physical memory (RAM) in the system.
@@ -59,24 +83,22 @@ namespace SIS.Systemlayer
             }
         }
 
-        private static void DestroyHeap()
-        {
-            IntPtr hHeap2 = hHeap;
-            hHeap = IntPtr.Zero;
-            SafeNativeMethods.HeapDestroy(hHeap2);
-        }
+        #endregion
 
-        private static void Application_ApplicationExit(object sender, EventArgs e)
-        {
-            DestroyHeap();
-        }
+        #region Public Methods and Operators
 
         /// <summary>
         /// Allocates a block of memory at least as large as the amount requested.
         /// </summary>
-        /// <param name="bytes">The number of bytes you want to allocate.</param>
-        /// <returns>A pointer to a block of memory at least as large as <b>bytes</b>.</returns>
-        /// <exception cref="OutOfMemoryException">Thrown if the memory manager could not fulfill the request for a memory block at least as large as <b>bytes</b>.</exception>
+        /// <param name="bytes">
+        /// The number of bytes you want to allocate.
+        /// </param>
+        /// <returns>
+        /// A pointer to a block of memory at least as large as <b>bytes</b>.
+        /// </returns>
+        /// <exception cref="OutOfMemoryException">
+        /// Thrown if the memory manager could not fulfill the request for a memory block at least as large as <b>bytes</b>.
+        /// </exception>
         public static IntPtr Allocate(ulong bytes)
         {
             if (hHeap == IntPtr.Zero)
@@ -102,41 +124,21 @@ namespace SIS.Systemlayer
         }
 
         /// <summary>
-        /// Allocates a block of memory at least as large as the amount requested.
-        /// </summary>
-        /// <param name="bytes">The number of bytes you want to allocate.</param>
-        /// <returns>A pointer to a block of memory at least as large as bytes</returns>
-        /// <remarks>
-        /// This method uses an alternate method for allocating memory (VirtualAlloc in Windows). The allocation
-        /// granularity is the page size of the system (usually 4K). Blocks allocated with this method may also
-        /// be protected using the ProtectBlock method.
-        /// </remarks>
-        public static IntPtr AllocateLarge(ulong bytes)
-        {
-            IntPtr block = SafeNativeMethods.VirtualAlloc(IntPtr.Zero, new UIntPtr(bytes),
-                NativeConstants.MEM_COMMIT, NativeConstants.PAGE_READWRITE);
-
-            if (block == IntPtr.Zero)
-            {
-                throw new OutOfMemoryException("VirtualAlloc returned a null pointer");
-            }
-
-            if (bytes > 0)
-            {
-                GC.AddMemoryPressure((long)bytes);
-            }
-
-            return block;
-        }
-
-        /// <summary>
         /// Allocates a bitmap of the given height and width. Pixel data may be read/written directly, 
         /// and it may be drawn to the screen using PdnGraphics.DrawBitmap().
         /// </summary>
-        /// <param name="width">The width of the bitmap to allocate.</param>
-        /// <param name="height">The height of the bitmap to allocate.</param>
-        /// <param name="handle">Receives a handle to the bitmap.</param>
-        /// <returns>A pointer to the bitmap's pixel data.</returns>
+        /// <param name="width">
+        /// The width of the bitmap to allocate.
+        /// </param>
+        /// <param name="height">
+        /// The height of the bitmap to allocate.
+        /// </param>
+        /// <param name="handle">
+        /// Receives a handle to the bitmap.
+        /// </param>
+        /// <returns>
+        /// A pointer to the bitmap's pixel data.
+        /// </returns>
         /// <remarks>
         /// The following invariants may be useful for implementors:
         /// * The bitmap is always 32-bits per pixel, BGRA.
@@ -165,16 +167,18 @@ namespace SIS.Systemlayer
 
             IntPtr pvBits;
             IntPtr hBitmap = SafeNativeMethods.CreateDIBSection(
-                IntPtr.Zero,
-                ref bmi,
-                NativeConstants.DIB_RGB_COLORS,
-                out pvBits,
-                IntPtr.Zero,
+                IntPtr.Zero, 
+                ref bmi, 
+                NativeConstants.DIB_RGB_COLORS, 
+                out pvBits, 
+                IntPtr.Zero, 
                 0);
 
             if (hBitmap == IntPtr.Zero)
             {
-                throw new OutOfMemoryException("CreateDIBSection returned NULL (" + Marshal.GetLastWin32Error().ToString() + ") while attempting to allocate " + width + "x" + height + " bitmap");
+                throw new OutOfMemoryException(
+                    "CreateDIBSection returned NULL (" + Marshal.GetLastWin32Error().ToString()
+                    + ") while attempting to allocate " + width + "x" + height + " bitmap");
             }
 
             handle = hBitmap;
@@ -189,33 +193,85 @@ namespace SIS.Systemlayer
         }
 
         /// <summary>
-        /// Frees a bitmap previously allocated with AllocateBitmap.
+        /// Allocates a block of memory at least as large as the amount requested.
         /// </summary>
-        /// <param name="handle">The handle that was returned from a previous call to AllocateBitmap.</param>
-        /// <param name="width">The width of the bitmap, as specified in the original call to AllocateBitmap.</param>
-        /// <param name="height">The height of the bitmap, as specified in the original call to AllocateBitmap.</param>
-        public static void FreeBitmap(IntPtr handle, int width, int height)
+        /// <param name="bytes">
+        /// The number of bytes you want to allocate.
+        /// </param>
+        /// <returns>
+        /// A pointer to a block of memory at least as large as bytes
+        /// </returns>
+        /// <remarks>
+        /// This method uses an alternate method for allocating memory (VirtualAlloc in Windows). The allocation
+        /// granularity is the page size of the system (usually 4K). Blocks allocated with this method may also
+        /// be protected using the ProtectBlock method.
+        /// </remarks>
+        public static IntPtr AllocateLarge(ulong bytes)
         {
-            long bytes = (long)width * (long)height * 4;
+            IntPtr block = SafeNativeMethods.VirtualAlloc(
+                IntPtr.Zero, 
+                new UIntPtr(bytes), 
+                NativeConstants.MEM_COMMIT, 
+                NativeConstants.PAGE_READWRITE);
 
-            bool bResult = SafeNativeMethods.DeleteObject(handle);
-
-            if (!bResult)
+            if (block == IntPtr.Zero)
             {
-                NativeMethods.ThrowOnWin32Error("DeleteObject returned false");
+                throw new OutOfMemoryException("VirtualAlloc returned a null pointer");
             }
 
             if (bytes > 0)
             {
-                GC.RemoveMemoryPressure(bytes);
+                GC.AddMemoryPressure((long)bytes);
             }
+
+            return block;
+        }
+
+        /// <summary>
+        /// Copies bytes from one area of memory to another. Since this function only
+        /// takes pointers, it can not do any bounds checking.
+        /// </summary>
+        /// <param name="dst">
+        /// The starting address of where to copy bytes to.
+        /// </param>
+        /// <param name="src">
+        /// The starting address of where to copy bytes from.
+        /// </param>
+        /// <param name="length">
+        /// The number of bytes to copy
+        /// </param>
+        public static void Copy(IntPtr dst, IntPtr src, ulong length)
+        {
+            Copy(dst.ToPointer(), src.ToPointer(), length);
+        }
+
+        /// <summary>
+        /// Copies bytes from one area of memory to another. Since this function only
+        /// takes pointers, it can not do any bounds checking.
+        /// </summary>
+        /// <param name="dst">
+        /// The starting address of where to copy bytes to.
+        /// </param>
+        /// <param name="src">
+        /// The starting address of where to copy bytes from.
+        /// </param>
+        /// <param name="length">
+        /// The number of bytes to copy
+        /// </param>
+        public static void Copy(void* dst, void* src, ulong length)
+        {
+            SafeNativeMethods.memcpy(dst, src, new UIntPtr(length));
         }
 
         /// <summary>
         /// Frees a block of memory previously allocated with Allocate().
         /// </summary>
-        /// <param name="block">The block to free.</param>
-        /// <exception cref="InvalidOperationException">There was an error freeing the block.</exception>
+        /// <param name="block">
+        /// The block to free.
+        /// </param>
+        /// <exception cref="InvalidOperationException">
+        /// There was an error freeing the block.
+        /// </exception>
         public static void Free(IntPtr block)
         {
             if (Memory.hHeap != IntPtr.Zero)
@@ -244,10 +300,43 @@ namespace SIS.Systemlayer
         }
 
         /// <summary>
+        /// Frees a bitmap previously allocated with AllocateBitmap.
+        /// </summary>
+        /// <param name="handle">
+        /// The handle that was returned from a previous call to AllocateBitmap.
+        /// </param>
+        /// <param name="width">
+        /// The width of the bitmap, as specified in the original call to AllocateBitmap.
+        /// </param>
+        /// <param name="height">
+        /// The height of the bitmap, as specified in the original call to AllocateBitmap.
+        /// </param>
+        public static void FreeBitmap(IntPtr handle, int width, int height)
+        {
+            long bytes = (long)width * (long)height * 4;
+
+            bool bResult = SafeNativeMethods.DeleteObject(handle);
+
+            if (!bResult)
+            {
+                NativeMethods.ThrowOnWin32Error("DeleteObject returned false");
+            }
+
+            if (bytes > 0)
+            {
+                GC.RemoveMemoryPressure(bytes);
+            }
+        }
+
+        /// <summary>
         /// Frees a block of memory previous allocated with AllocateLarge().
         /// </summary>
-        /// <param name="block">The block to free.</param>
-        /// <param name="bytes">The size of the block.</param>
+        /// <param name="block">
+        /// The block to free.
+        /// </param>
+        /// <param name="bytes">
+        /// The size of the block.
+        /// </param>
         public static void FreeLarge(IntPtr block, ulong bytes)
         {
             bool result = SafeNativeMethods.VirtualFree(block, UIntPtr.Zero, NativeConstants.MEM_RELEASE);
@@ -267,10 +356,18 @@ namespace SIS.Systemlayer
         /// <summary>
         /// Sets protection on a block previously allocated with AllocateLarge.
         /// </summary>
-        /// <param name="block">The starting memory address to set protection for.</param>
-        /// <param name="size">The size of the block.</param>
-        /// <param name="readAccess">Whether to allow read access.</param>
-        /// <param name="writeAccess">Whether to allow write access.</param>
+        /// <param name="block">
+        /// The starting memory address to set protection for.
+        /// </param>
+        /// <param name="size">
+        /// The size of the block.
+        /// </param>
+        /// <param name="readAccess">
+        /// Whether to allow read access.
+        /// </param>
+        /// <param name="writeAccess">
+        /// Whether to allow write access.
+        /// </param>
         /// <remarks>
         /// You may not specify false for read access without also specifying false for write access.
         /// Note to implementors: This method is not guaranteed to actually set read/write-ability 
@@ -306,37 +403,61 @@ namespace SIS.Systemlayer
         }
 
         /// <summary>
-        /// Copies bytes from one area of memory to another. Since this function only
-        /// takes pointers, it can not do any bounds checking.
+        /// The set to zero.
         /// </summary>
-        /// <param name="dst">The starting address of where to copy bytes to.</param>
-        /// <param name="src">The starting address of where to copy bytes from.</param>
-        /// <param name="length">The number of bytes to copy</param>
-        public static void Copy(IntPtr dst, IntPtr src, ulong length)
-        {
-            Copy(dst.ToPointer(), src.ToPointer(), length);
-        }
-
-        /// <summary>
-        /// Copies bytes from one area of memory to another. Since this function only
-        /// takes pointers, it can not do any bounds checking.
-        /// </summary>
-        /// <param name="dst">The starting address of where to copy bytes to.</param>
-        /// <param name="src">The starting address of where to copy bytes from.</param>
-        /// <param name="length">The number of bytes to copy</param>
-        public static void Copy(void* dst, void* src, ulong length)
-        {
-            SafeNativeMethods.memcpy(dst, src, new UIntPtr(length));
-        }
-
+        /// <param name="dst">
+        /// The dst.
+        /// </param>
+        /// <param name="length">
+        /// The length.
+        /// </param>
         public static void SetToZero(IntPtr dst, ulong length)
         {
             SetToZero(dst.ToPointer(), length);
         }
 
+        /// <summary>
+        /// The set to zero.
+        /// </summary>
+        /// <param name="dst">
+        /// The dst.
+        /// </param>
+        /// <param name="length">
+        /// The length.
+        /// </param>
         public static void SetToZero(void* dst, ulong length)
         {
             SafeNativeMethods.memset(dst, 0, new UIntPtr(length));
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The application_ application exit.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private static void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            DestroyHeap();
+        }
+
+        /// <summary>
+        /// The destroy heap.
+        /// </summary>
+        private static void DestroyHeap()
+        {
+            IntPtr hHeap2 = hHeap;
+            hHeap = IntPtr.Zero;
+            SafeNativeMethods.HeapDestroy(hHeap2);
+        }
+
+        #endregion
     }
 }

@@ -1,47 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StaticReflectionHelper.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The static reflection helper.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Common.Reflection
 {
-  public static class StaticReflectionHelper
-  {
+    using System;
+    using System.Reflection;
+
     /// <summary>
-    /// Retrieves a static value from a class, given it's path i.e.
-    /// assuming the type is "DevDefined.Common.ExampleClass" in the
-    /// assembly "DevDefined.Common" and with the static field called
-    /// "SomeValue" the value passed should be:
-    /// 
-    /// DevDefined.Common.ExampleClass.SomeValue, DevDefined.Common
+    /// The static reflection helper.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public static T GetStaticValue<T>(string value)
+    public static class StaticReflectionHelper
     {
-      string assembly = null;
-      string type = null;
+        #region Public Methods and Operators
 
-      if (value.Contains(","))
-      {
-        int lastCommaIndex = value.LastIndexOf(",");
-        assembly = value.Substring(lastCommaIndex);
-        type = value.Substring(0, lastCommaIndex);
-      }
-      else
-      {
-        assembly = "";
-        type = value;
-      }
+        /// <summary>
+        /// Retrieves a static value from a class, given it's path i.e.
+        /// assuming the type is "DevDefined.Common.ExampleClass" in the
+        /// assembly "DevDefined.Common" and with the static field called
+        /// "SomeValue" the value passed should be:
+        /// 
+        /// DevDefined.Common.ExampleClass.SomeValue, DevDefined.Common
+        /// </summary>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <param name="value">
+        /// </param>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        public static T GetStaticValue<T>(string value)
+        {
+            string assembly = null;
+            string type = null;
 
-      int lastIndex = type.LastIndexOf(".");
-      string typeName = type.Substring(0, lastIndex);
-      string field = type.Substring(lastIndex + 1);
-      Type ownerType = Type.GetType(typeName + assembly);
-      FieldInfo valueField = ownerType.GetField(field);
-      return (T)valueField.GetValue(null);
-    }    
-  }
+            if (value.Contains(","))
+            {
+                int lastCommaIndex = value.LastIndexOf(",");
+                assembly = value.Substring(lastCommaIndex);
+                type = value.Substring(0, lastCommaIndex);
+            }
+            else
+            {
+                assembly = string.Empty;
+                type = value;
+            }
+
+            int lastIndex = type.LastIndexOf(".");
+            string typeName = type.Substring(0, lastIndex);
+            string field = type.Substring(lastIndex + 1);
+            Type ownerType = Type.GetType(typeName + assembly);
+            FieldInfo valueField = ownerType.GetField(field);
+            return (T)valueField.GetValue(null);
+        }
+
+        #endregion
+    }
 }

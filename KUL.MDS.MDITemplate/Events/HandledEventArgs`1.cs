@@ -1,20 +1,56 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="HandledEventArgs`1.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The handled event args.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.MDITemplate.Events
 {
     using System.ComponentModel;
 
-    public class HandledEventArgs<T>
-        : HandledEventArgs
+    /// <summary>
+    /// The handled event args.
+    /// </summary>
+    /// <typeparam name="T">
+    /// </typeparam>
+    public class HandledEventArgs<T> : HandledEventArgs
     {
+        #region Fields
+
+        /// <summary>
+        /// The data.
+        /// </summary>
         private T data;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HandledEventArgs{T}"/> class.
+        /// </summary>
+        /// <param name="handled">
+        /// The handled.
+        /// </param>
+        /// <param name="data">
+        /// The data.
+        /// </param>
+        public HandledEventArgs(bool handled, T data)
+            : base(handled)
+        {
+            this.data = data;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the data.
+        /// </summary>
         public T Data
         {
             get
@@ -23,10 +59,6 @@ namespace SIS.MDITemplate.Events
             }
         }
 
-        public HandledEventArgs(bool handled, T data)
-            : base(handled)
-        {
-            this.data = data;
-        }
+        #endregion
     }
 }

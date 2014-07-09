@@ -1,11 +1,11 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Tracing.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Methods for manual profiling and tracing.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
@@ -27,13 +27,28 @@ namespace SIS.Systemlayer
     /// </remarks>
     public static class Tracing
     {
+        /// <summary>
+        /// The write line.
+        /// </summary>
+        /// <param name="msg">
+        /// The msg.
+        /// </param>
         private static void WriteLine(string msg)
         {
             Console.WriteLine(msg);
         }
 
+        /// <summary>
+        /// The features.
+        /// </summary>
         private static Set<string> features = new Set<string>();
 
+        /// <summary>
+        /// The log feature.
+        /// </summary>
+        /// <param name="featureName">
+        /// The feature name.
+        /// </param>
         public static void LogFeature(string featureName)
         {
             if (string.IsNullOrEmpty(featureName))
@@ -52,6 +67,12 @@ namespace SIS.Systemlayer
             }
         }
 
+        /// <summary>
+        /// The get logged features.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IEnumerable"/>.
+        /// </returns>
         public static IEnumerable<string> GetLoggedFeatures()
         {
             lock (features)
@@ -61,14 +82,60 @@ namespace SIS.Systemlayer
         }
 
 #if DEBUG
+
+        /// <summary>
+        /// The timing.
+        /// </summary>
         private static Timing timing = new Timing();
+
+        /// <summary>
+        /// The trace points.
+        /// </summary>
         private static Stack tracePoints = new Stack();
 
+        /// <summary>
+        /// The trace point.
+        /// </summary>
         private class TracePoint
         {
+            #region Fields
+
+            /// <summary>
+            /// The message.
+            /// </summary>
             private string message;
+
+            /// <summary>
+            /// The timestamp.
+            /// </summary>
             private ulong timestamp;
 
+            #endregion
+
+            #region Constructors and Destructors
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="TracePoint"/> class.
+            /// </summary>
+            /// <param name="message">
+            /// The message.
+            /// </param>
+            /// <param name="timestamp">
+            /// The timestamp.
+            /// </param>
+            public TracePoint(string message, ulong timestamp)
+            {
+                this.message = message;
+                this.timestamp = timestamp;
+            }
+
+            #endregion
+
+            #region Public Properties
+
+            /// <summary>
+            /// Gets the message.
+            /// </summary>
             public string Message
             {
                 get
@@ -77,6 +144,9 @@ namespace SIS.Systemlayer
                 }
             }
 
+            /// <summary>
+            /// Gets the timestamp.
+            /// </summary>
             public ulong Timestamp
             {
                 get
@@ -85,14 +155,13 @@ namespace SIS.Systemlayer
                 }
             }
 
-            public TracePoint(string message, ulong timestamp)
-            {
-                this.message = message;
-                this.timestamp = timestamp;
-            }
+            #endregion
         }
 #endif
 
+        /// <summary>
+        /// The enter.
+        /// </summary>
         [Conditional("DEBUG")]
         public static void Enter()
         {
@@ -101,13 +170,20 @@ namespace SIS.Systemlayer
             StackFrame parentFrame = trace.GetFrame(1);
             MethodBase parentMethod = parentFrame.GetMethod();
             ulong now = timing.GetTickCount();
-            string msg = new string(' ', 4 * tracePoints.Count) + parentMethod.DeclaringType.Name + "." + parentMethod.Name;
+            string msg = new string(' ', 4 * tracePoints.Count) + parentMethod.DeclaringType.Name + "."
+                         + parentMethod.Name;
             WriteLine((now - timing.BirthTick).ToString() + ": " + msg);
             TracePoint tracePoint = new TracePoint(msg, now);
             tracePoints.Push(tracePoint);
 #endif
         }
 
+        /// <summary>
+        /// The enter.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
         [Conditional("DEBUG")]
         public static void Enter(string message)
         {
@@ -116,31 +192,44 @@ namespace SIS.Systemlayer
             StackFrame parentFrame = trace.GetFrame(1);
             MethodBase parentMethod = parentFrame.GetMethod();
             ulong now = timing.GetTickCount();
-            string msg = new string(' ', 4 * tracePoints.Count) + parentMethod.DeclaringType.Name + "." +
-                parentMethod.Name + ": " + message;
+            string msg = new string(' ', 4 * tracePoints.Count) + parentMethod.DeclaringType.Name + "."
+                         + parentMethod.Name + ": " + message;
             WriteLine((now - timing.BirthTick).ToString() + ": " + msg);
             TracePoint tracePoint = new TracePoint(msg, now);
             tracePoints.Push(tracePoint);
 #endif
         }
 
+        /// <summary>
+        /// The leave.
+        /// </summary>
         [Conditional("DEBUG")]
         public static void Leave()
         {
 #if DEBUG
             TracePoint tracePoint = (TracePoint)tracePoints.Pop();
             ulong now = timing.GetTickCount();
-            WriteLine((now - timing.BirthTick).ToString() + ": " + tracePoint.Message + " (" +
-                (now - tracePoint.Timestamp).ToString() + "ms)");
+            WriteLine(
+                (now - timing.BirthTick).ToString() + ": " + tracePoint.Message + " ("
+                + (now - tracePoint.Timestamp).ToString() + "ms)");
 #endif
         }
 
+        /// <summary>
+        /// The ping.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="callerCount">
+        /// The caller count.
+        /// </param>
         [Conditional("DEBUG")]
         public static void Ping(string message, int callerCount)
         {
 #if DEBUG
             StackTrace trace = new StackTrace();
-            string callerString = "";
+            string callerString = string.Empty;
             for (int i = 0; i < Math.Min(trace.FrameCount - 1, callerCount); ++i)
             {
                 StackFrame frame = trace.GetFrame(1 + i);
@@ -151,12 +240,20 @@ namespace SIS.Systemlayer
                     callerString += " <- ";
                 }
             }
+
             ulong now = timing.GetTickCount();
-            WriteLine((now - timing.BirthTick).ToString() + ": " + new string(' ', 4 * tracePoints.Count) +
-                callerString + (message != null ? (": " + message) : ""));
+            WriteLine(
+                (now - timing.BirthTick).ToString() + ": " + new string(' ', 4 * tracePoints.Count) + callerString
+                + (message != null ? (": " + message) : string.Empty));
 #endif
         }
 
+        /// <summary>
+        /// The ping.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
         [Conditional("DEBUG")]
         public static void Ping(string message)
         {
@@ -165,11 +262,15 @@ namespace SIS.Systemlayer
             StackFrame parentFrame = trace.GetFrame(1);
             MethodBase parentMethod = parentFrame.GetMethod();
             ulong now = timing.GetTickCount();
-            WriteLine((now - timing.BirthTick).ToString() + ": " + new string(' ', 4 * tracePoints.Count) +
-                parentMethod.DeclaringType.Name + "." + parentMethod.Name + (message != null ? (": " + message) : ""));
+            WriteLine(
+                (now - timing.BirthTick).ToString() + ": " + new string(' ', 4 * tracePoints.Count)
+                + parentMethod.DeclaringType.Name + "." + parentMethod.Name + (message != null ? (": " + message) : string.Empty));
 #endif
         }
 
+        /// <summary>
+        /// The ping.
+        /// </summary>
         [Conditional("DEBUG")]
         public static void Ping()
         {
@@ -178,10 +279,10 @@ namespace SIS.Systemlayer
             StackFrame parentFrame = trace.GetFrame(1);
             MethodBase parentMethod = parentFrame.GetMethod();
             ulong now = timing.GetTickCount();
-            WriteLine((now - timing.BirthTick).ToString() + ": " + new string(' ', 4 * tracePoints.Count) +
-                parentMethod.DeclaringType.Name + "." + parentMethod.Name);
+            WriteLine(
+                (now - timing.BirthTick).ToString() + ": " + new string(' ', 4 * tracePoints.Count)
+                + parentMethod.DeclaringType.Name + "." + parentMethod.Name);
 #endif
         }
-
     }
 }

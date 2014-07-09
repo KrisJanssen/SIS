@@ -1,36 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AllObserver.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The all observer.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Common.Observable
 {
-  public class AllObserver<T> : IObserver<T>
-  {
-    readonly IObserver<IEnumerable<T>> _innerObserver;
-    readonly List<T> _items = new List<T>();
+    using System;
+    using System.Collections.Generic;
 
-    public AllObserver(IObserver<IEnumerable<T>> innerObserver)
+    /// <summary>
+    /// The all observer.
+    /// </summary>
+    /// <typeparam name="T">
+    /// </typeparam>
+    public class AllObserver<T> : IObserver<T>
     {
-      _innerObserver = innerObserver;
+        #region Fields
+
+        /// <summary>
+        /// The _inner observer.
+        /// </summary>
+        private readonly IObserver<IEnumerable<T>> _innerObserver;
+
+        /// <summary>
+        /// The _items.
+        /// </summary>
+        private readonly List<T> _items = new List<T>();
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllObserver{T}"/> class.
+        /// </summary>
+        /// <param name="innerObserver">
+        /// The inner observer.
+        /// </param>
+        public AllObserver(IObserver<IEnumerable<T>> innerObserver)
+        {
+            this._innerObserver = innerObserver;
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The on done.
+        /// </summary>
+        public void OnDone()
+        {
+            this._innerObserver.OnNext(this._items);
+            this._innerObserver.OnDone();
+        }
+
+        /// <summary>
+        /// The on exception.
+        /// </summary>
+        /// <param name="ex">
+        /// The ex.
+        /// </param>
+        public void OnException(Exception ex)
+        {
+            this._innerObserver.OnException(ex);
+        }
+
+        /// <summary>
+        /// The on next.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        public void OnNext(T item)
+        {
+            this._items.Add(item);
+        }
+
+        #endregion
     }
-
-    #region IObserver<T> Members
-
-    public void OnException(Exception ex)
-    {
-      _innerObserver.OnException(ex);
-    }
-
-    public void OnDone()
-    {
-      _innerObserver.OnNext(_items);
-      _innerObserver.OnDone();
-    }
-
-    public void OnNext(T item)
-    {
-      _items.Add(item);
-    }
-
-    #endregion
-  }
 }

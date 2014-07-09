@@ -1,4 +1,13 @@
-﻿namespace SIS.Systemlayer
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Timing.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Methods for keeping track of time in a high precision manner.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SIS.Systemlayer
 {
     /// <summary>
     /// Methods for keeping track of time in a high precision manner.
@@ -8,45 +17,29 @@
     /// </remarks>
     public sealed class Timing
     {
-        private ulong countsPerMs;
-        private double countsPerMsDouble;
+        #region Fields
+
+        /// <summary>
+        /// The birth tick.
+        /// </summary>
         private ulong birthTick;
 
         /// <summary>
-        /// The number of milliseconds that elapsed between system startup
-        /// and creation of this instance of Timing.
+        /// The counts per ms.
         /// </summary>
-        public ulong BirthTick
-        {
-            get
-            {
-                return this.birthTick;
-            }
-        }
+        private ulong countsPerMs;
 
         /// <summary>
-        /// Returns the number of milliseconds that have elapsed since
-        /// system startup.
+        /// The counts per ms double.
         /// </summary>
-        public ulong GetTickCount()
-        {
-            ulong tick;
-            SafeNativeMethods.QueryPerformanceCounter(out tick);
-            return tick / this.countsPerMs;
-        }
+        private double countsPerMsDouble;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
-        /// Returns the number of milliseconds that have elapsed since
-        /// system startup.
-        /// </summary>
-        public double GetTickCountDouble()
-        {
-            ulong tick;
-            SafeNativeMethods.QueryPerformanceCounter(out tick);
-            return (double)tick / this.countsPerMsDouble;
-        }
-
-        /// <summary>
+        /// Initializes a new instance of the <see cref="Timing"/> class. 
         /// Constructs an instance of the Timing class.
         /// </summary>
         public Timing()
@@ -62,5 +55,55 @@
             this.countsPerMsDouble = (double)frequency / 1000.0;
             this.birthTick = this.GetTickCount();
         }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// The number of milliseconds that elapsed between system startup
+        /// and creation of this instance of Timing.
+        /// </summary>
+        public ulong BirthTick
+        {
+            get
+            {
+                return this.birthTick;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Returns the number of milliseconds that have elapsed since
+        /// system startup.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ulong"/>.
+        /// </returns>
+        public ulong GetTickCount()
+        {
+            ulong tick;
+            SafeNativeMethods.QueryPerformanceCounter(out tick);
+            return tick / this.countsPerMs;
+        }
+
+        /// <summary>
+        /// Returns the number of milliseconds that have elapsed since
+        /// system startup.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
+        public double GetTickCountDouble()
+        {
+            ulong tick;
+            SafeNativeMethods.QueryPerformanceCounter(out tick);
+            return (double)tick / this.countsPerMsDouble;
+        }
+
+        #endregion
     }
 }

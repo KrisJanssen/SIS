@@ -1,25 +1,28 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExecuteWaitType.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The execute wait type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
+    /// <summary>
+    /// The execute wait type.
+    /// </summary>
     public enum ExecuteWaitType
     {
         /// <summary>
         /// Returns immediately after executing without waiting for the task to finish.
         /// </summary>
-        ReturnImmediately,
+        ReturnImmediately, 
 
         /// <summary>
         /// Waits until the task exits before returning control to the calling method.
         /// </summary>
-        WaitForExit,
+        WaitForExit, 
 
         /// <summary>
         /// Returns immediately after executing without waiting for the task to finish.

@@ -1,6 +1,15 @@
-﻿namespace DevDefined.Common.Observable
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EventObservable.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   EventObservable.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace DevDefined.Common.Observable
 {
-  /*public class EventObservable<TTarget,TEventArgs> : IObservable<TEventArgs>
+    /*public class EventObservable<TTarget,TEventArgs> : IObservable<TEventArgs>
   {
     readonly TTarget _target;
     readonly Expression<Func<TTarget, Delegate>> _accessor;

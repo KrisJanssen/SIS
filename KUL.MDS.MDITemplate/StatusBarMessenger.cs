@@ -1,36 +1,106 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StatusBarMessenger.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The StatusBarMessage interface.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace SIS.MDITemplate
 {
+    /// <summary>
+    /// The StatusBarMessage interface.
+    /// </summary>
     public interface IStatusBarMessage
-	{
-		string StatusMessage { get; set; }
-	} ;
+    {
+        #region Public Properties
 
-	public abstract class StatusBarMessenger
-	{
-		private const string m_sDefaultMessage = "Ready";
+        /// <summary>
+        /// Gets or sets the status message.
+        /// </summary>
+        string StatusMessage { get; set; }
 
-		public delegate void MessageHandler(string sMessage);
+        #endregion
+    };
 
-		static public event MessageHandler Message = null;
+    /// <summary>
+    /// The status bar messenger.
+    /// </summary>
+    public abstract class StatusBarMessenger
+    {
+        #region Constants
 
-		private StatusBarMessenger()
-		{
-		}
+        /// <summary>
+        /// The m_s default message.
+        /// </summary>
+        private const string m_sDefaultMessage = "Ready";
 
-		static public void SetMessage(string sMessage)
-		{
-			if (Message != null)
-			{
-				Message(sMessage);
-			}
-		}
-		
-		static public string DefaultMessage
-		{
-			get
-			{
-				return m_sDefaultMessage;
-			}
-		}
-	}
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="StatusBarMessenger"/> class from being created.
+        /// </summary>
+        private StatusBarMessenger()
+        {
+        }
+
+        #endregion
+
+        #region Delegates
+
+        /// <summary>
+        /// The message handler.
+        /// </summary>
+        /// <param name="sMessage">
+        /// The s message.
+        /// </param>
+        public delegate void MessageHandler(string sMessage);
+
+        #endregion
+
+        #region Public Events
+
+        /// <summary>
+        /// The message.
+        /// </summary>
+        public static event MessageHandler Message = null;
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the default message.
+        /// </summary>
+        public static string DefaultMessage
+        {
+            get
+            {
+                return m_sDefaultMessage;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The set message.
+        /// </summary>
+        /// <param name="sMessage">
+        /// The s message.
+        /// </param>
+        public static void SetMessage(string sMessage)
+        {
+            if (Message != null)
+            {
+                Message(sMessage);
+            }
+        }
+
+        #endregion
+    }
 }

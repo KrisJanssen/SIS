@@ -1,91 +1,194 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RingBuffer.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The ring buffer.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Common.Collections
 {
-  public class RingBuffer<T> : IEnumerable<T>
-  {
-    readonly int _size;
-    T[] _buffer;
-    int _end;
-    int _start;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
 
-    public RingBuffer(int size)
+    /// <summary>
+    /// The ring buffer.
+    /// </summary>
+    /// <typeparam name="T">
+    /// </typeparam>
+    public class RingBuffer<T> : IEnumerable<T>
     {
-      _size = size;
-      Clear();
-    }
+        #region Fields
 
-    public bool IsEmpty
-    {
-      get { return (_start == _end); }
-    }
+        /// <summary>
+        /// The _size.
+        /// </summary>
+        private readonly int _size;
 
-    public int Count
-    {
-      get { return IsEmpty ? 0 : ((_start > _end) ? ((_buffer.Length - _start) + _end) : (_end - _start)); }
-    }
+        /// <summary>
+        /// The _buffer.
+        /// </summary>
+        private T[] _buffer;
 
-    public bool IsFull
-    {
-      get
-      {
-        return (Count == _size);
-      }
-    }
+        /// <summary>
+        /// The _end.
+        /// </summary>
+        private int _end;
 
-    public IEnumerator<T> GetEnumerator()
-    {
-      if (_end == _start) yield break;
-      if (_end < _start)
-      {
-        for (int i = _start; i < _buffer.Length; i++)
+        /// <summary>
+        /// The _start.
+        /// </summary>
+        private int _start;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RingBuffer{T}"/> class.
+        /// </summary>
+        /// <param name="size">
+        /// The size.
+        /// </param>
+        public RingBuffer(int size)
         {
-          yield return _buffer[i];
+            this._size = size;
+            this.Clear();
         }
-        for (int i = 0; i < _end; i++)
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the count.
+        /// </summary>
+        public int Count
         {
-          yield return _buffer[i];
+            get
+            {
+                return this.IsEmpty
+                           ? 0
+                           : ((this._start > this._end)
+                                  ? ((this._buffer.Length - this._start) + this._end)
+                                  : (this._end - this._start));
+            }
         }
-      }
-      else
-      {
-        for (int i = _start; i < _end; i++)
+
+        /// <summary>
+        /// Gets a value indicating whether is empty.
+        /// </summary>
+        public bool IsEmpty
         {
-          yield return _buffer[i];
+            get
+            {
+                return this._start == this._end;
+            }
         }
-      }
+
+        /// <summary>
+        /// Gets a value indicating whether is full.
+        /// </summary>
+        public bool IsFull
+        {
+            get
+            {
+                return this.Count == this._size;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The add.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        public void Add(T item)
+        {
+            bool full = this.IsFull;
+
+            if (full)
+            {
+                this._start = (this._start + 1) % this._buffer.Length;
+            }
+
+            this._buffer[this._end] = item;
+
+            this._end = (this._end + 1) % this._buffer.Length;
+
+            if (full)
+            {
+                Debug.Assert(this.Count == this._size, "Added item to full buffer, Count should be equal to size");
+            }
+
+            Debug.Assert(this.Count <= this._size, "Count should be less than or equal to size");
+        }
+
+        /// <summary>
+        /// The clear.
+        /// </summary>
+        public void Clear()
+        {
+            this._start = 0;
+            this._end = 0;
+            this._buffer = new T[this._size + 1];
+        }
+
+        /// <summary>
+        /// The get enumerator.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IEnumerator"/>.
+        /// </returns>
+        public IEnumerator<T> GetEnumerator()
+        {
+            if (this._end == this._start)
+            {
+                yield break;
+            }
+
+            if (this._end < this._start)
+            {
+                for (int i = this._start; i < this._buffer.Length; i++)
+                {
+                    yield return this._buffer[i];
+                }
+
+                for (int i = 0; i < this._end; i++)
+                {
+                    yield return this._buffer[i];
+                }
+            }
+            else
+            {
+                for (int i = this._start; i < this._end; i++)
+                {
+                    yield return this._buffer[i];
+                }
+            }
+        }
+
+        #endregion
+
+        #region Explicit Interface Methods
+
+        /// <summary>
+        /// The get enumerator.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IEnumerator"/>.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        #endregion
     }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
-
-    public void Add(T item)
-    {
-      bool full = IsFull;
-
-      if (full)
-      {
-        _start = (_start + 1)%_buffer.Length;
-      }
-
-      _buffer[_end] = item;
-
-      _end = (_end + 1)%_buffer.Length;
-
-      if (full) Debug.Assert(Count == _size, "Added item to full buffer, Count should be equal to size");
-
-      Debug.Assert(Count <= _size, "Count should be less than or equal to size");
-    }
-
-    public void Clear()
-    {
-      _start = 0;
-      _end = 0;
-      _buffer = new T[_size + 1];
-    }
-  }
 }

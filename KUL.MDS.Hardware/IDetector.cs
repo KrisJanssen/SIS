@@ -1,19 +1,53 @@
-﻿namespace SIS.Hardware
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IDetector.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The Detector interface.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SIS.Hardware
 {
-    interface IDetector
+    /// <summary>
+    /// The Detector interface.
+    /// </summary>
+    internal interface IDetector
     {
-        long TotalSamplesAcquired
-        {
-            get;
-        }
+        #region Public Properties
 
-        void SetupAcquisition(AcquisitionSettings __AcqSettings);
+        /// <summary>
+        /// Gets the total samples acquired.
+        /// </summary>
+        long TotalSamplesAcquired { get; }
 
-        void StartAcquisition();
+        #endregion
 
-        void StopAcquisition();
+        #region Public Methods and Operators
 
+        /// <summary>
+        /// The read.
+        /// </summary>
         void Read();
 
+        /// <summary>
+        /// The setup acquisition.
+        /// </summary>
+        /// <param name="__AcqSettings">
+        /// The __ acq settings.
+        /// </param>
+        void SetupAcquisition(AcquisitionSettings __AcqSettings);
+
+        /// <summary>
+        /// The start acquisition.
+        /// </summary>
+        void StartAcquisition();
+
+        /// <summary>
+        /// The stop acquisition.
+        /// </summary>
+        void StopAcquisition();
+
+        #endregion
     }
 }

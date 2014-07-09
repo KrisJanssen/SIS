@@ -103,7 +103,6 @@
 
 //        #region Delegates.
 
-        
 //        private delegate void UIUpdateDelegate();
 //        private delegate void ProgressUpdate(int _iProgress);
 
@@ -375,3 +374,4 @@
 //        #endregion
 //    }
 //}
+

@@ -1,21 +1,47 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VirtualFolderName.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The virtual folder name.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
+    /// <summary>
+    /// The virtual folder name.
+    /// </summary>
     public enum VirtualFolderName
     {
-        UserDesktop,
-        UserDocuments,
-        UserPictures,
-        UserLocalAppData,
-        UserRoamingAppData,
-        SystemProgramFiles,
+        /// <summary>
+        /// The user desktop.
+        /// </summary>
+        UserDesktop, 
+
+        /// <summary>
+        /// The user documents.
+        /// </summary>
+        UserDocuments, 
+
+        /// <summary>
+        /// The user pictures.
+        /// </summary>
+        UserPictures, 
+
+        /// <summary>
+        /// The user local app data.
+        /// </summary>
+        UserLocalAppData, 
+
+        /// <summary>
+        /// The user roaming app data.
+        /// </summary>
+        UserRoamingAppData, 
+
+        /// <summary>
+        /// The system program files.
+        /// </summary>
+        SystemProgramFiles, 
     }
 }

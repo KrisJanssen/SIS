@@ -1,11 +1,13 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IFormAssociate.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Used by classes to indicate they are associated with a certain Form, even if
+//   they are not contained within the Form. To this end, they are an Associate of
+//   the Form.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.MDITemplate
 {
@@ -18,13 +20,14 @@ namespace SIS.MDITemplate
     /// </summary>
     public interface IFormAssociate
     {
+        #region Public Properties
+
         /// <summary>
         /// Gets the Form that this object is associated with, or null if there is
         /// no association.
         /// </summary>
-        Form AssociatedForm
-        {
-            get;
-        }
+        Form AssociatedForm { get; }
+
+        #endregion
     }
 }

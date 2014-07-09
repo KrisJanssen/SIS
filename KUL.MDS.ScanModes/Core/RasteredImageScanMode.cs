@@ -22,7 +22,6 @@
 
 //            _image = new Bitmap(_image, _iImageWidthPx, _iImageWidthPx);
 
-
 //            //clean up
 //            _image.Dispose();
 //        }
@@ -65,3 +64,4 @@
 //        }
 //    }
 //}
+

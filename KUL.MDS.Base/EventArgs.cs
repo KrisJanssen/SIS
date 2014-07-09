@@ -1,20 +1,52 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EventArgs.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The event args.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Base
 {
     using System;
 
-    public class EventArgs<T>
-        : EventArgs
+    /// <summary>
+    /// The event args.
+    /// </summary>
+    /// <typeparam name="T">
+    /// </typeparam>
+    public class EventArgs<T> : EventArgs
     {
+        #region Fields
+
+        /// <summary>
+        /// The data.
+        /// </summary>
         private T data;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EventArgs{T}"/> class.
+        /// </summary>
+        /// <param name="data">
+        /// The data.
+        /// </param>
+        public EventArgs(T data)
+        {
+            this.data = data;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the data.
+        /// </summary>
         public T Data
         {
             get
@@ -23,9 +55,6 @@ namespace SIS.Base
             }
         }
 
-        public EventArgs(T data)
-        {
-            this.data = data;
-        }
+        #endregion
     }
 }

@@ -1,11 +1,11 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Resources.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The resources.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Resources
 {
@@ -21,15 +21,83 @@ namespace SIS.Resources
 
     using SIS.Systemlayer.Settings;
 
+    /// <summary>
+    /// The resources.
+    /// </summary>
     public static class Resources
     {
-        private static ResourceManager resourceManager;
+        #region Constants
+
+        /// <summary>
+        /// The our namespace.
+        /// </summary>
         private const string ourNamespace = "SIS.Resources";
-        private static Assembly ourAssembly;
+
+        #endregion
+
+        #region Static Fields
+
+        /// <summary>
+        /// The locale dirs.
+        /// </summary>
         private static string[] localeDirs;
+
+        /// <summary>
+        /// The our assembly.
+        /// </summary>
+        private static Assembly ourAssembly;
+
+        /// <summary>
+        /// The pdn culture.
+        /// </summary>
         private static CultureInfo pdnCulture;
+
+        /// <summary>
+        /// The resource manager.
+        /// </summary>
+        private static ResourceManager resourceManager;
+
+        /// <summary>
+        /// The resources dir.
+        /// </summary>
         private static string resourcesDir;
 
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes static members of the <see cref="Resources"/> class.
+        /// </summary>
+        static Resources()
+        {
+            Initialize();
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the culture.
+        /// </summary>
+        public static CultureInfo Culture
+        {
+            get
+            {
+                return pdnCulture;
+            }
+
+            set
+            {
+                System.Threading.Thread.CurrentThread.CurrentUICulture = value;
+                Initialize();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the resources dir.
+        /// </summary>
         public static string ResourcesDir
         {
             get
@@ -49,89 +117,145 @@ namespace SIS.Resources
             }
         }
 
-        public static CultureInfo Culture
+        /// <summary>
+        /// Gets the strings.
+        /// </summary>
+        public static ResourceManager Strings
         {
             get
             {
-                return pdnCulture;
-            }
-
-            set
-            {
-                System.Threading.Thread.CurrentThread.CurrentUICulture = value;
-                Initialize();
+                return resourceManager;
             }
         }
 
-        private static void Initialize()
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The get icon.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Icon"/>.
+        /// </returns>
+        public static Icon GetIcon(string fileName)
         {
-            resourceManager = CreateResourceManager();
-            ourAssembly = Assembly.GetExecutingAssembly();
-            pdnCulture = CultureInfo.CurrentUICulture;
-            localeDirs = GetLocaleDirs();
-        }
+            Stream stream = GetResourceStream(fileName);
+            Icon icon = null;
 
-        static Resources()
-        {
-            Initialize();
-        }
-
-        public static void SetNewCulture(string newLocaleName)
-        {
-            // TODO, HACK: post-3.0 we must refactor and have an actual user data manager that can handle all this renaming
-            string oldUserDataPath = Info.UserDataPath;
-            string oldPaletteDirName = Resources.GetString("ColorPalettes.UserDataSubDirName");
-            // END HACK
-
-            CultureInfo newCI = new CultureInfo(newLocaleName);
-            Settings.CurrentUser.SetString("LanguageName", newLocaleName);
-            Culture = newCI;
-
-            // TODO, HACK: finish up renaming
-            string newUserDataPath = Info.UserDataPath;
-            string newPaletteDirName = Resources.GetString("ColorPalettes.UserDataSubDirName");
-
-            // 1. rename user data dir from old localized name to new localized name
-            if (oldUserDataPath != newUserDataPath)
+            if (stream != null)
             {
-                try
-                {
-                    Directory.Move(oldUserDataPath, newUserDataPath);
-                }
-
-                catch (Exception)
-                {
-                }
+                icon = new Icon(stream);
             }
 
-            // 2. rename palette dir from old localized name (in new localized user data path) to new localized name
-            string oldPalettePath = Path.Combine(newUserDataPath, oldPaletteDirName);
-            string newPalettePath = Path.Combine(newUserDataPath, newPaletteDirName);
-
-            if (oldPalettePath != newPalettePath)
-            {
-                try
-                {
-                    Directory.Move(oldPalettePath, newPalettePath);
-                }
-
-                catch (Exception)
-                {
-                }
-            }
-            // END HACK
+            return icon;
         }
 
+        /// <summary>
+        /// The get icon from image.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Icon"/>.
+        /// </returns>
+        public static Icon GetIconFromImage(string fileName)
+        {
+            Stream stream = GetResourceStream(fileName);
+
+            Icon icon = null;
+
+            if (stream != null)
+            {
+                Image image = LoadImage(stream);
+                icon = Icon.FromHandle(((Bitmap)image).GetHicon());
+                image.Dispose();
+                stream.Close();
+            }
+
+            return icon;
+        }
+
+        /// <summary>
+        /// The get image.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Image"/>.
+        /// </returns>
+        public static Image GetImage(string fileName)
+        {
+            Stream stream = GetResourceStream(fileName);
+
+            Image image = null;
+            if (stream != null)
+            {
+                image = LoadImage(stream);
+            }
+
+            return image;
+        }
+
+        /// <summary>
+        /// The get image bmp or png.
+        /// </summary>
+        /// <param name="fileNameNoExt">
+        /// The file name no ext.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Image"/>.
+        /// </returns>
+        public static Image GetImageBmpOrPng(string fileNameNoExt)
+        {
+            // using Path.ChangeExtension is not what we want; quite often filenames are "Icons.BlahBlahBlah"
+            string fileNameBmp = fileNameNoExt + ".bmp";
+            Image image = GetImage(fileNameBmp);
+
+            if (image == null)
+            {
+                string fileNamePng = fileNameNoExt + ".png";
+                image = GetImage(fileNamePng);
+            }
+
+            return image;
+        }
+
+        /// <summary>
+        /// The get image resource.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ImageResource"/>.
+        /// </returns>
+        public static ImageResource GetImageResource(string fileName)
+        {
+            return SISImageResource.Get(fileName);
+        }
+
+        /// <summary>
+        /// The get installed locales.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string[]"/>.
+        /// </returns>
         public static string[] GetInstalledLocales()
         {
-            //const string left = "PaintDotNet.Strings.3";
-            //const string right = ".resources";
+            // const string left = "PaintDotNet.Strings.3";
+            // const string right = ".resources";
             const string left = "KUL.MDS";
             const string right = ".dll";
             string ourDir = ResourcesDir;
             string fileSpec = left + "*" + right;
             string[] pathNames = Directory.GetFiles(ourDir, fileSpec);
-            List<String> locales = new List<string>();
+            List<string> locales = new List<string>();
 
             for (int i = 0; i < pathNames.Length; ++i)
             {
@@ -161,7 +285,6 @@ namespace SIS.Resources
                     // Ensure this locale can create a valid CultureInfo object.
                     CultureInfo ci = new CultureInfo(locale);
                 }
-
                 catch (Exception)
                 {
                     // Skip past invalid locales -- don't let them crash us
@@ -174,6 +297,12 @@ namespace SIS.Resources
             return locales.ToArray();
         }
 
+        /// <summary>
+        /// The get locale name chain.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string[]"/>.
+        /// </returns>
         public static string[] GetLocaleNameChain()
         {
             List<string> names = new List<string>();
@@ -188,60 +317,15 @@ namespace SIS.Resources
             return names.ToArray();
         }
 
-        private static string[] GetLocaleDirs()
-        {
-            const string rootDirName = "Resources";
-            string appDir = ResourcesDir;
-            string rootDir = Path.Combine(appDir, rootDirName);
-            List<string> dirs = new List<string>();
-
-            CultureInfo ci = pdnCulture;
-
-            while (ci.Name != string.Empty)
-            {
-                string localeDir = Path.Combine(rootDir, ci.Name);
-
-                if (Directory.Exists(localeDir))
-                {
-                    dirs.Add(localeDir);
-                }
-
-                ci = ci.Parent;
-            }
-
-            return dirs.ToArray();
-        }
-
-        private static ResourceManager CreateResourceManager()
-        {
-            //const string stringsFileName = "PaintDotNet.Strings.3";
-            //const string stringsFileName = "PI_Digital_Stage_Test_Framework.Resources.SIS";
-            const string stringsFileName = "SIS.Resources.SIS";
-            //ResourceManager rm = ResourceManager.CreateFileBasedResourceManager(stringsFileName, ResourcesDir, null);
-            ResourceManager rm = new ResourceManager(stringsFileName, Assembly.GetEntryAssembly());
-            return rm;
-        }
-
-        public static ResourceManager Strings
-        {
-            get
-            {
-                return resourceManager;
-            }
-        }
-
-        public static string GetString(string stringName)
-        {
-            string theString = resourceManager.GetString(stringName, pdnCulture);
-
-            if (theString == null)
-            {
-                Debug.WriteLine(stringName + " not found");
-            }
-
-            return theString;
-        }
-
+        /// <summary>
+        /// The get resource stream.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Stream"/>.
+        /// </returns>
         public static Stream GetResourceStream(string fileName)
         {
             Stream stream = null;
@@ -266,111 +350,157 @@ namespace SIS.Resources
             return stream;
         }
 
-        public static Image GetImageBmpOrPng(string fileNameNoExt)
+        /// <summary>
+        /// The get string.
+        /// </summary>
+        /// <param name="stringName">
+        /// The string name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public static string GetString(string stringName)
         {
-            // using Path.ChangeExtension is not what we want; quite often filenames are "Icons.BlahBlahBlah"
-            string fileNameBmp = fileNameNoExt + ".bmp";
-            Image image = GetImage(fileNameBmp);
+            string theString = resourceManager.GetString(stringName, pdnCulture);
 
-            if (image == null)
+            if (theString == null)
             {
-                string fileNamePng = fileNameNoExt + ".png";
-                image = GetImage(fileNamePng);
+                Debug.WriteLine(stringName + " not found");
             }
 
-            return image;
+            return theString;
         }
 
-        public static Image GetImage(string fileName)
+        /// <summary>
+        /// The is gdi plus image allowed.
+        /// </summary>
+        /// <param name="input">
+        /// The input.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public static bool IsGdiPlusImageAllowed(Stream input)
         {
-            Stream stream = GetResourceStream(fileName);
+            byte[] wmfSig = new byte[] { 0xd7, 0xcd, 0xc6, 0x9a };
+            byte[] emfSig = new byte[] { 0x01, 0x00, 0x00, 0x00 };
 
-            Image image = null;
-            if (stream != null)
-            {
-                image = LoadImage(stream);
-            }
-
-            return image;
+            // Check for and explicitely block WMF and EMF images
+            return !(CheckForSignature(input, emfSig) || CheckForSignature(input, wmfSig));
         }
 
-        private sealed class SISImageResource
-            : ImageResource
+        /// <summary>
+        /// The load image.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Image"/>.
+        /// </returns>
+        public static Image LoadImage(string fileName)
         {
-            private string name;
-            private static Dictionary<string, ImageResource> images;
-
-            protected override Image Load()
+            using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                return Resources.GetImage(this.name);
-            }
-
-            public static ImageResource Get(string name)
-            {
-                ImageResource ir;
-
-                if (!images.TryGetValue(name, out ir))
-                {
-                    ir = new SISImageResource(name);
-                    images.Add(name, ir);
-                }
-
-                return ir;
-            }
-
-            static SISImageResource()
-            {
-                images = new Dictionary<string, ImageResource>();
-            }
-
-            private SISImageResource(string name)
-                : base()
-            {
-                this.name = name;
-            }
-
-            private SISImageResource(Image image)
-                : base(image)
-            {
-                this.name = null;
+                return LoadImage(stream);
             }
         }
 
-        public static ImageResource GetImageResource(string fileName)
+        /// <summary>
+        /// Loads an image from the given stream. The stream must be seekable.
+        /// </summary>
+        /// <param name="input">
+        /// The Stream to load the image from.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Image"/>.
+        /// </returns>
+        public static Image LoadImage(Stream input)
         {
-            return SISImageResource.Get(fileName);
-        }
-
-        public static Icon GetIcon(string fileName)
-        {
-            Stream stream = GetResourceStream(fileName);
-            Icon icon = null;
-
-            if (stream != null)
+            /*
+            if (!IsGdiPlusImageAllowed(input))
             {
-                icon = new Icon(stream);
+                throw new IOException("File format is not supported");
             }
+            */
+            Image image = Image.FromStream(input);
 
-            return icon;
-        }
-
-        public static Icon GetIconFromImage(string fileName)
-        {
-            Stream stream = GetResourceStream(fileName);
-
-            Icon icon = null;
-
-            if (stream != null)
+            if (image.RawFormat == ImageFormat.Wmf || image.RawFormat == ImageFormat.Emf)
             {
-                Image image = LoadImage(stream);
-                icon = Icon.FromHandle(((Bitmap)image).GetHicon());
                 image.Dispose();
-                stream.Close();
+                throw new IOException("File format isn't supported");
             }
 
-            return icon;
+            return image;
         }
 
+        /// <summary>
+        /// The set new culture.
+        /// </summary>
+        /// <param name="newLocaleName">
+        /// The new locale name.
+        /// </param>
+        public static void SetNewCulture(string newLocaleName)
+        {
+            // TODO, HACK: post-3.0 we must refactor and have an actual user data manager that can handle all this renaming
+            string oldUserDataPath = Info.UserDataPath;
+            string oldPaletteDirName = Resources.GetString("ColorPalettes.UserDataSubDirName");
+
+            // END HACK
+            CultureInfo newCI = new CultureInfo(newLocaleName);
+            Settings.CurrentUser.SetString("LanguageName", newLocaleName);
+            Culture = newCI;
+
+            // TODO, HACK: finish up renaming
+            string newUserDataPath = Info.UserDataPath;
+            string newPaletteDirName = Resources.GetString("ColorPalettes.UserDataSubDirName");
+
+            // 1. rename user data dir from old localized name to new localized name
+            if (oldUserDataPath != newUserDataPath)
+            {
+                try
+                {
+                    Directory.Move(oldUserDataPath, newUserDataPath);
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            // 2. rename palette dir from old localized name (in new localized user data path) to new localized name
+            string oldPalettePath = Path.Combine(newUserDataPath, oldPaletteDirName);
+            string newPalettePath = Path.Combine(newUserDataPath, newPaletteDirName);
+
+            if (oldPalettePath != newPalettePath)
+            {
+                try
+                {
+                    Directory.Move(oldPalettePath, newPalettePath);
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            // END HACK
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The check for signature.
+        /// </summary>
+        /// <param name="input">
+        /// The input.
+        /// </param>
+        /// <param name="signature">
+        /// The signature.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         private static bool CheckForSignature(Stream input, byte[] signature)
         {
             long oldPos = input.Position;
@@ -384,7 +514,7 @@ namespace SIS.Resources
 
                 for (int i = 0; i < signature.Length; ++i)
                 {
-                    foundSig &= (signature[i] == inputSig[i]);
+                    foundSig &= signature[i] == inputSig[i];
                 }
             }
 
@@ -392,45 +522,165 @@ namespace SIS.Resources
             return foundSig;
         }
 
-        public static bool IsGdiPlusImageAllowed(Stream input)
+        /// <summary>
+        /// The create resource manager.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ResourceManager"/>.
+        /// </returns>
+        private static ResourceManager CreateResourceManager()
         {
-            byte[] wmfSig = new byte[] { 0xd7, 0xcd, 0xc6, 0x9a };
-            byte[] emfSig = new byte[] { 0x01, 0x00, 0x00, 0x00 };
+            // const string stringsFileName = "PaintDotNet.Strings.3";
+            // const string stringsFileName = "PI_Digital_Stage_Test_Framework.Resources.SIS";
+            const string stringsFileName = "SIS.Resources.SIS";
 
-            // Check for and explicitely block WMF and EMF images
-            return !(CheckForSignature(input, emfSig) || CheckForSignature(input, wmfSig));
-        }
-
-        public static Image LoadImage(string fileName)
-        {
-            using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                return LoadImage(stream);
-            }
+            // ResourceManager rm = ResourceManager.CreateFileBasedResourceManager(stringsFileName, ResourcesDir, null);
+            ResourceManager rm = new ResourceManager(stringsFileName, Assembly.GetEntryAssembly());
+            return rm;
         }
 
         /// <summary>
-        /// Loads an image from the given stream. The stream must be seekable.
+        /// The get locale dirs.
         /// </summary>
-        /// <param name="input">The Stream to load the image from.</param>
-        public static Image LoadImage(Stream input)
+        /// <returns>
+        /// The <see cref="string[]"/>.
+        /// </returns>
+        private static string[] GetLocaleDirs()
         {
-            /*
-            if (!IsGdiPlusImageAllowed(input))
+            const string rootDirName = "Resources";
+            string appDir = ResourcesDir;
+            string rootDir = Path.Combine(appDir, rootDirName);
+            List<string> dirs = new List<string>();
+
+            CultureInfo ci = pdnCulture;
+
+            while (ci.Name != string.Empty)
             {
-                throw new IOException("File format is not supported");
+                string localeDir = Path.Combine(rootDir, ci.Name);
+
+                if (Directory.Exists(localeDir))
+                {
+                    dirs.Add(localeDir);
+                }
+
+                ci = ci.Parent;
             }
-            */
 
-            Image image = Image.FromStream(input);
+            return dirs.ToArray();
+        }
 
-            if (image.RawFormat == ImageFormat.Wmf || image.RawFormat == ImageFormat.Emf)
+        /// <summary>
+        /// The initialize.
+        /// </summary>
+        private static void Initialize()
+        {
+            resourceManager = CreateResourceManager();
+            ourAssembly = Assembly.GetExecutingAssembly();
+            pdnCulture = CultureInfo.CurrentUICulture;
+            localeDirs = GetLocaleDirs();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// The sis image resource.
+        /// </summary>
+        private sealed class SISImageResource : ImageResource
+        {
+            #region Static Fields
+
+            /// <summary>
+            /// The images.
+            /// </summary>
+            private static Dictionary<string, ImageResource> images;
+
+            #endregion
+
+            #region Fields
+
+            /// <summary>
+            /// The name.
+            /// </summary>
+            private string name;
+
+            #endregion
+
+            #region Constructors and Destructors
+
+            /// <summary>
+            /// Initializes static members of the <see cref="SISImageResource"/> class.
+            /// </summary>
+            static SISImageResource()
             {
-                image.Dispose();
-                throw new IOException("File format isn't supported");
+                images = new Dictionary<string, ImageResource>();
             }
 
-            return image;
+            /// <summary>
+            /// Initializes a new instance of the <see cref="SISImageResource"/> class.
+            /// </summary>
+            /// <param name="name">
+            /// The name.
+            /// </param>
+            private SISImageResource(string name)
+                : base()
+            {
+                this.name = name;
+            }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="SISImageResource"/> class.
+            /// </summary>
+            /// <param name="image">
+            /// The image.
+            /// </param>
+            private SISImageResource(Image image)
+                : base(image)
+            {
+                this.name = null;
+            }
+
+            #endregion
+
+            #region Public Methods and Operators
+
+            /// <summary>
+            /// The get.
+            /// </summary>
+            /// <param name="name">
+            /// The name.
+            /// </param>
+            /// <returns>
+            /// The <see cref="ImageResource"/>.
+            /// </returns>
+            public static ImageResource Get(string name)
+            {
+                ImageResource ir;
+
+                if (!images.TryGetValue(name, out ir))
+                {
+                    ir = new SISImageResource(name);
+                    images.Add(name, ir);
+                }
+
+                return ir;
+            }
+
+            #endregion
+
+            #region Methods
+
+            /// <summary>
+            /// The load.
+            /// </summary>
+            /// <returns>
+            /// The <see cref="Image"/>.
+            /// </returns>
+            protected override Image Load()
+            {
+                return Resources.GetImage(this.name);
+            }
+
+            #endregion
         }
     }
 }

@@ -32,8 +32,7 @@
             <webcam:CCDPlayer Grid.Row="2" Grid.Column="0" x:Name="CCDPlayer" Stretch="Fill" 
                               Rotation="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type webcam:CCDControl}}, Path=WebcamRotation}"
                               Device="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type webcam:CCDControl}}, Path=SelectedWebcam}"
-                              Style="{StaticResource DefaultCapPlayer}">
-            </webcam:CCDPlayer>
+                              Style="{StaticResource DefaultCapPlayer}" />
         </Viewbox>
         
         <HeaderedItemsControl Header="Framerate" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="55">

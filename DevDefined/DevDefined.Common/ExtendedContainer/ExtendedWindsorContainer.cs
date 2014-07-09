@@ -1,28 +1,66 @@
-using System;
-using Castle.MicroKernel;
-using Castle.Windsor;
-using Castle.Windsor.Configuration;
-using Castle.Windsor.Installer;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExtendedWindsorContainer.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The extended windsor container.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Common.ExtendedContainer
 {
-  public class ExtendedWindsorContainer : WindsorContainer
-  {
-    public ExtendedWindsorContainer(IConfigurationInterpreter interpreter)
-      : base(CreateKernel(), new DefaultComponentInstaller())
+    using System;
+
+    using Castle.MicroKernel;
+    using Castle.Windsor;
+    using Castle.Windsor.Configuration;
+    using Castle.Windsor.Installer;
+
+    /// <summary>
+    /// The extended windsor container.
+    /// </summary>
+    public class ExtendedWindsorContainer : WindsorContainer
     {
-      if (interpreter == null) throw new ArgumentNullException("interpreter");
+        #region Constructors and Destructors
 
-      interpreter.ProcessResource(interpreter.Source, Kernel.ConfigurationStore);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExtendedWindsorContainer"/> class.
+        /// </summary>
+        /// <param name="interpreter">
+        /// The interpreter.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
+        public ExtendedWindsorContainer(IConfigurationInterpreter interpreter)
+            : base(CreateKernel(), new DefaultComponentInstaller())
+        {
+            if (interpreter == null)
+            {
+                throw new ArgumentNullException("interpreter");
+            }
 
-      RunInstaller();
+            interpreter.ProcessResource(interpreter.Source, this.Kernel.ConfigurationStore);
+
+            this.RunInstaller();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The create kernel.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IKernel"/>.
+        /// </returns>
+        private static IKernel CreateKernel()
+        {
+            var kernel = new DefaultKernel();
+            kernel.ComponentModelBuilder = new ExtendedComponentBuilder(kernel);
+            return kernel;
+        }
+
+        #endregion
     }
-
-    static IKernel CreateKernel()
-    {
-      var kernel = new DefaultKernel();
-      kernel.ComponentModelBuilder = new ExtendedComponentBuilder(kernel);
-      return kernel;
-    }
-  }
 }

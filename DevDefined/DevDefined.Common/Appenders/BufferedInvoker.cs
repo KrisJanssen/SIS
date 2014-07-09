@@ -1,57 +1,124 @@
-using System;
-using System.Timers;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BufferedInvoker.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The buffered invoker.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Common.Appenders
 {
-  public class BufferedInvoker
-  {
-    readonly Action _action;
-    readonly double _maxRateInMillseconds;
-    readonly Timer _timer;
-    DateTime? _lastInvocation;
+    using System;
+    using System.Timers;
 
-    public BufferedInvoker(Action action, double maxRateInMillseconds)
+    /// <summary>
+    /// The buffered invoker.
+    /// </summary>
+    public class BufferedInvoker
     {
-      _action = action;
-      _maxRateInMillseconds = maxRateInMillseconds;
-      _timer = new Timer(maxRateInMillseconds) {Enabled = false};
-      _timer.Elapsed += TimerElapsed;
-    }
+        #region Fields
 
-    void TimerElapsed(object sender, ElapsedEventArgs e)
-    {
-      _timer.Enabled = false;
-      _lastInvocation = DateTime.Now;
-      _action();
-    }
+        /// <summary>
+        /// The _action.
+        /// </summary>
+        private readonly Action _action;
 
-    void FireInvoke()
-    {
-      _lastInvocation = DateTime.Now;
-      _timer.Enabled = false;
-      _action();
-    }
+        /// <summary>
+        /// The _max rate in millseconds.
+        /// </summary>
+        private readonly double _maxRateInMillseconds;
 
-    public void Invoke()
-    {
-      if (!_timer.Enabled)
-      {
-        if (_lastInvocation.HasValue)
+        /// <summary>
+        /// The _timer.
+        /// </summary>
+        private readonly Timer _timer;
+
+        /// <summary>
+        /// The _last invocation.
+        /// </summary>
+        private DateTime? _lastInvocation;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BufferedInvoker"/> class.
+        /// </summary>
+        /// <param name="action">
+        /// The action.
+        /// </param>
+        /// <param name="maxRateInMillseconds">
+        /// The max rate in millseconds.
+        /// </param>
+        public BufferedInvoker(Action action, double maxRateInMillseconds)
         {
-          if (DateTime.Now.Subtract(_lastInvocation.Value).TotalMilliseconds > _maxRateInMillseconds)
-          {
-            FireInvoke();
-          }
-          else
-          {
-            _timer.Start();
-          }
+            this._action = action;
+            this._maxRateInMillseconds = maxRateInMillseconds;
+            this._timer = new Timer(maxRateInMillseconds) { Enabled = false };
+            this._timer.Elapsed += this.TimerElapsed;
         }
-        else
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The invoke.
+        /// </summary>
+        public void Invoke()
         {
-          FireInvoke();
+            if (!this._timer.Enabled)
+            {
+                if (this._lastInvocation.HasValue)
+                {
+                    if (DateTime.Now.Subtract(this._lastInvocation.Value).TotalMilliseconds > this._maxRateInMillseconds)
+                    {
+                        this.FireInvoke();
+                    }
+                    else
+                    {
+                        this._timer.Start();
+                    }
+                }
+                else
+                {
+                    this.FireInvoke();
+                }
+            }
         }
-      }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The fire invoke.
+        /// </summary>
+        private void FireInvoke()
+        {
+            this._lastInvocation = DateTime.Now;
+            this._timer.Enabled = false;
+            this._action();
+        }
+
+        /// <summary>
+        /// The timer elapsed.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            this._timer.Enabled = false;
+            this._lastInvocation = DateTime.Now;
+            this._action();
+        }
+
+        #endregion
     }
-  }
 }

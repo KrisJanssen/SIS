@@ -1,19 +1,20 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Paint.NET                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IHotKeyTarget.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The HotKeyTarget interface.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.MDITemplate
 {
     using SIS.Base;
 
-    public interface IHotKeyTarget
-        : IDisposedEvent,
-          IFormAssociate
+    /// <summary>
+    /// The HotKeyTarget interface.
+    /// </summary>
+    public interface IHotKeyTarget : IDisposedEvent, IFormAssociate
     {
     }
 }

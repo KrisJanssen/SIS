@@ -1,8 +1,17 @@
-using System;
-using System.Drawing;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ColorSerializer.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The type of Color
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace DevDefined.Tools.Serialization
 {
+    using System;
+    using System.Drawing;
+
     /// <summary>
     /// The type of Color
     /// </summary>
@@ -11,7 +20,7 @@ namespace DevDefined.Tools.Serialization
         /// <summary>
         /// A well known named color.
         /// </summary>         
-        NamedColor,
+        NamedColor, 
 
         /// <summary>
         /// A color made up of ARGB components.
@@ -24,17 +33,22 @@ namespace DevDefined.Tools.Serialization
     /// </summary>
     public static class ColorSerializer
     {
+        #region Public Methods and Operators
+
         /// <summary>
         /// Deserializes the color.
         /// </summary>
-        /// <param name="color">The color.</param>
-        /// <returns></returns>
+        /// <param name="color">
+        /// The color.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Color"/>.
+        /// </returns>
         public static Color DeserializeColor(string color)
         {
-            string[] pieces = color.Split(new[] {':'});
+            string[] pieces = color.Split(new[] { ':' });
 
-            var colorType = (ColorFormat)
-                            Enum.Parse(typeof (ColorFormat), pieces[0], true);
+            var colorType = (ColorFormat)Enum.Parse(typeof(ColorFormat), pieces[0], true);
 
             switch (colorType)
             {
@@ -57,17 +71,24 @@ namespace DevDefined.Tools.Serialization
         /// <summary>
         /// Serializes the color to a string.
         /// </summary>
-        /// <param name="color">The color.</param>
-        /// <returns></returns>
+        /// <param name="color">
+        /// The color.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public static string SerializeColor(Color color)
         {
             if (color.IsNamedColor)
-                return string.Format("{0}:{1}",
-                                     ColorFormat.NamedColor, color.Name);
+            {
+                return string.Format("{0}:{1}", ColorFormat.NamedColor, color.Name);
+            }
             else
-                return string.Format("{0}:{1}:{2}:{3}:{4}",
-                                     ColorFormat.ARGBColor,
-                                     color.A, color.R, color.G, color.B);
+            {
+                return string.Format("{0}:{1}:{2}:{3}:{4}", ColorFormat.ARGBColor, color.A, color.R, color.G, color.B);
+            }
         }
+
+        #endregion
     }
 }

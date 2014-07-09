@@ -1,11 +1,13 @@
-﻿/////////////////////////////////////////////////////////////////////////////////
-// SIS                                                                   //
-// Copyright (C) dotPDN LLC, Rick Brewster, Tom Jackson, and contributors.     //
-// Portions Copyright (C) Microsoft Corporation. All Rights Reserved.          //
-// See src/Resources/Files/License.txt for full licensing and attribution      //
-// details.                                                                    //
-// .                                                                           //
-/////////////////////////////////////////////////////////////////////////////////
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SerializationFallbacFinder.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   This is an implementation of SerializationBinder that tries to find a match
+//   for a type even if a direct match doesn't exist. This gets around versioning
+//   mismatches, and allows you to move data types between assemblies.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Systemlayer
 {
@@ -25,27 +27,54 @@ namespace SIS.Systemlayer
     /// make use of it. This class does not otherwise need to be here, and can be
     /// ignored by implementors.
     /// </remarks>
-    public sealed class SerializationFallbackBinder
-        : SerializationBinder
+    public sealed class SerializationFallbackBinder : SerializationBinder
     {
+        #region Fields
+
+        /// <summary>
+        /// The assemblies.
+        /// </summary>
         private List<Assembly> assemblies;
 
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializationFallbackBinder"/> class.
+        /// </summary>
         public SerializationFallbackBinder()
         {
             this.assemblies = new List<Assembly>();
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The add assembly.
+        /// </summary>
+        /// <param name="assembly">
+        /// The assembly.
+        /// </param>
         public void AddAssembly(Assembly assembly)
         {
             this.assemblies.Add(assembly);
         }
 
-        private Type TryBindToType(Assembly assembly, string typeName)
-        {
-            Type type = assembly.GetType(typeName, false, true);
-            return type;
-        }
-
+        /// <summary>
+        /// The bind to type.
+        /// </summary>
+        /// <param name="assemblyName">
+        /// The assembly name.
+        /// </param>
+        /// <param name="typeName">
+        /// The type name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Type"/>.
+        /// </returns>
         public override Type BindToType(string assemblyName, string typeName)
         {
             Type type = null;
@@ -68,7 +97,6 @@ namespace SIS.Systemlayer
                 {
                     type = System.Type.GetType(fullTypeName, false, true);
                 }
-
                 catch (FileLoadException)
                 {
                     type = null;
@@ -77,5 +105,29 @@ namespace SIS.Systemlayer
 
             return type;
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The try bind to type.
+        /// </summary>
+        /// <param name="assembly">
+        /// The assembly.
+        /// </param>
+        /// <param name="typeName">
+        /// The type name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Type"/>.
+        /// </returns>
+        private Type TryBindToType(Assembly assembly, string typeName)
+        {
+            Type type = assembly.GetType(typeName, false, true);
+            return type;
+        }
+
+        #endregion
     }
 }

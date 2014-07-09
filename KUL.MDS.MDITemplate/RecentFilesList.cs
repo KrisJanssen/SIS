@@ -1,3 +1,12 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RecentFilesList.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The recent files list.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace SIS.MDITemplate
 {
     using System.Collections.Specialized;
@@ -5,113 +14,177 @@ namespace SIS.MDITemplate
 
     using Microsoft.Win32;
 
+    /// <summary>
+    /// The recent files list.
+    /// </summary>
     public class RecentFilesList : StringCollection
-	{
-		private const string m_sValue = "RecentFiles";
-		private const int m_nMaximumItems = 10;
-		private static RecentFilesList m_theList = null;
+    {
+        #region Constants
 
-		private RecentFilesList()
-		{
-			this.Load();
-		}
+        /// <summary>
+        /// The m_n maximum items.
+        /// </summary>
+        private const int m_nMaximumItems = 10;
 
-		private void Load()
-		{
-			RegistryKey registryKey = ApplicationSettingsKey.Get(false);
+        /// <summary>
+        /// The m_s value.
+        /// </summary>
+        private const string m_sValue = "RecentFiles";
 
-			if (registryKey != null)
-			{
-				string sValue = registryKey.GetValue(m_sValue) as string;
+        #endregion
 
-				if (sValue != null)
-				{
-					string [] asFiles = sValue.Split(new char [] {'|'});
+        #region Static Fields
 
-					foreach (string sFile in asFiles)
-					{
-						base.Add(sFile);
-					}
-				}
+        /// <summary>
+        /// The m_the list.
+        /// </summary>
+        private static RecentFilesList m_theList = null;
 
-				registryKey.Close();
-			}
-		}
-	
-		private int FindFile(string sFile)
-		{
-			string sFileLower = sFile.ToLower();
+        #endregion
 
-			for (int nIndex = 0; nIndex < this.Count; nIndex++)
-			{
-				if (sFileLower == this[nIndex].ToLower())
-				{
-					return nIndex;
-				}
-			}
+        #region Constructors and Destructors
 
-			return -1;
-		}
-		
-		public static RecentFilesList Get()
-		{
-			if (m_theList == null)
-			{
-				m_theList = new RecentFilesList();
-			}
+        /// <summary>
+        /// Prevents a default instance of the <see cref="RecentFilesList"/> class from being created.
+        /// </summary>
+        private RecentFilesList()
+        {
+            this.Load();
+        }
 
-			return m_theList;
-		}
+        #endregion
 
-		public void Save()
-		{
-			RegistryKey registryKey = ApplicationSettingsKey.Get(true);
+        #region Public Methods and Operators
 
-			if (registryKey != null)
-			{
-				StringBuilder stringBuilder = new StringBuilder();
+        /// <summary>
+        /// The get.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="RecentFilesList"/>.
+        /// </returns>
+        public static RecentFilesList Get()
+        {
+            if (m_theList == null)
+            {
+                m_theList = new RecentFilesList();
+            }
 
-				bool fFirst = true;
+            return m_theList;
+        }
 
-				foreach (string sFile in this)
-				{
-					if (fFirst)
-					{
-						fFirst = false;
-					}
-					else
-					{
-						stringBuilder.Append('|');
-					}
+        /// <summary>
+        /// The add.
+        /// </summary>
+        /// <param name="sFile">
+        /// The s file.
+        /// </param>
+        public new void Add(string sFile)
+        {
+            int nFileIndex = this.FindFile(sFile);
 
-					stringBuilder.Append(sFile);
-				}
+            if (nFileIndex < 0)
+            {
+                this.Insert(0, sFile);
 
-				registryKey.SetValue(m_sValue, stringBuilder.ToString());
-				registryKey.Close();
-			}				
-		}
+                while (this.Count > m_nMaximumItems)
+                {
+                    this.RemoveAt(this.Count - 1);
+                }
+            }
+            else
+            {
+                this.RemoveAt(nFileIndex);
+                this.Insert(0, sFile);
+            }
 
-		public new void Add(string sFile)
-		{
-			int nFileIndex = this.FindFile(sFile);
+            this.Save();
+        }
 
-			if (nFileIndex < 0)
-			{
-				base.Insert(0, sFile);
+        /// <summary>
+        /// The save.
+        /// </summary>
+        public void Save()
+        {
+            RegistryKey registryKey = ApplicationSettingsKey.Get(true);
 
-				while (this.Count > m_nMaximumItems)
-				{
-					this.RemoveAt(this.Count - 1);
-				}
-			}
-			else
-			{
-				this.RemoveAt(nFileIndex);
-				this.Insert(0, sFile);
-			}
+            if (registryKey != null)
+            {
+                StringBuilder stringBuilder = new StringBuilder();
 
-			this.Save();
-		}
-	}
+                bool fFirst = true;
+
+                foreach (string sFile in this)
+                {
+                    if (fFirst)
+                    {
+                        fFirst = false;
+                    }
+                    else
+                    {
+                        stringBuilder.Append('|');
+                    }
+
+                    stringBuilder.Append(sFile);
+                }
+
+                registryKey.SetValue(m_sValue, stringBuilder.ToString());
+                registryKey.Close();
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The find file.
+        /// </summary>
+        /// <param name="sFile">
+        /// The s file.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        private int FindFile(string sFile)
+        {
+            string sFileLower = sFile.ToLower();
+
+            for (int nIndex = 0; nIndex < this.Count; nIndex++)
+            {
+                if (sFileLower == this[nIndex].ToLower())
+                {
+                    return nIndex;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// The load.
+        /// </summary>
+        private void Load()
+        {
+            RegistryKey registryKey = ApplicationSettingsKey.Get(false);
+
+            if (registryKey != null)
+            {
+                string sValue = registryKey.GetValue(m_sValue) as string;
+
+                if (sValue != null)
+                {
+                    string[] asFiles = sValue.Split(new[] { '|' });
+
+                    foreach (string sFile in asFiles)
+                    {
+                        base.Add(sFile);
+                    }
+                }
+
+                registryKey.Close();
+            }
+        }
+
+        #endregion
+    }
 }
