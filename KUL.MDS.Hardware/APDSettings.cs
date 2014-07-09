@@ -1,16 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="APDSettings.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
+// </copyright>
+// <summary>
+//   The apd settings.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Hardware
 {
-    class APDSettings : AcquisitionSettings
+    /// <summary>
+    /// The apd settings.
+    /// </summary>
+    internal class APDSettings : AcquisitionSettings
     {
-        APDSettings()
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="APDSettings"/> class from being created.
+        /// </summary>
+        private APDSettings()
         {
             this.m_iDetectorType = (int)DetectorTypes.APD;
         }
+
+        #endregion
     }
 }

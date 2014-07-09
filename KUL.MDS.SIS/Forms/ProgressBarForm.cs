@@ -1,20 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProgressBarForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
+// </copyright>
+// <summary>
+//   The progress bar form.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Forms
 {
+    using System.Windows.Forms;
+
+    /// <summary>
+    /// The progress bar form.
+    /// </summary>
     public partial class ProgressBarForm : Form
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProgressBarForm"/> class.
+        /// </summary>
         public ProgressBarForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Sets the progress.
+        /// </summary>
         public int Progress
         {
             set
@@ -24,10 +42,18 @@ namespace SIS.Forms
             }
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The update progress.
+        /// </summary>
         public void UpdateProgress()
         {
             this.pbarProgress.Invalidate();
         }
 
+        #endregion
     }
 }

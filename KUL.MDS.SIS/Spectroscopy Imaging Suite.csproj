@@ -265,7 +265,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Forms\TestViewForm.cs" />
-    <None Include="KUL.MDS.SIS.licenseheader" />
+    <None Include="License\SIS.licenseheader" />
     <None Include="Resources\Icon.ico" />
     <EmbeddedResource Include="Forms\BlendImageForm.resx">
       <DependentUpon>BlendImageForm.cs</DependentUpon>
@@ -415,7 +415,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="External References\" />
-    <Folder Include="License\" />
     <Folder Include="Settings\" />
   </ItemGroup>
   <ItemGroup>

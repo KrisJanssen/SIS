@@ -1,0 +1,10 @@
+<StyleCopSettings Version="105">
+  <Analyzers>
+    <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
+      <AnalyzerSettings>
+        <StringProperty Name="CompanyName">Kris Janssen</StringProperty>
+        <StringProperty Name="Copyright">Copyright (c) 2014 Kris Janssen</StringProperty>
+      </AnalyzerSettings>
+    </Analyzer>
+  </Analyzers>
+</StyleCopSettings>

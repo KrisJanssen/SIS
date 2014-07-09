@@ -1,36 +1,82 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using SIS.Documents;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ScanSettingsForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
+// </copyright>
+// <summary>
+//   The scan settings form.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Forms
 {
+    using System;
+    using System.Windows.Forms;
+
+    using SIS.Documents;
+
+    /// <summary>
+    /// The scan settings form.
+    /// </summary>
     public partial class ScanSettingsForm : Form
     {
-        private object[] m_oParameters;
+        #region Fields
+
+        /// <summary>
+        /// The m_doc scan document.
+        /// </summary>
         private ScanSettings m_docScanDocument;
 
-        // declare the EventHandler
-        public event EventHandler UpdateParameters;
+        /// <summary>
+        /// The m_o parameters.
+        /// </summary>
+        private object[] m_oParameters;
 
+        #endregion
+
+        // declare the EventHandler
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScanSettingsForm"/> class.
+        /// </summary>
+        /// <param name="__scnstSettings">
+        /// The __scnst settings.
+        /// </param>
         public ScanSettingsForm(ScanSettings __scnstSettings)
         {
             this.m_docScanDocument = __scnstSettings;
-            InitializeComponent();
-            UpdateThis();
+            this.InitializeComponent();
+            this.UpdateThis();
         }
+
+        #endregion
+
+        #region Public Events
+
+        /// <summary>
+        /// The update parameters.
+        /// </summary>
+        public event EventHandler UpdateParameters;
+
+        #endregion
 
         // Wire up the event
+        #region Methods
+
+        /// <summary>
+        /// The on update parameters.
+        /// </summary>
         protected void OnUpdateParameters()
         {
-            if (UpdateParameters != null) UpdateParameters(this, new NotifyEventArgs(this.m_docScanDocument));
+            if (this.UpdateParameters != null)
+            {
+                this.UpdateParameters(this, new NotifyEventArgs(this.m_docScanDocument));
+            }
         }
 
+        /// <summary>
+        /// The update this.
+        /// </summary>
         private void UpdateThis()
         {
             this.m_txtbxSetImageWidth.Text = this.m_docScanDocument.ImageWidthPx.ToString();
@@ -49,6 +95,15 @@ namespace SIS.Forms
             this.textBox1.Text = this.m_docScanDocument.Annotation;
         }
 
+        /// <summary>
+        /// The m_btn accept_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void m_btnAccept_Click(object sender, EventArgs e)
         {
             this.m_docScanDocument.ImageWidthPx = Convert.ToUInt16(this.m_txtbxSetImageWidth.Text.Trim());
@@ -73,27 +128,46 @@ namespace SIS.Forms
 
             if (_boolPrimaryValidationPassed == false)
             {
-                //MessageBox.Show(m_strInvalidScanSettingsMsg1, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                // MessageBox.Show(m_strInvalidScanSettingsMsg1, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 MessageBox.Show("Error", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
-
-            if (_boolPrimaryValidationPassed == true)
+            if (_boolPrimaryValidationPassed)
             {
                 this.OnUpdateParameters();
                 this.Visible = false;
             }
         }
 
+        /// <summary>
+        /// The m_btn cancel_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void m_btnCancel_Click(object sender, EventArgs e)
         {
             this.Visible = false;
         }
 
+        /// <summary>
+        /// The m_btn default_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void m_btnDefault_Click(object sender, EventArgs e)
         {
             this.m_docScanDocument = new ScanSettings();
             this.UpdateThis();
         }
+
+        #endregion
     }
 }

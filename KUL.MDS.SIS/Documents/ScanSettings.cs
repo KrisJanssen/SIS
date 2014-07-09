@@ -1,206 +1,96 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ScanSettings.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
+// </copyright>
+// <summary>
+//   The scan settings.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SIS.Documents
 {
+    /// <summary>
+    /// The scan settings.
+    /// </summary>
     public struct ScanSettings
     {
-        private UInt16 m_iImageWidthPx;
-        private UInt16 m_iImageHeightPx;
-        private UInt16 m_iImageDepthPx;
-        private UInt16 m_iXOverScanPx;
-        private UInt16 m_iYOverScanPx;
-        private UInt16 m_iZOverScanPx;
-        private double m_dTimePPixel;
-        private double m_dXScanSizeNm;
-        private double m_dYScanSizeNm;
-        private double m_dZScanSizeNm;
-        private double m_dInitXNm;
-        private double m_dInitYNm;
-        private double m_dInitZNm;
-        private int m_iChannels;
-        private string m_sAnnotation;
+        #region Public Properties
 
-        public UInt16 ImageWidthPx
-        {
-            get
-            {
-                return this.m_iImageWidthPx;
-            }
-            set
-            {
-                this.m_iImageWidthPx = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the annotation.
+        /// </summary>
+        public string Annotation { get; set; }
 
-        public UInt16 ImageHeightPx
-        {
-            get
-            {
-                return this.m_iImageHeightPx;
-            }
-            set
-            {
-                this.m_iImageHeightPx = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the channels.
+        /// </summary>
+        public int Channels { get; set; }
 
-        public UInt16 ImageDepthPx
-        {
-            get
-            {
-                return this.m_iImageDepthPx;
-            }
-            set
-            {
-                this.m_iImageDepthPx = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the image depth px.
+        /// </summary>
+        public ushort ImageDepthPx { get; set; }
 
-        public UInt16 XOverScanPx
-        {
-            get
-            {
-                return this.m_iXOverScanPx;
-            }
-            set
-            {
-                this.m_iXOverScanPx = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the image height px.
+        /// </summary>
+        public ushort ImageHeightPx { get; set; }
 
-        public UInt16 YOverScanPx
-        {
-            get
-            {
-                return this.m_iYOverScanPx;
-            }
-            set
-            {
-                this.m_iYOverScanPx = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the image width px.
+        /// </summary>
+        public ushort ImageWidthPx { get; set; }
 
-        public UInt16 ZOverScanPx
-        {
-            get
-            {
-                return this.m_iZOverScanPx;
-            }
-            set
-            {
-                this.m_iZOverScanPx = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the init x nm.
+        /// </summary>
+        public double InitXNm { get; set; }
 
-        public double TimePPixel
-        {
-            get
-            {
-                return this.m_dTimePPixel;
-            }
-            set
-            {
-                this.m_dTimePPixel = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the init y nm.
+        /// </summary>
+        public double InitYNm { get; set; }
 
-        public double XScanSizeNm
-        {
-            get
-            {
-                return this.m_dXScanSizeNm;
-            }
-            set
-            {
-                this.m_dXScanSizeNm = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the init z nm.
+        /// </summary>
+        public double InitZNm { get; set; }
 
-        public double YScanSizeNm
-        {
-            get
-            {
-                return this.m_dYScanSizeNm;
-            }
-            set
-            {
-                this.m_dYScanSizeNm = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the time p pixel.
+        /// </summary>
+        public double TimePPixel { get; set; }
 
-        public double ZScanSizeNm
-        {
-            get
-            {
-                return this.m_dZScanSizeNm;
-            }
-            set
-            {
-                this.m_dZScanSizeNm = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the x over scan px.
+        /// </summary>
+        public ushort XOverScanPx { get; set; }
 
-        public double InitXNm
-        {
-            get
-            {
-                return this.m_dInitXNm;
-            }
-            set
-            {
-                this.m_dInitXNm = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the x scan size nm.
+        /// </summary>
+        public double XScanSizeNm { get; set; }
 
-        public double InitYNm
-        {
-            get
-            {
-                return this.m_dInitYNm;
-            }
-            set
-            {
-                this.m_dInitYNm = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the y over scan px.
+        /// </summary>
+        public ushort YOverScanPx { get; set; }
 
-        public double InitZNm
-        {
-            get
-            {
-                return this.m_dInitZNm;
-            }
-            set
-            {
-                this.m_dInitZNm = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the y scan size nm.
+        /// </summary>
+        public double YScanSizeNm { get; set; }
 
-        public int Channels
-        {
-            get
-            {
-                return this.m_iChannels;
-            }
-            set
-            {
-                this.m_iChannels = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the z over scan px.
+        /// </summary>
+        public ushort ZOverScanPx { get; set; }
 
-        public string Annotation
-        {
-            get
-            {
-                return this.m_sAnnotation;
-            }
-            set
-            {
-                this.m_sAnnotation = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the z scan size nm.
+        /// </summary>
+        public double ZScanSizeNm { get; set; }
+
+        #endregion
     }
 }
