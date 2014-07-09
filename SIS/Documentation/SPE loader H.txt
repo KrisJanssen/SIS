@@ -1,0 +1,87 @@
+1 // Header of class WinspecSpeDataSet
+    2 // Licence: Lesser GNU Public License 2.1 (LGPL)
+    3 // $Id: ds_winspec_spe.h $
+    4 
+    5 #ifndef WINSPEC_SPE_DATASET_H
+    6 #define WINSPEC_SPE_DATASET_H
+    7 #include "xylib.h"
+    8 
+    9 
+   10 namespace xylib {
+   11 
+   12 enum {
+   13     SPE_HEADER_SIZE = 4100,   // fixed binary header size
+   14 };
+   15 
+   16 /* datatypes of DATA point in spe_file */
+   17 enum spe_dt {
+   18     SPE_DATA_FLOAT = 0,     // size 4
+   19     SPE_DATA_LONG  = 1,     // size 4
+   20     SPE_DATA_INT   = 2,     // size 2
+   21     SPE_DATA_UINT  = 3,     // size 2
+   22 };
+   23 
+   24 struct spe_calib;
+   25 
+   26 class WinspecSpeDataSet : public DataSet
+   27 {
+   28 public:
+   29     WinspecSpeDataSet()
+   30         : DataSet(fmt_info.ftype) {}
+   31 
+   32     // implement the interfaces specified by DataSet
+   33     static bool check(std::istream &f);
+   34     void load_data(std::istream &f);
+   35 
+   36     const static FormatInfo fmt_info;
+   37 
+   38 protected:
+   39     double idx_to_calib_val(int idx, const spe_calib *calib);
+   40     void read_calib(std::istream &f, spe_calib &calib);
+   41 
+   42 };
+   43 
+   44 
+   45 // used internally to parse the file structure
+   46 ///////////////////////////////////////////////////////////////////////////////
+   47 
+   48 /*
+   49  * Calibration structure in SPE format.
+   50  * NOTE: fields that we don't care have been commented out
+   51  */
+   52 struct spe_calib {
+   53 /*
+   54     double offset;                // +0 offset for absolute data scaling
+   55     double factor;                // +8 factor for absolute data scaling
+   56     char current_unit;            // +16 selected scaling unit
+   57     char reserved1;               // +17 reserved
+   58     char string[40];              // +18 special string for scaling
+   59     char reserved2[40];           // +58 reserved
+   60 */
+   61     char calib_valid;             // +98 flag of whether calibration is valid
+   62 /*
+   63     char input_unit;              // +99 current input units for
+   64                                   // "calib-value"
+   65     char polynom_unit;            // +100 linear UNIT and used
+   66                                   // in the "polynom-coeff"
+   67 */
+   68     char polynom_order;           // +101 ORDER of calibration POLYNOM
+   69 /*
+   70     char calib_count;             // +102 valid calibration data pairs
+   71     double pixel_position[10];    // +103 pixel pos. of calibration data
+   72     double calib_value[10];       // +183 calibration VALUE at above pos
+   73 */
+   74     double polynom_coeff[6];      // +263 polynom COEFFICIENTS
+   75 /*
+   76     double laser_position;        // +311 laser wavenumber for relativ WN
+   77     char reserved3;               // +319 reserved
+   78     unsigned char new_calib_flag; // +320 If set to 200, valid label below
+   79     char calib_label[81];         // +321 Calibration label (NULL term'd)
+   80     char expansion[87];           // +402 Calibration Expansion area
+   81 */
+   82 };
+   83 
+   84 
+   85 }
+   86 #endif // #ifndef WINSPEC_SPE_DATASET_H
+   87 

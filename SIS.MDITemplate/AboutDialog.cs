@@ -1,0 +1,210 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AboutDialog.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
+// </copyright>
+// <summary>
+//   The about dialog.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+namespace SIS.MDITemplate
+{
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using SIS.Library;
+    using SIS.Resources;
+
+    /// <summary>
+    /// The about dialog.
+    /// </summary>
+    internal class AboutDialog : BaseForm
+    {
+        #region Fields
+
+        /// <summary>
+        /// The copyright label.
+        /// </summary>
+        private TextBox copyrightLabel;
+
+        /// <summary>
+        /// The credits label.
+        /// </summary>
+        private Label creditsLabel;
+
+        /// <summary>
+        /// The ok button.
+        /// </summary>
+        private Button okButton;
+
+        /// <summary>
+        /// The rich credits box.
+        /// </summary>
+        private RichTextBox richCreditsBox;
+
+        /// <summary>
+        /// The sis banner.
+        /// </summary>
+        private Banner sisBanner;
+
+        /// <summary>
+        /// The version label.
+        /// </summary>
+        private Label versionLabel;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AboutDialog"/> class.
+        /// </summary>
+        public AboutDialog()
+        {
+            // Required for Windows Form Designer support
+            this.InitializeComponent();
+
+            this.richCreditsBox.BackColor = SystemColors.Window;
+
+            string textFormat = Resources.GetString("AboutDialog.Text.Format");
+            this.Text = string.Format(textFormat, Info.GetBareProductName());
+
+            this.sisBanner.BannerText = string.Empty; // Info.GetFriendlyVersionString();
+            this.richCreditsBox.LoadFile(
+                Resources.GetResourceStream("Files.AboutCredits.rtf"), 
+                RichTextBoxStreamType.RichText);
+            this.copyrightLabel.Text = Info.GetCopyrightString();
+
+            this.Icon = Info.AppIcon;
+
+            this.okButton.Text = Resources.GetString("Form.OkButton.Text");
+            this.okButton.Location = new Point((this.ClientSize.Width - this.okButton.Width) / 2, this.okButton.Top);
+
+            this.creditsLabel.Text = Resources.GetString("AboutDialog.CreditsLabel.Text");
+
+            Font bannerFont = this.sisBanner.BannerFont;
+            Font newBannerFont = Utility.CreateFont(bannerFont.Name, 8.0f, bannerFont.Style);
+            this.sisBanner.BannerFont = newBannerFont;
+            newBannerFont.Dispose();
+            bannerFont.Dispose();
+
+            this.versionLabel.Text = Info.GetFullAppName();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.okButton = new System.Windows.Forms.Button();
+            this.creditsLabel = new System.Windows.Forms.Label();
+            this.richCreditsBox = new System.Windows.Forms.RichTextBox();
+            this.copyrightLabel = new System.Windows.Forms.TextBox();
+            this.sisBanner = new Banner();
+            this.versionLabel = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+
+            // okButton
+            this.okButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.okButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.okButton.Location = new System.Drawing.Point(139, 346);
+            this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.TabIndex = 0;
+
+            // creditsLabel
+            this.creditsLabel.Location = new System.Drawing.Point(7, 132);
+            this.creditsLabel.Name = "creditsLabel";
+            this.creditsLabel.Size = new System.Drawing.Size(200, 16);
+            this.creditsLabel.TabIndex = 5;
+
+            // richCreditsBox
+            this.richCreditsBox.CausesValidation = false;
+            this.richCreditsBox.Location = new System.Drawing.Point(10, 153);
+            this.richCreditsBox.Name = "richCreditsBox";
+            this.richCreditsBox.ReadOnly = true;
+            this.richCreditsBox.Size = new System.Drawing.Size(476, 187);
+            this.richCreditsBox.TabIndex = 6;
+            this.richCreditsBox.Text = string.Empty;
+            this.richCreditsBox.LinkClicked +=
+                new System.Windows.Forms.LinkClickedEventHandler(this.RichCreditsBox_LinkClicked);
+
+            // copyrightLabel
+            this.copyrightLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.copyrightLabel.Location = new System.Drawing.Point(10, 95);
+            this.copyrightLabel.Multiline = true;
+            this.copyrightLabel.Name = "copyrightLabel";
+            this.copyrightLabel.ReadOnly = true;
+            this.copyrightLabel.Size = new System.Drawing.Size(481, 36);
+            this.copyrightLabel.TabIndex = 4;
+
+            // pdnBanner
+            this.sisBanner.BannerFont = new System.Drawing.Font("Tahoma", 10F);
+            this.sisBanner.BannerText = "headingText";
+            this.sisBanner.Location = new System.Drawing.Point(0, 0);
+            this.sisBanner.Name = "pdnBanner";
+            this.sisBanner.Size = new System.Drawing.Size(495, 71);
+            this.sisBanner.TabIndex = 7;
+
+            // versionLabel
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.Location = new System.Drawing.Point(7, 77);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(0, 13);
+            this.versionLabel.TabIndex = 8;
+
+            // AboutDialog
+            this.AcceptButton = this.okButton;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.CancelButton = this.okButton;
+            this.ClientSize = new System.Drawing.Size(495, 375);
+            this.Controls.Add(this.versionLabel);
+            this.Controls.Add(this.copyrightLabel);
+            this.Controls.Add(this.richCreditsBox);
+            this.Controls.Add(this.creditsLabel);
+            this.Controls.Add(this.sisBanner);
+            this.Controls.Add(this.okButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Location = new System.Drawing.Point(0, 0);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "AboutDialog";
+            this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Controls.SetChildIndex(this.okButton, 0);
+            this.Controls.SetChildIndex(this.sisBanner, 0);
+            this.Controls.SetChildIndex(this.creditsLabel, 0);
+            this.Controls.SetChildIndex(this.richCreditsBox, 0);
+            this.Controls.SetChildIndex(this.copyrightLabel, 0);
+            this.Controls.SetChildIndex(this.versionLabel, 0);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+        }
+
+        /// <summary>
+        /// The rich credits box_ link clicked.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void RichCreditsBox_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            if (null != e.LinkText && e.LinkText.StartsWith("http://"))
+            {
+                Info.OpenUrl(this, e.LinkText);
+            }
+        }
+
+        #endregion
+    }
+}

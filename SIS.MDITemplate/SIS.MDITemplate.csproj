@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{065D1334-343C-4EB1-8F62-4003A3F7D0C9}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>SIS.MDITemplate</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SIS.MDITemplate</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FloatingToolForm.cs" />
+    <Compile Include="SplashFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OLD\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApplicationSettingsKey.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Banner.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DocumentTypes.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\HandledEventArgs`1.cs" />
+    <Compile Include="Events\HandledEventHandler`1.cs" />
+    <Compile Include="FileDragDropHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FileNameHelpers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IFormAssociate.cs" />
+    <Compile Include="IHotKeyTarget.cs" />
+    <Compile Include="Moving\MovingEventArgs.cs" />
+    <Compile Include="Moving\MovingEventHandler.cs" />
+    <Compile Include="MRU\MostRecentFile.cs" />
+    <Compile Include="MRU\MostRecentFiles.cs" />
+    <Compile Include="Settings\SettingNames.cs" />
+    <Compile Include="Snapping\HorizontalSnapEdge.cs" />
+    <Compile Include="Snapping\ISnapManagerHost.cs" />
+    <Compile Include="MdiDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MdiMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MdiParentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MdiViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MessengerStatusBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RecentFilesList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RecentFilesMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Snapping\ISnapObstacleHost.cs" />
+    <Compile Include="Snapping\SnapDescription.cs" />
+    <Compile Include="Snapping\SnapManager.cs" />
+    <Compile Include="Snapping\SnapObstacle.cs" />
+    <Compile Include="Snapping\SnapObstacleController.cs" />
+    <Compile Include="Snapping\SnapRegion.cs" />
+    <Compile Include="StatusBarMessenger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Snapping\VerticalSnapEdge.cs" />
+    <Compile Include="WindowPositionSerializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="OLD\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseForm.resx">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MdiMenuItem.resx">
+      <DependentUpon>MdiMenuItem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MdiParentForm.resx">
+      <DependentUpon>MdiParentForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MdiViewForm.resx">
+      <DependentUpon>MdiViewForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessengerStatusBar.resx">
+      <DependentUpon>MessengerStatusBar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RecentFilesMenuItem.resx">
+      <DependentUpon>RecentFilesMenuItem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SIS.Base\SIS.Base.csproj">
+      <Project>{4E58EEFC-82A4-4AFD-82C8-718F8A453D12}</Project>
+      <Name>SIS.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIS.Library\SIS.Library.csproj">
+      <Project>{AFCE2F08-7BD7-4F73-ABC1-9FFAFCEEACEF}</Project>
+      <Name>SIS.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIS.Resources\SIS.Resources.csproj">
+      <Project>{04D2293F-76E4-4318-AF0F-10A24EC5899D}</Project>
+      <Name>SIS.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIS.Systemlayer\SIS.Systemlayer.csproj">
+      <Project>{DD096382-A82E-4656-8ADC-85A5BC4476D7}</Project>
+      <Name>SIS.Systemlayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,2 @@
+NI PCI-6602 "Dev1" 
+NI PCI-6259 "Dev2"
