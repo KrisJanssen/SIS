@@ -6,7 +6,6 @@
 //   The timer elapsed.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     using System;

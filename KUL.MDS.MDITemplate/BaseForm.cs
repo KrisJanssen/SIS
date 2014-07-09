@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BaseForm.cs" company="">
-//   
+// <copyright file="BaseForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   This Form class is used to fix a few bugs in Windows Forms, and to add a few performance
@@ -8,7 +8,6 @@
 //   We derive from this class instead of Windows.Forms.Form directly.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.MDITemplate
 {
     using System;
@@ -94,13 +93,15 @@ namespace SIS.MDITemplate
         /// The our opacity.
         /// </summary>
         private double ourOpacity = 1.0;
-                       // store opacity setting so that when we go from disabled->enabled opacity we can set the correct value
+
+        // store opacity setting so that when we go from disabled->enabled opacity we can set the correct value
 
         /// <summary>
         /// The process form hot key mutex.
         /// </summary>
         private bool processFormHotKeyMutex = false;
-                     // if we're already processing a form hotkey, don't let other hotkeys execute.
+
+        // if we're already processing a form hotkey, don't let other hotkeys execute.
 
         /// <summary>
         /// The snap manager.

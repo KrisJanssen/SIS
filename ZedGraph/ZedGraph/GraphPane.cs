@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   Class <see cref="GraphPane" /> encapsulates the graph pane, which is all display elements
+//   Class  encapsulates the graph pane, which is all display elements
 //   associated with an individual graph.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -1887,8 +1886,8 @@ namespace ZedGraph.ZedGraph
                 float height = this._xAxis._tmpSpace;
 
                 tmpRect = new RectangleF(tmpChartRect.Left, tmpChartRect.Bottom, tmpChartRect.Width, height);
-                    
-                    // _rect.Bottom - tmpChartRect.Bottom );
+
+                // _rect.Bottom - tmpChartRect.Bottom );
                 if (saveZOrder <= ZOrder.D_BehindAxis && tmpRect.Contains(mousePt))
                 {
                     nearestObj = this.XAxis;

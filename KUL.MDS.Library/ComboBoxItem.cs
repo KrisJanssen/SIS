@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ComboBoxItem.cs" company="">
-//   
+// <copyright file="ComboBoxItem.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Generic class to store objects of type T in a ComboBox whilst also providing a human readable name for the object.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Library
 {
     /// <summary>

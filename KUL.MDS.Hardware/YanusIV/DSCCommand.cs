@@ -1,16 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DSCCommand.cs" company="">
-//   
+// <copyright file="DSCCommand.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Structure that represents a DSC command line
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware.YanusIV
 {
-    using System;
-
     /// <summary>
     /// Structure that represents a DSC command line
     /// </summary>

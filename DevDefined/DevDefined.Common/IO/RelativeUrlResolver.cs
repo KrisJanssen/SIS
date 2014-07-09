@@ -6,7 +6,6 @@
 //   A fairly specific class which can be used to resolve the relative urls in a CSS file to their absolute path.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.IO
 {
     using System;

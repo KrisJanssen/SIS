@@ -5,7 +5,6 @@
 // <summary>
 //   Defines the DataSourcePointList type.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

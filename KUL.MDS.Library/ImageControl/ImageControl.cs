@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ImageControl.cs" company="">
-//   
+// <copyright file="ImageControl.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The image control.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Library.ImageControl
 {
     using System;
@@ -399,7 +398,7 @@ namespace SIS.Library.ImageControl
             }
 
             if ((FactoredCtrlHeight >= this.m_drwcnvDrawCanvas.Image.Height)
-                 || this.m_drwcnvDrawCanvas.StretchImageToFit)
+                || this.m_drwcnvDrawCanvas.StretchImageToFit)
             {
                 this.m_scrlbrVScrollBar.Enabled = false;
                 this.m_scrlbrVScrollBar.Value = 0;

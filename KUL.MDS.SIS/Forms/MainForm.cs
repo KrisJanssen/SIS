@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainForm.cs" company="">
-//   
+// <copyright file="MainForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The main form.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Forms
 {
     using System;

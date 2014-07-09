@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Info.cs" company="">
-//   
+// <copyright file="Info.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   A few utility functions specific to KUL.MDS.SIS.exe
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Resources
 {
     using System;

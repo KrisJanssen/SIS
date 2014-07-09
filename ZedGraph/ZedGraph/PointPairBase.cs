@@ -176,8 +176,8 @@ namespace ZedGraph.ZedGraph
         /// </summary>
         /// <remarks>
         /// The value is considered invalid if it is <see cref="PointPairBase.Missing"/>,
-        /// <see cref="Double.PositiveInfinity"/>, <see cref="Double.NegativeInfinity"/>
-        /// or <see cref="Double.NaN"/>.
+        /// <see cref="double.PositiveInfinity"/>, <see cref="double.NegativeInfinity"/>
+        /// or <see cref="double.NaN"/>.
         /// </remarks>
         /// <param name="value">
         /// The value to be checked for validity.

@@ -6,7 +6,6 @@
 //   The download update dialog.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace AutoUpdaterDotNET
 {
     using System;

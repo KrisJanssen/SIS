@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ExecuteWaitType.cs" company="">
-//   
+// <copyright file="ExecuteWaitType.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The execute wait type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     /// <summary>

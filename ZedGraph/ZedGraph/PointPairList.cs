@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   A collection class containing a list of <see cref="PointPair" /> objects
+//   A collection class containing a list of  objects
 //   that define the set of points to be displayed on the curve.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -464,11 +463,11 @@ namespace ZedGraph.ZedGraph
         /// <see cref="PointPair"/> with the specified label <see cref="PointPair.Tag"/>.
         /// </summary>
         /// <remarks>
-        /// The <see cref="PointPair.Tag"/> object must be of type <see cref="String"/>
+        /// The <see cref="PointPair.Tag"/> object must be of type <see cref="string"/>
         /// for this method to find it.
         /// </remarks>
         /// <param name="label">
-        /// The <see cref="String"/> label that is in the
+        /// The <see cref="string"/> label that is in the
         /// <see cref="PointPair.Tag"/> attribute of the item to be found.
         /// </param>
         /// <returns>

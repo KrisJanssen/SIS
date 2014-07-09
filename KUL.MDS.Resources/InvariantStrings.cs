@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="InvariantStrings.cs" company="">
-//   
+// <copyright file="InvariantStrings.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Contains strings that must be the same no matter what locale the UI is running with.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Resources
 {
     /// <summary>
@@ -35,7 +34,8 @@ namespace SIS.Resources
         /// The crashlog email.
         /// </summary>
         public const string CrashlogEmail = "kris.janssen@biw.kuleuven.be";
-                            // <-- You must specify a contact e-mail address to be placed in the crash log.;
+
+        // <-- You must specify a contact e-mail address to be placed in the crash log.;
 
         /// <summary>
         /// The dll extension.
@@ -51,7 +51,8 @@ namespace SIS.Resources
         /// The donate url setup.
         /// </summary>
         public const string DonateUrlSetup = "";
-                            // <-- You must specify a destination URL for the donate button in the setup wizard.;        
+
+        // <-- You must specify a destination URL for the donate button in the setup wizard.;        
 
         /// <summary>
         /// The effects sub dir.
@@ -67,7 +68,8 @@ namespace SIS.Resources
         /// The feedback email.
         /// </summary>
         public const string FeedbackEmail = "kris.janssen@biw.kuleuven.be";
-                            // <-- You must specify an e-mail address for users to send feedback to.;
+
+        // <-- You must specify an e-mail address for users to send feedback to.;
 
         /// <summary>
         /// The file types sub dir.
@@ -93,7 +95,8 @@ namespace SIS.Resources
         /// The single instance moniker name.
         /// </summary>
         public const string SingleInstanceMonikerName = "SISInstance";
-                            // <-- You must specify a moniker name (only letters, no symbols, no spaces);
+
+        // <-- You must specify a moniker name (only letters, no symbols, no spaces);
 
         /// <summary>
         /// The startup unhandled error format fallback.
@@ -116,7 +119,9 @@ namespace SIS.Resources
         /// The website url.
         /// </summary>
         public const string WebsiteUrl = "http://www.biosensors.be";
-                            // <-- You must specify a URL for the application's website.;
+
         #endregion
+
+        // <-- You must specify a URL for the application's website.;
     }
 }

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SISGraphics.cs" company="">
-//   
+// <copyright file="SISGraphics.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   These methods are used because we found some bugs in GDI+ / WinForms. Some
@@ -9,7 +9,6 @@
 //   thunk straight to equivelants in System.Drawing.Graphics.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     using System;

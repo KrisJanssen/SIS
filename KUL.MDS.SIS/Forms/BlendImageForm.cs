@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BlendImageForm.cs" company="">
-//   
+// <copyright file="BlendImageForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The blend image form.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Forms
 {
     using System.Drawing;

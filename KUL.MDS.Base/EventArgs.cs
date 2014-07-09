@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EventArgs.cs" company="">
-//   
+// <copyright file="EventArgs.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The event args.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Base
 {
     using System;

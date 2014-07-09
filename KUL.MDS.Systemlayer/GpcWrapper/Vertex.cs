@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vertex.cs" company="">
-//   
+// <copyright file="Vertex.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The vertex.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer.GpcWrapper
 {
     /// <summary>

@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Do.cs" company="">
-//   
+// <copyright file="Do.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The do.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Base
 {
     using System;

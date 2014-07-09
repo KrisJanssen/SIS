@@ -4,10 +4,9 @@
 // </copyright>
 // <summary>
 //   A collection base class containing basic extra functionality to be inherited
-//   by <see cref="CurveList" />, <see cref="IPointList" />,
-//   <see cref="GraphObjList" />.
+//   by , ,
+//   .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

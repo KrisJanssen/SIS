@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Program.cs" company="">
-//   
+// <copyright file="Program.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Program.cs
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.SerialTerminal
 {
     // static class Program

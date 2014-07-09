@@ -3,9 +3,8 @@
 //   
 // </copyright>
 // <summary>
-//   A data collection class for ZedGraph, provided as an alternative to <see cref="PointPairList" />.
+//   A data collection class for ZedGraph, provided as an alternative to .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

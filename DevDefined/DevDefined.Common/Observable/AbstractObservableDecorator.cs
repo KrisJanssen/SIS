@@ -6,7 +6,6 @@
 //   The abstract observable decorator.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     using System;
@@ -35,7 +34,7 @@ namespace DevDefined.Common.Observable
         /// <param name="innerObservable">
         /// The inner observable.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="System.ArgumentNullException">
         /// </exception>
         protected AbstractObservableDecorator(IObservable<T> innerObservable)
         {
@@ -76,7 +75,7 @@ namespace DevDefined.Common.Observable
         /// The observer.
         /// </param>
         /// <returns>
-        /// The <see cref="IObserver"/>.
+        /// The <see cref="IObserver{T}"/>.
         /// </returns>
         protected abstract IObserver<T> DecorateObserver(IObserver<T> observer);
 

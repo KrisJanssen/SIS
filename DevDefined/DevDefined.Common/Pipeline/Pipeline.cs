@@ -6,7 +6,6 @@
 //   Implments a pipeline, which can be used to combine on or more filters together in sequence.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Pipeline
 {
     using System.Collections.Generic;

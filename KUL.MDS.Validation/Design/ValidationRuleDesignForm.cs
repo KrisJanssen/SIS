@@ -1,13 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationRuleDesignForm.cs" company="">
-//   
+// <copyright file="ValidationRuleDesignForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   ValidationRuleDesignForm use to setup validation rule and assign it to a
 //   specific control.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace KUL.MDS.Validation.Design
 {
     using System;
@@ -366,7 +365,7 @@ namespace KUL.MDS.Validation.Design
                 8.25F, 
                 System.Drawing.FontStyle.Bold, 
                 System.Drawing.GraphicsUnit.Point, 
-                (byte)(0));
+                (byte)0);
             this.label1.Location = new System.Drawing.Point(8, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 16);
@@ -455,7 +454,7 @@ namespace KUL.MDS.Validation.Design
                 8.25F, 
                 System.Drawing.FontStyle.Bold, 
                 System.Drawing.GraphicsUnit.Point, 
-                (byte)(0));
+                (byte)0);
             this.label5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label5.Location = new System.Drawing.Point(24, 168);
             this.label5.Name = "label5";
@@ -559,7 +558,7 @@ namespace KUL.MDS.Validation.Design
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.HelpButton = true;
-            this.Icon = (System.Drawing.Icon)(resources.GetObject("$this.Icon"));
+            this.Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ValidationRuleDesignForm";

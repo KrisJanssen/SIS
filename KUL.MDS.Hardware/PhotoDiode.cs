@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PhotoDiode.cs" company="">
-//   
+// <copyright file="PhotoDiode.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The photo diode.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware
 {
     using System;

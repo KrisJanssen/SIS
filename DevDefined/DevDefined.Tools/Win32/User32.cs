@@ -6,7 +6,6 @@
 //   Windows User32 dynamic link library declarations
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Win32
 {
     using System;

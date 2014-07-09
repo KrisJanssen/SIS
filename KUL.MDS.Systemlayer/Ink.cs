@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="Ink.cs">
-//   
+// <copyright company="Kris Janssen" file="Ink.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The ink.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.Systemlayer
 {

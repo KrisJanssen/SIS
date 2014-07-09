@@ -5,7 +5,6 @@
 // <summary>
 //   Class used to get the next color/symbol for GraphPane.AddCurve methods.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

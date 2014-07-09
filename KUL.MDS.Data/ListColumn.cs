@@ -1,15 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ListColumn.cs" company="">
-//   
+// <copyright file="ListColumn.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The list column.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Data
 {
-    using System;
     using System.Collections.Generic;
     using System.Windows.Forms;
 

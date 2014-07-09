@@ -3,9 +3,8 @@
 //   
 // </copyright>
 // <summary>
-//   A class that captures an <see cref="Axis" /> scale range.
+//   A class that captures an  scale range.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

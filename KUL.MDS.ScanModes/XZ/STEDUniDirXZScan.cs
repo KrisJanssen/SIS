@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="STEDUniDirXZScan.cs" company="">
-//   
+// <copyright file="STEDUniDirXZScan.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Object supplies the necessary coordinates to a stage based upon the physical parameters that fully describe a unidirectional STED scan
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.ScanModes.XZ
 {
     using System;
@@ -182,7 +181,7 @@ namespace SIS.ScanModes.XZ
             this.m_iZPEfwd = this.m_iZPTfwd - this.m_iZCPfwd - this.m_iZPAfwd;
 
             // The Curve points are the points that will actually be measured.
-            this.m_dZGLfwd = this.m_dZScanSizeNm / (this.m_iImageHeightPx);
+            this.m_dZGLfwd = this.m_dZScanSizeNm / this.m_iImageHeightPx;
 
             // Some Debug checks.
             Tracing.Ping("Total points X: " + (this.m_iXPTfwd * 2 + this.m_iXPTbckwd * 2).ToString());

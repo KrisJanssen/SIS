@@ -6,7 +6,6 @@
 //   The observable extensions.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     using System;
@@ -29,7 +28,7 @@ namespace DevDefined.Common.Observable
         /// <typeparam name="T">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{T}"/>.
         /// </returns>
         public static IObservable<IEnumerable<T>> All<T>(this IObservable<T> source)
         {
@@ -45,7 +44,7 @@ namespace DevDefined.Common.Observable
         /// <typeparam name="T">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{T}"/>.
         /// </returns>
         public static IObservable<T> ChangesOnly<T>(this IObservable<T> source) where T : IEquatable<T>
         {
@@ -64,7 +63,7 @@ namespace DevDefined.Common.Observable
         /// <typeparam name="T">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{T}"/>.
         /// </returns>
         public static IObservable<T> Concat<T>(this IObservable<T> first, IObservable<T> second)
         {
@@ -80,7 +79,7 @@ namespace DevDefined.Common.Observable
         /// <typeparam name="T">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{T}"/>.
         /// </returns>
         public static IObservable<T> Last<T>(this IObservable<T> source)
         {
@@ -99,7 +98,7 @@ namespace DevDefined.Common.Observable
         /// <typeparam name="T">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{T}"/>.
         /// </returns>
         public static IObservable<T> LimitRate<T>(this IObservable<T> source, TimeSpan minimumPeriodBetweenItems)
         {
@@ -120,7 +119,7 @@ namespace DevDefined.Common.Observable
         /// <typeparam name="TOutput">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{T}"/>.
         /// </returns>
         public static IObservable<TOutput> Select<TInput, TOutput>(
             this IObservable<TInput> source, 
@@ -141,7 +140,7 @@ namespace DevDefined.Common.Observable
         /// <typeparam name="T">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{T}"/>.
         /// </returns>
         public static IObservable<T> Skip<T>(this IObservable<T> source, int numberToSkip)
         {
@@ -179,7 +178,7 @@ namespace DevDefined.Common.Observable
         /// <typeparam name="T">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{T}"/>.
         /// </returns>
         public static IObservable<T> Take<T>(this IObservable<T> source, int max)
         {
@@ -198,7 +197,7 @@ namespace DevDefined.Common.Observable
         /// <typeparam name="T">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{T}"/>.
         /// </returns>
         public static IObservable<T> Where<T>(this IObservable<T> source, Predicate<T> match)
         {
@@ -229,7 +228,7 @@ namespace DevDefined.Common.Observable
         /// <typeparam name="TItem">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{T}"/>.
         /// </returns>
         /// <exception cref="NotImplementedException">
         /// </exception>

@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="YanusIV.cs" company="">
-//   
+// <copyright file="YanusIV.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Class that represents YanusIV galvo scanner
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware.YanusIV
 {
     using System;
@@ -37,31 +36,36 @@ namespace SIS.Hardware.YanusIV
         /// The fram e_ marker.
         /// </summary>
         private const byte FRAME_MARKER = 2;
-                           // the default frame marker (YanusIV can output a bit pattern for beginning of frame on the digital outputs)
+
+        // the default frame marker (YanusIV can output a bit pattern for beginning of frame on the digital outputs)
 
         /// <summary>
         /// The lin e_ marker.
         /// </summary>
         private const byte LINE_MARKER = 4;
-                           // the default line marker (YanusIV can output a bit pattern for beginning of line on the digital outputs)
+
+        // the default line marker (YanusIV can output a bit pattern for beginning of line on the digital outputs)
 
         /// <summary>
         /// The ma x_ ds p_ faile d_ loads.
         /// </summary>
         private const int MAX_DSP_FAILED_LOADS = 10;
-                          // the number of times to try the reload the DSP protocol (this deals with a bug in .Net Serial Port lib)
+
+        // the number of times to try the reload the DSP protocol (this deals with a bug in .Net Serial Port lib)
 
         /// <summary>
         /// The ma x_ setu p_ galv o_ rang e_ angle.
         /// </summary>
         private const long MAX_SETUP_GALVO_RANGE_ANGLE = 1048576L * 4096L;
-                           // +/- 1048576L * 4096L is the current useful (due to limits of the microscope setup) range a galvo axis can go in terms of an integer value
+
+        // +/- 1048576L * 4096L is the current useful (due to limits of the microscope setup) range a galvo axis can go in terms of an integer value
 
         /// <summary>
         /// The ma x_ yanu s_ galv o_ rang e_ angle.
         /// </summary>
         private const long MAX_YANUS_GALVO_RANGE_ANGLE = 1048576L * 32768L;
-                           // +/- 1048576L * 32768L is the true maximum range a galvo axis can go in terms of an integer value
+
+        // +/- 1048576L * 32768L is the true maximum range a galvo axis can go in terms of an integer value
 
         /// <summary>
         /// The singl e_ cycl e_ lengt h_us.
@@ -103,13 +107,15 @@ namespace SIS.Hardware.YanusIV
         /// The m_d range angle degrees.
         /// </summary>
         private double m_dRangeAngleDegrees;
-                       // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
+
+        // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
 
         /// <summary>
         /// The m_d range angle int.
         /// </summary>
         private double m_dRangeAngleInt;
-                       // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
+
+        // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
 
         /// <summary>
         /// The m_d scan lens focal length.
@@ -145,13 +151,15 @@ namespace SIS.Hardware.YanusIV
         /// The m_i frame marker.
         /// </summary>
         private int m_iFrameMarker = FRAME_MARKER;
-                    // the frame synchronization marker that the galvo rises upon a beginning of a frame
+
+        // the frame synchronization marker that the galvo rises upon a beginning of a frame
 
         /// <summary>
         /// The m_i line marker.
         /// </summary>
         private int m_iLineMarker = LINE_MARKER;
-                    // the line synchronization marker that the galvo rises upon a beginning of a line
+
+        // the line synchronization marker that the galvo rises upon a beginning of a line
 
         /// <summary>
         /// The m_i samples to stage current.
@@ -167,7 +175,8 @@ namespace SIS.Hardware.YanusIV
         /// The m_i type of scan.
         /// </summary>
         private int m_iTypeOfScan;
-                    // set the type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
+
+        // set the type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
 
         /// <summary>
         /// The m_l cmd list.
@@ -494,14 +503,14 @@ namespace SIS.Hardware.YanusIV
 
                 // Check if COM port is active and then if YanusIV is ON
                 this.m_errCurrentError = DSPError.SCAN_CMD_COM_GALVO_IS_OFF;
-                    
-                    // as long as we do not have response from YanusIV, we assume it is OFF
+
+                // as long as we do not have response from YanusIV, we assume it is OFF
                 if (this.m_prtComm.IsOpen)
                 {
                     // Probe if YanusIV galvo scanner is ON - we send a command to get an info string and if we cannot get in time we assume the galvo is OFF
                     this.m_prtComm.Send(((char)DSPCommand.DSP_CMD_RETURN_INFO).ToString());
-                        
-                        // on initialize get info from YanusIV by the DSP_CMD_RETURN_INFO command
+
+                    // on initialize get info from YanusIV by the DSP_CMD_RETURN_INFO command
                 }
                 else
                 {
@@ -658,8 +667,8 @@ namespace SIS.Hardware.YanusIV
 
                 // Add a rectangle to the DSP protocol
                 int _iTypeOfScan = this.m_iTypeOfScan;
-                    
-                    // the type of scan mode (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
+
+                // the type of scan mode (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
                 long _int64ScanCommandLoopCount = 1L; // number of times to repeat the rectangular scan
 
                 this.AddRectangle(
@@ -689,8 +698,8 @@ namespace SIS.Hardware.YanusIV
 
                     // Add a rectangle to the DSP protocol
                     int _iTypeOfScan = this.m_iTypeOfScan;
-                        
-                        // the type of scan mode (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
+
+                    // the type of scan mode (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
                     long _int64ScanCommandLoopCount = 1L; // number of times to repeat the rectangular scan
 
                     this.AddRectangle(
@@ -739,8 +748,8 @@ namespace SIS.Hardware.YanusIV
         {
             // Assign the command that breaks the current protocol execution
             string _sCmd = ((char)DSPCommand.DSP_CMD_DO_NOTHING).ToString();
-                
-                // the DSP command "do nothing" breaks/stops the current protocol execution
+
+            // the DSP command "do nothing" breaks/stops the current protocol execution
 
             // Info
             _logger.Info("YanusIV: scan finished/stopped!");
@@ -804,25 +813,25 @@ namespace SIS.Hardware.YanusIV
 
             // Set and check the scanning range in terms of angles values - starting angle position and angle scan range.
             long _int64XScanAngleInt = this.ConvertNanometersToAngle(__dXScanSizeNm);
-                
-                // the width of the image in terms of an integer (angle)
+
+            // the width of the image in terms of an integer (angle)
             long _int64YScanAngleInt = this.ConvertNanometersToAngle(__dYScanSizeNm);
-                
-                // the height of the image in terms of an integer (angle)
+
+            // the height of the image in terms of an integer (angle)
             long _int64StartXAngleInt = this.ConvertNanometersToAngle(__dInitialXnm) - _int64XScanAngleInt / 2L;
-                
-                // X offset of the scanning range in terms of an integer (angle) - note that the initial angle is divided by two because (X=0,Y=0) is the middle of the scan area
+
+            // X offset of the scanning range in terms of an integer (angle) - note that the initial angle is divided by two because (X=0,Y=0) is the middle of the scan area
             long _int64StartYAngleInt = this.ConvertNanometersToAngle(__dInitialYnm) + _int64YScanAngleInt / 2L;
-                
-                // Y offset of the scanning range in terms of an integer (angle) - note that the initial angle is divided by two because (X=0,Y=0) is the middle of the scan area
+
+            // Y offset of the scanning range in terms of an integer (angle) - note that the initial angle is divided by two because (X=0,Y=0) is the middle of the scan area
 
             // Check if we do not exceed the max galvo range along X
             if (_int64StartXAngleInt < -MAX_SETUP_GALVO_RANGE_ANGLE
                 || _int64StartXAngleInt > MAX_SETUP_GALVO_RANGE_ANGLE)
             {
                 _int64StartXAngleInt = -_int64XScanAngleInt / 2L;
-                    
-                    // if we exceed the max galvo range set a default value (in this case no offset applied)
+
+                // if we exceed the max galvo range set a default value (in this case no offset applied)
             }
 
             // Check if we do not exceed the max galvo range along Y
@@ -830,37 +839,37 @@ namespace SIS.Hardware.YanusIV
                 || _int64StartYAngleInt > MAX_SETUP_GALVO_RANGE_ANGLE)
             {
                 _int64StartYAngleInt = +_int64YScanAngleInt / 2L;
-                    
-                    // if we exceed the max galvo range set a default value (in this case no offset applied)
+
+                // if we exceed the max galvo range set a default value (in this case no offset applied)
             }
 
             // Get frame/line markers
             long _int64FrameMarker = (Int64)this.m_iFrameMarker;
-                
-                // the value of the frame marker to be raised by YanusIV in the beginning of each frame
+
+            // the value of the frame marker to be raised by YanusIV in the beginning of each frame
             long _int64LineMarker = (Int64)this.m_iLineMarker;
-                
-                // the value of the line marker to be raised by YanusIV in the beginning of each line            
+
+            // the value of the line marker to be raised by YanusIV in the beginning of each line            
 
             // Calc time per pixel in terms of cycles (one cycle equals 10.0us)
             double _dTimePPixelUs = __dTimePPixel * 1000.0; // time per pixel in [us]
             double _dTimePPixelCycles = _dTimePPixelUs / SINGLE_CYCLE_LENGTH_us;
-                
-                // time per pixel in terms of YanusIV controller cycles
+
+            // time per pixel in terms of YanusIV controller cycles
 
             // Increment/decrement and angles in terms of cycles
             ulong _ui64XAngleCycles = (UInt64)(__intImageWidthPx * _dTimePPixelCycles);
-                
-                // the image width in terms of cycles of the YanusIV controller
+
+            // the image width in terms of cycles of the YanusIV controller
             ulong _ui64YAngleCycles = (UInt64)__intImageHeightPx;
-                
-                // the image height in terms of cycles of the YanusIV controller. Note that it differs than the image width in terms of cycles, because here we directly go to the new line.
+
+            // the image height in terms of cycles of the YanusIV controller. Note that it differs than the image width in terms of cycles, because here we directly go to the new line.
             long _int64XAngleIntPerCycle = _int64XScanAngleInt / (Int64)_ui64XAngleCycles;
-                
-                // the angle per cycle in order to cover the width of the image
+
+            // the angle per cycle in order to cover the width of the image
             long _int64YAngleIntPerCycle = _int64YScanAngleInt / (Int64)_ui64YAngleCycles;
-                
-                // the angle per cycle in order to cover the height of the image
+
+            // the angle per cycle in order to cover the height of the image
 
             // Create the DSP rectangle
             // Create the DSP rectangle
@@ -880,12 +889,12 @@ namespace SIS.Hardware.YanusIV
                         // Go to top initial position from where we start to scan the rectangle
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_set_value, 0UL, DSCChannel.X, _int64StartXAngleInt));
-                            
-                            // move X to the left end of the rectangle
+
+                        // move X to the left end of the rectangle
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_set_value, 0UL, DSCChannel.Y, _int64StartYAngleInt));
-                            
-                            // move Y to the top end of the rectangle
+
+                        // move Y to the top end of the rectangle
 
                         // Set the axes increments so that we cover the whole scan range (increments are applied on every 10us cycle) - controls the scanning along X and Y
                         this.m_lCmdList.Add(
@@ -895,17 +904,17 @@ namespace SIS.Hardware.YanusIV
                                 DSCChannel.X, 
                                 _int64XAngleIntPerCycle)); // set the increment along X so that first we scan along X
                         this.m_lCmdList.Add(new DSCCommand(ScanCommand.scan_cmd_set_increment_1, 0UL, DSCChannel.Y, 0L));
-                            
-                            // set the increment along Y to zero (first we scan a line along X)
+
+                        // set the increment along Y to zero (first we scan a line along X)
 
                         // Raise a frame marker - marks the beginning of a frame (the el. signal appears on the digital outputs port of YanusIV). Note that we need a frame marker to extract an image from the raw Time Harp data stream.
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_set_value, 0UL, DSCChannel.DO, _int64FrameMarker));
-                            
-                            // raise the frame marker
+
+                        // raise the frame marker
                         this.m_lCmdList.Add(new DSCCommand(ScanCommand.scan_cmd_set_value, 1UL, DSCChannel.DO, 0L));
-                            
-                            // set down the frame marker (it is enough to raise the marker for one cycle only)
+
+                        // set down the frame marker (it is enough to raise the marker for one cycle only)
 
                         // Start DSP loop 2 - this loop scans the rest of the frame + one more line (this line marks the end of the frame)
                         this.m_lCmdList.Add(
@@ -914,8 +923,8 @@ namespace SIS.Hardware.YanusIV
                                 _ui64XAngleCycles, 
                                 DSCChannel.None, 
                                 __intImageHeightPx));
-                            
-                            // add start DSP loop - the number of loops equals the number of lines to scan, i.e. the height of the image
+
+                        // add start DSP loop - the number of loops equals the number of lines to scan, i.e. the height of the image
 
                         // Go to top initial X position from where we start to scan a new line
                         this.m_lCmdList.Add(
@@ -932,8 +941,8 @@ namespace SIS.Hardware.YanusIV
                                 _ui64XAngleCycles, 
                                 DSCChannel.Y, 
                                 -_int64YAngleIntPerCycle));
-                            
-                            // set the decrement along Y so that we go to the next line along Y (top down scanning)
+
+                        // set the decrement along Y so that we go to the next line along Y (top down scanning)
 
                         // Raise a line marker - marks the beginning of a line (the el. signal appears on the digital outputs port of YanusIV). Note that we need a line marker to extract an image from the raw Time Harp data stream.
                         this.m_lCmdList.Add(
@@ -944,8 +953,8 @@ namespace SIS.Hardware.YanusIV
                                 _int64LineMarker)); // raise the line marker
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_set_value, _ui64XAngleCycles + 1UL, DSCChannel.DO, 0L));
-                            
-                            // set down the line marker (it is enough to raise the marker for one cycle only)
+
+                        // set down the line marker (it is enough to raise the marker for one cycle only)
 
                         // Set the Y axis decrement to zero so that we stay on the new line
                         this.m_lCmdList.Add(
@@ -958,8 +967,8 @@ namespace SIS.Hardware.YanusIV
                         // End DSP loop 2
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_loop_end, 2L * _ui64XAngleCycles, DSCChannel.None, 0L));
-                            
-                            // add end DSP loop - note that we multiply by factor of 2 because the first line was already scanned before entering the second loop.
+
+                        // add end DSP loop - note that we multiply by factor of 2 because the first line was already scanned before entering the second loop.
 
                         // Set the axes increments to zero so that we stop the scanning - the frame is done, so no need to move the galvo axes (if we do not stop the increment of the axes they may go out of range, which is dangerous).
                         this.m_lCmdList.Add(
@@ -968,16 +977,16 @@ namespace SIS.Hardware.YanusIV
                                 ((UInt64)__intImageHeightPx) * _ui64XAngleCycles + _ui64XAngleCycles, 
                                 DSCChannel.X, 
                                 0L));
-                            
-                            // set the increment along X to zero (scanning the current frame finished) - note that we scanned one more line than the image height, therefore we need to take into account when calculating the end cycle value
+
+                        // set the increment along X to zero (scanning the current frame finished) - note that we scanned one more line than the image height, therefore we need to take into account when calculating the end cycle value
                         this.m_lCmdList.Add(
                             new DSCCommand(
                                 ScanCommand.scan_cmd_set_increment_1, 
                                 ((UInt64)__intImageHeightPx) * _ui64XAngleCycles + _ui64XAngleCycles, 
                                 DSCChannel.Y, 
                                 0L));
-                            
-                            // set the increment along Y to zero (scanning the current frame finished) - note that we scanned one more line than the image height, therefore we need to take into account when calculating the end cycle value
+
+                        // set the increment along Y to zero (scanning the current frame finished) - note that we scanned one more line than the image height, therefore we need to take into account when calculating the end cycle value
 
                         // End DSP loop 1
                         this.m_lCmdList.Add(
@@ -1008,12 +1017,12 @@ namespace SIS.Hardware.YanusIV
                         // Go to top initial position from where we start to scan the rectangle
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_set_value, 0UL, DSCChannel.X, _int64StartXAngleInt));
-                            
-                            // move X to the left end of the rectangle
+
+                        // move X to the left end of the rectangle
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_set_value, 0UL, DSCChannel.Y, _int64StartYAngleInt));
-                            
-                            // move Y to the top end of the rectangle
+
+                        // move Y to the top end of the rectangle
 
                         // Set the axes increments so that we cover the whole scan range (increments are applied on every 10us cycle) - controls the scanning along X and Y
                         this.m_lCmdList.Add(
@@ -1023,17 +1032,17 @@ namespace SIS.Hardware.YanusIV
                                 DSCChannel.X, 
                                 _int64XAngleIntPerCycle)); // set the increment along X so that first we scan along X
                         this.m_lCmdList.Add(new DSCCommand(ScanCommand.scan_cmd_set_increment_1, 0UL, DSCChannel.Y, 0L));
-                            
-                            // set the increment along Y to zero (first we scan a line along X)
+
+                        // set the increment along Y to zero (first we scan a line along X)
 
                         // Raise a frame marker - marks the beginning of a frame (the el. signal appears on the digital outputs port of YanusIV). Note that we need a frame marker to extract an image from the raw Time Harp data stream.
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_set_value, 0UL, DSCChannel.DO, _int64FrameMarker));
-                            
-                            // raise the frame marker
+
+                        // raise the frame marker
                         this.m_lCmdList.Add(new DSCCommand(ScanCommand.scan_cmd_set_value, 1UL, DSCChannel.DO, 0L));
-                            
-                            // set down the frame marker (it is enough to raise the marker for one cycle only)
+
+                        // set down the frame marker (it is enough to raise the marker for one cycle only)
 
                         // Start DSP loop 2 - this loop scans the rest of the frame + one more line (this line marks the end of the frame)
                         this.m_lCmdList.Add(
@@ -1042,8 +1051,8 @@ namespace SIS.Hardware.YanusIV
                                 _ui64XAngleCycles, 
                                 DSCChannel.None, 
                                 __intImageHeightPx / 2));
-                            
-                            // add start DSP loop - the number of loops equals the number of lines to scan over 2, i.e. the height of the image over 2 (because it is a bidirectional scan)
+
+                        // add start DSP loop - the number of loops equals the number of lines to scan over 2, i.e. the height of the image over 2 (because it is a bidirectional scan)
 
                         // Go backward direction (right to left)
 
@@ -1054,8 +1063,8 @@ namespace SIS.Hardware.YanusIV
                                 _ui64XAngleCycles, 
                                 DSCChannel.X, 
                                 -_int64XAngleIntPerCycle));
-                            
-                            // set the decrement along X so that we go to backwards direction along X (bidirectional scanning)
+
+                        // set the decrement along X so that we go to backwards direction along X (bidirectional scanning)
 
                         // Set the Y axis decrement so that we go to the next line
                         this.m_lCmdList.Add(
@@ -1064,8 +1073,8 @@ namespace SIS.Hardware.YanusIV
                                 _ui64XAngleCycles, 
                                 DSCChannel.Y, 
                                 -_int64YAngleIntPerCycle));
-                            
-                            // set the decrement along Y so that we go to the next line along Y (top down scanning)
+
+                        // set the decrement along Y so that we go to the next line along Y (top down scanning)
 
                         // Raise a line marker - marks the beginning of a line (the el. signal appears on the digital outputs port of YanusIV). Note that we need a line marker to extract an image from the raw Time Harp data stream.
                         this.m_lCmdList.Add(
@@ -1076,8 +1085,8 @@ namespace SIS.Hardware.YanusIV
                                 _int64LineMarker)); // raise the line marker
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_set_value, _ui64XAngleCycles + 1UL, DSCChannel.DO, 0L));
-                            
-                            // set down the line marker (it is enough to raise the marker for one cycle only)
+
+                        // set down the line marker (it is enough to raise the marker for one cycle only)
 
                         // Set the Y axis decrement to zero so that we stay on the new line
                         this.m_lCmdList.Add(
@@ -1096,8 +1105,8 @@ namespace SIS.Hardware.YanusIV
                                 2UL * _ui64XAngleCycles, 
                                 DSCChannel.X, 
                                 _int64XAngleIntPerCycle));
-                            
-                            // set the increment along X so that we go to forward direction along X
+
+                        // set the increment along X so that we go to forward direction along X
 
                         // Set the Y axis decrement so that we go to the next line
                         this.m_lCmdList.Add(
@@ -1106,8 +1115,8 @@ namespace SIS.Hardware.YanusIV
                                 2UL * _ui64XAngleCycles, 
                                 DSCChannel.Y, 
                                 -_int64YAngleIntPerCycle));
-                            
-                            // set the decrement along Y so that we go to the next line along Y (top down scanning)
+
+                        // set the decrement along Y so that we go to the next line along Y (top down scanning)
 
                         // Raise a line marker - marks the beginning of a line (the el. signal appears on the digital outputs port of YanusIV). Note that we need a line marker to extract an image from the raw Time Harp data stream.
                         this.m_lCmdList.Add(
@@ -1134,8 +1143,8 @@ namespace SIS.Hardware.YanusIV
                         // End DSP loop 2
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_loop_end, 3UL * _ui64XAngleCycles, DSCChannel.None, 0L));
-                            
-                            // add end DSP loop - note that we multiply by factor of 3 because the first line was already scanned before entering the second loop (and inside this loop we scan two lines per loop iteration).
+
+                        // add end DSP loop - note that we multiply by factor of 3 because the first line was already scanned before entering the second loop (and inside this loop we scan two lines per loop iteration).
 
                         // Set the axes increments to zero so that we stop the scanning - the frame is done, so no need to move the galvo axes (if we do not stop the increment of the axes they may go out of range, which is dangerous).
                         this.m_lCmdList.Add(
@@ -1144,16 +1153,16 @@ namespace SIS.Hardware.YanusIV
                                 ((UInt64)__intImageHeightPx) * _ui64XAngleCycles + _ui64XAngleCycles, 
                                 DSCChannel.X, 
                                 0L));
-                            
-                            // set the increment along X to zero (scanning the current frame finished) - note that we scanned one more line than the image height, therefore we need to take into account when calculating the end cycle value
+
+                        // set the increment along X to zero (scanning the current frame finished) - note that we scanned one more line than the image height, therefore we need to take into account when calculating the end cycle value
                         this.m_lCmdList.Add(
                             new DSCCommand(
                                 ScanCommand.scan_cmd_set_increment_1, 
                                 ((UInt64)__intImageHeightPx) * _ui64XAngleCycles + _ui64XAngleCycles, 
                                 DSCChannel.Y, 
                                 0L));
-                            
-                            // set the increment along Y to zero (scanning the current frame finished) - note that we scanned one more line than the image height, therefore we need to take into account when calculating the end cycle value
+
+                        // set the increment along Y to zero (scanning the current frame finished) - note that we scanned one more line than the image height, therefore we need to take into account when calculating the end cycle value
 
                         // End DSP loop 1
                         this.m_lCmdList.Add(
@@ -1204,45 +1213,45 @@ namespace SIS.Hardware.YanusIV
         {
             long _lAngleVal = 0L;
             const double _dDSPControllerLowest20bits = 1048576.0;
-                
-                // = 2^20 - represents the value corresponding to the lowest 20 bits of the DSP controller. Note that it uses 36 bits, and sends the highest 16 bits as axis position
+
+            // = 2^20 - represents the value corresponding to the lowest 20 bits of the DSP controller. Note that it uses 36 bits, and sends the highest 16 bits as axis position
             double _dMagnificationObjective = this.m_dMagnificationObjective; // the magnification of the objective
             double _dScanLensFocalLength = this.m_dScanLensFocalLength;
-                
-                // the focal length of the scan lens in [mm]            
+
+            // the focal length of the scan lens in [mm]            
             double _dRangeAngleDegrees = this.m_dRangeAngleDegrees;
-                
-                // 3.75;  // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
+
+            // 3.75;  // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
             double _dRangeAngleInt = this.m_dRangeAngleInt;
-                
-                // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)
+
+            // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)
             double _dRangeNm = 1e+6
                                * ((_dScanLensFocalLength * Math.Tan(_dRangeAngleDegrees * ((2.0 * Math.PI) / 360.0)))
                                   / _dMagnificationObjective);
-                
-                // +/- of the setup's max range a galvo axis can reach in [nm]
+
+            // +/- of the setup's max range a galvo axis can reach in [nm]
             double _dAngleIntPerNm = _dRangeAngleInt / _dRangeNm;
-                
-                // calc the correspondence between angle in integers and the size in nanometers         
+
+            // calc the correspondence between angle in integers and the size in nanometers         
             double _dAngleInt = Math.Round(_dVal * _dAngleIntPerNm, 2);
-                
-                // calc the correspondence between the DSP angle bits and the input nanometers value
+
+            // calc the correspondence between the DSP angle bits and the input nanometers value
             _lAngleVal = Convert.ToInt64(_dAngleInt * _dDSPControllerLowest20bits);
-                
-                // convert to an nteger value and multiply by the lowest 20 bits so that the value is translated to the YanusIV controller value
+
+            // convert to an nteger value and multiply by the lowest 20 bits so that the value is translated to the YanusIV controller value
 
             // Check if we do not exceed the max galvo range
             if (_lAngleVal > 2L * MAX_SETUP_GALVO_RANGE_ANGLE)
             {
                 _lAngleVal = 2L * MAX_SETUP_GALVO_RANGE_ANGLE;
-                    
-                    // if we exceed the max galvo range set a default value (in this case max angle range)
+
+                // if we exceed the max galvo range set a default value (in this case max angle range)
             }
             else if (_lAngleVal < -2L * MAX_SETUP_GALVO_RANGE_ANGLE)
             {
                 _lAngleVal = -2L * MAX_SETUP_GALVO_RANGE_ANGLE;
-                    
-                    // if we exceed the max galvo range set a default value (in this case max angle range)
+
+                // if we exceed the max galvo range set a default value (in this case max angle range)
             }
 
             return _lAngleVal;
@@ -1258,8 +1267,8 @@ namespace SIS.Hardware.YanusIV
             // that causes weird behavior (wrong characters send). At the end of this method we enable parallel serial port reading again.
             this.m_prtComm.StopReading();
             bool _bDSPCommandLoaded = false;
-                
-                // true = DSP command loaded correctly; false = DSP command not loaded correctly
+
+            // true = DSP command loaded correctly; false = DSP command not loaded correctly
             int _intDSPFailedLoadsCount = 0; // counts how many times the load of the DSP failed
 
             // Debug
@@ -1281,8 +1290,8 @@ namespace SIS.Hardware.YanusIV
                     _sbDSPString.Clear();
 
                     _sbDSPString.Append((char)DSPCommand.DSP_CMD_ADD_PROT_CMD);
-                        
-                        // add protocol command - adds to the DSP protocol the commands that follows
+
+                    // add protocol command - adds to the DSP protocol the commands that follows
                     _sbDSPString.Append((char)_dscCmd.ScanCmd); // the protocol command
                     _sbDSPString.Append(","); // the parameters list's separator symbol
                     _sbDSPString.Append(_dscCmd.Cycle); // the cycle it will be executed
@@ -1307,11 +1316,11 @@ namespace SIS.Hardware.YanusIV
 
                     // Read back the answer of YanusIV and check for errors - if such we have to load the whole DSP protocol again
                     string _strDSPResponse = this.m_prtComm.Read(10);
-                        
-                        // contains both the command itself and the numeric error code
+
+                    // contains both the command itself and the numeric error code
                     string _strDSPCommand = _sDSPString + ((int)DSPError.SCAN_CMD_NO_ERROR).ToString() + _sLineEnding;
-                        
-                        // compose the string we expect YanusIV will return at a successful load           
+
+                    // compose the string we expect YanusIV will return at a successful load           
                     if (_strDSPCommand != _strDSPResponse)
                     {
                         // if the response is not as expected we must try to reload the whole DSP protocol again
@@ -1323,14 +1332,14 @@ namespace SIS.Hardware.YanusIV
 
                         // Assign the command that clears the current DSP protocol in YanusIV
                         string _sCmd = ((char)DSPCommand.DSP_CMD_CLEAR_PROT).ToString();
-                            
-                            // clears the currently loaded DSP protocol
+
+                        // clears the currently loaded DSP protocol
 
                         // Send the Clear protocol command to YanusIV as well
                         this.SendIfAvailable(_sCmd);
                         this.SendIfAvailable(_sCmd);
-                            
-                            // sometimes we need to send a command second time - so to make sure we really cleared the DSP in YanusIV memory, we send a second time
+
+                        // sometimes we need to send a command second time - so to make sure we really cleared the DSP in YanusIV memory, we send a second time
 
                         // Sleep for a while
                         Thread.Sleep(100);
@@ -1365,8 +1374,8 @@ namespace SIS.Hardware.YanusIV
             if (_intDSPFailedLoadsCount > 0)
             {
                 _logger.Info("YanusIV: DSP protocol reloaded " + (_intDSPFailedLoadsCount + 1).ToString() + "x!");
-                    
-                    // the number of reloads is the number of failed attempts + the successful one
+
+                // the number of reloads is the number of failed attempts + the successful one
             }
 
             // Enable parallel reading of the serial port again
@@ -1511,8 +1520,8 @@ namespace SIS.Hardware.YanusIV
         {
             // Assign the command that starts/executes the current DSP protocol
             string _sCmd = ((char)DSPCommand.DSP_CMD_EXECUTE_PROT).ToString();
-                
-                // starts/executes the currently loaded DSP protocol
+
+            // starts/executes the currently loaded DSP protocol
 
             // Debug
             _logger.Debug("YanusIV: scan started!");

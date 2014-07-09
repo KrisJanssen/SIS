@@ -3,9 +3,8 @@
 //   
 // </copyright>
 // <summary>
-//   A collection class containing a list of <see cref="YAxis" /> objects.
+//   A collection class containing a list of  objects.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -68,7 +67,7 @@ namespace ZedGraph.ZedGraph
         {
             get
             {
-                return ((index < 0 || index >= this.Count) ? null : base[index]);
+                return (index < 0 || index >= this.Count) ? null : base[index];
             }
         }
 

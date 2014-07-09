@@ -6,7 +6,6 @@
 //   The dsl to xml.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Dsl
 {
     using System.Collections;

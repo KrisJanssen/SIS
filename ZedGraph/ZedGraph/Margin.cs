@@ -5,7 +5,6 @@
 // <summary>
 //   Class that handles that stores the margin properties for the GraphPane
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

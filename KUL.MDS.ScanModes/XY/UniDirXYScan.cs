@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UniDirXYScan.cs" company="">
-//   
+// <copyright file="UniDirXYScan.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Object supplies the necessary coordinates to a stage based upon the physical parameters that fully describe a unidirectional scan
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.ScanModes.XY
 {
     using System;
@@ -182,7 +181,7 @@ namespace SIS.ScanModes.XY
             this.m_iYPEfwd = this.m_iYPTfwd - this.m_iYCPfwd - this.m_iYPAfwd;
 
             // The Curve points are the points that will actually be measured.
-            this.m_dYGLfwd = this.m_dYScanSizeNm / (this.m_iImageHeightPx);
+            this.m_dYGLfwd = this.m_dYScanSizeNm / this.m_iImageHeightPx;
 
             // Some Debug checks.
             Tracing.Ping("Total points X: " + (this.m_iXPTfwd * 2 + this.m_iXPTbckwd * 2).ToString());

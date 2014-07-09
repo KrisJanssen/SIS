@@ -7,7 +7,6 @@
 //   within it, but does not allow access to any resources outside of that path.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.FileManager
 {
     using System;

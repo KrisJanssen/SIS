@@ -6,7 +6,6 @@
 //   API Declarations for the Windows Shell32 library
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Win32
 {
     using System;

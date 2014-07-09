@@ -6,7 +6,6 @@
 //   The concatenate observable.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     using System;

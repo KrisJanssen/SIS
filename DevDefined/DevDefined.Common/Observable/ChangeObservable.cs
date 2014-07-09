@@ -6,7 +6,6 @@
 //   The change observable.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     using System;
@@ -43,7 +42,7 @@ namespace DevDefined.Common.Observable
         /// The observer.
         /// </param>
         /// <returns>
-        /// The <see cref="IObserver"/>.
+        /// The <see cref="IObserver{T}"/>.
         /// </returns>
         protected override IObserver<T> DecorateObserver(IObserver<T> observer)
         {

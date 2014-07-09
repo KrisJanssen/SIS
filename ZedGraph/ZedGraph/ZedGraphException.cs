@@ -3,9 +3,8 @@
 //   
 // </copyright>
 // <summary>
-//   An exception thrown by ZedGraph.  A child class of <see cref="ApplicationException" />.
+//   An exception thrown by ZedGraph.  A child class of .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -74,9 +73,7 @@ namespace ZedGraph.ZedGraph
         /// The <see cref="System.Runtime.Serialization.StreamingContext"/>
         /// instance that contains contextual information about the source or destination.
         /// </param>
-        protected ZedGraphException(
-            SerializationInfo info, 
-            StreamingContext context)
+        protected ZedGraphException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

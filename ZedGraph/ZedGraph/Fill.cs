@@ -3,11 +3,10 @@
 //   
 // </copyright>
 // <summary>
-//   A class that encapsulates color-fill properties for an object.  The <see cref="Fill" /> class
-//   is used in <see cref="PaneBase.Rect" />, <see cref="Chart.Rect" />, <see cref="Legend" />,
-//   <see cref="Bar" />, and <see cref="Line" /> objects.
+//   A class that encapsulates color-fill properties for an object.  The  class
+//   is used in , , ,
+//   , and  objects.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -1383,7 +1382,8 @@ namespace ZedGraph.ZedGraph
 
                     return linBrush;
                 }
- // LinearGradientBrush
+                    
+                    // LinearGradientBrush
                 else if (brush is TextureBrush)
                 {
                     TextureBrush texBrush = (TextureBrush)brush.Clone();

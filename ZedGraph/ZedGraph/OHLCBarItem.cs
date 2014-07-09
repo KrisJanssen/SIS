@@ -7,7 +7,6 @@
 //   line displaying the range of data values at each sample point, plus an starting
 //   mark and an ending mark signifying the opening and closing value for the sample.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

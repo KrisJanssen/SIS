@@ -6,7 +6,6 @@
 //   The character utils.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Text
 {
     using System.Collections.Generic;

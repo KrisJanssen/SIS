@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MovingEventArgs.cs" company="">
-//   
+// <copyright file="MovingEventArgs.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The moving event args.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.MDITemplate.Moving
 {
     using System;

@@ -6,7 +6,6 @@
 //   The abstract observer decorator.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     using System;

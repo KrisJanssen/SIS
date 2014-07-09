@@ -3,12 +3,11 @@
 //   
 // </copyright>
 // <summary>
-//   <see cref="XAxis" /> inherits from <see cref="Axis" />, and defines the
+//   inherits from , and defines the
 //   special characteristics of a horizontal axis, specifically located at
-//   the bottom of the <see cref="Chart.Rect" /> of the <see cref="GraphPane" />
+//   the bottom of the  of the
 //   object
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

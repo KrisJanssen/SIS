@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Timing.cs" company="">
-//   
+// <copyright file="Timing.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Methods for keeping track of time in a high precision manner.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     /// <summary>

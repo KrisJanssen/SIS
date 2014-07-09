@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Settings.cs" company="">
-//   
+// <copyright file="Settings.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Stores non-volatile name/value settings. These persist between sessions of the application.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer.Settings
 {
     using System;

@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SerialTerminalMainForm.cs" company="">
-//   
+// <copyright file="SerialTerminalMainForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The serial terminal main form.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.SerialTerminal
 {
     using System;

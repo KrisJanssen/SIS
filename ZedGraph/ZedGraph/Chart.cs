@@ -4,10 +4,9 @@
 // </copyright>
 // <summary>
 //   Class that handles the properties of the charting area (where the curves are
-//   actually drawn), which is bounded by the <see cref="XAxis" />, <see cref="YAxis" />,
-//   and <see cref="Y2Axis" />.
+//   actually drawn), which is bounded by the , ,
+//   and .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

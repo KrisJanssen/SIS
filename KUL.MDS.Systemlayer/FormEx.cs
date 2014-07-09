@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FormEx.cs" company="">
-//   
+// <copyright file="FormEx.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Provides special methods and properties that must be implemented in a
@@ -9,7 +9,6 @@
 //   extending into the SystemLayer assembly.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     using System;

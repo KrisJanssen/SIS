@@ -3,21 +3,20 @@
 //   
 // </copyright>
 // <summary>
-//   A class that provides a rolling list of <see cref="PointPair" /> objects.
+//   A class that provides a rolling list of  objects.
 //   This is essentially a
 //   first-in-first-out (FIFO) queue with a fixed capacity which allows 'rolling'
 //   (or oscilloscope like) graphs to be be animated without having the overhead of an
 //   ever-growing ArrayList.
 //   The queue is constructed with a fixed capacity and new points can be enqueued. When the
 //   capacity is reached the oldest (first in) PointPair is overwritten. However, when
-//   accessing via <see cref="IPointList" />, the <see cref="PointPair" /> objects are
+//   accessing via , the  objects are
 //   seen in the order in which they were enqeued.
-//   RollingPointPairList supports data editing through the <see cref="IPointListEdit" />
+//   RollingPointPairList supports data editing through the
 //   interface.
-//   <author>Colin Green with mods by John Champion</author>
-//   <version> $Date: 2007-11-05 04:33:26 $ </version>
+//   Colin Green with mods by John Champion
+//   $Date: 2007-11-05 04:33:26 $
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

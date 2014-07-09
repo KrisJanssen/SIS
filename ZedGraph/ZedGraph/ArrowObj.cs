@@ -4,9 +4,8 @@
 // </copyright>
 // <summary>
 //   A class that represents a graphic arrow or line object on the graph.  A list of
-//   ArrowObj objects is maintained by the <see cref="GraphObjList" /> collection class.
+//   ArrowObj objects is maintained by the  collection class.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -58,6 +57,7 @@ namespace ZedGraph.ZedGraph
         /// Constructors for the <see cref="ArrowObj"/> object
         /// </overloads>
         /// <summary>
+        /// Initializes a new instance of the <see cref="ArrowObj"/> class. 
         /// Initializes a new instance of the <see cref="ArrowObj"/> class. 
         /// A constructor that allows the position, color, and size of the
         /// <see cref="ArrowObj"/> to be pre-specified.

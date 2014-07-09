@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ScaleFactor.cs" company="">
-//   
+// <copyright file="ScaleFactor.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Encapsulates functionality for zooming/scaling coordinates.
@@ -8,7 +8,6 @@
 //   and various scalars
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Library
 {
     using System;

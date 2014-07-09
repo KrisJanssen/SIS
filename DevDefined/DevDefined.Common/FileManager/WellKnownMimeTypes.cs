@@ -7,7 +7,6 @@
 //   a mime type for it's base type i.e. Text, Image, Video or Audio.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.FileManager
 {
     using System.Diagnostics.CodeAnalysis;

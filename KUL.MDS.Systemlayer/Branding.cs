@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Branding.cs" company="">
-//   
+// <copyright file="Branding.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Provides methods that control branding aspects of SIS. For instance,
@@ -8,7 +8,6 @@
 //   feedback to.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     /// <summary>

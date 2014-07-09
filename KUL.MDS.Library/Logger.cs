@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Logger.cs" company="">
-//   
+// <copyright file="Logger.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The log type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Library
 {
     using System;

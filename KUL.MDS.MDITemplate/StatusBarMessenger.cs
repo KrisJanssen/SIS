@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StatusBarMessenger.cs" company="">
-//   
+// <copyright file="StatusBarMessenger.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The StatusBarMessage interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.MDITemplate
 {
     /// <summary>

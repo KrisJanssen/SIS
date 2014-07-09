@@ -6,7 +6,6 @@
 //   The ring buffer.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Collections
 {
     using System.Collections;

@@ -6,7 +6,6 @@
 //   The notifying memory stream.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.IO
 {
     using System.IO;

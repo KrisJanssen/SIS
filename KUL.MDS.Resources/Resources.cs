@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Resources.cs" company="">
-//   
+// <copyright file="Resources.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The resources.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Resources
 {
     using System;

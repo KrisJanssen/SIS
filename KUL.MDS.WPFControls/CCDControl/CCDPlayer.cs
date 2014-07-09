@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="CCDPlayer.cs">
-//   
+// <copyright company="Kris Janssen" file="CCDPlayer.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The ccd player.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.WPFControls.CCDControl
 {

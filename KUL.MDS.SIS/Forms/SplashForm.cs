@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SplashForm.cs" company="">
-//   
+// <copyright file="SplashForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The sis splash form.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Forms
 {
     using System.Drawing;
@@ -86,7 +85,7 @@ namespace SIS.Forms
                 6.75F, 
                 System.Drawing.FontStyle.Regular, 
                 System.Drawing.GraphicsUnit.Point, 
-                (System.Byte)(0));
+                (System.Byte)0);
             this.copyrightLabel.Name = "copyrightLabel";
             this.copyrightLabel.Size = new System.Drawing.Size(this.banner.ClientSize.Width, 28);
             this.copyrightLabel.TabIndex = 3;

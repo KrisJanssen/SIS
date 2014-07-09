@@ -6,7 +6,6 @@
 //   An event handler where the arguments have a cancel flag.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools
 {
     /// <summary>

@@ -5,7 +5,6 @@
 // <summary>
 //   Enumeration type for the various axis types that are available
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

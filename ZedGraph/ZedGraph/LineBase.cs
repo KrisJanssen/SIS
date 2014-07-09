@@ -5,7 +5,6 @@
 // <summary>
 //   A class that handles the basic attributes of a line segment.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

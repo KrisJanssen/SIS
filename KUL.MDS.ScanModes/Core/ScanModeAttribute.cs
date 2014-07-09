@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ScanModeAttribute.cs" company="">
-//   
+// <copyright file="ScanModeAttribute.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The scan mode attribute.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.ScanModes.Core
 {
     using System;

@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UnexpectedFormatException.cs" company="">
-//   
+// <copyright file="UnexpectedFormatException.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The unexpected format exception.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Data
 {
     using System;

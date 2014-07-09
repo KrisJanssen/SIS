@@ -5,11 +5,10 @@
 // <summary>
 //   A class that represents a bordered and/or filled ellipse object on
 //   the graph.  A list of EllipseObj objects is maintained by the
-//   <see cref="GraphObjList" /> collection class.  The ellipse is defined
+//   collection class.  The ellipse is defined
 //   as the ellipse that would be contained by the rectangular box as
-//   defined by the <see cref="Location" /> property.
+//   defined by the  property.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -47,6 +46,7 @@ namespace ZedGraph.ZedGraph
         /// Constructors for the <see cref="EllipseObj"/> object
         /// </overloads>
         /// <summary>
+        /// Initializes a new instance of the <see cref="EllipseObj"/> class. 
         /// Initializes a new instance of the <see cref="EllipseObj"/> class. 
         /// A constructor that allows the position and size
         /// of the <see cref="EllipseObj"/> to be pre-specified.  Other properties are defaulted.

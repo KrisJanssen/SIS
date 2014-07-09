@@ -9,7 +9,6 @@
 //   reference to still appear to be alive.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.WeakRef
 {
     using System;

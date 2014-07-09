@@ -6,7 +6,6 @@
 //   Represents a dictionary mapping keys to values.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common
 {
     using System;

@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TrajectoryPlotForm.cs" company="">
-//   
+// <copyright file="TrajectoryPlotForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The trajectory plot form.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Forms
 {
     using System;

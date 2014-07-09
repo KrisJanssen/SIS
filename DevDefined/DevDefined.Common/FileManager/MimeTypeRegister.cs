@@ -6,7 +6,6 @@
 //   Encapsulates functionality for retrieving a registered mime type's details in the system.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.FileManager
 {
     using System.Collections.Generic;

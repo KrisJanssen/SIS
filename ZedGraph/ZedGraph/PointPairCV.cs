@@ -4,12 +4,11 @@
 // </copyright>
 // <summary>
 //   A simple instance that stores a data point (X, Y, Z).  This differs from a regular
-//   <see cref="PointPair" /> in that it maps the <see cref="ColorValue" /> property
-//   to an independent value.  That is, <see cref="ColorValue" /> and
-//   <see cref="PointPair.Z" /> are not related (as they are in the
-//   <see cref="PointPair" />).
+//   in that it maps the  property
+//   to an independent value.  That is,  and
+//   are not related (as they are in the
+//   ).
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 
 #if ( !DOTNET1 ) // Is this a .Net 2 compilation?

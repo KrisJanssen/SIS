@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ScanViewForm.cs" company="">
-//   
+// <copyright file="ScanViewForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The scan view form.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Forms
 {
     using System;
@@ -239,8 +238,8 @@ namespace SIS.Forms
             ScanDocument _docDocument = this.Document as ScanDocument;
 
             string _sInputFile = string.Empty;
-                
-                // the path to the raw TTTR file with the recorded photon arrrival times - from this data we produce time gated image
+
+            // the path to the raw TTTR file with the recorded photon arrrival times - from this data we produce time gated image
             int _iRecordsOffset = 0; // the TTTR record from which the reading of the TTTR records starts
             double _dXScanSizeNm = 0.0; // the physical size of the image along X in [ns] as read from the TTTR header
             double _dYScanSizeNm = 0.0; // the physical size of the image along Y in [ns] as read from the TTTR header
@@ -250,35 +249,35 @@ namespace SIS.Forms
 
             // We probe to possible file paths for a valid TTTR file
             int _iTTTRFileCounter = PQTimeHarp.Files.FileCounter;
-                
-                // counts (starting from 0) how many TTTR files we have written to hard disk so far
+
+            // counts (starting from 0) how many TTTR files we have written to hard disk so far
             string _sInputFile1 = Path.ChangeExtension(_docDocument.FilePath, ".t3r");
-                
-                // the path and name to the data file with raw photon data (the TTTR file) - first we assign that the name is the same as the saved SIS ".dat" file but with ".t3r" extension
+
+            // the path and name to the data file with raw photon data (the TTTR file) - first we assign that the name is the same as the saved SIS ".dat" file but with ".t3r" extension
             string _sInputFile2 = Path.GetDirectoryName(_docDocument.FilePath) + "\\"
                                   + _docDocument.Settings.TimeHarpNameTTTRFile + "." + _iTTTRFileCounter.ToString()
                                   + ".t3r";
-                
-                // the path and name to the data file with raw photon data (the TTTR file) - this is the supposed temp TTTR file
+
+            // the path and name to the data file with raw photon data (the TTTR file) - this is the supposed temp TTTR file
 
             // Check if we have a TTTR file
             if (File.Exists(_sInputFile1) && !_docDocument.Modified)
             {
                 _sInputFile = _sInputFile1;
-                    
-                    // first (if document not modified) we guess that the name is the same as the saved SIS ".dat" file but with extension ".t3r"
+
+                // first (if document not modified) we guess that the name is the same as the saved SIS ".dat" file but with extension ".t3r"
             }
             else if (File.Exists(_sInputFile2))
             {
                 _sInputFile = _sInputFile2;
-                    
-                    // if first file does not exists we guess that the name (without the extension) is the same as the temp TTTR file
+
+                // if first file does not exists we guess that the name (without the extension) is the same as the temp TTTR file
             }
             else
             {
                 _sInputFile = string.Empty;
-                    
-                    // if a TTTR file with the above requirements does not exist then we assign empty string and will not process any file (because there is no such suitable file)
+
+                // if a TTTR file with the above requirements does not exist then we assign empty string and will not process any file (because there is no such suitable file)
             }
 
             // If there is a TTTR file, extract image as a pixel buffer
@@ -302,8 +301,8 @@ namespace SIS.Forms
                     && _iYImageHeight == _docDocument.ImageHeightPx)
                 {
                     _docDocument.StoreChannelData(__iChannel, _ui32FramePixelBuffer, 0, _docDocument.PixelCount);
-                        
-                        // store the processed image into the doc image field
+
+                    // store the processed image into the doc image field
                 }
             }
         }
@@ -633,39 +632,39 @@ namespace SIS.Forms
 
                 // Counting and timing settings for the APD                
                 bool _bIsToApplyTimeGating = this.m_checkbxApplyTimeGatingWhileScanning.Checked;
-                    
-                    // indicates whether we want to do time gating or not (true = do gating; false = do not perform gating)
+
+                // indicates whether we want to do time gating or not (true = do gating; false = do not perform gating)
                 double _dGatingTimeMinMillisec = Convert.ToDouble(this.txtboxTimeGatingMinAPD1.Text.Trim()) * 1e-6;
-                    
-                    // min gating time in [ms]
+
+                // min gating time in [ms]
                 double _dGatingTimeMaxMillisec = Convert.ToDouble(this.txtboxTimeGatingMaxAPD1.Text.Trim()) * 1e-6;
-                    
-                    // max gating time in [ms]
+
+                // max gating time in [ms]
                 int _iTypeOfScan = this.m_checkbxBidirScan.Checked ? 1 : 0;
-                    
-                    // set the type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
+
+                // set the type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
                 int _iAcquisitionTime = 0;
-                    
-                    // acquisition time in [ms] - the amount of time that the APD will count photons. Note that zero here means the acquisition time will be set to its max value (~10 hours)                
+
+                // acquisition time in [ms] - the amount of time that the APD will count photons. Note that zero here means the acquisition time will be set to its max value (~10 hours)                
                 bool _bSaveTTTRData = this.m_checkbxSaveTTTRData.Checked; // to save or not the raw photon data
                 string _sTTTRFile = Path.GetDirectoryName(_docDocument.FilePath) + "\\"
                                     + _docDocument.Settings.TimeHarpNameTTTRFile + ".t3r";
-                    
-                    // the path and name to the data file with raw photon data (the TTTR file)
+
+                // the path and name to the data file with raw photon data (the TTTR file)
                 if (!this.m_checkbxContinuousScan.Checked)
                 {
                     // if we scan in a non-continuous mode we set some limit of the acquisition time based on the size of the image and the pixel time (note that later we have to set this acquisition time bigger because of some delays until the measurement starts and/or ends)
                     // Set limit of the acquisition time plus +5000 ms delay to the expected acquisition time - we need this because if for some performance or hardware problem reasons we miss a frame/line marker the measurement in single scan mode will not stop automatically                                
                     _iAcquisitionTime =
                         (int)(_docDocument.TimePPixel * _docDocument.ImageWidthPx * _docDocument.ImageHeightPx) + 5000;
-                        
-                        // calc the acquisition time in [ms]                    
+
+                    // calc the acquisition time in [ms]                    
                 }
                 else
                 {
                     _iAcquisitionTime = 0;
-                        
-                        // acquisition time in [ms] - the amount of time that the APD will count photons. Note that zero here means the acquisition time will be set to its max value (~10 hours)                                
+
+                    // acquisition time in [ms] - the amount of time that the APD will count photons. Note that zero here means the acquisition time will be set to its max value (~10 hours)                                
                 }
 
                 // Prepare the APD for measurement
@@ -843,15 +842,15 @@ namespace SIS.Forms
                 if (this.m_apdAPD.IsInitialized)
                 {
                     int _TotalPixelsAcquired = this.m_apdAPD.TotalSamplesAcquired;
-                        
-                        // the number of pixels acquired so far
+
+                    // the number of pixels acquired so far
                     int _TotalPixelsAcquiredPercentage =
                         (int)
                         (100.0
                          * ((double)_TotalPixelsAcquired
                             / (double)(_docDocument.ImageWidthPx * _docDocument.ImageHeightPx)));
-                        
-                        // the number of pixels in [%] acquired so far
+
+                    // the number of pixels in [%] acquired so far
                     this.textBox1.Text = _TotalPixelsAcquired.ToString() + " ("
                                          + _TotalPixelsAcquiredPercentage.ToString() + "%)";
                     this.textBox2.Text = _TotalPixelsAcquired.ToString() + " ("
@@ -920,8 +919,8 @@ namespace SIS.Forms
             // Access the document object that holds all the data.
             ScanDocument _docDocument = this.Document as ScanDocument;
             int _iFrameRefreshRate = _docDocument.Settings.TimeHarpFrameTimeOut;
-                
-                // the max time period in [ms] after which the processed pixels so far will be read
+
+            // the max time period in [ms] after which the processed pixels so far will be read
             int _iPixelCount = _docDocument.PixelCount;
 
             // Assign the values to be written. They were passed as an event argument to the DoWork event for the background worker.
@@ -948,14 +947,14 @@ namespace SIS.Forms
             // List<UInt32> _lui32AllReadValues1 = new List<UInt32>(_docDocument.PixelCount);
             // List<UInt32> _lui32AllReadValues2 = new List<UInt32>(_docDocument.PixelCount);
             uint[] _ui32FramePixelBuffer = null;
-                
-                // an array of arrays of pixels from the data buffer, each array of pixels represent a frame
+
+            // an array of arrays of pixels from the data buffer, each array of pixels represent a frame
             int _iPixelsReadNew = 0; // the number of currently read pixels from the frame pixels buffer
 
             // Start the APD acquisition
             this.m_apdAPD.StartAPDAcquisition();
-                
-                // it spawn a separate thread responsible for the acquisition (note that after spawn thread gets alive it returns and the execution continues in the current calling thread)
+
+            // it spawn a separate thread responsible for the acquisition (note that after spawn thread gets alive it returns and the execution continues in the current calling thread)
 
             // Initiate stage/galvo scan movement.            
             this.m_Stage.Scan(_Scan, this.m_checkbxResend.Checked);
@@ -969,19 +968,19 @@ namespace SIS.Forms
                 // Perform a read of all samples currently in the buffer  
                 _iPixelsReadNew = this.m_apdAPD.TotalSamplesAcquired; // the total number of currently processed pixels
                 _ui32FramePixelBuffer = this.m_apdAPD.GetImage();
-                    
-                    // returns a pointer to the current image/frame buffer with the processed pixels so far
+
+                // returns a pointer to the current image/frame buffer with the processed pixels so far
                 _bMeasurementRunning = this.m_apdAPD.IsMeasurementRunning;
-                    
-                    // indicates if measurement is running, _bMeasurementRunning = true (means measurement is still running) 
+
+                // indicates if measurement is running, _bMeasurementRunning = true (means measurement is still running) 
 
                 // Copy frame pixel buffer from APD space to Scan document space
                 _ui32AllReadValues1 = _ui32FramePixelBuffer;
-                    
-                    // copy frame pixel buffer to another buffer (actually we get a reference to it)
+
+                // copy frame pixel buffer to another buffer (actually we get a reference to it)
                 _ui32AllReadValues2 = _ui32FramePixelBuffer;
-                    
-                    // copy frame pixel buffer to another buffer  (actually we get a reference to it)
+
+                // copy frame pixel buffer to another buffer  (actually we get a reference to it)
 
                 // Assign processed data to the actual document object - transfers pixels data from APD space to the Scan document space.
                 if (_iPixelsReadNew < _readsamples1)
@@ -1078,9 +1077,7 @@ namespace SIS.Forms
         /// <param name="__evargsE">
         /// The __evargs e.
         /// </param>
-        private void bckgwrkPerformScan_RunWorkerCompleted(
-            object sender, 
-            RunWorkerCompletedEventArgs __evargsE)
+        private void bckgwrkPerformScan_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs __evargsE)
         {
             if (__evargsE.Cancelled)
             {
@@ -1146,8 +1143,8 @@ namespace SIS.Forms
                     this.m_frmCountRateForm.Visible = true;
                     this.m_frmCountRateForm.Focus();
                     this.m_frmCountRateForm.RunCountRateMeter();
-                        
-                        // get count rate and show it to the user (it runs the method on separate thread and continue)
+
+                    // get count rate and show it to the user (it runs the method on separate thread and continue)
                 }
                 else
                 {
@@ -1159,8 +1156,8 @@ namespace SIS.Forms
                         this.m_frmCountRateForm.Visible = true;
                         this.m_frmCountRateForm.Focus();
                         this.m_frmCountRateForm.RunCountRateMeter();
-                            
-                            // get count rate and show it to the user (it runs the method on separate thread and continue)
+
+                        // get count rate and show it to the user (it runs the method on separate thread and continue)
                     }
                     else
                     {
@@ -1297,15 +1294,15 @@ namespace SIS.Forms
         {
             // Get time gating settings
             int _iChannel = 0;
-                
-                // channel is 0 because the button is assigned to APD1 and we show the result on the APD1's channel
+
+            // channel is 0 because the button is assigned to APD1 and we show the result on the APD1's channel
             bool _bIsToApplyTimeGating = true; // we want gating so set to true
             double _dGatingTimeMinMillisec = Convert.ToDouble(this.txtboxTimeGatingMinAPD1.Text.Trim()) * 1e-6;
-                
-                // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
+
+            // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
             double _dGatingTimeMaxMillisec = Convert.ToDouble(this.txtboxTimeGatingMaxAPD1.Text.Trim()) * 1e-6;
-                
-                // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
+
+            // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
 
             // Apply gating with the given settings
             this.ApplyTimeGating(_iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec);
@@ -1327,15 +1324,15 @@ namespace SIS.Forms
         {
             // Get time gating settings
             int _iChannel = 1;
-                
-                // channel is 1 because the button is assigned to APD2 and we show the result on the APD2's channel
+
+            // channel is 1 because the button is assigned to APD2 and we show the result on the APD2's channel
             bool _bIsToApplyTimeGating = true; // we want gating so set to true
             double _dGatingTimeMinMillisec = Convert.ToDouble(this.txtboxTimeGatingMinAPD2.Text.Trim()) * 1e-6;
-                
-                // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
+
+            // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
             double _dGatingTimeMaxMillisec = Convert.ToDouble(this.txtboxTimeGatingMaxAPD2.Text.Trim()) * 1e-6;
-                
-                // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
+
+            // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
 
             // Apply gating with the given settings
             this.ApplyTimeGating(_iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec);
@@ -1392,24 +1389,24 @@ namespace SIS.Forms
             if (_dialogResult == DialogResult.Yes)
             {
                 string _sCurrentFilePath = _docDocument.FilePath;
-                    
-                    // get the full path and name of the currently opened file
+
+                // get the full path and name of the currently opened file
                 string _sDirectoryPath = Path.GetDirectoryName(_docDocument.FilePath); // get current directory
                 string _sFileFilter = "*.dat"; // SIS file filter - we want to load only SIS files
 
                 string[] _sFilePaths = Directory.GetFiles(_sDirectoryPath, _sFileFilter);
-                    
-                    // get all files in the current directory
+
+                // get all files in the current directory
                 int _iFilesCount = _sFilePaths.Length; // get the number of files in the current directory
 
                 Array.Sort(_sFilePaths); // sort file names
 
                 int _iIndexOfCurrentFile = Array.IndexOf(_sFilePaths, _sCurrentFilePath);
-                    
-                    // get the index of the current file
+
+                // get the index of the current file
                 int _iIndexOfNextFile = _iIndexOfCurrentFile + 1;
-                    
-                    // this is the index of the next file in the dir that we are going to load
+
+                // this is the index of the next file in the dir that we are going to load
 
                 // Check if the index of the next file is a valid (must be smaller than the number of files in the directory)
                 if (_iIndexOfNextFile > 0 && _iIndexOfNextFile < _iFilesCount)
@@ -1440,8 +1437,8 @@ namespace SIS.Forms
                 this.ScanPropertiesToScreen();
                 this.Text = _docDocument.FileName; // update document title
                 _docDocument.Modified = false;
-                    
-                    // update the modified state of the currently opened document (must be false, this a new document)
+
+                // update the modified state of the currently opened document (must be false, this a new document)
             }
 
             // Update the GUI			
@@ -1474,24 +1471,24 @@ namespace SIS.Forms
             if (_dialogResult == DialogResult.Yes)
             {
                 string _sCurrentFilePath = _docDocument.FilePath;
-                    
-                    // get the full path and name of the currently opened file
+
+                // get the full path and name of the currently opened file
                 string _sDirectoryPath = Path.GetDirectoryName(_docDocument.FilePath); // get current directory
                 string _sFileFilter = "*.dat"; // SIS file filter - we want to load only SIS files
 
                 string[] _sFilePaths = Directory.GetFiles(_sDirectoryPath, _sFileFilter);
-                    
-                    // get all files in the current directory
+
+                // get all files in the current directory
                 int _iFilesCount = _sFilePaths.Length; // get the number of files in the current directory
 
                 Array.Sort(_sFilePaths); // sort file names
 
                 int _iIndexOfCurrentFile = Array.IndexOf(_sFilePaths, _sCurrentFilePath);
-                    
-                    // get the index of the current file
+
+                // get the index of the current file
                 int _iIndexOfPreviousFile = _iIndexOfCurrentFile - 1;
-                    
-                    // this is the index of the previous file in the dir that we are going to load
+
+                // this is the index of the previous file in the dir that we are going to load
 
                 // Check if the index of the previous file is a valid (must be smaller than the number of files in the directory)
                 if (_iIndexOfPreviousFile >= 0)
@@ -1522,8 +1519,8 @@ namespace SIS.Forms
                 this.ScanPropertiesToScreen();
                 this.Text = _docDocument.FileName; // update document title
                 _docDocument.Modified = false;
-                    
-                    // update the modified state of the currently opened document (must be false, this is a new document)
+
+                // update the modified state of the currently opened document (must be false, this is a new document)
             }
 
             // Update the GUI
@@ -1561,15 +1558,15 @@ namespace SIS.Forms
         {
             // Get time gating settings
             int _iChannel = 0;
-                
-                // channel is 0 because the button is assigned to APD1 and we show the result on the APD1's channel
+
+            // channel is 0 because the button is assigned to APD1 and we show the result on the APD1's channel
             bool _bIsToApplyTimeGating = false; // we do not want gating so set to false
             double _dGatingTimeMinMillisec = 0.0;
-                
-                // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
+
+            // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
             double _dGatingTimeMaxMillisec = 0.0;
-                
-                // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
+
+            // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
 
             // Apply gating with the given settings
             this.ApplyTimeGating(_iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec);
@@ -1591,15 +1588,15 @@ namespace SIS.Forms
         {
             // Get time gating settings
             int _iChannel = 1;
-                
-                // channel is 1 because the button is assigned to APD2 and we show the result on the APD2's channel
+
+            // channel is 1 because the button is assigned to APD2 and we show the result on the APD2's channel
             bool _bIsToApplyTimeGating = false; // we do not want gating so set to false
             double _dGatingTimeMinMillisec = 0.0;
-                
-                // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
+
+            // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
             double _dGatingTimeMaxMillisec = 0.0;
-                
-                // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
+
+            // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
 
             // Apply gating with the given settings
             this.ApplyTimeGating(_iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec);
@@ -1640,8 +1637,6 @@ namespace SIS.Forms
         /// </param>
         private void btnScanStart_Click(object __oSender, EventArgs __evargsE)
         {
-            
-
             // Acces the ScanDocument object related to this form.
             ScanDocument _docDocument = this.Document as ScanDocument;
 
@@ -1672,8 +1667,6 @@ namespace SIS.Forms
 
                 _docDocument.SaveDocument(_sTempPath);
             }
-
-            
 
             // Store the settings to the document.
             _docDocument.AllocateData(this.m_scnstSettings);

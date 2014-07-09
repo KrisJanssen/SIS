@@ -1,16 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ScanSettings.cs" company="">
-//   
+// <copyright file="ScanSettings.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The scan settings.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Documents
 {
-    using System;
-
     /// <summary>
     /// The scan settings.
     /// </summary>
@@ -28,13 +25,15 @@ namespace SIS.Documents
         /// The m_d galvo range angle degrees.
         /// </summary>
         private double m_dGalvoRangeAngleDegrees;
-                       // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
+
+        // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
 
         /// <summary>
         /// The m_d galvo range angle int.
         /// </summary>
         private double m_dGalvoRangeAngleInt;
-                       // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
+
+        // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
 
         /// <summary>
         /// The m_d galvo scan lens focal length.
@@ -85,13 +84,15 @@ namespace SIS.Documents
         /// The m_i galvo frame marker.
         /// </summary>
         private int m_iGalvoFrameMarker;
-                    // the frame synchronization marker that the galvo rises upon a beginning of a frame
+
+        // the frame synchronization marker that the galvo rises upon a beginning of a frame
 
         /// <summary>
         /// The m_i galvo line marker.
         /// </summary>
         private int m_iGalvoLineMarker;
-                    // the line synchronization marker that the galvo rises upon a beginning of a line
+
+        // the line synchronization marker that the galvo rises upon a beginning of a line
 
         /// <summary>
         /// The m_i image depth px.
@@ -122,50 +123,58 @@ namespace SIS.Documents
         /// The m_i time harp fi fo time out.
         /// </summary>
         private int m_iTimeHarpFiFoTimeOut;
-                    // the max time period after which the recorded raw Time Harp events will be read from the Time Harp FiFo buffer
+
+        // the max time period after which the recorded raw Time Harp events will be read from the Time Harp FiFo buffer
 
         // Members of Time Harp Settings Section:
         /// <summary>
         /// The m_i time harp frame marker.
         /// </summary>
         private int m_iTimeHarpFrameMarker;
-                    // tells Time Harp the value of the frame synchronization marker that the galvo rises upon a beginning of a frame
+
+        // tells Time Harp the value of the frame synchronization marker that the galvo rises upon a beginning of a frame
 
         /// <summary>
         /// The m_i time harp frame time out.
         /// </summary>
         private int m_iTimeHarpFrameTimeOut;
-                    // the max time period after which the processed pixels so far will be returned as a frame
+
+        // the max time period after which the processed pixels so far will be returned as a frame
 
         /// <summary>
         /// The m_i time harp global tttr buffer size.
         /// </summary>
         private int m_iTimeHarpGlobalTTTRBufferSize;
-                    // global TTTR buffer size in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
+
+        // global TTTR buffer size in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
 
         /// <summary>
         /// The m_i time harp line marker.
         /// </summary>
         private int m_iTimeHarpLineMarker;
-                    // tells Time Harp the value of the line synchronization marker that the galvo rises upon a beginning of a line
+
+        // tells Time Harp the value of the line synchronization marker that the galvo rises upon a beginning of a line
 
         /// <summary>
         /// The m_i time harp line ptttr buffer size.
         /// </summary>
         private int m_iTimeHarpLinePTTTRBufferSize;
-                    // line PTTTR buffer size in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
+
+        // line PTTTR buffer size in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
 
         /// <summary>
         /// The m_i time harp marker edge.
         /// </summary>
         private int m_iTimeHarpMarkerEdge;
-                    // set the active TTL edge (0 - falling edge, 1 - rising edge). Note that this defines the type of edge used from the frame/line marker TTL pulse (so it must be the same as the outputed TTL from YanusIV).
+
+        // set the active TTL edge (0 - falling edge, 1 - rising edge). Note that this defines the type of edge used from the frame/line marker TTL pulse (so it must be the same as the outputed TTL from YanusIV).
 
         /// <summary>
         /// The m_i time harp measurement mode.
         /// </summary>
         private int m_iTimeHarpMeasurementMode;
-                    // there are two possible modes: 0 - one-time histogramming and TTTR modes; 1 - continuous mode. Note that we need mode 0 in order to get raw photon data (arrival time) and build an image.
+
+        // there are two possible modes: 0 - one-time histogramming and TTTR modes; 1 - continuous mode. Note that we need mode 0 in order to get raw photon data (arrival time) and build an image.
 
         /// <summary>
         /// The m_i time harp offset.
@@ -176,7 +185,8 @@ namespace SIS.Documents
         /// The m_i time harp range code.
         /// </summary>
         private int m_iTimeHarpRangeCode;
-                    // set the timing resolution of Time Harp, range (0..5). Note that then the timing resolution is base_timing_resolution*2^(_iRangeCode); base_timing_resolution is the time resolution of Time Harp (~30ps for Time Harp 200)
+
+        // set the timing resolution of Time Harp, range (0..5). Note that then the timing resolution is base_timing_resolution*2^(_iRangeCode); base_timing_resolution is the time resolution of Time Harp (~30ps for Time Harp 200)
 
         /// <summary>
         /// The m_i time harp sync level.
@@ -213,8 +223,10 @@ namespace SIS.Documents
         /// The m_s time harp name tttr file.
         /// </summary>
         private string m_sTimeHarpNameTTTRFile;
-                       // the name (without the path and extension) of the data file with raw photon data (the TTTR binary file)
+
         #endregion
+
+        // the name (without the path and extension) of the data file with raw photon data (the TTTR binary file)
 
         // Properties (get/set) of Scan Settings Section
         #region Public Properties

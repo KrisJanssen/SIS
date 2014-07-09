@@ -6,7 +6,6 @@
 //   The weak key comparer.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.WeakRef
 {
     using System.Collections.Generic;

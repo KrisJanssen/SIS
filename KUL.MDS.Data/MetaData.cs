@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MetaData.cs" company="">
-//   
+// <copyright file="MetaData.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The meta data.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Data
 {
     /// <summary>

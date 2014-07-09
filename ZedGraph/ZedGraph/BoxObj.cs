@@ -5,9 +5,8 @@
 // <summary>
 //   A class that represents a bordered and/or filled box (rectangle) object on
 //   the graph.  A list of
-//   BoxObj objects is maintained by the <see cref="GraphObjList" /> collection class.
+//   BoxObj objects is maintained by the  collection class.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -60,6 +59,7 @@ namespace ZedGraph.ZedGraph
         /// Constructors for the <see cref="BoxObj"/> object
         /// </overloads>
         /// <summary>
+        /// Initializes a new instance of the <see cref="BoxObj"/> class. 
         /// Initializes a new instance of the <see cref="BoxObj"/> class. 
         /// A constructor that allows the position, border color, and solid fill color
         /// of the <see cref="BoxObj"/> to be pre-specified.

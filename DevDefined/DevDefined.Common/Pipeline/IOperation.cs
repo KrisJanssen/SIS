@@ -6,7 +6,6 @@
 //   The Operation interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Pipeline
 {
     /// <summary>

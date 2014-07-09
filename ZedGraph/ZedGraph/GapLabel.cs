@@ -4,10 +4,9 @@
 // </copyright>
 // <summary>
 //   Class that handles the data associated with a text title and its associated font
-//   properties.  Inherits from <see cref="Label" />, and adds the <see cref="Gap" />
-//   property for use by the <see cref="Axis" /> and <see cref="PaneBase" /> objects.
+//   properties.  Inherits from , and adds the
+//   property for use by the  and  objects.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SnapDescription.cs" company="">
-//   
+// <copyright file="SnapDescription.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The snap description.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.MDITemplate.Snapping
 {
     using System;

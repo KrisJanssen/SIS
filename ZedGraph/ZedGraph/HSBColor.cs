@@ -4,10 +4,9 @@
 // </copyright>
 // <summary>
 //   Hue-Saturation-Brightness Color class to store a color value, and to manage conversions
-//   to and from RGB colors in the <see cref="Color" /> struct.
+//   to and from RGB colors in the  struct.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace ZedGraph.ZedGraph
 {
     using System;

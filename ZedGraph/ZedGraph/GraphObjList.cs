@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   A collection class containing a list of <see cref="TextObj" /> objects
+//   A collection class containing a list of  objects
 //   to be displayed on the graph.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

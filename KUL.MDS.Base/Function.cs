@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Function.cs" company="">
-//   
+// <copyright file="Function.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The function.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Base
 {
     /// <summary>

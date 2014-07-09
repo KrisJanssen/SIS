@@ -4,9 +4,8 @@
 // </copyright>
 // <summary>
 //   A class representing a pie chart object comprised of one or more
-//   <see cref="PieItem" />s.
+//   s.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

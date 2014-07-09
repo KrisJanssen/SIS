@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AboutDialog.cs" company="">
-//   
+// <copyright file="AboutDialog.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The about dialog.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.MDITemplate
 {
     using System.Drawing;

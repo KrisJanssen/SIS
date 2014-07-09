@@ -6,7 +6,6 @@
 //   The static reflection helper.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Reflection
 {
     using System;

@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MeasurementUnit.cs" company="">
-//   
+// <copyright file="MeasurementUnit.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Specifies the unit of measure for the given data.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Library
 {
     /// <summary>

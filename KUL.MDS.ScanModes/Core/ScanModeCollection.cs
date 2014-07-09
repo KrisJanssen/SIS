@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ScanModeCollection.cs" company="">
-//   
+// <copyright file="ScanModeCollection.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The scan mode collection.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.ScanModes.Core
 {
     using System;

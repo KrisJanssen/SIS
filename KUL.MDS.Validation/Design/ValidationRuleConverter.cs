@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationRuleConverter.cs" company="">
-//   
+// <copyright file="ValidationRuleConverter.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   ValidationRuleConverter allow ValidationRule to be Designer's serializable.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace KUL.MDS.Validation.Design
 {
     using System;

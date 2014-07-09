@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TILLIMIC_DLL.cs" company="">
-//   
+// <copyright file="TILLIMIC_DLL.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   This class provides the DLL functions for interacting with YanusIV galvo scanner.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware.YanusIV
 {
     using System;

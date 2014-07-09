@@ -6,7 +6,6 @@
 //   A class representing all the characteristics of the bar
 //   segments that make up a curve on the graph.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

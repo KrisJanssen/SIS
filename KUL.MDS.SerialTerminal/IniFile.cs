@@ -1,13 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IniFile.cs" company="">
-//   
+// <copyright file="IniFile.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The ini file.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-/// Read/Write values to an ini file
 /// </summary>
 
 namespace SIS.SerialTerminal

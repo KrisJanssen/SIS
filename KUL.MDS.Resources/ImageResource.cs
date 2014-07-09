@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ImageResource.cs" company="">
-//   
+// <copyright file="ImageResource.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The image resource.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Resources
 {
     using System;

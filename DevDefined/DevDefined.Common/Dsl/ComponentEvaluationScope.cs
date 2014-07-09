@@ -6,7 +6,6 @@
 //   The component evaluation scope.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Dsl
 {
     using System;

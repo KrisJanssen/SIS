@@ -6,7 +6,6 @@
 //   Dictionary where only the Key is a weak reference.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.WeakRef
 {
     using System;

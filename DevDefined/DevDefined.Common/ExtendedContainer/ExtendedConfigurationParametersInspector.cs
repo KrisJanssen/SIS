@@ -6,11 +6,8 @@
 //   The extended configuration parameters inspector.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.ExtendedContainer
 {
-    using System;
-
     using Castle.Core;
     using Castle.Core.Configuration;
     using Castle.MicroKernel;

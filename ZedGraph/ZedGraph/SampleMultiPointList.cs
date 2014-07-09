@@ -4,9 +4,8 @@
 // </copyright>
 // <summary>
 //   An enum used to specify the X or Y data type of interest -- see
-//   <see cref="SampleMultiPointList.XData" /> and <see cref="SampleMultiPointList.YData" />.
+//   and .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

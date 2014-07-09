@@ -6,7 +6,6 @@
 //   The type of Color
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Serialization
 {
     using System;

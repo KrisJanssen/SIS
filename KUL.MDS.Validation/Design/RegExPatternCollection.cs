@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RegExPatternCollection.cs" company="">
-//   
+// <copyright file="RegExPatternCollection.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   RegExItemCollection allow RegExPattern to be bindable.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace KUL.MDS.Validation.Design
 {
     using System.Collections;

@@ -6,7 +6,6 @@
 //   Helper class containing utility methods for working with the Focus of components.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.UI
 {
     using System;

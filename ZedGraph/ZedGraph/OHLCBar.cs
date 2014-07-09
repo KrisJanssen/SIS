@@ -3,9 +3,8 @@
 //   
 // </copyright>
 // <summary>
-//   This class handles the drawing of the curve <see cref="OHLCBar" /> objects.
+//   This class handles the drawing of the curve  objects.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

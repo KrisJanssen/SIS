@@ -1,13 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SISSettings.cs" company="">
-//   
+// <copyright file="SISSettings.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Symbolic constants for our settings. Settings are stored in CurrentUser unless
 //   otherwise specified.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     /// <summary>

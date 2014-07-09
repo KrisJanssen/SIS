@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IDisposedEvent.cs" company="">
-//   
+// <copyright file="IDisposedEvent.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The DisposedEvent interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Base
 {
     using System;

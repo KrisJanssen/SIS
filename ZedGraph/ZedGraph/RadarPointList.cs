@@ -4,10 +4,9 @@
 // </copyright>
 // <summary>
 //   A class containing a set of data values to be plotted as a RadarPlot.
-//   This class will effectively convert the data into <see cref="PointPair" /> objects
+//   This class will effectively convert the data into  objects
 //   by converting the polar coordinates to rectangular coordinates
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

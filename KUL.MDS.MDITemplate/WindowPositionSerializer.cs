@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WindowPositionSerializer.cs" company="">
-//   
+// <copyright file="WindowPositionSerializer.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The form position serializer.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.MDITemplate
 {
     using System.ComponentModel;
@@ -67,8 +66,7 @@ namespace SIS.MDITemplate
                     if (sPosition != null && sPosition.Length > 0)
                     {
                         RectangleConverter converter = new RectangleConverter();
-                        Rectangle rectWindow =
-                            (System.Drawing.Rectangle)converter.ConvertFromString(sPosition);
+                        Rectangle rectWindow = (System.Drawing.Rectangle)converter.ConvertFromString(sPosition);
 
                         form.Bounds = rectWindow;
                         form.StartPosition = FormStartPosition.Manual;

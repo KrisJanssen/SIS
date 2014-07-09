@@ -6,7 +6,6 @@
 //   The periodic observer.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     using System;

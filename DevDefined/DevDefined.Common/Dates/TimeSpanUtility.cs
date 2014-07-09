@@ -6,7 +6,6 @@
 //   The time span utility.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Dates
 {
     using System;

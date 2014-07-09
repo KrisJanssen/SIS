@@ -6,7 +6,6 @@
 //   The buffered invoker.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Appenders
 {
     using System;

@@ -5,7 +5,6 @@
 // <summary>
 //   The zed graph control.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -1614,7 +1613,6 @@ namespace ZedGraph.ZedGraph
             else
             {
                 // It's a single-select
-                
 
                 // Point mousePt = new Point( e.X, e.Y );
                 int iPt;
@@ -1648,8 +1646,6 @@ namespace ZedGraph.ZedGraph
                         this._selection.ClearSelection(this._masterPane);
                     }
                 }
-
-                
             }
 
             using (Graphics g = this.CreateGraphics())

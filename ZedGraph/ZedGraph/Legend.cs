@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   This class encapsulates the chart <see cref="Legend" /> that is displayed
-//   in the <see cref="GraphPane" />
+//   This class encapsulates the chart  that is displayed
+//   in the
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

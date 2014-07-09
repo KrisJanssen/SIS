@@ -4,10 +4,9 @@
 // </copyright>
 // <summary>
 //   A class that represents a bordered and/or filled polygon object on
-//   the graph.  A list of <see cref="PolyObj" /> objects is maintained by
-//   the <see cref="GraphObjList" /> collection class.
+//   the graph.  A list of  objects is maintained by
+//   the  collection class.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -59,6 +58,7 @@ namespace ZedGraph.ZedGraph
         /// Constructors for the <see cref="PolyObj"/> object
         /// </overloads>
         /// <summary>
+        /// Initializes a new instance of the <see cref="PolyObj"/> class. 
         /// Initializes a new instance of the <see cref="PolyObj"/> class. 
         /// A constructor that allows the position, border color, and solid fill color
         /// of the <see cref="PolyObj"/> to be pre-specified.

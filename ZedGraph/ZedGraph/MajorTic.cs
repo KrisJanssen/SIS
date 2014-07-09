@@ -4,9 +4,8 @@
 // </copyright>
 // <summary>
 //   Class that holds the specific properties for the major tics.  Inherits from
-//   <see cref="MinorTic" />.
+//   .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

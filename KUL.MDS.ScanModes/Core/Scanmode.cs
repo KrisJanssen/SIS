@@ -1,15 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Scanmode.cs" company="">
-//   
+// <copyright file="Scanmode.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   ScanMode objects derived the abstract ScanMode supply the necessary coordinates to a stage based upon the physical parameters that fully describe a specific scantype
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.ScanModes.Core
 {
-    using System;
     using System.Collections;
 
     using SIS.ScanModes.Enums;

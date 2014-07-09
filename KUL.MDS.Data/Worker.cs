@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Worker.cs" company="">
-//   
+// <copyright file="Worker.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The worker.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Data
 {
     /// <summary>

@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EnumUtil.cs" company="">
-//   
+// <copyright file="EnumUtil.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The enum util.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Library
 {
     using System;

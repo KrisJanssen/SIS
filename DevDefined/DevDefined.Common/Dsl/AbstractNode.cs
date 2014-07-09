@@ -6,7 +6,6 @@
 //   The abstract node.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Dsl
 {
     using System.Collections.Generic;

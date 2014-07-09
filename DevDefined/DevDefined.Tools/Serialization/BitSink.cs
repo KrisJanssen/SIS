@@ -7,7 +7,6 @@
 //   for bit-level transformations over multi-byte arrays.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Serialization
 {
     using System;

@@ -3,11 +3,10 @@
 //   
 // </copyright>
 // <summary>
-//   A collection class that maintains a list of <see cref="ScaleState" />
-//   objects, corresponding to the list of <see cref="Axis" /> objects
-//   from <see cref="GraphPane.YAxisList" /> or <see cref="GraphPane.Y2AxisList" />.
+//   A collection class that maintains a list of
+//   objects, corresponding to the list of  objects
+//   from  or .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

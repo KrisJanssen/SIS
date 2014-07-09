@@ -6,7 +6,6 @@
 //   A static class that provides some common extensions for simplifying IO
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.IO
 {
     using System.Collections.Generic;

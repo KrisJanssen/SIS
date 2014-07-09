@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   This class handles the drawing of the curve <see cref="ErrorBar" /> objects.
+//   This class handles the drawing of the curve  objects.
 //   The Error Bars are the vertical lines with a symbol at each end.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

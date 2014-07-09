@@ -6,7 +6,6 @@
 //   The dsl extensions.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Dsl
 {
     using System;

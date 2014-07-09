@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NativeConstants.cs" company="">
-//   
+// <copyright file="NativeConstants.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The native constants.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     using System;
@@ -527,19 +526,22 @@ namespace SIS.Systemlayer
         /// The dwmw a_ allo w_ ncpaint.
         /// </summary>
         public const uint DWMWA_ALLOW_NCPAINT = 4;
-                          // [set] Allow contents rendered in the non-client area to be visible on the DWM-drawn frame.
+
+        // [set] Allow contents rendered in the non-client area to be visible on the DWM-drawn frame.
 
         /// <summary>
         /// The dwmw a_ captio n_ butto n_ bounds.
         /// </summary>
         public const uint DWMWA_CAPTION_BUTTON_BOUNDS = 5;
-                          // [get] Bounds of the caption button area in window-relative space.
+
+        // [get] Bounds of the caption button area in window-relative space.
 
         /// <summary>
         /// The dwmw a_ extende d_ fram e_ bounds.
         /// </summary>
         public const uint DWMWA_EXTENDED_FRAME_BOUNDS = 9;
-                          // [get] Gets the extended frame bounds rectangle in screen space
+
+        // [get] Gets the extended frame bounds rectangle in screen space
 
         /// <summary>
         /// The dwmw a_ fli p 3 d_ policy.
@@ -550,7 +552,8 @@ namespace SIS.Systemlayer
         /// The dwmw a_ forc e_ iconi c_ representation.
         /// </summary>
         public const uint DWMWA_FORCE_ICONIC_REPRESENTATION = 7;
-                          // [set] Force this window to display iconic thumbnails.
+
+        // [set] Force this window to display iconic thumbnails.
 
         /// <summary>
         /// The dwmw a_ last.
@@ -844,7 +847,7 @@ namespace SIS.Systemlayer
         /// </summary>
         public const uint FILE_GENERIC_WRITE =
             STANDARD_RIGHTS_WRITE | FILE_WRITE_DATA | FILE_WRITE_ATTRIBUTES | FILE_WRITE_EA | FILE_APPEND_DATA
-             | SYNCHRONIZE;
+            | SYNCHRONIZE;
 
         /// <summary>
         /// The fil e_ lis t_ directory.

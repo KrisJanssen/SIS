@@ -6,7 +6,6 @@
 //   The remind later format.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace AutoUpdaterDotNET
 {
     using System;

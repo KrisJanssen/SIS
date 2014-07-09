@@ -7,7 +7,6 @@
 //   service, passing it the main form for your application.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Clipboard
 {
     using System;

@@ -6,7 +6,6 @@
 //   This struct encapsulates a date and time value, and handles associated
 //   calculations and conversions between various formats.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

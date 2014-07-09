@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Block.cs" company="">
-//   
+// <copyright file="Block.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The block.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Data
 {
     using System.Collections.Generic;

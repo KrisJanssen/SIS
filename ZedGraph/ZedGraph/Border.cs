@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   A class that encapsulates Border (frame) properties for an object.  The <see cref="Border" /> class
+//   A class that encapsulates Border (frame) properties for an object.  The  class
 //   is used in a variety of ZedGraph objects to handle the drawing of the Border around the object.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

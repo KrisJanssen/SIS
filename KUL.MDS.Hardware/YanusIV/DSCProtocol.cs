@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DSCProtocol.cs" company="">
-//   
+// <copyright file="DSCProtocol.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Class to facilitate the interaction with DSC scan protocol - assembling protocol, reading it etc.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware.YanusIV
 {
     using System;

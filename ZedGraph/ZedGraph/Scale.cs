@@ -6,7 +6,6 @@
 //   The Scale class is an abstract base class that encompasses the properties
 //   and methods associated with a scale of data.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

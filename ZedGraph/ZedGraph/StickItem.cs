@@ -6,7 +6,6 @@
 //   Encapsulates a curve type that is displayed as a series of vertical "sticks",
 //   one at each defined point.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

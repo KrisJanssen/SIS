@@ -7,7 +7,6 @@
 //   a graph pane.  It carries the settings for the curve including the
 //   key and item names, colors, symbols and sizes, linetypes, etc.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 
 #if ( !DOTNET1 ) // Is this a .Net 2 compilation?
@@ -1377,7 +1376,7 @@ namespace ZedGraph.ZedGraph
 #if ( DOTNET1 ) // Is this a .Net 1.1 compilation?
 	
     // <summary>
-    /// Compares <see cref="CurveItem"/>'s based on the point value at the specified
+    // Compares <see cref="CurveItem"/>'s based on the point value at the specified
     /// index and for the specified axis.
     /// <seealso cref="System.Collections.ArrayList.Sort()"/>
     /// </summary>

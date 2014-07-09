@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NativeErrors.cs" company="">
-//   
+// <copyright file="NativeErrors.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The native errors.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     // Copied from System.IO.MonoIOError.cs, (C) 2002 Dan Lewis

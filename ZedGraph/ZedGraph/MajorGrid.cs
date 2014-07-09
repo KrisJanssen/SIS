@@ -4,9 +4,8 @@
 // </copyright>
 // <summary>
 //   Class that handles the data associated with the major grid lines on the chart.
-//   Inherits from <see cref="MinorGrid" />.
+//   Inherits from .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

@@ -1,13 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MinVoltageExceededException.cs" company="">
-//   
+// <copyright file="MinVoltageExceededException.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   This Exception will get thrown when the requested voltage exceeds the global minimum.
 //   TODO: Make this implementation fully compliant with MSDN directives.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Exceptions
 {
     /// <summary>

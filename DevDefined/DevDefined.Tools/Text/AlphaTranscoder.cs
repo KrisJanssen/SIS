@@ -8,7 +8,6 @@
 //   things such as license key strings which contain an encoded payload of information.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Text
 {
     using System;

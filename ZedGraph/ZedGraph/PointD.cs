@@ -5,7 +5,6 @@
 // <summary>
 //   Simple struct that stores X and Y coordinates as doubles.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

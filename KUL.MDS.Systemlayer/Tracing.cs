@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Tracing.cs" company="">
-//   
+// <copyright file="Tracing.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Methods for manual profiling and tracing.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     using System;
@@ -264,7 +263,8 @@ namespace SIS.Systemlayer
             ulong now = timing.GetTickCount();
             WriteLine(
                 (now - timing.BirthTick).ToString() + ": " + new string(' ', 4 * tracePoints.Count)
-                + parentMethod.DeclaringType.Name + "." + parentMethod.Name + (message != null ? (": " + message) : string.Empty));
+                + parentMethod.DeclaringType.Name + "." + parentMethod.Name
+                + (message != null ? (": " + message) : string.Empty));
 #endif
         }
 

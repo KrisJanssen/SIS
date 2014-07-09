@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PIDigitalStage.cs" company="">
-//   
+// <copyright file="PIDigitalStage.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The pi digital stage.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware
 {
     using System;
@@ -623,8 +622,6 @@ namespace SIS.Hardware
 
             Thread.Sleep(2000);
 
-            #region Coordinate Programming
-
             _logger.Info("Programming coordinates ...");
             double[] _dXCoord = new double[__scmScanMode.NMScanCoordinates.Length / 3];
             double[] _dYCoord = new double[__scmScanMode.NMScanCoordinates.Length / 3];
@@ -637,7 +634,7 @@ namespace SIS.Hardware
                 _dZCoord[_iI] = Math.Round(__scmScanMode.NMScanCoordinates[2, _iI] / 1000, 4);
             }
 
-            #region XY Motion
+            
 
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.XY)
             {
@@ -666,7 +663,7 @@ namespace SIS.Hardware
                 }
             }
 
-            #endregion
+            
 
             #region XZ Motion
 
@@ -737,8 +734,6 @@ namespace SIS.Hardware
             // this.IsError(E7XXController.qGWD(this.m_iControllerID, Convert.ToChar(axis1), 0, _dXCoord.Length, _data1));
             // string axis2 = "2";
             // this.IsError(E7XXController.qGWD(this.m_iControllerID, Convert.ToChar(axis2), 0, _dYCoord.Length, _data2));
-            #endregion
-
             #region Repeat Number Set
 
             // Set the wave generator repeat number via parameter 0x13000003. 

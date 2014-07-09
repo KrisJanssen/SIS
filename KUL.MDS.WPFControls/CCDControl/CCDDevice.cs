@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="CCDDevice.cs">
-//   
+// <copyright company="Kris Janssen" file="CCDDevice.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The ccd device.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.WPFControls.CCDControl
 {

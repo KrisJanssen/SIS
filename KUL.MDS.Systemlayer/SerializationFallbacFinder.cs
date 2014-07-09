@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SerializationFallbacFinder.cs" company="">
-//   
+// <copyright file="SerializationFallbacFinder.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   This is an implementation of SerializationBinder that tries to find a match
@@ -8,7 +8,6 @@
 //   mismatches, and allows you to move data types between assemblies.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     using System;

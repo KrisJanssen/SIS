@@ -4,9 +4,8 @@
 // </copyright>
 // <summary>
 //   A class representing a needle on the GasGuage chart
-//   <see cref="GasGaugeNeedle" />s.
+//   s.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

@@ -5,7 +5,6 @@
 // <summary>
 //   Class that handles the global settings for bar charts
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

@@ -4,10 +4,9 @@
 // </copyright>
 // <summary>
 //   A class that represents a text object on the graph.  A list of
-//   <see cref="GraphObj" /> objects is maintained by the
-//   <see cref="GraphObjList" /> collection class.
+//   objects is maintained by the
+//   collection class.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

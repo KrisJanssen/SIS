@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CCDControl.xaml.cs" company="">
-//   
+// <copyright file="CCDControl.xaml.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Interaction logic for WebcanControl.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.WPFControls.CCDControl
 {
     using System.Collections.ObjectModel;

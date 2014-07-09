@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="CCDInterfaces.cs">
-//   
+// <copyright company="Kris Janssen" file="CCDInterfaces.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The GraphBuilder interface.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.WPFControls.CCDControl
 {

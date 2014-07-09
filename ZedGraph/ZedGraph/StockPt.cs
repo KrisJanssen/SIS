@@ -3,7 +3,7 @@
 //   
 // </copyright>
 // <summary>
-//   The basic <see cref="PointPair" /> class holds three data values (X, Y, Z).  This
+//   The basic  class holds three data values (X, Y, Z).  This
 //   class extends the basic PointPair to contain five data values (X, Y, Z, Open, Close).
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------

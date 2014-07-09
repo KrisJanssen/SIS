@@ -5,7 +5,6 @@
 // <summary>
 //   A class that maintains hyperlink information for a clickable object on the graph.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

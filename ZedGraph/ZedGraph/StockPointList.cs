@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   A collection class containing a list of <see cref="StockPt" /> objects
+//   A collection class containing a list of  objects
 //   that define the set of points to be displayed on the curve.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

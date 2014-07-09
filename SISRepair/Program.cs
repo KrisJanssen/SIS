@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="Program.cs">
-//   
+// <copyright company="Kris Janssen" file="Program.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The program.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SISRepair
 {

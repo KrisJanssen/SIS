@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Pair.cs" company="">
-//   
+// <copyright file="Pair.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The pair.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Base
 {
     using System;

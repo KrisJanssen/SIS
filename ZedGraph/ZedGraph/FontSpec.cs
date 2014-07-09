@@ -3,13 +3,12 @@
 //   
 // </copyright>
 // <summary>
-//   The <see cref="FontSpec" /> class is a generic font class that maintains the font family,
+//   The  class is a generic font class that maintains the font family,
 //   attributes, colors, border and fill modes, font size, and angle information.
 //   This class can render text with a variety of alignment options using the
-//   <see cref="AlignH" /> and <see cref="AlignV" /> parameters in the
-//   <see cref="Draw(Graphics,PaneBase,string,float,float,AlignH,AlignV,float)" /> method.
+//   and  parameters in the
+//   method.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimeHarpDLL.cs" company="">
-//   
+// <copyright file="TimeHarpDLL.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   This class provides a wrapper for the DLL functions to interact with Time Harp 200 board.
@@ -28,7 +28,8 @@ namespace SIS.Hardware.TimeHarp
         /// The er r_ cod e_ default.
         /// </summary>
         protected const int ERR_CODE_DEFAULT = (int)TimeHarpDefinitions.THError.ERROR_NONE;
-                            // the default error code value; 0 or >0 - means success
+
+        // the default error code value; 0 or >0 - means success
 
         /// <summary>
         /// Constants used within the class:        
@@ -49,7 +50,8 @@ namespace SIS.Hardware.TimeHarp
         /// The measurmen t_ mod e_ default.
         /// </summary>
         protected const int MEASURMENT_MODE_DEFAULT = 0;
-                            // the default measurement mode of Time Harp (0 - standard histogramming or TTTR mode; 1 - continuous mode)
+
+        // the default measurement mode of Time Harp (0 - standard histogramming or TTTR mode; 1 - continuous mode)
 
         /// <summary>
         /// The strin g 1_ capacity.
@@ -60,9 +62,10 @@ namespace SIS.Hardware.TimeHarp
         /// The threa d_ slee p_ time.
         /// </summary>
         protected const int THREAD_SLEEP_TIME = 1000;
-                            // the default waiting time before the current thread continue execution. Note that some of the Time Harp DLL functions require at least 600ms waiting prior to execution
+
         #endregion
 
+        // the default waiting time before the current thread continue execution. Note that some of the Time Harp DLL functions require at least 600ms waiting prior to execution
         #region Fields
 
         /// <summary>
@@ -80,14 +83,16 @@ namespace SIS.Hardware.TimeHarp
         /// min value = TimeHarpDefinitions.DISCRMIN; max value = TimeHarpDefinitions.DISCRMAX.
         /// </summary>        
         protected int m_iCFDDiscrMin;
-                      // define property m_iCFDDiscrMin = TimeHarpDefinitions.DISCRMIN..TimeHarpDefinitions.DISCRMAX
+
+        // define property m_iCFDDiscrMin = TimeHarpDefinitions.DISCRMIN..TimeHarpDefinitions.DISCRMAX
 
         /// <summary>
         /// CFD zero cross level in [mV] of Time Harp.
         /// min value = TimeHarpDefinitions.ZCMIN; max value = TimeHarpDefinitions.ZCMAX.
         /// </summary>        
         protected int m_iCFDZeroCross;
-                      // define property m_iCFDZeroCross = TimeHarpDefinitions.ZCMIN..TimeHarpDefinitions.ZCMAX
+
+        // define property m_iCFDZeroCross = TimeHarpDefinitions.ZCMIN..TimeHarpDefinitions.ZCMAX
 
         /// <summary>
         /// The last probed value of the count rate in [Hz] taken from Time Harp.
@@ -119,7 +124,8 @@ namespace SIS.Hardware.TimeHarp
         /// min value = TimeHarpDefinitions.OFFSETMIN; max value = TimeHarpDefinitions.OFFSETMAX.
         /// </summary>          
         protected int m_iOffset;
-                      // define property m_iOffset = TimeHarpDefinitions.OFFSETMIN..TimeHarpDefinitions.OFFSETCMAX
+
+        // define property m_iOffset = TimeHarpDefinitions.OFFSETMIN..TimeHarpDefinitions.OFFSETCMAX
 
         /// <summary>
         /// The range code.
@@ -133,7 +139,8 @@ namespace SIS.Hardware.TimeHarp
         /// min value = TimeHarpDefinitions.SYNCMIN; max value = TimeHarpDefinitions.SYNCMAX.
         /// </summary>        
         protected int m_iSyncLevel;
-                      // define property m_iSyncLevel = TimeHarpDefinitions.SYNCMIN..TimeHarpDefinitions.SYNCMAX
+
+        // define property m_iSyncLevel = TimeHarpDefinitions.SYNCMIN..TimeHarpDefinitions.SYNCMAX
 
         /// <summary>
         /// The last probed value of the sync rate in [Hz] taken from Time Harp.
@@ -224,8 +231,8 @@ namespace SIS.Hardware.TimeHarp
                 int _iMeasurementMode = 0; // measurement mode must be 0 - one-time histogramming and TTTR modes
                 int _iAcquisitionTime = 1000; // acquisition time in [ms]
                 int _iCountRate = this.GetCountRate(_iMeasurementMode, _iAcquisitionTime);
-                    
-                    // set to -1 to indicate unsuccessful attempt to get the count rate
+
+                // set to -1 to indicate unsuccessful attempt to get the count rate
                 this.m_iCountRate = _iCountRate; // keeps track of the last probed count rate value
 
                 return _iCountRate;
@@ -415,8 +422,8 @@ namespace SIS.Hardware.TimeHarp
         public void Calibrate()
         {
             this.m_iErrorCode = TimeHarpDefinitions.TH_Calibrate();
-                
-                // calibrate Time Harp, this performs internal calibration and self test procedure
+
+            // calibrate Time Harp, this performs internal calibration and self test procedure
             this.CheckForException(this.m_iErrorCode, "cannot calibrate Time Harp board by Calibrate() function: ");
         }
 
@@ -435,8 +442,8 @@ namespace SIS.Hardware.TimeHarp
             }
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_EnableRouting(__iEnable);
-                
-                // enable or disable routing for PRT/NRT 400 Router connected to Time Harp          
+
+            // enable or disable routing for PRT/NRT 400 Router connected to Time Harp          
             this.CheckForException(this.m_iErrorCode, "Time Harp cannot find router by EnableRouting() function: ");
         }
 
@@ -451,14 +458,14 @@ namespace SIS.Hardware.TimeHarp
         public int GetBaseResolution()
         {
             int __iResolutionOrErrorCode = TimeHarpDefinitions.TH_GetBaseResolution();
-                
-                // get approximated time resolution value of Time Harp in [ns]
+
+            // get approximated time resolution value of Time Harp in [ns]
             if (__iResolutionOrErrorCode < 0.0)
             {
                 // checked if there was an error returned
                 this.m_iErrorCode = __iResolutionOrErrorCode;
-                    
-                    // convert the returned error code to integer in order to handle the error properly
+
+                // convert the returned error code to integer in order to handle the error properly
                 this.CheckForException(
                     this.m_iErrorCode, 
                     "cannot get the Time Harp resolution value by GetBaseResolution() function: ");
@@ -490,21 +497,21 @@ namespace SIS.Hardware.TimeHarp
         public int GetCountRate(int __iMeasurementMode, int __iAcquisitionTime)
         {
             this.SetMeasurementMode(__iMeasurementMode, __iAcquisitionTime);
-                
-                // needs to call this function prior to getting the count rate
+
+            // needs to call this function prior to getting the count rate
             System.Threading.Thread.Sleep(THREAD_SLEEP_TIME); // allow at least 600ms to get a stable rate meter reading
             System.Threading.Thread.Sleep(THREAD_SLEEP_TIME); // allow at least 600ms to get a stable rate meter reading
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_GetCountRate();
-                
-                // get the count rate of Time Harp, the count_rate_per_second = GetCountRate() / __iAcquisitionTime
+
+            // get the count rate of Time Harp, the count_rate_per_second = GetCountRate() / __iAcquisitionTime
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot get the Time Harp count rate by GetCountRate() function: ");
 
             this.m_iCountRate = this.m_iErrorCode;
-                
-                // if the execution reaches this point it means this will return the count rate
+
+            // if the execution reaches this point it means this will return the count rate
             return this.m_iCountRate; // return the count rate
         }
 
@@ -517,15 +524,15 @@ namespace SIS.Hardware.TimeHarp
         public int GetElapsedMeasurementTime()
         {
             this.m_iErrorCode = TimeHarpDefinitions.TH_GetElapsedMeasTime();
-                
-                // get the elapsed measurement time from Time Harp device
+
+            // get the elapsed measurement time from Time Harp device
             this.CheckForException(
                 this.m_iErrorCode, 
                 "Time Harp cannot get the elapsed measurement time by GetElapsedMeasurementTime() function: ");
 
             int _iElapsedMeasurementTime = this.m_iErrorCode;
-                
-                // if the execution reaches this point, it means the elapsed time in [ms]
+
+            // if the execution reaches this point, it means the elapsed time in [ms]
             return _iElapsedMeasurementTime; // return the elapsed measurement time
         }
 
@@ -556,8 +563,8 @@ namespace SIS.Hardware.TimeHarp
             // return the Time Harp hardware version
             StringBuilder _sbHardwareVersion = new StringBuilder(STRING1_CAPACITY);
             this.m_iErrorCode = TimeHarpDefinitions.TH_GetHardwareVersion(_sbHardwareVersion);
-                
-                // get the hardware version of Time Harp
+
+            // get the hardware version of Time Harp
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot get the Time Harp hardware version by GetHardwareVersion() function: ");
@@ -577,8 +584,8 @@ namespace SIS.Hardware.TimeHarp
             // return the Time Harp DLL library version
             StringBuilder _sbLibraryVersion = new StringBuilder(STRING1_CAPACITY);
             this.m_iErrorCode = TimeHarpDefinitions.TH_GetLibraryVersion(_sbLibraryVersion);
-                
-                // get the library version of Time Harp
+
+            // get the library version of Time Harp
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot get the Time Harp DLL library version by GetLibraryVersion() function: ");
@@ -596,14 +603,14 @@ namespace SIS.Hardware.TimeHarp
         public float GetResolution()
         {
             float _fResolutionOrErrorCode = TimeHarpDefinitions.TH_GetResolution();
-                
-                // get time resolution value of Time Harp in [ns]
+
+            // get time resolution value of Time Harp in [ns]
             if (_fResolutionOrErrorCode < 0.0)
             {
                 // checked if there was an error returned
                 this.m_iErrorCode = (int)_fResolutionOrErrorCode;
-                    
-                    // convert the returned error code to integer in order to handle the error properly
+
+                // convert the returned error code to integer in order to handle the error properly
                 this.CheckForException(
                     this.m_iErrorCode, 
                     "cannot get the Time Harp resolution value by GetResolution() function: ");
@@ -632,15 +639,15 @@ namespace SIS.Hardware.TimeHarp
             int _iNumberRoutingChannels = 1;
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_GetRoutingChannels();
-                
-                // get number of routing channels of PRT/NRT 400 Router connected to Time Harp          
+
+            // get number of routing channels of PRT/NRT 400 Router connected to Time Harp          
             this.CheckForException(
                 this.m_iErrorCode, 
                 "Time Harp cannot get the number of routing channels by GetRoutingChannels() function: ");
 
             _iNumberRoutingChannels = this.m_iErrorCode;
-                
-                // if the execution reaches this point it means m_iErrorCode = Number of Routing Channels
+
+            // if the execution reaches this point it means m_iErrorCode = Number of Routing Channels
             return _iNumberRoutingChannels; // return the number of routing channels
         }
 
@@ -655,8 +662,8 @@ namespace SIS.Hardware.TimeHarp
             // return the Time Harp serial number
             StringBuilder _sbSerialNumber = new StringBuilder(STRING1_CAPACITY);
             this.m_iErrorCode = TimeHarpDefinitions.TH_GetSerialNumber(_sbSerialNumber);
-                
-                // get the serial number of Time Harp
+
+            // get the serial number of Time Harp
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot get the Time Harp serial number by GetSerialNumber() function: ");
@@ -682,8 +689,8 @@ namespace SIS.Hardware.TimeHarp
             this.CheckForException(this.m_iErrorCode, "cannot get the Time Harp sync rate by GetSyncRate(): ");
 
             this.m_iSyncRate = this.m_iErrorCode;
-                
-                // if the execution reaches this point it means this will return the sync rate
+
+            // if the execution reaches this point it means this will return the sync rate
 
             // Console.WriteLine("GetSyncRate(): TTTRHeader.SyncRate = {0}, m_iSyncRate = {1}", Files.TTTRFileHeader.TTTRHeader.SyncRate, m_iSyncRate);  //for debugging purposes
             return this.m_iSyncRate; // return sync rate
@@ -715,8 +722,8 @@ namespace SIS.Hardware.TimeHarp
             }
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_Initialize(_iMeasurementMode);
-                
-                // set up the Time Harp measurement mode (0 - histogramming, 1 - TTTR mode) 
+
+            // set up the Time Harp measurement mode (0 - histogramming, 1 - TTTR mode) 
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot initialize and set the Time Harp measurement mode by InitializeTimeHarp() function: ");
@@ -767,8 +774,8 @@ namespace SIS.Hardware.TimeHarp
         public bool IsFIFOHalfFull(int _iFlags)
         {
             bool _bIsFIFOHalfFull = this.GetStatusFlag(_iFlags, TimeHarpDefinitions.FLAG_FIFOHALFFULL);
-                
-                // extract flag status
+
+            // extract flag status
             return _bIsFIFOHalfFull; // true = FiFo is half full, false = FiFo is not half full
         }
 
@@ -785,8 +792,8 @@ namespace SIS.Hardware.TimeHarp
         public bool IsOverflow(int _iFlags)
         {
             bool _bIsOverflowError = this.GetStatusFlag(_iFlags, TimeHarpDefinitions.FLAG_OVERFLOW);
-                
-                // extract flag status
+
+            // extract flag status
             return _bIsOverflowError; // true = error, false = no error
         }
 
@@ -818,8 +825,8 @@ namespace SIS.Hardware.TimeHarp
                 "cannot get the acquisition status of Time Harp by IsRunning() function: ");
 
             int _iAcquisitionTimeStatus = this.m_iErrorCode;
-                
-                // 0 - acquisition time still running; >0 - acquisition time has ended
+
+            // 0 - acquisition time still running; >0 - acquisition time has ended
             bool _bIsRunning = false;
             if (_iAcquisitionTimeStatus == 0)
             {
@@ -848,8 +855,8 @@ namespace SIS.Hardware.TimeHarp
         public bool IsScanActive(int _iFlags)
         {
             bool _bIsScanActive = this.GetStatusFlag(_iFlags, TimeHarpDefinitions.FLAG_SCANACTIVE);
-                
-                // extract flag status
+
+            // extract flag status
             return _bIsScanActive; // true = scan is active, false = scan is not active
         }
 
@@ -876,8 +883,8 @@ namespace SIS.Hardware.TimeHarp
         public void SetCFDDiscrMin()
         {
             this.m_iErrorCode = TimeHarpDefinitions.TH_SetCFDDiscrMin(this.m_iCFDDiscrMin);
-                
-                // set up CFD level of Time Harp in [mV]
+
+            // set up CFD level of Time Harp in [mV]
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot set the Time Harp CFD level by SetCFDDiscrMin() function: ");
@@ -890,8 +897,8 @@ namespace SIS.Hardware.TimeHarp
         public void SetCFDZeroCross()
         {
             this.m_iErrorCode = TimeHarpDefinitions.TH_SetCFDZeroCross(this.m_iCFDZeroCross);
-                
-                // set up CFD zero cross level of Time Harp
+
+            // set up CFD zero cross level of Time Harp
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot set the Time Harp CFD zero cross level by SetCFDZeroCross() function: ");
@@ -918,29 +925,29 @@ namespace SIS.Hardware.TimeHarp
             {
                 // check if __iAcquisitionTime has the correct value, (min value = TimeHarpDefinitions.ACQTMIN; max value = TimeHarpDefinitions.ACQTMAX)
                 __iAcquisitionTime = TimeHarpDefinitions.ACQTMAX;
-                    
-                    // in case __iAcquisitionTime = 0 we assign the maximum acquisition time               
+
+                // in case __iAcquisitionTime = 0 we assign the maximum acquisition time               
             }
             else if (__iAcquisitionTime < TimeHarpDefinitions.ACQTMIN)
             {
                 // check if __iAcquisitionTime has the correct value, (min value = TimeHarpDefinitions.ACQTMIN; max value = TimeHarpDefinitions.ACQTMAX)
                 __iAcquisitionTime = TimeHarpDefinitions.ACQT_DEFAULT;
-                    
-                    // assign the default acquisition time               
+
+                // assign the default acquisition time               
             }
             else if (__iAcquisitionTime > TimeHarpDefinitions.ACQTMAX)
             {
                 // check if __iAcquisitionTime has the correct value, (min value = TimeHarpDefinitions.ACQTMIN; max value = TimeHarpDefinitions.ACQTMAX)
                 __iAcquisitionTime = TimeHarpDefinitions.ACQTMAX;
-                    
-                    // assign the maximum acquisition time             
+
+                // assign the maximum acquisition time             
             }
 
             this.m_iAcquisitionTime = __iAcquisitionTime; // keep track of the acquisition time in [ms]
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_SetMMode(__iMeasurementMode, __iAcquisitionTime);
-                
-                // set the Time Harp measurement mode and acquisition time         
+
+            // set the Time Harp measurement mode and acquisition time         
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot set the Time Harp measurement mode by SetMeasurementMode() function: ");
@@ -961,8 +968,8 @@ namespace SIS.Hardware.TimeHarp
         public void SetNRT400CFD(int __iChannel, int __iLevel, int __iZerocross)
         {
             this.m_iErrorCode = TimeHarpDefinitions.TH_SetNRT400CFD(__iChannel, __iLevel, __iZerocross);
-                
-                // Set NRT 400 CFD level for NRT 400 Router connected to Time Harp          
+
+            // Set NRT 400 CFD level for NRT 400 Router connected to Time Harp          
             this.CheckForException(this.m_iErrorCode, "Time Harp cannot find router by SetNRT400CFD() function: ");
         }
 
@@ -973,8 +980,8 @@ namespace SIS.Hardware.TimeHarp
         public void SetOffset()
         {
             this.m_iErrorCode = TimeHarpDefinitions.TH_SetOffset(this.m_iOffset);
-                
-                // set up Offset value of Time Harp in [ns]            
+
+            // set up Offset value of Time Harp in [ns]            
             this.CheckForException(this.m_iErrorCode, "cannot set the Time Harp offset value by SetOffset() function: ");
         }
 
@@ -995,8 +1002,8 @@ namespace SIS.Hardware.TimeHarp
         public void SetSyncLevel()
         {
             this.m_iErrorCode = TimeHarpDefinitions.TH_SetSyncLevel(this.m_iSyncLevel);
-                
-                // set up Sync level of Time Harp in [mV]
+
+            // set up Sync level of Time Harp in [mV]
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot set the Time Harp Sync level by SetSyncLevel() function: ");
@@ -1036,15 +1043,15 @@ namespace SIS.Hardware.TimeHarp
             int _iNumberRecords = 0;
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_T3RCompleteDMA();
-                
-                // initiate and perform DMA to get TTTR data          
+
+            // initiate and perform DMA to get TTTR data          
             this.CheckForException(
                 this.m_iErrorCode, 
                 "Time Harp cannot complete the TTTR data by T3RCompleteDMA() function: ");
 
             _iNumberRecords = this.m_iErrorCode;
-                
-                // if the execution reaches this point it means m_iErrorCode = Number of Transferred Records
+
+            // if the execution reaches this point it means m_iErrorCode = Number of Transferred Records
             return _iNumberRecords; // return the number of transferred records
         }
 
@@ -1061,8 +1068,8 @@ namespace SIS.Hardware.TimeHarp
             int __iMarkerEdge2 = this.m_iMarkerEdge;
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_T3RSetMarkerEdges(__iMarkerEdge0, __iMarkerEdge1, __iMarkerEdge2);
-                
-                // set the active edges of the TTL signals
+
+            // set the active edges of the TTL signals
             this.CheckForException(
                 this.m_iErrorCode, 
                 "Time Harp cannot set the active edges of the TTL signals by T3RSetMarkerEdges() function: ");
@@ -1083,8 +1090,8 @@ namespace SIS.Hardware.TimeHarp
         public int T3RStartDMA(uint[] __uiBufferData, uint __iRecordsCount)
         {
             this.m_iErrorCode = TimeHarpDefinitions.TH_T3RStartDMA(__uiBufferData, __iRecordsCount);
-                
-                // initiate and perform DMA to get TTTR data          
+
+            // initiate and perform DMA to get TTTR data          
 
             // CheckForException(m_iErrorCode, "Time Harp cannot get the TTTR data by T3RStartDMA() function: ");  //I commented this because we must not call other functions from THlib until T3RCompleteDMA() returns (see the function below)
             return this.m_iErrorCode; // return the error code, if return value =0 (success), if <0 (error).
@@ -1132,8 +1139,8 @@ namespace SIS.Hardware.TimeHarp
             }
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_ClearHistMem(__iNumberBlocks);
-                
-                // clear histogram memory of Time Harp
+
+            // clear histogram memory of Time Harp
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot clear the Time Harp histogram memory by ClearHistogramMemory() function: ");
@@ -1184,13 +1191,13 @@ namespace SIS.Hardware.TimeHarp
             }
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_GetBank(__usChannelCounts, __iChannelFrom, __iChannelTo);
-                
-                // get histograms and all channels total counts            
+
+            // get histograms and all channels total counts            
             this.CheckForException(this.m_iErrorCode, "Time Harp cannot get the histogram data by GetBank() function: ");
 
             _iTotalHistogramCounts = this.m_iErrorCode;
-                
-                // if the execution reaches this point it means m_iErrorCode = Total Number of Counts
+
+            // if the execution reaches this point it means m_iErrorCode = Total Number of Counts
             return _iTotalHistogramCounts; // return the Total Number of Counts in the histograms
         }
 
@@ -1219,15 +1226,15 @@ namespace SIS.Hardware.TimeHarp
             }
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_GetBlock(__uiChannelCounts, __iNumberBlocks);
-                
-                // get histogram from Time Harp
+
+            // get histogram from Time Harp
             this.CheckForException(
                 this.m_iErrorCode, 
                 "Time Harp cannot get the histogram data by GetBlock() function: ");
 
             _iTotalHistogramCounts = this.m_iErrorCode;
-                
-                // if the execution reaches this point it means m_iErrorCode = Total Number of Counts
+
+            // if the execution reaches this point it means m_iErrorCode = Total Number of Counts
             return _iTotalHistogramCounts; // return the Total Number of Counts in the histogram
         }
 
@@ -1286,8 +1293,8 @@ namespace SIS.Hardware.TimeHarp
             // return the corresponding to the error code error string
             StringBuilder _sbErrorString = new StringBuilder(ERR_STRING_CAPACITY);
             TimeHarpDefinitions.TH_GetErrorString(_sbErrorString, __iErrorCode);
-                
-                // get the corresponding to the error code strings            
+
+            // get the corresponding to the error code strings            
             return _sbErrorString;
         }
 
@@ -1307,8 +1314,8 @@ namespace SIS.Hardware.TimeHarp
                 "Time Harp cannot get the number of lost blocks by GetLostBlocks() function: ");
 
             _iNumberLostBlocks = this.m_iErrorCode;
-                
-                // if the execution reaches this point it means m_iErrorCode = Number of Lost Blocks
+
+            // if the execution reaches this point it means m_iErrorCode = Number of Lost Blocks
             return _iNumberLostBlocks; // return the number of lost blocks in the histogram
         }
 
@@ -1418,7 +1425,7 @@ namespace SIS.Hardware.TimeHarp
         {
             bool _bFlagStatus = false;
 
-            int _iErrorFlag = __iFlags & (__iFlagBitPattern); // get the binary number related to the error status
+            int _iErrorFlag = __iFlags & __iFlagBitPattern; // get the binary number related to the error status
             if (_iErrorFlag > 0)
             {
                 // check the flag status
@@ -1481,13 +1488,15 @@ namespace SIS.Hardware.TimeHarp
             }
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_NextOffset(__iDirectionOffset);
-                
-                // set up next offset of Time Harp            
+
+            // set up next offset of Time Harp            
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot set the Time Harp next offset value by NextOffset() function: ");
 
-            _iOffset = this.m_iErrorCode; // if the executions comes here it means, the m_iErrorCode means the new offset
+            _iOffset = this.m_iErrorCode;
+
+            // if the executions comes here it means, the m_iErrorCode means the new offset
             this.m_iOffset = _iOffset; // assign the new offset
             return this.m_iOffset; // return the new offset
         }
@@ -1514,13 +1523,13 @@ namespace SIS.Hardware.TimeHarp
             {
                 // check if we have the correct input
                 __iStopLevel = TimeHarpDefinitions.OVERFLOWMAX;
-                    
-                    // in case of incorrect input set default to TimeHarpDefinitions.OVERFLOWMAX value;
+
+                // in case of incorrect input set default to TimeHarpDefinitions.OVERFLOWMAX value;
             }
 
             this.m_iErrorCode = TimeHarpDefinitions.TH_SetStopOverflow(__iStopOnOverflow, __iStopLevel);
-                
-                // set on/off the Time Harp overflow as well as the overflow stop level
+
+            // set on/off the Time Harp overflow as well as the overflow stop level
             this.CheckForException(
                 this.m_iErrorCode, 
                 "cannot set the Time Harp overflow values by SetStopOverflow() function: ");
@@ -1569,13 +1578,13 @@ namespace SIS.Hardware.TimeHarp
         protected int T3RDoDMA(uint[] __uiDataBuffer, uint __iRecordsCount)
         {
             this.m_iErrorCode = TimeHarpDefinitions.TH_T3RDoDMA(__uiDataBuffer, __iRecordsCount);
-                
-                // initiate and perform DMA to get TTTR data          
+
+            // initiate and perform DMA to get TTTR data          
             this.CheckForException(this.m_iErrorCode, "Time Harp cannot get the TTTR data by T3RDoDMA() function: ");
 
             return this.m_iErrorCode;
-                
-                // return the error code, if return value =0 (success), if <0 (error). If positive it means also the number of obtained records
+
+            // return the error code, if return value =0 (success), if <0 (error). If positive it means also the number of obtained records
         }
 
         #endregion

@@ -6,7 +6,6 @@
 //   The extended windsor container.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.ExtendedContainer
 {
     using System;

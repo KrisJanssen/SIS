@@ -6,7 +6,6 @@
 //   Watermarker - a class which can be used for watermarking an image.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Images
 {
     using System;

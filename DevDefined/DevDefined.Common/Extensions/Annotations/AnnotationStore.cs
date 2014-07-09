@@ -6,7 +6,6 @@
 //   The annotation store.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Extensions.Annotations
 {
     using System;

@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="YMultiLineScan.cs" company="">
-//   
+// <copyright file="YMultiLineScan.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Object supplies the necessary coordinates to a stage based upon the physical parameters that fully describe a unidirectional scan
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.ScanModes.XY
 {
     using System;

@@ -4,9 +4,8 @@
 // </copyright>
 // <summary>
 //   A class representing a region on the GasGuage chart
-//   <see cref="GasGaugeRegion" />s.
+//   s.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

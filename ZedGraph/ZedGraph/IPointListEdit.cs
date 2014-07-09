@@ -6,7 +6,6 @@
 //   An interface to a collection class containing data
 //   that define the set of points to be displayed on the curve.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

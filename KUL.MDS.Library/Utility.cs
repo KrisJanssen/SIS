@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="Utility.cs">
-//   
+// <copyright company="Kris Janssen" file="Utility.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Defines miscellaneous constants and static functions.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.Library
 {

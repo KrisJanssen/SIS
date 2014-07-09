@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   A LIFO stack of prior <see cref="ZoomState" /> objects, used to allow zooming out to prior
+//   A LIFO stack of prior  objects, used to allow zooming out to prior
 //   states (of scale range settings).
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

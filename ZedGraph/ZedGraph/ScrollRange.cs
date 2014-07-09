@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   A simple struct to store minimum and maximum <see cref="double" /> type
+//   A simple struct to store minimum and maximum  type
 //   values for the scroll range
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

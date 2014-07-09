@@ -6,7 +6,6 @@
 //   Interface implemented by a class which can manage files
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.FileManager
 {
     using System.IO;

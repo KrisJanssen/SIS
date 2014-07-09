@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PQTimeHarp.cs" company="">
-//   
+// <copyright file="PQTimeHarp.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   PQTimeHarp class provides support for Time Harp board.
@@ -56,13 +56,15 @@ namespace SIS.Hardware
         /// The Time Harp acquisition status (if it is still measuring or not).        
         /// </summary>
         private volatile bool m_IsMeasurementRunning = false;
-                              // keep the status of Time Harp acquisition (if it is still measuring or not)
+
+        // keep the status of Time Harp acquisition (if it is still measuring or not)
 
         /// <summary>
         /// Property - allows to stop Time Harp acquisition by setting its value to True.       
         /// </summary>
         private volatile bool m_IsMesurementToBeStopped = false;
-                              // allows to stop Time Harp acquisition by setting its value to true
+
+        // allows to stop Time Harp acquisition by setting its value to true
 
         /// <summary>
         /// Status of Time Harp board.
@@ -141,11 +143,11 @@ namespace SIS.Hardware
                 // Files.TTTRFileHeader.BinaryHeader.DisplayCurves = new TimeHarpDefinitions.tCurveMapping[8];
                 // Files.TTTRFileHeader.BinaryHeader.Params = new TimeHarpDefinitions.tParamStruct[3];
                 m_iGlobalTTTRBufferSize = this.GetGlobalTTTRBufferSize(__iGlobalTTTRBufferSize);
-                    
-                    // validate and set the size of the global TTTR buffer in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
+
+                // validate and set the size of the global TTTR buffer in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
                 m_iLinePTTTRBufferSize = this.GetLinePTTTRBufferSize(__iLinePTTTRBufferSize);
-                    
-                    // validate and set the size of the global TTTR buffer in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)            
+
+                // validate and set the size of the global TTTR buffer in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)            
             }
         }
 
@@ -312,17 +314,17 @@ namespace SIS.Hardware
         public static void ConvertSingleTTTRtoPTTTR(uint __ui32TTTRValue, ref ProcessedTTTRecord __PTTTRRecord)
         {
             __PTTTRRecord.TimeTag = (long)(__ui32TTTRValue & TTTRMasks.MASK_TIME_TAG);
-                
-                // extract the time tag from the data record (32 bits unsigned integer)
+
+            // extract the time tag from the data record (32 bits unsigned integer)
             __PTTTRRecord.Channel = (ushort)((__ui32TTTRValue >> 16) & TTTRMasks.MASK_CHANNEL);
-                
-                // extract the Data/Channel field from the data record (32 bits unsigned integer)
+
+            // extract the Data/Channel field from the data record (32 bits unsigned integer)
             __PTTTRRecord.Route = (byte)((__ui32TTTRValue >> 28) & TTTRMasks.MASK_ROUTE);
-                
-                // extract the Route field from the data record (32 bits unsigned integer)
+
+            // extract the Route field from the data record (32 bits unsigned integer)
             __PTTTRRecord.Valid = (byte)((__ui32TTTRValue >> 30) & TTTRMasks.MASK_VALID);
-                
-                // extract the Valid field from the data record (32 bits unsigned integer)
+
+            // extract the Valid field from the data record (32 bits unsigned integer)
 
             // __PTTTRRecord.Reserved = (byte)((__ui32TTTRValue >> 31) & TTTRMasks.MASK_RESERVED);  //extract the Reserved field from the data record (32 bits unsigned integer)
 
@@ -334,14 +336,14 @@ namespace SIS.Hardware
                     {
                         // case 0 - special event occurred (non-photon arrival event), i.e. overflow or/and external trigger (marker). Then we need to process __PTTTRRecord.Data differently 
                         __PTTTRRecord.DataMarker = (byte)(__PTTTRRecord.Channel & TTTRMasks.MASK_DATA_MARKER);
-                            
-                            // extract the DataMarker field
+
+                        // extract the DataMarker field
 
                         // __PTTTRRecord.DataReserved = (byte)((__PTTTRRecord.Data >> 3) & TTTRMasks.MASK_DATA_RESERVED);  //extract the DataReserved field from the __PTTTRRecord.Data
                         __PTTTRRecord.DataOverflow =
                             (byte)((__PTTTRRecord.Channel >> 11) & TTTRMasks.MASK_DATA_OVERFLOW);
-                            
-                            // extract the DataOverflow field from the __PTTTRRecord.Data
+
+                        // extract the DataOverflow field from the __PTTTRRecord.Data
                         break;
                     }
 
@@ -378,8 +380,8 @@ namespace SIS.Hardware
         {
             // Convert raw TTTR records to processed PTTTR records with true time tag
             ConvertSingleTTTRtoPTTTR(__ui32TTTRValue, ref __PTTTRRecord);
-                
-                // extract information form a single 32 bits integer data record 
+
+            // extract information form a single 32 bits integer data record 
             switch (__PTTTRRecord.Valid)
             {
                     // Valid = 0 (external trigger or overflow event), Valid = 1 (means photon arrival event)
@@ -402,8 +404,8 @@ namespace SIS.Hardware
             }
 
             __PTTTRRecord.TimeTag += 65536L * __iOverflow;
-                
-                // calculate the true Time Tag from the TimeTag and the overflow status
+
+            // calculate the true Time Tag from the TimeTag and the overflow status
         }
 
         /// <summary>
@@ -440,11 +442,11 @@ namespace SIS.Hardware
             for (int i = __indexTTTRBufferLowerBound; i < __indexTTTRBufferUpperBound; i++)
             {
                 int j = __iPTTTRBufferOffset + (i - __indexTTTRBufferLowerBound);
-                    
-                    // get the correct index for __PTTTRBuffer[] (index starts from zero)
+
+                // get the correct index for __PTTTRBuffer[] (index starts from zero)
                 ConvertSingleTTTRtoPTTTR(__ui32TTTRBuffer[i], ref __PTTTRBuffer[j]);
-                    
-                    // extract information form a single 32 bits integer data record 
+
+                // extract information form a single 32 bits integer data record 
                 switch (__PTTTRBuffer[j].Valid)
                 {
                         // Valid = 0 (external trigger or overflow event), Valid = 1 (means photon arrival event)
@@ -467,8 +469,8 @@ namespace SIS.Hardware
                 }
 
                 __PTTTRBuffer[j].TimeTag += 65536L * __iOverflow;
-                    
-                    // calculate the true Time Tag from the TimeTag and the overflow status
+
+                // calculate the true Time Tag from the TimeTag and the overflow status
             }
         }
 
@@ -491,8 +493,8 @@ namespace SIS.Hardware
         {
             // First read TTTR header
             ReadTTTRHeaderFromFile(__sInputFile, ref Files.TTTRFileHeader);
-                
-                // read TTTR header and store the parameters into Files.TTTRFileHeader structure
+
+            // read TTTR header and store the parameters into Files.TTTRFileHeader structure
 
             // Declare corresponding file streams
             FileStream _fsInputFileStream = null; // declare file stream - read TTTR file
@@ -505,20 +507,20 @@ namespace SIS.Hardware
             {
                 // open input TTTR file for reading
                 _fsInputFileStream = File.Open(__sInputFile, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    
-                    // open the input file for reading
+
+                // open the input file for reading
                 _brInputFile = new BinaryReader(_fsInputFileStream);
-                    
-                    // allocate the binary writer - makes the actual writing of the binary data to hard drive
+
+                // allocate the binary writer - makes the actual writing of the binary data to hard drive
 
                 // Skip the file header
                 long _lBytesOffset = TimeHarpDefinitions.SizeTTTRDefaultFileHeader
                                      + TimeHarpDefinitions.SizeTTTRCustomSISFileHeader;
-                    
-                    // calc and set TTTR header size in bytes                
+
+                // calc and set TTTR header size in bytes                
                 _brInputFile.BaseStream.Seek(_lBytesOffset, SeekOrigin.Begin);
-                    
-                    // move the file pointer by the specified bytes with respect to the file origin            
+
+                // move the file pointer by the specified bytes with respect to the file origin            
             }
             catch (Exception ex)
             {
@@ -532,11 +534,11 @@ namespace SIS.Hardware
             {
                 // create and open the output ASCII file for writing
                 _fsOutputFileStream = File.Open(__sOutputFile, FileMode.Create, FileAccess.Write, FileShare.None);
-                    
-                    // open the output file for writing                                
+
+                // open the output file for writing                                
                 _swOutputFile = new StreamWriter(_fsOutputFileStream);
-                    
-                    // allocate the stream writer - makes the actual writing of the text file on the hard drive
+
+                // allocate the stream writer - makes the actual writing of the text file on the hard drive
             }
             catch (Exception ex)
             {
@@ -682,11 +684,11 @@ namespace SIS.Hardware
             {
                 // TTTR records to ASCII file
                 _ui32TTTRSingleRecord = _brInputFile.ReadUInt32();
-                    
-                    // read a single record from the input binary TTTR file
+
+                // read a single record from the input binary TTTR file
                 ConvertSingleTTTRtoPTTTR(_ui32TTTRSingleRecord, ref _PTTTRecord);
-                    
-                    // convert single data record to a processed TTTR record in order to facilitate the extraction of the data fields from the record
+
+                // convert single data record to a processed TTTR record in order to facilitate the extraction of the data fields from the record
                 switch (_PTTTRecord.Valid)
                 {
                         // Valid = 0 (external trigger or overflow event), Valid = 1 (means photon arrival event)
@@ -697,8 +699,8 @@ namespace SIS.Hardware
                             {
                                 // if DataMarker it means we have found an external marker
                                 _lTrueTimeTag = _PTTTRecord.TimeTag + 65536L * _iOverflow;
-                                    
-                                    // calculate the true Time Tag from the TimeTag and the overflow status
+
+                                // calculate the true Time Tag from the TimeTag and the overflow status
                                 _swOutputFile.WriteLine(
                                     "{0,9} {1,9} {2,9} {3,6} {4,12}   Marker={5}", 
                                     i, 
@@ -713,8 +715,8 @@ namespace SIS.Hardware
                             {
                                 // if DataOverflow = 0 (no overflow of _PTTTRBuffer[i].TimeTag), DataOverflow = 1 (overflow of _PTTTRBuffer[i].TimeTag occurred)
                                 _lTrueTimeTag = _PTTTRecord.TimeTag + 65536L * _iOverflow;
-                                    
-                                    // calculate the true Time Tag from the TimeTag and the overflow status
+
+                                // calculate the true Time Tag from the TimeTag and the overflow status
                                 _swOutputFile.WriteLine(
                                     "{0,9} {1,9} {2,9} {3,6} {4,12} {5,10}", 
                                     i, 
@@ -739,8 +741,8 @@ namespace SIS.Hardware
                         {
                             // Valid = 1 (photon arrival event occurred)
                             _lTrueTimeTag = _PTTTRecord.TimeTag + 65536L * _iOverflow;
-                                
-                                // calculate the true Time Tag from the TimeTag and the overflow status
+
+                            // calculate the true Time Tag from the TimeTag and the overflow status
                             _swOutputFile.WriteLine(
                                 "{0,9} {1,9} {2,9} {3,6} {4,12} {5,10} {6,4}", 
                                 i, 
@@ -823,21 +825,21 @@ namespace SIS.Hardware
             {
                 // open input TTTR file for reading
                 _fsInputFileStream = File.Open(__sInputFile, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    
-                    // open the input file for reading                
+
+                // open the input file for reading                
                 _brInputFile = new BinaryReader(_fsInputFileStream);
-                    
-                    // allocate the binary writer - makes the actual writing of the binary data to hard drive
+
+                // allocate the binary writer - makes the actual writing of the binary data to hard drive
 
                 // Skip the file header and if requested start reading TTTR records from a specific records number
                 long _lBytesOffset = TimeHarpDefinitions.SizeTTTRDefaultFileHeader
                                      + TimeHarpDefinitions.SizeTTTRCustomSISFileHeader
                                      + __iRecordsOffset * sizeof(UInt32);
-                    
-                    // calc TTTR header and TTTR records offset                
+
+                // calc TTTR header and TTTR records offset                
                 _brInputFile.BaseStream.Seek(_lBytesOffset, SeekOrigin.Begin);
-                    
-                    // move the file pointer by the specified bytes with respect to the file origin - in this way we can read the given chunk of TTTR records                
+
+                // move the file pointer by the specified bytes with respect to the file origin - in this way we can read the given chunk of TTTR records                
             }
             catch (Exception ex)
             {
@@ -851,14 +853,14 @@ namespace SIS.Hardware
             ExternalMarkers.LineMarker.Found = false; // reset line marker
 
             ExternalMarkers.LineCount = 0;
-                
-                // start counting of the number of line markers within a frame to have as an info status (frame marker is beginning of line, so count it)
+
+            // start counting of the number of line markers within a frame to have as an info status (frame marker is beginning of line, so count it)
             ExternalMarkers.FrameCount = 0; // count the number of frame markers to have as an info status
 
             ScanStatus.XScanSizeNm = Files.TTTRFileHeader.CustomSISHeader.XScanSizeNm; // the width of the image in [nm]
             ScanStatus.YScanSizeNm = Files.TTTRFileHeader.CustomSISHeader.YScanSizeNm;
-                
-                // the height of the image in [nm]
+
+            // the height of the image in [nm]
             ScanStatus.XImageWidthPx = Files.TTTRFileHeader.CustomSISHeader.ImageWidthPx;
             ScanStatus.YImageHeightPx = Files.TTTRFileHeader.CustomSISHeader.ImageHeightPx;
             ScanStatus.PixelCount = ScanStatus.XImageWidthPx * ScanStatus.YImageHeightPx;
@@ -866,47 +868,47 @@ namespace SIS.Hardware
             ScanStatus.Overflow = 0; // number of current overflow markers
 
             ScanStatus.TypeOfScan = Files.TTTRFileHeader.CustomSISHeader.TypeOfScan;
-                
-                // get the type of scanning (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)            
+
+            // get the type of scanning (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)            
             ScanStatus.SyncTimeChannel =
                 (int)
                 ((1.0 / Files.TTTRFileHeader.TTTRHeader.SyncRate) / (Files.TTTRFileHeader.BoardHeader.Resolution * 1e-9));
-                
-                // convert SYNC time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm
+
+            // convert SYNC time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm
             ScanStatus.IsToApplyTimeGating = __bIsToApplyTimeGating;
-                
-                // do or not time gating of the binned photons            
+
+            // do or not time gating of the binned photons            
             ScanStatus.GatingTimeMinChannel =
                 (int)((__dGatingTimeMinMillisec * 1e-3) / (Files.TTTRFileHeader.BoardHeader.Resolution * 1e-9));
-                
-                // convert min gating time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm            
+
+            // convert min gating time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm            
             ScanStatus.GatingTimeMinReverseChannel =
                 (ushort)(ScanStatus.SyncTimeChannel - ScanStatus.GatingTimeMinChannel);
-                
-                // convert min gating channel to the reverse one so that we comply with the reverse start-stop photon time tag - it is then easier to compare and discard/gate photons 
+
+            // convert min gating channel to the reverse one so that we comply with the reverse start-stop photon time tag - it is then easier to compare and discard/gate photons 
             ScanStatus.GatingTimeMaxChannel =
                 (int)((__dGatingTimeMaxMillisec * 1e-3) / (Files.TTTRFileHeader.BoardHeader.Resolution * 1e-9));
-                
-                // convert max gating time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm            
+
+            // convert max gating time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm            
             ScanStatus.GatingTimeMaxReverseChannel =
                 (ushort)(ScanStatus.SyncTimeChannel - ScanStatus.GatingTimeMaxChannel);
-                
-                // convert max gating channel to the reverse one so that we comply with the reverse start-stop photon time tag - it is then easier to compare and discard/gate photons 
+
+            // convert max gating channel to the reverse one so that we comply with the reverse start-stop photon time tag - it is then easier to compare and discard/gate photons 
             ScanStatus.LinePixelBuffer = new uint[ScanStatus.XImageWidthPx];
-                
-                // the line buffer with the processed pixels      
+
+            // the line buffer with the processed pixels      
 
             // ScanStatus.FramePixelBuffer = new int[ScanStatus.PixelCount];  //allocate memory for the frame pixel buffer
             uint[][] _ui32FramePixelBuffer = new uint[1][];
-                
-                // an array of arrays of pixels from the data buffer, each array of pixels represent a frame, returned by this function
+
+            // an array of arrays of pixels from the data buffer, each array of pixels represent a frame, returned by this function
             _ui32FramePixelBuffer[0] = new uint[ScanStatus.PixelCount]; // allocate memory for the frame pixel buffer
             uint[] _ui32TTTRBuffer = new uint[TimeHarpDefinitions.DMABLOCKSZ];
-                
-                // Time Harp FIFO data records will be stored here, the max size must be TimeHarpDefinitions.DMABLOCKSZ
+
+            // Time Harp FIFO data records will be stored here, the max size must be TimeHarpDefinitions.DMABLOCKSZ
             ScanStatus.LinePTTTRBufferIndex = 0;
-                
-                // reset to zero the LinePTTTRBuffer[] index (because we are about to start)
+
+            // reset to zero the LinePTTTRBuffer[] index (because we are about to start)
             bool _bFrameReady = false;
 
             // int _iFrameCounter = 0;            
@@ -924,14 +926,14 @@ namespace SIS.Hardware
                 {
                     // fill the _ui32TTTRBuffer[] buffer array with records
                     _ui32TTTRBuffer[j] = _brInputFile.ReadUInt32();
-                        
-                        // read a single record from the input binary TTTR file
+
+                    // read a single record from the input binary TTTR file
                 }
 
                 _indexTTTRBufferLowerBound = 0; // must be zero in the present algorithm
                 _indexTTTRBufferUpperBound = TimeHarpDefinitions.DMABLOCKSZ;
-                    
-                    // get the current number of records read from TTTR file                                
+
+                // get the current number of records read from TTTR file                                
 
                 // Process TTTR buffer and extract pixels from photon events
                 while (_indexTTTRBufferLowerBound < _indexTTTRBufferUpperBound)
@@ -953,7 +955,8 @@ namespace SIS.Hardware
                         break;
                     }
                 }
- // END while (_indexTTTRBufferLowerBound < _indexTTTRBufferUpperBound)
+
+                // END while (_indexTTTRBufferLowerBound < _indexTTTRBufferUpperBound)
 
                 // Save the state of processing so that next time we start from the appropriate place                    
                 // _indexTTTRBufferLowerBound = (_indexTTTRBufferLowerBound >= _indexTTTRBufferUpperBound) ? 0 : _indexTTTRBufferLowerBound;  //check if we have processed the entire global TTTR buffer (if so reset the variable to zero so that it is ready for the next round of processing)                                    
@@ -964,7 +967,8 @@ namespace SIS.Hardware
                     break;
                 }
             }
- // END for-loop
+
+            // END for-loop
 
             // Process the last chunk of TTTR records and try to extract pixels. Note that the size of the last chunk is (Files.TTTRFileHeader.TTTRHeader.NumberOfRecords % TimeHarpDefinitions.DMABLOCKSZ)                       
             if (!_bFrameReady && (Files.TTTRFileHeader.TTTRHeader.NumberOfRecords % TimeHarpDefinitions.DMABLOCKSZ > 1))
@@ -975,15 +979,15 @@ namespace SIS.Hardware
                 {
                     // fill the _ui32TTTRBuffer[] buffer array with records
                     _ui32TTTRBuffer[j] = _brInputFile.ReadUInt32();
-                        
-                        // read a single record from the input binary TTTR file
+
+                    // read a single record from the input binary TTTR file
                 }
 
                 _indexTTTRBufferLowerBound = 0; // must be zero in the present algorithm
                 _indexTTTRBufferUpperBound = Files.TTTRFileHeader.TTTRHeader.NumberOfRecords
                                              % TimeHarpDefinitions.DMABLOCKSZ;
-                    
-                    // get the number of records left to be read from TTTR file
+
+                // get the number of records left to be read from TTTR file
 
                 // Process TTTR buffer and extract pixels from photon events
                 while (_indexTTTRBufferLowerBound < _indexTTTRBufferUpperBound)
@@ -1005,7 +1009,8 @@ namespace SIS.Hardware
                         break;
                     }
                 }
- // END while (_indexTTTRBufferLowerBound < _indexTTTRBufferUpperBound)
+
+                // END while (_indexTTTRBufferLowerBound < _indexTTTRBufferUpperBound)
             }
 
             // Close input TTTR file
@@ -1072,8 +1077,8 @@ namespace SIS.Hardware
 
             // Assign the line pixel buffer (we extract the frame from TTTR records line by line)
             uint[] _ui32LinePixelBuffer = ScanStatus.LinePixelBuffer;
-                
-                // line pixel buffer - note that the memory is allocated in SetupAPDCountAndTiming() function
+
+            // line pixel buffer - note that the memory is allocated in SetupAPDCountAndTiming() function
 
             // bool _bLinePixelBufferReady = false;  //indicate if a scanned line with pixels is ready and thus can be copied to the frame pixel buffer
 
@@ -1089,8 +1094,8 @@ namespace SIS.Hardware
 
                 // Search for the reference frame/line external markers, then fill the raw photon counts into the line PTTTR buffer and calculate time per pixel. Note that time per pixel may not be calculate on this run - we need a full line (two line markers) to be able to calculate it
                 ExternalMarkers.LineMarker.Found = false;
-                    
-                    // reset line marker state, necessary in order to find the next line marker and fill the line PTTTR buffer 
+
+                // reset line marker state, necessary in order to find the next line marker and fill the line PTTTR buffer 
 
                 // Check for FiFO buffer overrun by searching for frame marker which comes too early
                 if (ExternalMarkers.FrameMarker.Found)
@@ -1107,8 +1112,8 @@ namespace SIS.Hardware
                                 {
                                     // ScanStatus.FrameMarker it means we have found a line trigger
                                     _iPixelCounter = _iPixelCount;
-                                        
-                                        // causes the frame to be finished by PhotonEventsToPixelBuffer() function                                        
+
+                                    // causes the frame to be finished by PhotonEventsToPixelBuffer() function                                        
                                 }
 
                                 break;
@@ -1130,28 +1135,28 @@ namespace SIS.Hardware
                                 {
                                     // if DataMarker = ScanStatus.FrameMarker it means we have found a frame trigger
                                     ExternalMarkers.LineCount = 1;
-                                        
-                                        // start counting of the number of line markers within a frame to have as an info status (frame marker is beginning of line, so count it)
+
+                                    // start counting of the number of line markers within a frame to have as an info status (frame marker is beginning of line, so count it)
                                     ExternalMarkers.FrameCount++;
-                                        
-                                        // count the number of frame markers to have as an info status
+
+                                    // count the number of frame markers to have as an info status
                                     ExternalMarkers.FrameMarker.Found = true;
-                                        
-                                        // the reference frame marker (beginning of frame) has been found
+
+                                    // the reference frame marker (beginning of frame) has been found
                                     ExternalMarkers.FrameMarker.Index = __indexTTTRBufferLowerBound;
-                                        
-                                        // get the frame marker index from the current TTTR buffer
+
+                                    // get the frame marker index from the current TTTR buffer
                                     ExternalMarkers.FrameMarker.TimeTag = _PTTTRecord.TimeTag;
-                                        
-                                        // get the frame marker time tag from the current TTTR buffer
+
+                                    // get the frame marker time tag from the current TTTR buffer
                                     ScanStatus.LinePTTTRBufferTimeTag1 = ExternalMarkers.FrameMarker.TimeTag;
 
                                     // ExternalMarkers.FrameCount++;  //count the number of frame markers in the current TTTR buffer
                                     _logger.Debug(
                                         "Time Harp: frame marker found --> overall number of detected frames# "
                                         + ExternalMarkers.FrameCount.ToString() + "x...");
-                                        
-                                        // log debug info if a frame marker is found
+
+                                    // log debug info if a frame marker is found
                                 }
 
                                 break;
@@ -1174,21 +1179,22 @@ namespace SIS.Hardware
                             {
                                 // Valid = 0 (external trigger or overflow event occurred)
                                 if (_PTTTRecord.DataMarker == ScanStatus.LineMarker
-                                    || _PTTTRecord.DataMarker == ScanStatus.FrameMarker) // if DataMarker = ScanStatus.LineMarker or ScanStatus.FrameMarker it means we have found a line trigger
+                                    || _PTTTRecord.DataMarker == ScanStatus.FrameMarker)
                                 {
+                                    // if DataMarker = ScanStatus.LineMarker or ScanStatus.FrameMarker it means we have found a line trigger
                                     // if (_PTTTRecord.DataMarker == ScanStatus.LineMarker)  //if DataMarker = ScanStatus.LineMarker it means we have found a line trigger                                        
                                     ExternalMarkers.LineCount++;
-                                        
-                                        // count the number of line markers to have as an info status
+
+                                    // count the number of line markers to have as an info status
                                     ExternalMarkers.LineMarker.Found = true;
-                                        
-                                        // the reference line marker (beginning of new line) has been found
+
+                                    // the reference line marker (beginning of new line) has been found
                                     ExternalMarkers.LineMarker.Index = __indexTTTRBufferLowerBound;
-                                        
-                                        // get the line marker index from the current TTTR buffer
+
+                                    // get the line marker index from the current TTTR buffer
                                     ExternalMarkers.LineMarker.TimeTag = _PTTTRecord.TimeTag;
-                                        
-                                        // get the line marker time tag from the current TTTR buffer
+
+                                    // get the line marker time tag from the current TTTR buffer
                                     ScanStatus.LinePTTTRBufferTimeTag2 = ExternalMarkers.LineMarker.TimeTag;
                                 }
 
@@ -1202,8 +1208,8 @@ namespace SIS.Hardware
                                 {
                                     // check before you transfer photon events to line buffer
                                     ScanStatus.LinePTTTRBuffer[ScanStatus.LinePTTTRBufferIndex] = _PTTTRecord;
-                                        
-                                        // copy photon events between two lines
+
+                                    // copy photon events between two lines
                                     ScanStatus.LinePTTTRBufferIndex++; // shift to the next free array cell
                                 }
                                 else
@@ -1231,11 +1237,11 @@ namespace SIS.Hardware
                     int _iTimePPixel =
                         ScanStatus.TimePPixelChannel =
                         ((int)(ScanStatus.LinePTTTRBufferTimeTag2 - ScanStatus.LinePTTTRBufferTimeTag1)) / _iXWidth;
-                        
-                        // time per pixel in channel number (the channel width is 100e-9[s])
+
+                    // time per pixel in channel number (the channel width is 100e-9[s])
                     ScanStatus.TimePPixelMillisec = ScanStatus.TimePPixelChannel * 100e-9 * 1000;
-                        
-                        // time per pixel in milliseconds
+
+                    // time per pixel in milliseconds
 
                     // ScanStatus.FrameTimeOut = (int)(ScanStatus.TimePPixelMillisec * ScanStatus.PixelCount) / 10;  //frame time out is approx. 10% of the overall time per frame
 
@@ -1255,17 +1261,19 @@ namespace SIS.Hardware
                         break; // exit the while-loop (__indexLowerBound < __indexUpperBound)
                     }
                 }
- // END if (ExternalMarkers.FrameMarker.Found && ExternalMarkers.LineMarker.Found)
+
+                // END if (ExternalMarkers.FrameMarker.Found && ExternalMarkers.LineMarker.Found)
 
                 // Go to the next TTTR record
                 __indexTTTRBufferLowerBound++;
             }
- // END while (__indexLowerBound < __indexUpperBound)
+
+            // END while (__indexLowerBound < __indexUpperBound)
 
             // Keep track of the scanning state so that at the next ExtractPhotonEventsFromTTTRBuffer() function call we use the correct values            
             ScanStatus.PixelsCounter = _iPixelCounter;
-                
-                // current position of the pixel counter (next time we enter this function we start from this position)
+
+            // current position of the pixel counter (next time we enter this function we start from this position)
             ScanStatus.Overflow = _iOverflow; // current overflow flag value
         }
 
@@ -1304,8 +1312,8 @@ namespace SIS.Hardware
         {
             long _lCurrentTimeTag; // the time tag of the current event
             long _lReferenceTimeTag = ScanStatus.LinePTTTRBufferTimeTag1;
-                
-                // the time tag of the line/frame marker of the beginning of the line TTTR buffer            
+
+            // the time tag of the line/frame marker of the beginning of the line TTTR buffer            
             int _iTempPixelCounter = __iPixelCounter; // store temporary the number of currently processed pixels
 
             if (__iPixelCounter < __iPixelCount)
@@ -1313,8 +1321,8 @@ namespace SIS.Hardware
                 // check if in the current frame we still have pixels that must be processed and filled with photons
                 int i = 0; // loop counter
                 int _iLinePixelCounter = 0;
-                    
-                    // count the current pixels for the processed line. Note that it is necessary for the proper binning of the photons
+
+                // count the current pixels for the processed line. Note that it is necessary for the proper binning of the photons
 
                 // Applying time gating or not to the processed photon events:
                 switch (ScanStatus.IsToApplyTimeGating)
@@ -1326,14 +1334,14 @@ namespace SIS.Hardware
                             {
                                 // convert the line PTTTR buffer into pixels
                                 _lCurrentTimeTag = ScanStatus.LinePTTTRBuffer[i].TimeTag;
-                                    
-                                    // current time tag of the event
+
+                                // current time tag of the event
                                 int _iTimeChannel =
                                     (int)
                                     (_lCurrentTimeTag
                                      - (_lReferenceTimeTag + (long)(__iTimePPixel * _iLinePixelCounter)));
-                                    
-                                    // calculate the size of the channel for the current photon
+
+                                // calculate the size of the channel for the current photon
                                 if (_iTimeChannel <= __iTimePPixel)
                                 {
                                     // check if the current photon event is within the given pixel time bin
@@ -1377,14 +1385,14 @@ namespace SIS.Hardware
                             {
                                 // convert the line PTTTR buffer into pixels
                                 _lCurrentTimeTag = ScanStatus.LinePTTTRBuffer[i].TimeTag;
-                                    
-                                    // current time tag of the event
+
+                                // current time tag of the event
                                 int _iTimeChannel =
                                     (int)
                                     (_lCurrentTimeTag
                                      - (_lReferenceTimeTag + (long)(__iTimePPixel * _iLinePixelCounter)));
-                                    
-                                    // calculate the size of the channel for the current photon
+
+                                // calculate the size of the channel for the current photon
                                 if (_iTimeChannel <= __iTimePPixel)
                                 {
                                     // check if the current photon event is within the given pixel time bin
@@ -1408,18 +1416,18 @@ namespace SIS.Hardware
                             break; // exit case statement
                         }
                 }
- // end switch statement
 
+                // end switch statement
                 __iPixelCounter = _iTempPixelCounter + __iXWidth;
-                    
-                    // update the number of currently processed pixels to the correct one. Note that this equals __iPixelCounter prior to the line processing + the number of pixels in a single line (given by __iXWidth)
+
+                // update the number of currently processed pixels to the correct one. Note that this equals __iPixelCounter prior to the line processing + the number of pixels in a single line (given by __iXWidth)
                 ScanStatus.LinePTTTRBufferIndex = 0; // reset index, because buffer already processed
                 ScanStatus.LinePTTTRBufferTimeTag1 = ScanStatus.LinePTTTRBufferTimeTag2;
-                    
-                    // assign the new reference time tag (which is the last event from the current buffer) for the next time we process photon events
+
+                // assign the new reference time tag (which is the last event from the current buffer) for the next time we process photon events
                 ScanStatus.LinePTTTRBufferTimeTag2 = -1;
-                    
-                    // upper bound of the buffer time tag is now -1 (because we have already processed the buffer)
+
+                // upper bound of the buffer time tag is now -1 (because we have already processed the buffer)
 
                 // Transfer line pixel buffer to the frame pixel buffer
                 switch (ScanStatus.TypeOfScan)
@@ -1433,11 +1441,11 @@ namespace SIS.Hardware
                             {
                                 // loop through all pixels - bidirectional
                                 __ui32FramePixelBuffer[_iPixels + indexPixel] = __ui32LinePixelBuffer[indexPixel];
-                                    
-                                    // transfer pixels to the frame buffer
+
+                                // transfer pixels to the frame buffer
                                 __ui32LinePixelBuffer[indexPixel] = 0U;
-                                    
-                                    // reset line pixel buffer values to zero so that it is ready for the next pixel extraction
+
+                                // reset line pixel buffer values to zero so that it is ready for the next pixel extraction
                             }
 
                             break;
@@ -1457,11 +1465,11 @@ namespace SIS.Hardware
                                 {
                                     // loop through all pixels - bidirectional
                                     __ui32FramePixelBuffer[_iPixels + indexPixel] = __ui32LinePixelBuffer[indexPixel];
-                                        
-                                        // transfer pixels to the frame buffer
+
+                                    // transfer pixels to the frame buffer
                                     __ui32LinePixelBuffer[indexPixel] = 0U;
-                                        
-                                        // reset line pixel buffer values to zero so that it is ready for the next pixel extraction
+
+                                    // reset line pixel buffer values to zero so that it is ready for the next pixel extraction
                                 }
                             }
                             else
@@ -1471,14 +1479,14 @@ namespace SIS.Hardware
                                 {
                                     // loop through all pixels - bidirectional
                                     int j = (__iXWidth - 1) - indexPixel;
-                                        
-                                        // calculate the correct index 'j' for the line pixel buffer so that we flip the pixels and thus get the right pixels order in the frame pixel buffer
+
+                                    // calculate the correct index 'j' for the line pixel buffer so that we flip the pixels and thus get the right pixels order in the frame pixel buffer
                                     __ui32FramePixelBuffer[_iPixels + indexPixel] = __ui32LinePixelBuffer[j];
-                                        
-                                        // transfer pixels to the frame buffer
+
+                                    // transfer pixels to the frame buffer
                                     __ui32LinePixelBuffer[j] = 0U;
-                                        
-                                        // reset line pixel buffer values to zero so that it is ready for the next pixel extraction
+
+                                    // reset line pixel buffer values to zero so that it is ready for the next pixel extraction
                                 }
                             }
 
@@ -1549,11 +1557,11 @@ namespace SIS.Hardware
             {
                 // open the TTTR file for reading
                 _fsInputFileStream = File.Open(__sInputFile, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    
-                    // open the input file for reading                        
+
+                // open the input file for reading                        
                 _brInputFile = new BinaryReader(_fsInputFileStream);
-                    
-                    // allocate the binary reader - makes the actual reading of the binary data from hard drive
+
+                // allocate the binary reader - makes the actual reading of the binary data from hard drive
             }
             catch (Exception ex)
             {
@@ -1578,7 +1586,9 @@ namespace SIS.Hardware
             __TTTRFileHeader.BinaryHeader.RoutingChannels = _brInputFile.ReadInt32(); // read Int32 from file
             __TTTRFileHeader.BinaryHeader.NumberOfBoards = _brInputFile.ReadInt32(); // read Int32 from file
             __TTTRFileHeader.BinaryHeader.ActiveCurve = _brInputFile.ReadInt32(); // read Int32 from file
-            __TTTRFileHeader.BinaryHeader.MeasurementMode = _brInputFile.ReadInt32(); // read Int32 from file            
+            __TTTRFileHeader.BinaryHeader.MeasurementMode = _brInputFile.ReadInt32();
+
+            // read Int32 from file            
             __TTTRFileHeader.BinaryHeader.SubMode = _brInputFile.ReadInt32(); // read Int32 from file
             __TTTRFileHeader.BinaryHeader.RangeNo = _brInputFile.ReadInt32(); // read Int32 from file            
             __TTTRFileHeader.BinaryHeader.Offset = _brInputFile.ReadInt32(); // read Int32 from file
@@ -1595,23 +1605,23 @@ namespace SIS.Hardware
             if (__TTTRFileHeader.BinaryHeader.DisplayCurves == null)
             {
                 __TTTRFileHeader.BinaryHeader.DisplayCurves = new TimeHarpDefinitions.tCurveMapping[8];
-                    
-                    // allocate int struct array
+
+                // allocate int struct array
             }
 
             for (int i = 0; i < 8; i++)
             {
                 __TTTRFileHeader.BinaryHeader.DisplayCurves[i].MapTo = _brInputFile.ReadInt32(); // read Int32 from file
                 __TTTRFileHeader.BinaryHeader.DisplayCurves[i].Show = _brInputFile.ReadInt32();
-                    
-                    // read Int32 from file 							 
+
+                // read Int32 from file 							 
             }
 
             if (__TTTRFileHeader.BinaryHeader.Params == null)
             {
                 __TTTRFileHeader.BinaryHeader.Params = new TimeHarpDefinitions.tParamStruct[3];
-                    
-                    // allocate float struct array
+
+                // allocate float struct array
             }
 
             for (int i = 0; i < 3; i++)
@@ -1661,50 +1671,58 @@ namespace SIS.Hardware
                 __TTTRFileHeader.CustomSISHeader.InitYNm = _brInputFile.ReadDouble(); // read Double from file
                 __TTTRFileHeader.CustomSISHeader.InitZNm = _brInputFile.ReadDouble(); // read Double from file
                 __TTTRFileHeader.CustomSISHeader.XScanSizeNm = _brInputFile.ReadDouble();
-                    
-                    // read Double from file           
+
+                // read Double from file           
                 __TTTRFileHeader.CustomSISHeader.YScanSizeNm = _brInputFile.ReadDouble();
-                    
-                    // read Double from file           
+
+                // read Double from file           
                 __TTTRFileHeader.CustomSISHeader.ZScanSizeNm = _brInputFile.ReadDouble(); // read Double from file
                 __TTTRFileHeader.CustomSISHeader.ImageWidthPx = _brInputFile.ReadInt32();
-                    
-                    // read Int32 from file           
+
+                // read Int32 from file           
                 __TTTRFileHeader.CustomSISHeader.ImageHeightPx = _brInputFile.ReadInt32();
-                    
-                    // read Int32 from file            
+
+                // read Int32 from file            
                 __TTTRFileHeader.CustomSISHeader.ImageDepthPx = _brInputFile.ReadInt32();
-                    
-                    // read Int32 from file         
-                __TTTRFileHeader.CustomSISHeader.XOverScanPx = _brInputFile.ReadInt32(); // read Int32 from file         
-                __TTTRFileHeader.CustomSISHeader.YOverScanPx = _brInputFile.ReadInt32(); // read Int32 from file         
+
+                // read Int32 from file         
+                __TTTRFileHeader.CustomSISHeader.XOverScanPx = _brInputFile.ReadInt32();
+
+                // read Int32 from file         
+                __TTTRFileHeader.CustomSISHeader.YOverScanPx = _brInputFile.ReadInt32();
+
+                // read Int32 from file         
                 __TTTRFileHeader.CustomSISHeader.ZOverScanPx = _brInputFile.ReadInt32();
-                    
-                    // read Int32 from file           
+
+                // read Int32 from file           
                 __TTTRFileHeader.CustomSISHeader.SISChannels = _brInputFile.ReadInt32();
-                    
-                    // read Int32 from file          
-                __TTTRFileHeader.CustomSISHeader.TypeOfScan = _brInputFile.ReadInt32(); // read Int32 from file          
+
+                // read Int32 from file          
+                __TTTRFileHeader.CustomSISHeader.TypeOfScan = _brInputFile.ReadInt32();
+
+                // read Int32 from file          
                 __TTTRFileHeader.CustomSISHeader.FrameTimeOut = _brInputFile.ReadInt32();
-                    
-                    // read Int32 from file         
+
+                // read Int32 from file         
                 __TTTRFileHeader.CustomSISHeader.FiFoTimeOut = _brInputFile.ReadInt32();
-                    
-                    // read Int32 from file          
+
+                // read Int32 from file          
                 __TTTRFileHeader.CustomSISHeader.StackMarker = _brInputFile.ReadByte(); // read Byte from file         
                 __TTTRFileHeader.CustomSISHeader.FrameMarker = _brInputFile.ReadByte(); // read Byte from file       
                 __TTTRFileHeader.CustomSISHeader.LineMarker = _brInputFile.ReadByte(); // read Byte from file          
                 __TTTRFileHeader.CustomSISHeader.PixelMarker = _brInputFile.ReadByte(); // read Byte from file          
                 __TTTRFileHeader.CustomSISHeader.GalvoMagnificationObjective = _brInputFile.ReadDouble();
-                    
-                    // read Double from file          
+
+                // read Double from file          
                 __TTTRFileHeader.CustomSISHeader.GalvoScanLensFocalLength = _brInputFile.ReadDouble();
-                    
-                    // read Double from file         
+
+                // read Double from file         
                 __TTTRFileHeader.CustomSISHeader.GalvoRangeAngleDegrees = _brInputFile.ReadDouble();
-                    
-                    // read Double from file         
-                __TTTRFileHeader.CustomSISHeader.GalvoRangeAngleInt = _brInputFile.ReadDouble(); // read Double from file
+
+                // read Double from file         
+                __TTTRFileHeader.CustomSISHeader.GalvoRangeAngleInt = _brInputFile.ReadDouble();
+
+                // read Double from file
             }
 
             // Close file
@@ -1738,8 +1756,8 @@ namespace SIS.Hardware
             int __iFrameCounter)
         {
             int _iPixelCount = __iXWidth * __iYHeight;
-                
-                // The capacity of the pixel buffer (usually equals to the overall pixel counts)
+
+            // The capacity of the pixel buffer (usually equals to the overall pixel counts)
 
             // Allocate temp frame pixel buffer in order to convert to signed integer pixel values
             int[] _i32FramePixelBuffer = new int[_iPixelCount];
@@ -1747,8 +1765,8 @@ namespace SIS.Hardware
             for (int i = 0; i < _iPixelCount; i++)
             {
                 _i32FramePixelBuffer[i] = (int)__ui32FramePixelBuffer[i];
-                    
-                    // convert the values of the frame pixel buffer from uint to int
+
+                // convert the values of the frame pixel buffer from uint to int
             }
 
             // Create the bitmap
@@ -1770,8 +1788,8 @@ namespace SIS.Hardware
             try
             {
                 bitmapImage2D.Save(__iFrameCounter.ToString() + "." + __sOutputFile, ImageFormat.Bmp);
-                    
-                    // save the image as ".bmp" to file
+
+                // save the image as ".bmp" to file
             }
             catch (Exception ex)
             {
@@ -1800,8 +1818,8 @@ namespace SIS.Hardware
             int __iRecordsCount)
         {
             __bwOutputFile.Seek(__iFileOffsetForNumberRecords, SeekOrigin.Begin);
-                
-                // move the file pointer with __iFileOffsetForNumberRecords with respect to the file origin
+
+            // move the file pointer with __iFileOffsetForNumberRecords with respect to the file origin
             __bwOutputFile.Write(__iRecordsCount); // write Int32 to file
         }
 
@@ -1848,8 +1866,8 @@ namespace SIS.Hardware
                 // Note that when __iMeasurementMode is used in InitializeTimeHarp() function then 0 - histogramming, and 1 - TTTR mode.
                 // So in InitializeTimeHarp() function we takes care of this and convert the value to match the suitable mode.
                 this.InitializeTimeHarp();
-                    
-                    // initialize Time Harp and set measurement/acquisition mode - IMPORTANT NOTE: We must call this function prior to any other Time Harp function, this function initializes Time Harp itself as well
+
+                // initialize Time Harp and set measurement/acquisition mode - IMPORTANT NOTE: We must call this function prior to any other Time Harp function, this function initializes Time Harp itself as well
 
                 // Calibrate Time Harp board - necessary prior to the start of a measurement session
                 this.Calibrate();
@@ -1893,24 +1911,24 @@ namespace SIS.Hardware
 
                     // Allocate buffers
                     ScanStatus.GlobalTTTRBuffer = new uint[m_iGlobalTTTRBufferSize * TimeHarpDefinitions.DMABLOCKSZ];
-                        
-                        // the global TTTR buffer - a pool for the Time Harp FiFo buffers. The size is multiple of the size of the 1/2 Time Harp FiFo buffer
+
+                    // the global TTTR buffer - a pool for the Time Harp FiFo buffers. The size is multiple of the size of the 1/2 Time Harp FiFo buffer
                     ScanStatus.SizeGlobalTTTRBuffer = 0;
-                        
-                        // the current size up to which the buffer is filled with values. Note that it needs to be "volatile" so that every thread gets the most up to date value.
+
+                    // the current size up to which the buffer is filled with values. Note that it needs to be "volatile" so that every thread gets the most up to date value.
                     ScanStatus.LinePTTTRBuffer =
                         new ProcessedTTTRecord[m_iLinePTTTRBufferSize * TimeHarpDefinitions.DMABLOCKSZ];
-                        
-                        // the line Processed TTTR buffer. The size is multiple of the size of the 1/2 Time Harp FiFo buffer
+
+                    // the line Processed TTTR buffer. The size is multiple of the size of the 1/2 Time Harp FiFo buffer
                     ScanStatus.LinePTTTRBufferIndex = 0;
-                        
-                        // the index of the last available processed TTTR record in the given buffer (it must not exceed the length of the buffer, if it happens it wraps to the beginning of the buffer)
+
+                    // the index of the last available processed TTTR record in the given buffer (it must not exceed the length of the buffer, if it happens it wraps to the beginning of the buffer)
                     ScanStatus.LinePTTTRBufferTimeTag1 = -1;
-                        
-                        // time tag of the line marker 1, it marks the beginning of the buffer
+
+                    // time tag of the line marker 1, it marks the beginning of the buffer
                     ScanStatus.LinePTTTRBufferTimeTag2 = -1;
-                        
-                        // time tag of the line marker 2, it marks the end of the buffer 
+
+                    // time tag of the line marker 2, it marks the end of the buffer 
 
                     // Get sync rate as well as count rate
                     int _iSyncRate = this.GetSyncRate(); // get the number of laser pulses from the SYNC channel
@@ -2120,28 +2138,28 @@ namespace SIS.Hardware
             // External markers settings
             // ScanStatus.StackMarker = (byte) __iStackMarker;  //value of external marker interpreted as a Stack marker
             ScanStatus.FrameMarker = (byte)__iFrameMarker;
-                
-                // value of external marker interpreted as a Frame marker (note that Frame marker is also a line marker)
+
+            // value of external marker interpreted as a Frame marker (note that Frame marker is also a line marker)
             ScanStatus.LineMarker = (byte)__iLineMarker; // value of external marker interpreted as a Line marker
 
             // ScanStatus.PixelMarker = (byte) __iPixelMarker;  //value of external marker interpreted as a Pixel marker
 
             // Image acquisition default settings
             ScanStatus.TimePPixelMillisec = __dTimePPixelMillisec;
-                
-                // the time per pixel in [ms] as set in SIS scan settings (not used in the pixel extraction)
+
+            // the time per pixel in [ms] as set in SIS scan settings (not used in the pixel extraction)
             ScanStatus.TimePPixelChannel = 0;
-                
-                // pixel time in channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm
+
+            // pixel time in channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm
             ScanStatus.XImageWidthPx = __iXImageWidthPx; // number of pixels per line
             ScanStatus.YImageHeightPx = __iYImageHeightPx; // number of lines per frame
             ScanStatus.ZImageDepthPx = __iZImageDepthPx; // number of images in the stack
             ScanStatus.PixelCount = ScanStatus.XImageWidthPx * ScanStatus.YImageHeightPx;
-                
-                // number of pixels in one frame
+
+            // number of pixels in one frame
             ScanStatus.PixelsCounter = 0;
-                
-                // processed pixels counter - counts the pixels that have been already processed
+
+            // processed pixels counter - counts the pixels that have been already processed
             ScanStatus.XScanSizeNm = __dXScanSizeNm; // the scan size along X in [nm]
             ScanStatus.YScanSizeNm = __dYScanSizeNm; // the scan size along Y in [nm]
             ScanStatus.ZScanSizeNm = __dZScanSizeNm; // the scan size along Z in [nm]
@@ -2161,105 +2179,105 @@ namespace SIS.Hardware
             ScanStatus.GalvoMagnificationObjective = __dMagnificationObjective; // the magnification of the objective
             ScanStatus.GalvoScanLensFocalLength = __dScanLensFocalLength; // the focal length of the scan lens in [mm]
             ScanStatus.GalvoRangeAngleDegrees = __dRangeAngleDegrees;
-                
-                // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
+
+            // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
             ScanStatus.GalvoRangeAngleInt = __dRangeAngleInt;
-                
-                // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
+
+            // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
 
             // Sync (laser timing) pulse settings
             int _iSyncRate = this.GetSyncRate(); // get SYNC rate in Hz
             float _fResolution = this.GetResolution(); // get resolution in [ns]
             ScanStatus.SyncTimeMillisec = 1000.0 / ((double)_iSyncRate);
-                
-                // get SYNC time in [ms] (sync time = interval between the laser pulses)
+
+            // get SYNC time in [ms] (sync time = interval between the laser pulses)
             ScanStatus.SyncTimeChannel = (int)((ScanStatus.SyncTimeMillisec * 1e-3) / (_fResolution * 1e-9));
-                
-                // convert SYNC time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm
+
+            // convert SYNC time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm
 
             // Gating time settings - note that only photons between the min and max gating time will be allowed to pass the gate (i.e. will be counted)
             ScanStatus.IsToApplyTimeGating = __bIsToApplyTimeGating; // do or not time gating of the binned photons
 
             ScanStatus.GatingTimeMinMillisec = __dGatingTimeMinMillisec;
-                
-                // set the maximum (the upper bound of the) gating time in [ms]
+
+            // set the maximum (the upper bound of the) gating time in [ms]
             ScanStatus.GatingTimeMinChannel = (int)((__dGatingTimeMinMillisec * 1e-3) / (_fResolution * 1e-9));
-                
-                // convert gating time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm
+
+            // convert gating time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm
             ScanStatus.GatingTimeMinReverseChannel =
                 (ushort)(ScanStatus.SyncTimeChannel - ScanStatus.GatingTimeMinChannel);
-                
-                // convert gating channel to the reverse one so that we comply with the reverse start-stop photon time tag - it is then easier to compare and discard/gate photons 
+
+            // convert gating channel to the reverse one so that we comply with the reverse start-stop photon time tag - it is then easier to compare and discard/gate photons 
             ScanStatus.GatingTimeMaxMillisec = __dGatingTimeMaxMillisec;
-                
-                // the maximum (the upper bound of the) gating time in [ms]
+
+            // the maximum (the upper bound of the) gating time in [ms]
             ScanStatus.GatingTimeMaxChannel = (int)((__dGatingTimeMaxMillisec * 1e-3) / (_fResolution * 1e-9));
-                
-                // convert gating time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm
+
+            // convert gating time to channel number, in the Time Harp buffer the time tags are stored in terms of integer numbers, so translate to this notation for better algorithm
             ScanStatus.GatingTimeMaxReverseChannel =
                 (ushort)(ScanStatus.SyncTimeChannel - ScanStatus.GatingTimeMaxChannel);
-                
-                // convert gating channel to the reverse one so that we comply with the reverse start-stop photon time tag - it is then easier to compare and discard/gate photons
+
+            // convert gating channel to the reverse one so that we comply with the reverse start-stop photon time tag - it is then easier to compare and discard/gate photons
 
             // Other default settings           
             // Set scan status parameters and allocate the pixel buffer
             ScanStatus.TypeOfScan = __iTypeOfScan;
-                
-                // set used scan mode, (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
+
+            // set used scan mode, (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
             ScanStatus.Overflow = 0;
-                
-                // reset overflow flag - keeps track of the number of times an overflow flag occurred in the Time Harp data stream (the Time Harp buffer)
+
+            // reset overflow flag - keeps track of the number of times an overflow flag occurred in the Time Harp data stream (the Time Harp buffer)
             ScanStatus.FrameTimeOut = __iFrameTimeOut; // set frame time out in [ms]
             ScanStatus.FiFoTimeOut = __iFiFoTimeOut;
-                
-                // set Time Harp's FiFo time out in [ms] - the time period after which the FiFo will be fetched and read although it may not be Half Full (we do not want to wait too long when the count rate is low and filling FiFo slow, respectively). Note that it is good if FiFo time out is smaller or equal to the frame time out (thus we get and show the pixels synchronized with the frame). 
+
+            // set Time Harp's FiFo time out in [ms] - the time period after which the FiFo will be fetched and read although it may not be Half Full (we do not want to wait too long when the count rate is low and filling FiFo slow, respectively). Note that it is good if FiFo time out is smaller or equal to the frame time out (thus we get and show the pixels synchronized with the frame). 
 
             // Buffers settings           
             ScanStatus.FramePixelBuffer = new uint[1][];
-                
-                // the frame buffer with the processed pixels - currently we allocate space for a single frame. If more frames are acquired (continuous scanning), we swap to the beginning of the buffer after each frame get completed (i.e. we use the same buffer to store the pixels for the next frame).
+
+            // the frame buffer with the processed pixels - currently we allocate space for a single frame. If more frames are acquired (continuous scanning), we swap to the beginning of the buffer after each frame get completed (i.e. we use the same buffer to store the pixels for the next frame).
             ScanStatus.FramePixelBuffer[0] = new uint[ScanStatus.PixelCount];
-                
-                // the frame pixel buffer with the processed pixels			
+
+            // the frame pixel buffer with the processed pixels			
             ScanStatus.LinePixelBuffer = new uint[ScanStatus.XImageWidthPx];
-                
-                // the line pixel buffer with the processed pixels
+
+            // the line pixel buffer with the processed pixels
 
             // File settings
             Files.TTTRFileName = __sTTTRFile;
-                
-                // the file path and name of the binary TTTR file where the raw Time harp 200 records will be stored
+
+            // the file path and name of the binary TTTR file where the raw Time harp 200 records will be stored
             Files.FileCounter = 0; // counts how many output TTTR files we have written to hard disk so far
             Files.isTTTRFileFirstWrite = true;
-                
-                // keep track of the TTTR file state - also it indicates if we have started to record the TTTR data or not
+
+            // keep track of the TTTR file state - also it indicates if we have started to record the TTTR data or not
             Files.RecordsCount = 0; // counts how many records we have written to a file so far
 
             // Threads settings
             ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound = 0;
-                
-                // reset the index - note that we start storage from the beginning of the buffer
+
+            // reset the index - note that we start storage from the beginning of the buffer
             ThreadsStatus.APDSaveThread.IsToRun = __bSaveTTTRData;
-                
-                // set to true if you want to save TTTR data to file, otherwise false
+
+            // set to true if you want to save TTTR data to file, otherwise false
             ThreadsStatus.APDReadThread.IsFiFoOverun = false; // keeps track of if Time Harp overrun  
             ThreadsStatus.BuildImageThread.IndexTTTRBufferLowerBound = 0;
-                
-                // reset the index - note that we start storage from the beginning of the buffer
+
+            // reset the index - note that we start storage from the beginning of the buffer
             ThreadsStatus.BuildImageThread.IsFrameReady = false; // reset the frame ready status to false (no frame yet)
 
             // Buffers settings
             ScanStatus.SizeGlobalTTTRBuffer = 0;
-                
-                // reset the initial size of the buffer to zero - note that we start storage from the beginning of the buffer 
+
+            // reset the initial size of the buffer to zero - note that we start storage from the beginning of the buffer 
 
             // ScanStatus.SizeGlobalPTTTRBuffer = 0;  //reset the initial size of the buffer to zero - note that we start storage from the beginning of the buffer 
             ScanStatus.LinePTTTRBufferIndex = 0;
-                
-                // the index of the last available processed TTTR record in the given buffer (it must not exceed the length of the buffer, if it happens it wraps to the beginning of the buffer)
+
+            // the index of the last available processed TTTR record in the given buffer (it must not exceed the length of the buffer, if it happens it wraps to the beginning of the buffer)
             ScanStatus.LinePTTTRBufferTimeTag1 = -1;
-                
-                // time tag of the line marker 1, it marks the beginning of the buffer
+
+            // time tag of the line marker 1, it marks the beginning of the buffer
             ScanStatus.LinePTTTRBufferTimeTag2 = -1; // time tag of the line marker 2, it marks the end of the buffer 
 
             // Reset frame marker
@@ -2273,16 +2291,16 @@ namespace SIS.Hardware
             ExternalMarkers.LineMarker.Index = -1;
             ExternalMarkers.LineMarker.TimeTag = -1;
             ExternalMarkers.LineCount = 0;
-                
-                // counts the number of line markers within a frame to have as an info status (note that a frame marker is beginning of line, so we count it as line marker as well)
+
+            // counts the number of line markers within a frame to have as an info status (note that a frame marker is beginning of line, so we count it as line marker as well)
 
             // Reset the total amount of pixels read
             ScanStatus.TotalPixelsRead = 0;
 
             // Prepare Time Harp for measurement - set measurement mode and the TTL active edge			
             this.SetMeasurementMode(__iMeasurementMode, __iAcquisitionTime);
-                
-                // set measurement mode to TTTR/one-time_histogramming mode, plus set the acquisition time                        
+
+            // set measurement mode to TTTR/one-time_histogramming mode, plus set the acquisition time                        
         }
 
         /// <summary>
@@ -2295,31 +2313,31 @@ namespace SIS.Hardware
             this.StartMeausurement(); // start Time Harp measurement
 
             this.m_IsMesurementToBeStopped = false;
-                
-                // because we are about to start a measurement we do not want to stop it (so set it to False)
+
+            // because we are about to start a measurement we do not want to stop it (so set it to False)
 
             // this.m_IsMeasurementRunning = true;  //because we are about to start a measurement we do not want to stop it (so set it to True)
 
             // Create and spawn two threads which will be responsible for reading and storing the Time Harp FiFo buffer
             ThreadsStatus.APDReadThread.Thread = new Thread(this.Read);
-                
-                // execute Read() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see APDReadThread variable in there)
+
+            // execute Read() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see APDReadThread variable in there)
             ThreadsStatus.APDReadThread.Thread.Name = "APD_Read()"; // set the name of the thread
             ThreadsStatus.APDReadThread.Thread.IsBackground = true; // set the thread as a background thread
             ThreadsStatus.APDReadThread.Thread.Priority = ThreadPriority.Highest;
-                
-                // set the thread priority to above normal in order to assure we collect all buffer events from FiFo
+
+            // set the thread priority to above normal in order to assure we collect all buffer events from FiFo
             ThreadsStatus.APDSaveThread.Thread = new Thread(this.Save);
-                
-                // execute Save() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see APDSaveThread variable in there)
+
+            // execute Save() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see APDSaveThread variable in there)
             ThreadsStatus.APDSaveThread.Thread.Name = "APD_Save()"; // set the name of the thread
             ThreadsStatus.APDSaveThread.Thread.IsBackground = true; // set the thread as a background thread
             ThreadsStatus.APDSaveThread.Thread.Priority = ThreadPriority.Normal;
-                
-                // set the thread priority to above normal
+
+            // set the thread priority to above normal
             ThreadsStatus.BuildImageThread.Thread = new Thread(this.BuildImage);
-                
-                // execute BuildImage() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see BuildImageThread variable in there)
+
+            // execute BuildImage() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see BuildImageThread variable in there)
             ThreadsStatus.BuildImageThread.Thread.Name = "APD_BuildImage()"; // set the name of the thread
             ThreadsStatus.BuildImageThread.Thread.IsBackground = true; // set the thread as a background thread
             ThreadsStatus.BuildImageThread.Thread.Priority = ThreadPriority.Normal; // set the thread priority to normal
@@ -2335,15 +2353,15 @@ namespace SIS.Hardware
             if (ThreadsStatus.APDSaveThread.IsToRun)
             {
                 ThreadsStatus.APDSaveThread.Thread.Start();
-                    
-                    // start the thread if we have chosen to save the binary data         
+
+                // start the thread if we have chosen to save the binary data         
             }
 
             if (ThreadsStatus.BuildImageThread.IsToRun)
             {
                 ThreadsStatus.BuildImageThread.Thread.Start();
-                    
-                    // start the thread if we have chosen to get image(s) from the binary data stream
+
+                // start the thread if we have chosen to get image(s) from the binary data stream
             }
         }
 
@@ -2395,16 +2413,16 @@ namespace SIS.Hardware
                     _strCurrentFileName = Path.ChangeExtension(
                         __sOutputFile, 
                         "." + Files.FileCounter.ToString() + ".t3r");
-                        
-                        // set the current output file path and name - it adds a number so that we split the data to separate files if it exceeds the given limit
+
+                    // set the current output file path and name - it adds a number so that we split the data to separate files if it exceeds the given limit
                     _fsOutputFileStream = File.Open(
                         _strCurrentFileName, 
                         FileMode.Create, 
                         FileAccess.Write, 
                         FileShare.None); // create and open the output file for writing                   
                     _bwOutputFile = new BinaryWriter(_fsOutputFileStream);
-                        
-                        // allocate the binary writer - makes the actual writing of the binary data to hard drive
+
+                    // allocate the binary writer - makes the actual writing of the binary data to hard drive
                     this.WriteTTTRHeaderToFile(_bwOutputFile, ref Files.TTTRFileHeader); // write TTTR header to file
                     WriteTTTRBufferToFile(
                         _bwOutputFile, 
@@ -2416,8 +2434,8 @@ namespace SIS.Hardware
                         _bwOutputFile, 
                         TimeHarpDefinitions.SizeTTTRDefaultFileHeader - 8, 
                         Files.RecordsCount);
-                        
-                        // update the number of records written to the TTTR file so far                    
+
+                    // update the number of records written to the TTTR file so far                    
                 }
                 catch (Exception ex)
                 {
@@ -2448,22 +2466,24 @@ namespace SIS.Hardware
                         // if the number of TTTR records becomes bigger than Files.MAXIMUM_TTTR_RECORDS, create and write the buffer data to a new file
                         Files.RecordsCount = 0; // reset records count to the proper value (= __indexGlobalTTTRBuffer)
                         Files.FileCounter++;
-                            
-                            // count the number of output files. Note that we split the data acquired to many output files with certain size
+
+                        // count the number of output files. Note that we split the data acquired to many output files with certain size
                         _strCurrentFileName = Path.ChangeExtension(
                             __sOutputFile, 
                             "." + Files.FileCounter.ToString() + ".t3r");
-                            
-                            // set the current output file path and name - it adds a number so that we split the data to separate files if it exceeds the given limit
+
+                        // set the current output file path and name - it adds a number so that we split the data to separate files if it exceeds the given limit
                         _fsOutputFileStream = File.Open(
                             _strCurrentFileName, 
                             FileMode.Create, 
                             FileAccess.Write, 
                             FileShare.None); // create and open the output file for writing                        
                         _bwOutputFile = new BinaryWriter(_fsOutputFileStream);
-                            
-                            // allocate the binary writer - makes the actual writing of the binary data to hard drive
-                        this.WriteTTTRHeaderToFile(_bwOutputFile, ref Files.TTTRFileHeader); // write TTTR header to file
+
+                        // allocate the binary writer - makes the actual writing of the binary data to hard drive
+                        this.WriteTTTRHeaderToFile(_bwOutputFile, ref Files.TTTRFileHeader);
+
+                        // write TTTR header to file
                     }
                     else
                     {
@@ -2471,19 +2491,19 @@ namespace SIS.Hardware
                         _strCurrentFileName = Path.ChangeExtension(
                             __sOutputFile, 
                             "." + Files.FileCounter.ToString() + ".t3r");
-                            
-                            // set the current output file path and name - it adds a number so that we split the data to separate files if it exceeds the given limit
+
+                        // set the current output file path and name - it adds a number so that we split the data to separate files if it exceeds the given limit
                         _fsOutputFileStream = File.Open(
                             _strCurrentFileName, 
                             FileMode.Open, 
                             FileAccess.Write, 
                             FileShare.None); // create and open the output file for writing                        
                         _bwOutputFile = new BinaryWriter(_fsOutputFileStream);
-                            
-                            // allocate the binary writer - makes the actual writing of the binary data to hard drive
+
+                        // allocate the binary writer - makes the actual writing of the binary data to hard drive
                         _bwOutputFile.Seek(0, SeekOrigin.End);
-                            
-                            // go to the end of file so that we can add the binary data to it
+
+                        // go to the end of file so that we can add the binary data to it
                     }
 
                     WriteTTTRBufferToFile(
@@ -2618,8 +2638,8 @@ namespace SIS.Hardware
             if (__TTTRFileHeader.BinaryHeader.DisplayCurves == null)
             {
                 __TTTRFileHeader.BinaryHeader.DisplayCurves = new TimeHarpDefinitions.tCurveMapping[8];
-                    
-                    // allocate int struct array
+
+                // allocate int struct array
             }
 
             for (int i = 0; i < 8; i++)
@@ -2633,8 +2653,8 @@ namespace SIS.Hardware
             if (__TTTRFileHeader.BinaryHeader.Params == null)
             {
                 __TTTRFileHeader.BinaryHeader.Params = new TimeHarpDefinitions.tParamStruct[3];
-                    
-                    // allocate float struct array
+
+                // allocate float struct array
             }
 
             for (int i = 0; i < 3; i++)
@@ -2726,8 +2746,8 @@ namespace SIS.Hardware
             __bwOutputFile.Write(__TTTRFileHeader.TTTRHeader.NumberOfRecords); // write Int32 to file
 
             __TTTRFileHeader.TTTRHeader.SpecialHeaderLength = TimeHarpDefinitions.SizeTTTRCustomSISFileHeader / 4;
-                
-                // the length of the special header in 4 bytes portions (int type)
+
+            // the length of the special header in 4 bytes portions (int type)
             __bwOutputFile.Write(__TTTRFileHeader.TTTRHeader.SpecialHeaderLength); // write Int32 to file
 
             // Write CustomSISHeader to the TTTR file (header length is 140 bytes) - we use the special header to write info for our custom scan settings - we will call it custom SIS header
@@ -2869,8 +2889,8 @@ namespace SIS.Hardware
             {
                 // the char buffer size must be smaller
                 _iCharBufferLength = __iCharLength;
-                    
-                    // keep the maximum chars to be copied from buffer equal to the given __iCharLength
+
+                // keep the maximum chars to be copied from buffer equal to the given __iCharLength
             }
 
             for (int i = 0; i < _iCharBufferLength; i++)
@@ -2921,8 +2941,8 @@ namespace SIS.Hardware
             }
 
             __iRecordsCount += __indexUpperTTTRBuffer - __indexLowerTTTRBuffer;
-                
-                // update number the records that have been written to file so far            
+
+            // update number the records that have been written to file so far            
         }
 
         /// <summary>
@@ -2954,8 +2974,8 @@ namespace SIS.Hardware
                         // _iNumberTTTRBufferToProcess = 0, i.e. complete the first TTTR buffer acquisition that goes into _ui32TTTRBuffer1[] buffer
                         __iNumberOfRecords1 = __iNumberOfRecords;
                         __iNumberTTTRBufferToProcess = 1;
-                            
-                            // indicates that next time we are going to process _ui32TTTRBuffer1[] buffer
+
+                        // indicates that next time we are going to process _ui32TTTRBuffer1[] buffer
                         break; // exit switch statement
                     }
 
@@ -2964,8 +2984,8 @@ namespace SIS.Hardware
                         // _iNumberTTTRBufferToProcess = 1, i.e. complete the TTTR buffer acquisition that goes into _ui32TTTRBuffer2[] buffer
                         __iNumberOfRecords2 = __iNumberOfRecords;
                         __iNumberTTTRBufferToProcess = 2;
-                            
-                            // indicates that next time we are going to process _ui32TTTRBuffer1[] buffer                              
+
+                        // indicates that next time we are going to process _ui32TTTRBuffer1[] buffer                              
                         break; // exit switch statement
                     }
 
@@ -2974,8 +2994,8 @@ namespace SIS.Hardware
                         // _iNumberTTTRBufferToProcess = 2, i.e. complete the TTTR buffer acquisition that goes into _ui32TTTRBuffer1[] buffer
                         __iNumberOfRecords1 = __iNumberOfRecords;
                         __iNumberTTTRBufferToProcess = 1;
-                            
-                            // indicates that next time we are going to process _ui32TTTRBuffer1[] buffer
+
+                        // indicates that next time we are going to process _ui32TTTRBuffer1[] buffer
                         break; // exit switch statement
                     }
             }
@@ -2994,8 +3014,8 @@ namespace SIS.Hardware
             for (int i = 0; i < ScanStatus.FramePixelBuffer.Length; i++)
             {
                 Array.Clear(ScanStatus.FramePixelBuffer[i], 0, ScanStatus.FramePixelBuffer[i].Length);
-                    
-                    // reset frame pixel buffer to zero value elements
+
+                // reset frame pixel buffer to zero value elements
             }
 
             // Stopwatch sw = new Stopwatch();  //performance testing
@@ -3006,14 +3026,14 @@ namespace SIS.Hardware
 
             bool _bFrameReady = ThreadsStatus.BuildImageThread.IsFrameReady;
             bool _bMeasurementRunning = true;
-                
-                // true because we want to probe for raw TTTR data and try to extract pixels from it 
+
+            // true because we want to probe for raw TTTR data and try to extract pixels from it 
             bool _bMesurementToBeStop = false;
-                
-                // false because we want to probe for raw TTTR data and try to extract pixels from it 
+
+            // false because we want to probe for raw TTTR data and try to extract pixels from it 
             uint[][] _ui32FramePixelBuffer = ScanStatus.FramePixelBuffer;
-                
-                // frame pixel buffer (currently holds space for one image) - note that the memory is allocated in SetupAPDCountAndTiming() function
+
+            // frame pixel buffer (currently holds space for one image) - note that the memory is allocated in SetupAPDCountAndTiming() function
 
             // Console.WriteLine("BuildImage() Started...: SyncRate = {0} [Hz]", this.m_iSyncRate);  //for debugging purpose
 
@@ -3023,20 +3043,20 @@ namespace SIS.Hardware
                 // acquire data until the end of the measurement, until the FIFO buffer gets overrun or the frame gets ready
                 // sw.Start();  //for performance/debugging measurements
                 _bMeasurementRunning = this.m_IsMeasurementRunning;
-                    
-                    // check if we are still running, if not at the beginning of the next loop we stop and exit the loop
+
+                // check if we are still running, if not at the beginning of the next loop we stop and exit the loop
                 _bMesurementToBeStop = this.m_IsMesurementToBeStopped;
-                    
-                    // check if we are still running, if not at the beginning of the next loop we stop and exit the loop
+
+                // check if we are still running, if not at the beginning of the next loop we stop and exit the loop
                 Thread.Sleep(_iTHREAD_SLEEP_TIME);
-                    
-                    // put the thread to sleep for about _iThreadSleepTime [ms], thus let some time to the buffer to fill with data records
+
+                // put the thread to sleep for about _iThreadSleepTime [ms], thus let some time to the buffer to fill with data records
                 _indexTTTRBufferLowerBound = ThreadsStatus.BuildImageThread.IndexTTTRBufferLowerBound;
-                    
-                    // get the index position of the last saved chunk of data
+
+                // get the index position of the last saved chunk of data
                 _indexTTTRBufferUpperBound = ScanStatus.SizeGlobalTTTRBuffer;
-                    
-                    // get the index position of the currently available to be saved chunk of data
+
+                // get the index position of the currently available to be saved chunk of data
 
                 // _bFiFoOverrun = ThreadsStatus.BuildImageThread.IsFiFoOverun;  //get the FiFo overrun status induced to BuildImage() from the Read() thread
 
@@ -3054,16 +3074,16 @@ namespace SIS.Hardware
 
                     // Save the state of processing so that next time we start from the appropriate place
                     ThreadsStatus.BuildImageThread.IndexTTTRBufferLowerBound = _indexTTTRBufferLowerBound;
-                        
-                        // track/save the current state of the processing with respect to the Global TTTR buffer (necessary in order to continue from here next time we enter BuildImage() function)
+
+                    // track/save the current state of the processing with respect to the Global TTTR buffer (necessary in order to continue from here next time we enter BuildImage() function)
                 }
                 else if (_indexTTTRBufferLowerBound > _indexTTTRBufferUpperBound)
                 {
                     // it means the filling of the GlobalTTTRBuffer[] buffer started again so process the chunk up to the end of the buffer and prepare it for the next round of processing iteration
                     // Extract pixels from photon counts
                     _indexTTTRBufferUpperBound = ScanStatus.GlobalTTTRBuffer.Length;
-                        
-                        // in case (_indexLowerBound > _indexUpperBound), we just try to process the buffer up to its end
+
+                    // in case (_indexLowerBound > _indexUpperBound), we just try to process the buffer up to its end
 
                     // Process TTTR buffer and extract pixels from photon events                    
                     ExtractPhotonEventsFromTTTRBuffer(
@@ -3078,8 +3098,8 @@ namespace SIS.Hardware
                                                                                 >= _indexTTTRBufferUpperBound)
                                                                                    ? 0
                                                                                    : _indexTTTRBufferLowerBound;
-                        
-                        // check if we have processed the entire global TTTR buffer (if so reset the variable to zero so that it is ready for the next round of processing)                                    
+
+                    // check if we have processed the entire global TTTR buffer (if so reset the variable to zero so that it is ready for the next round of processing)                                    
                 }
 
                 ThreadsStatus.BuildImageThread.IsFrameReady = _bFrameReady; // update frame status
@@ -3091,7 +3111,8 @@ namespace SIS.Hardware
                 // }
                 // sw.Reset(); 
             }
- // END while(_bMeasurementRunning && !_bMesurementToBeStop)
+
+            // END while(_bMeasurementRunning && !_bMesurementToBeStop)
 
             ////////////////////////////////////////////////////////////////////////
             // Final processing before exiting this function:
@@ -3164,8 +3185,8 @@ namespace SIS.Hardware
                 // we have almost reached the end of the global buffer - so store the buffer and restart the processing from the beginning of the buffer
                 // First we copy so that fill the global buffer up to the end
                 int _iNumberFreeCells = ScanStatus.GlobalTTTRBuffer.Length - ScanStatus.SizeGlobalTTTRBuffer;
-                    
-                    // the number of cells that are still free to store records                                                    
+
+                // the number of cells that are still free to store records                                                    
                 Array.Copy(
                     __ui32TTTRBuffer, 
                     0, 
@@ -3242,29 +3263,29 @@ namespace SIS.Hardware
 
             // Allocate local variables used within the given thread
             uint[] _ui32TTTRBuffer = null;
-                
-                // Time Harp FIFO data records will be stored here, the max size must be TimeHarpDefinitions.DMABLOCKSZ. Note that this variable will point to _ui32TTTRBuffer1[] or _ui32TTTRBuffer2[] (helps to flip between the two buffers)
+
+            // Time Harp FIFO data records will be stored here, the max size must be TimeHarpDefinitions.DMABLOCKSZ. Note that this variable will point to _ui32TTTRBuffer1[] or _ui32TTTRBuffer2[] (helps to flip between the two buffers)
             uint[] _ui32TTTRBuffer1 = new uint[TimeHarpDefinitions.DMABLOCKSZ];
-                
-                // Time Harp FIFO data records will be stored here, the max size must be TimeHarpDefinitions.DMABLOCKSZ
+
+            // Time Harp FIFO data records will be stored here, the max size must be TimeHarpDefinitions.DMABLOCKSZ
             uint[] _ui32TTTRBuffer2 = new uint[TimeHarpDefinitions.DMABLOCKSZ];
-                
-                // Time Harp FIFO data records will be stored here, the max size must be TimeHarpDefinitions.DMABLOCKSZ
+
+            // Time Harp FIFO data records will be stored here, the max size must be TimeHarpDefinitions.DMABLOCKSZ
             int _iNumberTTTRBufferToProcess = 0;
-                
-                // indicates the number of the TTTR buffer to be processed (i.e. the one ready to be processed). Note the: 0 - means no buffer ready; 1 - means _ui32TTTRBuffer1[] is ready to be processed; 2 - means _ui32TTTRBuffer2[] is ready to be processed
+
+            // indicates the number of the TTTR buffer to be processed (i.e. the one ready to be processed). Note the: 0 - means no buffer ready; 1 - means _ui32TTTRBuffer1[] is ready to be processed; 2 - means _ui32TTTRBuffer2[] is ready to be processed
             int _iStatusFlags = 0;
             bool _bFiFoFull = false;
             bool _bFiFoHalfFull = false;
             bool _bFiFoEmpty = true;
             bool _bMeasurementRunning = true; // true because we want to try to get data at least once
             bool _bMesurementToBeStop = false;
-                
-                // false because we do not want to prevent the thread from trying to get data at least once
+
+            // false because we do not want to prevent the thread from trying to get data at least once
             bool _bFiFoTimeOut = false;
             int _iFiFoTimeOut = ScanStatus.FiFoTimeOut;
-                
-                // time out period in [ms] after which the FIFO buffer will be read
+
+            // time out period in [ms] after which the FIFO buffer will be read
             const int _iTHREAD_SLEEP_TIME = 1; // 1ms, default thread sleep time
             int _iMeasurementTimeCounter = 0; // in [ms] - used to measure the elapsed time and eventually
             int _iAcquisitionTime = this.AcquisitionTime; // get the original acquisition time
@@ -3273,8 +3294,8 @@ namespace SIS.Hardware
             int _iTimeCounterStop = 0; // in [ms] - used to measure the FiFo timeout   
 
             int _iNumberOfRecords = 0;
-                
-                // this variable will hold the number of records _iNumberOfRecords1 or _iNumberOfRecords1
+
+            // this variable will hold the number of records _iNumberOfRecords1 or _iNumberOfRecords1
             int _iNumberOfRecords1 = 0; // the number of records from _ui32TTTRBuffer1[] buffer
             int _iNumberOfRecords2 = 0; // the number of records from _ui32TTTRBuffer2[] buffer
 
@@ -3295,17 +3316,17 @@ namespace SIS.Hardware
                 // _iIterationNumber++;  //for performance testing and debugging purposes 
                 _iTimeCounter += _iTimeCounterStop - _iTimeCounterStart; // calculate the FiFo timeout
                 _iMeasurementTimeCounter += _iTimeCounterStop - _iTimeCounterStart;
-                    
-                    // measure elapsed time since the beginning of the current measurement
+
+                // measure elapsed time since the beginning of the current measurement
                 _iTimeCounterStart = System.Environment.TickCount;
-                    
-                    // get the TickCount - used to check for FiFo timeout                
+
+                // get the TickCount - used to check for FiFo timeout                
                 _bFiFoTimeOut = (_iTimeCounter > _iFiFoTimeOut) ? true : false;
-                    
-                    // set FiFo time out to true in case the FiFo buffer filling takes too long time
+
+                // set FiFo time out to true in case the FiFo buffer filling takes too long time
                 System.Threading.Thread.Sleep(_iTHREAD_SLEEP_TIME);
-                    
-                    // put the thread to sleep for about _iTHREAD_SLEEP_TIME [ms], thus let some time to the buffer to fill with data records                
+
+                // put the thread to sleep for about _iTHREAD_SLEEP_TIME [ms], thus let some time to the buffer to fill with data records                
 
                 // Get the state of various status flags. It shows the status of Time Harp hardware
                 _iStatusFlags = this.GetFlags(); // get status flags
@@ -3313,14 +3334,14 @@ namespace SIS.Hardware
                 _bFiFoHalfFull = this.IsFIFOHalfFull(_iStatusFlags); // check the FIFO state, if FIFO is half full
                 _bFiFoEmpty = this.IsFIFOEmpty(_iStatusFlags); // check the FIFO state, if FIFO is empty
                 _bMeasurementRunning = this.IsRunning();
-                    
-                    // check if measurement is running, _bMeasurementRunning = true (means measurement is still running)
+
+                // check if measurement is running, _bMeasurementRunning = true (means measurement is still running)
                 this.m_IsMeasurementRunning = _bMeasurementRunning;
-                    
-                    // keeps track if the measurement is still running so other methods can get the respective measurement state
+
+                // keeps track if the measurement is still running so other methods can get the respective measurement state
                 _bMesurementToBeStop = this.m_IsMesurementToBeStopped;
-                    
-                    // check if we must stop measurement on the next loop
+
+                // check if we must stop measurement on the next loop
 
                 // Check and get buffer data
                 if (_bFiFoFull)
@@ -3334,22 +3355,22 @@ namespace SIS.Hardware
                     // Try to continue measurement
                     this.StopMeasurement(); // reset FiFo buffer
                     int _iAcquisitionTimeNew = _iAcquisitionTime - _iMeasurementTimeCounter;
-                        
-                        // calculate the new acquisition time so that we continue to measure up to the original acquisition time
+
+                    // calculate the new acquisition time so that we continue to measure up to the original acquisition time
                     if (_iAcquisitionTimeNew > 100)
                     {
                         // only continue if the time left is bigger than 100ms
                         this.SetMeasurementMode(0, _iAcquisitionTimeNew);
-                            
-                            // set measurement mode to TTTR/one-time_histogramming mode, plus set the acquisition time
+
+                        // set measurement mode to TTTR/one-time_histogramming mode, plus set the acquisition time
                         this.StartMeausurement(); // continue measurement                        
                     }
                     else
                     {
                         // it means measurement done, so try to exit
                         this.m_IsMesurementToBeStopped = true;
-                            
-                            // causes to stop processing this thread, Save() function and if running BuildImage() function
+
+                        // causes to stop processing this thread, Save() function and if running BuildImage() function
                         _bMesurementToBeStop = this.m_IsMesurementToBeStopped; // stop this thread on the next loop
                     }
 
@@ -3433,7 +3454,7 @@ namespace SIS.Hardware
                             ref _iNumberOfRecords2);
                     }
 
-                        // END for-loop (int i = 0; i < (TimeHarpDefinitions.FIFOSIZE / TimeHarpDefinitions.DMABLOCKSZ); i++)
+                    // END for-loop (int i = 0; i < (TimeHarpDefinitions.FIFOSIZE / TimeHarpDefinitions.DMABLOCKSZ); i++)
 
                     // Process the last chunk of buffer data (if any)                                      
                     switch (_iNumberTTTRBufferToProcess)
@@ -3450,11 +3471,11 @@ namespace SIS.Hardware
                                 // _iNumberTTTRBufferToProcess = 1, i.e. acquire TTTR buffer into _ui32TTTRBuffer2[] and meanwhile process _ui32TTTRBuffer1[]
                                 // T3RStartDMA(_ui32TTTRBuffer2, TimeHarpDefinitions.DMABLOCKSZ);  //start fetching FIFO
                                 _ui32TTTRBuffer = _ui32TTTRBuffer1;
-                                    
-                                    // assigns the TTTR _ui32TTTRBuffer1[] buffer to be processed while waiting for DMA transfer of _ui32TTTRBuffer2[]
+
+                                // assigns the TTTR _ui32TTTRBuffer1[] buffer to be processed while waiting for DMA transfer of _ui32TTTRBuffer2[]
                                 _iNumberOfRecords = _iNumberOfRecords1;
-                                    
-                                    // number of records in _ui32TTTRBuffer1[] buffer                                
+
+                                // number of records in _ui32TTTRBuffer1[] buffer                                
                                 break; // exit switch statement
                             }
 
@@ -3463,11 +3484,11 @@ namespace SIS.Hardware
                                 // _iNumberTTTRBufferToProcess = 2, i.e. acquire TTTR buffer into _ui32TTTRBuffer1[] and meanwhile process _ui32TTTRBuffer2[]
                                 // T3RStartDMA(_ui32TTTRBuffer1, TimeHarpDefinitions.DMABLOCKSZ);  //start fetching FIFO
                                 _ui32TTTRBuffer = _ui32TTTRBuffer2;
-                                    
-                                    // assigns the TTTR _ui32TTTRBuffer2[] buffer to be processed while waiting for DMA transfer of _ui32TTTRBuffer1[]
+
+                                // assigns the TTTR _ui32TTTRBuffer2[] buffer to be processed while waiting for DMA transfer of _ui32TTTRBuffer1[]
                                 _iNumberOfRecords = _iNumberOfRecords2;
-                                    
-                                    // number of records in _ui32TTTRBuffer2[] buffer  
+
+                                // number of records in _ui32TTTRBuffer2[] buffer  
                                 break; // exit switch statement
                             }
                     }
@@ -3519,8 +3540,8 @@ namespace SIS.Hardware
 
                     // Complete DMA transfer and assign few other variables                    
                     _iNumberOfRecords = this.T3RCompleteDMA();
-                        
-                        // end fetching FIFO. Note if no error, _iNumberOfRecords = TimeHarpDefinitions.DMABLOCKSZ
+
+                    // end fetching FIFO. Note if no error, _iNumberOfRecords = TimeHarpDefinitions.DMABLOCKSZ
                     if (_iNumberOfRecords != TimeHarpDefinitions.DMABLOCKSZ)
                     {
                         // if _iNumberOfRecord1 is not equal to TimeHarpDefinitions.DMABLOCKSZ, then an error occurred
@@ -3617,7 +3638,8 @@ namespace SIS.Hardware
                 // }
                 // sw.Reset();
             }
- // END  while-loop (_bMeasurementRunning && !this.m_IsMesurementToBeStopped)
+
+            // END  while-loop (_bMeasurementRunning && !this.m_IsMesurementToBeStopped)
 
             ////////////////////////////////////////////////////////////////////////
             // Final processing before exiting this function:
@@ -3664,20 +3686,20 @@ namespace SIS.Hardware
             {
                 // acquire data until the end of the measurement, until the FIFO buffer gets overrun or the frame gets ready
                 _bMeasurementRunning = this.m_IsMeasurementRunning;
-                    
-                    // check if we are still running, if not at the beginning of the next loop we stop and exit the loop
+
+                // check if we are still running, if not at the beginning of the next loop we stop and exit the loop
                 _bMesurementToBeStop = this.m_IsMesurementToBeStopped;
-                    
-                    // check if we are still running, if not at the beginning of the next loop we stop and exit the loop
+
+                // check if we are still running, if not at the beginning of the next loop we stop and exit the loop
                 System.Threading.Thread.Sleep(_iTHREAD_SLEEP_TIME);
-                    
-                    // put the thread to sleep for about _iTHREAD_SLEEP_TIME [ms], thus let some time to the buffer to fill with data records
+
+                // put the thread to sleep for about _iTHREAD_SLEEP_TIME [ms], thus let some time to the buffer to fill with data records
                 _indexTTTRBufferLowerBound = ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound;
-                    
-                    // get the index position of the last saved chunk of data
+
+                // get the index position of the last saved chunk of data
                 _indexTTTRBufferUpperBound = ScanStatus.SizeGlobalTTTRBuffer;
-                    
-                    // get the index position of the currently available to be saved chunk of data
+
+                // get the index position of the currently available to be saved chunk of data
 
                 // Save and raw buffer data from the global buffer to file
                 // sw.Start();
@@ -3700,8 +3722,8 @@ namespace SIS.Hardware
                         ScanStatus.GlobalTTTRBuffer.Length, 
                         Files.TTTRFileName); // write the current TTTR buffer to file
                     ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound = 0;
-                        
-                        // set the index to zero so that next time we start to save from the beginning of the global buffer                    
+
+                    // set the index to zero so that next time we start to save from the beginning of the global buffer                    
                 }
 
                 // sw.Stop();
@@ -3718,19 +3740,19 @@ namespace SIS.Hardware
             {
                 // if Read() thread is still running, wait some time so that it terminates (otherwise we may lose TTTR records)
                 System.Threading.Thread.Sleep(100);
-                    
-                    // wait some time so that Read() thread can finish first (thus we can save all records)
+
+                // wait some time so that Read() thread can finish first (thus we can save all records)
 
                 // Console.WriteLine("Save(): Read() is still alive so wait...");  //for debugging purpose          
             }
 
             // Save the last chunk of raw TTTR data from the global FIFO buffer
             _indexTTTRBufferLowerBound = ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound;
-                
-                // get the index position of the last saved chunk of data
+
+            // get the index position of the last saved chunk of data
             _indexTTTRBufferUpperBound = ScanStatus.SizeGlobalTTTRBuffer;
-                
-                // get the index position of the currently available to be saved chunk of data
+
+            // get the index position of the currently available to be saved chunk of data
             if (_indexTTTRBufferLowerBound < _indexTTTRBufferUpperBound)
             {
                 // check if there is something to be saved in the given buffer
@@ -3750,8 +3772,8 @@ namespace SIS.Hardware
                     ScanStatus.GlobalTTTRBuffer.Length, 
                     Files.TTTRFileName); // write the current TTTR buffer to file
                 ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound = 0;
-                    
-                    // set the index to zero so that next time we start to save from the beginning of the global buffer                    
+
+                // set the index to zero so that next time we start to save from the beginning of the global buffer                    
 
                 // Save the last chunk of data (in case the global buffer was being filled from the beginning)
                 _indexTTTRBufferLowerBound = ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound;
@@ -3813,11 +3835,11 @@ namespace SIS.Hardware
                         // _iNumberTTTRBufferToProcess = 1, i.e. acquire TTTR buffer into _ui32TTTRBuffer2[] and meanwhile process _ui32TTTRBuffer1[]
                         this.T3RStartDMA(__ui32TTTRBuffer2, TimeHarpDefinitions.DMABLOCKSZ); // start fetching FIFO
                         __ui32TTTRBuffer = __ui32TTTRBuffer1;
-                            
-                            // assigns the TTTR _ui32TTTRBuffer1[] buffer to be processed while waiting for DMA transfer of _ui32TTTRBuffer2[]
+
+                        // assigns the TTTR _ui32TTTRBuffer1[] buffer to be processed while waiting for DMA transfer of _ui32TTTRBuffer2[]
                         __iNumberOfRecords = __iNumberOfRecords1;
-                            
-                            // number of records in _ui32TTTRBuffer1[] buffer                                
+
+                        // number of records in _ui32TTTRBuffer1[] buffer                                
                         break; // exit switch statement
                     }
 
@@ -3826,8 +3848,8 @@ namespace SIS.Hardware
                         // _iNumberTTTRBufferToProcess = 2, i.e. acquire TTTR buffer into _ui32TTTRBuffer1[] and meanwhile process _ui32TTTRBuffer2[]
                         this.T3RStartDMA(__ui32TTTRBuffer1, TimeHarpDefinitions.DMABLOCKSZ); // start fetching FIFO
                         __ui32TTTRBuffer = __ui32TTTRBuffer2;
-                            
-                            // assigns the TTTR _ui32TTTRBuffer2[] buffer to be processed while waiting for DMA transfer of _ui32TTTRBuffer1[]
+
+                        // assigns the TTTR _ui32TTTRBuffer2[] buffer to be processed while waiting for DMA transfer of _ui32TTTRBuffer1[]
                         __iNumberOfRecords = __iNumberOfRecords2; // number of records in _ui32TTTRBuffer2[] buffer  
                         break; // exit switch statement
                     }
@@ -3847,16 +3869,18 @@ namespace SIS.Hardware
             /// The maximu m_ ttt r_ records.
             /// </summary>
             public const int MAXIMUM_TTTR_RECORDS = TimeHarpDefinitions.MAXIMUM_TTTR_RECORDS_PER_FILE;
-                             // maximum TTTR records per file allowed
+
             #endregion
 
+            // maximum TTTR records per file allowed
             #region Static Fields
 
             /// <summary>
             /// The ascii encode.
             /// </summary>
             public static Encoding ASCIIEncode = Encoding.ASCII;
-                                   // the Encoding class represents the char set encoding (.Net uses Unicode, i.e. UTF-16). For proper writing/reading from a TTTR file we need to use the methods of this class to convert between a .Net 16-bit char (Unicode) and 8-bit char (ASCII) and vice versa.
+
+            // the Encoding class represents the char set encoding (.Net uses Unicode, i.e. UTF-16). For proper writing/reading from a TTTR file we need to use the methods of this class to convert between a .Net 16-bit char (Unicode) and 8-bit char (ASCII) and vice versa.
 
             /// <summary>
             /// The ascii file name.
@@ -3877,7 +3901,8 @@ namespace SIS.Hardware
             /// The tttr file header.
             /// </summary>
             public static TimeHarpDefinitions.StructTTTRFileHeader TTTRFileHeader;
-                                                                   // the header structure of Time Harp TTTR file 
+
+            // the header structure of Time Harp TTTR file 
 
             /// <summary>
             /// The tttr file name.
@@ -3888,8 +3913,10 @@ namespace SIS.Hardware
             /// The is tttr file first write.
             /// </summary>
             public static bool isTTTRFileFirstWrite = true;
-                               // keep track of the TTTR file state - also it indicates if we have started to record the TTTR data or not
+
             #endregion
+
+            // keep track of the TTTR file state - also it indicates if we have started to record the TTTR data or not
         }
 
         /// <summary>
@@ -3909,7 +3936,8 @@ namespace SIS.Hardware
             /// The data marker.
             /// </summary>
             public byte DataMarker;
-                        // DataMarker[3bits]. Each combination of bits represents the markers' state, e.g. DataMarker = 101 -> DataMarker1 = 1, DataMarker2 = 0, DataMarker3 = 1
+
+            // DataMarker[3bits]. Each combination of bits represents the markers' state, e.g. DataMarker = 101 -> DataMarker1 = 1, DataMarker2 = 0, DataMarker3 = 1
 
             /// <summary>
             /// The data overflow.
@@ -3925,14 +3953,17 @@ namespace SIS.Hardware
             /// The time tag.
             /// </summary>
             public long TimeTag;
-                        // time tag of photon arrival in channels number, the true time tag is then TrueTimeTag[s] = TimeTag * 100[ns] * 1e-9
+
+            // time tag of photon arrival in channels number, the true time tag is then TrueTimeTag[s] = TimeTag * 100[ns] * 1e-9
 
             /// <summary>
             /// The valid.
             /// </summary>
             public byte Valid;
-                        // Valid = 0 (means overflow or external trigger event), Valid = 1 (means photon arrival event)
+
             #endregion
+
+            // Valid = 0 (means overflow or external trigger event), Valid = 1 (means photon arrival event)
 
             // public byte Reserved;  //Reserved[1bit]. Picoquant reserves this field for future use
         }
@@ -3949,19 +3980,22 @@ namespace SIS.Hardware
             /// The data.
             /// </summary>
             public ushort Data;
-                          // Data[12bits]. Channel (reversed start-stop time) or Overflow[1bit]-Reserved[8bits]-Marker[3bits]
+
+            // Data[12bits]. Channel (reversed start-stop time) or Overflow[1bit]-Reserved[8bits]-Marker[3bits]
 
             /// <summary>
             /// The data marker.
             /// </summary>
             public byte DataMarker;
-                        // DataMarker[3bits]. Each combination of bits represents a marker state, e.g. DataMarker = 101 -> DataMarker1 = 1, DataMarker2 = 0, DataMarker3 = 1
+
+            // DataMarker[3bits]. Each combination of bits represents a marker state, e.g. DataMarker = 101 -> DataMarker1 = 1, DataMarker2 = 0, DataMarker3 = 1
 
             /// <summary>
             /// The data overflow.
             /// </summary>
             public byte DataOverflow;
-                        // DataOverflow[1bit]. If DataOverflow = 1 it marks overflow of TimeTag variable. Then add 2^16 to recover the true time tag                
+
+            // DataOverflow[1bit]. If DataOverflow = 1 it marks overflow of TimeTag variable. Then add 2^16 to recover the true time tag                
 
             /// <summary>
             /// The data reserved.
@@ -3987,8 +4021,10 @@ namespace SIS.Hardware
             /// The valid.
             /// </summary>
             public byte Valid;
-                        // Valid[1bit]. Valid = 0 (means overflow or external trigger event), Valid = 1 (means photon arrival event)
+
             #endregion
+
+            // Valid[1bit]. Valid = 0 (means overflow or external trigger event), Valid = 1 (means photon arrival event)
         }
 
         /// <summary>
@@ -4086,25 +4122,29 @@ namespace SIS.Hardware
             /// The fi fo time out.
             /// </summary>
             public static int FiFoTimeOut = 200;
-                              // default Time Harp's FiFo time out in [ms] - the time period after which the FiFo will be fetched and read although it may not be Half Full (we do not want to wait too long when the count rate is low and filling FiFo slow, respectively). Note that it is good if FiFo time out is smaller or equal to the frame time out (thus we get and show the pixels synchronized with the frame). 
+
+            // default Time Harp's FiFo time out in [ms] - the time period after which the FiFo will be fetched and read although it may not be Half Full (we do not want to wait too long when the count rate is low and filling FiFo slow, respectively). Note that it is good if FiFo time out is smaller or equal to the frame time out (thus we get and show the pixels synchronized with the frame). 
 
             /// <summary>
             /// The frame marker.
             /// </summary>
             public static byte FrameMarker = 2;
-                               // value of external marker interpreted as a Frame marker (note that Frame marker is also a line marker)
+
+            // value of external marker interpreted as a Frame marker (note that Frame marker is also a line marker)
 
             /// <summary>
             /// The frame pixel buffer.
             /// </summary>
             public static uint[][] FramePixelBuffer;
-                                   // frame buffer with the processed pixels - the allocate frame buffer size will be for two frames             
+
+            // frame buffer with the processed pixels - the allocate frame buffer size will be for two frames             
 
             /// <summary>
             /// The frame time out.
             /// </summary>
             public static int FrameTimeOut = 200;
-                              // default frame time out in [ms] after which all pixels in the buffer will be processed and shown
+
+            // default frame time out in [ms] after which all pixels in the buffer will be processed and shown
 
             // Galvo default settings
             /// <summary>
@@ -4116,13 +4156,15 @@ namespace SIS.Hardware
             /// The galvo range angle degrees.
             /// </summary>
             public static double GalvoRangeAngleDegrees = 4.125;
-                                 // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
+
+            // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
 
             /// <summary>
             /// The galvo range angle int.
             /// </summary>
             public static double GalvoRangeAngleInt = 4096.0;
-                                 // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
+
+            // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
 
             /// <summary>
             /// The galvo scan lens focal length.
@@ -4135,36 +4177,43 @@ namespace SIS.Hardware
             /// The gating time max channel.
             /// </summary>
             public static int GatingTimeMaxChannel = int.MaxValue;
-                              // the maximum (the upper bound of the) gating time in channel number (then the true time is this.m_fResolution * GatingTimeMaxChannel). this.m_fResolution is the resolution of the time tag in [ns].
+
+            // the maximum (the upper bound of the) gating time in channel number (then the true time is this.m_fResolution * GatingTimeMaxChannel). this.m_fResolution is the resolution of the time tag in [ns].
 
             /// <summary>
             /// The gating time max millisec.
             /// </summary>
             public static double GatingTimeMaxMillisec = double.MaxValue;
-                                 // the maximum (the upper bound of the) gating time in [ms]
+
+            // the maximum (the upper bound of the) gating time in [ms]
 
             /// <summary>
             /// The gating time max reverse channel.
             /// </summary>
             public static ushort GatingTimeMaxReverseChannel = 0;
-                                 // the maximum (the upper bound of the) gating time in terms of reverse start-stop channel number (then the true time is SyncTimeChannel - GatingMaxTimeChannel). Thus all photons with a channel number bigger than GatingTimeMaxReverseChannel will be discarded/gated.
+
+            // the maximum (the upper bound of the) gating time in terms of reverse start-stop channel number (then the true time is SyncTimeChannel - GatingMaxTimeChannel). Thus all photons with a channel number bigger than GatingTimeMaxReverseChannel will be discarded/gated.
 
             /// <summary>
             /// The gating time min channel.
             /// </summary>
             public static int GatingTimeMinChannel = 0;
-                              // the minimum (the lower bound of the) gating time in channel number (then the true time is this.m_fResolution * GatingTimeMinChannel). this.m_fResolution is the resolution of the time tag in [ns].
+
+            // the minimum (the lower bound of the) gating time in channel number (then the true time is this.m_fResolution * GatingTimeMinChannel). this.m_fResolution is the resolution of the time tag in [ns].
 
             /// <summary>
             /// The gating time min millisec.
             /// </summary>
-            public static double GatingTimeMinMillisec = 0.0; // the minimum (the lower bound of the) gating time in [ms]
+            public static double GatingTimeMinMillisec = 0.0;
+
+            // the minimum (the lower bound of the) gating time in [ms]
 
             /// <summary>
             /// The gating time min reverse channel.
             /// </summary>
             public static ushort GatingTimeMinReverseChannel = 0;
-                                 // the minimum (the lower bound of the) gating time in terms of reverse start-stop channel number (then the true time is SyncTimeChannel - GatingMinTimeChannel). Thus all photons with a channel number bigger than GatingTimeMinReverseChannel will be discarded/gated.
+
+            // the minimum (the lower bound of the) gating time in terms of reverse start-stop channel number (then the true time is SyncTimeChannel - GatingMinTimeChannel). Thus all photons with a channel number bigger than GatingTimeMinReverseChannel will be discarded/gated.
 
             // Other default settings
 
@@ -4173,7 +4222,8 @@ namespace SIS.Hardware
             /// </summary>
             public static volatile uint[] GlobalTTTRBuffer =
                 new uint[m_iGlobalTTTRBufferSize * TimeHarpDefinitions.DMABLOCKSZ];
-                                          // the global TTTR buffer - a pool for the Time Harp FiFo buffers. The size is 100x the size of the 1/2 Time Harp FiFo buffer. Note that it needs to be "volatile" so that every thread gets the most up to date value.
+
+            // the global TTTR buffer - a pool for the Time Harp FiFo buffers. The size is 100x the size of the 1/2 Time Harp FiFo buffer. Note that it needs to be "volatile" so that every thread gets the most up to date value.
 
             /// <summary>
             /// The init x nm.
@@ -4194,7 +4244,8 @@ namespace SIS.Hardware
             /// The is to apply time gating.
             /// </summary>
             public static bool IsToApplyTimeGating = false;
-                               // to do time gating or not (default is is false, i.e. no time gating)
+
+            // to do time gating or not (default is is false, i.e. no time gating)
 
             /// <summary>
             /// The line marker.
@@ -4209,25 +4260,29 @@ namespace SIS.Hardware
             /// </summary>
             public static ProcessedTTTRecord[] LinePTTTRBuffer =
                 new ProcessedTTTRecord[m_iLinePTTTRBufferSize * TimeHarpDefinitions.DMABLOCKSZ];
-                                               // the line Processed TTTR buffer. The size is 100x the size of the 1/2 Time Harp FiFo buffer
+
+            // the line Processed TTTR buffer. The size is 100x the size of the 1/2 Time Harp FiFo buffer
 
             /// <summary>
             /// The line ptttr buffer index.
             /// </summary>
             public static volatile int LinePTTTRBufferIndex = 0;
-                                       // the index of the last available processed TTTR record in the given buffer (it must not exceed the length of the buffer, if it happens it wraps to the beginning of the buffer)
+
+            // the index of the last available processed TTTR record in the given buffer (it must not exceed the length of the buffer, if it happens it wraps to the beginning of the buffer)
 
             /// <summary>
             /// The line ptttr buffer time tag 1.
             /// </summary>
             public static long LinePTTTRBufferTimeTag1 = -1;
-                               // time tag of the line marker 1, it marks the beginning of the buffer
+
+            // time tag of the line marker 1, it marks the beginning of the buffer
 
             /// <summary>
             /// The line ptttr buffer time tag 2.
             /// </summary>
             public static long LinePTTTRBufferTimeTag2 = -1;
-                               // time tag of the line marker 2, it marks the end of the buffer 
+
+            // time tag of the line marker 2, it marks the end of the buffer 
 
             /// <summary>
             /// The line pixel buffer.
@@ -4238,7 +4293,8 @@ namespace SIS.Hardware
             /// The overflow.
             /// </summary>
             public static int Overflow = 0;
-                              // overflow flag - keeps track of the number of times an overflow flag occurred in the Time Harp data stream
+
+            // overflow flag - keeps track of the number of times an overflow flag occurred in the Time Harp data stream
 
             /// <summary>
             /// The pixel count.
@@ -4254,7 +4310,8 @@ namespace SIS.Hardware
             /// The pixels counter.
             /// </summary>
             public static int PixelsCounter = 0;
-                              // processed pixels counter - counts the pixels that have been already processed
+
+            // processed pixels counter - counts the pixels that have been already processed
 
             /// <summary>
             /// The sis channels.
@@ -4265,7 +4322,8 @@ namespace SIS.Hardware
             /// The size global tttr buffer.
             /// </summary>
             public static volatile int SizeGlobalTTTRBuffer = 0;
-                                       // the current size up to which the buffer is filled with values. Note that it needs to be "volatile" so that every thread gets the most up to date value.
+
+            // the current size up to which the buffer is filled with values. Note that it needs to be "volatile" so that every thread gets the most up to date value.
 
             /// <summary>
             /// The stack marker.
@@ -4276,19 +4334,22 @@ namespace SIS.Hardware
             /// The sync time channel.
             /// </summary>
             public static int SyncTimeChannel = 0;
-                              // the SYNC time in channel number (then the true time is this.m_fResolution * SyncTimeChannel). this.m_fResolution is the resolution of the time tag in [ns].
+
+            // the SYNC time in channel number (then the true time is this.m_fResolution * SyncTimeChannel). this.m_fResolution is the resolution of the time tag in [ns].
 
             /// <summary>
             /// The sync time millisec.
             /// </summary>
             public static double SyncTimeMillisec = 0.0;
-                                 // the SYNC time in [ms] - i.e. the time interval between the laser pulses. Useful for the time gating feature.
+
+            // the SYNC time in [ms] - i.e. the time interval between the laser pulses. Useful for the time gating feature.
 
             /// <summary>
             /// The time p pixel channel.
             /// </summary>
             public static int TimePPixelChannel = 0;
-                              // time per pixel in channel number (then the true time is 100ns * TimePPixel). 100ns is the resolution of the time tag.
+
+            // time per pixel in channel number (then the true time is 100ns * TimePPixel). 100ns is the resolution of the time tag.
 
             /// <summary>
             /// The time p pixel millisec.
@@ -4299,13 +4360,15 @@ namespace SIS.Hardware
             /// The total pixels read.
             /// </summary>
             public static volatile int TotalPixelsRead;
-                                       // total pixels read from Time Harp buffer - basically coincides with PixelsCounter, but needed in order to expose this value properly to outside world.
+
+            // total pixels read from Time Harp buffer - basically coincides with PixelsCounter, but needed in order to expose this value properly to outside world.
 
             /// <summary>
             /// The type of scan.
             /// </summary>
             public static int TypeOfScan = 0;
-                              // the type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan), the default is 0 - unidirectional frame scan
+
+            // the type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan), the default is 0 - unidirectional frame scan
 
             /// <summary>
             /// The x image width px.
@@ -4367,50 +4430,59 @@ namespace SIS.Hardware
             /// The mas k_ channel.
             /// </summary>
             public const uint MASK_CHANNEL = 0x0FFF;
-                              // = 4095 = 2^12 - 1; This bit mask is intended to extract the Data/Channel field from the data record
+
+            // = 4095 = 2^12 - 1; This bit mask is intended to extract the Data/Channel field from the data record
 
             /// <summary>
             /// The mas k_ dat a_ marker.
             /// </summary>
             public const uint MASK_DATA_MARKER = 0x0007;
-                              // = 7; This bit mask is intended to extract the DataMarker field from the TTTRrecord.Data
+
+            // = 7; This bit mask is intended to extract the DataMarker field from the TTTRrecord.Data
 
             /// <summary>
             /// The mas k_ dat a_ overflow.
             /// </summary>
             public const uint MASK_DATA_OVERFLOW = 0x0001;
-                              // = 1; This bit mask is intended to extract the DataOverflow field from the TTTRrecord.Data                          
+
+            // = 1; This bit mask is intended to extract the DataOverflow field from the TTTRrecord.Data                          
 
             /// <summary>
             /// The mas k_ dat a_ reserved.
             /// </summary>
             public const uint MASK_DATA_RESERVED = 0x00FF;
-                              // = 255 = 2^8 - 1; This bit mask is intended to extract the DataReserved field from the TTTRrecord.Data
+
+            // = 255 = 2^8 - 1; This bit mask is intended to extract the DataReserved field from the TTTRrecord.Data
 
             /// <summary>
             /// The mas k_ reserved.
             /// </summary>
             public const uint MASK_RESERVED = 0x0001;
-                              // = 1 = 2^1 - 1; This bit mask is intended to extract the Reserved field from the data record
+
+            // = 1 = 2^1 - 1; This bit mask is intended to extract the Reserved field from the data record
 
             /// <summary>
             /// The mas k_ route.
             /// </summary>
             public const uint MASK_ROUTE = 0x0003;
-                              // = 3 = 2^2 - 1; This bit mask is intended to extract the Route field from the data record
+
+            // = 3 = 2^2 - 1; This bit mask is intended to extract the Route field from the data record
 
             /// <summary>
             /// The mas k_ tim e_ tag.
             /// </summary>
             public const uint MASK_TIME_TAG = 0xFFFF;
-                              // = 65535 = 2^16 - 1; This bit mask is intended to extract the TimeTag from the data record
+
+            // = 65535 = 2^16 - 1; This bit mask is intended to extract the TimeTag from the data record
 
             /// <summary>
             /// The mas k_ valid.
             /// </summary>
             public const uint MASK_VALID = 0x0001;
-                              // = 1 = 2^1 - 1; This bit mask is intended to extract the Valid field from the data record
+
             #endregion
+
+            // = 1 = 2^1 - 1; This bit mask is intended to extract the Valid field from the data record
         }
 
         /// <summary>
@@ -4431,19 +4503,22 @@ namespace SIS.Hardware
                 /// The fi fo overrun count.
                 /// </summary>
                 public static volatile int FiFoOverrunCount = 0;
-                                           // keeps track of the number of times Time Harp FiFo buffer overrun
+
+                // keeps track of the number of times Time Harp FiFo buffer overrun
 
                 /// <summary>
                 /// The index tttr buffer lower bound.
                 /// </summary>
                 public static volatile int IndexTTTRBufferLowerBound = 0;
-                                           // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
+
+                // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
 
                 /// <summary>
                 /// The index tttr buffer upper bound.
                 /// </summary>
                 public static volatile int IndexTTTRBufferUpperBound = 0;
-                                           // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
+
+                // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
 
                 /// <summary>
                 /// The is fi fo overun.
@@ -4454,8 +4529,10 @@ namespace SIS.Hardware
                 /// The thread.
                 /// </summary>
                 public static Thread Thread;
-                                     // refer to the thread that spawns Read() function (that fetches the Time Harp FiFo buffer)
+
                 #endregion
+
+                // refer to the thread that spawns Read() function (that fetches the Time Harp FiFo buffer)
             }
 
             /// <summary>
@@ -4470,19 +4547,22 @@ namespace SIS.Hardware
                 /// The index tttr buffer lower bound.
                 /// </summary>
                 public static volatile int IndexTTTRBufferLowerBound = 0;
-                                           // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
+
+                // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
 
                 /// <summary>
                 /// The index tttr buffer upper bound.
                 /// </summary>
                 public static volatile int IndexTTTRBufferUpperBound = 0;
-                                           // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
+
+                // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
 
                 /// <summary>
                 /// The is to run.
                 /// </summary>
                 public static volatile bool IsToRun = true;
-                                            // if you want to save the acquired TTTR binary data to file choose true otherwise false
+
+                // if you want to save the acquired TTTR binary data to file choose true otherwise false
 
                 /// <summary>
                 /// The thread.
@@ -4506,13 +4586,15 @@ namespace SIS.Hardware
                 /// The index tttr buffer lower bound.
                 /// </summary>
                 public static volatile int IndexTTTRBufferLowerBound = 0;
-                                           // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
+
+                // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
 
                 /// <summary>
                 /// The index tttr buffer upper bound.
                 /// </summary>
                 public static volatile int IndexTTTRBufferUpperBound = 0;
-                                           // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
+
+                // keeps track of the processing of the ScanStatus.GlobalTTTRBuffer[] buffer
 
                 // public static volatile bool IsFiFoOverun = false;  //keeps track of if Time Harp overrun
                 /// <summary>
@@ -4524,7 +4606,8 @@ namespace SIS.Hardware
                 /// The is to run.
                 /// </summary>
                 public static volatile bool IsToRun = true;
-                                            // if you want to extract an image from the acquired TTTR binary data choose true otherwise false
+
+                // if you want to extract an image from the acquired TTTR binary data choose true otherwise false
 
                 /// <summary>
                 /// The thread.

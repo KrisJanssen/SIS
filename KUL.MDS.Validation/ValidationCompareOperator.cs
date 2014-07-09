@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationCompareOperator.cs" company="">
-//   
+// <copyright file="ValidationCompareOperator.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Operations that can be perform in Compare Validation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace KUL.MDS.Validation
 {
     /// <summary>

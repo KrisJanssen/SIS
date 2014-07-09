@@ -6,7 +6,6 @@
 //   A class representing all the characteristics of the Line
 //   segments that make up a curve on the graph.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -782,8 +781,8 @@ namespace ZedGraph.ZedGraph
                         // by zero, etc.
                         // Also, any value <= zero on a log scale is invalid
                         if (curX == PointPair.Missing || curY == PointPair.Missing || double.IsNaN(curX)
-                            || double.IsNaN(curY) || double.IsInfinity(curX)
-                            || double.IsInfinity(curY) || (xIsLog && curX <= 0.0) || (yIsLog && curY <= 0.0))
+                            || double.IsNaN(curY) || double.IsInfinity(curX) || double.IsInfinity(curY)
+                            || (xIsLog && curX <= 0.0) || (yIsLog && curY <= 0.0))
                         {
                             // If the point is invalid, then make a linebreak only if IsIgnoreMissing is false
                             // LastX and LastY are always the last valid point, so this works out
@@ -1002,8 +1001,8 @@ namespace ZedGraph.ZedGraph
                         // by zero, etc.
                         // Also, any value <= zero on a log scale is invalid
                         if (curX == PointPair.Missing || curY == PointPair.Missing || double.IsNaN(curX)
-                            || double.IsNaN(curY) || double.IsInfinity(curX)
-                            || double.IsInfinity(curY) || (xIsLog && curX <= 0.0) || (yIsLog && curY <= 0.0))
+                            || double.IsNaN(curY) || double.IsInfinity(curX) || double.IsInfinity(curY)
+                            || (xIsLog && curX <= 0.0) || (yIsLog && curY <= 0.0))
                         {
                             // If the point is invalid, then make a linebreak only if IsIgnoreMissing is false
                             // LastX and LastY are always the last valid point, so this works out
@@ -1315,9 +1314,8 @@ namespace ZedGraph.ZedGraph
                     PointPair pt = curve.Points[i];
 
                     if (pt.X != PointPair.Missing && pt.Y != PointPair.Missing && !double.IsNaN(pt.X)
-                        && !double.IsNaN(pt.Y) && !double.IsInfinity(pt.X)
-                        && !double.IsInfinity(pt.Y) && (!xAxis._scale.IsLog || pt.X > 0.0)
-                        && (!yAxis._scale.IsLog || pt.Y > 0.0))
+                        && !double.IsNaN(pt.Y) && !double.IsInfinity(pt.X) && !double.IsInfinity(pt.Y)
+                        && (!xAxis._scale.IsLog || pt.X > 0.0) && (!yAxis._scale.IsLog || pt.Y > 0.0))
                     {
                         float pixY = yAxis.Scale.Transform(curve.IsOverrideOrdinal, i, pt.Y);
                         float pixX = xAxis.Scale.Transform(curve.IsOverrideOrdinal, i, pt.X);

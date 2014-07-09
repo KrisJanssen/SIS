@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="CountRateForm.cs">
-//   
+// <copyright company="Kris Janssen" file="CountRateForm.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Count Rate Form - displays the current count rate as measured from the APD source
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.Forms
 {
@@ -31,7 +30,8 @@ namespace SIS.Forms
         /// The m_b is button stop clicked.
         /// </summary>
         private volatile bool m_bIsButtonSTOPClicked = false;
-                              // loop until we click the STOP button or close the Count Rate form
+
+        // loop until we click the STOP button or close the Count Rate form
 
         /// <summary>
         /// The m_thread start count rate meter.
@@ -114,8 +114,8 @@ namespace SIS.Forms
             this.m_threadStartCountRateMeter.Name = "StartCountRateMeter()"; // set the name of the thread
             this.m_threadStartCountRateMeter.IsBackground = true; // set the thread as a background thread
             this.m_threadStartCountRateMeter.Priority = ThreadPriority.Normal;
-                
-                // set the thread priority to normal            
+
+            // set the thread priority to normal            
             this.m_threadStartCountRateMeter.Start(); // start the thread			
         }
 
@@ -170,8 +170,8 @@ namespace SIS.Forms
             {
                 _iCountRate = this.m_apdAPD1.CountRate; // get the count rate
                 _dCountRate = Convert.ToDouble(_iCountRate);
-                    
-                    // convert the count rate in order to recalc it in units of Cps/Kcps/Mcps
+
+                // convert the count rate in order to recalc it in units of Cps/Kcps/Mcps
 
                 // Check if we really get a valid count rate
                 if (_iCountRate >= 0)
@@ -198,8 +198,8 @@ namespace SIS.Forms
                         // case 100kHz - 1000kHz
                         _dCountRate /= 1000.0;
                         _sFormatedCountRate = string.Format("{0:###.00} kHz", _dCountRate);
-                            
-                            // show current count rate to the user						
+
+                        // show current count rate to the user						
                     }
                     else
                     {
@@ -212,14 +212,14 @@ namespace SIS.Forms
                 {
                     _sFormatedCountRate = string.Format("{0}", "APD busy!");
                     this.m_bIsButtonSTOPClicked = true;
-                        
-                        // causes to exit the loop because count rate cannot be measured - device seems busy
+
+                    // causes to exit the loop because count rate cannot be measured - device seems busy
                 }
 
                 // Update UI
                 this.UIUdateControl(this.btnCoutRateMeterAPD1, _sFormatedCountRate);
-                    
-                    // show count rate info or warning (in case is APD busy with another type of measurement)
+
+                // show count rate info or warning (in case is APD busy with another type of measurement)
                 this.UpdateUI();
             }
 
@@ -257,8 +257,8 @@ namespace SIS.Forms
                     this.BeginInvoke(
                         new UIUpdateButtonDelegate(this.ControlSetText), 
                         new object[] { __btnControl, __sString });
-                        
-                        // update control text asynchronously (asynchronous Invoke necessary for the proper behavior when terminating the Count Rate Form)
+
+                    // update control text asynchronously (asynchronous Invoke necessary for the proper behavior when terminating the Count Rate Form)
                 }
                 else
                 {
@@ -275,8 +275,8 @@ namespace SIS.Forms
             if (this.InvokeRequired)
             {
                 this.BeginInvoke(new UIUpdateDelegate(this.Refresh));
-                    
-                    // update GUI asynchronously (asynchronous Invoke necessary for the proper behavior when terminating the Count Rate Form)
+
+                // update GUI asynchronously (asynchronous Invoke necessary for the proper behavior when terminating the Count Rate Form)
             }
             else
             {

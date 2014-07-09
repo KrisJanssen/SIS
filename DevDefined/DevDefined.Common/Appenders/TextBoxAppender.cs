@@ -6,7 +6,6 @@
 //   The text box appender.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Appenders
 {
     using System;

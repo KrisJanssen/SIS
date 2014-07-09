@@ -1,13 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ComPort.cs" company="">
-//   
+// <copyright file="ComPort.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   CommPort class creates a singleton instance
 //   of SerialPort (System.IO.Ports)
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware.ComPort
 {
     using System;

@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ImageBlender.cs" company="">
-//   
+// <copyright file="ImageBlender.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The image blender.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Library
 {
     using System;
@@ -318,8 +317,7 @@ namespace SIS.Library
                                     (1.0f - sat) * bweight, (1.0f - sat) * bweight, (1.0f - sat) * bweight + sat, 0.0f, 
                                     0.0f
                                 }, 
-                            new[] { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f }, 
-                            new[] { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
+                            new[] { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f }, new[] { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
                         });
             this.ApplyColorMatrix(ref img, cMatrix);
         }
@@ -1171,9 +1169,9 @@ namespace SIS.Library
         private byte BlendHardLight(ref byte Src, ref byte Dst)
         {
             return (Src < 128)
-                        ? (byte)Math.Max(Math.Min((Src / 255.0f * Dst / 255.0f) * 255.0f * 2, 255), 0)
-                        : (byte)
-                          Math.Max(Math.Min(255 - ((255 - Src) / 255.0f * (255 - Dst) / 255.0f) * 255.0f * 2, 255), 0);
+                       ? (byte)Math.Max(Math.Min((Src / 255.0f * Dst / 255.0f) * 255.0f * 2, 255), 0)
+                       : (byte)
+                         Math.Max(Math.Min(255 - ((255 - Src) / 255.0f * (255 - Dst) / 255.0f) * 255.0f * 2, 255), 0);
         }
 
         /// <summary>
@@ -1283,9 +1281,9 @@ namespace SIS.Library
         private byte BlendOverlay(ref byte Src, ref byte Dst)
         {
             return (Dst < 128)
-                        ? (byte)Math.Max(Math.Min((Src / 255.0f * Dst / 255.0f) * 255.0f * 2, 255), 0)
-                        : (byte)
-                          Math.Max(Math.Min(255 - ((255 - Src) / 255.0f * (255 - Dst) / 255.0f) * 255.0f * 2, 255), 0);
+                       ? (byte)Math.Max(Math.Min((Src / 255.0f * Dst / 255.0f) * 255.0f * 2, 255), 0)
+                       : (byte)
+                         Math.Max(Math.Min(255 - ((255 - Src) / 255.0f * (255 - Dst) / 255.0f) * 255.0f * 2, 255), 0);
         }
 
         /// <summary>

@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   A collection class containing a list of <see cref="CurveItem" /> objects
+//   A collection class containing a list of  objects
 //   that define the set of curves to be displayed on the graph.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

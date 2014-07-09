@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="Ruler.cs">
-//   
+// <copyright company="Kris Janssen" file="Ruler.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The ruler.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.Library.ImageControl
 {

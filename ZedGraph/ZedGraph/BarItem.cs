@@ -5,7 +5,6 @@
 // <summary>
 //   Encapsulates a bar type that displays vertical or horizontal bars
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

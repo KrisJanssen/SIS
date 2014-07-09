@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AboutBox.cs" company="">
-//   
+// <copyright file="AboutBox.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The about box.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.SerialTerminal
 {
     using System;

@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="CCDGrabber.cs">
-//   
+// <copyright company="Kris Janssen" file="CCDGrabber.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The ccd grabber.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.WPFControls.CCDControl
 {

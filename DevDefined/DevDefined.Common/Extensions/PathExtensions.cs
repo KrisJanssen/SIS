@@ -6,7 +6,6 @@
 //   The path extensions.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Extensions
 {
     using System;

@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="CCDHelper.cs">
-//   
+// <copyright company="Kris Janssen" file="CCDHelper.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Class that helps finding the pins for a specific filter
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.WPFControls.CCDControl
 {
@@ -45,7 +44,6 @@ namespace SIS.WPFControls.CCDControl
                 // Get the pin direction
                 PinDirection pinDir;
                 int n = 0;
-                
 
                 // Loop the pins
                 while (pinsEnum.Next(1, pin, out n) == 0)

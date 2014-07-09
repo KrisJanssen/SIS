@@ -5,7 +5,6 @@
 // <summary>
 //   A class than contains information about the position of an object on the graph.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

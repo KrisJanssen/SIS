@@ -4,10 +4,9 @@
 // </copyright>
 // <summary>
 //   A class that represents an image object on the graph.  A list of
-//   <see cref="GraphObj" /> objects is maintained by the <see cref="GraphObjList" />
+//   objects is maintained by the
 //   collection class.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -61,6 +60,7 @@ namespace ZedGraph.ZedGraph
         /// </overloads>
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageObj"/> class. 
+        /// Initializes a new instance of the <see cref="ImageObj"/> class. 
         /// A default constructor that places a null <see cref="System.Drawing.Image"/> at a
         /// default <see cref="RectangleF"/> of (0,0,1,1)
         /// </summary>
@@ -93,6 +93,7 @@ namespace ZedGraph.ZedGraph
         /// Constructors for the <see cref="ImageObj"/> object
         /// </overloads>
         /// <summary>
+        /// Initializes a new instance of the <see cref="ImageObj"/> class. 
         /// Initializes a new instance of the <see cref="ImageObj"/> class. 
         /// A constructor that allows the <see cref="System.Drawing.Image"/> and
         /// <see cref="RectangleF"/> location for the
@@ -131,6 +132,7 @@ namespace ZedGraph.ZedGraph
         /// Constructors for the <see cref="ImageObj"/> object
         /// </overloads>
         /// <summary>
+        /// Initializes a new instance of the <see cref="ImageObj"/> class. 
         /// Initializes a new instance of the <see cref="ImageObj"/> class. 
         /// A constructor that allows the <see cref="System.Drawing.Image"/> and
         /// individual <see cref="System.Single"/> coordinate locations for the

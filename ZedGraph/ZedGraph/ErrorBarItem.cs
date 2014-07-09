@@ -6,7 +6,6 @@
 //   Encapsulates an "Error Bar" curve type that displays a vertical or horizontal
 //   line with a symbol at each end.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

@@ -1,15 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="TimeHarpDefinitions.cs">
-//   
+// <copyright company="Kris Janssen" file="TimeHarpDefinitions.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   This class provides the DLL functions for interacting with Time Harp 200 board.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.Hardware.TimeHarp
 {
-    using System;
     using System.Runtime.InteropServices;
     using System.Text;
 
@@ -62,7 +60,8 @@ namespace SIS.Hardware.TimeHarp
         /// The comment field.
         /// </summary>
         public const string CommentField = "SIS software created the TTTR file";
-                            // comment field - now we just note that SIS software was used to create the file
+
+        // comment field - now we just note that SIS software was used to create the file
 
         /// <summary>
         /// The creator name.
@@ -149,7 +148,8 @@ namespace SIS.Hardware.TimeHarp
         /// The maximu m_ ttt r_ record s_ pe r_ file.
         /// </summary>
         public const int MAXIMUM_TTTR_RECORDS_PER_FILE = 268435456;
-                         // =2^28 (= 268 435 456) maximum records per TTTR file allowed
+
+        // =2^28 (= 268 435 456) maximum records per TTTR file allowed
 
         /// <summary>
         /// The offsetmax.
@@ -180,7 +180,8 @@ namespace SIS.Hardware.TimeHarp
         /// The ranges.
         /// </summary>
         public const int RANGES = 6;
-                         // Number of ranges in terms of an integer number (the real time resolution is then 2^range number multiplied by Time Harp base time resolution)
+
+        // Number of ranges in terms of an integer number (the real time resolution is then 2^range number multiplied by Time Harp base time resolution)
 
         /// <summary>
         /// The range s_ default.
@@ -1075,19 +1076,22 @@ namespace SIS.Hardware.TimeHarp
             /// The number of channels.
             /// </summary>
             public int NumberOfChannels;
-                       // number of time channels (normally 4096). Note that it may be needed to read this value before further processing a TTTR file
+
+            // number of time channels (normally 4096). Note that it may be needed to read this value before further processing a TTTR file
 
             /// <summary>
             /// The number of curves.
             /// </summary>
             public int NumberOfCurves;
-                       // meaningless in TTTR file. Note that it may be needed to read this value before further processing a TTTR file
+
+            // meaningless in TTTR file. Note that it may be needed to read this value before further processing a TTTR file
 
             /// <summary>
             /// The bits per channel.
             /// </summary>
             public int BitsPerChannel;
-                       // meaningless in TTTR file. Note that it may be needed to read this value before further processing a TTTR file
+
+            // meaningless in TTTR file. Note that it may be needed to read this value before further processing a TTTR file
 
             /// <summary>
             /// The routing channels.
@@ -1098,7 +1102,8 @@ namespace SIS.Hardware.TimeHarp
             /// The number of boards.
             /// </summary>
             public int NumberOfBoards;
-                       // reserved, now 1. Note that it may be needed to read this value before further processing a TTTR file
+
+            // reserved, now 1. Note that it may be needed to read this value before further processing a TTTR file
 
             /// <summary>
             /// The active curve.
@@ -1346,19 +1351,22 @@ namespace SIS.Hardware.TimeHarp
             /// The type of scan.
             /// </summary>
             public int TypeOfScan;
-                       // the type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
+
+            // the type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
 
             /// <summary>
             /// The frame time out.
             /// </summary>
             public int FrameTimeOut;
-                       // frame time out - the period after which we force the processing of the raw counts and extract pixels
+
+            // frame time out - the period after which we force the processing of the raw counts and extract pixels
 
             /// <summary>
             /// The fi fo time out.
             /// </summary>
             public int FiFoTimeOut;
-                       // Time Harp's FiFo time out - the period after which we force the fetching of the raw events in the FiFo buffer
+
+            // Time Harp's FiFo time out - the period after which we force the fetching of the raw events in the FiFo buffer
 
             /// <summary>
             /// The stack marker.
@@ -1369,7 +1377,8 @@ namespace SIS.Hardware.TimeHarp
             /// The frame marker.
             /// </summary>
             public byte FrameMarker;
-                        // value of external marker interpreted as a Frame marker (note that Frame marker is also a line marker)
+
+            // value of external marker interpreted as a Frame marker (note that Frame marker is also a line marker)
 
             /// <summary>
             /// The line marker.
@@ -1395,13 +1404,15 @@ namespace SIS.Hardware.TimeHarp
             /// The galvo range angle degrees.
             /// </summary>
             public double GalvoRangeAngleDegrees;
-                          // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
+
+            // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
 
             /// <summary>
             /// The galvo range angle int.
             /// </summary>
             public double GalvoRangeAngleInt;
-                          // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
+
+            // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
         }
 
         /// <summary>
@@ -1429,7 +1440,8 @@ namespace SIS.Hardware.TimeHarp
             /// The custom sis header.
             /// </summary>
             public CustomSISHeader CustomSISHeader;
-                                   // the following is SIS header information (header length is 140 bytes)  
+
+            // the following is SIS header information (header length is 140 bytes)  
 
             /// <summary>
             /// The tttr header.
@@ -1440,8 +1452,10 @@ namespace SIS.Hardware.TimeHarp
             /// The text header.
             /// </summary>
             public TextHeader TextHeader;
-                              // the following represents the readable ASCII file header portion (header length is 328 bytes)
+
             #endregion
+
+            // the following represents the readable ASCII file header portion (header length is 328 bytes)
         }
 
         /// <summary>
@@ -1510,13 +1524,15 @@ namespace SIS.Hardware.TimeHarp
             /// The number of records.
             /// </summary>
             public int NumberOfRecords;
-                       // Number of TTTR records. Note that it may be needed to read this value before further processing a TTTR file
+
+            // Number of TTTR records. Note that it may be needed to read this value before further processing a TTTR file
 
             /// <summary>
             /// The special header length.
             /// </summary>
             public int SpecialHeaderLength;
-                       // Length of special header to follow (in 4 bytes portion - -> currently we predefine it and write there the custom SIS header). Note that you must skip this header length to get to the TTTR records
+
+            // Length of special header to follow (in 4 bytes portion - -> currently we predefine it and write there the custom SIS header). Note that you must skip this header length to get to the TTTR records
         }
 
         /// <summary>

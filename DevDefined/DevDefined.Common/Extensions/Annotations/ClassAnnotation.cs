@@ -6,7 +6,6 @@
 //   The class annotation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Extensions.Annotations
 {
     using System;

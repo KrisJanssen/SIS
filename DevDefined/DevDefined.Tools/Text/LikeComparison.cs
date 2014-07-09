@@ -6,10 +6,8 @@
 //   A class capable of performing a like comparison of strings -
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Text
 {
-    using System;
     using System.Collections;
 
     /// <summary>

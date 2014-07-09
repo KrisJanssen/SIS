@@ -1,13 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StageNotReleasedException.cs" company="">
-//   
+// <copyright file="StageNotReleasedException.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   This Exception will get thrown when the stage is not released properly when it should have been.
 //   TODO: Make this implementation fully compliant with MSDN directives.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware
 {
     /// <summary>

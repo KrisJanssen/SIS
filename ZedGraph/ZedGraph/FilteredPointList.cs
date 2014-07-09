@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   An example of an <see cref="IPointList" /> implementation that stores large datasets, and
+//   An example of an  implementation that stores large datasets, and
 //   selectively filters the output data depending on the displayed range.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

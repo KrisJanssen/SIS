@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="Memory.cs">
-//   
+// <copyright company="Kris Janssen" file="Memory.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Contains methods for allocating, freeing, and performing operations on memory
 //   that is fixed (pinned) in memory.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.Systemlayer
 {

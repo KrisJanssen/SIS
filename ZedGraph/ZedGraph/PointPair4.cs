@@ -3,7 +3,7 @@
 //   
 // </copyright>
 // <summary>
-//   The basic <see cref="PointPair" /> class holds three data values (X, Y, Z).  This
+//   The basic  class holds three data values (X, Y, Z).  This
 //   class extends the basic PointPair to contain four data values (X, Y, Z, T).
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
@@ -211,7 +211,8 @@ namespace ZedGraph.ZedGraph
         public new string ToString(string format, bool isShowZT)
         {
             return "( " + this.X.ToString(format) + ", " + this.Y.ToString(format)
-                   + (isShowZT ? (", " + this.Z.ToString(format) + ", " + this.T.ToString(format)) : string.Empty) + " )";
+                   + (isShowZT ? (", " + this.Z.ToString(format) + ", " + this.T.ToString(format)) : string.Empty)
+                   + " )";
         }
 
         /// <summary>

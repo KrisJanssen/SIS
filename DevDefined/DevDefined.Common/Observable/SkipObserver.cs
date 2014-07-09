@@ -6,7 +6,6 @@
 //   The skip observer.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     /// <summary>

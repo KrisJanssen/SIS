@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationRule.cs" company="">
-//   
+// <copyright file="ValidationRule.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   ValidationRule is designed to be a simple as possible to
@@ -9,7 +9,6 @@
 //   instances of this class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace KUL.MDS.Validation
 {
     using System;

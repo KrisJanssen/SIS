@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SerialTerminalSettingsForm.cs" company="">
-//   
+// <copyright file="SerialTerminalSettingsForm.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The serial terminal settings form.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.SerialTerminal
 {
     using System;
@@ -49,8 +48,8 @@ namespace SIS.SerialTerminal
 
             int[] baudRates =
                 {
-                    100, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 56000, 57600, 115200, 
-                    128000, 256000, 0
+                    100, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 56000, 57600, 115200, 128000, 
+                    256000, 0
                 };
             found = 0;
             for (int i = 0; baudRates[i] != 0; ++i)

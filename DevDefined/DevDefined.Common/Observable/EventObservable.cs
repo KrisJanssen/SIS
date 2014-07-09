@@ -6,7 +6,6 @@
 //   EventObservable.cs
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     /*public class EventObservable<TTarget,TEventArgs> : IObservable<TEventArgs>

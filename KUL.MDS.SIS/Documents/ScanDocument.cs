@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ScanDocument.cs" company="">
-//   
+// <copyright file="ScanDocument.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   This class provides an object for loading scan files. The object provides scan data as well as scan settings.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Documents
 {
     using System;
@@ -101,59 +100,59 @@ namespace SIS.Documents
 
             // Set default for Galvo Settings Section
             this.m_scnstSettings.GalvoSerialPortName = "COM1";
-                
-                // the name of the serial port where the galvo is connected to
+
+            // the name of the serial port where the galvo is connected to
             this.m_scnstSettings.GalvoFrameMarker = 2;
-                
-                // the frame synchronization marker that the galvo rises upon a beginning of a frame
+
+            // the frame synchronization marker that the galvo rises upon a beginning of a frame
             this.m_scnstSettings.GalvoLineMarker = 4;
-                
-                // the line synchronization marker that the galvo rises upon a beginning of a line
+
+            // the line synchronization marker that the galvo rises upon a beginning of a line
             this.m_scnstSettings.GalvoMagnificationObjective = 100.0; // the magnification of the objective
             this.m_scnstSettings.GalvoScanLensFocalLength = 40.0; // the focal length of the scan lens in [mm]
             this.m_scnstSettings.GalvoRangeAngleDegrees = 4.125;
-                
-                // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
+
+            // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
             this.m_scnstSettings.GalvoRangeAngleInt = 4096.0;
-                
-                // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
+
+            // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)           
 
             // Set default for Time Harp Settings Section
             this.m_scnstSettings.TimeHarpFrameMarker = this.m_scnstSettings.GalvoFrameMarker;
-                
-                // tells Time Harp the value of the frame synchronization marker that the galvo rises upon a beginning of a frame
+
+            // tells Time Harp the value of the frame synchronization marker that the galvo rises upon a beginning of a frame
             this.m_scnstSettings.TimeHarpLineMarker = this.m_scnstSettings.GalvoLineMarker;
-                
-                // tells Time Harp the value of the line synchronization marker that the galvo rises upon a beginning of a line
+
+            // tells Time Harp the value of the line synchronization marker that the galvo rises upon a beginning of a line
             this.m_scnstSettings.TimeHarpMarkerEdge = 1;
-                
-                // set the active TTL edge (0 - falling edge, 1 - rising edge). Note that this defines the type of edge used from the frame/line marker TTL pulse (so it must be the same as the outputed TTL from YanusIV).
+
+            // set the active TTL edge (0 - falling edge, 1 - rising edge). Note that this defines the type of edge used from the frame/line marker TTL pulse (so it must be the same as the outputed TTL from YanusIV).
             this.m_scnstSettings.TimeHarpMeasurementMode = 0;
-                
-                // there are two possible modes: 0 - one-time histogramming and TTTR modes; 1 - continuous mode. Note that we need mode 0 in order to get raw photon data (arrival time) and build an image.
+
+            // there are two possible modes: 0 - one-time histogramming and TTTR modes; 1 - continuous mode. Note that we need mode 0 in order to get raw photon data (arrival time) and build an image.
             this.m_scnstSettings.TimeHarpRangeCode = 0;
-                
-                // set the timing resolution of Time Harp, range (0..5). Note that then the timing resolution is base_timing_resolution*2^(_iRangeCode); base_timing_resolution is the time resolution of Time Harp (~30ps for Time Harp 200)
+
+            // set the timing resolution of Time Harp, range (0..5). Note that then the timing resolution is base_timing_resolution*2^(_iRangeCode); base_timing_resolution is the time resolution of Time Harp (~30ps for Time Harp 200)
             this.m_scnstSettings.TimeHarpOffset = 0; // set offset
             this.m_scnstSettings.TimeHarpCFDZeroCross = 20; // CFD zero cross voltage level in [mV]
             this.m_scnstSettings.TimeHarpCFDMin = 50; // CFD discrimination voltage level in [mV]
             this.m_scnstSettings.TimeHarpSyncLevel = -50; // Sync voltage level [mV]
 
             this.m_scnstSettings.TimeHarpGlobalTTTRBufferSize = 100;
-                
-                // global TTTR buffer size in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
+
+            // global TTTR buffer size in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
             this.m_scnstSettings.TimeHarpLinePTTTRBufferSize = 50;
-                
-                // line PTTTR buffer size in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
+
+            // line PTTTR buffer size in multiples of Time Harp's Half FiFo Size (see TimeHarpDefinitions.DMABLOCKSZ)
             this.m_scnstSettings.TimeHarpFrameTimeOut = 200;
-                
-                // the max time period after which the processed pixels so far will be returned as a frame
+
+            // the max time period after which the processed pixels so far will be returned as a frame
             this.m_scnstSettings.TimeHarpFiFoTimeOut = this.m_scnstSettings.TimeHarpFrameTimeOut;
-                
-                // the max time period after which the recorded raw Time Harp events will be read from the Time Harp FiFo buffer
+
+            // the max time period after which the recorded raw Time Harp events will be read from the Time Harp FiFo buffer
             this.m_scnstSettings.TimeHarpNameTTTRFile = "time_harp_file";
-                
-                // the name (without the path and extension) of the data file with raw photon data (the TTTR binary file)
+
+            // the name (without the path and extension) of the data file with raw photon data (the TTTR binary file)
 
             // Set other default values
             this.m_iDataType = 0;
@@ -625,7 +624,7 @@ namespace SIS.Documents
                 // Make sure we start reading at the correct offset for the data.
                 _fsStream.Seek(4100, SeekOrigin.Begin);
 
-                #region Restore UInt32 from 4 bytes
+                
 
                 // Read all the bytes in groups of 4.
                 for (_iI = 0; _iI < this.m_uint32Pixels.Length; _iI++)
@@ -642,7 +641,7 @@ namespace SIS.Documents
                     this.m_uint32Pixels[_iI] = _ui32Data;
                 }
 
-                #endregion
+                
 
                 // You don't need the reader anymore.
                 _brdrReader.Close();

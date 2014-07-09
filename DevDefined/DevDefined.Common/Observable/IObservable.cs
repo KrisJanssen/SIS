@@ -6,7 +6,6 @@
 //   The Observable interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     using System;

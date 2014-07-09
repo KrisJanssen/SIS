@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NullGraphics.cs" company="">
-//   
+// <copyright file="NullGraphics.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Sometimes you need a Graphics instance when you don't really have access to one.
@@ -9,7 +9,6 @@
 //   rendering calls.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     using System;

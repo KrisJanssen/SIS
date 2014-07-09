@@ -6,7 +6,6 @@
 //   The switch compiler.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Compilation
 {
     using System;

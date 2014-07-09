@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   A collection class containing a list of <see cref="GraphPane" /> objects
+//   A collection class containing a list of  objects
 //   organized together in some form.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

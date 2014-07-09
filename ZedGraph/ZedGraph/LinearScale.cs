@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   The LinearScale class inherits from the <see cref="Scale" /> class, and implements
-//   the features specific to <see cref="AxisType.Linear" />.
+//   The LinearScale class inherits from the  class, and implements
+//   the features specific to .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

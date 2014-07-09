@@ -1,11 +1,10 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="ComSettings.cs">
-//   
+// <copyright company="Kris Janssen" file="ComSettings.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Persistent settings
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.Hardware.ComPort
 {

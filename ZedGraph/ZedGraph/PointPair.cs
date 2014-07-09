@@ -5,7 +5,6 @@
 // <summary>
 //   A simple point represented by an (X,Y,Z) group of double values.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 
 #if ( !DOTNET1 ) // Is this a .Net 2 compilation?
@@ -332,7 +331,7 @@ namespace ZedGraph.ZedGraph
 #if ( DOTNET1 ) // Is this a .Net 1.1 compilation?
 
     // <summary>
-    /// Compares points based on their y values.  Is setup to be used in an
+    // Compares points based on their y values.  Is setup to be used in an
     /// ascending order sort.
     /// <seealso cref="System.Collections.ArrayList.Sort()"/>
     /// </summary>

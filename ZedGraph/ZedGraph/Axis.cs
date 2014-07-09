@@ -6,7 +6,6 @@
 //   The Axis class is an abstract base class that encompasses all properties
 //   and methods required to define a graph Axis.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -928,10 +927,10 @@ namespace ZedGraph.ZedGraph
             if (this._isVisible && this._title._isVisible && !string.IsNullOrEmpty(str))
             {
                 bool hasTic = this._scale._isLabelsInside
-                                   ? (this.MajorTic.IsInside || this.MajorTic._isCrossInside || this.MinorTic.IsInside
-                                      || this.MinorTic._isCrossInside)
-                                   : (this.MajorTic.IsOutside || this.MajorTic._isCrossOutside
-                                      || this.MinorTic.IsOutside || this.MinorTic._isCrossOutside);
+                                  ? (this.MajorTic.IsInside || this.MajorTic._isCrossInside || this.MinorTic.IsInside
+                                     || this.MinorTic._isCrossInside)
+                                  : (this.MajorTic.IsOutside || this.MajorTic._isCrossOutside || this.MinorTic.IsOutside
+                                     || this.MinorTic._isCrossOutside);
 
                 // Calculate the title position in screen coordinates
                 float x = (this._scale._maxPix - this._scale._minPix) / 2;
@@ -949,8 +948,8 @@ namespace ZedGraph.ZedGraph
                 float gap = scaledTic * (hasTic ? 1.0f : 0.0f)
                             + this.Title.FontSpec.BoundingBox(g, str, scaleFactor).Height / 2.0F;
                 float y = this._scale._isVisible
-                               ? this._scale.GetScaleMaxSpace(g, pane, scaleFactor, true).Height + scaledLabelGap
-                               : 0;
+                              ? this._scale.GetScaleMaxSpace(g, pane, scaleFactor, true).Height + scaledLabelGap
+                              : 0;
 
                 if (this._scale._isLabelsInside)
                 {

@@ -5,9 +5,8 @@
 // <summary>
 //   Encapsulates an "High-Low" Bar curve type that displays a bar in which both
 //   the bottom and the top of the bar are set by data valuesfrom the
-//   <see cref="PointPair" /> struct.
+//   struct.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

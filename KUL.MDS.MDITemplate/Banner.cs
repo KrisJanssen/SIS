@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Banner.cs" company="">
-//   
+// <copyright file="Banner.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The banner.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.MDITemplate
 {
     using System;
@@ -352,8 +351,7 @@ namespace SIS.MDITemplate
                         new[]
                             {
                                 new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, 
-                                new float[] { 0, 0, 1, 0, 0 }, new[] { 0, 0, 0, alpha1, 0 }, 
-                                new float[] { 0, 0, 0, 0, 1 }
+                                new float[] { 0, 0, 1, 0, 0 }, new[] { 0, 0, 0, alpha1, 0 }, new float[] { 0, 0, 0, 0, 1 }
                             });
 
                 ImageAttributes ia1 = new ImageAttributes();
@@ -364,8 +362,7 @@ namespace SIS.MDITemplate
                         new[]
                             {
                                 new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, 
-                                new float[] { 0, 0, 1, 0, 0 }, new[] { 0, 0, 0, alpha2, 0 }, 
-                                new float[] { 0, 0, 0, 0, 1 }
+                                new float[] { 0, 0, 1, 0, 0 }, new[] { 0, 0, 0, alpha2, 0 }, new float[] { 0, 0, 0, 0, 1 }
                             });
 
                 ImageAttributes ia2 = new ImageAttributes();

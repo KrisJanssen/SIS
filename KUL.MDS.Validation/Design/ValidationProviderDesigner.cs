@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationProviderDesigner.cs" company="">
-//   
+// <copyright file="ValidationProviderDesigner.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   ValidationProviderDesigner add verbs for Validation setup on the PropertyGrid.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace KUL.MDS.Validation.Design
 {
     using System;

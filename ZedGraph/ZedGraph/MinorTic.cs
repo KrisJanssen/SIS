@@ -5,7 +5,6 @@
 // <summary>
 //   Class that holds the specific properties for the minor tics.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

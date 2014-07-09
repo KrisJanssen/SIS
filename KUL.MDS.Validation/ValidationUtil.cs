@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationUtil.cs" company="">
-//   
+// <copyright file="ValidationUtil.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Provide comparison of string data.  This class currently
@@ -9,7 +9,6 @@
 //   to implement out own code.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace KUL.MDS.Validation
 {
     using System;

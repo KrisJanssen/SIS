@@ -3,11 +3,10 @@
 //   
 // </copyright>
 // <summary>
-//   This class handles the drawing of the curve <see cref="Symbol" /> objects.
+//   This class handles the drawing of the curve  objects.
 //   The symbols are the small shapes that appear over each defined point
 //   along the curve.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -450,8 +449,8 @@ namespace ZedGraph.ZedGraph
                             // by zero, etc.
                             // Also, any value <= zero on a log scale is invalid
                             if (curX != PointPair.Missing && curY != PointPair.Missing && !double.IsNaN(curX)
-                                && !double.IsNaN(curY) && !double.IsInfinity(curX)
-                                && !double.IsInfinity(curY) && (curX > 0 || !xIsLog) && (!yIsLog || curY > 0.0)
+                                && !double.IsNaN(curY) && !double.IsInfinity(curX) && !double.IsInfinity(curY)
+                                && (curX > 0 || !xIsLog) && (!yIsLog || curY > 0.0)
                                 && (xIsOrdinal || (curX >= xMin && curX <= xMax)))
                             {
                                 // Transform the user scale values to pixel locations

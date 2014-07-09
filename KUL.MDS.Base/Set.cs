@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Set.cs" company="">
-//   
+// <copyright file="Set.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Represents an enumerable collection of items. Each item can only be present
@@ -9,7 +9,6 @@
 //   This class is analagous to C++'s std::set template class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Base
 {
     using System;

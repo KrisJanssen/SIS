@@ -6,7 +6,6 @@
 //   The disposable action.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common
 {
     using System;

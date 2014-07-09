@@ -6,7 +6,6 @@
 //   The generic operation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Pipeline
 {
     using System;

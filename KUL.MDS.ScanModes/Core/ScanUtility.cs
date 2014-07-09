@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ScanUtility.cs" company="">
-//   
+// <copyright file="ScanUtility.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   A set of supporting methods used in ScanMode generation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.ScanModes.Core
 {
     using System;
@@ -75,7 +74,7 @@ namespace SIS.ScanModes.Core
             {
                 double _dA = __dAmplitude / (((double)__iCurvePoints / (double)__iSpeedupSlowdownPts) - 1);
                 double _dB = ((double)__iCurvePoints - 2 * (double)__iSpeedupSlowdownPts)
-                              / (double)__iSpeedupSlowdownPts;
+                             / (double)__iSpeedupSlowdownPts;
                 double _dC = ((double)_iI + (double)__iSpeedupSlowdownPts) / (2 * (double)__iSpeedupSlowdownPts);
                 double _dD = 1 / (2 * Math.PI);
                 double _dE =

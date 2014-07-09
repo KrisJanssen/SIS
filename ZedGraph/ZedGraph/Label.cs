@@ -6,7 +6,6 @@
 //   Class that handles the data associated with text title and its associated font
 //   properties
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

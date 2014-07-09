@@ -8,7 +8,6 @@
 //   to them than from the dictionary itself.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.WeakRef
 {
     using System;

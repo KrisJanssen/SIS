@@ -6,7 +6,6 @@
 //   The take observable.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Observable
 {
     /// <summary>

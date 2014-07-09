@@ -6,7 +6,6 @@
 //   The dsl evaluation scope.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Dsl
 {
     using System;

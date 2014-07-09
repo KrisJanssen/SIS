@@ -6,7 +6,6 @@
 //   The Node interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Dsl
 {
     using System.Collections.Generic;

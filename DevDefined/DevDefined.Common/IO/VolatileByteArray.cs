@@ -6,7 +6,6 @@
 //   Possible states of the Array of bytes
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.IO
 {
     using System;

@@ -7,7 +7,6 @@
 //   contains two data values in order to reduce to memory load for large datasets.
 //   (e.g., no Tag or Z property)
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

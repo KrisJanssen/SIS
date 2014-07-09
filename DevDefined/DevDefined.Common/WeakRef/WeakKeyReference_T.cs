@@ -7,7 +7,6 @@
 //   a WeakDictionary along with the given comparer.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.WeakRef
 {
     /// <summary>

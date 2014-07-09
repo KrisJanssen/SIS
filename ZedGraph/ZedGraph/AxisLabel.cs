@@ -4,11 +4,10 @@
 // </copyright>
 // <summary>
 //   Class that handles the data associated with text title and its associated font
-//   properties.  Inherits from <see cref="Label" />, and adds <see cref="IsOmitMag" />
-//   and <see cref="IsTitleAtCross" /> properties, which are specifically associated with
-//   the <see cref="Axis" /> <see cref="Axis.Title" />.
+//   properties.  Inherits from , and adds
+//   and  properties, which are specifically associated with
+//   the  .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

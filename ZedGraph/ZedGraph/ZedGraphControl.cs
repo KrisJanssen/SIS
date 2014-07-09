@@ -4,13 +4,12 @@
 // </copyright>
 // <summary>
 //   The ZedGraphControl class provides a UserControl interface to the
-//   <see cref="ZedGraph" /> class library.  This allows ZedGraph to be installed
+//   class library.  This allows ZedGraph to be installed
 //   as a control in the Visual Studio toolbox.  You can use the control by simply
 //   dragging it onto a form in the Visual Studio form editor.  All graph
-//   attributes are accessible via the <see cref="ZedGraphControl.GraphPane" />
+//   attributes are accessible via the
 //   property.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

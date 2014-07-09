@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StylusAsyncPlugin.cs" company="">
-//   
+// <copyright file="StylusAsyncPlugin.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The stylus async plugin.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     using System.Drawing;
@@ -91,9 +90,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void CustomStylusDataAdded(
-            RealTimeStylus sender, 
-            CustomStylusData data)
+        public void CustomStylusDataAdded(RealTimeStylus sender, CustomStylusData data)
         {
         }
 
@@ -119,9 +116,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void InAirPackets(
-            RealTimeStylus sender, 
-            InAirPacketsData data)
+        public void InAirPackets(RealTimeStylus sender, InAirPacketsData data)
         {
             for (int i = 0; i < data.Count; i += data.PacketPropertyCount)
             {
@@ -138,9 +133,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void Packets(
-            RealTimeStylus sender, 
-            PacketsData data)
+        public void Packets(RealTimeStylus sender, PacketsData data)
         {
             for (int i = 0; i < data.Count; i += data.PacketPropertyCount)
             {
@@ -157,9 +150,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void RealTimeStylusDisabled(
-            RealTimeStylus sender, 
-            RealTimeStylusDisabledData data)
+        public void RealTimeStylusDisabled(RealTimeStylus sender, RealTimeStylusDisabledData data)
         {
         }
 
@@ -172,9 +163,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void RealTimeStylusEnabled(
-            RealTimeStylus sender, 
-            RealTimeStylusEnabledData data)
+        public void RealTimeStylusEnabled(RealTimeStylus sender, RealTimeStylusEnabledData data)
         {
         }
 
@@ -187,9 +176,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void StylusButtonDown(
-            RealTimeStylus sender, 
-            StylusButtonDownData data)
+        public void StylusButtonDown(RealTimeStylus sender, StylusButtonDownData data)
         {
         }
 
@@ -202,9 +189,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void StylusButtonUp(
-            RealTimeStylus sender, 
-            StylusButtonUpData data)
+        public void StylusButtonUp(RealTimeStylus sender, StylusButtonUpData data)
         {
         }
 
@@ -217,9 +202,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void StylusDown(
-            RealTimeStylus sender, 
-            StylusDownData data)
+        public void StylusDown(RealTimeStylus sender, StylusDownData data)
         {
             this.Interpret(data, 0);
         }
@@ -233,9 +216,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void StylusInRange(
-            RealTimeStylus sender, 
-            StylusInRangeData data)
+        public void StylusInRange(RealTimeStylus sender, StylusInRangeData data)
         {
         }
 
@@ -248,9 +229,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void StylusOutOfRange(
-            RealTimeStylus sender, 
-            StylusOutOfRangeData data)
+        public void StylusOutOfRange(RealTimeStylus sender, StylusOutOfRangeData data)
         {
         }
 
@@ -263,9 +242,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void StylusUp(
-            RealTimeStylus sender, 
-            StylusUpData data)
+        public void StylusUp(RealTimeStylus sender, StylusUpData data)
         {
             this.Interpret(data, 0);
         }
@@ -279,9 +256,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void SystemGesture(
-            RealTimeStylus sender, 
-            SystemGestureData data)
+        public void SystemGesture(RealTimeStylus sender, SystemGestureData data)
         {
         }
 
@@ -294,9 +269,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void TabletAdded(
-            RealTimeStylus sender, 
-            TabletAddedData data)
+        public void TabletAdded(RealTimeStylus sender, TabletAddedData data)
         {
         }
 
@@ -309,9 +282,7 @@ namespace SIS.Systemlayer
         /// <param name="data">
         /// The data.
         /// </param>
-        public void TabletRemoved(
-            RealTimeStylus sender, 
-            TabletRemovedData data)
+        public void TabletRemoved(RealTimeStylus sender, TabletRemovedData data)
         {
         }
 

@@ -1,11 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="UtilityDrawing.cs">
-//   
+// <copyright company="Kris Janssen" file="UtilityDrawing.cs">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Defines miscellaneous constants and static functions.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace SIS.Library
 {
@@ -215,8 +214,6 @@ namespace SIS.Library
             _ui32MaxIntensity = __ui32MaxIntensity;
             _ui32MinIntensity = __ui32MinIntensity;
 
-            
-
             // The general convention on bitmaps is that coordinate systems extend from top to bottom and left to right (row-column convention).
             // The first pixel, (0,0) is thus located in the left topmost corner of the bitmap. This is important to know if one wants to relate 
             // the bitmap image to the actual positioning of features on the physical sample.
@@ -238,8 +235,6 @@ namespace SIS.Library
             // Count from 0 to ImageWidth for J (columns, X) and from Imagewidth to 0 for I (rows, Y) to assign consecutive elements of the 
             // array to the image. You basically fill the bitmap from the bottom up...
             // Processing on the data during aqcuisition will ensure that the data array is ALWAYS supplied in the same layout!
-
-            
             for (int _intI = 0; _intI < __iImageWidth; _intI++)
             {
                 for (int _intJ = 0; _intJ < __iImageWidth + __iXOverScanPx; _intJ++)

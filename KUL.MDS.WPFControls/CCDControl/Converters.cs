@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Converters.cs" company="">
-//   
+// <copyright file="Converters.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Converts a double to 3/4 of its value
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.WPFControls.CCDControl
 {
     using System;
@@ -83,11 +82,7 @@ namespace SIS.WPFControls.CCDControl
         /// </returns>
         /// <exception cref="NotImplementedException">
         /// </exception>
-        public object ConvertBack(
-            object value, 
-            Type targetType, 
-            object parameter, 
-            CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
@@ -120,11 +115,7 @@ namespace SIS.WPFControls.CCDControl
         /// <returns>
         /// The <see cref="object"/>.
         /// </returns>
-        public object Convert(
-            object[] values, 
-            Type targetType, 
-            object parameter, 
-            CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             float v = (float)values[0];
             double m = (double)values[1];
@@ -151,11 +142,7 @@ namespace SIS.WPFControls.CCDControl
         /// </returns>
         /// <exception cref="NotImplementedException">
         /// </exception>
-        public object[] ConvertBack(
-            object value, 
-            Type[] targetTypes, 
-            object parameter, 
-            CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

@@ -6,7 +6,6 @@
 //   Service which monitors the clipboard for changes, and raises an event when it occurs.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Clipboard
 {
     using System;

@@ -4,9 +4,8 @@
 // </copyright>
 // <summary>
 //   An abstract base class that defines basic functionality for handling a pane.  This class is the
-//   parent class for <see cref="MasterPane" /> and <see cref="GraphPane" />.
+//   parent class for  and .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

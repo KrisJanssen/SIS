@@ -1,12 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationProvider.cs" company="">
-//   
+// <copyright file="ValidationProvider.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Provider validation properties to controls that can be validated.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace KUL.MDS.Validation
 {
     using System;
@@ -451,7 +450,7 @@ namespace KUL.MDS.Validation
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.components = new System.ComponentModel.Container();
         }
 
         /// <summary>
@@ -465,7 +464,7 @@ namespace KUL.MDS.Validation
         private bool IsDefaultRange(ValidationRule vr)
         {
             return this._DefaultValidationRule.MinimumValue.Equals(vr.MinimumValue)
-                    && this._DefaultValidationRule.MaximumValue.Equals(vr.MaximumValue);
+                   && this._DefaultValidationRule.MaximumValue.Equals(vr.MaximumValue);
         }
 
         /// <summary>

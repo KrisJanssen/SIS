@@ -6,7 +6,6 @@
 //   The extended component builder.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.ExtendedContainer
 {
     using Castle.MicroKernel;

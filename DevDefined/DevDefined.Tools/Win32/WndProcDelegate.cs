@@ -6,7 +6,6 @@
 //   The window proc delegate.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Win32
 {
     using System;

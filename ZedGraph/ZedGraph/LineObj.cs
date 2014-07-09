@@ -4,9 +4,8 @@
 // </copyright>
 // <summary>
 //   A class that represents a line segment object on the graph.  A list of
-//   GraphObj objects is maintained by the <see cref="GraphObjList" /> collection class.
+//   GraphObj objects is maintained by the  collection class.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -56,6 +55,7 @@ namespace ZedGraph.ZedGraph
         /// Constructors for the <see cref="LineObj"/> object
         /// </overloads>
         /// <summary>
+        /// Initializes a new instance of the <see cref="LineObj"/> class. 
         /// Initializes a new instance of the <see cref="LineObj"/> class. 
         /// A constructor that allows the position, color, and size of the
         /// <see cref="LineObj"/> to be pre-specified.

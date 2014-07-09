@@ -6,7 +6,6 @@
 //   A class designed to simplify the process of getting the actual value for
 //   the various stacked and regular curve types
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

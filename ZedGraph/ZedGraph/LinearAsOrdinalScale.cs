@@ -3,10 +3,9 @@
 //   
 // </copyright>
 // <summary>
-//   The LinearAsOrdinalScale class inherits from the <see cref="Scale" /> class, and implements
-//   the features specific to <see cref="AxisType.LinearAsOrdinal" />.
+//   The LinearAsOrdinalScale class inherits from the  class, and implements
+//   the features specific to .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

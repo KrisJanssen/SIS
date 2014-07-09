@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IFormAssociate.cs" company="">
-//   
+// <copyright file="IFormAssociate.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   Used by classes to indicate they are associated with a certain Form, even if
@@ -8,7 +8,6 @@
 //   the Form.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.MDITemplate
 {
     using System.Windows.Forms;

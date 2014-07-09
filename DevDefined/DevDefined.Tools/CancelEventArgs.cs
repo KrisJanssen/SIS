@@ -6,7 +6,6 @@
 //   Our version of the cancel event args (which can be overriden)
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools
 {
     using System;

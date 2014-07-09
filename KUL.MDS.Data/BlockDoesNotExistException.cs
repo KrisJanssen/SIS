@@ -1,13 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BlockDoesNotExistException.cs" company="">
-//   
+// <copyright file="BlockDoesNotExistException.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   This Exception will get thrown when the requested block does not exist.
 //   TODO: Make this implementation fully compliant with MSDN directives.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Data
 {
     /// <summary>

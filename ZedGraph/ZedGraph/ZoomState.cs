@@ -3,9 +3,8 @@
 //   
 // </copyright>
 // <summary>
-//   A class that captures all the scale range settings for a <see cref="GraphPane" />.
+//   A class that captures all the scale range settings for a .
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {

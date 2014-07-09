@@ -6,7 +6,6 @@
 //   The per local lifestyle manager.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.LocalData
 {
     using System;

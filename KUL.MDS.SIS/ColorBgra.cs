@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColorBgra.cs" company="">
-//   
+// <copyright file="ColorBgra.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   This is our pixel format that we will work with. It is always 32-bits / 4-bytes and is
@@ -8,7 +8,6 @@
 //   Generally used with the Surface class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS
 {
     using System;

@@ -3,14 +3,12 @@
 //   
 // </copyright>
 // <summary>
-//   A class which can serialize a <see cref="Padding" /> instance to and from a simple
+//   A class which can serialize a  instance to and from a simple
 //   string representation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Tools.Serialization
 {
-    using System;
     using System.Text;
     using System.Windows.Forms;
 

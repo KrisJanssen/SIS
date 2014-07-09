@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DrawCanvas.cs" company="">
-//   
+// <copyright file="DrawCanvas.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The draw canvas.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Library.ImageControl
 {
     using System;
@@ -434,7 +433,7 @@ namespace SIS.Library.ImageControl
 
                 _dZoomFactor = Math.Min(_dXZoom, _dYZoom);
 
-                if (Math.Abs((_dZoomFactor - this.m_dZoomFactor)) > 0.01)
+                if (Math.Abs(_dZoomFactor - this.m_dZoomFactor) > 0.01)
                 {
                     this.ZoomFactor = _dZoomFactor;
                 }
@@ -500,16 +499,16 @@ namespace SIS.Library.ImageControl
             {
                 if (__mevargsE.Button == this.m_mbtnPanMouseButton)
                 {
-                    int _iDeltaX = (this.m_ptStartPoint.X - __mevargsE.X);
-                    int _iDeltaY = (this.m_ptStartPoint.Y - __mevargsE.Y);
+                    int _iDeltaX = this.m_ptStartPoint.X - __mevargsE.X;
+                    int _iDeltaY = this.m_ptStartPoint.Y - __mevargsE.Y;
 
                     if (this.m_bPanMode)
                     {
                         // Set the origin of the new image
-                        this.m_ptOrigin.X = (this.m_ptOrigin.X
-                                             + (int)Math.Round(((double)_iDeltaX / this.m_dZoomFactor), 0));
-                        this.m_ptOrigin.Y = (this.m_ptOrigin.Y
-                                             + (int)Math.Round(((double)_iDeltaY / this.m_dZoomFactor), 0));
+                        this.m_ptOrigin.X = this.m_ptOrigin.X
+                                             + (int)Math.Round(((double)_iDeltaX / this.m_dZoomFactor), 0);
+                        this.m_ptOrigin.Y = this.m_ptOrigin.Y
+                                             + (int)Math.Round(((double)_iDeltaY / this.m_dZoomFactor), 0);
 
                         this.CheckBounds();
 
@@ -559,7 +558,7 @@ namespace SIS.Library.ImageControl
                 {
                     this.ZoomImage(true);
                 }
-                else if ((__mevargsE.Delta < 0))
+                else if (__mevargsE.Delta < 0)
                 {
                     this.ZoomImage(false);
                 }
@@ -663,12 +662,12 @@ namespace SIS.Library.ImageControl
 
                 if (this.m_ptOrigin.X > (this.m_bmpImage.Width - (this.ClientSize.Width / this.m_dZoomFactor)))
                 {
-                    this.m_ptOrigin.X = (this.m_bmpImage.Width - (int)(this.ClientSize.Width / this.m_dZoomFactor));
+                    this.m_ptOrigin.X = this.m_bmpImage.Width - (int)(this.ClientSize.Width / this.m_dZoomFactor);
                 }
 
                 if (this.m_ptOrigin.Y > (this.m_bmpImage.Height - (int)(this.ClientSize.Height / this.m_dZoomFactor)))
                 {
-                    this.m_ptOrigin.Y = (this.m_bmpImage.Height - (int)(this.ClientSize.Height / this.m_dZoomFactor));
+                    this.m_ptOrigin.Y = this.m_bmpImage.Height - (int)(this.ClientSize.Height / this.m_dZoomFactor);
                 }
 
                 if (this.m_ptOrigin.X < 0)
@@ -812,9 +811,9 @@ namespace SIS.Library.ImageControl
         {
             // Get center point
             this.m_ptCenterPoint.X = this.m_ptOrigin.X
-                                      + (int)Math.Round(((double)this.m_rctSourceRectangle.Width / (double)2), 0);
+                                     + (int)Math.Round((double)this.m_rctSourceRectangle.Width / (double)2, 0);
             this.m_ptCenterPoint.Y = this.m_ptOrigin.Y
-                                      + (int)Math.Round(((double)this.m_rctSourceRectangle.Height / (double)2), 0);
+                                     + (int)Math.Round((double)this.m_rctSourceRectangle.Height / (double)2, 0);
 
             // set new zoomfactor
             if (ZoomIn)
@@ -828,11 +827,10 @@ namespace SIS.Library.ImageControl
 
             // Reset the origin to maintain center point
             this.m_ptOrigin.X = this.m_ptCenterPoint.X
-                                 - (int)
-                                   Math.Round(((double)this.ClientSize.Width / (this.m_dZoomFactor / (double)2)), 0);
+                                - (int)Math.Round((double)this.ClientSize.Width / (this.m_dZoomFactor / (double)2), 0);
             this.m_ptOrigin.Y = this.m_ptCenterPoint.Y
-                                 - (int)
-                                   Math.Round(((double)this.ClientSize.Height / (this.m_dZoomFactor / (double)2)), 0);
+                                - (int)
+                                  Math.Round((double)this.ClientSize.Height / (this.m_dZoomFactor / (double)2), 0);
 
             this.CheckBounds();
 
@@ -861,13 +859,13 @@ namespace SIS.Library.ImageControl
 
                     if (this.m_rctSelectedRectangle.Width > this.m_rctSelectedRectangle.Height)
                     {
-                        _dNewZoomFactor = ((double)this.ClientSize.Width
-                                           / ((double)this.SelectedRectangle.Width / this.ZoomFactor));
+                        _dNewZoomFactor = (double)this.ClientSize.Width
+                                           / ((double)this.SelectedRectangle.Width / this.ZoomFactor);
                     }
                     else
                     {
-                        _dNewZoomFactor = ((double)this.ClientSize.Height
-                                           / ((double)this.SelectedRectangle.Height / this.ZoomFactor));
+                        _dNewZoomFactor = (double)this.ClientSize.Height
+                                           / ((double)this.SelectedRectangle.Height / this.ZoomFactor);
                     }
 
                     this.m_ptOrigin = _ptNewOrigin;

@@ -6,7 +6,6 @@
 //   enumeration used to indicate which type of data will be plotted.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace ZedGraph.ZedGraph
 {
     using System;

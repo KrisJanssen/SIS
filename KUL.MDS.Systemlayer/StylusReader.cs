@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StylusReader.cs" company="">
-//   
+// <copyright file="StylusReader.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The stylus reader.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Systemlayer
 {
     using System;
@@ -68,10 +67,7 @@ namespace SIS.Systemlayer
 
             stylus.AsyncPluginCollection.Add(stylusReader);
             stylus.SetDesiredPacketDescription(
-                new[]
-                    {
-                       PacketProperty.X, PacketProperty.Y, PacketProperty.NormalPressure, PacketProperty.PacketStatus 
-                    });
+                new[] { PacketProperty.X, PacketProperty.Y, PacketProperty.NormalPressure, PacketProperty.PacketStatus });
             stylus.Enabled = true;
 
             control.Disposed += new EventHandler(control_Disposed);

@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Program.cs" company="">
-//   
+// <copyright file="Program.cs" company="Kris Janssen">
+//   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
 //   The startup.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS
 {
     using System;
@@ -780,8 +779,8 @@ namespace SIS
             stream.WriteLine("Application uptime: " + appUptime);
 
             stream.WriteLine(
-                "OS Version: " + osVersion + (string.IsNullOrEmpty(osRevision) ? string.Empty : (" " + osRevision)) + " " + osType
-                + " " + processorNativeArchitecture);
+                "OS Version: " + osVersion + (string.IsNullOrEmpty(osRevision) ? string.Empty : (" " + osRevision))
+                + " " + osType + " " + processorNativeArchitecture);
             stream.WriteLine(".NET version: CLR " + clrVersion + " " + processorArchitecture + ", FX " + fxInventory);
             stream.WriteLine("Processor: " + cpuCount + " \"" + cpuName + "\" " + cpuSpeed + " " + cpuFeatures);
             stream.WriteLine("Physical memory: " + totalPhysicalBytes);

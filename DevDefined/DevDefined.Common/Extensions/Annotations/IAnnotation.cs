@@ -6,7 +6,6 @@
 //   The Annotation interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Extensions.Annotations
 {
     using System;

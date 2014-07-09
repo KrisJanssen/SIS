@@ -6,7 +6,6 @@
 //   The helpers.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace DevDefined.Common.Compilation
 {
     using System;

@@ -4,10 +4,9 @@
 // </copyright>
 // <summary>
 //   An abstract base class that represents a text object on the graph.  A list of
-//   <see cref="GraphObj" /> objects is maintained by the
-//   <see cref="GraphObjList" /> collection class.
+//   objects is maintained by the
+//   collection class.
 // </summary>
-// 
 // --------------------------------------------------------------------------------------------------------------------
 namespace ZedGraph.ZedGraph
 {
@@ -93,6 +92,7 @@ namespace ZedGraph.ZedGraph
         /// Constructors for the <see cref="GraphObj"/> class.
         /// </overloads>
         /// <summary>
+        /// Initializes a new instance of the <see cref="GraphObj"/> class. 
         /// Initializes a new instance of the <see cref="GraphObj"/> class. 
         /// Default constructor that sets all <see cref="GraphObj"/> properties to default
         /// values as defined in the <see cref="Default"/> class.
