@@ -127,11 +127,6 @@ namespace SIS.Forms
         private ScanSettingsForm m_frmScanSettingsForm;
 
         /// <summary>
-        /// The m_frm trajectory form.
-        /// </summary>
-        private TrajectoryPlotForm m_frmTrajectoryForm = new TrajectoryPlotForm();
-
-        /// <summary>
         /// The m_scnst settings.
         /// </summary>
         private ScanSettings m_scnstSettings;
@@ -345,7 +340,6 @@ namespace SIS.Forms
         {
             // Make sure the progress bar is hidden.
             this.m_frmPBar.Visible = false;
-            this.m_frmTrajectoryForm.Visible = false;
 
             // Set correct Validate button states
             this.btnValidateInput.Enabled = true;

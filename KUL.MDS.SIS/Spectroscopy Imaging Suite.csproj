@@ -216,12 +216,6 @@
     <Compile Include="Forms\SplashForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\TrajectoryPlotForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\TrajectoryPlotForm.Designer.cs">
-      <DependentUpon>TrajectoryPlotForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\SPEViewForm.cs" />
     <Compile Include="Documents\ScanDocument.cs" />
     <Compile Include="Forms\ProgressBarForm.cs">
@@ -267,10 +261,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ScanSettingsForm.resx">
       <DependentUpon>ScanSettingsForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TrajectoryPlotForm.resx">
-      <DependentUpon>TrajectoryPlotForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SPEViewForm.resx">
@@ -393,10 +383,6 @@
     <ProjectReference Include="..\KUL.MDS.WPFControls\SIS.WPFControls.csproj">
       <Project>{5B6DEF7E-BAB5-45D0-8B14-AC1B412A55F4}</Project>
       <Name>SIS.WPFControls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ZedGraph\ZedGraph.csproj">
-      <Project>{2541686B-1673-43BF-AF89-3163945DB009}</Project>
-      <Name>ZedGraph</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
