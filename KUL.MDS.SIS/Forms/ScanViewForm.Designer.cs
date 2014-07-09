@@ -1,5 +1,10 @@
-﻿namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
+    using global::SIS.Library.ImageControl;
+    using global::SIS.WPFControls.CCDControl;
+
+    using SIS.Controls;
+
     partial class ScanViewForm
     {
         /// <summary>
@@ -13,9 +18,9 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -63,7 +68,7 @@
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.txtbxCurrZPos = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
-			this.scanModeComboBox1 = new KUL.MDS.SIS.Controls.ScanModeComboBox();
+			this.scanModeComboBox1 = new ScanModeComboBox();
 			this.btnScanStart = new System.Windows.Forms.Button();
 			this.btnAPDOnOff = new System.Windows.Forms.Button();
 			this.txtbxCurrYPos = new System.Windows.Forms.TextBox();
@@ -108,10 +113,10 @@
 			this.chkbxNormalized = new System.Windows.Forms.CheckBox();
 			this.lblColorBarMinInt1 = new System.Windows.Forms.Label();
 			this.chkbxCorrectedImage = new System.Windows.Forms.CheckBox();
-			this.scanImageControl1 = new KUL.MDS.Library.ImageControl();
-			this.scanImageControl2 = new KUL.MDS.Library.ImageControl();
-			this.drwcnvColorBar2 = new KUL.MDS.Library.DrawCanvas();
-			this.drwcnvColorBar1 = new KUL.MDS.Library.DrawCanvas();
+			this.scanImageControl1 = new ImageControl();
+			this.scanImageControl2 = new ImageControl();
+			this.drwcnvColorBar2 = new DrawCanvas();
+			this.drwcnvColorBar1 = new DrawCanvas();
 			this.lblColorBarMaxInt2 = new System.Windows.Forms.Label();
 			this.lblColorBarMinInt2 = new System.Windows.Forms.Label();
 			this.btnImageFit = new System.Windows.Forms.Button();
@@ -123,7 +128,7 @@
 			this.m_txtbxScanPropertiesFromFile = new System.Windows.Forms.TextBox();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
-			this.ccdControl1 = new KUL.MDS.WPFControls.CCDControl.UI.CCDControl();
+			this.ccdControl1 = new CCDControl();
 			this.m_TabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox4.SuspendLayout();
@@ -1304,14 +1309,14 @@
         private System.Windows.Forms.CheckBox chkbxNormalized;
         private System.Windows.Forms.Label lblColorBarMinInt1;
         private System.Windows.Forms.CheckBox chkbxCorrectedImage;
-        private KUL.MDS.Library.ImageControl scanImageControl2;
-        public KUL.MDS.Library.DrawCanvas drwcnvColorBar2;
-        public KUL.MDS.Library.DrawCanvas drwcnvColorBar1;
+        private ImageControl scanImageControl2;
+        public DrawCanvas drwcnvColorBar2;
+        public DrawCanvas drwcnvColorBar1;
         private System.Windows.Forms.Label lblColorBarMaxInt2;
         private System.Windows.Forms.Label lblColorBarMinInt2;
         private System.Windows.Forms.Button btnImageFit;
         private System.Windows.Forms.GroupBox groupBox1;
-        private KUL.MDS.Library.ImageControl scanImageControl1;
+        private ImageControl scanImageControl1;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
@@ -1325,7 +1330,7 @@
         private System.Windows.Forms.Button btnMoveAbs;
         private System.Windows.Forms.Button btnScanStart;
         private System.Windows.Forms.Button btnScanStop;
-        private KUL.MDS.SIS.Controls.ScanModeComboBox scanModeComboBox1;
+        private ScanModeComboBox scanModeComboBox1;
         private System.Windows.Forms.Button btnScanSettings;
         private System.Windows.Forms.Label m_lblGoToX;
         private System.Windows.Forms.Label m_lblGoToY;
@@ -1344,7 +1349,7 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Integration.ElementHost elementHost2;
-        private KUL.MDS.WPFControls.CCDControl.UI.CCDControl ccdControl1;
+        private CCDControl ccdControl1;
         private System.Windows.Forms.CheckBox checkBox7;
         private System.Windows.Forms.CheckBox checkBox6;
         private System.Windows.Forms.CheckBox checkBox5;

@@ -17,16 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Collections;
-using System.Text;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// The LinearScale class inherits from the <see cref="Scale" /> class, and implements
 	/// the features specific to <see cref="AxisType.Linear" />.
 	/// </summary>
@@ -136,62 +134,62 @@ namespace ZedGraph
 			base.PickScale( pane, g, scaleFactor );
 
 			// Test for trivial condition of range = 0 and pick a suitable default
-			if ( _max - _min < 1.0e-30 )
+			if ( this._max - this._min < 1.0e-30 )
 			{
-				if ( _maxAuto )
-					_max = _max + 0.2 * ( _max == 0 ? 1.0 : Math.Abs( _max ) );
-				if ( _minAuto )
-					_min = _min - 0.2 * ( _min == 0 ? 1.0 : Math.Abs( _min ) );
+				if ( this._maxAuto )
+					this._max = this._max + 0.2 * ( this._max == 0 ? 1.0 : Math.Abs( this._max ) );
+				if ( this._minAuto )
+					this._min = this._min - 0.2 * ( this._min == 0 ? 1.0 : Math.Abs( this._min ) );
 			}
 
 			// This is the zero-lever test.  If minVal is within the zero lever fraction
 			// of the data range, then use zero.
 
-			if ( _minAuto && _min > 0 &&
-				_min / ( _max - _min ) < Default.ZeroLever )
-				_min = 0;
+			if ( this._minAuto && this._min > 0 &&
+				this._min / ( this._max - this._min ) < Default.ZeroLever )
+				this._min = 0;
 
 			// Repeat the zero-lever test for cases where the maxVal is less than zero
-			if ( _maxAuto && _max < 0 &&
-				Math.Abs( _max / ( _max - _min ) ) <
+			if ( this._maxAuto && this._max < 0 &&
+				Math.Abs( this._max / ( this._max - this._min ) ) <
 				Default.ZeroLever )
-				_max = 0;
+				this._max = 0;
 
 			// Calculate the new step size
-			if ( _majorStepAuto )
+			if ( this._majorStepAuto )
 			{
-				double targetSteps = ( _ownerAxis is XAxis || _ownerAxis is X2Axis ) ?
+				double targetSteps = ( this._ownerAxis is XAxis || this._ownerAxis is X2Axis ) ?
 							Default.TargetXSteps : Default.TargetYSteps;
 
 				// Calculate the step size based on target steps
-				_majorStep = CalcStepSize( _max - _min, targetSteps );
+				this._majorStep = CalcStepSize( this._max - this._min, targetSteps );
 
-				if ( _isPreventLabelOverlap )
+				if ( this._isPreventLabelOverlap )
 				{
 					// Calculate the maximum number of labels
 					double maxLabels = (double) this.CalcMaxLabels( g, pane, scaleFactor );
 
-					if ( maxLabels < ( _max - _min ) / _majorStep )
-						_majorStep = CalcBoundedStepSize( _max - _min, maxLabels );
+					if ( maxLabels < ( this._max - this._min ) / this._majorStep )
+						this._majorStep = this.CalcBoundedStepSize( this._max - this._min, maxLabels );
 				}
 			}
 
 			// Calculate the new step size
-			if ( _minorStepAuto )
-				_minorStep = CalcStepSize( _majorStep,
-					( _ownerAxis is XAxis || _ownerAxis is X2Axis ) ?
+			if ( this._minorStepAuto )
+				this._minorStep = CalcStepSize( this._majorStep,
+					( this._ownerAxis is XAxis || this._ownerAxis is X2Axis ) ?
 							Default.TargetMinorXSteps : Default.TargetMinorYSteps );
 
 			// Calculate the scale minimum
-			if ( _minAuto )
-				_min = _min - MyMod( _min, _majorStep );
+			if ( this._minAuto )
+				this._min = this._min - this.MyMod( this._min, this._majorStep );
 
 			// Calculate the scale maximum
-			if ( _maxAuto )
-				_max = MyMod( _max, _majorStep ) == 0.0 ? _max :
-					_max + _majorStep - MyMod( _max, _majorStep );
+			if ( this._maxAuto )
+				this._max = this.MyMod( this._max, this._majorStep ) == 0.0 ? this._max :
+					this._max + this._majorStep - this.MyMod( this._max, this._majorStep );
 
-			SetScaleMag( _min, _max, _majorStep );
+			this.SetScaleMag( this._min, this._max, this._majorStep );
 		}
 
 
@@ -222,7 +220,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );

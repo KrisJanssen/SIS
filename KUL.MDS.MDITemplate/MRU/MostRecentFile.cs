@@ -7,11 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.MRU
 {
+    using System.Drawing;
+
     /// <summary>
     /// Encapsulates a filename and a thumbnail.
     /// </summary>
@@ -24,7 +23,7 @@ namespace KUL.MDS.MDITemplate
         {
             get
             {
-                return fileName;
+                return this.fileName;
             }
         }
 
@@ -32,7 +31,7 @@ namespace KUL.MDS.MDITemplate
         {
             get
             {
-                return thumb;
+                return this.thumb;
             }
         }
 

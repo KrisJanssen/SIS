@@ -7,13 +7,16 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
-using System;
-using System.Collections;
-using System.Drawing;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.MRU
 {
+    using System;
+    using System.Collections;
+    using System.Drawing;
+
+    using SIS.MDITemplate.Settings;
+    using SIS.Systemlayer;
+    using SIS.Systemlayer.Settings;
+
     /// <summary>
     /// Data structure to manage the Most Recently Used list of files.
     /// </summary>
@@ -44,7 +47,7 @@ namespace KUL.MDS.MDITemplate
             {
                 if (!this.loaded)
                 {
-                    LoadMruList();
+                    this.LoadMruList();
                 }
 
                 return this.files.Count;
@@ -69,12 +72,12 @@ namespace KUL.MDS.MDITemplate
 
         public MostRecentFile[] GetFileList()
         {
-            if (!Loaded)
+            if (!this.Loaded)
             {
-                LoadMruList();
+                this.LoadMruList();
             }
 
-            object[] array = files.ToArray();
+            object[] array = this.files.ToArray();
             MostRecentFile[] mrfArray = new MostRecentFile[array.Length];
             array.CopyTo(mrfArray, 0);
             return mrfArray;
@@ -82,14 +85,14 @@ namespace KUL.MDS.MDITemplate
 
         public bool Contains(string fileName)
         {
-            if (!Loaded)
+            if (!this.Loaded)
             {
-                LoadMruList();
+                this.LoadMruList();
             }
 
             string lcFileName = fileName.ToLower();
 
-            foreach (MostRecentFile mrf in files)
+            foreach (MostRecentFile mrf in this.files)
             {
                 string lcMrf = mrf.FileName.ToLower();
 
@@ -104,37 +107,37 @@ namespace KUL.MDS.MDITemplate
 
         public void Add(MostRecentFile mrf)
         {
-            if (!Loaded)
+            if (!this.Loaded)
             {
-                LoadMruList();
+                this.LoadMruList();
             }
 
-            if (!Contains(mrf.FileName))
+            if (!this.Contains(mrf.FileName))
             {
-                files.Enqueue(mrf);
+                this.files.Enqueue(mrf);
 
-                while (files.Count > maxCount)
+                while (this.files.Count > this.maxCount)
                 {
-                    files.Dequeue();
+                    this.files.Dequeue();
                 }
             }
         }
 
         public void Remove(string fileName)
         {
-            if (!Loaded)
+            if (!this.Loaded)
             {
-                LoadMruList();
+                this.LoadMruList();
             }
 
-            if (!Contains(fileName))
+            if (!this.Contains(fileName))
             {
                 return;
             }
 
             Queue newQueue = new Queue();
 
-            foreach (MostRecentFile mrf in files)
+            foreach (MostRecentFile mrf in this.files)
             {
                 if (0 != string.Compare(mrf.FileName, fileName, true))
                 {
@@ -147,14 +150,14 @@ namespace KUL.MDS.MDITemplate
 
         public void Clear()
         {
-            if (!Loaded)
+            if (!this.Loaded)
             {
-                LoadMruList();
+                this.LoadMruList();
             }
 
             foreach (MostRecentFile mrf in this.GetFileList())
             {
-                Remove(mrf.FileName);
+                this.Remove(mrf.FileName);
             }
         }
 
@@ -165,9 +168,9 @@ namespace KUL.MDS.MDITemplate
                 this.loaded = true;
 
                 //
-                Clear();
+                this.Clear();
 
-                for (int i = 0; i < MaxCount; ++i)
+                for (int i = 0; i < this.MaxCount; ++i)
                 {
                     try
                     {
@@ -181,7 +184,7 @@ namespace KUL.MDS.MDITemplate
                             if (fileName != null && thumb != null)
                             {
                                 MostRecentFile mrf = new MostRecentFile(fileName, thumb);
-                                Add(mrf);
+                                this.Add(mrf);
                             }
                         }
                     }
@@ -196,18 +199,18 @@ namespace KUL.MDS.MDITemplate
             catch (Exception ex)
             {
                 Tracing.Ping("Exception when loading MRU list: " + ex.ToString());
-                Clear();
+                this.Clear();
             }
         }
 
         public void SaveMruList()
         {
-            if (Loaded)
+            if (this.Loaded)
             {
-                Settings.CurrentUser.SetInt32(SettingNames.MruMax, MaxCount);
-                MostRecentFile[] mrfArray = GetFileList();
+                Settings.CurrentUser.SetInt32(SettingNames.MruMax, this.MaxCount);
+                MostRecentFile[] mrfArray = this.GetFileList();
 
-                for (int i = 0; i < MaxCount; ++i)
+                for (int i = 0; i < this.MaxCount; ++i)
                 {
                     string mruName = "MRU" + i.ToString();
                     string mruThumbName = mruName + "Thumb";

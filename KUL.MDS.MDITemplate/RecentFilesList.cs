@@ -1,12 +1,11 @@
-using System;
-using System.Collections;
-using System.Text;
-using System.Collections.Specialized;
-using Microsoft.Win32;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	public class RecentFilesList : StringCollection
+    using System.Collections.Specialized;
+    using System.Text;
+
+    using Microsoft.Win32;
+
+    public class RecentFilesList : StringCollection
 	{
 		private const string m_sValue = "RecentFiles";
 		private const int m_nMaximumItems = 10;
@@ -14,7 +13,7 @@ namespace KUL.MDS.MDITemplate
 
 		private RecentFilesList()
 		{
-			Load();
+			this.Load();
 		}
 
 		private void Load()
@@ -95,7 +94,7 @@ namespace KUL.MDS.MDITemplate
 
 		public new void Add(string sFile)
 		{
-			int nFileIndex = FindFile(sFile);
+			int nFileIndex = this.FindFile(sFile);
 
 			if (nFileIndex < 0)
 			{
@@ -112,7 +111,7 @@ namespace KUL.MDS.MDITemplate
 				this.Insert(0, sFile);
 			}
 
-			Save();
+			this.Save();
 		}
 	}
 }

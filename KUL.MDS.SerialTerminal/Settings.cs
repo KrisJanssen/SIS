@@ -1,11 +1,11 @@
-using System;
-using System.IO;
-using System.IO.Ports;
-using System.Collections;
-using System.Windows.Forms; // for Application.StartupPath
+ // for Application.StartupPath
 
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
+    using System;
+    using System.IO.Ports;
+    using System.Windows.Forms;
+
     /// <summary>
     /// Persistent settings
     /// </summary>

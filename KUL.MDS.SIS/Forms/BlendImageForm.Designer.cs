@@ -1,5 +1,7 @@
-﻿namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
+    using global::SIS.Library.ImageControl;
+
     partial class BlendImageForm
     {
         /// <summary>
@@ -13,9 +15,9 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.imageControl1 = new KUL.MDS.Library.ImageControl();
+            this.imageControl1 = new ImageControl();
             this.SuspendLayout();
             // 
             // imageControl1
@@ -64,6 +66,6 @@
 
         #endregion
 
-        private KUL.MDS.Library.ImageControl imageControl1;
+        private ImageControl imageControl1;
     }
 }

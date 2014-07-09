@@ -1,18 +1,14 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-using KUL.MDS.Library;
-using KUL.MDS.SIS.Documents;
-using KUL.MDS.SerialTerminal;
-using KUL.MDS.AppResources;
-using System.Threading;
-using AutoUpdaterDotNET;
-
-namespace KUL.MDS.SIS
+namespace SIS.Forms
 {
-	public class MainForm : KUL.MDS.MDITemplate.MdiParentForm
+    using System;
+
+    using AutoUpdaterDotNET;
+
+    using global::SIS.MDITemplate;
+
+    using SIS.Resources;
+
+    public class MainForm : MdiParentForm
     {
         #region TO BE REMOVED
 
@@ -33,7 +29,7 @@ namespace KUL.MDS.SIS
             : base(__sArgs)
 		{
 			// This call is required by the Windows Form Designer.
-			InitializeComponent();
+			this.InitializeComponent();
 
             if (!this.DesignMode)
             {
@@ -60,9 +56,9 @@ namespace KUL.MDS.SIS
 		{
 			if(__bDisposing)
 			{
-				if (m_icontComponents != null) 
+				if (this.m_icontComponents != null) 
 				{
-					m_icontComponents.Dispose();
+					this.m_icontComponents.Dispose();
 				}
 			}
 			base.Dispose(__bDisposing);

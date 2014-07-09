@@ -17,14 +17,12 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+namespace ZedGraph.ZedGraph
+{
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
 
-
-namespace ZedGraph
-{	
-	/// <summary>
+    /// <summary>
 	/// Enumeration type for the various axis types that are available
 	/// </summary>
 	/// <seealso cref="ZedGraph.Axis.Type"/>

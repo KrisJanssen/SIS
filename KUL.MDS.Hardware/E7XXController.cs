@@ -1,11 +1,9 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Text;
-
-
-namespace KUL.MDS.Hardware
+namespace SIS.Hardware
 {
-	/// <summary>
+    using System.Runtime.InteropServices;
+    using System.Text;
+
+    /// <summary>
 	/// Summary description for E7XX.
 	/// </summary>
 	internal static class E7XXController

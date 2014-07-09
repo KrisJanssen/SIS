@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using KUL.MDS.Library;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware.YanusIV
 {
+    using System;
+
+    using SIS.Hardware.ComPort;
+    using SIS.ScanModes.Core;
+
     public class TillIMIC : IPiezoStage
     {
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -164,9 +161,9 @@ namespace KUL.MDS.Hardware
                 else
                 {
                     // Throw an ErrorOccurred event to inform the user.
-                    if (ErrorOccurred != null)
+                    if (this.ErrorOccurred != null)
                     {
-                        ErrorOccurred(this, new EventArgs());
+                        this.ErrorOccurred(this, new EventArgs());
                     }
                 }
             }
@@ -183,7 +180,7 @@ namespace KUL.MDS.Hardware
         {
             bool _bIsCalibrated = false;
 
-            if (IsError(TillLSMDevice.LSM_IsCalibrated(this.m_iptrControllerID, ref _bIsCalibrated)))
+            if (this.IsError(TillLSMDevice.LSM_IsCalibrated(this.m_iptrControllerID, ref _bIsCalibrated)))
             {
                 _logger.Error("Error checking for TillIMIC calibration!");
                 _bIsCalibrated = false;
@@ -200,20 +197,20 @@ namespace KUL.MDS.Hardware
             this.m_iptrControllerID = new IntPtr();
             int i = 1;
             //if (!IsError(TillLSMDevice.LSM_Open(ConfigurationManager.AppSettings["PortName"], ref this.m_iptrControllerID)))
-            if (!IsError(TillLSMDevice.LSM_Open("COM1", ref this.m_iptrControllerID)))
+            if (!this.IsError(TillLSMDevice.LSM_Open("COM1", ref this.m_iptrControllerID)))
             {
                 _logger.Info("TillIMIC device handle created: " + this.m_iptrControllerID.ToString()); 
                 this.m_bIsInitialized = true;
                 double maxval = Convert.ToDouble(34359738368);
-                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(0.0, 0.0), new TillLSMDevice.LSM_Coordinate(maxval, maxval))))
+                if (!this.IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(0.0, 0.0), new TillLSMDevice.LSM_Coordinate(maxval, maxval))))
                 {
                     _logger.Info("Added origin 0,0");
                 }
-                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(100.0, 0.0), new TillLSMDevice.LSM_Coordinate(-maxval, maxval))))
+                if (!this.IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(100.0, 0.0), new TillLSMDevice.LSM_Coordinate(-maxval, maxval))))
                 {
                     _logger.Info("Added origin 100,0");
                 }
-                if (!IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(0.0, 100.0), new TillLSMDevice.LSM_Coordinate(maxval, -maxval))))
+                if (!this.IsError(TillLSMDevice.LSM_AddCalibrationPoint(this.m_iptrControllerID, new TillLSMDevice.LSM_Coordinate(0.0, 100.0), new TillLSMDevice.LSM_Coordinate(maxval, -maxval))))
                 {
                     _logger.Info("Added origin 0,100");
                 }
@@ -247,11 +244,11 @@ namespace KUL.MDS.Hardware
         {
             if (this.m_bIsInitialized)
             {
-                if (!IsError(TillLSMDevice.LSM_ResetCalibration(this.m_iptrControllerID)))
+                if (!this.IsError(TillLSMDevice.LSM_ResetCalibration(this.m_iptrControllerID)))
                 {
                     _logger.Info("TillIMIC device calibration reset!");
                 }
-                if (IsError(TillLSMDevice.LSM_Close(this.m_iptrControllerID)))
+                if (this.IsError(TillLSMDevice.LSM_Close(this.m_iptrControllerID)))
                 {
                     _logger.Error("Error while releasing TillIMIC device: " + this.m_errCurrentError.ToString());
                 }
@@ -270,13 +267,13 @@ namespace KUL.MDS.Hardware
 
             if (this.m_bIsInitialized)
             {
-                if (IsError(TillLSMDevice.LSM_GetRestPosition(this.m_iptrControllerID, ref _cTarget)))
+                if (this.IsError(TillLSMDevice.LSM_GetRestPosition(this.m_iptrControllerID, ref _cTarget)))
                 {
                     _logger.Error("Error getting resting position");
                 }
                 else
                 {
-                    if (IsError(TillLSMDevice.LSM_SetGalvoRawPosition(this.m_iptrControllerID, _cTarget)))
+                    if (this.IsError(TillLSMDevice.LSM_SetGalvoRawPosition(this.m_iptrControllerID, _cTarget)))
                     {
                         _logger.Error("Error setting position in raw coordinates");
                     }
@@ -292,9 +289,9 @@ namespace KUL.MDS.Hardware
         {
             TillLSMDevice.LSM_Coordinate _cTarget = new TillLSMDevice.LSM_Coordinate(__dXPosNm, __dYPosNm);
 
-            if (this.m_bIsInitialized & IsCalibrated())
+            if (this.m_bIsInitialized & this.IsCalibrated())
             {
-                if (IsError(TillLSMDevice.LSM_SetPoint(this.m_iptrControllerID, _cTarget)))
+                if (this.IsError(TillLSMDevice.LSM_SetPoint(this.m_iptrControllerID, _cTarget)))
                 {
                     _logger.Error("Error setting position in pixelcoordinates");
                 }
@@ -305,7 +302,7 @@ namespace KUL.MDS.Hardware
             }
             else
             {
-                if (IsError(TillLSMDevice.LSM_SetGalvoRawPosition(this.m_iptrControllerID, _cTarget)))
+                if (this.IsError(TillLSMDevice.LSM_SetGalvoRawPosition(this.m_iptrControllerID, _cTarget)))
                 {
                     _logger.Error("Error setting position in raw coordinates");
                 }
@@ -321,7 +318,7 @@ namespace KUL.MDS.Hardware
             throw new NotImplementedException();
         }
 
-        void IPiezoStage.Scan(ScanModes.Scanmode __scmScanMode, bool __bResend)
+        void IPiezoStage.Scan(Scanmode __scmScanMode, bool __bResend)
         {
             throw new NotImplementedException();
         }
@@ -330,7 +327,7 @@ namespace KUL.MDS.Hardware
         {
             if (this.m_bIsInitialized)
             {
-                if (IsError(TillLSMDevice.LSM_Abort(this.m_iptrControllerID)))
+                if (this.IsError(TillLSMDevice.LSM_Abort(this.m_iptrControllerID)))
                 {
                     _logger.Error("Error trying to abort!");
                 }

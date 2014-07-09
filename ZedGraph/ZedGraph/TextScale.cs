@@ -17,16 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Collections;
-using System.Text;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// The TextScale class inherits from the <see cref="Scale" /> class, and implements
 	/// the features specific to <see cref="AxisType.Text" />.
 	/// </summary>
@@ -116,8 +114,8 @@ namespace ZedGraph
 		/// </returns>
 		override internal double CalcBaseTic()
 		{
-			if ( _baseTic != PointPair.Missing )
-				return _baseTic;
+			if ( this._baseTic != PointPair.Missing )
+				return this._baseTic;
 			else
 				return 1.0;
 
@@ -134,10 +132,10 @@ namespace ZedGraph
 			int nTics = 1;
 
 			// If no array of labels is available, just assume 10 labels so we don't blow up.
-			if ( _textLabels == null )
+			if ( this._textLabels == null )
 				nTics = 10;
 			else
-				nTics = _textLabels.Length;
+				nTics = this._textLabels.Length;
 
 			if ( nTics < 1 )
 				nTics = 1;
@@ -196,68 +194,68 @@ namespace ZedGraph
 			base.PickScale( pane, g, scaleFactor );
 
 			// if text labels are provided, then autorange to the number of labels
-			if ( _textLabels != null )
+			if ( this._textLabels != null )
 			{
-				if ( _minAuto )
-					_min = 0.5;
-				if ( _maxAuto )
-					_max = _textLabels.Length + 0.5;
+				if ( this._minAuto )
+					this._min = 0.5;
+				if ( this._maxAuto )
+					this._max = this._textLabels.Length + 0.5;
 			}
 			else
 			{
-				if ( _minAuto )
-					_min -= 0.5;
-				if ( _maxAuto )
-					_max += 0.5;
+				if ( this._minAuto )
+					this._min -= 0.5;
+				if ( this._maxAuto )
+					this._max += 0.5;
 			}
 			// Test for trivial condition of range = 0 and pick a suitable default
-			if ( _max - _min < .1 )
+			if ( this._max - this._min < .1 )
 			{
-				if ( _maxAuto )
-					_max = _min + 10.0;
+				if ( this._maxAuto )
+					this._max = this._min + 10.0;
 				else
-					_min = _max - 10.0;
+					this._min = this._max - 10.0;
 			}
 
-			if ( _majorStepAuto )
+			if ( this._majorStepAuto )
 			{
-				if ( !_isPreventLabelOverlap )
+				if ( !this._isPreventLabelOverlap )
 				{
-					_majorStep = 1;
+					this._majorStep = 1;
 				}
-				else if ( _textLabels != null )
+				else if ( this._textLabels != null )
 				{
 					// Calculate the maximum number of labels
 					double maxLabels = (double) this.CalcMaxLabels( g, pane, scaleFactor );
 
 					// Calculate a step size based on the width of the labels
-					double tmpStep = Math.Ceiling( ( _max - _min ) / maxLabels );
+					double tmpStep = Math.Ceiling( ( this._max - this._min ) / maxLabels );
 
 					// Use the lesser of the two step sizes
 					//if ( tmpStep < this.majorStep )
-					_majorStep = tmpStep;
+					this._majorStep = tmpStep;
 				}
 				else
-					_majorStep = (int) ( ( _max - _min - 1.0 ) / Default.MaxTextLabels ) + 1.0;
+					this._majorStep = (int) ( ( this._max - this._min - 1.0 ) / Default.MaxTextLabels ) + 1.0;
 
 			}
 			else
 			{
-				_majorStep = (int) _majorStep;
-				if ( _majorStep <= 0 )
-					_majorStep = 1.0;
+				this._majorStep = (int) this._majorStep;
+				if ( this._majorStep <= 0 )
+					this._majorStep = 1.0;
 			}
 
-			if ( _minorStepAuto )
+			if ( this._minorStepAuto )
 			{
-				_minorStep = _majorStep / 10;
+				this._minorStep = this._majorStep / 10;
 
 				//_minorStep = CalcStepSize( _majorStep, 10 );
-				if ( _minorStep < 1 )
-					_minorStep = 1;
+				if ( this._minorStep < 1 )
+					this._minorStep = 1;
 			}
 
-			_mag = 0;
+			this._mag = 0;
 		}
 
 		/// <summary>
@@ -278,14 +276,14 @@ namespace ZedGraph
 		/// <returns>The resulting value label as a <see cref="string" /></returns>
 		override internal string MakeLabel( GraphPane pane, int index, double dVal )
 		{
-			if ( _format == null )
-				_format = Scale.Default.Format;
+			if ( this._format == null )
+				this._format = Scale.Default.Format;
 
-			index *= (int) _majorStep;
-			if ( _textLabels == null || index < 0 || index >= _textLabels.Length )
+			index *= (int) this._majorStep;
+			if ( this._textLabels == null || index < 0 || index >= this._textLabels.Length )
 				return string.Empty;
 			else
-				return _textLabels[index];
+				return this._textLabels[index];
 		}
 
 
@@ -316,7 +314,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );

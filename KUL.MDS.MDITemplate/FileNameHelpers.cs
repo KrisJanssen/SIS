@@ -1,8 +1,6 @@
-using System;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	public sealed class FileNameHelpers
+    public sealed class FileNameHelpers
 	{
 		static public string GetPath(string sFilePath)
 		{

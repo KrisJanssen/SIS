@@ -17,11 +17,11 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+
+    /// <summary>
 	/// A data collection class for ZedGraph, provided as an alternative to <see cref="PointPairList" />.
 	/// </summary>
 	/// <remarks>
@@ -68,23 +68,23 @@ namespace ZedGraph
 			get
 			{
 				double xVal, yVal;
-				if ( index >= 0 && index < x.Length )
-					xVal = x[index];
+				if ( index >= 0 && index < this.x.Length )
+					xVal = this.x[index];
 				else
 					xVal = PointPair.Missing;
 
-				if ( index >= 0 && index < y.Length )
-					yVal = y[index];
+				if ( index >= 0 && index < this.y.Length )
+					yVal = this.y[index];
 				else
 					yVal = PointPair.Missing;
 				return new PointPair( xVal, yVal, PointPair.Missing, null );
 			}
 			set
 			{
-				if ( index >= 0 && index < x.Length )
-					x[index] = value.X;
-				if ( index >= 0 && index < y.Length )
-					y[index] = value.Y;
+				if ( index >= 0 && index < this.x.Length )
+					this.x[index] = value.X;
+				if ( index >= 0 && index < this.y.Length )
+					this.y[index] = value.Y;
 			}
 		}
 
@@ -94,7 +94,7 @@ namespace ZedGraph
 		/// </summary>
 		public int Count
 		{
-			get { return x.Length > y.Length ? x.Length : y.Length; }
+			get { return this.x.Length > this.y.Length ? this.x.Length : this.y.Length; }
 		}
 
 	#endregion
@@ -117,8 +117,8 @@ namespace ZedGraph
 		/// <param name="rhs">The PointPairList from which to copy</param>
 		public BasicArrayPointList( BasicArrayPointList rhs )
 		{
-			x = (double[]) rhs.x.Clone();
-			y = (double[]) rhs.y.Clone();
+			this.x = (double[]) rhs.x.Clone();
+			this.y = (double[]) rhs.y.Clone();
 		}
 
 		/// <summary>

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Data;
-using System.Diagnostics;
-using System.Windows;
-
-namespace KUL.MDS.WPFControls.CCDControl.Converters
+﻿namespace SIS.WPFControls.CCDControl
 {
+    using System;
+    using System.Diagnostics;
+    using System.Windows.Data;
+
     /// <summary>
     /// Converts a double to 3/4 of its value
     /// </summary>

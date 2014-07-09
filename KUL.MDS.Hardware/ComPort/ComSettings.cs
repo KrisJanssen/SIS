@@ -1,11 +1,6 @@
-using System;
-using System.IO;
-using System.IO.Ports;
-using System.Collections;
 //using System.Windows.Forms; // for Application.StartupPath
-using System.Configuration;
 
-namespace KUL.MDS.Hardware
+namespace SIS.Hardware.ComPort
 {
     /// <summary>
     /// Persistent settings

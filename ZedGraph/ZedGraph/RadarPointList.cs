@@ -17,13 +17,12 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
 	/// A class containing a set of data values to be plotted as a RadarPlot.
 	/// This class will effectively convert the data into <see cref="PointPair" /> objects
 	/// by converting the polar coordinates to rectangular coordinates
@@ -75,8 +74,8 @@ namespace ZedGraph
 
 				PointPair pt = (PointPair)base[index];
 //				double theta = (double) index / (double) count * 2.0 * Math.PI;
-				double rotationRadians = _rotation * Math.PI / 180;
-				double theta = rotationRadians + ( _clockwise ? -1.0d : 1.0d ) *
+				double rotationRadians = this._rotation * Math.PI / 180;
+				double theta = rotationRadians + ( this._clockwise ? -1.0d : 1.0d ) *
 						( (double) index / (double) (count-1) * 2.0 * Math.PI);
 				double x = pt.Y * Math.Cos( theta );
 				double y = pt.Y * Math.Sin( theta );
@@ -102,8 +101,8 @@ namespace ZedGraph
 		/// </summary>
 		public bool Clockwise
 		{
-			get { return _clockwise; }
-			set { _clockwise = value; }
+			get { return this._clockwise; }
+			set { this._clockwise = value; }
 		}
 
 		/// <summary>
@@ -111,8 +110,8 @@ namespace ZedGraph
 		/// </summary>
 		public double Rotation
 		{
-			get { return _rotation; }
-			set { _rotation = value; }
+			get { return this._rotation; }
+			set { this._rotation = value; }
 		}
 
 		/// <summary>
@@ -206,7 +205,7 @@ namespace ZedGraph
 		/// <returns>The zero-based ordinal index where the point was added in the list.</returns>
 		public void Add( double r, double z )
 		{
-			Add( new PointPair( PointPair.Missing, r, z ) );
+			this.Add( new PointPair( PointPair.Missing, r, z ) );
 		}
 
 	#endregion

@@ -7,9 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.Moving
 {
     public delegate void MovingEventHandler(object sender, MovingEventArgs e);
 }

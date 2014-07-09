@@ -7,9 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-
-namespace KUL.MDS.SystemLayer.GpcWrapper
+namespace SIS.Systemlayer.GpcWrapper
 {
     internal struct Vertex
     {

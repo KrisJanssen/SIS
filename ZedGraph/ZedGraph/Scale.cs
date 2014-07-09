@@ -17,17 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Collections;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// The Scale class is an abstract base class that encompasses the properties
 	/// and methods associated with a scale of data.
 	/// </summary>
@@ -185,8 +182,8 @@ namespace ZedGraph
 		/// </remarks>
 		internal double _minLinearized
 		{
-			get { return Linearize( _min ); }
-			set { _min = DeLinearize( value ); }
+			get { return this.Linearize( this._min ); }
+			set { this._min = this.DeLinearize( value ); }
 		}
 
 		/// <summary>
@@ -198,8 +195,8 @@ namespace ZedGraph
 		/// </remarks>
 		internal double _maxLinearized
 		{
-			get { return Linearize( _max ); }
-			set { _max = DeLinearize( value ); }
+			get { return this.Linearize( this._max ); }
+			set { this._max = this.DeLinearize( value ); }
 		}
 
 		/// <summary>
@@ -643,53 +640,53 @@ namespace ZedGraph
 		/// <see cref="Scale" /> instance.</param>
 		public Scale( Axis ownerAxis )
 		{
-			_ownerAxis = ownerAxis;
+			this._ownerAxis = ownerAxis;
 
-			_min = 0.0;
-			_max = 1.0;
-			_majorStep = 0.1;
-			_minorStep = 0.1;
-			_exponent = 1.0;
-			_mag = 0;
-			_baseTic = PointPair.Missing;
+			this._min = 0.0;
+			this._max = 1.0;
+			this._majorStep = 0.1;
+			this._minorStep = 0.1;
+			this._exponent = 1.0;
+			this._mag = 0;
+			this._baseTic = PointPair.Missing;
 
-			_minGrace = Default.MinGrace;
-			_maxGrace = Default.MaxGrace;
+			this._minGrace = Default.MinGrace;
+			this._maxGrace = Default.MaxGrace;
 
-			_minAuto = true;
-			_maxAuto = true;
-			_majorStepAuto = true;
-			_minorStepAuto = true;
-			_magAuto = true;
-			_formatAuto = true;
+			this._minAuto = true;
+			this._maxAuto = true;
+			this._majorStepAuto = true;
+			this._minorStepAuto = true;
+			this._magAuto = true;
+			this._formatAuto = true;
 
-			_isReverse = Default.IsReverse;
-			_isUseTenPower = true;
-			_isPreventLabelOverlap = true;
-			_isVisible = true;
-			_isSkipFirstLabel = false;
-			_isSkipLastLabel = false;
-			_isSkipCrossLabel = false;
+			this._isReverse = Default.IsReverse;
+			this._isUseTenPower = true;
+			this._isPreventLabelOverlap = true;
+			this._isVisible = true;
+			this._isSkipFirstLabel = false;
+			this._isSkipLastLabel = false;
+			this._isSkipCrossLabel = false;
 
-			_majorUnit = DateUnit.Day;
-			_minorUnit = DateUnit.Day;
+			this._majorUnit = DateUnit.Day;
+			this._minorUnit = DateUnit.Day;
 
-			_format = null;
-			_textLabels = null;
+			this._format = null;
+			this._textLabels = null;
 
-			_isLabelsInside = Default.IsLabelsInside;
-			_align = Default.Align;
-			_alignH = Default.AlignH;
+			this._isLabelsInside = Default.IsLabelsInside;
+			this._align = Default.Align;
+			this._alignH = Default.AlignH;
 
-			_fontSpec = new FontSpec(
+			this._fontSpec = new FontSpec(
 				Default.FontFamily, Default.FontSize,
 				Default.FontColor, Default.FontBold,
 				Default.FontUnderline, Default.FontItalic,
 				Default.FillColor, Default.FillBrush,
 				Default.FillType );
 
-			_fontSpec.Border.IsVisible = false;
-			_labelGap = Default.LabelGap;
+			this._fontSpec.Border.IsVisible = false;
+			this._labelGap = Default.LabelGap;
 		}
 
 		/// <summary>
@@ -701,52 +698,52 @@ namespace ZedGraph
 		/// new instance of <see cref="Scale" /></param>
 		public Scale( Scale rhs, Axis owner )
 		{
-			_ownerAxis = owner;
+			this._ownerAxis = owner;
 
-			_min = rhs._min;
-			_max = rhs._max;
-			_majorStep = rhs._majorStep;
-			_minorStep = rhs._minorStep;
-			_exponent = rhs._exponent;
-			_baseTic = rhs._baseTic;
+			this._min = rhs._min;
+			this._max = rhs._max;
+			this._majorStep = rhs._majorStep;
+			this._minorStep = rhs._minorStep;
+			this._exponent = rhs._exponent;
+			this._baseTic = rhs._baseTic;
 
-			_minAuto = rhs._minAuto;
-			_maxAuto = rhs._maxAuto;
-			_majorStepAuto = rhs._majorStepAuto;
-			_minorStepAuto = rhs._minorStepAuto;
-			_magAuto = rhs._magAuto;
-			_formatAuto = rhs._formatAuto;
+			this._minAuto = rhs._minAuto;
+			this._maxAuto = rhs._maxAuto;
+			this._majorStepAuto = rhs._majorStepAuto;
+			this._minorStepAuto = rhs._minorStepAuto;
+			this._magAuto = rhs._magAuto;
+			this._formatAuto = rhs._formatAuto;
 
-			_minGrace = rhs._minGrace;
-			_maxGrace = rhs._maxGrace;
+			this._minGrace = rhs._minGrace;
+			this._maxGrace = rhs._maxGrace;
 
-			_mag = rhs._mag;
+			this._mag = rhs._mag;
 
-			_isUseTenPower = rhs._isUseTenPower;
-			_isReverse = rhs._isReverse;
-			_isPreventLabelOverlap = rhs._isPreventLabelOverlap;
-			_isVisible = rhs._isVisible;
-			_isSkipFirstLabel = rhs._isSkipFirstLabel;
-			_isSkipLastLabel = rhs._isSkipLastLabel;
-			_isSkipCrossLabel = rhs._isSkipCrossLabel;
+			this._isUseTenPower = rhs._isUseTenPower;
+			this._isReverse = rhs._isReverse;
+			this._isPreventLabelOverlap = rhs._isPreventLabelOverlap;
+			this._isVisible = rhs._isVisible;
+			this._isSkipFirstLabel = rhs._isSkipFirstLabel;
+			this._isSkipLastLabel = rhs._isSkipLastLabel;
+			this._isSkipCrossLabel = rhs._isSkipCrossLabel;
 
-			_majorUnit = rhs._majorUnit;
-			_minorUnit = rhs._minorUnit;
+			this._majorUnit = rhs._majorUnit;
+			this._minorUnit = rhs._minorUnit;
 
-			_format = rhs._format;
+			this._format = rhs._format;
 
-			_isLabelsInside = rhs._isLabelsInside;
-			_align = rhs._align;
-			_alignH = rhs._alignH;
+			this._isLabelsInside = rhs._isLabelsInside;
+			this._align = rhs._align;
+			this._alignH = rhs._alignH;
 
-			_fontSpec = (FontSpec) rhs._fontSpec.Clone();
+			this._fontSpec = (FontSpec) rhs._fontSpec.Clone();
 
-			_labelGap = rhs._labelGap;
+			this._labelGap = rhs._labelGap;
 
 			if ( rhs._textLabels != null )
-				_textLabels = (string[])rhs._textLabels.Clone();
+				this._textLabels = (string[])rhs._textLabels.Clone();
 			else
-				_textLabels = null;
+				this._textLabels = null;
 		}
 
 		/// <summary>
@@ -801,21 +798,21 @@ namespace ZedGraph
 			switch ( type )
 			{
 				case AxisType.Linear:
-					return new LinearScale( oldScale, _ownerAxis );
+					return new LinearScale( oldScale, this._ownerAxis );
 				case AxisType.Date:
-					return new DateScale( oldScale, _ownerAxis );
+					return new DateScale( oldScale, this._ownerAxis );
 				case AxisType.Log:
-					return new LogScale( oldScale, _ownerAxis );
+					return new LogScale( oldScale, this._ownerAxis );
 				case AxisType.Exponent:
-					return new ExponentScale( oldScale, _ownerAxis );
+					return new ExponentScale( oldScale, this._ownerAxis );
 				case AxisType.Ordinal:
-					return new OrdinalScale( oldScale, _ownerAxis );
+					return new OrdinalScale( oldScale, this._ownerAxis );
 				case AxisType.Text:
-					return new TextScale( oldScale, _ownerAxis );
+					return new TextScale( oldScale, this._ownerAxis );
 				case AxisType.DateAsOrdinal:
-					return new DateAsOrdinalScale( oldScale, _ownerAxis );
+					return new DateAsOrdinalScale( oldScale, this._ownerAxis );
 				case AxisType.LinearAsOrdinal:
-					return new LinearAsOrdinalScale( oldScale, _ownerAxis );
+					return new LinearAsOrdinalScale( oldScale, this._ownerAxis );
 				default:
 					throw new Exception( "Implementation Error: Invalid AxisType" );
 			}
@@ -843,50 +840,50 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_min = info.GetDouble( "min" );
-			_max = info.GetDouble( "max" );
-			_majorStep = info.GetDouble( "majorStep" );
-			_minorStep = info.GetDouble( "minorStep" );
-			_exponent = info.GetDouble( "exponent" );
-			_baseTic = info.GetDouble( "baseTic" );
+			this._min = info.GetDouble( "min" );
+			this._max = info.GetDouble( "max" );
+			this._majorStep = info.GetDouble( "majorStep" );
+			this._minorStep = info.GetDouble( "minorStep" );
+			this._exponent = info.GetDouble( "exponent" );
+			this._baseTic = info.GetDouble( "baseTic" );
 
 
-			_minAuto = info.GetBoolean( "minAuto" );
-			_maxAuto = info.GetBoolean( "maxAuto" );
-			_majorStepAuto = info.GetBoolean( "majorStepAuto" );
-			_minorStepAuto = info.GetBoolean( "minorStepAuto" );
-			_magAuto = info.GetBoolean( "magAuto" );
-			_formatAuto = info.GetBoolean( "formatAuto" );
+			this._minAuto = info.GetBoolean( "minAuto" );
+			this._maxAuto = info.GetBoolean( "maxAuto" );
+			this._majorStepAuto = info.GetBoolean( "majorStepAuto" );
+			this._minorStepAuto = info.GetBoolean( "minorStepAuto" );
+			this._magAuto = info.GetBoolean( "magAuto" );
+			this._formatAuto = info.GetBoolean( "formatAuto" );
 			
-			_minGrace = info.GetDouble( "minGrace" );
-			_maxGrace = info.GetDouble( "maxGrace" );
+			this._minGrace = info.GetDouble( "minGrace" );
+			this._maxGrace = info.GetDouble( "maxGrace" );
 
-			_mag = info.GetInt32( "mag" );
+			this._mag = info.GetInt32( "mag" );
 
-			_isReverse = info.GetBoolean( "isReverse" );
-			_isPreventLabelOverlap = info.GetBoolean( "isPreventLabelOverlap" );
-			_isUseTenPower = info.GetBoolean( "isUseTenPower" );
+			this._isReverse = info.GetBoolean( "isReverse" );
+			this._isPreventLabelOverlap = info.GetBoolean( "isPreventLabelOverlap" );
+			this._isUseTenPower = info.GetBoolean( "isUseTenPower" );
 
-			_isVisible = true;
-			_isVisible = info.GetBoolean( "isVisible" );
+			this._isVisible = true;
+			this._isVisible = info.GetBoolean( "isVisible" );
 
-			_isSkipFirstLabel = info.GetBoolean( "isSkipFirstLabel" );
-			_isSkipLastLabel = info.GetBoolean( "isSkipLastLabel" );
-			_isSkipCrossLabel = info.GetBoolean( "isSkipCrossLabel" );
+			this._isSkipFirstLabel = info.GetBoolean( "isSkipFirstLabel" );
+			this._isSkipLastLabel = info.GetBoolean( "isSkipLastLabel" );
+			this._isSkipCrossLabel = info.GetBoolean( "isSkipCrossLabel" );
 
-			_textLabels = (string[]) info.GetValue( "textLabels", typeof(string[]) );
-			_format = info.GetString( "format" );
+			this._textLabels = (string[]) info.GetValue( "textLabels", typeof(string[]) );
+			this._format = info.GetString( "format" );
 
-			_majorUnit = (DateUnit) info.GetValue( "majorUnit", typeof(DateUnit) );
-			_minorUnit = (DateUnit) info.GetValue( "minorUnit", typeof(DateUnit) );
+			this._majorUnit = (DateUnit) info.GetValue( "majorUnit", typeof(DateUnit) );
+			this._minorUnit = (DateUnit) info.GetValue( "minorUnit", typeof(DateUnit) );
 
-			_isLabelsInside = info.GetBoolean( "isLabelsInside" );
-			_align = (AlignP)info.GetValue( "align", typeof( AlignP ) );
+			this._isLabelsInside = info.GetBoolean( "isLabelsInside" );
+			this._align = (AlignP)info.GetValue( "align", typeof( AlignP ) );
 			if ( schema >= 11 )
-				_alignH = (AlignH)info.GetValue( "alignH", typeof( AlignH ) );
+				this._alignH = (AlignH)info.GetValue( "alignH", typeof( AlignH ) );
 
-			_fontSpec = (FontSpec)info.GetValue( "fontSpec", typeof( FontSpec ) );
-			_labelGap = info.GetSingle( "labelGap" );
+			this._fontSpec = (FontSpec)info.GetValue( "fontSpec", typeof( FontSpec ) );
+			this._labelGap = info.GetSingle( "labelGap" );
 
 		}
 		/// <summary>
@@ -898,48 +895,48 @@ namespace ZedGraph
 		/// </remarks>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
-			info.AddValue( "min", _min );
-			info.AddValue( "max", _max );
-			info.AddValue( "majorStep", _majorStep );
-			info.AddValue( "minorStep", _minorStep );
-			info.AddValue( "exponent", _exponent );
-			info.AddValue( "baseTic", _baseTic );
+			info.AddValue( "min", this._min );
+			info.AddValue( "max", this._max );
+			info.AddValue( "majorStep", this._majorStep );
+			info.AddValue( "minorStep", this._minorStep );
+			info.AddValue( "exponent", this._exponent );
+			info.AddValue( "baseTic", this._baseTic );
 
-			info.AddValue( "minAuto", _minAuto );
-			info.AddValue( "maxAuto", _maxAuto );
-			info.AddValue( "majorStepAuto", _majorStepAuto );
-			info.AddValue( "minorStepAuto", _minorStepAuto );
-			info.AddValue( "magAuto", _magAuto );
-			info.AddValue( "formatAuto", _formatAuto );
+			info.AddValue( "minAuto", this._minAuto );
+			info.AddValue( "maxAuto", this._maxAuto );
+			info.AddValue( "majorStepAuto", this._majorStepAuto );
+			info.AddValue( "minorStepAuto", this._minorStepAuto );
+			info.AddValue( "magAuto", this._magAuto );
+			info.AddValue( "formatAuto", this._formatAuto );
 
-			info.AddValue( "minGrace", _minGrace );
-			info.AddValue( "maxGrace", _maxGrace );
+			info.AddValue( "minGrace", this._minGrace );
+			info.AddValue( "maxGrace", this._maxGrace );
 
-			info.AddValue( "mag", _mag );
-			info.AddValue( "isReverse", _isReverse );
-			info.AddValue( "isPreventLabelOverlap", _isPreventLabelOverlap );
-			info.AddValue( "isUseTenPower", _isUseTenPower );
-			info.AddValue( "isVisible", _isVisible );
-			info.AddValue( "isSkipFirstLabel", _isSkipFirstLabel );
-			info.AddValue( "isSkipLastLabel", _isSkipLastLabel );
-			info.AddValue( "isSkipCrossLabel", _isSkipCrossLabel );
+			info.AddValue( "mag", this._mag );
+			info.AddValue( "isReverse", this._isReverse );
+			info.AddValue( "isPreventLabelOverlap", this._isPreventLabelOverlap );
+			info.AddValue( "isUseTenPower", this._isUseTenPower );
+			info.AddValue( "isVisible", this._isVisible );
+			info.AddValue( "isSkipFirstLabel", this._isSkipFirstLabel );
+			info.AddValue( "isSkipLastLabel", this._isSkipLastLabel );
+			info.AddValue( "isSkipCrossLabel", this._isSkipCrossLabel );
 
 
-			info.AddValue( "textLabels", _textLabels );
-			info.AddValue( "format", _format );
+			info.AddValue( "textLabels", this._textLabels );
+			info.AddValue( "format", this._format );
 
-			info.AddValue( "majorUnit", _majorUnit );
-			info.AddValue( "minorUnit", _minorUnit );
+			info.AddValue( "majorUnit", this._majorUnit );
+			info.AddValue( "minorUnit", this._minorUnit );
 
-			info.AddValue( "isLabelsInside", _isLabelsInside );
-			info.AddValue( "align", _align );
-			info.AddValue( "alignH", _alignH );
-			info.AddValue( "fontSpec", _fontSpec );
-			info.AddValue( "labelGap", _labelGap );
+			info.AddValue( "isLabelsInside", this._isLabelsInside );
+			info.AddValue( "align", this._align );
+			info.AddValue( "alignH", this._alignH );
+			info.AddValue( "fontSpec", this._fontSpec );
+			info.AddValue( "labelGap", this._labelGap );
 		}
 	#endregion
 
@@ -1033,8 +1030,8 @@ namespace ZedGraph
 		/// <seealso cref="MinAuto"/>
 		public virtual double Min
 		{
-			get { return _min; }
-			set { _min = value; _minAuto = false; }
+			get { return this._min; }
+			set { this._min = value; this._minAuto = false; }
 		}
 		/// <summary>
 		/// Gets or sets the maximum scale value for this <see cref="Scale" />.
@@ -1057,8 +1054,8 @@ namespace ZedGraph
 		/// <seealso cref="MaxAuto"/>
 		public virtual double Max
 		{
-			get { return _max; }
-			set { _max = value; _maxAuto = false; }
+			get { return this._max; }
+			set { this._max = value; this._maxAuto = false; }
 		}
 		/// <summary>
 		/// Gets or sets the scale step size for this <see cref="Scale" /> (the increment between
@@ -1083,17 +1080,17 @@ namespace ZedGraph
 		/// <seealso cref="ZedGraph.Scale.Default.MaxTextLabels"/>
 		public double MajorStep
 		{
-			get { return _majorStep; }
+			get { return this._majorStep; }
 			set
 			{
 				if ( value < 1e-300 )
 				{
-					_majorStepAuto = true;
+					this._majorStepAuto = true;
 				}
 				else
 				{
-					_majorStep = value;
-					_majorStepAuto = false;
+					this._majorStep = value;
+					this._majorStepAuto = false;
 				}
 			}
 		}
@@ -1115,17 +1112,17 @@ namespace ZedGraph
 		/// <seealso cref="MinorStepAuto"/>
 		public double MinorStep
 		{
-			get { return _minorStep; }
+			get { return this._minorStep; }
 			set
 			{
 				if ( value < 1e-300 )
 				{
-					_minorStepAuto = true;
+					this._minorStepAuto = true;
 				}
 				else
 				{
-					_minorStep = value;
-					_minorStepAuto = false;
+					this._minorStep = value;
+					this._minorStepAuto = false;
 				}
 			}
 		}
@@ -1142,8 +1139,8 @@ namespace ZedGraph
 		/// <seealso cref="ZedGraph.Scale.Default.MaxTextLabels"/>
 		public double Exponent
 		{
-			get { return _exponent; }
-			set { _exponent = value; }
+			get { return this._exponent; }
+			set { this._exponent = value; }
 		}
 
 		/// <summary>
@@ -1171,8 +1168,8 @@ namespace ZedGraph
 		/// <seealso cref="Axis.Cross"/>
 		public double BaseTic
 		{
-			get { return _baseTic; }
-			set { _baseTic = value; }
+			get { return this._baseTic; }
+			set { this._baseTic = value; }
 		}
 
 		/// <summary>
@@ -1191,8 +1188,8 @@ namespace ZedGraph
 		/// <seealso cref="MajorStepAuto"/>
 		public DateUnit MajorUnit
 		{
-			get { return _majorUnit; }
-			set { _majorUnit = value; }
+			get { return this._majorUnit; }
+			set { this._majorUnit = value; }
 		}
 		/// <summary>
 		/// Gets or sets the type of units used for the minor step size (<see cref="MinorStep"/>).
@@ -1210,8 +1207,8 @@ namespace ZedGraph
 		/// <seealso cref="MinorStepAuto"/>
 		public DateUnit MinorUnit
 		{
-			get { return _minorUnit; }
-			set { _minorUnit = value; }
+			get { return this._minorUnit; }
+			set { this._minorUnit = value; }
 		}
 
 		/// <summary>
@@ -1252,8 +1249,8 @@ namespace ZedGraph
 		/// <seealso cref="Min"/>
 		public bool MinAuto
 		{
-			get { return _minAuto; }
-			set { _minAuto = value; }
+			get { return this._minAuto; }
+			set { this._minAuto = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines whether or not the maximum scale value <see cref="Max"/>
@@ -1267,8 +1264,8 @@ namespace ZedGraph
 		/// <seealso cref="Max"/>
 		public bool MaxAuto
 		{
-			get { return _maxAuto; }
-			set { _maxAuto = value; }
+			get { return this._maxAuto; }
+			set { this._maxAuto = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines whether or not the scale step size <see cref="MajorStep"/>
@@ -1282,8 +1279,8 @@ namespace ZedGraph
 		/// <seealso cref="MajorStep"/>
 		public bool MajorStepAuto
 		{
-			get { return _majorStepAuto; }
-			set { _majorStepAuto = value; }
+			get { return this._majorStepAuto; }
+			set { this._majorStepAuto = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines whether or not the minor scale step size <see cref="MinorStep"/>
@@ -1297,8 +1294,8 @@ namespace ZedGraph
 		/// <seealso cref="MinorStep"/>
 		public bool MinorStepAuto
 		{
-			get { return _minorStepAuto; }
-			set { _minorStepAuto = value; }
+			get { return this._minorStepAuto; }
+			set { this._minorStepAuto = value; }
 		}
 
 		/// <summary>
@@ -1316,8 +1313,8 @@ namespace ZedGraph
 		/// <seealso cref="FontSpec"/>
 		public bool FormatAuto
 		{
-			get { return _formatAuto; }
-			set { _formatAuto = value; }
+			get { return this._formatAuto; }
+			set { this._formatAuto = value; }
 		}
 
 		/// <summary>
@@ -1339,8 +1336,8 @@ namespace ZedGraph
 		// /// <seealso cref="NumDec"/>
 		public string Format
 		{
-			get { return _format; }
-			set { _format = value; _formatAuto = false; }
+			get { return this._format; }
+			set { this._format = value; this._formatAuto = false; }
 		}
 
 		/// <summary>
@@ -1364,8 +1361,8 @@ namespace ZedGraph
 		// /// <seealso cref="NumDec"/>
 		public int Mag
 		{
-			get { return _mag; }
-			set { _mag = value; _magAuto = false; }
+			get { return this._mag; }
+			set { this._mag = value; this._magAuto = false; }
 		}
 		/// <summary>
 		/// Determines whether the <see cref="Mag"/> value will be set
@@ -1382,8 +1379,8 @@ namespace ZedGraph
 		/// <seealso cref="Mag"/>
 		public bool MagAuto
 		{
-			get { return _magAuto; }
-			set { _magAuto = value; }
+			get { return this._magAuto; }
+			set { this._magAuto = value; }
 		}
 
 		/// <summary> Gets or sets the "grace" value applied to the minimum data range.
@@ -1400,8 +1397,8 @@ namespace ZedGraph
 		/// <seealso cref="MaxGrace"/>
 		public double MinGrace
 		{
-			get { return _minGrace; }
-			set { _minGrace = value; }
+			get { return this._minGrace; }
+			set { this._minGrace = value; }
 		}
 		/// <summary> Gets or sets the "grace" value applied to the maximum data range.
 		/// </summary>
@@ -1418,8 +1415,8 @@ namespace ZedGraph
 		/// <seealso cref="MinGrace"/>
 		public double MaxGrace
 		{
-			get { return _maxGrace; }
-			set { _maxGrace = value; }
+			get { return this._maxGrace; }
+			set { this._maxGrace = value; }
 		}
 
 		/// <summary> Controls the alignment of the <see cref="Axis"/> tic labels.
@@ -1430,8 +1427,8 @@ namespace ZedGraph
 		/// </remarks>
 		public AlignP Align
 		{
-			get { return _align; }
-			set { _align = value; }
+			get { return this._align; }
+			set { this._align = value; }
 		}
 
 		/// <summary> Controls the alignment of the <see cref="Axis"/> tic labels.
@@ -1442,8 +1439,8 @@ namespace ZedGraph
 		/// </remarks>
 		public AlignH AlignH
 		{
-			get { return _alignH; }
-			set { _alignH = value; }
+			get { return this._alignH; }
+			set { this._alignH = value; }
 		}
 
 		/// <summary>
@@ -1458,12 +1455,12 @@ namespace ZedGraph
 		/// <seealso cref="Default.FontItalic"/>
 		public FontSpec FontSpec
 		{
-			get { return _fontSpec; }
+			get { return this._fontSpec; }
 			set
 			{
 				if ( value == null )
 					throw new ArgumentNullException( "Uninitialized FontSpec in Scale" );
-				_fontSpec = value;
+				this._fontSpec = value;
 			}
 		}
 
@@ -1472,8 +1469,8 @@ namespace ZedGraph
 		/// </summary>
 		public float LabelGap
 		{
-			get { return _labelGap; }
-			set { _labelGap = value; }
+			get { return this._labelGap; }
+			set { this._labelGap = value; }
 		}
 
 		/// <summary>
@@ -1492,8 +1489,8 @@ namespace ZedGraph
 		/// <seealso cref="Axis.Cross"/>
 		public bool IsLabelsInside
 		{
-			get { return _isLabelsInside; }
-			set { _isLabelsInside = value; }
+			get { return this._isLabelsInside; }
+			set { this._isLabelsInside = value; }
 		}
 
 		/// <summary>
@@ -1509,8 +1506,8 @@ namespace ZedGraph
 		/// </remarks>
 		public bool IsSkipFirstLabel
 		{
-			get { return _isSkipFirstLabel; }
-			set { _isSkipFirstLabel = value; }
+			get { return this._isSkipFirstLabel; }
+			set { this._isSkipFirstLabel = value; }
 		}
 
 		/// <summary>
@@ -1526,8 +1523,8 @@ namespace ZedGraph
 		/// </remarks>
 		public bool IsSkipLastLabel
 		{
-			get { return _isSkipLastLabel; }
-			set { _isSkipLastLabel = value; }
+			get { return this._isSkipLastLabel; }
+			set { this._isSkipLastLabel = value; }
 		}
 
 		/// <summary>
@@ -1541,8 +1538,8 @@ namespace ZedGraph
 		/// </remarks>
 		public bool IsSkipCrossLabel
 		{
-			get { return _isSkipCrossLabel; }
-			set { _isSkipCrossLabel = value; }
+			get { return this._isSkipCrossLabel; }
+			set { this._isSkipCrossLabel = value; }
 		}
 
 		/// <summary>
@@ -1553,8 +1550,8 @@ namespace ZedGraph
 		/// <seealso cref="ZedGraph.Scale.Default.IsReverse"/>.
 		public bool IsReverse
 		{
-			get { return _isReverse; }
-			set { _isReverse = value; }
+			get { return this._isReverse; }
+			set { this._isReverse = value; }
 		}
 		/// <summary>
 		/// Determines if powers-of-ten notation will be used for the numeric value labels.
@@ -1568,8 +1565,8 @@ namespace ZedGraph
 		/// show a regular numeric value (e.g., "0.01", "10", "1000")</value>
 		public bool IsUseTenPower
 		{
-			get { return _isUseTenPower; }
-			set { _isUseTenPower = value; }
+			get { return this._isUseTenPower; }
+			set { this._isUseTenPower = value; }
 		}
 
 		/// <summary>
@@ -1584,8 +1581,8 @@ namespace ZedGraph
 		/// <value> boolean value; true to check for overlap, false otherwise</value>
 		public bool IsPreventLabelOverlap
 		{
-			get { return _isPreventLabelOverlap; }
-			set { _isPreventLabelOverlap = value; }
+			get { return this._isPreventLabelOverlap; }
+			set { this._isPreventLabelOverlap = value; }
 		}
 
 		/// <summary>
@@ -1595,8 +1592,8 @@ namespace ZedGraph
 		/// <seealso cref="Axis.IsVisible"/>.
 		public bool IsVisible
 		{
-			get { return _isVisible; }
-			set { _isVisible = value; }
+			get { return this._isVisible; }
+			set { this._isVisible = value; }
 		}
 
 		/// <summary>
@@ -1608,8 +1605,8 @@ namespace ZedGraph
 		/// </remarks>
 		public string[] TextLabels
 		{
-			get { return _textLabels; }
-			set { _textLabels = value; }
+			get { return this._textLabels; }
+			set { this._textLabels = value; }
 		}
 
 	#endregion
@@ -1662,17 +1659,17 @@ namespace ZedGraph
 			// save the ChartRect data for transforming scale values to pixels
 			if ( axis is XAxis || axis is X2Axis )
 			{
-				_minPix = pane.Chart._rect.Left;
-				_maxPix = pane.Chart._rect.Right;
+				this._minPix = pane.Chart._rect.Left;
+				this._maxPix = pane.Chart._rect.Right;
 			}
 			else
 			{
-				_minPix = pane.Chart._rect.Top;
-				_maxPix = pane.Chart._rect.Bottom;
+				this._minPix = pane.Chart._rect.Top;
+				this._maxPix = pane.Chart._rect.Bottom;
 			}
 
-			_minLinTemp = Linearize( _min );
-			_maxLinTemp = Linearize( _max );
+			this._minLinTemp = this.Linearize( this._min );
+			this._maxLinTemp = this.Linearize( this._max );
 
 		}
 
@@ -1778,15 +1775,15 @@ namespace ZedGraph
 		/// <returns>The resulting value label as a <see cref="string" /></returns>
 		virtual internal string MakeLabel( GraphPane pane, int index, double dVal )
 		{
-			if ( _format == null )
-				_format = Scale.Default.Format;
+			if ( this._format == null )
+				this._format = Scale.Default.Format;
 
 			// linear or ordinal is the default behavior
 			// this method is overridden for other Scale types
 
-			double scaleMult = Math.Pow( (double)10.0, _mag );
+			double scaleMult = Math.Pow( (double)10.0, this._mag );
 
-			return ( dVal / scaleMult ).ToString( _format );
+			return ( dVal / scaleMult ).ToString( this._format );
 		}
 
 		/// <summary>
@@ -1817,37 +1814,37 @@ namespace ZedGraph
 		internal SizeF GetScaleMaxSpace( Graphics g, GraphPane pane, float scaleFactor,
 							bool applyAngle )
 		{
-			if ( _isVisible )
+			if ( this._isVisible )
 			{
 				double dVal,
-					scaleMult = Math.Pow( (double)10.0, _mag );
+					scaleMult = Math.Pow( (double)10.0, this._mag );
 				int i;
 
-				float saveAngle = _fontSpec.Angle;
+				float saveAngle = this._fontSpec.Angle;
 				if ( !applyAngle )
-					_fontSpec.Angle = 0;
+					this._fontSpec.Angle = 0;
 
-				int nTics = CalcNumTics();
+				int nTics = this.CalcNumTics();
 
-				double startVal = CalcBaseTic();
+				double startVal = this.CalcBaseTic();
 
 				SizeF maxSpace = new SizeF( 0, 0 );
 
 				// Repeat for each tic
 				for ( i = 0; i < nTics; i++ )
 				{
-					dVal = CalcMajorTicValue( startVal, i );
+					dVal = this.CalcMajorTicValue( startVal, i );
 
 					// draw the label
 					//string tmpStr = MakeLabel( pane, i, dVal );
-					string tmpStr = _ownerAxis.MakeLabelEventWorks( pane, i, dVal );
+					string tmpStr = this._ownerAxis.MakeLabelEventWorks( pane, i, dVal );
 
 					SizeF sizeF;
-					if ( this.IsLog && _isUseTenPower )
-						sizeF = _fontSpec.BoundingBoxTenPower( g, tmpStr,
+					if ( this.IsLog && this._isUseTenPower )
+						sizeF = this._fontSpec.BoundingBoxTenPower( g, tmpStr,
 							scaleFactor );
 					else
-						sizeF = _fontSpec.BoundingBox( g, tmpStr,
+						sizeF = this._fontSpec.BoundingBox( g, tmpStr,
 							scaleFactor );
 
 					if ( sizeF.Height > maxSpace.Height )
@@ -1856,7 +1853,7 @@ namespace ZedGraph
 						maxSpace.Width = sizeF.Width;
 				}
 
-				_fontSpec.Angle = saveAngle;
+				this._fontSpec.Angle = saveAngle;
 
 				return maxSpace;
 			}
@@ -1883,7 +1880,7 @@ namespace ZedGraph
 		virtual internal double CalcMajorTicValue( double baseVal, double tic )
 		{
 			// Default behavior is a normal linear scale (also works for ordinal types)
-			return baseVal + (double) _majorStep * tic;
+			return baseVal + (double) this._majorStep * tic;
 		}
 
 		/// <summary>
@@ -1906,7 +1903,7 @@ namespace ZedGraph
 		virtual internal double CalcMinorTicValue( double baseVal, int iTic )
 		{
 			// default behavior is a linear axis (works for ordinal types too
-			return baseVal + (double) _minorStep * (double) iTic;
+			return baseVal + (double) this._minorStep * (double) iTic;
 		}
 
 		/// <summary>
@@ -1923,7 +1920,7 @@ namespace ZedGraph
 		virtual internal int CalcMinorStart( double baseVal )
 		{
 			// Default behavior is for a linear scale (works for ordinal as well
-			return (int) ( ( _min - baseVal ) / _minorStep );
+			return (int) ( ( this._min - baseVal ) / this._minorStep );
 		}
 
 		/// <summary>
@@ -1940,9 +1937,9 @@ namespace ZedGraph
 		/// </returns>
 		virtual internal double CalcBaseTic()
 		{
-			if ( _baseTic != PointPair.Missing )
-				return _baseTic;
-			else if ( IsAnyOrdinal )
+			if ( this._baseTic != PointPair.Missing )
+				return this._baseTic;
+			else if ( this.IsAnyOrdinal )
 			{
 				// basetic is always 1 for ordinal types
 				return 1;
@@ -1951,8 +1948,8 @@ namespace ZedGraph
 			{
 				// default behavior is linear or ordinal type
 				// go to the nearest even multiple of the step size
-				return Math.Ceiling( (double)_min / (double)_majorStep - 0.00000001 )
-														* (double)_majorStep;
+				return Math.Ceiling( (double)this._min / (double)this._majorStep - 0.00000001 )
+														* (double)this._majorStep;
 			}
 		}
 
@@ -1991,28 +1988,28 @@ namespace ZedGraph
 		internal void DrawLabels( Graphics g, GraphPane pane, double baseVal, int nTics,
 						float topPix, float shift, float scaleFactor )
 		{
-			MajorTic tic = _ownerAxis._majorTic;
+			MajorTic tic = this._ownerAxis._majorTic;
 //			MajorGrid grid = _ownerAxis._majorGrid;
 
 			double dVal, dVal2;
 			float pixVal, pixVal2;
 			float scaledTic = tic.ScaledTic( scaleFactor );
 
-			double scaleMult = Math.Pow( (double)10.0, _mag );
+			double scaleMult = Math.Pow( (double)10.0, this._mag );
 
 			using ( Pen ticPen = tic.GetPen( pane, scaleFactor ) )
 //			using ( Pen gridPen = grid.GetPen( pane, scaleFactor ) )
 			{
 				// get the Y position of the center of the axis labels
 				// (the axis itself is referenced at zero)
-				SizeF maxLabelSize = GetScaleMaxSpace( g, pane, scaleFactor, true );
-				float charHeight = _fontSpec.GetHeight( scaleFactor );
+				SizeF maxLabelSize = this.GetScaleMaxSpace( g, pane, scaleFactor, true );
+				float charHeight = this._fontSpec.GetHeight( scaleFactor );
 				float maxSpace = maxLabelSize.Height;
 
 				float edgeTolerance = Default.EdgeTolerance * scaleFactor;
-				double rangeTol = ( _maxLinTemp - _minLinTemp ) * 0.001;
+				double rangeTol = ( this._maxLinTemp - this._minLinTemp ) * 0.001;
 
-				int firstTic = (int)( ( _minLinTemp - baseVal ) / _majorStep + 0.99 );
+				int firstTic = (int)( ( this._minLinTemp - baseVal ) / this._majorStep + 0.99 );
 				if ( firstTic < 0 )
 					firstTic = 0;
 
@@ -2022,40 +2019,40 @@ namespace ZedGraph
 				// loop for each major tic
 				for ( int i = firstTic; i < nTics + firstTic; i++ )
 				{
-					dVal = CalcMajorTicValue( baseVal, i );
+					dVal = this.CalcMajorTicValue( baseVal, i );
 
 					// If we're before the start of the scale, just go to the next tic
-					if ( dVal < _minLinTemp )
+					if ( dVal < this._minLinTemp )
 						continue;
 					// if we've already past the end of the scale, then we're done
-					if ( dVal > _maxLinTemp + rangeTol )
+					if ( dVal > this._maxLinTemp + rangeTol )
 						break;
 
 					// convert the value to a pixel position
-					pixVal = LocalTransform( dVal );
+					pixVal = this.LocalTransform( dVal );
 
 					// see if the tic marks will be drawn between the labels instead of at the labels
 					// (this applies only to AxisType.Text
-					if ( tic._isBetweenLabels && IsText )
+					if ( tic._isBetweenLabels && this.IsText )
 					{
 						// We need one extra tic in order to draw the tics between labels
 						// so provide an exception here
 						if ( i == 0 )
 						{
-							dVal2 = CalcMajorTicValue( baseVal, -0.5 );
-							if ( dVal2 >= _minLinTemp )
+							dVal2 = this.CalcMajorTicValue( baseVal, -0.5 );
+							if ( dVal2 >= this._minLinTemp )
 							{
-								pixVal2 = LocalTransform( dVal2 );
+								pixVal2 = this.LocalTransform( dVal2 );
 								tic.Draw( g, pane, ticPen, pixVal2, topPix, shift, scaledTic );
 
 //								grid.Draw( g, gridPen, pixVal2, topPix );
 							}
 						}
 
-						dVal2 = CalcMajorTicValue( baseVal, (double)i + 0.5 );
-						if ( dVal2 > _maxLinTemp )
+						dVal2 = this.CalcMajorTicValue( baseVal, (double)i + 0.5 );
+						if ( dVal2 > this._maxLinTemp )
 							break;
-						pixVal2 = LocalTransform( dVal2 );
+						pixVal2 = this.LocalTransform( dVal2 );
 					}
 					else
 						pixVal2 = pixVal;
@@ -2065,31 +2062,31 @@ namespace ZedGraph
 					// draw the grid
 //					grid.Draw( g, gridPen, pixVal2, topPix );
 
-					bool isMaxValueAtMaxPix = ( ( _ownerAxis is XAxis || _ownerAxis is Y2Axis ) &&
-															!IsReverse ) ||
-												( _ownerAxis is Y2Axis && IsReverse );
+					bool isMaxValueAtMaxPix = ( ( this._ownerAxis is XAxis || this._ownerAxis is Y2Axis ) &&
+															!this.IsReverse ) ||
+												( this._ownerAxis is Y2Axis && this.IsReverse );
 
-					bool isSkipZone = ( ( ( _isSkipFirstLabel && isMaxValueAtMaxPix ) ||
-											( _isSkipLastLabel && !isMaxValueAtMaxPix ) ) &&
+					bool isSkipZone = ( ( ( this._isSkipFirstLabel && isMaxValueAtMaxPix ) ||
+											( this._isSkipLastLabel && !isMaxValueAtMaxPix ) ) &&
 												pixVal < edgeTolerance ) ||
-										( ( ( _isSkipLastLabel && isMaxValueAtMaxPix ) ||
-											( _isSkipFirstLabel && !isMaxValueAtMaxPix ) ) &&
-												pixVal > _maxPix - _minPix - edgeTolerance );
+										( ( ( this._isSkipLastLabel && isMaxValueAtMaxPix ) ||
+											( this._isSkipFirstLabel && !isMaxValueAtMaxPix ) ) &&
+												pixVal > this._maxPix - this._minPix - edgeTolerance );
 
-					bool isSkipCross = _isSkipCrossLabel && !_ownerAxis._crossAuto &&
-									Math.Abs( _ownerAxis._cross - dVal ) < rangeTol * 10.0;
+					bool isSkipCross = this._isSkipCrossLabel && !this._ownerAxis._crossAuto &&
+									Math.Abs( this._ownerAxis._cross - dVal ) < rangeTol * 10.0;
 
 					isSkipZone = isSkipZone || isSkipCross;
 
-					if ( _isVisible && !isSkipZone )
+					if ( this._isVisible && !isSkipZone )
 					{
 						// For exponential scales, just skip any label that would overlap with the previous one
 						// This is because exponential scales have varying label spacing
-						if ( IsPreventLabelOverlap &&
+						if ( this.IsPreventLabelOverlap &&
 								Math.Abs( pixVal - lastPixVal ) < maxLabelSize.Width )
 							continue;
 
-						DrawLabel( g, pane, i, dVal, pixVal, shift, maxSpace, scaledTic, charHeight, scaleFactor );
+						this.DrawLabel( g, pane, i, dVal, pixVal, shift, maxSpace, scaledTic, charHeight, scaleFactor );
 
 						lastPixVal = pixVal;
 					}
@@ -2099,10 +2096,10 @@ namespace ZedGraph
 
 		internal void DrawGrid( Graphics g, GraphPane pane, double baseVal, float topPix, float scaleFactor )
 		{
-			MajorTic tic = _ownerAxis._majorTic;
-			MajorGrid grid = _ownerAxis._majorGrid;
+			MajorTic tic = this._ownerAxis._majorTic;
+			MajorGrid grid = this._ownerAxis._majorGrid;
 
-			int nTics = CalcNumTics();
+			int nTics = this.CalcNumTics();
 
 			double dVal, dVal2;
 			float pixVal, pixVal2;
@@ -2116,9 +2113,9 @@ namespace ZedGraph
 //				float maxSpace = maxLabelSize.Height;
 
 //				float edgeTolerance = Default.EdgeTolerance * scaleFactor;
-				double rangeTol = ( _maxLinTemp - _minLinTemp ) * 0.001;
+				double rangeTol = ( this._maxLinTemp - this._minLinTemp ) * 0.001;
 
-				int firstTic = (int)( ( _minLinTemp - baseVal ) / _majorStep + 0.99 );
+				int firstTic = (int)( ( this._minLinTemp - baseVal ) / this._majorStep + 0.99 );
 				if ( firstTic < 0 )
 					firstTic = 0;
 
@@ -2128,38 +2125,38 @@ namespace ZedGraph
 				// loop for each major tic
 				for ( int i = firstTic; i < nTics + firstTic; i++ )
 				{
-					dVal = CalcMajorTicValue( baseVal, i );
+					dVal = this.CalcMajorTicValue( baseVal, i );
 
 					// If we're before the start of the scale, just go to the next tic
-					if ( dVal < _minLinTemp )
+					if ( dVal < this._minLinTemp )
 						continue;
 					// if we've already past the end of the scale, then we're done
-					if ( dVal > _maxLinTemp + rangeTol )
+					if ( dVal > this._maxLinTemp + rangeTol )
 						break;
 
 					// convert the value to a pixel position
-					pixVal = LocalTransform( dVal );
+					pixVal = this.LocalTransform( dVal );
 
 					// see if the tic marks will be drawn between the labels instead of at the labels
 					// (this applies only to AxisType.Text
-					if ( tic._isBetweenLabels && IsText )
+					if ( tic._isBetweenLabels && this.IsText )
 					{
 						// We need one extra tic in order to draw the tics between labels
 						// so provide an exception here
 						if ( i == 0 )
 						{
-							dVal2 = CalcMajorTicValue( baseVal, -0.5 );
-							if ( dVal2 >= _minLinTemp )
+							dVal2 = this.CalcMajorTicValue( baseVal, -0.5 );
+							if ( dVal2 >= this._minLinTemp )
 							{
-								pixVal2 = LocalTransform( dVal2 );
+								pixVal2 = this.LocalTransform( dVal2 );
 								grid.Draw( g, gridPen, pixVal2, topPix );
 							}
 						}
 
-						dVal2 = CalcMajorTicValue( baseVal, (double)i + 0.5 );
-						if ( dVal2 > _maxLinTemp )
+						dVal2 = this.CalcMajorTicValue( baseVal, (double)i + 0.5 );
+						if ( dVal2 > this._maxLinTemp )
 							break;
-						pixVal2 = LocalTransform( dVal2 );
+						pixVal2 = this.LocalTransform( dVal2 );
 					}
 					else
 						pixVal2 = pixVal;
@@ -2174,29 +2171,29 @@ namespace ZedGraph
 						float shift, float maxSpace, float scaledTic, float charHeight, float scaleFactor )
 		{
 			float textTop, textCenter;
-			if ( _ownerAxis.MajorTic.IsOutside )
-				textTop = scaledTic + charHeight * _labelGap;
+			if ( this._ownerAxis.MajorTic.IsOutside )
+				textTop = scaledTic + charHeight * this._labelGap;
 			else
-				textTop = charHeight * _labelGap;
+				textTop = charHeight * this._labelGap;
 
 			// draw the label
 			//string tmpStr = MakeLabel( pane, i, dVal );
-			string tmpStr = _ownerAxis.MakeLabelEventWorks( pane, i, dVal );
+			string tmpStr = this._ownerAxis.MakeLabelEventWorks( pane, i, dVal );
 
 			float height;
-			if ( this.IsLog && _isUseTenPower )
-				height = _fontSpec.BoundingBoxTenPower( g, tmpStr, scaleFactor ).Height;
+			if ( this.IsLog && this._isUseTenPower )
+				height = this._fontSpec.BoundingBoxTenPower( g, tmpStr, scaleFactor ).Height;
 			else
-				height = _fontSpec.BoundingBox( g, tmpStr, scaleFactor ).Height;
+				height = this._fontSpec.BoundingBox( g, tmpStr, scaleFactor ).Height;
 
-			if ( _align == AlignP.Center )
+			if ( this._align == AlignP.Center )
 				textCenter = textTop + maxSpace / 2.0F;
-			else if ( _align == AlignP.Outside )
+			else if ( this._align == AlignP.Outside )
 				textCenter = textTop + maxSpace - height / 2.0F;
 			else	// inside
 				textCenter = textTop + height / 2.0F;
 
-			if ( _isLabelsInside )
+			if ( this._isLabelsInside )
 				textCenter = shift - textCenter;
 			else
 				textCenter = shift + textCenter;
@@ -2204,18 +2201,18 @@ namespace ZedGraph
 			AlignV av = AlignV.Center;
 			AlignH ah = AlignH.Center;
 
-			if ( _ownerAxis is XAxis || _ownerAxis is X2Axis )
-				ah = _alignH;
+			if ( this._ownerAxis is XAxis || this._ownerAxis is X2Axis )
+				ah = this._alignH;
 			else
-				av = _alignH == AlignH.Left ? AlignV.Top : ( _alignH == AlignH.Right ? AlignV.Bottom : AlignV.Center );
+				av = this._alignH == AlignH.Left ? AlignV.Top : ( this._alignH == AlignH.Right ? AlignV.Bottom : AlignV.Center );
 
-			if ( this.IsLog && _isUseTenPower )
-				_fontSpec.DrawTenPower( g, pane, tmpStr,
+			if ( this.IsLog && this._isUseTenPower )
+				this._fontSpec.DrawTenPower( g, pane, tmpStr,
 					pixVal, textCenter,
 					ah, av,
 					scaleFactor );
 			else
-				_fontSpec.Draw( g, pane, tmpStr,
+				this._fontSpec.Draw( g, pane, tmpStr,
 					pixVal, textCenter,
 					ah, av,
 					scaleFactor );
@@ -2245,48 +2242,48 @@ namespace ZedGraph
 		/// </param>
 		internal void Draw( Graphics g, GraphPane pane, float scaleFactor, float shiftPos )
 		{
-			MajorGrid majorGrid = _ownerAxis._majorGrid;
-			MajorTic majorTic = _ownerAxis._majorTic;
-			MinorTic minorTic = _ownerAxis._minorTic;
+			MajorGrid majorGrid = this._ownerAxis._majorGrid;
+			MajorTic majorTic = this._ownerAxis._majorTic;
+			MinorTic minorTic = this._ownerAxis._minorTic;
 
 			float rightPix,
 					topPix;
 
-			GetTopRightPix( pane, out topPix, out rightPix );
+			this.GetTopRightPix( pane, out topPix, out rightPix );
 
 			// calculate the total number of major tics required
-			int nTics = CalcNumTics();
+			int nTics = this.CalcNumTics();
 
 			// get the first major tic value
-			double baseVal = CalcBaseTic();
+			double baseVal = this.CalcBaseTic();
 
-			using ( Pen pen = new Pen( _ownerAxis.Color,
+			using ( Pen pen = new Pen( this._ownerAxis.Color,
 						pane.ScaledPenWidth( majorTic._penWidth, scaleFactor ) ) )
 			{
 
 				// redraw the axis border
-				if ( _ownerAxis.IsAxisSegmentVisible )
+				if ( this._ownerAxis.IsAxisSegmentVisible )
 					g.DrawLine( pen, 0.0F, shiftPos, rightPix, shiftPos );
 
 				// Draw a zero-value line if needed
-				if ( majorGrid._isZeroLine && _min < 0.0 && _max > 0.0 )
+				if ( majorGrid._isZeroLine && this._min < 0.0 && this._max > 0.0 )
 				{
-					float zeroPix = LocalTransform( 0.0 );
+					float zeroPix = this.LocalTransform( 0.0 );
 					g.DrawLine( pen, zeroPix, 0.0F, zeroPix, topPix );
 				}
 			}
 
 			// draw the major tics and labels
-			DrawLabels( g, pane, baseVal, nTics, topPix, shiftPos, scaleFactor );
+			this.DrawLabels( g, pane, baseVal, nTics, topPix, shiftPos, scaleFactor );
 
 //			_ownerAxis.DrawMinorTics( g, pane, baseVal, shiftPos, scaleFactor, topPix );
 
-			_ownerAxis.DrawTitle( g, pane, shiftPos, scaleFactor );
+			this._ownerAxis.DrawTitle( g, pane, shiftPos, scaleFactor );
 		}
 
 		internal void GetTopRightPix( GraphPane pane, out float topPix, out float rightPix )
 		{
-			if ( _ownerAxis is XAxis || _ownerAxis is X2Axis )
+			if ( this._ownerAxis is XAxis || this._ownerAxis is X2Axis )
 			{
 				rightPix = pane.Chart._rect.Width;
 				topPix = -pane.Chart._rect.Height;
@@ -2298,20 +2295,20 @@ namespace ZedGraph
 			}
 
 			// sanity check
-			if ( _min >= _max )
+			if ( this._min >= this._max )
 				return;
 
 			// if the step size is outrageous, then quit
 			// (step size not used for log scales)
-			if ( !IsLog )
+			if ( !this.IsLog )
 			{
-				if ( _majorStep <= 0 || _minorStep <= 0 )
+				if ( this._majorStep <= 0 || this._minorStep <= 0 )
 					return;
 
-				double tMajor = ( _max - _min ) / ( _majorStep * MajorUnitMultiplier );
-				double tMinor = ( _max - _min ) / ( _minorStep * MinorUnitMultiplier );
+				double tMajor = ( this._max - this._min ) / ( this._majorStep * this.MajorUnitMultiplier );
+				double tMinor = ( this._max - this._min ) / ( this._minorStep * this.MinorUnitMultiplier );
 
-				MinorTic minorTic = _ownerAxis._minorTic;
+				MinorTic minorTic = this._ownerAxis._minorTic;
 
 				if ( tMajor > 1000 ||
 					( ( minorTic.IsOutside || minorTic.IsInside || minorTic.IsOpposite )
@@ -2333,10 +2330,10 @@ namespace ZedGraph
 		/// <returns>The width of each bar cluster, in pixel units</returns>
 		public float GetClusterWidth( GraphPane pane )
 		{
-			double basisVal = _min;
-			return Math.Abs( Transform( basisVal +
-					( IsAnyOrdinal ? 1.0 : pane._barSettings._clusterScaleWidth ) ) -
-					Transform( basisVal ) );
+			double basisVal = this._min;
+			return Math.Abs( this.Transform( basisVal +
+					( this.IsAnyOrdinal ? 1.0 : pane._barSettings._clusterScaleWidth ) ) -
+					this.Transform( basisVal ) );
 		}
 
 		/// <summary>
@@ -2348,9 +2345,9 @@ namespace ZedGraph
 		/// <returns>The equivalent pixel size of the bar cluster</returns>
 		public float GetClusterWidth( double clusterScaleWidth )
 		{
-			double basisVal = _min;
-			return Math.Abs( Transform( basisVal + clusterScaleWidth ) -
-					Transform( basisVal ) );
+			double basisVal = this._min;
+			return Math.Abs( this.Transform( basisVal + clusterScaleWidth ) -
+					this.Transform( basisVal ) );
 		}
 
 	#endregion
@@ -2395,8 +2392,8 @@ namespace ZedGraph
 		/// </param>
 		virtual public void PickScale( GraphPane pane, Graphics g, float scaleFactor )
 		{
-			double minVal = _rangeMin;
-			double maxVal = _rangeMax;
+			double minVal = this._rangeMin;
+			double maxVal = this._rangeMax;
 
 			// Make sure that minVal and maxVal are legitimate values
 			if ( Double.IsInfinity( minVal ) || Double.IsNaN( minVal ) || minVal == Double.MaxValue )
@@ -2412,41 +2409,41 @@ namespace ZedGraph
 
 			// For autoranged values, assign the value.  If appropriate, adjust the value by the
 			// "Grace" value.
-			if ( _minAuto )
+			if ( this._minAuto )
 			{
-				_min = minVal;
+				this._min = minVal;
 				// Do not let the grace value extend the axis below zero when all the values were positive
-				if ( numType && ( _min < 0 || minVal - _minGrace * range >= 0.0 ) )
-					_min = minVal - _minGrace * range;
+				if ( numType && ( this._min < 0 || minVal - this._minGrace * range >= 0.0 ) )
+					this._min = minVal - this._minGrace * range;
 			}
-			if ( _maxAuto )
+			if ( this._maxAuto )
 			{
-				_max = maxVal;
+				this._max = maxVal;
 				// Do not let the grace value extend the axis above zero when all the values were negative
-				if ( numType && ( _max > 0 || maxVal + _maxGrace * range <= 0.0 ) )
-					_max = maxVal + _maxGrace * range;
+				if ( numType && ( this._max > 0 || maxVal + this._maxGrace * range <= 0.0 ) )
+					this._max = maxVal + this._maxGrace * range;
 			}
 
-			if ( _max == _min && _maxAuto && _minAuto )
+			if ( this._max == this._min && this._maxAuto && this._minAuto )
 			{
-				if ( Math.Abs( _max ) > 1e-100 )
+				if ( Math.Abs( this._max ) > 1e-100 )
 				{
-					_max *= ( _min < 0 ? 0.95 : 1.05 );
-					_min *= ( _min < 0 ? 1.05 : 0.95 );
+					this._max *= ( this._min < 0 ? 0.95 : 1.05 );
+					this._min *= ( this._min < 0 ? 1.05 : 0.95 );
 				}
 				else
 				{
-					_max = 1.0;
-					_min = -1.0;
+					this._max = 1.0;
+					this._min = -1.0;
 				}
 			}
 
-			if ( _max <= _min )
+			if ( this._max <= this._min )
 			{
-				if ( _maxAuto )
-					_max = _min + 1.0;
-				else if ( _minAuto )
-					_min = _max - 1.0;
+				if ( this._maxAuto )
+					this._max = this._min + 1.0;
+				else if ( this._minAuto )
+					this._min = this._max - 1.0;
 			}
 
 		}
@@ -2487,8 +2484,8 @@ namespace ZedGraph
 
 			float maxWidth = 1000;
 			float temp = 1000;
-			float costh = (float) Math.Abs( Math.Cos( _fontSpec.Angle * Math.PI / 180.0 ) );
-			float sinth = (float) Math.Abs( Math.Sin( _fontSpec.Angle * Math.PI / 180.0 ) );
+			float costh = (float) Math.Abs( Math.Cos( this._fontSpec.Angle * Math.PI / 180.0 ) );
+			float sinth = (float) Math.Abs( Math.Sin( this._fontSpec.Angle * Math.PI / 180.0 ) );
 
 			if ( costh > 0.001 )
 				maxWidth = size.Width / costh;
@@ -2514,7 +2511,7 @@ namespace ZedGraph
 			// Calculate the maximum number of labels
 			double width;
 			RectangleF chartRect = pane.Chart._rect;
-			if ( _ownerAxis is XAxis || _ownerAxis is X2Axis )
+			if ( this._ownerAxis is XAxis || this._ownerAxis is X2Axis )
 				width = ( chartRect.Width == 0 ) ? pane.Rect.Width * 0.75 : chartRect.Width;
 			else
 				width = ( chartRect.Height == 0 ) ? pane.Rect.Height * 0.75 : chartRect.Height;
@@ -2529,16 +2526,16 @@ namespace ZedGraph
 		internal void SetScaleMag( double min, double max, double step )
 		{
 			// set the scale magnitude if required
-			if ( _magAuto )
+			if ( this._magAuto )
 			{
 				// Find the optimal scale display multiple
 				double mag = -100;
 				double mag2 = -100;
 
-				if ( Math.Abs( _min ) > 1.0e-30 )
-					mag = Math.Floor( Math.Log10( Math.Abs( _min ) ) );
-				if ( Math.Abs( _max ) > 1.0e-30 )
-					mag2 = Math.Floor( Math.Log10( Math.Abs( _max ) ) );
+				if ( Math.Abs( this._min ) > 1.0e-30 )
+					mag = Math.Floor( Math.Log10( Math.Abs( this._min ) ) );
+				if ( Math.Abs( this._max ) > 1.0e-30 )
+					mag2 = Math.Floor( Math.Log10( Math.Abs( this._max ) ) );
 
 				mag = Math.Max( mag2, mag );
 
@@ -2547,16 +2544,16 @@ namespace ZedGraph
 					mag = 0;
 
 				// Use a power of 10 that is a multiple of 3 (engineering scale)
-				_mag = (int) ( Math.Floor( mag / 3.0 ) * 3.0 );
+				this._mag = (int) ( Math.Floor( mag / 3.0 ) * 3.0 );
 			}
 
 			// Calculate the appropriate number of dec places to display if required
-			if ( _formatAuto )
+			if ( this._formatAuto )
 			{
-				int numDec = 0 - (int) ( Math.Floor( Math.Log10( _majorStep ) ) - _mag );
+				int numDec = 0 - (int) ( Math.Floor( Math.Log10( this._majorStep ) ) - this._mag );
 				if ( numDec < 0 )
 					numDec = 0;
-				_format = "f" + numDec.ToString();
+				this._format = "f" + numDec.ToString();
 			}
 		}
 
@@ -2648,7 +2645,7 @@ namespace ZedGraph
 			int nTics = 1;
 
 			// default behavior is for a linear or ordinal scale
-			nTics = (int) ( ( _max - _min ) / _majorStep + 0.01 ) + 1;
+			nTics = (int) ( ( this._max - this._min ) / this._majorStep + 0.01 ) + 1;
 
 			if ( nTics < 1 )
 				nTics = 1;
@@ -2685,27 +2682,27 @@ namespace ZedGraph
 		/// <param name="axis">The <see cref="Axis"/> for which to set the range</param>
 		internal void SetRange( GraphPane pane, Axis axis )
 		{
-			if ( _rangeMin >= Double.MaxValue || _rangeMax <= Double.MinValue )
+			if ( this._rangeMin >= Double.MaxValue || this._rangeMax <= Double.MinValue )
 			{
 				// If this is a Y axis, and the main Y axis is valid, use it for defaults
 				if ( axis != pane.XAxis && axis != pane.X2Axis &&
 					pane.YAxis.Scale._rangeMin < double.MaxValue && pane.YAxis.Scale._rangeMax > double.MinValue )
 				{
-					_rangeMin = pane.YAxis.Scale._rangeMin;
-					_rangeMax = pane.YAxis.Scale._rangeMax;
+					this._rangeMin = pane.YAxis.Scale._rangeMin;
+					this._rangeMax = pane.YAxis.Scale._rangeMax;
 				}
 				// Otherwise, if this is a Y axis, and the main Y2 axis is valid, use it for defaults
 				else if ( axis != pane.XAxis && axis != pane.X2Axis &&
 					pane.Y2Axis.Scale._rangeMin < double.MaxValue && pane.Y2Axis.Scale._rangeMax > double.MinValue )
 				{
-					_rangeMin = pane.Y2Axis.Scale._rangeMin;
-					_rangeMax = pane.Y2Axis.Scale._rangeMax;
+					this._rangeMin = pane.Y2Axis.Scale._rangeMin;
+					this._rangeMax = pane.Y2Axis.Scale._rangeMax;
 				}
 				// Otherwise, just use 0 and 1
 				else
 				{
-					_rangeMin = 0;
-					_rangeMax = 1;
+					this._rangeMin = 0;
+					this._rangeMax = 1;
 				}
 
 			}
@@ -2766,10 +2763,10 @@ namespace ZedGraph
 		public float Transform( double x )
 		{
 			// Must take into account Log, and Reverse Axes
-			double denom = ( _maxLinTemp - _minLinTemp );
+			double denom = ( this._maxLinTemp - this._minLinTemp );
 			double ratio;
 			if ( denom > 1e-100 )
-				ratio = ( Linearize( x ) - _minLinTemp ) / denom;
+				ratio = ( this.Linearize( x ) - this._minLinTemp ) / denom;
 			else
 				ratio = 0;
 
@@ -2782,10 +2779,10 @@ namespace ZedGraph
 			//     T          Y2Axis    _minPix + ...
 			//     F          XAxis     _minPix + ...
 
-			if ( _isReverse == ( _ownerAxis is XAxis || _ownerAxis is X2Axis ) )
-				return (float) ( _maxPix - ( _maxPix - _minPix ) * ratio );
+			if ( this._isReverse == ( this._ownerAxis is XAxis || this._ownerAxis is X2Axis ) )
+				return (float) ( this._maxPix - ( this._maxPix - this._minPix ) * ratio );
 			else
-				return (float) ( _minPix + ( _maxPix - _minPix ) * ratio );
+				return (float) ( this._minPix + ( this._maxPix - this._minPix ) * ratio );
 		}
 
 		/// <summary>
@@ -2816,7 +2813,7 @@ namespace ZedGraph
 			// ordinal types ignore the X value, and just use the ordinal position
 			if ( this.IsAnyOrdinal && i >= 0 && !isOverrideOrdinal )
 				x = (double) i + 1.0;
-			return Transform( x );
+			return this.Transform( x );
 
 		}
 
@@ -2843,16 +2840,16 @@ namespace ZedGraph
 			double val;
 
 			// see if the sign of the equation needs to be reversed
-			if ( ( _isReverse ) == ( _ownerAxis is XAxis || _ownerAxis is X2Axis ) )
-				val = (double) ( pixVal - _maxPix )
-						/ (double) ( _minPix - _maxPix )
-						* ( _maxLinTemp - _minLinTemp ) + _minLinTemp;
+			if ( ( this._isReverse ) == ( this._ownerAxis is XAxis || this._ownerAxis is X2Axis ) )
+				val = (double) ( pixVal - this._maxPix )
+						/ (double) ( this._minPix - this._maxPix )
+						* ( this._maxLinTemp - this._minLinTemp ) + this._minLinTemp;
 			else
-				val = (double) ( pixVal - _minPix )
-						/ (double) ( _maxPix - _minPix )
-						* ( _maxLinTemp - _minLinTemp ) + _minLinTemp;
+				val = (double) ( pixVal - this._minPix )
+						/ (double) ( this._maxPix - this._minPix )
+						* ( this._maxLinTemp - this._minLinTemp ) + this._minLinTemp;
 
-			return DeLinearize( val );
+			return this.DeLinearize( val );
 		}
 
 
@@ -2885,13 +2882,13 @@ namespace ZedGraph
 
 			// Coordinate values for log scales are already in exponent form, so no need
 			// to take the log here
-			ratio = ( x - _minLinTemp ) /
-						( _maxLinTemp - _minLinTemp );
+			ratio = ( x - this._minLinTemp ) /
+						( this._maxLinTemp - this._minLinTemp );
 
-			if ( _isReverse == ( _ownerAxis is YAxis || _ownerAxis is X2Axis ) )
-				rv = (float) ( ( _maxPix - _minPix ) * ratio );
+			if ( this._isReverse == ( this._ownerAxis is YAxis || this._ownerAxis is X2Axis ) )
+				rv = (float) ( ( this._maxPix - this._minPix ) * ratio );
 			else
-				rv = (float)( ( _maxPix - _minPix ) * ( 1.0F - ratio ) );
+				rv = (float)( ( this._maxPix - this._minPix ) * ( 1.0F - ratio ) );
 
 			return rv;
 		}

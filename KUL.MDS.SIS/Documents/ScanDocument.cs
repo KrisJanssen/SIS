@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Windows.Forms;
-using System.Xml;
-using KUL.MDS.MDITemplate;
-using KUL.MDS.SIS.Forms;
-
-namespace KUL.MDS.SIS.Documents
+﻿namespace SIS.Documents
 {
+    using System;
+    using System.IO;
+    using System.Windows.Forms;
+
+    using global::SIS.MDITemplate;
+
+    using SIS.Forms;
+
     /// <summary>
     /// This class provides an object for loading scan files. The object provides scan data as well as scan settings.
     /// </summary>
     [Document("Scan document files", ".dat")]
-    public class ScanDocument : KUL.MDS.MDITemplate.MdiDocument
+    public class ScanDocument : MdiDocument
     {
         #region Members
         private ScanSettings m_scnstSettings;
@@ -38,10 +37,10 @@ namespace KUL.MDS.SIS.Documents
         // Constructor.
         public ScanDocument()
         {
-            m_sApplicationName = null;
-            m_sApplicationVersion = null;
+            this.m_sApplicationName = null;
+            this.m_sApplicationVersion = null;
 
-            m_iScanAxes = 0;
+            this.m_iScanAxes = 0;
 
             this.m_scnstSettings = new ScanSettings();
 
@@ -111,11 +110,11 @@ namespace KUL.MDS.SIS.Documents
         {
             set
             {
-                m_iScanAxes = value;
+                this.m_iScanAxes = value;
             }
             get
             {
-                return m_iScanAxes;
+                return this.m_iScanAxes;
             }
         }
 
@@ -124,7 +123,7 @@ namespace KUL.MDS.SIS.Documents
         {
             get
             {
-                return m_sApplicationName;
+                return this.m_sApplicationName;
             }
         }
 
@@ -180,7 +179,7 @@ namespace KUL.MDS.SIS.Documents
         {
             get
             {
-                return m_uint32Pixels.Length / this.m_scnstSettings.Channels;
+                return this.m_uint32Pixels.Length / this.m_scnstSettings.Channels;
             }
         }
 
@@ -244,7 +243,7 @@ namespace KUL.MDS.SIS.Documents
         {
             get
             {
-                return m_iDataType;
+                return this.m_iDataType;
             }
         }
 
@@ -255,7 +254,7 @@ namespace KUL.MDS.SIS.Documents
                 UInt32[] _Max = new UInt32[this.m_scnstSettings.Channels];
                 for (int _iI = 0; _iI < this.m_scnstSettings.Channels; _iI++)
                 {
-                    _Max[_iI] = FindMax(this.m_uint32Pixels, _iI, this.m_uint32Pixels.Length / this.m_scnstSettings.Channels);
+                    _Max[_iI] = this.FindMax(this.m_uint32Pixels, _iI, this.m_uint32Pixels.Length / this.m_scnstSettings.Channels);
                 }
                 return _Max;
             }
@@ -268,7 +267,7 @@ namespace KUL.MDS.SIS.Documents
                 UInt32[] _Min = new UInt32[this.m_scnstSettings.Channels];
                 for (int _iI = 0; _iI < this.m_scnstSettings.Channels; _iI++)
                 {
-                    _Min[_iI] = FindMin(this.m_uint32Pixels, _iI, this.m_uint32Pixels.Length / this.m_scnstSettings.Channels);
+                    _Min[_iI] = this.FindMin(this.m_uint32Pixels, _iI, this.m_uint32Pixels.Length / this.m_scnstSettings.Channels);
                 }
                 return _Min;
             }
@@ -278,12 +277,12 @@ namespace KUL.MDS.SIS.Documents
         {
             get
             {
-                return m_dblScanDuration;
+                return this.m_dblScanDuration;
             }
 
             set
             {
-                m_dblScanDuration = value;
+                this.m_dblScanDuration = value;
             }
         }
 
@@ -296,7 +295,7 @@ namespace KUL.MDS.SIS.Documents
 
             set
             {
-                m_dBorderWidthX = value;
+                this.m_dBorderWidthX = value;
             }
         }
 

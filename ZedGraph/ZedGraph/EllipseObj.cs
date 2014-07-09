@@ -17,16 +17,15 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class that represents a bordered and/or filled ellipse object on
 	/// the graph.  A list of EllipseObj objects is maintained by the
 	/// <see cref="GraphObjList"/> collection class.  The ellipse is defined
@@ -166,7 +165,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
@@ -207,12 +206,12 @@ namespace ZedGraph
 					Math.Abs( pixRect.Right ) < 100000 &&
 					Math.Abs( pixRect.Bottom ) < 100000 )
 			{
-				if ( _fill.IsVisible )
-					using ( Brush brush = _fill.MakeBrush( pixRect ) )
+				if ( this._fill.IsVisible )
+					using ( Brush brush = this._fill.MakeBrush( pixRect ) )
 						g.FillEllipse( brush, pixRect );
 
-				if ( _border.IsVisible )
-					using ( Pen pen = _border.GetPen( pane, scaleFactor ) )
+				if ( this._border.IsVisible )
+					using ( Pen pen = this._border.GetPen( pane, scaleFactor ) )
 						g.DrawEllipse( pen, pixRect );
 			}
 		}
@@ -244,7 +243,7 @@ namespace ZedGraph
 
 			// transform the x,y location from the user-defined
 			// coordinate frame to the screen pixel location
-			RectangleF pixRect = _location.TransformRect( pane );
+			RectangleF pixRect = this._location.TransformRect( pane );
 
 			using ( GraphicsPath path = new GraphicsPath() )
 			{

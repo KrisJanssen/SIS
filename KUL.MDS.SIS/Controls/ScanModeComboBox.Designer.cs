@@ -1,6 +1,7 @@
-﻿using System.Windows.Forms;
-namespace KUL.MDS.SIS.Controls
+﻿namespace SIS.Controls
 {
+    using System.Windows.Forms;
+
     partial class ScanModeComboBox : ComboBox
     {
         /// <summary> 
@@ -14,9 +15,9 @@ namespace KUL.MDS.SIS.Controls
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -29,7 +30,7 @@ namespace KUL.MDS.SIS.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.components = new System.ComponentModel.Container();
             //this..AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         }
 

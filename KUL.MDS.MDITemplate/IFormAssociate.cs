@@ -7,11 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Windows.Forms;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
+    using System.Windows.Forms;
+
     /// <summary>
     /// Used by classes to indicate they are associated with a certain Form, even if
     /// they are not contained within the Form. To this end, they are an Associate of

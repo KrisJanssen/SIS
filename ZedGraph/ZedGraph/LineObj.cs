@@ -17,16 +17,15 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class that represents a line segment object on the graph.  A list of
 	/// GraphObj objects is maintained by the <see cref="GraphObjList"/> collection class.
 	/// </summary>
@@ -58,8 +57,8 @@ namespace ZedGraph
 		/// </summary>
 		public LineBase Line
 		{
-			get { return _line; }
-			set { _line = value; }
+			get { return this._line; }
+			set { this._line = value; }
 		}
 
 	#endregion
@@ -89,7 +88,7 @@ namespace ZedGraph
 		public LineObj( Color color, double x1, double y1, double x2, double y2 )
 			: base( x1, y1, x2 - x1, y2 - y1 )
 		{
-			_line = new LineBase( color );
+			this._line = new LineBase( color );
 			this.Location.AlignH = AlignH.Left;
 			this.Location.AlignV = AlignV.Top;
 		}
@@ -130,7 +129,7 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="LineObj"/> object from which to copy</param>
 		public LineObj( LineObj rhs ) : base( rhs )
 		{
-			_line = new LineBase( rhs._line );
+			this._line = new LineBase( rhs._line );
 		}
 
 		/// <summary>
@@ -175,21 +174,21 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_line = (LineBase)info.GetValue( "line", typeof( LineBase ) );
+			this._line = (LineBase)info.GetValue( "line", typeof( LineBase ) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 
 			info.AddValue( "schema2", schema2 );
 
-			info.AddValue( "line", _line );
+			info.AddValue( "line", this._line );
 		}
 	#endregion
 
@@ -241,7 +240,7 @@ namespace ZedGraph
 				g.RotateTransform( angle );
 
 				// get a pen according to this arrow properties
-				using ( Pen pen = _line.GetPen( pane, scaleFactor ) )
+				using ( Pen pen = this._line.GetPen( pane, scaleFactor ) )
 				//new Pen( _line._color, pane.ScaledPenWidth( _line._width, scaleFactor ) ) )
 				{
 					//pen.DashStyle = _style;
@@ -284,8 +283,8 @@ namespace ZedGraph
 
 			// transform the x,y location from the user-defined
 			// coordinate frame to the screen pixel location
-			PointF pix = _location.TransformTopLeft( pane );
-			PointF pix2 = _location.TransformBottomRight( pane );
+			PointF pix = this._location.TransformTopLeft( pane );
+			PointF pix2 = this._location.TransformBottomRight( pane );
 
 			using ( Pen pen = new Pen( Color.Black, (float)GraphPane.Default.NearestTol * 2.0F ) )
 			{
@@ -305,7 +304,7 @@ namespace ZedGraph
 		{
 			// transform the x,y location from the user-defined
 			// coordinate frame to the screen pixel location
-			RectangleF pixRect = _location.TransformRect( pane );
+			RectangleF pixRect = this._location.TransformRect( pane );
 
 			Matrix matrix = new Matrix();
 			if ( pixRect.Right == 0 )

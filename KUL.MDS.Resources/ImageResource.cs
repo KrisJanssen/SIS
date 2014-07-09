@@ -7,11 +7,11 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-
-namespace KUL.MDS.AppResources
+namespace SIS.Resources
 {
+    using System;
+    using System.Drawing;
+
     public abstract class ImageResource
         : Resource<Image>
     {
@@ -20,7 +20,7 @@ namespace KUL.MDS.AppResources
         {
             protected override Image Load()
             {
-                return (Image)Reference.Clone();
+                return (Image)this.Reference.Clone();
             }
 
             public FromImageResource(Image image)

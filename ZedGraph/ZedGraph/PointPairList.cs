@@ -17,13 +17,12 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
 	/// A collection class containing a list of <see cref="PointPair"/> objects
 	/// that define the set of points to be displayed on the curve.
 	/// </summary>
@@ -64,7 +63,7 @@ namespace ZedGraph
 		/// <seealso cref="Sort()"/>
 		public bool Sorted
 		{
-			get { return _sorted; }
+			get { return this._sorted; }
 		}
 	#endregion
 
@@ -74,7 +73,7 @@ namespace ZedGraph
 		/// </summary>
 		public PointPairList()
 		{
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -83,9 +82,9 @@ namespace ZedGraph
 		/// </summary>
 		public PointPairList( double[] x, double[] y )
 		{
-			Add( x, y );
+			this.Add( x, y );
 
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -95,9 +94,9 @@ namespace ZedGraph
 		{
 			int count = list.Count;
 			for ( int i = 0; i < count; i++ )
-				Add( list[i] );
+				this.Add( list[i] );
 
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -106,9 +105,9 @@ namespace ZedGraph
 		/// </summary>
 		public PointPairList( double[] x, double[] y, double[] baseVal )
 		{
-			Add( x, y, baseVal );
+			this.Add( x, y, baseVal );
 			
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -117,9 +116,9 @@ namespace ZedGraph
 		/// <param name="rhs">The PointPairList from which to copy</param>
 		public PointPairList( PointPairList rhs )
 		{
-			Add( rhs );
+			this.Add( rhs );
 
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -152,7 +151,7 @@ namespace ZedGraph
 		/// <returns>The zero-based ordinal index where the point was added in the list.</returns>
 		public new void Add( PointPair point )
 		{
-			_sorted = false;
+			this._sorted = false;
 			//base.Add( new PointPair( point ) );
 			base.Add( point.Clone() );
 		}
@@ -167,9 +166,9 @@ namespace ZedGraph
 		public void Add( PointPairList pointList )
 		{
 			foreach ( PointPair point in pointList )
-			Add( point );
+			this.Add( point );
 				
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -212,7 +211,7 @@ namespace ZedGraph
 				base.Add( point );
 			}
 			
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -267,7 +266,7 @@ namespace ZedGraph
 				base.Add( point );
 			}
 			
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -278,7 +277,7 @@ namespace ZedGraph
 		/// <returns>The zero-based ordinal index where the point was added in the list.</returns>
 		public void Add( double x, double y )
 		{
-			_sorted = false;
+			this._sorted = false;
 			PointPair	point = new PointPair( x, y );
 			base.Add( point );
 		}
@@ -292,7 +291,7 @@ namespace ZedGraph
 		/// <returns>The zero-based ordinal index where the point was added in the list.</returns>
 		public void Add( double x, double y, string tag )
 		{
-			_sorted = false;
+			this._sorted = false;
 			PointPair	point = new PointPair( x, y, tag );
 			base.Add( point );
 		}
@@ -307,7 +306,7 @@ namespace ZedGraph
 		/// in the list.</returns>
 		public void Add( double x, double y, double z )
 		{
-			_sorted = false;
+			this._sorted = false;
 			PointPair point = new PointPair( x, y, z );
 			base.Add( point );
 		}
@@ -323,7 +322,7 @@ namespace ZedGraph
 		/// in the list.</returns>
 		public void Add( double x, double y, double z, string tag )
 		{
-			_sorted = false;
+			this._sorted = false;
 			PointPair point = new PointPair( x, y, z, tag );
 			base.Add( point );
 		}
@@ -340,7 +339,7 @@ namespace ZedGraph
 		/// </param>
 		public new void Insert( int index, PointPair point )
 		{
-			_sorted = false;
+			this._sorted = false;
 			base.Insert( index, point );
 		}
 
@@ -355,7 +354,7 @@ namespace ZedGraph
 		/// <param name="y">The Y value</param>
 		public void Insert( int index, double x, double y )
 		{
-			_sorted = false;
+			this._sorted = false;
 			base.Insert( index, new PointPair( x, y ) );
 		}
 
@@ -371,8 +370,8 @@ namespace ZedGraph
 		/// <param name="z">The Z or lower dependent axis value</param>
 		public void Insert( int index, double x, double y, double z )
 		{
-			_sorted = false;
-			Insert( index, new PointPair( x, y, z ) );
+			this._sorted = false;
+			this.Insert( index, new PointPair( x, y, z ) );
 		}
 		/*
 				/// <summary>
@@ -466,10 +465,10 @@ namespace ZedGraph
 		public new bool Sort()
 		{
 			// if it is already sorted we don't have to sort again
-			if ( _sorted )
+			if ( this._sorted )
 				return true;
 
-			Sort( new PointPair.PointPairComparer( SortType.XValues ) );
+			this.Sort( new PointPair.PointPairComparer( SortType.XValues ) );
 			return false;
 		}
 		
@@ -484,7 +483,7 @@ namespace ZedGraph
 		public bool Sort( SortType type)
 		{
 			// if it is already sorted we don't have to sort again
-			if ( _sorted )
+			if ( this._sorted )
 				return true;
 				
 			this.Sort( new PointPair.PointPairComparer( type ) );
@@ -515,7 +514,7 @@ namespace ZedGraph
 					this[i].X = x[i];
 			}
 				
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -541,7 +540,7 @@ namespace ZedGraph
 					this[i].Y = y[i];
 			}
 				
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -567,7 +566,7 @@ namespace ZedGraph
 					this[i].Z = z[i];
 			}
 				
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -605,7 +604,7 @@ namespace ZedGraph
 					this[i].X += sumList[i].X;
 			}
 				
-			_sorted = false;
+			this._sorted = false;
 		}
 
 		/// <summary>
@@ -870,7 +869,7 @@ namespace ZedGraph
 				}
 			}
 
-			return LinearRegression( points, pointCount, minX, maxX );
+			return this.LinearRegression( points, pointCount, minX, maxX );
 		}
 
 

@@ -17,14 +17,13 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Collections;
-using System.Text;
-using System.Drawing;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections;
+    using System.Drawing;
+
+    /// <summary>
 	/// An enum used to specify the X or Y data type of interest -- see
 	/// <see cref="SampleMultiPointList.XData" /> and <see cref="SampleMultiPointList.YData" />.
 	/// </summary>
@@ -98,13 +97,13 @@ namespace ZedGraph
 				{
 					default:
 					case PerfDataType.Time:
-						return time;
+						return this.time;
 					case PerfDataType.Distance:
-						return distance;
+						return this.distance;
 					case PerfDataType.Velocity:
-						return velocity;
+						return this.velocity;
 					case PerfDataType.Acceleration:
-						return acceleration;
+						return this.acceleration;
 				}
 			}
 			set
@@ -112,16 +111,16 @@ namespace ZedGraph
 				switch( type )
 				{
 					case PerfDataType.Time:
-						time = value;
+						this.time = value;
 						break;
 					case PerfDataType.Distance:
-						distance = value;
+						this.distance = value;
 						break;
 					case PerfDataType.Velocity:
-						velocity = value;
+						this.velocity = value;
 						break;
 					case PerfDataType.Acceleration:
-						acceleration = value;
+						this.acceleration = value;
 						break;
 				}
 			}
@@ -169,9 +168,9 @@ namespace ZedGraph
 		/// </summary>
 		public SampleMultiPointList()
 		{
-			XData = PerfDataType.Time;
-			YData = PerfDataType.Distance;
-			DataCollection = new ArrayList();
+			this.XData = PerfDataType.Time;
+			this.YData = PerfDataType.Distance;
+			this.DataCollection = new ArrayList();
 		}
 
 		/// <summary>
@@ -183,9 +182,9 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="SampleMultiPointList" /> from which to copy</param>
 		public SampleMultiPointList( SampleMultiPointList rhs )
 		{
-			DataCollection = rhs.DataCollection;
-			XData = rhs.XData;
-			YData = rhs.YData;
+			this.DataCollection = rhs.DataCollection;
+			this.XData = rhs.XData;
+			this.YData = rhs.YData;
 		}
 
 		/// <summary>
@@ -223,11 +222,11 @@ namespace ZedGraph
 				if ( index >= 0 && index < this.Count )
 				{
 					// grab the specified PerformanceData struct
-					PerformanceData perfData = (PerformanceData) DataCollection[index];
+					PerformanceData perfData = (PerformanceData) this.DataCollection[index];
 					// extract the values from the struct according to the user-set
 					// enum values of XData and YData
-					xVal = perfData[XData];
-					yVal = perfData[YData];
+					xVal = perfData[this.XData];
+					yVal = perfData[this.YData];
 				}
 				else
 				{
@@ -245,7 +244,7 @@ namespace ZedGraph
 		/// </summary>
 		public int Count
 		{
-			get { return DataCollection.Count; }
+			get { return this.DataCollection.Count; }
 		}
 
 		/// <summary>
@@ -255,7 +254,7 @@ namespace ZedGraph
 		/// <returns>The ordinal position in the collection where the values were added</returns>
 		public int Add( PerformanceData perfData )
 		{
-			return DataCollection.Add( perfData );
+			return this.DataCollection.Add( perfData );
 		}
 
 		/// <summary>
@@ -266,7 +265,7 @@ namespace ZedGraph
 		/// struct to be removed</param>
 		public void RemoveAt( int index )
 		{
-			DataCollection.RemoveAt( index );
+			this.DataCollection.RemoveAt( index );
 		}
 
 		/// <summary>
@@ -277,7 +276,7 @@ namespace ZedGraph
 		/// <param name="perfData">The <see cref="PerformanceData" /> struct to be inserted</param>
 		public void Insert( int index, PerformanceData perfData )
 		{
-			DataCollection.Insert( index, perfData );
+			this.DataCollection.Insert( index, perfData );
 		}
 
 	}

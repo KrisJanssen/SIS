@@ -7,19 +7,17 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Globalization;
-using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.Serialization.Formatters.Binary;
+
     /// <summary>
     /// Re-implements System.Drawing.PropertyItem so that the data is serializable.
     /// </summary>
@@ -41,7 +39,7 @@ namespace KUL.MDS.SystemLayer
         {
             get
             {
-                return id;
+                return this.id;
             }
         }
 
@@ -49,7 +47,7 @@ namespace KUL.MDS.SystemLayer
         {
             get
             {
-                return len;
+                return this.len;
             }
         }
 
@@ -57,7 +55,7 @@ namespace KUL.MDS.SystemLayer
         {
             get
             {
-                return type;
+                return this.type;
             }
         }
 
@@ -65,7 +63,7 @@ namespace KUL.MDS.SystemLayer
         {
             get
             {
-                return (byte[])value.Clone();
+                return (byte[])this.value.Clone();
             }
         }
 

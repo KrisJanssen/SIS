@@ -1,8 +1,6 @@
-﻿using System.Windows.Forms;
-using System;
-namespace KUL.MDS.Library
+﻿namespace SIS.Library.ImageControl
 {
-   partial class DrawCanvas
+    partial class DrawCanvas
    {
       /// <summary> 
       /// Required designer variable.
@@ -15,9 +13,9 @@ namespace KUL.MDS.Library
       /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
       protected override void Dispose(bool disposing)
       {
-         if (disposing && (components != null))
+         if (disposing && (this.components != null))
          {
-            components.Dispose();
+            this.components.Dispose();
          }
          base.Dispose(disposing);
       }

@@ -17,12 +17,11 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	
-	/// <summary>
+    using System;
+
+    /// <summary>
 	/// This struct encapsulates a date and time value, and handles associated
 	/// calculations and conversions between various formats.
 	/// </summary>
@@ -131,7 +130,7 @@ namespace ZedGraph
 		/// </param>
 		public XDate( double xlDate )
 		{
-			_xlDate = xlDate;
+			this._xlDate = xlDate;
 		}
 		
 		/// <summary>
@@ -142,7 +141,7 @@ namespace ZedGraph
 		/// </param>
 		public XDate( DateTime dateTime )
 		{
-			_xlDate = CalendarDateToXLDate( dateTime.Year, dateTime.Month,
+			this._xlDate = CalendarDateToXLDate( dateTime.Year, dateTime.Month,
 							dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second,
 							dateTime.Millisecond );
 		}
@@ -160,7 +159,7 @@ namespace ZedGraph
 		/// which will rollover to the previous or next year.</param>
 		public XDate( int year, int month, int day )
 		{
-			_xlDate = CalendarDateToXLDate( year, month, day, 0, 0, 0 );
+			this._xlDate = CalendarDateToXLDate( year, month, day, 0, 0, 0 );
 		}
 		
 		/// <summary>
@@ -185,7 +184,7 @@ namespace ZedGraph
 		/// will rollover to the previous or next minute.</param>
 		public XDate( int year, int month, int day, int hour, int minute, int second )
 		{
-			_xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second );
+			this._xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second );
 		}
 		
 		/// <summary>
@@ -210,7 +209,7 @@ namespace ZedGraph
 		/// will rollover to the previous or next minute.</param>
 		public XDate( int year, int month, int day, int hour, int minute, double second )
 		{
-			_xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second );
+			this._xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second );
 		}
 		
 		/// <summary>
@@ -238,7 +237,7 @@ namespace ZedGraph
 		/// will rollover to the previous or next second.</param>
 		public XDate( int year, int month, int day, int hour, int minute, int second, int millisecond )
 		{
-			_xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second, millisecond );
+			this._xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second, millisecond );
 		}
 		
 		/// <summary>
@@ -247,7 +246,7 @@ namespace ZedGraph
 		/// <param name="rhs">The GraphPane object from which to copy</param>
 		public XDate( XDate rhs )
 		{
-			_xlDate = rhs._xlDate;
+			this._xlDate = rhs._xlDate;
 		}
 /*
 		/// <summary>
@@ -282,8 +281,8 @@ namespace ZedGraph
 		/// </summary>
 		public double XLDate
 		{
-			get { return _xlDate; }
-			set { _xlDate = value; }
+			get { return this._xlDate; }
+			set { this._xlDate = value; }
 		}
 
 		/// <summary>
@@ -291,7 +290,7 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsValidDate
 		{
-			get { return _xlDate >= XLDayMin && _xlDate <= XLDayMax; }
+			get { return this._xlDate >= XLDayMin && this._xlDate <= XLDayMax; }
 		}
 		
 		/// <summary>
@@ -299,8 +298,8 @@ namespace ZedGraph
 		/// </summary>
 		public DateTime DateTime
 		{
-			get { return XLDateToDateTime( _xlDate ); }
-			set { _xlDate = DateTimeToXLDate( value ); }
+			get { return XLDateToDateTime( this._xlDate ); }
+			set { this._xlDate = DateTimeToXLDate( value ); }
 		}
 		
 		/// <summary>
@@ -311,8 +310,8 @@ namespace ZedGraph
 		/// </summary>
 		public double JulianDay
 		{
-			get { return XLDateToJulianDay( _xlDate ); }
-			set { _xlDate = JulianDayToXLDate( value ); }
+			get { return XLDateToJulianDay( this._xlDate ); }
+			set { this._xlDate = JulianDayToXLDate( value ); }
 		}
 		
 		/// <summary>
@@ -320,8 +319,8 @@ namespace ZedGraph
 		/// </summary>
 		public double DecimalYear
 		{
-			get { return XLDateToDecimalYear( _xlDate ); }
-			set { _xlDate = DecimalYearToXLDate( value ); }
+			get { return XLDateToDecimalYear( this._xlDate ); }
+			set { this._xlDate = DecimalYearToXLDate( value ); }
 		}
 	#endregion
 	
@@ -363,7 +362,7 @@ namespace ZedGraph
 		{
 			int hour, minute, second;
 			
-			XLDateToCalendarDate( _xlDate, out year, out month, out day, out hour, out minute, out second );
+			XLDateToCalendarDate( this._xlDate, out year, out month, out day, out hour, out minute, out second );
 		}
 		
 		/// <summary>
@@ -375,7 +374,7 @@ namespace ZedGraph
 		/// 8 for August.</param>
 		public void SetDate( int year, int month, int day )
 		{
-			_xlDate = CalendarDateToXLDate( year, month, day, 0, 0, 0 );
+			this._xlDate = CalendarDateToXLDate( year, month, day, 0, 0, 0 );
 		}
 		
 		/// <summary>
@@ -392,7 +391,7 @@ namespace ZedGraph
 		public void GetDate( out int year, out int month, out int day,
 						out int hour, out int minute, out int second )
 		{
-			XLDateToCalendarDate( _xlDate, out year, out month, out day, out hour, out minute, out second );
+			XLDateToCalendarDate( this._xlDate, out year, out month, out day, out hour, out minute, out second );
 		}
 
 		/// <summary>
@@ -407,7 +406,7 @@ namespace ZedGraph
 		/// <param name="second">An integer value for the second, e.g. 35.</param>
 		public void SetDate( int year, int month, int day, int hour, int minute, int second )
 		{
-			_xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second );
+			this._xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second );
 		}
 		
 		/// <summary>
@@ -417,7 +416,7 @@ namespace ZedGraph
 		/// <returns>The day of the year in floating point double format.</returns>
 		public double GetDayOfYear()
 		{
-			return XLDateToDayOfYear( _xlDate );
+			return XLDateToDayOfYear( this._xlDate );
 		}
 	#endregion
 	
@@ -1173,7 +1172,7 @@ namespace ZedGraph
 		/// </param>
 		public void AddMilliseconds( double dMilliseconds )
 		{
-			_xlDate += dMilliseconds / MillisecondsPerDay;
+			this._xlDate += dMilliseconds / MillisecondsPerDay;
 		}
 
 		/// <summary>
@@ -1184,7 +1183,7 @@ namespace ZedGraph
 		/// </param>
 		public void AddSeconds( double dSeconds )
 		{
-			_xlDate += dSeconds / SecondsPerDay;
+			this._xlDate += dSeconds / SecondsPerDay;
 		}
 
 		/// <summary>
@@ -1195,7 +1194,7 @@ namespace ZedGraph
 		/// </param>
 		public void AddMinutes( double dMinutes )
 		{
-			_xlDate += dMinutes / MinutesPerDay;
+			this._xlDate += dMinutes / MinutesPerDay;
 		}
 		
 		/// <summary>
@@ -1206,7 +1205,7 @@ namespace ZedGraph
 		/// </param>
 		public void AddHours( double dHours )
 		{
-			_xlDate += dHours / HoursPerDay;
+			this._xlDate += dHours / HoursPerDay;
 		}
 		
 		/// <summary>
@@ -1217,7 +1216,7 @@ namespace ZedGraph
 		/// </param>
 		public void AddDays( double dDays )
 		{
-			_xlDate += dDays;
+			this._xlDate += dDays;
 		}
 		
 		/// <summary>
@@ -1234,17 +1233,17 @@ namespace ZedGraph
 			
 			int year, month, day, hour, minute, second;
 			
-			XLDateToCalendarDate( _xlDate, out year, out month, out day, out hour, out minute, out second );
+			XLDateToCalendarDate( this._xlDate, out year, out month, out day, out hour, out minute, out second );
 			if ( iMon != 0 )
 			{
 				month += iMon;
-				_xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second );
+				this._xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second );
 			}
 			
 			if ( sMon != 0 )
 			{
 				double xlDate2 = CalendarDateToXLDate( year, month+sMon, day, hour, minute, second );
-				_xlDate += (xlDate2 - _xlDate) * monFrac;
+				this._xlDate += (xlDate2 - this._xlDate) * monFrac;
 			}
 		}
 		
@@ -1262,17 +1261,17 @@ namespace ZedGraph
 			
 			int year, month, day, hour, minute, second;
 			
-			XLDateToCalendarDate( _xlDate, out year, out month, out day, out hour, out minute, out second );
+			XLDateToCalendarDate( this._xlDate, out year, out month, out day, out hour, out minute, out second );
 			if ( iYear != 0 )
 			{
 				year += iYear;
-				_xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second );
+				this._xlDate = CalendarDateToXLDate( year, month, day, hour, minute, second );
 			}
 			
 			if ( sYear != 0 )
 			{
 				double xlDate2 = CalendarDateToXLDate( year+sYear, month, day, hour, minute, second );
-				_xlDate += (xlDate2 - _xlDate) * yearFrac;
+				this._xlDate += (xlDate2 - this._xlDate) * yearFrac;
 			}
 		}
 	#endregion
@@ -1413,11 +1412,11 @@ namespace ZedGraph
 		{
 			if ( obj is XDate )
 			{
-				return ((XDate) obj)._xlDate == _xlDate;
+				return ((XDate) obj)._xlDate == this._xlDate;
 			}
 			else if ( obj is double )
 			{
-				return ((double) obj) == _xlDate;
+				return ((double) obj) == this._xlDate;
 			}
 			else
 				return false;
@@ -1430,7 +1429,7 @@ namespace ZedGraph
 		/// <returns>An integer representing the hash code for this XDate value</returns>
 		public override int GetHashCode()
 		{
-			return _xlDate.GetHashCode();
+			return this._xlDate.GetHashCode();
 		}
 
 		/// <summary>
@@ -1501,7 +1500,7 @@ namespace ZedGraph
 		/// <returns>A string representation of the date</returns>
 		public override string ToString()
 		{
-			return ToString( _xlDate, DefaultFormatStr );
+			return ToString( this._xlDate, DefaultFormatStr );
 		}
 		
 		/// <summary>

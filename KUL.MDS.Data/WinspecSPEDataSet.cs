@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.Data
+﻿namespace SIS.Data
 {
+    using System;
+    using System.Collections.Generic;
+
     [Document("WinSpec Data", ".spe")]
     class WinspecSPEDataSet : DataSet
     {
@@ -27,13 +26,13 @@ namespace KUL.MDS.Data
         {
             public SpeCalib(int calib, int order)
             {
-                Offset = 0;
-                Factor = 0;
-                current_unit = (char)0;
-                CalibValid = (char)calib;
-                PolynomOrder = (char)order;
-                PolynomCoeff = new double[6];
-                LaserPosition = 0;
+                this.Offset = 0;
+                this.Factor = 0;
+                this.current_unit = (char)0;
+                this.CalibValid = (char)calib;
+                this.PolynomOrder = (char)order;
+                this.PolynomCoeff = new double[6];
+                this.LaserPosition = 0;
             }
 
             public double Offset;                    // +0 offset for absolute data scaling

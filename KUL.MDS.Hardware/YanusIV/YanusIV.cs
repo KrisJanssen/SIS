@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using KUL.MDS.Library;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware.YanusIV
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading;
+
+    using SIS.Hardware.ComPort;
+    using SIS.Library;
+    using SIS.ScanModes.Core;
+
     /// <summary>
     /// Class that represents YanusIV galvo scanner
     /// </summary>
@@ -245,11 +247,11 @@ namespace KUL.MDS.Hardware
             if (!this.m_bIsInitialized)
             {				
                 this.m_prtComm = CommPort.Instance;  // get an instance to the COM (serial) port
-                CommSettings.SetupSettings(m_sSerialPortName);  // set COM port settings
+                CommSettings.SetupSettings(this.m_sSerialPortName);  // set COM port settings
 				
                 // Register for COM port events which YanusIV must subscribe to
-                this.m_prtComm.DataReceived += OnDataReceived;
-                this.m_prtComm.StatusChanged += OnStatusChanged;
+                this.m_prtComm.DataReceived += this.OnDataReceived;
+                this.m_prtComm.StatusChanged += this.OnStatusChanged;
 
                 // Try to open YanusIV COM (serial) port with the respective COM settings
                 _logger.Debug("YanusIV: starting initialization...");
@@ -287,8 +289,8 @@ namespace KUL.MDS.Hardware
                         this.m_prtComm.Close();
                     }
 
-					this.m_prtComm.DataReceived -= OnDataReceived;
-					this.m_prtComm.StatusChanged -= OnStatusChanged;
+					this.m_prtComm.DataReceived -= this.OnDataReceived;
+					this.m_prtComm.StatusChanged -= this.OnStatusChanged;
 
 					// Set the initialization to not successful
 					this.m_bIsInitialized = false;
@@ -308,9 +310,9 @@ namespace KUL.MDS.Hardware
         /// </summary>
         public void Setup(int __iTypeOfScan, int __iFrameMarker, int __iLineMarker)
         {
-            m_iTypeOfScan = __iTypeOfScan;
-            m_iFrameMarker = __iFrameMarker;
-            m_iLineMarker = __iLineMarker; 
+            this.m_iTypeOfScan = __iTypeOfScan;
+            this.m_iFrameMarker = __iFrameMarker;
+            this.m_iLineMarker = __iLineMarker; 
         }
         
         
@@ -335,20 +337,20 @@ namespace KUL.MDS.Hardware
 
             while (param.Length > 0 && ((index = param.IndexOf("\r")) != -1 || (index = param.IndexOf("\n")) != -1))
             {
-                m_sPartialResponse += param.Substring(0, index);
+                this.m_sPartialResponse += param.Substring(0, index);
                 param = param.Remove(0, index + 1);
-                _logger.Debug("YanusIV: response says --> " + m_sPartialResponse);
+                _logger.Debug("YanusIV: response says --> " + this.m_sPartialResponse);
 
-                if (m_sPartialResponse != null)
+                if (this.m_sPartialResponse != null)
                 {
-                    this.ParseResponse(m_sPartialResponse);
+                    this.ParseResponse(this.m_sPartialResponse);
                 }
             }
 
             // if we have data remaining, add a partial line
             if (param.Length > 0)
             {
-                m_sPartialResponse += param;
+                this.m_sPartialResponse += param;
             }
         }
 
@@ -369,10 +371,10 @@ namespace KUL.MDS.Hardware
             long _lAngleVal = 0L;
             const double _dDSPControllerLowest20bits = 1048576.0;  // = 2^20 - represents the value corresponding to the lowest 20 bits of the DSP controller. Note that it uses 36 bits, and sends the highest 16 bits as axis position
 
-            double _dMagnificationObjective = m_dMagnificationObjective;  //the magnification of the objective
-            double _dScanLensFocalLength = m_dScanLensFocalLength;  //the focal length of the scan lens in [mm]            
-            double _dRangeAngleDegrees = m_dRangeAngleDegrees;//3.75;  // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
-            double _dRangeAngleInt = m_dRangeAngleInt;  // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)
+            double _dMagnificationObjective = this.m_dMagnificationObjective;  //the magnification of the objective
+            double _dScanLensFocalLength = this.m_dScanLensFocalLength;  //the focal length of the scan lens in [mm]            
+            double _dRangeAngleDegrees = this.m_dRangeAngleDegrees;//3.75;  // +/- of the max range a galvo axis can reach in degrees (this is the angle after the scan lens, which is useful in the current microscopy setup)
+            double _dRangeAngleInt = this.m_dRangeAngleInt;  // +/- of the max range a galvo axis can reach in integers (this is the angle after the scan lens, which is useful in the current microscopy setup)
 
             double _dRangeNm = 1e+6 * ( ( _dScanLensFocalLength * Math.Tan(_dRangeAngleDegrees * ((2.0 * Math.PI) / 360.0)) ) / _dMagnificationObjective );  // +/- of the setup's max range a galvo axis can reach in [nm]
             double _dAngleIntPerNm = _dRangeAngleInt / _dRangeNm;  //calc the correspondence between angle in integers and the size in nanometers         
@@ -463,16 +465,16 @@ namespace KUL.MDS.Hardware
                         this.m_errCurrentError = e;
 
                         // Throw an ErrorOccurred event to inform the user.
-                        if (ErrorOccurred != null)
+                        if (this.ErrorOccurred != null)
                         {
                             _logger.Debug(String.Format("YanusIV: returned a DSPError = {0}!", e.ToString()));
-                            ErrorOccurred(this, new EventArgs());
+                            this.ErrorOccurred(this, new EventArgs());
                         }
                     }                    
                 }
             }
 
-            m_sPartialResponse = null;
+            this.m_sPartialResponse = null;
         }
 
 
@@ -496,8 +498,8 @@ namespace KUL.MDS.Hardware
         public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
         {
             // Moving axis...
-            string _sCmdX = QuickValueCmd(DSCChannel.X, ConvertNanometersToAngle(__dXPosNm));
-            string _sCmdY = QuickValueCmd(DSCChannel.Y, ConvertNanometersToAngle(__dYPosNm));
+            string _sCmdX = this.QuickValueCmd(DSCChannel.X, this.ConvertNanometersToAngle(__dXPosNm));
+            string _sCmdY = this.QuickValueCmd(DSCChannel.Y, this.ConvertNanometersToAngle(__dYPosNm));
 
             // Debug
             _logger.Debug("YanusIV: trying to send MoveAbs X --> " + _sCmdX);
@@ -512,9 +514,9 @@ namespace KUL.MDS.Hardware
             this.m_dYPosCurrent = __dYPosNm;
 
             // Raise an event PositionChanged
-            if (PositionChanged != null)
+            if (this.PositionChanged != null)
             {
-                PositionChanged(this, new EventArgs());
+                this.PositionChanged(this, new EventArgs());
             }
         }
 
@@ -536,7 +538,7 @@ namespace KUL.MDS.Hardware
         /// </summary>
         /// <param name="__scmScanMode">The type of scan.</param>
         /// <param name="__bResend">Load/Send or not a DSP protocol.</param>
-        public void Scan(ScanModes.Scanmode __scmScanMode, bool __bResend)
+        public void Scan(Scanmode __scmScanMode, bool __bResend)
         {
             // Info
             _logger.Info("Starting Scan ...");
@@ -548,7 +550,7 @@ namespace KUL.MDS.Hardware
                 this.Clear();  
 
                 // Add a rectangle to the DSP protocol
-                int _iTypeOfScan = m_iTypeOfScan;  // the type of scan mode (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
+                int _iTypeOfScan = this.m_iTypeOfScan;  // the type of scan mode (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
                 Int64 _int64ScanCommandLoopCount = 1L;  // number of times to repeat the rectangular scan
 
                 this.AddRectangle(_iTypeOfScan, _int64ScanCommandLoopCount,
@@ -572,7 +574,7 @@ namespace KUL.MDS.Hardware
                     this.Clear();
 
                     // Add a rectangle to the DSP protocol
-                    int _iTypeOfScan = m_iTypeOfScan;  // the type of scan mode (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
+                    int _iTypeOfScan = this.m_iTypeOfScan;  // the type of scan mode (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
                     Int64 _int64ScanCommandLoopCount = 1L;  // number of times to repeat the rectangular scan
 
                     this.AddRectangle(_iTypeOfScan, _int64ScanCommandLoopCount,
@@ -783,16 +785,16 @@ namespace KUL.MDS.Hardware
                 }
 
 				// Unsubscribe from the Comm events
-				this.m_prtComm.DataReceived -= OnDataReceived;
-				this.m_prtComm.StatusChanged -= OnStatusChanged;
+				this.m_prtComm.DataReceived -= this.OnDataReceived;
+				this.m_prtComm.StatusChanged -= this.OnStatusChanged;
 
                 // Reset error state to default, i.e. no error
                 this.m_errCurrentError = DSPError.SCAN_CMD_NO_ERROR;
 
                 //Update engage event state
-                if (EngagedChanged != null)
+                if (this.EngagedChanged != null)
                 {
-                    EngagedChanged(this, new EventArgs());
+                    this.EngagedChanged(this, new EventArgs());
                 }
 
                 _logger.Info("YanusIV: now galvo is OFF!");
@@ -849,8 +851,8 @@ namespace KUL.MDS.Hardware
             }
 
             // Get frame/line markers
-            Int64 _int64FrameMarker = (Int64) m_iFrameMarker;  // the value of the frame marker to be raised by YanusIV in the beginning of each frame
-            Int64 _int64LineMarker = (Int64) m_iLineMarker;  // the value of the line marker to be raised by YanusIV in the beginning of each line            
+            Int64 _int64FrameMarker = (Int64) this.m_iFrameMarker;  // the value of the frame marker to be raised by YanusIV in the beginning of each frame
+            Int64 _int64LineMarker = (Int64) this.m_iLineMarker;  // the value of the line marker to be raised by YanusIV in the beginning of each line            
             
             // Calc time per pixel in terms of cycles (one cycle equals 10.0us)
             double _dTimePPixelUs = __dTimePPixel * 1000.0;  // time per pixel in [us]

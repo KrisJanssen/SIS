@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware.YanusIV
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
+
     /// <summary>
     /// Class to facilitate the interaction with DSC scan protocol - assembling protocol, reading it etc.
     /// </summary>
@@ -315,11 +315,11 @@ namespace KUL.MDS.Hardware
 
             public LoopTracker(int __iSCI, ulong __SCC, ulong __ECC, long __iI, long __iIs)
             {
-                StartCommandIndex = __iSCI;
-                StartCommandCycle = __SCC;
-                EndCommandCycle = __ECC;
-                CurrentIteration = __iI;
-                Iterations = __iIs;
+                this.StartCommandIndex = __iSCI;
+                this.StartCommandCycle = __SCC;
+                this.EndCommandCycle = __ECC;
+                this.CurrentIteration = __iI;
+                this.Iterations = __iIs;
             }
         }
     }

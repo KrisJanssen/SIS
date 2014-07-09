@@ -7,9 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-
-namespace KUL.MDS.Base
+namespace SIS.Base
 {
     public delegate R Function<R>();
     public delegate R Function<R, T>(T t);

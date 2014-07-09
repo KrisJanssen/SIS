@@ -16,16 +16,16 @@
 //License along with this library; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 //=============================================================================
-using System.Runtime.Serialization;
-using System.Drawing.Drawing2D;
-using System;
-using System.Text;
-using System.Drawing;
-using System.Security.Permissions;
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class representing a region on the GasGuage chart
 	/// <see cref="GasGaugeRegion"/>s.
 	/// </summary>
@@ -114,16 +114,16 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_labelDetail = (TextObj)info.GetValue( "labelDetail", typeof( TextObj ) );
-			_fill = (Fill)info.GetValue( "fill", typeof( Fill ) );
-			_border = (Border)info.GetValue( "border", typeof( Border ) );
-			_color = (Color)info.GetValue( "color", typeof( Color ) );
-			_minValue = info.GetDouble( "minValue" );
-			_maxValue = info.GetDouble( "maxValue" );
-			_startAngle = (float)info.GetDouble( "startAngle" );
-			_sweepAngle = (float)info.GetDouble( "sweepAngle" );
-			_boundingRectangle = (RectangleF)info.GetValue( "boundingRectangle", typeof( RectangleF ) );
-			_slicePath = (GraphicsPath)info.GetValue( "slicePath", typeof( GraphicsPath ) );
+			this._labelDetail = (TextObj)info.GetValue( "labelDetail", typeof( TextObj ) );
+			this._fill = (Fill)info.GetValue( "fill", typeof( Fill ) );
+			this._border = (Border)info.GetValue( "border", typeof( Border ) );
+			this._color = (Color)info.GetValue( "color", typeof( Color ) );
+			this._minValue = info.GetDouble( "minValue" );
+			this._maxValue = info.GetDouble( "maxValue" );
+			this._startAngle = (float)info.GetDouble( "startAngle" );
+			this._sweepAngle = (float)info.GetDouble( "sweepAngle" );
+			this._boundingRectangle = (RectangleF)info.GetValue( "boundingRectangle", typeof( RectangleF ) );
+			this._slicePath = (GraphicsPath)info.GetValue( "slicePath", typeof( GraphicsPath ) );
 		}
 
 		/// <summary>
@@ -131,21 +131,21 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "labelDetail", _labelDetail );
-			info.AddValue( "fill", _fill );
-			info.AddValue( "color", _color );
-			info.AddValue( "border", _border );
-			info.AddValue( "minVal", _minValue );
-			info.AddValue( "maxVal", _maxValue );
-			info.AddValue( "startAngle", _startAngle );
-			info.AddValue( "sweepAngle", _sweepAngle );
-			info.AddValue( "boundingRectangle", _boundingRectangle );
-			info.AddValue( "slicePath", _slicePath );
+			info.AddValue( "labelDetail", this._labelDetail );
+			info.AddValue( "fill", this._fill );
+			info.AddValue( "color", this._color );
+			info.AddValue( "border", this._border );
+			info.AddValue( "minVal", this._minValue );
+			info.AddValue( "maxVal", this._maxValue );
+			info.AddValue( "startAngle", this._startAngle );
+			info.AddValue( "sweepAngle", this._sweepAngle );
+			info.AddValue( "boundingRectangle", this._boundingRectangle );
+			info.AddValue( "slicePath", this._slicePath );
 		}
 		#endregion
 
@@ -161,15 +161,15 @@ namespace ZedGraph
 		public GasGaugeRegion( string label, double minVal, double maxVal, Color color )
 			: base( label )
 		{
-			MinValue = minVal;
-			MaxValue = maxVal;
-			RegionColor = color;
-			StartAngle = 0f;
-			SweepAngle = 0f;
-			_border = new Border( Default.BorderColor, Default.BorderWidth );
-			_labelDetail = new TextObj();
-			_labelDetail.FontSpec.Size = Default.FontSize;
-			_slicePath = null;
+			this.MinValue = minVal;
+			this.MaxValue = maxVal;
+			this.RegionColor = color;
+			this.StartAngle = 0f;
+			this.SweepAngle = 0f;
+			this._border = new Border( Default.BorderColor, Default.BorderWidth );
+			this._labelDetail = new TextObj();
+			this._labelDetail.FontSpec.Size = Default.FontSize;
+			this._slicePath = null;
 		}
 
 		/// <summary>
@@ -179,13 +179,13 @@ namespace ZedGraph
 		public GasGaugeRegion( GasGaugeRegion ggr )
 			: base( ggr )
 		{
-			_minValue = ggr._minValue;
-			_maxValue = ggr._maxValue;
-			_color = ggr._color;
-			_startAngle = ggr._startAngle;
-			_sweepAngle = ggr._sweepAngle;
-			_border = ggr._border.Clone();
-			_labelDetail = ggr._labelDetail.Clone();
+			this._minValue = ggr._minValue;
+			this._maxValue = ggr._maxValue;
+			this._color = ggr._color;
+			this._startAngle = ggr._startAngle;
+			this._sweepAngle = ggr._sweepAngle;
+			this._border = ggr._border.Clone();
+			this._labelDetail = ggr._labelDetail.Clone();
 		}
 
 		/// <summary>
@@ -215,7 +215,7 @@ namespace ZedGraph
 		/// </summary>
 		public GraphicsPath SlicePath
 		{
-			get { return _slicePath; }
+			get { return this._slicePath; }
 		}
 
 		/// <summary>
@@ -223,8 +223,8 @@ namespace ZedGraph
 		/// </summary>
 		public TextObj LabelDetail
 		{
-			get { return _labelDetail; }
-			set { _labelDetail = value; }
+			get { return this._labelDetail; }
+			set { this._labelDetail = value; }
 		}
 
 		/// <summary>
@@ -232,8 +232,8 @@ namespace ZedGraph
 		/// </summary>
 		public Border Border
 		{
-			get { return ( _border ); }
-			set { _border = value; }
+			get { return ( this._border ); }
+			set { this._border = value; }
 		}
 
 		/// <summary>
@@ -241,11 +241,11 @@ namespace ZedGraph
 		/// </summary>
 		public Color RegionColor
 		{
-			get { return _color; }
+			get { return this._color; }
 			set
 			{
-				_color = value;
-				Fill = new Fill( _color );
+				this._color = value;
+				this.Fill = new Fill( this._color );
 			}
 		}
 
@@ -254,8 +254,8 @@ namespace ZedGraph
 		/// </summary>
 		public Fill Fill
 		{
-			get { return _fill; }
-			set { _fill = value; }
+			get { return this._fill; }
+			set { this._fill = value; }
 		}
 
 		/// <summary>
@@ -263,8 +263,8 @@ namespace ZedGraph
 		/// </summary>
 		private float SweepAngle
 		{
-			get { return _sweepAngle; }
-			set { _sweepAngle = value; }
+			get { return this._sweepAngle; }
+			set { this._sweepAngle = value; }
 		}
 
 		/// <summary>
@@ -272,8 +272,8 @@ namespace ZedGraph
 		/// </summary>
 		private float StartAngle
 		{
-			get { return ( _startAngle ); }
-			set { _startAngle = value; }
+			get { return ( this._startAngle ); }
+			set { this._startAngle = value; }
 		}
 
 		/// <summary>
@@ -281,8 +281,8 @@ namespace ZedGraph
 		/// </summary>
 		public double MinValue
 		{
-			get { return ( _minValue ); }
-			set { _minValue = value > 0 ? value : 0; }
+			get { return ( this._minValue ); }
+			set { this._minValue = value > 0 ? value : 0; }
 		}
 
 		/// <summary>
@@ -290,8 +290,8 @@ namespace ZedGraph
 		/// </summary>
 		public double MaxValue
 		{
-			get { return ( _maxValue ); }
-			set { _maxValue = value > 0 ? value : 0; }
+			get { return ( this._maxValue ); }
+			set { this._maxValue = value > 0 ? value : 0; }
 		}
 
 		/// <summary>
@@ -397,32 +397,32 @@ namespace ZedGraph
 		{
 			if ( pane.Chart._rect.Width <= 0 && pane.Chart._rect.Height <= 0 )
 			{
-				_slicePath = null;
+				this._slicePath = null;
 			}
 			else
 			{
 				CalcRectangle( g, pane, scaleFactor, pane.Chart._rect );
 
-				_slicePath = new GraphicsPath();
+				this._slicePath = new GraphicsPath();
 
-				if ( !_isVisible )
+				if ( !this._isVisible )
 					return;
 
-				RectangleF tRect = _boundingRectangle;
+				RectangleF tRect = this._boundingRectangle;
 
 				if ( tRect.Width >= 1 && tRect.Height >= 1 )
 				{
 					SmoothingMode sMode = g.SmoothingMode;
 					g.SmoothingMode = SmoothingMode.AntiAlias;
 
-					_slicePath.AddPie( tRect.X, tRect.Y, tRect.Width, tRect.Height,
+					this._slicePath.AddPie( tRect.X, tRect.Y, tRect.Width, tRect.Height,
 															 -0.0f, -180.0f );
 
-					g.FillPie( Fill.MakeBrush( _boundingRectangle ), tRect.X, tRect.Y, tRect.Width, tRect.Height, -StartAngle, -SweepAngle );
+					g.FillPie( this.Fill.MakeBrush( this._boundingRectangle ), tRect.X, tRect.Y, tRect.Width, tRect.Height, -this.StartAngle, -this.SweepAngle );
 
 					if ( this.Border.IsVisible )
 					{
-						Pen borderPen = _border.GetPen( pane, scaleFactor );
+						Pen borderPen = this._border.GetPen( pane, scaleFactor );
 						g.DrawPie( borderPen, tRect.X, tRect.Y, tRect.Width, tRect.Height,
 							 -0.0f, -180.0f );
 						borderPen.Dispose();
@@ -453,14 +453,14 @@ namespace ZedGraph
 		/// </param>		
 		public override void DrawLegendKey( Graphics g, GraphPane pane, RectangleF rect, float scaleFactor )
 		{
-			if ( !_isVisible )
+			if ( !this._isVisible )
 				return;
 
 			// Fill the slice
-			if ( _fill.IsVisible )
+			if ( this._fill.IsVisible )
 			{
 				// just avoid height/width being less than 0.1 so GDI+ doesn't cry
-				using ( Brush brush = _fill.MakeBrush( rect ) )
+				using ( Brush brush = this._fill.MakeBrush( rect ) )
 				{
 					g.FillRectangle( brush, rect );
 					//brush.Dispose();
@@ -468,8 +468,8 @@ namespace ZedGraph
 			}
 
 			// Border the bar
-			if ( !_border.Color.IsEmpty )
-				_border.Draw( g, pane, scaleFactor, rect );
+			if ( !this._border.Color.IsEmpty )
+				this._border.Draw( g, pane, scaleFactor, rect );
 		}
 
 		/// <summary>

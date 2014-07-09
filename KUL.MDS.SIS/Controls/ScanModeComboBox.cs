@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Windows.Forms;
-using KUL.MDS.ScanModes;
-using KUL.MDS.SystemLayer;
-using KUL.MDS.AppResources;
-
-namespace KUL.MDS.SIS.Controls
+﻿namespace SIS.Controls
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using System.Windows.Forms;
+
+    using global::SIS.Library;
+    using global::SIS.ScanModes.Core;
+    using global::SIS.Systemlayer;
+
+    using SIS.Resources;
+
     public partial class ScanModeComboBox : ComboBox
     {
         private bool m_bIsPopulated = false;
@@ -17,11 +20,11 @@ namespace KUL.MDS.SIS.Controls
 
         public ScanModeComboBox()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             if (!this.m_bIsPopulated)
             {
-                PopulateMenu();
+                this.PopulateMenu();
             }
             
         }
@@ -52,7 +55,7 @@ namespace KUL.MDS.SIS.Controls
         {
             this.Items.Clear();
 
-            AddScanModesToComboBox();
+            this.AddScanModesToComboBox();
         }
 
         private void AddScanModesToComboBox()
@@ -69,7 +72,7 @@ namespace KUL.MDS.SIS.Controls
                 try
                 {
                     ScanModeAttribute[] _ScanModeAttributes = type.GetCustomAttributes(typeof(ScanModeAttribute), true) as ScanModeAttribute[];
-                    this.Items.Add(new KUL.MDS.Library.ComboBoxItem<Type>(_ScanModeAttributes[0].Name, type));
+                    this.Items.Add(new ComboBoxItem<Type>(_ScanModeAttributes[0].Name, type));
                 }
 
                 catch

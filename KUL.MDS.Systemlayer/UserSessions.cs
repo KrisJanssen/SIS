@@ -7,13 +7,12 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections;
-using System.Threading;
-using System.Windows.Forms;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Threading;
+    using System.Windows.Forms;
+
     /// <summary>
     /// Encapsulates information and events about the current user session.
     /// This relates to Terminal Services in Windows.
@@ -33,9 +32,9 @@ namespace KUL.MDS.SystemLayer
 
             private void OnWmWtSessionChange()
             {
-                if (WmWtSessionChange != null)
+                if (this.WmWtSessionChange != null)
                 {
-                    WmWtSessionChange(this, EventArgs.Empty);
+                    this.WmWtSessionChange(this, EventArgs.Empty);
                 }
             }
 
@@ -44,7 +43,7 @@ namespace KUL.MDS.SystemLayer
                 switch (m.Msg)
                 {
                     case NativeConstants.WM_WTSSESSION_CHANGE:
-                        OnWmWtSessionChange();
+                        this.OnWmWtSessionChange();
                         break;
 
                     default:

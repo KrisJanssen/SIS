@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class that represents a text object on the graph.  A list of
 	/// <see cref="GraphObj"/> objects is maintained by the
 	/// <see cref="GraphObjList"/> collection class.
@@ -142,8 +141,8 @@ namespace ZedGraph
 		/// </summary>
 		public SizeF LayoutArea
 		{
-			get { return _layoutArea; }
-			set { _layoutArea = value; } 
+			get { return this._layoutArea; }
+			set { this._layoutArea = value; } 
 		}
 
 
@@ -153,8 +152,8 @@ namespace ZedGraph
 		/// </summary>
 		public string Text
 		{
-			get { return _text; }
-			set { _text = value; }
+			get { return this._text; }
+			set { this._text = value; }
 		}
 		/// <summary>
 		/// Gets a reference to the <see cref="FontSpec"/> class used to render
@@ -168,12 +167,12 @@ namespace ZedGraph
 		/// <seealso cref="Default.FontSize"/>
 		public FontSpec FontSpec
 		{
-			get { return _fontSpec; }
+			get { return this._fontSpec; }
 			set
 			{
 				if ( value == null )
 					throw new ArgumentNullException( "Uninitialized FontSpec in TextObj" );
-				_fontSpec = value;
+				this._fontSpec = value;
 			}
 		}
 	#endregion
@@ -197,23 +196,23 @@ namespace ZedGraph
 		public TextObj( string text, double x, double y )
 			: base( x, y )
 		{
-			Init( text );
+			this.Init( text );
 		}
 
 		private void Init( string text )
 		{
 			if ( text != null )
-				_text = text;
+				this._text = text;
 			else
 				text = "Text";
 			
-			_fontSpec = new FontSpec(
+			this._fontSpec = new FontSpec(
 				Default.FontFamily, Default.FontSize,
 				Default.FontColor, Default.FontBold,
 				Default.FontItalic, Default.FontUnderline );
 			
 			//this.isWrapped = Default.IsWrapped ;
-			_layoutArea = new SizeF( 0, 0 );
+			this._layoutArea = new SizeF( 0, 0 );
 		}
 		
 		/// <summary>
@@ -237,7 +236,7 @@ namespace ZedGraph
 		public TextObj( string text, double x, double y, CoordType coordType )
 			: base( x, y, coordType )
 		{
-			Init( text );
+			this.Init( text );
 		}
 
 		/// <summary>
@@ -265,7 +264,7 @@ namespace ZedGraph
 		public TextObj( string text, double x, double y, CoordType coordType, AlignH alignH, AlignV alignV )
 			: base( x, y, coordType, alignH, alignV )
 		{
-			Init( text );
+			this.Init( text );
 		}
 
 		/// <summary>
@@ -273,7 +272,7 @@ namespace ZedGraph
 		/// </summary>
 		public TextObj() : base( 0, 0 )
 		{
-			Init( "" );
+			this.Init( "" );
 		}
 		
 		/// <summary>
@@ -282,8 +281,8 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="TextObj"/> object from which to copy</param>
 		public TextObj( TextObj rhs ) : base( rhs )
 		{
-			_text = rhs.Text;
-			_fontSpec = new FontSpec( rhs.FontSpec );
+			this._text = rhs.Text;
+			this._fontSpec = new FontSpec( rhs.FontSpec );
 		}
 
 		/// <summary>
@@ -325,25 +324,25 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_text = info.GetString( "text" );
-			_fontSpec = (FontSpec) info.GetValue( "fontSpec", typeof(FontSpec) );
+			this._text = info.GetString( "text" );
+			this._fontSpec = (FontSpec) info.GetValue( "fontSpec", typeof(FontSpec) );
 			//isWrapped = info.GetBoolean ("isWrapped") ;
-			_layoutArea = (SizeF) info.GetValue( "layoutArea", typeof(SizeF) );
+			this._layoutArea = (SizeF) info.GetValue( "layoutArea", typeof(SizeF) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "text", _text );
-			info.AddValue( "fontSpec", _fontSpec );
+			info.AddValue( "text", this._text );
+			info.AddValue( "fontSpec", this._fontSpec );
 			//info.AddValue( "isWrapped", isWrapped );
-			info.AddValue( "layoutArea", _layoutArea );
+			info.AddValue( "layoutArea", this._layoutArea );
 		}
 	#endregion
 
@@ -371,7 +370,7 @@ namespace ZedGraph
 		{
 			// transform the x,y location from the user-defined
 			// coordinate frame to the screen pixel location
-			PointF pix = _location.Transform( pane );
+			PointF pix = this._location.Transform( pane );
 			
 			// Draw the text on the screen, including any frame and background
 			// fill elements
@@ -381,8 +380,8 @@ namespace ZedGraph
 				//	this.FontSpec.Draw( g, pane.IsPenWidthScaled, this.text, pix.X, pix.Y,
 				//		this.location.AlignH, this.location.AlignV, scaleFactor );
 				//else
-					this.FontSpec.Draw( g, pane, _text, pix.X, pix.Y,
-						_location.AlignH, _location.AlignV, scaleFactor, _layoutArea );
+					this.FontSpec.Draw( g, pane, this._text, pix.X, pix.Y,
+						this._location.AlignH, this._location.AlignV, scaleFactor, this._layoutArea );
 
 			}
 		}
@@ -415,10 +414,10 @@ namespace ZedGraph
 
 			// transform the x,y location from the user-defined
 			// coordinate frame to the screen pixel location
-			PointF pix = _location.Transform( pane );
+			PointF pix = this._location.Transform( pane );
 			
-			return _fontSpec.PointInBox( pt, g, _text, pix.X, pix.Y,
-								_location.AlignH, _location.AlignV, scaleFactor, this.LayoutArea );
+			return this._fontSpec.PointInBox( pt, g, this._text, pix.X, pix.Y,
+								this._location.AlignH, this._location.AlignV, scaleFactor, this.LayoutArea );
 		}
 
 		/// <summary>
@@ -429,10 +428,10 @@ namespace ZedGraph
 		{
 			// transform the x,y location from the user-defined
 			// coordinate frame to the screen pixel location
-			PointF pix = _location.Transform( pane );
+			PointF pix = this._location.Transform( pane );
 
-			PointF[] pts = _fontSpec.GetBox( g, _text, pix.X, pix.Y, _location.AlignH,
-				_location.AlignV, scaleFactor, new SizeF() );
+			PointF[] pts = this._fontSpec.GetBox( g, this._text, pix.X, pix.Y, this._location.AlignH,
+				this._location.AlignV, scaleFactor, new SizeF() );
 
 			shape = "poly";
 			coords = String.Format( "{0:f0},{1:f0},{2:f0},{3:f0},{4:f0},{5:f0},{6:f0},{7:f0},",

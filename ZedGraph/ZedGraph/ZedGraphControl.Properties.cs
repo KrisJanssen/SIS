@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	partial class ZedGraphControl
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    partial class ZedGraphControl
 	{
 
 	#region Button and Key Properties
@@ -45,8 +44,8 @@ namespace ZedGraph
 		 Description( "Determines which mouse button is used as the primary for zooming" )]
 		public MouseButtons ZoomButtons
 		{
-			get { return _zoomButtons; }
-			set { _zoomButtons = value; }
+			get { return this._zoomButtons; }
+			set { this._zoomButtons = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines which mouse button will be used as the secondary option
@@ -63,8 +62,8 @@ namespace ZedGraph
 		 Description( "Determines which mouse button is used as the secondary for zooming" )]
 		public MouseButtons ZoomButtons2
 		{
-			get { return _zoomButtons2; }
-			set { _zoomButtons2 = value; }
+			get { return this._zoomButtons2; }
+			set { this._zoomButtons2 = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines which modifier keys will be used as a primary option
@@ -81,8 +80,8 @@ namespace ZedGraph
 		 Description( "Determines which modifier key used as the primary for zooming" )]
 		public Keys ZoomModifierKeys
 		{
-			get { return _zoomModifierKeys; }
-			set { _zoomModifierKeys = value; }
+			get { return this._zoomModifierKeys; }
+			set { this._zoomModifierKeys = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines which modifier keys will be used as a secondary option
@@ -99,8 +98,8 @@ namespace ZedGraph
 		 Description( "Determines which modifier key used as the secondary for zooming" )]
 		public Keys ZoomModifierKeys2
 		{
-			get { return _zoomModifierKeys2; }
-			set { _zoomModifierKeys2 = value; }
+			get { return this._zoomModifierKeys2; }
+			set { this._zoomModifierKeys2 = value; }
 		}
 
 		/// <summary>
@@ -118,8 +117,8 @@ namespace ZedGraph
 		 Description( "Determines which mouse button is used as the primary for panning" )]
 		public MouseButtons PanButtons
 		{
-			get { return _panButtons; }
-			set { _panButtons = value; }
+			get { return this._panButtons; }
+			set { this._panButtons = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines which mouse button will be used as the secondary option
@@ -136,8 +135,8 @@ namespace ZedGraph
 		 Description( "Determines which mouse button is used as the secondary for panning" )]
 		public MouseButtons PanButtons2
 		{
-			get { return _panButtons2; }
-			set { _panButtons2 = value; }
+			get { return this._panButtons2; }
+			set { this._panButtons2 = value; }
 		}
 
 		// NOTE: The default value of PanModifierKeys is Keys.Shift. Because of an apparent bug in
@@ -160,8 +159,8 @@ namespace ZedGraph
 		 Description( "Determines which modifier key is used as the primary for panning" )]
 		public Keys PanModifierKeys
 		{
-			get { return _panModifierKeys; }
-			set { _panModifierKeys = value; }
+			get { return this._panModifierKeys; }
+			set { this._panModifierKeys = value; }
 		}
 
 		/// <summary>
@@ -179,8 +178,8 @@ namespace ZedGraph
 		 Description( "Determines which modifier key is used as the secondary for panning" )]
 		public Keys PanModifierKeys2
 		{
-			get { return _panModifierKeys2; }
-			set { _panModifierKeys2 = value; }
+			get { return this._panModifierKeys2; }
+			set { this._panModifierKeys2 = value; }
 		}
 
 		/// <summary>
@@ -197,8 +196,8 @@ namespace ZedGraph
 		 Description( "Specify mouse button for point editing" )]
 		public MouseButtons EditButtons
 		{
-			get { return _editButtons; }
-			set { _editButtons = value; }
+			get { return this._editButtons; }
+			set { this._editButtons = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines which modifier keys will be used to edit point
@@ -214,8 +213,8 @@ namespace ZedGraph
 		 Description( "Specify modifier key for point editing" )]
 		public Keys EditModifierKeys
 		{
-			get { return _editModifierKeys; }
-			set { _editModifierKeys = value; }
+			get { return this._editModifierKeys; }
+			set { this._editModifierKeys = value; }
 		}
 
 		/// <summary>
@@ -231,8 +230,8 @@ namespace ZedGraph
 		 Description( "Specify mouse button for curve selection" )]
 		public MouseButtons SelectButtons
 		{
-			get { return _selectButtons; }
-			set { _selectButtons = value; }
+			get { return this._selectButtons; }
+			set { this._selectButtons = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines which Modifier keys will be used to 
@@ -247,8 +246,8 @@ namespace ZedGraph
 		 Description( "Specify modifier key for curve selection" )]
 		public Keys SelectModifierKeys
 		{
-			get { return _selectModifierKeys; }
-			set { _selectModifierKeys = value; }
+			get { return this._selectModifierKeys; }
+			set { this._selectModifierKeys = value; }
 		}
 
 		/// <summary>
@@ -260,7 +259,7 @@ namespace ZedGraph
 		 Description( "Specify modifier key for append curve selection" )]
 		public Keys SelectAppendModifierKeys
 		{
-			get { return _selectAppendModifierKeys; }
+			get { return this._selectAppendModifierKeys; }
 		}
 
 		/// <summary>
@@ -275,8 +274,8 @@ namespace ZedGraph
 		 Description( "Specify mouse button for clicking on linkable objects" )]
 		public MouseButtons LinkButtons
 		{
-			get { return _linkButtons; }
-			set { _linkButtons = value; }
+			get { return this._linkButtons; }
+			set { this._linkButtons = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines which modifier keys will be used to click
@@ -290,8 +289,8 @@ namespace ZedGraph
 		 Description( "Specify modifier key for clicking on linkable objects" )]
 		public Keys LinkModifierKeys
 		{
-			get { return _linkModifierKeys; }
-			set { _linkModifierKeys = value; }
+			get { return this._linkModifierKeys; }
+			set { this._linkModifierKeys = value; }
 		}
 
 	#endregion
@@ -305,8 +304,8 @@ namespace ZedGraph
 		 DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public MasterPane MasterPane
 		{
-			get { lock ( this ) return _masterPane; }
-			set { lock ( this ) _masterPane = value; }
+			get { lock ( this ) return this._masterPane; }
+			set { lock ( this ) this._masterPane = value; }
 		}
 
 		// Testing for Designer attribute
@@ -347,8 +346,8 @@ namespace ZedGraph
 				// Just return the first GraphPane in the list
 				lock ( this )
 				{
-					if ( _masterPane != null && _masterPane.PaneList.Count > 0 )
-						return _masterPane[0];
+					if ( this._masterPane != null && this._masterPane.PaneList.Count > 0 )
+						return this._masterPane[0];
 					else
 						return null;
 				}
@@ -359,10 +358,10 @@ namespace ZedGraph
 				lock ( this )
 				{
 					//Clear the list, and replace it with the specified Graphpane
-					if ( _masterPane != null )
+					if ( this._masterPane != null )
 					{
-						_masterPane.PaneList.Clear();
-						_masterPane.Add( value );
+						this._masterPane.PaneList.Clear();
+						this._masterPane.Add( value );
 					}
 				}
 			}
@@ -380,8 +379,8 @@ namespace ZedGraph
 		 Description( "true to force all objects to be draw in anti-alias mode" )]
 		public bool IsAntiAlias
 		{
-			get { return _masterPane.IsAntiAlias; }
-			set { _masterPane.IsAntiAlias = value; }
+			get { return this._masterPane.IsAntiAlias; }
+			set { this._masterPane.IsAntiAlias = value; }
 		}
 
 		/// <summary>
@@ -400,8 +399,8 @@ namespace ZedGraph
 		 Description( "true to display tooltips when the mouse hovers over data points" )]
 		public bool IsShowPointValues
 		{
-			get { return _isShowPointValues; }
-			set { _isShowPointValues = value; }
+			get { return this._isShowPointValues; }
+			set { this._isShowPointValues = value; }
 		}
 
 		/// <summary>
@@ -418,8 +417,8 @@ namespace ZedGraph
 		 Description( "true to display tooltips showing the current mouse position within the Chart area" )]
 		public bool IsShowCursorValues
 		{
-			get { return _isShowCursorValues; }
-			set { _isShowCursorValues = value; }
+			get { return this._isShowCursorValues; }
+			set { this._isShowCursorValues = value; }
 		}
 
 		/// <summary>
@@ -440,8 +439,8 @@ namespace ZedGraph
 		 Description( "true to allow horizontal editing by alt-left-click-drag" )]
 		public bool IsEnableHEdit
 		{
-			get { return _isEnableHEdit; }
-			set { _isEnableHEdit = value; }
+			get { return this._isEnableHEdit; }
+			set { this._isEnableHEdit = value; }
 		}
 
 		/// <summary>
@@ -459,8 +458,8 @@ namespace ZedGraph
 		 Description( "true to allow vertical editing by alt-left-click-drag" )]
 		public bool IsEnableVEdit
 		{
-			get { return _isEnableVEdit; }
-			set { _isEnableVEdit = value; }
+			get { return this._isEnableVEdit; }
+			set { this._isEnableVEdit = value; }
 		}
 
 		/// <summary>
@@ -475,7 +474,7 @@ namespace ZedGraph
 		 Description( "true to allow horizontal and vertical zooming by left-click-drag" )]
 		public bool IsEnableZoom
 		{
-			set { _isEnableHZoom = value; _isEnableVZoom = value; }
+			set { this._isEnableHZoom = value; this._isEnableVZoom = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines whether or not zooming is allowed for the control in
@@ -490,8 +489,8 @@ namespace ZedGraph
 		 Description( "true to allow horizontal zooming by left-click-drag" )]
 		public bool IsEnableHZoom
 		{
-			get { return _isEnableHZoom; }
-			set { _isEnableHZoom = value; }
+			get { return this._isEnableHZoom; }
+			set { this._isEnableHZoom = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines whether or not zooming is allowed for the control in
@@ -506,8 +505,8 @@ namespace ZedGraph
 		 Description( "true to allow vertical zooming by left-click-drag" )]
 		public bool IsEnableVZoom
 		{
-			get { return _isEnableVZoom; }
-			set { _isEnableVZoom = value; }
+			get { return this._isEnableVZoom; }
+			set { this._isEnableVZoom = value; }
 		}
 
 		/// <summary>
@@ -523,8 +522,8 @@ namespace ZedGraph
 		 Description( "true to allow zooming with the mouse wheel" )]
 		public bool IsEnableWheelZoom
 		{
-			get { return _isEnableWheelZoom; }
-			set { _isEnableWheelZoom = value; }
+			get { return this._isEnableWheelZoom; }
+			set { this._isEnableWheelZoom = value; }
 		}
 
 		/// <summary>
@@ -542,8 +541,8 @@ namespace ZedGraph
 		 Description( "true to allow horizontal panning by middle-mouse-drag or shift-left-drag" )]
 		public bool IsEnableHPan
 		{
-			get { return _isEnableHPan; }
-			set { _isEnableHPan = value; }
+			get { return this._isEnableHPan; }
+			set { this._isEnableHPan = value; }
 		}
 
 		/// <summary>
@@ -561,8 +560,8 @@ namespace ZedGraph
 		 Description( "true to allow vertical panning by middle-mouse-drag or shift-left-drag" )]
 		public bool IsEnableVPan
 		{
-			get { return _isEnableVPan; }
-			set { _isEnableVPan = value; }
+			get { return this._isEnableVPan; }
+			set { this._isEnableVPan = value; }
 		}
 
 		/// <summary>
@@ -578,8 +577,8 @@ namespace ZedGraph
 		 Description( "true to enable the right mouse button context menu" )]
 		public bool IsShowContextMenu
 		{
-			get { return _isShowContextMenu; }
-			set { _isShowContextMenu = value; }
+			get { return this._isShowContextMenu; }
+			set { this._isShowContextMenu = value; }
 		}
 
 		/// <summary>
@@ -595,8 +594,8 @@ namespace ZedGraph
 		 Description( "true to show a message box after a 'Copy' context menu action completes" )]
 		public bool IsShowCopyMessage
 		{
-			get { return _isShowCopyMessage; }
-			set { _isShowCopyMessage = value; }
+			get { return this._isShowCopyMessage; }
+			set { this._isShowCopyMessage = value; }
 		}
 
 		/// <summary>
@@ -612,8 +611,8 @@ namespace ZedGraph
 		 Description( "Provides access to the SaveFileDialog for the 'Save As' menu item" )]
 		public SaveFileDialog SaveFileDialog
 		{
-			get { return _saveFileDialog; }
-			set { _saveFileDialog = value; }
+			get { return this._saveFileDialog; }
+			set { this._saveFileDialog = value; }
 		}
 
 		/// <summary>
@@ -626,8 +625,8 @@ namespace ZedGraph
 		 Description( "true to preserve the displayed aspect ratio when printing" )]
 		public bool IsPrintKeepAspectRatio
 		{
-			get { return _isPrintKeepAspectRatio; }
-			set { _isPrintKeepAspectRatio = value; }
+			get { return this._isPrintKeepAspectRatio; }
+			set { this._isPrintKeepAspectRatio = value; }
 		}
 
 		/// <summary>
@@ -645,8 +644,8 @@ namespace ZedGraph
 		 Description( "true to resize to fill the page when printing" )]
 		public bool IsPrintFillPage
 		{
-			get { return _isPrintFillPage; }
-			set { _isPrintFillPage = value; }
+			get { return this._isPrintFillPage; }
+			set { this._isPrintFillPage = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines whether the settings of
@@ -670,8 +669,8 @@ namespace ZedGraph
 		 Description( "true to force font and pen width scaling when printing" )]
 		public bool IsPrintScaleAll
 		{
-			get { return _isPrintScaleAll; }
-			set { _isPrintScaleAll = value; }
+			get { return this._isPrintScaleAll; }
+			set { this._isPrintScaleAll = value; }
 		}
 
 		/// <summary>
@@ -697,8 +696,8 @@ namespace ZedGraph
 		 Description( "true to automatically set the scroll bar range to the actual data range" )]
 		public bool IsAutoScrollRange
 		{
-			get { return _isAutoScrollRange; }
-			set { _isAutoScrollRange = value; }
+			get { return this._isAutoScrollRange; }
+			set { this._isAutoScrollRange = value; }
 		}
 
 		/// <summary>
@@ -712,8 +711,8 @@ namespace ZedGraph
 		/// </remarks>
 		public double ScrollGrace
 		{
-			get { return _scrollGrace; }
-			set { _scrollGrace = value; }
+			get { return this._scrollGrace; }
+			set { this._scrollGrace = value; }
 		}
 
 		/// <summary>
@@ -734,8 +733,8 @@ namespace ZedGraph
 		 Description( "true to display the horizontal scroll bar" )]
 		public bool IsShowHScrollBar
 		{
-			get { return _isShowHScrollBar; }
-			set { _isShowHScrollBar = value; ZedGraphControl_ReSize( this, new EventArgs() ); }
+			get { return this._isShowHScrollBar; }
+			set { this._isShowHScrollBar = value; this.ZedGraphControl_ReSize( this, new EventArgs() ); }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines if the vertical scroll bar will be visible.
@@ -758,8 +757,8 @@ namespace ZedGraph
 		 Description( "true to display the vertical scroll bar" )]
 		public bool IsShowVScrollBar
 		{
-			get { return _isShowVScrollBar; }
-			set { _isShowVScrollBar = value; ZedGraphControl_ReSize( this, new EventArgs() ); }
+			get { return this._isShowVScrollBar; }
+			set { this._isShowVScrollBar = value; this.ZedGraphControl_ReSize( this, new EventArgs() ); }
 		}
 
 		/// <summary>
@@ -778,12 +777,12 @@ namespace ZedGraph
 		 Description( "true to force the X axis ranges for all GraphPanes to match" )]
 		public bool IsSynchronizeXAxes
 		{
-			get { return _isSynchronizeXAxes; }
+			get { return this._isSynchronizeXAxes; }
 			set
 			{
-				if ( _isSynchronizeXAxes != value )
-					ZoomStatePurge();
-				_isSynchronizeXAxes = value;
+				if ( this._isSynchronizeXAxes != value )
+					this.ZoomStatePurge();
+				this._isSynchronizeXAxes = value;
 			}
 		}
 
@@ -803,12 +802,12 @@ namespace ZedGraph
 		 Description( "true to force the Y axis ranges for all GraphPanes to match" )]
 		public bool IsSynchronizeYAxes
 		{
-			get { return _isSynchronizeYAxes; }
+			get { return this._isSynchronizeYAxes; }
 			set
 			{
-				if ( _isSynchronizeYAxes != value )
-					ZoomStatePurge();
-				_isSynchronizeYAxes = value;
+				if ( this._isSynchronizeYAxes != value )
+					this.ZoomStatePurge();
+				this._isSynchronizeYAxes = value;
 			}
 		}
 
@@ -838,18 +837,18 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( _y2ScrollRangeList != null && _y2ScrollRangeList.Count > 0 )
-					return _y2ScrollRangeList[0].IsScrollable;
+				if ( this._y2ScrollRangeList != null && this._y2ScrollRangeList.Count > 0 )
+					return this._y2ScrollRangeList[0].IsScrollable;
 				else
 					return false;
 			}
 			set
 			{
-				if ( _y2ScrollRangeList != null && _y2ScrollRangeList.Count > 0 )
+				if ( this._y2ScrollRangeList != null && this._y2ScrollRangeList.Count > 0 )
 				{
-					ScrollRange tmp = _y2ScrollRangeList[0];
+					ScrollRange tmp = this._y2ScrollRangeList[0];
 					tmp.IsScrollable = value;
-					_y2ScrollRangeList[0] = tmp;
+					this._y2ScrollRangeList[0] = tmp;
 				}
 			}
 		}
@@ -869,7 +868,7 @@ namespace ZedGraph
 		[Description( "Sets the manual scroll bar ranges for the collection of Y axes" )]
 		public ScrollRangeList YScrollRangeList
 		{
-			get { return _yScrollRangeList; }
+			get { return this._yScrollRangeList; }
 		}
 
 		/// <summary>
@@ -887,7 +886,7 @@ namespace ZedGraph
 		[Description( "Sets the manual scroll bar ranges for the collection of Y2 axes" )]
 		public ScrollRangeList Y2ScrollRangeList
 		{
-			get { return _y2ScrollRangeList; }
+			get { return this._y2ScrollRangeList; }
 		}
 
 		/// <summary>
@@ -906,8 +905,8 @@ namespace ZedGraph
 		 Description( "Sets the manual scroll minimum value for the X axis" )]
 		public double ScrollMinX
 		{
-			get { return _xScrollRange.Min; }
-			set { _xScrollRange.Min = value; }
+			get { return this._xScrollRange.Min; }
+			set { this._xScrollRange.Min = value; }
 		}
 		/// <summary>
 		/// The maximum value for the X axis scroll range.
@@ -925,8 +924,8 @@ namespace ZedGraph
 		 Description( "Sets the manual scroll maximum value for the X axis" )]
 		public double ScrollMaxX
 		{
-			get { return _xScrollRange.Max; }
-			set { _xScrollRange.Max = value; }
+			get { return this._xScrollRange.Max; }
+			set { this._xScrollRange.Max = value; }
 		}
 		/// <summary>
 		/// The minimum value for the Y axis scroll range.
@@ -949,18 +948,18 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( _yScrollRangeList != null && _yScrollRangeList.Count > 0 )
-					return _yScrollRangeList[0].Min;
+				if ( this._yScrollRangeList != null && this._yScrollRangeList.Count > 0 )
+					return this._yScrollRangeList[0].Min;
 				else
 					return double.NaN;
 			}
 			set
 			{
-				if ( _yScrollRangeList != null && _yScrollRangeList.Count > 0 )
+				if ( this._yScrollRangeList != null && this._yScrollRangeList.Count > 0 )
 				{
-					ScrollRange tmp = _yScrollRangeList[0];
+					ScrollRange tmp = this._yScrollRangeList[0];
 					tmp.Min = value;
-					_yScrollRangeList[0] = tmp;
+					this._yScrollRangeList[0] = tmp;
 				}
 			}
 		}
@@ -985,18 +984,18 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( _yScrollRangeList != null && _yScrollRangeList.Count > 0 )
-					return _yScrollRangeList[0].Max;
+				if ( this._yScrollRangeList != null && this._yScrollRangeList.Count > 0 )
+					return this._yScrollRangeList[0].Max;
 				else
 					return double.NaN;
 			}
 			set
 			{
-				if ( _yScrollRangeList != null && _yScrollRangeList.Count > 0 )
+				if ( this._yScrollRangeList != null && this._yScrollRangeList.Count > 0 )
 				{
-					ScrollRange tmp = _yScrollRangeList[0];
+					ScrollRange tmp = this._yScrollRangeList[0];
 					tmp.Max = value;
-					_yScrollRangeList[0] = tmp;
+					this._yScrollRangeList[0] = tmp;
 				}
 			}
 		}
@@ -1021,18 +1020,18 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( _y2ScrollRangeList != null && _y2ScrollRangeList.Count > 0 )
-					return _y2ScrollRangeList[0].Min;
+				if ( this._y2ScrollRangeList != null && this._y2ScrollRangeList.Count > 0 )
+					return this._y2ScrollRangeList[0].Min;
 				else
 					return double.NaN;
 			}
 			set
 			{
-				if ( _y2ScrollRangeList != null && _y2ScrollRangeList.Count > 0 )
+				if ( this._y2ScrollRangeList != null && this._y2ScrollRangeList.Count > 0 )
 				{
-					ScrollRange tmp = _y2ScrollRangeList[0];
+					ScrollRange tmp = this._y2ScrollRangeList[0];
 					tmp.Min = value;
-					_y2ScrollRangeList[0] = tmp;
+					this._y2ScrollRangeList[0] = tmp;
 				}
 			}
 		}
@@ -1057,18 +1056,18 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( _y2ScrollRangeList != null && _y2ScrollRangeList.Count > 0 )
-					return _y2ScrollRangeList[0].Max;
+				if ( this._y2ScrollRangeList != null && this._y2ScrollRangeList.Count > 0 )
+					return this._y2ScrollRangeList[0].Max;
 				else
 					return double.NaN;
 			}
 			set
 			{
-				if ( _y2ScrollRangeList != null && _y2ScrollRangeList.Count > 0 )
+				if ( this._y2ScrollRangeList != null && this._y2ScrollRangeList.Count > 0 )
 				{
-					ScrollRange tmp = _y2ScrollRangeList[0];
+					ScrollRange tmp = this._y2ScrollRangeList[0];
 					tmp.Max = value;
-					_y2ScrollRangeList[0] = tmp;
+					this._y2ScrollRangeList[0] = tmp;
 				}
 			}
 		}
@@ -1085,8 +1084,8 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( hScrollBar1 != null && vScrollBar1 != null )
-					return hScrollBar1.Capture || vScrollBar1.Capture;
+				if ( this.hScrollBar1 != null && this.vScrollBar1 != null )
+					return this.hScrollBar1.Capture || this.vScrollBar1.Capture;
 				else
 					return false;
 			}
@@ -1106,8 +1105,8 @@ namespace ZedGraph
 		 Description( "Sets the numeric display format string for the point value tooltips" )]
 		public string PointValueFormat
 		{
-			get { return _pointValueFormat; }
-			set { _pointValueFormat = value; }
+			get { return this._pointValueFormat; }
+			set { this._pointValueFormat = value; }
 		}
 
 		/// <summary>
@@ -1123,8 +1122,8 @@ namespace ZedGraph
 		 Description( "Sets the date display format for the point value tooltips" )]
 		public string PointDateFormat
 		{
-			get { return _pointDateFormat; }
-			set { _pointDateFormat = value; }
+			get { return this._pointDateFormat; }
+			set { this._pointDateFormat = value; }
 		}
 
 		/// <summary>
@@ -1136,8 +1135,8 @@ namespace ZedGraph
 		 Description( "Sets the step size fraction for zooming with the mouse wheel" )]
 		public double ZoomStepFraction
 		{
-			get { return _zoomStepFraction; }
-			set { _zoomStepFraction = value; }
+			get { return this._zoomStepFraction; }
+			set { this._zoomStepFraction = value; }
 		}
 
 		/// <summary>
@@ -1149,8 +1148,8 @@ namespace ZedGraph
 		 Description( "true to center the mouse wheel zoom at the current mouse location" )]
 		public bool IsZoomOnMouseCenter
 		{
-			get { return _isZoomOnMouseCenter; }
-			set { _isZoomOnMouseCenter = value; }
+			get { return this._isZoomOnMouseCenter; }
+			set { this._isZoomOnMouseCenter = value; }
 		}
 
 		/// <summary>
@@ -1166,10 +1165,10 @@ namespace ZedGraph
 		{
 			lock ( this )
 			{
-				if ( BeenDisposed || _masterPane == null || _masterPane[0] == null )
+				if ( this.BeenDisposed || this._masterPane == null || this._masterPane[0] == null )
 					throw new ZedGraphException( "The control has been disposed" );
 
-				return _masterPane.GetImage();
+				return this._masterPane.GetImage();
 			}
 		}
 
@@ -1184,7 +1183,7 @@ namespace ZedGraph
 		{
 			get
 			{
-				lock ( this ) return _masterPane == null;
+				lock ( this ) return this._masterPane == null;
 			}
 		}
 
@@ -1194,7 +1193,7 @@ namespace ZedGraph
 		/// </summary>
 		public Selection Selection
 		{
-			get { return _selection; }
+			get { return this._selection; }
 		}
 
 		/// <summary>
@@ -1205,10 +1204,10 @@ namespace ZedGraph
 			Description( "true to allow selecting Curves" )]
 		public bool IsEnableSelection
 		{
-			get { return _isEnableSelection; }
+			get { return this._isEnableSelection; }
 			set
 			{
-				_isEnableSelection = value;
+				this._isEnableSelection = value;
 
 				/*
 				if ( value )

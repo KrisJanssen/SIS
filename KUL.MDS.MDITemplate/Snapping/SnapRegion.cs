@@ -7,11 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.Snapping
 {
     public enum SnapRegion
     {

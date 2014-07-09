@@ -7,11 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using Microsoft.Win32.SafeHandles;
-using System;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+
     internal static class NativeConstants
     {
         public const int MAX_PATH = 260;

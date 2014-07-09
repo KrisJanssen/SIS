@@ -1,4 +1,4 @@
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
 	partial class ZedGraphControl
 	{

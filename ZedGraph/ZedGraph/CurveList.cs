@@ -17,13 +17,13 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+
+    /// <summary>
 	/// A collection class containing a list of <see cref="CurveItem"/> objects
 	/// that define the set of curves to be displayed on the graph.
 	/// </summary>
@@ -47,7 +47,7 @@ namespace ZedGraph
 		/// </summary>
 		public int MaxPts
 		{
-			get { return maxPts; }
+			get { return this.maxPts; }
 		}
 
 		/// <summary>
@@ -158,7 +158,7 @@ namespace ZedGraph
 		/// </summary>
 		public CurveList()
 		{
-			maxPts = 1;
+			this.maxPts = 1;
 		}
 
 		/// <summary>
@@ -251,7 +251,7 @@ namespace ZedGraph
 		{
 			get
 			{
-				int index = IndexOf( label );
+				int index = this.IndexOf( label );
 				if ( index >= 0 )
 					return( this[index]  );
 				else
@@ -373,7 +373,7 @@ namespace ZedGraph
 		/// was not found.</returns>
 		public int Move( int index, int relativePos )
 		{
-			if ( index < 0 || index >= Count )
+			if ( index < 0 || index >= this.Count )
 				return -1;
 
 			CurveItem curve = this[index];
@@ -382,10 +382,10 @@ namespace ZedGraph
 			index += relativePos;
 			if ( index < 0 )
 				index = 0;
-			if ( index > Count )
-				index = Count;
+			if ( index > this.Count )
+				index = this.Count;
 
-			Insert( index, curve );
+			this.Insert( index, curve );
 			return index;
 		}
 
@@ -432,16 +432,16 @@ namespace ZedGraph
 						tYMinVal,
 						tYMaxVal;
 
-			InitScale( pane.XAxis.Scale, isBoundedRanges );
-			InitScale( pane.X2Axis.Scale, isBoundedRanges );
+			this.InitScale( pane.XAxis.Scale, isBoundedRanges );
+			this.InitScale( pane.X2Axis.Scale, isBoundedRanges );
 
 			foreach ( YAxis axis in pane.YAxisList )
-				InitScale( axis.Scale, isBoundedRanges );
+				this.InitScale( axis.Scale, isBoundedRanges );
 
 			foreach ( Y2Axis axis in pane.Y2AxisList )
-				InitScale( axis.Scale, isBoundedRanges );
+				this.InitScale( axis.Scale, isBoundedRanges );
 
-			maxPts = 1;
+			this.maxPts = 1;
 			
 			// Loop over each curve in the collection and examine the data ranges
 			foreach ( CurveItem curve in this )
@@ -454,7 +454,7 @@ namespace ZedGraph
 							pane._barSettings.Type == BarType.PercentStack ) ) ||
 						( ( curve is LineItem ) && pane.LineType == LineType.Stack ) )
 					{
-						GetStackRange( pane, curve, out tXMinVal, out tYMinVal,
+						this.GetStackRange( pane, curve, out tXMinVal, out tYMinVal,
 										out tXMaxVal, out tYMaxVal );
 					}
 					else
@@ -530,8 +530,8 @@ namespace ZedGraph
 					}
 
 					// determine which curve has the maximum number of points
-					if ( curve.NPts > maxPts )
-						maxPts = curve.NPts;
+					if ( curve.NPts > this.maxPts )
+						this.maxPts = curve.NPts;
 
 					// If the min and/or max values from the current curve
 					// are the absolute min and/or max, then save the values

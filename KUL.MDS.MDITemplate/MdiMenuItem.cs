@@ -1,9 +1,9 @@
-using System;
-using System.Windows.Forms;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	public class MdiMenuItem : MenuItem, IStatusBarMessage
+    using System;
+    using System.Windows.Forms;
+
+    public class MdiMenuItem : MenuItem, IStatusBarMessage
 	{
 		private string m_sStatusMessage = StatusBarMessenger.DefaultMessage;
 		private bool m_fNeedsDocument = false;
@@ -19,12 +19,12 @@ namespace KUL.MDS.MDITemplate
 		{
 			get
 			{
-				return m_fNeedsDocument;
+				return this.m_fNeedsDocument;
 			}
 
 			set
 			{
-				m_fNeedsDocument = value;
+				this.m_fNeedsDocument = value;
 			}
 		}
 
@@ -47,7 +47,7 @@ namespace KUL.MDS.MDITemplate
 		{
 			base.OnSelect (e);
 
-			StatusBarMessenger.SetMessage(m_sStatusMessage);
+			StatusBarMessenger.SetMessage(this.m_sStatusMessage);
 		}
 
 		protected override void OnClick(EventArgs e)
@@ -61,7 +61,7 @@ namespace KUL.MDS.MDITemplate
 		{
 			base.OnInitMenuPopup (e);
 
-			UpdateMenuItem();
+			this.UpdateMenuItem();
 		}
 
 		protected virtual void OnTestEnabled()
@@ -71,9 +71,9 @@ namespace KUL.MDS.MDITemplate
 				this.Enabled = MdiDocument.ActiveDocument != null;
 			}
 
-			if (TestEnabled != null)
+			if (this.TestEnabled != null)
 			{
-				TestEnabled(this);
+				this.TestEnabled(this);
 			}
 		}
 
@@ -83,11 +83,11 @@ namespace KUL.MDS.MDITemplate
 		{
 			get
 			{
-				return m_sStatusMessage;
+				return this.m_sStatusMessage;
 			}
 			set
 			{
-				m_sStatusMessage = value;
+				this.m_sStatusMessage = value;
 			}
 		}
 

@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Class that handles the data associated with text title and its associated font
 	/// properties
 	/// </summary>
@@ -67,10 +66,10 @@ namespace ZedGraph
 		public Label( string text, string fontFamily, float fontSize, Color color, bool isBold,
 			bool isItalic, bool isUnderline )
 		{
-			_text = ( text == null ) ? string.Empty : text;
+			this._text = ( text == null ) ? string.Empty : text;
 
-			_fontSpec = new FontSpec( fontFamily, fontSize, color, isBold, isItalic, isUnderline );
-			_isVisible = true;
+			this._fontSpec = new FontSpec( fontFamily, fontSize, color, isBold, isItalic, isUnderline );
+			this._isVisible = true;
 		}
 
 		/// <summary>
@@ -81,10 +80,10 @@ namespace ZedGraph
 		/// <param name="fontSpec"></param>
 		public Label( string text, FontSpec fontSpec )
 		{
-			_text = (text == null) ? string.Empty : text;
+			this._text = (text == null) ? string.Empty : text;
 
-			_fontSpec = fontSpec;
-			_isVisible = true;
+			this._fontSpec = fontSpec;
+			this._isVisible = true;
 		}
 
 		/// <summary>
@@ -94,15 +93,15 @@ namespace ZedGraph
 		public Label( Label rhs )
 		{
 			if (rhs._text != null)
-				_text = (string)rhs._text.Clone();
+				this._text = (string)rhs._text.Clone();
 			else
-				_text = string.Empty;
+				this._text = string.Empty;
 
-			_isVisible = rhs._isVisible;
+			this._isVisible = rhs._isVisible;
 			if ( rhs._fontSpec != null )
-				_fontSpec = rhs._fontSpec.Clone();
+				this._fontSpec = rhs._fontSpec.Clone();
 			else
-				_fontSpec = null;
+				this._fontSpec = null;
 		}
 
 		/// <summary>
@@ -133,8 +132,8 @@ namespace ZedGraph
 		/// </summary>
 		public string Text
 		{
-			get { return _text; }
-			set { _text = value; }
+			get { return this._text; }
+			set { this._text = value; }
 		}
 
 		/// <summary>
@@ -143,8 +142,8 @@ namespace ZedGraph
 		/// </summary>
 		public FontSpec FontSpec
 		{
-			get { return _fontSpec; }
-			set { _fontSpec = value; }
+			get { return this._fontSpec; }
+			set { this._fontSpec = value; }
 		}
 
 		/// <summary>
@@ -152,8 +151,8 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsVisible
 		{
-			get { return _isVisible; }
-			set { _isVisible = value; }
+			get { return this._isVisible; }
+			set { this._isVisible = value; }
 		}
 
 	#endregion
@@ -178,22 +177,22 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_text = info.GetString( "text" );
-			_isVisible = info.GetBoolean( "isVisible" );
-			_fontSpec = (FontSpec) info.GetValue( "fontSpec", typeof( FontSpec ) );
+			this._text = info.GetString( "text" );
+			this._isVisible = info.GetBoolean( "isVisible" );
+			this._fontSpec = (FontSpec) info.GetValue( "fontSpec", typeof( FontSpec ) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
-			info.AddValue( "text", _text );
-			info.AddValue( "isVisible", _isVisible );
-			info.AddValue( "fontSpec", _fontSpec );
+			info.AddValue( "text", this._text );
+			info.AddValue( "isVisible", this._isVisible );
+			info.AddValue( "fontSpec", this._fontSpec );
 		}
 	#endregion
 

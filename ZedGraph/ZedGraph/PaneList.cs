@@ -19,17 +19,18 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A collection class containing a list of <see cref="GraphPane"/> objects.
 	/// </summary>
 	/// 
@@ -106,7 +107,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
@@ -138,7 +139,7 @@ namespace ZedGraph
 		{
 			get
 			{
-				int index = IndexOf( title );
+				int index = this.IndexOf( title );
 				if ( index >= 0 )
 					return( (GraphPane) this[index]  );
 				else

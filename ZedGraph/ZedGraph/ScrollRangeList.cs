@@ -19,17 +19,16 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
 	/// A collection class containing a list of <see cref="ScrollRange"/> objects.
 	/// </summary>
 	/// 

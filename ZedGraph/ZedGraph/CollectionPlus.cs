@@ -19,17 +19,16 @@
 
 #region Using directives
 
-using System;
-using System.Collections;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections;
+
+    /// <summary>
 	/// A collection base class containing basic extra functionality to be inherited
 	/// by <see cref="CurveList"/>, <see cref="IPointList"/>,
 	/// <see cref="GraphObjList"/>.
@@ -63,7 +62,7 @@ namespace ZedGraph
 		/// <seealso cref="IList.IndexOf"/>
 		public int IndexOf( object item )
 		{
-			return List.IndexOf( item );
+			return this.List.IndexOf( item );
 		}
 
 		/// <summary>
@@ -76,8 +75,8 @@ namespace ZedGraph
 		/// <seealso cref="IList.Remove"/>
 		public void Remove( int index )
 		{
-			if ( index >= 0 && index < List.Count )
-				List.RemoveAt( index );
+			if ( index >= 0 && index < this.List.Count )
+				this.List.RemoveAt( index );
 		}
 
 		/// <summary>
@@ -88,7 +87,7 @@ namespace ZedGraph
 		/// <seealso cref="IList.Remove"/>
 		public void Remove( object item )
 		{
-			List.Remove( item );
+			this.List.Remove( item );
 		}
 
 		/// <summary>
@@ -110,16 +109,16 @@ namespace ZedGraph
 		/// was not found.</returns>
 		public int Move( int index, int relativePos )
 		{
-			if ( index < 0 || index >= List.Count )
+			if ( index < 0 || index >= this.List.Count )
 				return -1;
-			object obj = List[index];
-			List.RemoveAt( index );
+			object obj = this.List[index];
+			this.List.RemoveAt( index );
 			index += relativePos;
 			if ( index < 0 )
 				index = 0;
-			if ( index > List.Count )
-				index = List.Count;
-			List.Insert( index, obj );
+			if ( index > this.List.Count )
+				index = this.List.Count;
+			this.List.Insert( index, obj );
 			return index;
 		}
 

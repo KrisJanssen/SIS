@@ -1,9 +1,9 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
+﻿namespace SIS.Library 
+{
+    using System;
+    using System.Drawing;
+    using System.Drawing.Imaging;
 
-namespace KUL.MDS.Library 
-{ 
     public unsafe class FastBitmap 
     { 
         public struct PixelData 
@@ -24,7 +24,7 @@ namespace KUL.MDS.Library
             
             try 
             { 
-                LockBitmap(); 
+                this.LockBitmap(); 
             } 
             
             catch (Exception ex) 
@@ -37,7 +37,7 @@ namespace KUL.MDS.Library
         { 
             try 
             { 
-                UnlockBitmap(); 
+                this.UnlockBitmap(); 
             } 
             
             catch (Exception ex) 
@@ -50,7 +50,7 @@ namespace KUL.MDS.Library
         { 
             get 
             { 
-                return Subject; 
+                return this.Subject; 
             } 
         } 
         
@@ -58,7 +58,7 @@ namespace KUL.MDS.Library
         { 
             try 
             { 
-                PixelData* p = PixelAt(X, Y); 
+                PixelData* p = this.PixelAt(X, Y); 
                 p->red = Colour.R; 
                 p->green = Colour.G; 
                 p->blue = Colour.B; 
@@ -79,7 +79,7 @@ namespace KUL.MDS.Library
         { 
             try 
             { 
-                PixelData* p = PixelAt(X, Y); 
+                PixelData* p = this.PixelAt(X, Y); 
                 return Color.FromArgb((int)p->red, (int)p->green, (int)p->blue); 
             } 
             
@@ -97,29 +97,29 @@ namespace KUL.MDS.Library
         private void LockBitmap() 
         { 
             GraphicsUnit unit = GraphicsUnit.Pixel; 
-            RectangleF boundsF = Subject.GetBounds(ref unit); 
+            RectangleF boundsF = this.Subject.GetBounds(ref unit); 
             Rectangle bounds = new Rectangle((int)boundsF.X, (int)boundsF.Y, (int)boundsF.Width, (int)boundsF.Height); 
-            SubjectWidth = (int)boundsF.Width * sizeof(PixelData); 
+            this.SubjectWidth = (int)boundsF.Width * sizeof(PixelData); 
             
-            if (SubjectWidth % 4 != 0) 
+            if (this.SubjectWidth % 4 != 0) 
             { 
-                SubjectWidth = 4 * (SubjectWidth / 4 + 1); 
+                this.SubjectWidth = 4 * (this.SubjectWidth / 4 + 1); 
             } 
             
-            bitmapData = Subject.LockBits(bounds, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb); 
-            pBase = (Byte*)bitmapData.Scan0.ToPointer(); 
+            this.bitmapData = this.Subject.LockBits(bounds, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb); 
+            this.pBase = (Byte*)this.bitmapData.Scan0.ToPointer(); 
         } 
         
         private PixelData* PixelAt(int x, int y) 
         { 
-            return (PixelData*)(pBase + y * SubjectWidth + x * sizeof(PixelData)); 
+            return (PixelData*)(this.pBase + y * this.SubjectWidth + x * sizeof(PixelData)); 
         } 
         
         private void UnlockBitmap() 
         { 
-            Subject.UnlockBits(bitmapData); 
-            bitmapData = null; 
-            pBase = null; 
+            this.Subject.UnlockBits(this.bitmapData); 
+            this.bitmapData = null; 
+            this.pBase = null; 
         } 
     } 
 }

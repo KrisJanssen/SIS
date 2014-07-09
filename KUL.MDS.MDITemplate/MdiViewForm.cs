@@ -1,13 +1,9 @@
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	//public class MdiViewForm : System.Windows.Forms.Form
-    public class MdiViewForm : KUL.MDS.MDITemplate.BaseForm
+    using System;
+
+    //public class MdiViewForm : System.Windows.Forms.Form
+    public class MdiViewForm : BaseForm
 	{
 		private MdiDocument m_document = null;
 
@@ -15,16 +11,16 @@ namespace KUL.MDS.MDITemplate
 
 		public MdiViewForm()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 
 		protected override void Dispose( bool disposing )
 		{
 			if( disposing )
 			{
-				if(components != null)
+				if(this.components != null)
 				{
-					components.Dispose();
+					this.components.Dispose();
 				}
 			}
 			base.Dispose( disposing );
@@ -56,41 +52,41 @@ namespace KUL.MDS.MDITemplate
 		{
 			get
 			{
-				return m_document;
+				return this.m_document;
 			}
 
 			set
 			{
-				m_document = value;
+				this.m_document = value;
 			}
 		}
 
 		public void InitialUpdate()
 		{
-			this.Text = Document.FileName;
-			OnInitialUpdate();
+			this.Text = this.Document.FileName;
+			this.OnInitialUpdate();
 		}
 
 		public void UpdateDocument()
 		{
-			OnUpdateDocument();
+			this.OnUpdateDocument();
 		}
 
 		public void UpdateViewTitle()
 		{
-			if (Document.Modified)
+			if (this.Document.Modified)
 			{
-				this.Text = string.Format("{0}*", Document.FileName);
+				this.Text = string.Format("{0}*", this.Document.FileName);
 			}
 			else
 			{
-				this.Text = Document.FileName;
+				this.Text = this.Document.FileName;
 			}
 		}
 
 		public void UpdateView(object update)
 		{
-			OnUpdateView(update);
+			this.OnUpdateView(update);
 		}
 
 		protected virtual void OnUpdateView(object update)

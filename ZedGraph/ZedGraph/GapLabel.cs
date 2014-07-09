@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Class that handles the data associated with a text title and its associated font
 	/// properties.  Inherits from <see cref="Label" />, and adds the <see cref="Gap" />
 	/// property for use by the <see cref="Axis" /> and <see cref="PaneBase" /> objects.
@@ -58,7 +57,7 @@ namespace ZedGraph
 								bool isItalic, bool isUnderline )
 			: base( text, fontFamily, fontSize, color, isBold, isItalic, isUnderline )
 		{
-			_gap = Default.Gap;
+			this._gap = Default.Gap;
 		}
 
 		/// <summary>
@@ -68,7 +67,7 @@ namespace ZedGraph
 		public GapLabel( GapLabel rhs )
 			: base( rhs )
 		{
-			_gap = rhs._gap;
+			this._gap = rhs._gap;
 		}
 
 		/// <summary>
@@ -103,8 +102,8 @@ namespace ZedGraph
 		/// </remarks>
 		public float Gap
 		{
-			get { return _gap; }
-			set { _gap = value; }
+			get { return this._gap; }
+			set { this._gap = value; }
 		}
 
 		/// <summary>
@@ -114,7 +113,7 @@ namespace ZedGraph
 		/// <param name="scaleFactor">The scaling factor to be applied</param>
 		public float GetScaledGap( float scaleFactor )
 		{
-			return _fontSpec.GetHeight( scaleFactor ) * _gap;
+			return this._fontSpec.GetHeight( scaleFactor ) * this._gap;
 		}
 
 	#endregion
@@ -140,20 +139,20 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch2 = info.GetInt32( "schema2" );
 
-			_gap = info.GetSingle( "gap" );
+			this._gap = info.GetSingle( "gap" );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "gap", _gap );
+			info.AddValue( "gap", this._gap );
 		}
 	#endregion
 

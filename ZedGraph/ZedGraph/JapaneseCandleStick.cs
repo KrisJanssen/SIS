@@ -19,18 +19,18 @@
 
 #region Using directives
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// This class handles the drawing of the curve <see cref="JapaneseCandleStick"/> objects.
 	/// </summary>
 	/// 
@@ -121,8 +121,8 @@ namespace ZedGraph
 		/// </summary>
 		public Fill RisingFill
 		{
-			get { return _risingFill; }
-			set { _risingFill = value; }
+			get { return this._risingFill; }
+			set { this._risingFill = value; }
 		}
 		/// <summary>
 		/// Gets or sets the <see cref="Fill" /> class that is used to fill the candlestick
@@ -131,8 +131,8 @@ namespace ZedGraph
 		/// </summary>
 		public Fill FallingFill
 		{
-			get { return _fallingFill; }
-			set { _fallingFill = value; }
+			get { return this._fallingFill; }
+			set { this._fallingFill = value; }
 		}
 
 		/// <summary>
@@ -142,8 +142,8 @@ namespace ZedGraph
 		/// </summary>
 		public Border RisingBorder
 		{
-			get { return _risingBorder; }
-			set { _risingBorder = value; }
+			get { return this._risingBorder; }
+			set { this._risingBorder = value; }
 		}
 		/// <summary>
 		/// The <see cref="Border" /> instance to be used for drawing the border frame of
@@ -152,8 +152,8 @@ namespace ZedGraph
 		/// </summary>
 		public Border FallingBorder
 		{
-			get { return _fallingBorder; }
-			set { _fallingBorder = value; }
+			get { return this._fallingBorder; }
+			set { this._fallingBorder = value; }
 		}
 
 		/// <summary>
@@ -167,8 +167,8 @@ namespace ZedGraph
 		/// </remarks>
 		public Color FallingColor
 		{
-			get { return _fallingColor; }
-			set { _fallingColor = value; }
+			get { return this._fallingColor; }
+			set { this._fallingColor = value; }
 		}
 
 	#endregion
@@ -181,13 +181,13 @@ namespace ZedGraph
 		/// </summary>
 		public JapaneseCandleStick() : base()
 		{
-			_risingFill = new Fill( Default.RisingColor );
-			_fallingFill = new Fill( Default.FallingColor );
+			this._risingFill = new Fill( Default.RisingColor );
+			this._fallingFill = new Fill( Default.FallingColor );
 
-			_risingBorder = new Border( Default.RisingBorder, LineBase.Default.Width );
-			_fallingBorder = new Border( Default.FallingBorder, LineBase.Default.Width );
+			this._risingBorder = new Border( Default.RisingBorder, LineBase.Default.Width );
+			this._fallingBorder = new Border( Default.FallingBorder, LineBase.Default.Width );
 
-			_fallingColor = Default.FallingColor;
+			this._fallingColor = Default.FallingColor;
 		}
 
 		/// <summary>
@@ -196,13 +196,13 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="JapaneseCandleStick"/> object from which to copy</param>
 		public JapaneseCandleStick( JapaneseCandleStick rhs ) : base( rhs )
 		{
-			_risingFill = rhs._risingFill.Clone();
-			_fallingFill = rhs._fallingFill.Clone();
+			this._risingFill = rhs._risingFill.Clone();
+			this._fallingFill = rhs._fallingFill.Clone();
 
-			_risingBorder = rhs._risingBorder.Clone();
-			_fallingBorder = rhs._fallingBorder.Clone();
+			this._risingBorder = rhs._risingBorder.Clone();
+			this._fallingBorder = rhs._fallingBorder.Clone();
 
-			_fallingColor = rhs._fallingColor;
+			this._fallingColor = rhs._fallingColor;
 		}
 
 		/// <summary>
@@ -247,30 +247,30 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_risingFill = (Fill)info.GetValue( "risingFill", typeof( Fill ) );
-			_fallingFill = (Fill)info.GetValue( "fallingFill", typeof( Fill ) );
-			_risingBorder = (Border)info.GetValue( "risingBorder", typeof( Border ) );
-			_fallingBorder = (Border)info.GetValue( "fallingBorder", typeof( Border ) );
+			this._risingFill = (Fill)info.GetValue( "risingFill", typeof( Fill ) );
+			this._fallingFill = (Fill)info.GetValue( "fallingFill", typeof( Fill ) );
+			this._risingBorder = (Border)info.GetValue( "risingBorder", typeof( Border ) );
+			this._fallingBorder = (Border)info.GetValue( "fallingBorder", typeof( Border ) );
 
 			if ( schema2 >= 11 )
-				_fallingColor = (Color) info.GetValue( "fallingColor", typeof( Color ) );
+				this._fallingColor = (Color) info.GetValue( "fallingColor", typeof( Color ) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "risingFill", _risingFill );
-			info.AddValue( "fallingFill", _fallingFill );
-			info.AddValue( "risingBorder", _risingBorder );
-			info.AddValue( "fallingBorder", _fallingBorder );
-			info.AddValue( "fallingColor", _fallingColor );
+			info.AddValue( "risingFill", this._risingFill );
+			info.AddValue( "fallingFill", this._fallingFill );
+			info.AddValue( "risingBorder", this._risingBorder );
+			info.AddValue( "fallingBorder", this._fallingBorder );
+			info.AddValue( "fallingColor", this._fallingColor );
 		}
 
 	#endregion
@@ -345,7 +345,7 @@ namespace ZedGraph
 					g.DrawLine( pen, pixHigh, pixBase, pixLow, pixBase );
 				}
 
-				if ( _isOpenCloseVisible && Math.Abs( pixOpen ) < 1000000 &&
+				if ( this._isOpenCloseVisible && Math.Abs( pixOpen ) < 1000000 &&
 							Math.Abs( pixClose ) < 1000000 )
 				{
 					if ( rect.Width == 0 )
@@ -394,15 +394,15 @@ namespace ZedGraph
 			if ( curve.Points != null )
 			{
 				//float halfSize = _size * scaleFactor;
-				float halfSize = GetBarWidth( pane, baseAxis, scaleFactor );
+				float halfSize = this.GetBarWidth( pane, baseAxis, scaleFactor );
 
-				Color tColor = _color;
-				Color tFallingColor = _fallingColor;
-				float tPenWidth = _width;
-				Fill tRisingFill = _risingFill;
-				Fill tFallingFill = _fallingFill;
-				Border tRisingBorder = _risingBorder;
-				Border tFallingBorder = _fallingBorder;
+				Color tColor = this._color;
+				Color tFallingColor = this._fallingColor;
+				float tPenWidth = this._width;
+				Fill tRisingFill = this._risingFill;
+				Fill tFallingFill = this._fallingFill;
+				Border tRisingBorder = this._risingBorder;
+				Border tFallingBorder = this._fallingBorder;
 				if ( curve.IsSelected )
 				{
 					tColor = Selection.Border.Color;
@@ -458,8 +458,8 @@ namespace ZedGraph
 
 							if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
 							{
-								using ( Pen tPen = GetPen( pane, scaleFactor, pt ) )
-									Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,
+								using ( Pen tPen = this.GetPen( pane, scaleFactor, pt ) )
+									this.Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,
 										pixBase, pixHigh, pixLow, pixOpen,
 										pixClose, halfSize, scaleFactor,
 										( tPen ),
@@ -467,7 +467,7 @@ namespace ZedGraph
 										( close > open ? tRisingBorder : tFallingBorder ), pt );
 							}
 							else
-								Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,
+								this.Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,
 									pixBase, pixHigh, pixLow, pixOpen,
 									pixClose, halfSize, scaleFactor,
 									( close > open ? risingPen : fallingPen ),

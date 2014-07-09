@@ -7,14 +7,14 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
+
     /// <summary>
     /// Provides a way to manage and communicate between instances of an application
     /// in the same user session.
@@ -53,20 +53,20 @@ namespace KUL.MDS.SystemLayer
         {
             if (this.m_frmWindow != null)
             {
-                UnregisterWindow();
+                this.UnregisterWindow();
             }
 
-            RegisterWindow(__frmNewWindow);
+            this.RegisterWindow(__frmNewWindow);
         }
 
         private void UnregisterWindow()
         {
             if (this.m_frmWindow != null)
             {
-                this.m_frmWindow.HandleCreated -= new EventHandler(Window_HandleCreated);
-                this.m_frmWindow.HandleDestroyed -= new EventHandler(Window_HandleDestroyed);
-                this.m_frmWindow.Disposed -= new EventHandler(Window_Disposed);
-                WriteHandleValueToMappedFile(IntPtr.Zero);
+                this.m_frmWindow.HandleCreated -= new EventHandler(this.Window_HandleCreated);
+                this.m_frmWindow.HandleDestroyed -= new EventHandler(this.Window_HandleDestroyed);
+                this.m_frmWindow.Disposed -= new EventHandler(this.Window_Disposed);
+                this.WriteHandleValueToMappedFile(IntPtr.Zero);
                 this.m_iptrHWnd = IntPtr.Zero;
                 this.m_frmWindow = null;
             }
@@ -78,14 +78,14 @@ namespace KUL.MDS.SystemLayer
 
             if (this.m_frmWindow != null)
             {
-                this.m_frmWindow.HandleCreated += new EventHandler(Window_HandleCreated);
-                this.m_frmWindow.HandleDestroyed += new EventHandler(Window_HandleDestroyed);
-                this.m_frmWindow.Disposed += new EventHandler(Window_Disposed);
+                this.m_frmWindow.HandleCreated += new EventHandler(this.Window_HandleCreated);
+                this.m_frmWindow.HandleDestroyed += new EventHandler(this.Window_HandleDestroyed);
+                this.m_frmWindow.Disposed += new EventHandler(this.Window_Disposed);
 
                 if (this.m_frmWindow.IsHandleCreated)
                 {
                     this.m_iptrHWnd = this.m_frmWindow.Handle;
-                    WriteHandleValueToMappedFile(this.m_iptrHWnd);
+                    this.WriteHandleValueToMappedFile(this.m_iptrHWnd);
                 }
             }
 
@@ -94,12 +94,12 @@ namespace KUL.MDS.SystemLayer
 
         private void Window_Disposed(object __oSender, EventArgs _evargsE)
         {
-            UnregisterWindow();
+            this.UnregisterWindow();
         }
 
         private void Window_HandleDestroyed(object __oSender, EventArgs _evargsE)
         {
-            UnregisterWindow();
+            this.UnregisterWindow();
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace KUL.MDS.SystemLayer
             // Once we have a handle to the application window, we write it to the mapped file
             // to make it globally accessible for inter process communication.
             this.m_iptrHWnd = this.m_frmWindow.Handle;
-            WriteHandleValueToMappedFile(this.m_iptrHWnd);
+            this.WriteHandleValueToMappedFile(this.m_iptrHWnd);
             GC.KeepAlive(this.m_frmWindow);
         }
 
@@ -132,15 +132,15 @@ namespace KUL.MDS.SystemLayer
         public event EventHandler InstanceMessageReceived;
         private void OnInstanceMessageReceived()
         {
-            if (InstanceMessageReceived != null)
+            if (this.InstanceMessageReceived != null)
             {
-                InstanceMessageReceived(this, EventArgs.Empty);
+                this.InstanceMessageReceived(this, EventArgs.Empty);
             }
         }
 
         public void SendInstanceMessage(string __sText)
         {
-            SendInstanceMessage(__sText, 1);
+            this.SendInstanceMessage(__sText, 1);
         }
 
         public void SendInstanceMessage(string __sText, int __iTimeoutSeconds)
@@ -151,7 +151,7 @@ namespace KUL.MDS.SystemLayer
 
             while (_iptrOurHwnd == IntPtr.Zero && _dtNow < _dtTimeoutTime)
             {
-                _iptrOurHwnd = ReadHandleFromFromMappedFile();
+                _iptrOurHwnd = this.ReadHandleFromFromMappedFile();
                 _dtNow = DateTime.Now;
 
                 if (_iptrOurHwnd == IntPtr.Zero)
@@ -219,7 +219,7 @@ namespace KUL.MDS.SystemLayer
                         this.m_lPendingInstanceMessages.Add(_sMessage);
                     }
 
-                    OnInstanceMessageReceived();
+                    this.OnInstanceMessageReceived();
                 }
             }
         }
@@ -241,7 +241,7 @@ namespace KUL.MDS.SystemLayer
                 NativeConstants.PAGE_READWRITE | NativeConstants.SEC_COMMIT,
                 0,
                 m_iMappingSize,
-                m_sMappingName);
+                this.m_sMappingName);
 
             error = Marshal.GetLastWin32Error();
 
@@ -332,12 +332,12 @@ namespace KUL.MDS.SystemLayer
 
         ~SingleInstanceManager()
         {
-            Dispose(false);
+            this.Dispose(false);
         }
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -345,7 +345,7 @@ namespace KUL.MDS.SystemLayer
         {
             if (disposing)
             {
-                UnregisterWindow();
+                this.UnregisterWindow();
             }
 
             if (this.m_iptrhFileMapping != IntPtr.Zero)

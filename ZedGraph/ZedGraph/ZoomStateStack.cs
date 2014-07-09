@@ -19,15 +19,16 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
 	/// A LIFO stack of prior <see cref="ZoomState"/> objects, used to allow zooming out to prior
 	/// states (of scale range settings).
 	/// </summary>
@@ -50,7 +51,7 @@ namespace ZedGraph
 		{
 			foreach ( ZoomState state in rhs )
 			{
-				Add( new ZoomState( state ) );
+				this.Add( new ZoomState( state ) );
 			}
 		}
 

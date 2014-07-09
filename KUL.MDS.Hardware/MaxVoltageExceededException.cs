@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware
 {
     /// <summary>
     /// This Exception will get thrown when the requested voltage exceeds the global maximum.

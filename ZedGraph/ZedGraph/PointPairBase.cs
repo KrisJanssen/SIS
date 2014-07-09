@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-using IComparer = System.Collections.IComparer;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// This is a base class that provides base-level functionality for a data point consisting
 	/// of an (X,Y) pair of double values.
 	/// </summary>
@@ -127,8 +126,8 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			X = info.GetDouble( "X" );
-			Y = info.GetDouble( "Y" );
+			this.X = info.GetDouble( "X" );
+			this.Y = info.GetDouble( "Y" );
 		}
 
 		/// <summary>
@@ -136,12 +135,12 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
-			info.AddValue( "X", X );
-			info.AddValue( "Y", Y );
+			info.AddValue( "X", this.X );
+			info.AddValue( "Y", this.Y );
 		}
 
 	#endregion

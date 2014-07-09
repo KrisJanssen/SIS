@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-
-namespace KUL.MDS.ScanModes
+﻿namespace SIS.ScanModes.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+
     public sealed class ScanModeCollection
     {
         private Assembly[] assemblies;

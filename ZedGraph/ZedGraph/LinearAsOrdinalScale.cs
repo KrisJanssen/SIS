@@ -17,16 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Collections;
-using System.Text;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// The LinearAsOrdinalScale class inherits from the <see cref="Scale" /> class, and implements
 	/// the features specific to <see cref="AxisType.LinearAsOrdinal" />.
 	/// </summary>
@@ -142,13 +140,13 @@ namespace ZedGraph
 
 			foreach ( CurveItem curve in pane.CurveList )
 			{
-				if ( ( _ownerAxis is Y2Axis && curve.IsY2Axis ) ||
-						( _ownerAxis is YAxis && !curve.IsY2Axis ) ||
-						( _ownerAxis is X2Axis && curve.IsX2Axis ) ||
-						( _ownerAxis is XAxis && !curve.IsX2Axis ) )
+				if ( ( this._ownerAxis is Y2Axis && curve.IsY2Axis ) ||
+						( this._ownerAxis is YAxis && !curve.IsY2Axis ) ||
+						( this._ownerAxis is X2Axis && curve.IsX2Axis ) ||
+						( this._ownerAxis is XAxis && !curve.IsX2Axis ) )
 				{
 					curve.GetRange( out xMin, out xMax, out yMin, out yMax, false, false, pane );
-					if ( _ownerAxis is XAxis || _ownerAxis is X2Axis )
+					if ( this._ownerAxis is XAxis || this._ownerAxis is X2Axis )
 					{
 						tMin = xMin;
 						tMax = xMax;
@@ -167,7 +165,7 @@ namespace ZedGraph
 			base.PickScale( pane, g, scaleFactor );
 			OrdinalScale.PickScale( pane, g, scaleFactor, this );
 
-			SetScaleMag( tMin, tMax, range / Default.TargetXSteps );
+			this.SetScaleMag( tMin, tMax, range / Default.TargetXSteps );
 		}
 
 		/// <summary>
@@ -188,8 +186,8 @@ namespace ZedGraph
 		/// <returns>The resulting value label as a <see cref="string" /></returns>
 		override internal string MakeLabel( GraphPane pane, int index, double dVal )
 		{
-			if ( _format == null )
-				_format = Scale.Default.Format;
+			if ( this._format == null )
+				this._format = Scale.Default.Format;
 
 			double val;
 
@@ -198,8 +196,8 @@ namespace ZedGraph
 			if ( pane.CurveList.Count > 0 && pane.CurveList[0].Points.Count > tmpIndex )
 			{
 				val = pane.CurveList[0].Points[tmpIndex].X;
-				double scaleMult = Math.Pow( (double) 10.0, _mag );
-				return ( val / scaleMult ).ToString( _format );
+				double scaleMult = Math.Pow( (double) 10.0, this._mag );
+				return ( val / scaleMult ).ToString( this._format );
 			}
 			else
 				return string.Empty;
@@ -232,7 +230,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );

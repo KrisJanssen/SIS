@@ -7,16 +7,15 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Reflection;
-using System.Runtime.InteropServices;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
+    using System.Runtime.InteropServices;
+
     /// <summary>
     /// These methods are used because we found some bugs in GDI+ / WinForms. Some
     /// were the cause of major flickering with the transparent toolforms.

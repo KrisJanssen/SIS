@@ -17,13 +17,12 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
 	/// A collection class containing a list of <see cref="StockPt"/> objects
 	/// that define the set of points to be displayed on the curve.
 	/// </summary>
@@ -127,7 +126,7 @@ namespace ZedGraph
 		/// <returns>The zero-based ordinal index where the point was added in the list.</returns>
 		public void Add( double date, double high )
 		{
-			Add( new StockPt( date, high, PointPair.Missing, PointPair.Missing,
+			this.Add( new StockPt( date, high, PointPair.Missing, PointPair.Missing,
 				PointPair.Missing, PointPair.Missing ) );
 		}
 
@@ -144,7 +143,7 @@ namespace ZedGraph
 		public void Add( double date, double high, double low, double open, double close, double vol )
 		{
 			StockPt point = new StockPt( date, high, low, open, close, vol );
-			Add( point );
+			this.Add( point );
 		}
 
 		/// <summary>

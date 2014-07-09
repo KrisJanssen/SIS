@@ -1,4 +1,4 @@
-﻿namespace KUL.MDS.Library
+﻿namespace SIS.Library.ImageControl
 {
    partial class ImageControl
    {
@@ -13,9 +13,9 @@
       /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
       protected override void Dispose(bool disposing)
       {
-         if (disposing && (components != null))
+         if (disposing && (this.components != null))
          {
-            components.Dispose();
+            this.components.Dispose();
          }
          base.Dispose(disposing);
       }
@@ -30,9 +30,9 @@
       {
           this.m_scrlbrVScrollBar = new System.Windows.Forms.VScrollBar();
           this.m_scrlbrHScrollBar = new System.Windows.Forms.HScrollBar();
-          this.m_rlrVRuler = new KUL.MDS.Library.Ruler();
-          this.m_rlrHRuler = new KUL.MDS.Library.Ruler();
-          this.m_drwcnvDrawCanvas = new KUL.MDS.Library.DrawCanvas();
+          this.m_rlrVRuler = new Ruler();
+          this.m_rlrHRuler = new Ruler();
+          this.m_drwcnvDrawCanvas = new DrawCanvas();
           this.SuspendLayout();
           // 
           // m_scrlbrVScrollBar
@@ -64,7 +64,7 @@
           this.m_rlrVRuler.HighlightLength = 0F;
           this.m_rlrVRuler.HighlightStart = 0F;
           this.m_rlrVRuler.Location = new System.Drawing.Point(0, 16);
-          this.m_rlrVRuler.MeasurementUnit = KUL.MDS.Library.MeasurementUnit.Pixel;
+          this.m_rlrVRuler.MeasurementUnit = MeasurementUnit.Pixel;
           this.m_rlrVRuler.Name = "m_rlrVRuler";
           this.m_rlrVRuler.Offset = 0F;
           this.m_rlrVRuler.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -81,7 +81,7 @@
           this.m_rlrHRuler.HighlightLength = 0F;
           this.m_rlrHRuler.HighlightStart = 0F;
           this.m_rlrHRuler.Location = new System.Drawing.Point(0, 0);
-          this.m_rlrHRuler.MeasurementUnit = KUL.MDS.Library.MeasurementUnit.Pixel;
+          this.m_rlrHRuler.MeasurementUnit = MeasurementUnit.Pixel;
           this.m_rlrHRuler.Name = "m_rlrHRuler";
           this.m_rlrHRuler.Offset = -16F;
           this.m_rlrHRuler.Size = new System.Drawing.Size(548, 16);

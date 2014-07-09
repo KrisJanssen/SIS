@@ -7,10 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-
-namespace KUL.MDS.Base
+namespace SIS.Base
 {
+    using System;
+
     public static class Do
     {
         public static void Test<T>(

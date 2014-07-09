@@ -19,18 +19,18 @@
 
 #region Using directives
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Encapsulates a Japanese CandleStick curve type that displays a vertical (or horizontal)
 	/// line displaying the range of data values at each sample point, plus a filled bar
 	/// signifying the opening and closing value for the sample.
@@ -78,7 +78,7 @@ namespace ZedGraph
 		/// </summary>
 		public JapaneseCandleStick Stick
 		{
-			get { return _stick; }
+			get { return this._stick; }
 		}
 
 		/// <summary>
@@ -117,7 +117,7 @@ namespace ZedGraph
 		public JapaneseCandleStickItem( string label )
 			: base( label )
 		{
-			_stick = new JapaneseCandleStick();
+			this._stick = new JapaneseCandleStick();
 		}
 
 		/// <summary>
@@ -132,7 +132,7 @@ namespace ZedGraph
 		public JapaneseCandleStickItem( string label, IPointList points )
 			: base( label, points )
 		{
-			_stick = new JapaneseCandleStick();
+			this._stick = new JapaneseCandleStick();
 		}
 
 		/// <summary>
@@ -142,7 +142,7 @@ namespace ZedGraph
 		public JapaneseCandleStickItem( JapaneseCandleStickItem rhs )
 			: base( rhs )
 		{
-			_stick = rhs._stick.Clone();
+			this._stick = rhs._stick.Clone();
 		}
 
 		/// <summary>
@@ -187,7 +187,7 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_stick = (JapaneseCandleStick) info.GetValue( "stick",
+			this._stick = (JapaneseCandleStick) info.GetValue( "stick",
 						typeof( JapaneseCandleStick ) );
 		}
 		/// <summary>
@@ -195,13 +195,13 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "stick", _stick );
+			info.AddValue( "stick", this._stick );
 		}
 
 		#endregion
@@ -232,9 +232,9 @@ namespace ZedGraph
 		/// </param>
 		override public void Draw( Graphics g, GraphPane pane, int pos, float scaleFactor )
 		{
-			if ( _isVisible )
+			if ( this._isVisible )
 			{
-				_stick.Draw( g, pane, this, this.BaseAxis( pane ),
+				this._stick.Draw( g, pane, this, this.BaseAxis( pane ),
 									this.ValueAxis( pane ), scaleFactor );
 			}
 		}
@@ -280,16 +280,16 @@ namespace ZedGraph
 				pixClose = pixLow + rect.Width / 3;
 			}
 
-			Axis baseAxis = BaseAxis( pane );
+			Axis baseAxis = this.BaseAxis( pane );
 			//float halfSize = _stick.GetBarWidth( pane, baseAxis, scaleFactor );
 			float halfSize = 2 * scaleFactor;
 
-			using ( Pen pen = new Pen( _stick.Color, _stick._width ) )
+			using ( Pen pen = new Pen( this._stick.Color, this._stick._width ) )
 			{
-				_stick.Draw( g, pane, pane._barSettings.Base == BarBase.X, pixBase, pixHigh,
+				this._stick.Draw( g, pane, pane._barSettings.Base == BarBase.X, pixBase, pixHigh,
 									pixLow, pixOpen, pixClose, halfSize, scaleFactor, pen,
-									_stick.RisingFill,
-									_stick.RisingBorder, null );
+									this._stick.RisingFill,
+									this._stick.RisingBorder, null );
 			}
 		}
 
@@ -306,15 +306,15 @@ namespace ZedGraph
 		{
 			coords = string.Empty;
 
-			if ( i < 0 || i >= _points.Count )
+			if ( i < 0 || i >= this._points.Count )
 				return false;
 
-			Axis valueAxis = ValueAxis( pane );
-			Axis baseAxis = BaseAxis( pane );
+			Axis valueAxis = this.ValueAxis( pane );
+			Axis baseAxis = this.BaseAxis( pane );
 
-			float halfSize = _stick.Size * pane.CalcScaleFactor();
+			float halfSize = this._stick.Size * pane.CalcScaleFactor();
 
-			PointPair pt = _points[i];
+			PointPair pt = this._points[i];
 			double date = pt.X;
 			double high = pt.Y;
 			double low = pt.Z;
@@ -324,9 +324,9 @@ namespace ZedGraph
 					( ( high > 0 && low > 0 ) || !valueAxis._scale.IsLog ) )
 			{
 				float pixBase, pixHigh, pixLow;
-				pixBase = baseAxis.Scale.Transform( _isOverrideOrdinal, i, date );
-				pixHigh = valueAxis.Scale.Transform( _isOverrideOrdinal, i, high );
-				pixLow = valueAxis.Scale.Transform( _isOverrideOrdinal, i, low );
+				pixBase = baseAxis.Scale.Transform( this._isOverrideOrdinal, i, date );
+				pixHigh = valueAxis.Scale.Transform( this._isOverrideOrdinal, i, high );
+				pixLow = valueAxis.Scale.Transform( this._isOverrideOrdinal, i, low );
 
 				// Calculate the pixel location for the side of the bar (on the base axis)
 				float pixSide = pixBase - halfSize;

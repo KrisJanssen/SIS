@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.Library
+﻿namespace SIS.Library
 {
     /// <summary>
     /// Generic class to store objects of type T in a ComboBox whilst also providing a human readable name for the object.

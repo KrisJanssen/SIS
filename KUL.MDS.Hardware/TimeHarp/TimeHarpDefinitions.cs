@@ -1,11 +1,16 @@
-﻿using System;  //for basic functions and data types	
-using System.Runtime.InteropServices;  //for DllImport and Marshalling data
-using System.Text;  //for StringBuilder
+﻿//for basic functions and data types	
+//for DllImport and Marshalling data
+
+//for StringBuilder
 
 
-namespace KUL.MDS.Hardware
+namespace SIS.Hardware.TimeHarp
 {
-	/// <summary>
+    using System;
+    using System.Runtime.InteropServices;
+    using System.Text;
+
+    /// <summary>
 	/// This class provides the DLL functions for interacting with Time Harp 200 board.
 	/// </summary>
 	public static class TimeHarpDefinitions

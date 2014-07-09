@@ -7,15 +7,14 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// This is an implementation of SerializationBinder that tries to find a match
     /// for a type even if a direct match doesn't exist. This gets around versioning
@@ -53,7 +52,7 @@ namespace KUL.MDS.SystemLayer
 
             foreach (Assembly tryAssembly in this.assemblies)
             {
-                type = TryBindToType(tryAssembly, typeName);
+                type = this.TryBindToType(tryAssembly, typeName);
 
                 if (type != null)
                 {

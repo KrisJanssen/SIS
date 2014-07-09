@@ -1,12 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.Data
+﻿namespace SIS.Data
 {
+    using System.Windows.Forms;
+
     // Represents a column of fixed-step data.
-    public class StepColumn : KUL.MDS.Data.Column
+    public class StepColumn : Column
     {
         private double m_dStart;
         
@@ -61,16 +58,16 @@ namespace KUL.MDS.Data
 
         public override int GetPointCount()
         {
-            return m_iCount;
+            return this.m_iCount;
         }
 
         public override double GetValue(int __iN)
         {
             try
             {
-                if (m_iCount != -1 && (__iN < 0 || __iN >= m_iCount))
+                if (this.m_iCount != -1 && (__iN < 0 || __iN >= this.m_iCount))
                     throw new ColumnIndexOutOfRangeException("point index out of range");
-                return m_dStart + base.Step * __iN;
+                return this.m_dStart + base.Step * __iN;
             }
             catch (ColumnIndexOutOfRangeException ex)
             {
@@ -81,14 +78,14 @@ namespace KUL.MDS.Data
 
         public override double GetMin()
         {
-            return m_dStart;
+            return this.m_dStart;
         }
 
         public override double GetMax(int __iPointCount)
         {
             // TODO: Re-implement this assertiion.
             // assert(point_count != 0 || count != -1);
-            int n = (m_iCount == -1 ? __iPointCount : m_iCount);
+            int n = (this.m_iCount == -1 ? __iPointCount : this.m_iCount);
             return this.GetValue(n - 1);
         }
     }

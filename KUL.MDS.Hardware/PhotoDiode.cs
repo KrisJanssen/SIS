@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NationalInstruments.DAQmx;
-using KUL.MDS.SystemLayer;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware
 {
+    using System;
+
+    using NationalInstruments.DAQmx;
+
+    using SIS.Systemlayer;
+
     public class PhotoDiode
     {
         // The Various NI-Daqmx tasks.
@@ -81,9 +81,9 @@ namespace KUL.MDS.Hardware
                 // This edge can be repeated the required number of times, each time triggering a single AI event.
                 // High time of the pulse determines bin time.
                 _daqtskTiming.COChannels.CreatePulseChannelTicks(
-                    "/" + m_sBoardID + "/" + m_sPulseGenCtr, 
+                    "/" + this.m_sBoardID + "/" + this.m_sPulseGenCtr, 
                     "TimedPulse", 
-                    "/" + m_sBoardID + "/" + m_sPulseGenTimeBase, 
+                    "/" + this.m_sBoardID + "/" + this.m_sPulseGenTimeBase, 
                     COPulseIdleState.Low,
                     (_iBinTicks / 500) * 200,
                     _iBinTicks / 500, 
@@ -94,7 +94,7 @@ namespace KUL.MDS.Hardware
                 // or a PFI line (digital) to sync photon counting with movement.
                 // For each pixel a single pulse with a high duration equal to the photon binning time will be generated.
                 _daqtskTiming.Triggers.StartTrigger.ConfigureDigitalEdgeTrigger(
-                    "/" + m_sBoardID + "/" + m_sPulseGenTrigger, 
+                    "/" + this.m_sBoardID + "/" + this.m_sPulseGenTrigger, 
                     DigitalEdgeStartTriggerEdge.Rising);
 
                 // This trigger will occur for every pixel so it should be retriggerable.
@@ -106,7 +106,7 @@ namespace KUL.MDS.Hardware
                 // Setup AItask for the actual timed Voltage Sampling.
                 // We will actually measure the width of the counting timing pulse in # of TTLs of the APD, thus effectively counting photons.
                 _daqtskAPD.AIChannels.CreateVoltageChannel(
-                    "/" + m_sBoardID + "/" + m_sAPDTTLCounter, 
+                    "/" + this.m_sBoardID + "/" + this.m_sAPDTTLCounter, 
                     "PhotoDiode", 
                     AITerminalConfiguration.Nrse, 
                     -10.0d, 
@@ -121,7 +121,7 @@ namespace KUL.MDS.Hardware
                 //    1000);
 
                 _daqtskAPD.Timing.ConfigureSampleClock(
-                   "/" + m_sBoardID + "/RTSI0",
+                   "/" + this.m_sBoardID + "/RTSI0",
                    1000.0d,
                    SampleClockActiveEdge.Rising,
                    SampleQuantityMode.FiniteSamples,
@@ -161,12 +161,12 @@ namespace KUL.MDS.Hardware
             this.m_dTotalCountsRead = 0;
 
             // Create an instance of a reader to get counts from the HW buffer.
-            m_rdrCountReader = new AnalogSingleChannelReader(this.m_daqtskAPDCount.Stream);
+            this.m_rdrCountReader = new AnalogSingleChannelReader(this.m_daqtskAPDCount.Stream);
             // Start the task that counts the TTL's coming from the APD first.
-            m_daqtskAPDCount.Start();
+            this.m_daqtskAPDCount.Start();
 
             // Now start the pulse with duration of bintime. The length of this pulse will be measured in TTL ticks from the actual APD.
-            m_daqtskTimingPulse.Start();
+            this.m_daqtskTimingPulse.Start();
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace KUL.MDS.Hardware
         public Double[] Read()
         {
             Double[] _dValues = this.m_rdrCountReader.ReadMultiSample(-1);
-            this.m_dTotalCountsRead = m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
+            this.m_dTotalCountsRead = this.m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
             return _dValues;
         }
 
@@ -186,19 +186,19 @@ namespace KUL.MDS.Hardware
         public void StopAPDAcquisition()
         {
             // Stop the pulse whose width is measured in TTL's coming from the APD.
-            m_daqtskTimingPulse.Stop();
+            this.m_daqtskTimingPulse.Stop();
             // Stop the task that counts the TTL's
-            m_daqtskAPDCount.Stop();
+            this.m_daqtskAPDCount.Stop();
 
-            this.m_dTotalCountsRead = m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
+            this.m_dTotalCountsRead = this.m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
 
             // Free the resources used.
-            m_daqtskTimingPulse.Control(TaskAction.Unreserve);
-            m_daqtskAPDCount.Control(TaskAction.Unreserve);
+            this.m_daqtskTimingPulse.Control(TaskAction.Unreserve);
+            this.m_daqtskAPDCount.Control(TaskAction.Unreserve);
 
             // Dispose of the tasks.
-            m_daqtskTimingPulse.Dispose();
-            m_daqtskAPDCount.Dispose();
+            this.m_daqtskTimingPulse.Dispose();
+            this.m_daqtskAPDCount.Dispose();
         }
     }
 }

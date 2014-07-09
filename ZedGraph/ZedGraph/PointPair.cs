@@ -17,21 +17,20 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-using System.Collections;
-using IComparer	= System.Collections.IComparer;
-
 #if ( !DOTNET1 )	// Is this a .Net 2 compilation?
-using System.Collections.Generic;
+
 #endif
 
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A simple point represented by an (X,Y,Z) group of double values.
 	/// </summary>
 	/// 
@@ -198,21 +197,21 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			Z = info.GetDouble( "Z" );
-			Tag = info.GetValue( "Tag", typeof(object) );
+			this.Z = info.GetDouble( "Z" );
+			this.Tag = info.GetValue( "Tag", typeof(object) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "Z", Z );
-			info.AddValue( "Tag", Tag );
+			info.AddValue( "Z", this.Z );
+			info.AddValue( "Tag", this.Tag );
 		}
 	#endregion
 
@@ -261,8 +260,8 @@ namespace ZedGraph
 		/// </remarks>
 		virtual public double ColorValue
 		{
-			get { return Z; }
-			set { Z = value; }
+			get { return this.Z; }
+			set { this.Z = value; }
 		}
 
 	#endregion
@@ -454,7 +453,7 @@ namespace ZedGraph
 
 				double lVal, rVal;
 
-				if ( sortType == SortType.XValues )
+				if ( this.sortType == SortType.XValues )
 				{
 					lVal = l.X;
 					rVal = r.X;

@@ -7,7 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     public abstract class SplashForm
         : BaseForm

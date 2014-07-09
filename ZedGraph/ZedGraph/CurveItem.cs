@@ -17,20 +17,19 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
 #if ( !DOTNET1 )	// Is this a .Net 2 compilation?
-using System.Collections.Generic;
+
 #endif
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// This class contains the data and methods for an individual curve within
 	/// a graph pane.  It carries the settings for the curve including the
 	/// key and item names, colors, symbols and sizes, linetypes, etc.
@@ -173,13 +172,13 @@ namespace ZedGraph
 		/// the X and Y values for this curve</param>
 		public CurveItem( string label, IPointList points )
 		{
-			Init( label );
+			this.Init( label );
 
 			if ( points == null )
-				_points = new PointPairList();
+				this._points = new PointPairList();
 			else
 				//this.points = (IPointList) _points.Clone();
-				_points = points;
+				this._points = points;
 		}
 		
 		/// <summary>
@@ -188,14 +187,14 @@ namespace ZedGraph
 		/// <param name="label">A string label (legend entry) for this curve</param>
 		private void Init( string label )
 		{
-			_label = new Label( label, null );
-			_isY2Axis = false;
-			_isX2Axis = false;
-			_isVisible = true;
-			_isOverrideOrdinal = false;
+			this._label = new Label( label, null );
+			this._isY2Axis = false;
+			this._isX2Axis = false;
+			this._isVisible = true;
+			this._isOverrideOrdinal = false;
 			this.Tag = null;
-			_yAxisIndex = 0;
-			_link = new Link();
+			this._yAxisIndex = 0;
+			this._link = new Link();
 		}
 			
 		/// <summary>
@@ -212,7 +211,7 @@ namespace ZedGraph
 		 /// </summary>
 		public CurveItem(  )
 		{
-			Init( null );
+			this.Init( null );
 		}
 		/// <summary>
 		/// The Copy Constructor
@@ -220,21 +219,21 @@ namespace ZedGraph
 		/// <param name="rhs">The CurveItem object from which to copy</param>
 		public CurveItem( CurveItem rhs )
 		{
-			_label = rhs._label.Clone();
-			_isY2Axis = rhs.IsY2Axis;
-			_isX2Axis = rhs.IsX2Axis;
-			_isVisible = rhs.IsVisible;
-			_isOverrideOrdinal = rhs._isOverrideOrdinal;
-			_yAxisIndex = rhs._yAxisIndex;
+			this._label = rhs._label.Clone();
+			this._isY2Axis = rhs.IsY2Axis;
+			this._isX2Axis = rhs.IsX2Axis;
+			this._isVisible = rhs.IsVisible;
+			this._isOverrideOrdinal = rhs._isOverrideOrdinal;
+			this._yAxisIndex = rhs._yAxisIndex;
 
 			if ( rhs.Tag is ICloneable )
 				this.Tag = ((ICloneable) rhs.Tag).Clone();
 			else
 				this.Tag = rhs.Tag;
 			
-			_points = (IPointList) rhs.Points.Clone();
+			this._points = (IPointList) rhs.Points.Clone();
 
-			_link = rhs._link.Clone();
+			this._link = rhs._link.Clone();
 		}
 
 		/// <summary>
@@ -280,26 +279,26 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_label = (Label) info.GetValue( "label", typeof(Label) );
-			_isY2Axis = info.GetBoolean( "isY2Axis" );
+			this._label = (Label) info.GetValue( "label", typeof(Label) );
+			this._isY2Axis = info.GetBoolean( "isY2Axis" );
 			if ( sch >= 11 )
-				_isX2Axis = info.GetBoolean( "isX2Axis" );
+				this._isX2Axis = info.GetBoolean( "isX2Axis" );
 			else
-				_isX2Axis = false;
+				this._isX2Axis = false;
 
-			_isVisible = info.GetBoolean( "isVisible" );
+			this._isVisible = info.GetBoolean( "isVisible" );
 
-			_isOverrideOrdinal = info.GetBoolean( "isOverrideOrdinal" );
+			this._isOverrideOrdinal = info.GetBoolean( "isOverrideOrdinal" );
 
 			// Data Points are always stored as a PointPairList, regardless of the
 			// actual original type (which could be anything that supports IPointList).
-			_points = (PointPairList) info.GetValue( "points", typeof(PointPairList) );
+			this._points = (PointPairList) info.GetValue( "points", typeof(PointPairList) );
 
-			Tag = info.GetValue( "Tag", typeof(object) );
+			this.Tag = info.GetValue( "Tag", typeof(object) );
 
-			_yAxisIndex = info.GetInt32( "yAxisIndex" );
+			this._yAxisIndex = info.GetInt32( "yAxisIndex" );
 
-			_link = (Link) info.GetValue( "link", typeof(Link) );
+			this._link = (Link) info.GetValue( "link", typeof(Link) );
 
 		}
 		/// <summary>
@@ -307,29 +306,29 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
-			info.AddValue( "label", _label );
-			info.AddValue( "isY2Axis", _isY2Axis );
-			info.AddValue( "isX2Axis", _isX2Axis );
-			info.AddValue( "isVisible", _isVisible );
-			info.AddValue( "isOverrideOrdinal", _isOverrideOrdinal );
+			info.AddValue( "label", this._label );
+			info.AddValue( "isY2Axis", this._isY2Axis );
+			info.AddValue( "isX2Axis", this._isX2Axis );
+			info.AddValue( "isVisible", this._isVisible );
+			info.AddValue( "isOverrideOrdinal", this._isOverrideOrdinal );
 
 			// if points is already a PointPairList, use it
 			// otherwise, create a new PointPairList so it can be serialized
 			PointPairList list;
-			if ( _points is PointPairList )
-				list = _points as PointPairList;
+			if ( this._points is PointPairList )
+				list = this._points as PointPairList;
 			else
-				list = new PointPairList( _points );
+				list = new PointPairList( this._points );
 
 			info.AddValue( "points", list );
-			info.AddValue( "Tag", Tag );
-			info.AddValue( "yAxisIndex", _yAxisIndex );
+			info.AddValue( "Tag", this.Tag );
+			info.AddValue( "yAxisIndex", this._yAxisIndex );
 
-			info.AddValue( "link", _link );
+			info.AddValue( "link", this._link );
 		}
 	#endregion
 	
@@ -340,8 +339,8 @@ namespace ZedGraph
 		/// </summary>
 		public Label Label
 		{
-			get { return _label; }
-			set { _label = value;}
+			get { return this._label; }
+			set { this._label = value;}
 		}
 
 		/// <summary>
@@ -395,8 +394,8 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsVisible
 		{
-			get { return _isVisible; }
-			set { _isVisible = value; }
+			get { return this._isVisible; }
+			set { this._isVisible = value; }
 		}
 
 		// Revision: JCarpenter 10/06
@@ -408,10 +407,10 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsSelected
 		{
-			get { return _isSelected; }
+			get { return this._isSelected; }
 			set
 			{
-				_isSelected = value;
+				this._isSelected = value;
 
 				/*
 				if ( this is BarItem )
@@ -438,8 +437,8 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsSelectable
 		{
-			get { return _isSelectable; }
-			set { _isSelectable = value; }
+			get { return this._isSelectable; }
+			set { this._isSelectable = value; }
 		}
 
 		/// <summary>
@@ -457,8 +456,8 @@ namespace ZedGraph
 		/// <seealso cref="AxisType.Text"/>
 		public bool IsOverrideOrdinal
 		{
-			get { return _isOverrideOrdinal; }
-			set { _isOverrideOrdinal = value; }
+			get { return this._isOverrideOrdinal; }
+			set { this._isOverrideOrdinal = value; }
 		}
 
 		/// <summary>
@@ -475,8 +474,8 @@ namespace ZedGraph
 		/// false to assign the curve to the <see cref="ZedGraph.XAxis"/></value>
 		public bool IsX2Axis
 		{
-			get { return _isX2Axis; }
-			set { _isX2Axis = value; }
+			get { return this._isX2Axis; }
+			set { this._isX2Axis = value; }
 		}
 
 		/// <summary>
@@ -495,8 +494,8 @@ namespace ZedGraph
 		/// false to assign the curve to the <see cref="ZedGraph.YAxis"/></value>
 		public bool IsY2Axis
 		{
-			get { return _isY2Axis; }
-			set { _isY2Axis = value; }
+			get { return this._isY2Axis; }
+			set { this._isY2Axis = value; }
 		}
 
 		/// <summary>
@@ -510,8 +509,8 @@ namespace ZedGraph
 		/// </remarks>
 		public int YAxisIndex
 		{
-			get { return _yAxisIndex; }
-			set { _yAxisIndex = value; }
+			get { return this._yAxisIndex; }
+			set { this._yAxisIndex = value; }
 		}
 
 		/// <summary>
@@ -569,10 +568,10 @@ namespace ZedGraph
 		{
 			get 
 			{
-				if ( _points == null )
+				if ( this._points == null )
 					return 0;
 				else
-					return _points.Count;
+					return this._points.Count;
 			}
 		}
 		
@@ -582,8 +581,8 @@ namespace ZedGraph
 		/// </summary>
 		public IPointList Points
 		{
-			get { return _points; }
-			set { _points = value; }
+			get { return this._points; }
+			set { this._points = value; }
 		}
 
 		/// <summary>
@@ -594,10 +593,10 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( _points == null )
+				if ( this._points == null )
 					return new PointPair( PointPair.Missing, PointPair.Missing );
 				else
-					return ( _points )[index];
+					return ( this._points )[index];
 			}
 		}
 
@@ -607,8 +606,8 @@ namespace ZedGraph
 		// /// <seealso cref="ZedGraph.Web.IsImageMap" />
 		public Link Link
 		{
-			get { return _link; }
-			set { _link = value; }
+			get { return this._link; }
+			set { this._link = value; }
 		}
 
 	#endregion
@@ -687,11 +686,11 @@ namespace ZedGraph
 		/// be added</param>
 		public void AddPoint( PointPair point )
 		{
-			if ( _points == null )
+			if ( this._points == null )
 				this.Points = new PointPairList();
 
-			if ( _points is IPointListEdit )
-				( _points as IPointListEdit ).Add( point );
+			if ( this._points is IPointListEdit )
+				( this._points as IPointListEdit ).Add( point );
 			else
 				throw new NotImplementedException();
 		}
@@ -707,8 +706,8 @@ namespace ZedGraph
 		/// </remarks>
 		public void Clear()
 		{
-			if ( _points is IPointListEdit )
-				(_points as IPointListEdit).Clear();
+			if ( this._points is IPointListEdit )
+				(this._points as IPointListEdit).Clear();
 			else
 				throw new NotImplementedException();
 		}
@@ -724,8 +723,8 @@ namespace ZedGraph
 		/// <param name="index">The ordinal position of the point to be removed.</param>
 		public void RemovePoint( int index )
 		{
-			if ( _points is IPointListEdit )
-				(_points as IPointListEdit).RemoveAt( index );
+			if ( this._points is IPointListEdit )
+				(this._points as IPointListEdit).RemoveAt( index );
 			else
 				throw new NotImplementedException();
 		}
@@ -740,7 +739,7 @@ namespace ZedGraph
 		/// </returns>
 		public Axis GetXAxis( GraphPane pane )
 		{
-			if ( _isX2Axis )
+			if ( this._isX2Axis )
 				return pane.X2Axis;
 			else
 				return pane.XAxis;
@@ -762,17 +761,17 @@ namespace ZedGraph
 		/// </returns>
 		public Axis GetYAxis( GraphPane pane )
 		{
-			if ( _isY2Axis )
+			if ( this._isY2Axis )
 			{
-				if ( _yAxisIndex < pane.Y2AxisList.Count )
-					return pane.Y2AxisList[_yAxisIndex];
+				if ( this._yAxisIndex < pane.Y2AxisList.Count )
+					return pane.Y2AxisList[this._yAxisIndex];
 				else
 					return pane.Y2AxisList[0];
 			}
 			else
 			{
-				if ( _yAxisIndex < pane.YAxisList.Count )
-					return pane.YAxisList[_yAxisIndex];
+				if ( this._yAxisIndex < pane.YAxisList.Count )
+					return pane.YAxisList[this._yAxisIndex];
 				else
 					return pane.YAxisList[0];
 			}
@@ -794,9 +793,9 @@ namespace ZedGraph
 		/// </returns>
 		public int GetYAxisIndex( GraphPane pane )
 		{
-			if ( _yAxisIndex >= 0 &&
-					_yAxisIndex < ( _isY2Axis ? pane.Y2AxisList.Count : pane.YAxisList.Count ) )
-				return _yAxisIndex;
+			if ( this._yAxisIndex >= 0 &&
+					this._yAxisIndex < ( this._isY2Axis ? pane.Y2AxisList.Count : pane.YAxisList.Count ) )
+				return this._yAxisIndex;
 			else
 				return 0;
 		}
@@ -968,7 +967,7 @@ namespace ZedGraph
 			if ( this is BarItem || this is ErrorBarItem || this is HiLowBarItem )
 				barBase = pane._barSettings.Base;
 			else
-				barBase = _isX2Axis ? BarBase.X2 : BarBase.X;
+				barBase = this._isX2Axis ? BarBase.X2 : BarBase.X;
 
 			if ( barBase == BarBase.X )
 				return pane.XAxis;
@@ -1000,10 +999,10 @@ namespace ZedGraph
 
 			if ( barBase == BarBase.X || barBase == BarBase.X2 )
 			{
-				return GetYAxis( pane );
+				return this.GetYAxis( pane );
 			}
 			else
-				return GetXAxis( pane );
+				return this.GetXAxis( pane );
 		}
 
 		/// <summary>
@@ -1184,22 +1183,22 @@ namespace ZedGraph
 				else if (l != null && r == null) 
 					return 1;
 
-				if ( r != null && r.NPts <= index )
+				if ( r != null && r.NPts <= this.index )
 					r = null;
-				if ( l != null && l.NPts <= index )
+				if ( l != null && l.NPts <= this.index )
 					l = null;
 						
 				double lVal, rVal;
 
-				if ( sortType == SortType.XValues )
+				if ( this.sortType == SortType.XValues )
 				{
-					lVal = ( l != null ) ? System.Math.Abs( l[index].X ) : PointPair.Missing;
-					rVal = ( r != null ) ? System.Math.Abs( r[index].X ) : PointPair.Missing;
+					lVal = ( l != null ) ? System.Math.Abs( l[this.index].X ) : PointPair.Missing;
+					rVal = ( r != null ) ? System.Math.Abs( r[this.index].X ) : PointPair.Missing;
 				}
 				else
 				{
-					lVal = ( l != null ) ? System.Math.Abs( l[index].Y ) : PointPair.Missing;
-					rVal = ( r != null ) ? System.Math.Abs( r[index].Y ) : PointPair.Missing;
+					lVal = ( l != null ) ? System.Math.Abs( l[this.index].Y ) : PointPair.Missing;
+					rVal = ( r != null ) ? System.Math.Abs( r[this.index].Y ) : PointPair.Missing;
 				}
 				
 				if ( lVal == PointPair.Missing || Double.IsInfinity( lVal ) || Double.IsNaN( lVal ) )

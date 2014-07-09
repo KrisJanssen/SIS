@@ -7,10 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-
-namespace KUL.MDS.Base
+namespace SIS.Base
 {
+    using System;
+
     public interface IDisposedEvent
     {
         event EventHandler Disposed;

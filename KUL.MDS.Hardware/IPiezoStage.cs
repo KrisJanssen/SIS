@@ -1,8 +1,9 @@
-﻿using System;
-using KUL.MDS.ScanModes;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware
 {
+    using System;
+
+    using SIS.ScanModes.Core;
+
     /// <summary>
     /// This interface provides a template to define any piezo stage hardware.
     /// </summary>

@@ -7,11 +7,11 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.Moving
 {
+    using System;
+    using System.Drawing;
+
     public sealed class MovingEventArgs
         : EventArgs
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.Data
+﻿namespace SIS.Data
 {
     public abstract class Column
     {
@@ -42,13 +38,13 @@ namespace KUL.MDS.Data
         // The default step is 0.0f, which means the stepsize is not fixed.
         public Column()
         {
-            m_strName = string.Empty;
-            m_dStep = 0.0f;
+            this.m_strName = string.Empty;
+            this.m_dStep = 0.0f;
         }
 
         public Column(double __dStep)
         {
-            m_dStep = __dStep;
+            this.m_dStep = __dStep;
         }
 
         // Methods.

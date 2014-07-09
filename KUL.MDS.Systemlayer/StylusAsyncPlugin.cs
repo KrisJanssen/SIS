@@ -1,14 +1,11 @@
-﻿using Microsoft.Ink;
-using Microsoft.StylusInput;
-using Microsoft.StylusInput.PluginData;
-using KUL.MDS.SIS;
-using System;
-using System.Collections;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace KUL.MDS.SIS
+﻿namespace SIS.Systemlayer
 {
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using Microsoft.StylusInput;
+    using Microsoft.StylusInput.PluginData;
+
     internal sealed class StylusAsyncPlugin
         : IStylusAsyncPlugin
     {
@@ -19,14 +16,14 @@ namespace KUL.MDS.SIS
         internal StylusAsyncPlugin(IStylusReaderHooks subject, Control attached)
         {
             Graphics g = subject.CreateGraphics();
-            attachedControl = attached;
+            this.attachedControl = attached;
             this.ratio = new PointF(g.DpiX / 2540.0f, g.DpiY / 2540.0f);
             this.subject = subject;
         }
 
         private PointF HimetricToPointF(int x, int y)
         {
-            return new PointF(x * ratio.X, y * ratio.Y);
+            return new PointF(x * this.ratio.X, y * this.ratio.Y);
         }
 
         private MouseButtons StatusToMouseButtons(int status)
@@ -56,30 +53,30 @@ namespace KUL.MDS.SIS
 
         private void Interpret(StylusDataBase data, int index)
         {
-            Point offset = attachedControl.PointToScreen(new Point(0, 0));
-            PointF relativePosition = HimetricToPointF(data[index], data[index + 1]);
-            PointF position = subject.ScreenToDocument(new PointF(relativePosition.X + offset.X, relativePosition.Y + offset.Y));
+            Point offset = this.attachedControl.PointToScreen(new Point(0, 0));
+            PointF relativePosition = this.HimetricToPointF(data[index], data[index + 1]);
+            PointF position = this.subject.ScreenToDocument(new PointF(relativePosition.X + offset.X, relativePosition.Y + offset.Y));
             float pressure = (data.PacketPropertyCount > 3 ? data[index + 2] : 255.0f) / 255.0f;
             int status = data[index + data.PacketPropertyCount - 1];
-            MouseButtons button = StatusToMouseButtons(status);
+            MouseButtons button = this.StatusToMouseButtons(status);
 
             bool didMouseMove = false;
 
-            if (lastbutton != button)
+            if (this.lastbutton != button)
             {
                 //if a button was previously down, MouseUp it.
-                if (lastbutton != MouseButtons.None)
+                if (this.lastbutton != MouseButtons.None)
                 {
-                    subject.PerformDocumentMouseMove(button, 1, position.X, position.Y, 0, pressure);
-                    subject.PerformDocumentMouseUp(lastbutton, 1, position.X, position.Y, 0, pressure);
+                    this.subject.PerformDocumentMouseMove(button, 1, position.X, position.Y, 0, pressure);
+                    this.subject.PerformDocumentMouseUp(this.lastbutton, 1, position.X, position.Y, 0, pressure);
                     didMouseMove = true;
                 }
 
                 //if a new button was pushed, MouseDown it.
                 if (button != MouseButtons.None)
                 {
-                    subject.PerformDocumentMouseDown(button, 1, position.X, position.Y, 0, pressure);
-                    subject.PerformDocumentMouseMove(button, 1, position.X, position.Y, 0, pressure);
+                    this.subject.PerformDocumentMouseDown(button, 1, position.X, position.Y, 0, pressure);
+                    this.subject.PerformDocumentMouseMove(button, 1, position.X, position.Y, 0, pressure);
                     didMouseMove = true;
                 }
             }
@@ -87,10 +84,10 @@ namespace KUL.MDS.SIS
             if (!didMouseMove)
             {
                 //regardless of the button states, send a new MouseMove
-                subject.PerformDocumentMouseMove(button, 1, position.X, position.Y, 0, pressure);
+                this.subject.PerformDocumentMouseMove(button, 1, position.X, position.Y, 0, pressure);
             }
 
-            lastbutton = button;
+            this.lastbutton = button;
         }
 
         #region IStylusAsyncPlugin Members
@@ -107,7 +104,7 @@ namespace KUL.MDS.SIS
         {
             for (int i = 0; i < data.Count; i += data.PacketPropertyCount)
             {
-                Interpret(data, i);
+                this.Interpret(data, i);
             }
         }
 
@@ -115,18 +112,18 @@ namespace KUL.MDS.SIS
         {
             for (int i = 0; i < data.Count; i += data.PacketPropertyCount)
             {
-                Interpret(data, i);
+                this.Interpret(data, i);
             }
         }
 
         public void StylusDown(Microsoft.StylusInput.RealTimeStylus sender, Microsoft.StylusInput.PluginData.StylusDownData data)
         {
-            Interpret(data, 0);
+            this.Interpret(data, 0);
         }
 
         public void StylusUp(Microsoft.StylusInput.RealTimeStylus sender, Microsoft.StylusInput.PluginData.StylusUpData data)
         {
-            Interpret(data, 0);
+            this.Interpret(data, 0);
         }
 
         public void StylusButtonDown(Microsoft.StylusInput.RealTimeStylus sender, Microsoft.StylusInput.PluginData.StylusButtonDownData data)

@@ -15,12 +15,12 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.InteropServices;
-
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl
 {
+    using System;
+    using System.Runtime.InteropServices;
+    using System.Runtime.InteropServices.ComTypes;
+
     /// <summary>
     /// FilterInfo class
     /// </summary>
@@ -47,8 +47,8 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         public FilterInfo(string monikerString)
         {
             // Store values
-            _monikerString = monikerString;
-            _name = GetName(monikerString);
+            this._monikerString = monikerString;
+            this._name = GetName(monikerString);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         {
             get
             {
-                return _name;
+                return this._name;
             }
         }
 
@@ -79,7 +79,7 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         {
             get
             {
-                return _monikerString;
+                return this._monikerString;
             }
         }
         #endregion
@@ -244,7 +244,7 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
             }
 
             // Valid object, compare the names
-            return (Name.CompareTo(f.Name));
+            return (this.Name.CompareTo(f.Name));
         }
         #endregion
     }

@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Encapsulates a curve type that is displayed as a series of vertical "sticks",
 	/// one at each defined point.
 	/// </summary>
@@ -58,7 +57,7 @@ namespace ZedGraph
 		/// <value>true if the Z data are included, false otherwise</value>
 		override internal bool IsZIncluded( GraphPane pane )
 		{
-			return _symbol.IsVisible;
+			return this._symbol.IsVisible;
 		}
 
 		/// <summary>
@@ -80,7 +79,7 @@ namespace ZedGraph
 		/// <param name="label">The label that will appear in the legend.</param>
 		public StickItem( string label ) : base( label )
 		{
-			_symbol.IsVisible = false;
+			this._symbol.IsVisible = false;
 		}
 		
 		/// <summary>
@@ -128,7 +127,7 @@ namespace ZedGraph
 		/// the <see cref="Line"/> and <see cref="Symbol"/> properties.
 		/// </param>
 		public StickItem( string label, IPointList points, Color color )
-			: this( label, points, color, ZedGraph.LineBase.Default.Width )
+			: this( label, points, color, global::ZedGraph.ZedGraph.LineBase.Default.Width )
 		{
 		}
 
@@ -147,7 +146,7 @@ namespace ZedGraph
 		public StickItem( string label, IPointList points, Color color, float lineWidth )
 			: base( label, points, color, Symbol.Default.Type, lineWidth )
 		{
-			_symbol.IsVisible = false;
+			this._symbol.IsVisible = false;
 		}
 
 		/// <summary>
@@ -204,7 +203,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );

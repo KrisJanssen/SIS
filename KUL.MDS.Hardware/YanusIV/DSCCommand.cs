@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware.YanusIV
 {
+    using System;
+
     /// <summary>
     /// Structure that represents a DSC command line
     /// </summary>
@@ -17,10 +14,10 @@ namespace KUL.MDS.Hardware
         
         public DSCCommand(ScanCommand __scCommand, UInt64 __ui64Cycle, DSCChannel __dsccChannel, Int64 __int64Value)
         {
-            ScanCmd = __scCommand;
-            Cycle = __ui64Cycle;            
-            Channel = __dsccChannel;
-            Value = __int64Value;
+            this.ScanCmd = __scCommand;
+            this.Cycle = __ui64Cycle;            
+            this.Channel = __dsccChannel;
+            this.Value = __int64Value;
         }        
     }
 

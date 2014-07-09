@@ -16,13 +16,13 @@
 //License along with this library; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
-using System;
-using System.Text;
-using System.Drawing;
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+
+    /// <summary>
 	/// A class designed to simplify the process of getting the actual value for
 	/// the various stacked and regular curve types
 	/// </summary>
@@ -46,7 +46,7 @@ namespace ZedGraph
 		/// an initialization, false otherwise.</param>
 		public ValueHandler( GraphPane pane, bool initialize )
 		{
-			_pane = pane;
+			this._pane = pane;
 			if ( initialize )
 			{
 				// just create a dummy image, which results in a full draw operation
@@ -76,7 +76,7 @@ namespace ZedGraph
 		public bool GetValues( CurveItem curve, int iPt, out double baseVal,
 							out double lowVal, out double hiVal )
 		{
-			return GetValues( _pane, curve, iPt, out baseVal,
+			return GetValues( this._pane, curve, iPt, out baseVal,
 									out lowVal, out hiVal );
 		}
 
@@ -344,7 +344,7 @@ namespace ZedGraph
 		public double BarCenterValue( CurveItem curve, float barWidth, int iCluster,
 										  double val, int iOrdinal )
 		{
-			Axis baseAxis = curve.BaseAxis( _pane );
+			Axis baseAxis = curve.BaseAxis( this._pane );
 			if ( curve is ErrorBarItem || curve is HiLowBarItem ||
 					curve is OHLCBarItem || curve is JapaneseCandleStickItem )
 			{
@@ -355,11 +355,11 @@ namespace ZedGraph
 			}
 			else
 			{
-				float clusterWidth = _pane._barSettings.GetClusterWidth();
-				float clusterGap = _pane._barSettings.MinClusterGap * barWidth;
-				float barGap = barWidth * _pane._barSettings.MinBarGap;
+				float clusterWidth = this._pane._barSettings.GetClusterWidth();
+				float clusterGap = this._pane._barSettings.MinClusterGap * barWidth;
+				float barGap = barWidth * this._pane._barSettings.MinBarGap;
 
-				if ( curve.IsBar && _pane._barSettings.Type != BarType.Cluster )
+				if ( curve.IsBar && this._pane._barSettings.Type != BarType.Cluster )
 					iOrdinal = 0;
 
 				float centerPix = baseAxis.Scale.Transform( curve.IsOverrideOrdinal, iCluster, val )

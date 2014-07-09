@@ -1,5 +1,7 @@
-﻿namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
+    using ZedGraph.ZedGraph;
+
     partial class TrajectoryPlotForm
     {
         /// <summary>
@@ -13,9 +15,9 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -32,11 +34,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrajectoryPlotForm));
             this.graphTabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.XCoordGraph = new ZedGraph.ZedGraphControl();
+            this.XCoordGraph = new ZedGraphControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.YCoordGraph = new ZedGraph.ZedGraphControl();
+            this.YCoordGraph = new ZedGraphControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.XYCoordGraph = new ZedGraph.ZedGraphControl();
+            this.XYCoordGraph = new ZedGraphControl();
             this.graphTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -158,11 +160,11 @@
 
         private System.Windows.Forms.TabControl graphTabControl;
         private System.Windows.Forms.TabPage tabPage1;
-        private ZedGraph.ZedGraphControl XCoordGraph;
+        private ZedGraphControl XCoordGraph;
         private System.Windows.Forms.TabPage tabPage2;
-        private ZedGraph.ZedGraphControl YCoordGraph;
+        private ZedGraphControl YCoordGraph;
         private System.Windows.Forms.TabPage tabPage3;
-        private ZedGraph.ZedGraphControl XYCoordGraph;
+        private ZedGraphControl XYCoordGraph;
 
     }
 }

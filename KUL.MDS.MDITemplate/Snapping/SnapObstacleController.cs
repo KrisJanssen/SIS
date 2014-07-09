@@ -7,12 +7,12 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.Snapping
 {
+    using System.Drawing;
+
+    using SIS.MDITemplate.Events;
+
     public sealed class SnapObstacleController
         : SnapObstacle
     {
@@ -23,10 +23,10 @@ namespace KUL.MDS.MDITemplate
         {
             if (this.bounds != bounds)
             {
-                OnBoundsChanging();
+                this.OnBoundsChanging();
                 this.previousBounds = this.bounds;
                 this.bounds = bounds;
-                OnBoundsChanged();
+                this.OnBoundsChanged();
             }
         }
 
@@ -39,10 +39,10 @@ namespace KUL.MDS.MDITemplate
 
         protected override void OnBoundsChangeRequested(Rectangle newBounds, ref bool handled)
         {
-            if (BoundsChangeRequested != null)
+            if (this.BoundsChangeRequested != null)
             {
                 HandledEventArgs<Rectangle> e = new HandledEventArgs<Rectangle>(handled, newBounds);
-                BoundsChangeRequested(this, e);
+                this.BoundsChangeRequested(this, e);
                 handled = e.Handled;
             }
 

@@ -17,12 +17,11 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using Color		 = System.Drawing.Color;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System.Drawing;
+
+    /// <summary>
 	/// Class used to get the next color/symbol for GraphPane.AddCurve methods.
 	/// </summary>
 	/// 
@@ -93,7 +92,7 @@ namespace ZedGraph
 		/// </summary>
 		public Color NextColor
 		{
-			get { return COLORS[NextColorIndex]; }
+			get { return COLORS[this.NextColorIndex]; }
 		}
 
 		/// <summary>
@@ -104,14 +103,14 @@ namespace ZedGraph
 		{
 			get
 			{
-				if (colorIndex >= COLORS.Length)
-					colorIndex = 0;
+				if (this.colorIndex >= COLORS.Length)
+					this.colorIndex = 0;
 
-				return colorIndex++;
+				return this.colorIndex++;
 			}
 			set
 			{
-				colorIndex = value;
+				this.colorIndex = value;
 			}
 		}
 
@@ -123,7 +122,7 @@ namespace ZedGraph
 		/// </summary>
 		public SymbolType NextSymbol
 		{
-			get { return SYMBOLS[NextSymbolIndex]; }
+			get { return SYMBOLS[this.NextSymbolIndex]; }
 		}
 
 		/// <summary>
@@ -134,14 +133,14 @@ namespace ZedGraph
 		{
 			get
 			{
-				if (symbolIndex >= SYMBOLS.Length)
-					symbolIndex = 0;
+				if (this.symbolIndex >= SYMBOLS.Length)
+					this.symbolIndex = 0;
 
-				return symbolIndex++;
+				return this.symbolIndex++;
 			}
 			set
 			{
-				symbolIndex = value;
+				this.symbolIndex = value;
 			}
 		}
 

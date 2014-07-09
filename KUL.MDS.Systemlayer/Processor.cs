@@ -7,13 +7,14 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using Microsoft.Win32;
-using System;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.ComponentModel;
+    using System.Runtime.InteropServices;
+
+    using Microsoft.Win32;
+
     /// <summary>
     /// Provides static methods and properties related to the CPU.
     /// </summary>

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.Data
+﻿namespace SIS.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows.Forms;
+
     // column uses vector<double> to represent the data.
-    public class ListColumn : KUL.MDS.Data.Column
+    public class ListColumn : Column
     {
         private double m_dMinVal;
         private double m_dMaxVal;
@@ -15,24 +14,24 @@ namespace KUL.MDS.Data
         // Constructor.
         public ListColumn()
         {
-            m_dMinVal = 0;
-            m_dMaxVal = 0;
-            m_lData = new List<double>();
+            this.m_dMinVal = 0;
+            this.m_dMaxVal = 0;
+            this.m_lData = new List<double>();
         }
 
         // Implementation of the base interface 
         public override int GetPointCount()
         {
-            return m_lData.Count;
+            return this.m_lData.Count;
         }
 
         public override double GetValue(int n)
         {
             try
             {
-                if (n < 0 || n >= GetPointCount())
+                if (n < 0 || n >= this.GetPointCount())
                     throw new ColumnIndexOutOfRangeException("index out of range in VecColumn");
-                return m_lData[n];
+                return this.m_lData[n];
             }
             catch (ColumnIndexOutOfRangeException ex)
             {
@@ -43,7 +42,7 @@ namespace KUL.MDS.Data
 
         public void AddValue(double __dValue)
         {
-            m_lData.Add(__dValue);
+            this.m_lData.Add(__dValue);
         }
 
         // get all numbers in the first legal line
@@ -61,14 +60,14 @@ namespace KUL.MDS.Data
 
         public override double GetMin()
         {
-            m_dMinVal = this.FindMin(m_lData);
-            return m_dMinVal;
+            this.m_dMinVal = this.FindMin(this.m_lData);
+            return this.m_dMinVal;
         }
         
         public override double GetMax(int __iI)
         {
-            m_dMaxVal = this.FindMax(m_lData);
-            return m_dMaxVal ;
+            this.m_dMaxVal = this.FindMax(this.m_lData);
+            return this.m_dMaxVal ;
         }
 
         private double FindMin(List<double> __dArray)

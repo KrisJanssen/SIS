@@ -17,15 +17,13 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class that maintains hyperlink information for a clickable object on the graph.
 	/// </summary>
 	/// 
@@ -72,8 +70,8 @@ namespace ZedGraph
 		/// </remarks>
 		public string Title
 		{
-			get { return _title; }
-			set { _title = value; }
+			get { return this._title; }
+			set { this._title = value; }
 		}
 
 		/// <summary>
@@ -85,8 +83,8 @@ namespace ZedGraph
 		/// </remarks>
 		public string Url
 		{
-			get { return _url; }
-			set { _url = value; }
+			get { return this._url; }
+			set { this._url = value; }
 		}
 
 		/// <summary>
@@ -99,8 +97,8 @@ namespace ZedGraph
 		/// </remarks>
 		public string Target
 		{
-			get { return _target != string.Empty ? _target : "_self"; }
-			set { _target = value; }
+			get { return this._target != string.Empty ? this._target : "_self"; }
+			set { this._target = value; }
 		}
 
 		/// <summary>
@@ -121,8 +119,8 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsEnabled
 		{
-			get { return _isEnabled; }
-			set { _isEnabled = value; }
+			get { return this._isEnabled; }
+			set { this._isEnabled = value; }
 		}
 
 		/// <summary>
@@ -132,7 +130,7 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsActive
 		{
-			get { return _isEnabled && ( _url != null || _title != null ); }
+			get { return this._isEnabled && ( this._url != null || this._title != null ); }
 		}
 
 	#endregion
@@ -144,11 +142,11 @@ namespace ZedGraph
 		/// </summary>
 		public Link()
 		{
-			_title = string.Empty;
-			_url = string.Empty;
-			_target = string.Empty;
+			this._title = string.Empty;
+			this._url = string.Empty;
+			this._target = string.Empty;
 			this.Tag = null;
-			_isEnabled = false;
+			this._isEnabled = false;
 		}
 
 		/// <summary>
@@ -159,11 +157,11 @@ namespace ZedGraph
 		/// <param name="target">The target for the link (typically "_blank" or "_self").</param>
 		public Link( string title, string url, string target )
 		{
-			_title = title;
-			_url = url;
-			_target = target;
-			Tag = null;
-			_isEnabled = true;
+			this._title = title;
+			this._url = url;
+			this._target = target;
+			this.Tag = null;
+			this._isEnabled = true;
 		}
 
 		/// <summary>
@@ -173,10 +171,10 @@ namespace ZedGraph
 		public Link( Link rhs )
 		{
 			// Copy value types
-			_title = rhs._title;
-			_url = rhs._url;
-			_target = rhs._target;
-			_isEnabled = false;
+			this._title = rhs._title;
+			this._url = rhs._url;
+			this._target = rhs._target;
+			this._isEnabled = false;
 
 			// copy reference types by cloning
 			if ( rhs.Tag is ICloneable )
@@ -230,7 +228,7 @@ namespace ZedGraph
 		/// <returns>A string containing the url with an index parameter added.</returns>
 		public virtual string MakeCurveItemUrl( GraphPane pane, CurveItem curve, int index )
 		{
-			string url = _url;
+			string url = this._url;
 
 			if ( url.IndexOf( '?' ) >= 0 )
 				url += "&index=" + index.ToString();
@@ -276,26 +274,26 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_title = info.GetString( "title" );
-			_url = info.GetString( "url" );
-			_target = info.GetString( "target" );
-			_isEnabled = info.GetBoolean( "isEnabled" );
-			Tag = info.GetValue( "Tag", typeof(object) );
+			this._title = info.GetString( "title" );
+			this._url = info.GetString( "url" );
+			this._target = info.GetString( "target" );
+			this._isEnabled = info.GetBoolean( "isEnabled" );
+			this.Tag = info.GetValue( "Tag", typeof(object) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
-			info.AddValue( "title", _title );
-			info.AddValue( "url", _url );
-			info.AddValue( "target", _target );
-			info.AddValue( "isEnabled", _isEnabled );
-			info.AddValue( "Tag", Tag );
+			info.AddValue( "title", this._title );
+			info.AddValue( "url", this._url );
+			info.AddValue( "target", this._target );
+			info.AddValue( "isEnabled", this._isEnabled );
+			info.AddValue( "Tag", this.Tag );
 		}
 
 	#endregion

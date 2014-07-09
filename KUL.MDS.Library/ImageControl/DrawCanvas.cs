@@ -1,10 +1,11 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using KUL.MDS.SystemLayer;
-
-namespace KUL.MDS.Library
+﻿namespace SIS.Library.ImageControl
 {
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using SIS.Systemlayer;
+
     [System.Runtime.InteropServices.ComVisible(false)]
     public partial class DrawCanvas : UserControl
     {
@@ -62,7 +63,7 @@ namespace KUL.MDS.Library
                 }
                 if (value == null)
                 {
-                    m_bmpImage = null;
+                    this.m_bmpImage = null;
                     this.Invalidate();
                 }
                 else
@@ -181,7 +182,7 @@ namespace KUL.MDS.Library
                 {
                     this.m_dZoomFactor = 20;
                 }
-                if ((m_dZoomFactor < 0.05))
+                if ((this.m_dZoomFactor < 0.05))
                 {
                     this.m_dZoomFactor = 0.05;
                 }
@@ -189,8 +190,8 @@ namespace KUL.MDS.Library
                 {
                     this.m_szApparentImageSize.Height = (int)(this.m_bmpImage.Height * this.m_dZoomFactor);
                     this.m_szApparentImageSize.Width = (int)(this.m_bmpImage.Width * this.m_dZoomFactor);
-                    ComputeDrawingArea();
-                    CheckBounds();
+                    this.ComputeDrawingArea();
+                    this.CheckBounds();
                 }
                 this.Invalidate();
             }
@@ -223,7 +224,7 @@ namespace KUL.MDS.Library
         public DrawCanvas()
         {
             //  This call is required by the Windows Form Designer.
-            InitializeComponent();
+            this.InitializeComponent();
 
             //  Add any initialization after the InitializeComponent() call.
             this.SetStyle(ControlStyles.UserPaint, true);
@@ -262,14 +263,14 @@ namespace KUL.MDS.Library
                             > (this.m_bmpImage.Width
                             - (this.ClientSize.Width / this.m_dZoomFactor))))
                 {
-                    this.m_ptOrigin.X = (m_bmpImage.Width
+                    this.m_ptOrigin.X = (this.m_bmpImage.Width
                                 - (int)(this.ClientSize.Width / this.m_dZoomFactor));
                 }
                 if ((this.m_ptOrigin.Y
                             > (this.m_bmpImage.Height
                             - (int)(this.ClientSize.Height / this.m_dZoomFactor))))
                 {
-                    this.m_ptOrigin.Y = (m_bmpImage.Height
+                    this.m_ptOrigin.Y = (this.m_bmpImage.Height
                                 - (int)(this.ClientSize.Height / this.m_dZoomFactor));
                 }
                 if ((this.m_ptOrigin.X < 0))
@@ -285,7 +286,7 @@ namespace KUL.MDS.Library
 
         private void DrawRectangle(MouseEventArgs __mevargsE)
         {
-            if (new Rectangle(0, 0, this.ClientSize.Width, this.ClientSize.Height).Contains(PointToClient(Cursor.Position)))
+            if (new Rectangle(0, 0, this.ClientSize.Width, this.ClientSize.Height).Contains(this.PointToClient(Cursor.Position)))
             {
                 int _iWidth = System.Math.Abs((this.m_ptStartPoint.X - __mevargsE.X));
                 int _iHeight = System.Math.Abs((this.m_ptStartPoint.Y - __mevargsE.Y));
@@ -330,20 +331,20 @@ namespace KUL.MDS.Library
             // set new zoomfactor
             if (ZoomIn)
             {
-                this.ZoomFactor = Math.Round((ZoomFactor * 1.1), 2);
+                this.ZoomFactor = Math.Round((this.ZoomFactor * 1.1), 2);
             }
             else
             {
-                this.ZoomFactor = Math.Round((ZoomFactor * 0.9), 2);
+                this.ZoomFactor = Math.Round((this.ZoomFactor * 0.9), 2);
             }
 
             // Reset the origin to maintain center point
             this.m_ptOrigin.X = (
-                m_ptCenterPoint.X - (int)Math.Round(((double)ClientSize.Width / (m_dZoomFactor / (double)2)), 0));
+                this.m_ptCenterPoint.X - (int)Math.Round(((double)this.ClientSize.Width / (this.m_dZoomFactor / (double)2)), 0));
             this.m_ptOrigin.Y = (
-                m_ptCenterPoint.Y - (int)Math.Round(((double)ClientSize.Height / (m_dZoomFactor / (double)2)), 0));
+                this.m_ptCenterPoint.Y - (int)Math.Round(((double)this.ClientSize.Height / (this.m_dZoomFactor / (double)2)), 0));
 
-            CheckBounds();
+            this.CheckBounds();
 
             if (this.OnScrollPositionsChanged != null)
             {
@@ -376,11 +377,11 @@ namespace KUL.MDS.Library
 
                     if ((this.m_rctSelectedRectangle.Width > this.m_rctSelectedRectangle.Height))
                     {
-                        _dNewZoomFactor = ((double)ClientSize.Width / ((double)SelectedRectangle.Width / ZoomFactor));
+                        _dNewZoomFactor = ((double)this.ClientSize.Width / ((double)this.SelectedRectangle.Width / this.ZoomFactor));
                     }
                     else
                     {
-                        _dNewZoomFactor = ((double)ClientSize.Height / ((double)SelectedRectangle.Height / ZoomFactor));
+                        _dNewZoomFactor = ((double)this.ClientSize.Height / ((double)this.SelectedRectangle.Height / this.ZoomFactor));
                     }
 
                     this.m_ptOrigin = _ptNewOrigin;
@@ -398,8 +399,8 @@ namespace KUL.MDS.Library
 
         private void ComputeDrawingArea()
         {
-            this.m_iDrawHeight = (int)Math.Round(((double)this.ClientSize.Height / m_dZoomFactor), 0);
-            this.m_iDrawWidth = (int)Math.Round(((double)this.ClientSize.Width / m_dZoomFactor), 0);
+            this.m_iDrawHeight = (int)Math.Round(((double)this.ClientSize.Height / this.m_dZoomFactor), 0);
+            this.m_iDrawWidth = (int)Math.Round(((double)this.ClientSize.Width / this.m_dZoomFactor), 0);
         }
 
         #region Mouspanning.
@@ -418,7 +419,7 @@ namespace KUL.MDS.Library
 
         private void DrawCanvas_MouseUp(object sender, MouseEventArgs __mevargsE)
         {
-            if (!(m_bmpImage == null))
+            if (!(this.m_bmpImage == null))
             {
                 if (!this.m_bPanMode)
                 {
@@ -426,7 +427,7 @@ namespace KUL.MDS.Library
 
                     if (!(this.m_rctSelectedRectangle == null))
                     {
-                        ZoomSelection();
+                        this.ZoomSelection();
                     }
                 }
             }
@@ -466,7 +467,7 @@ namespace KUL.MDS.Library
                         this.m_ptOrigin.Y = (
                             this.m_ptOrigin.Y + (int)Math.Round(((double)_iDeltaY / this.m_dZoomFactor), 0));
 
-                        CheckBounds();
+                        this.CheckBounds();
 
                         // reset the startpoints
                         this.m_ptStartPoint.X = __mevargsE.X;
@@ -483,7 +484,7 @@ namespace KUL.MDS.Library
                     }
                     else
                     {
-                        DrawRectangle(__mevargsE);
+                        this.DrawRectangle(__mevargsE);
                     }
                 }
             }

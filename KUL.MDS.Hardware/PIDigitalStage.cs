@@ -1,11 +1,12 @@
-﻿using System;
-using System.Text;
-using System.Threading;
-using KUL.MDS.ScanModes;
-using KUL.MDS.SystemLayer;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware
 {
+    using System;
+    using System.Text;
+    using System.Threading;
+
+    using SIS.ScanModes.Core;
+    using SIS.ScanModes.Enums;
+
     public class PIDigitalStage : IPiezoStage
     {
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -215,7 +216,7 @@ namespace KUL.MDS.Hardware
             if (__iResult != 1)
             {
                 // Int that will hold the error code.
-                int _iError = E7XXController.GetError(m_iControllerID);
+                int _iError = E7XXController.GetError(this.m_iControllerID);
 
                 // Buffer to hold the human readable error message.
                 StringBuilder _sbError = new StringBuilder(1024);
@@ -227,9 +228,9 @@ namespace KUL.MDS.Hardware
                 this.m_sCurrentError = _sbError.ToString();
 
                 // Throw an ErrorOccurred event to inform the user.
-                if (ErrorOccurred != null)
+                if (this.ErrorOccurred != null)
                 {
-                    ErrorOccurred(this, new EventArgs());
+                    this.ErrorOccurred(this, new EventArgs());
                 }
 
                 //Return a boolean to indicate status.
@@ -358,7 +359,7 @@ namespace KUL.MDS.Hardware
                 // Turn servo on to actually be able to command positions to the stage.
                 int[] _iValues = { 1, 1, 1 };
 
-                if (this.IsError(E7XXController.SVO(m_iControllerID, "123", _iValues)))
+                if (this.IsError(E7XXController.SVO(this.m_iControllerID, "123", _iValues)))
                 {
                     _logger.Error("Error while executing SVO(): " + this.m_sCurrentError);
                 }
@@ -376,9 +377,9 @@ namespace KUL.MDS.Hardware
                 // If we got here communication with the controller is working properly.
                 this.m_bIsInitialized = true;
             }
-            if (EngagedChanged != null)
+            if (this.EngagedChanged != null)
             {
-                EngagedChanged(this, new EventArgs());
+                this.EngagedChanged(this, new EventArgs());
             }
         }
 
@@ -470,9 +471,9 @@ namespace KUL.MDS.Hardware
                 // This stage is no longer initialized!
                 this.m_bIsInitialized = false;
 
-                if (EngagedChanged != null)
+                if (this.EngagedChanged != null)
                 {
-                    EngagedChanged(this, new EventArgs());
+                    this.EngagedChanged(this, new EventArgs());
                 }
             }
             else
@@ -546,9 +547,9 @@ namespace KUL.MDS.Hardware
                     Thread.Sleep(2000);
 
                     // Raise a PositionChanged event.
-                    if (PositionChanged != null)
+                    if (this.PositionChanged != null)
                     {
-                        PositionChanged(this, new EventArgs());
+                        this.PositionChanged(this, new EventArgs());
                     }
                 }
             }
@@ -599,9 +600,9 @@ namespace KUL.MDS.Hardware
             Thread.Sleep(2000);
 
             // Raise a PositionChanged event.
-            if (PositionChanged != null)
+            if (this.PositionChanged != null)
             {
-                PositionChanged(this, new EventArgs());
+                this.PositionChanged(this, new EventArgs());
             }
         }
 
@@ -609,7 +610,7 @@ namespace KUL.MDS.Hardware
         /// Perform a scan.
         /// </summary>
         /// <param name="__scmScanMode">Scanmode that holds all spatial information for a scan and defines it completely.</param>
-        public void Scan(ScanModes.Scanmode __scmScanMode, bool __bResend)
+        public void Scan(Scanmode __scmScanMode, bool __bResend)
         {
             _logger.Info("Starting Scan ...");
 

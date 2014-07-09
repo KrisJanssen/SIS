@@ -7,11 +7,11 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Runtime.InteropServices;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Runtime.InteropServices;
+
     internal static class NativeDelegates
     {
         [return: MarshalAs(UnmanagedType.Bool)]

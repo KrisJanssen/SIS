@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Encapsulates a curve type that is displayed as a line and/or a set of
 	/// symbols at each point.
 	/// </summary>
@@ -60,8 +59,8 @@ namespace ZedGraph
 		/// </summary>
 		public Symbol Symbol
 		{
-			get { return _symbol; }
-			set { _symbol = value; }
+			get { return this._symbol; }
+			set { this._symbol = value; }
 		}
 		/// <summary>
 		/// Gets or sets the <see cref="ZedGraph.Line"/> class instance defined
@@ -69,8 +68,8 @@ namespace ZedGraph
 		/// </summary>
 		public Line Line
 		{
-			get { return _line; }
-			set { _line = value; }
+			get { return this._line; }
+			set { this._line = value; }
 		}
 
 		/// <summary>
@@ -104,8 +103,8 @@ namespace ZedGraph
 		/// <param name="label">The _label that will appear in the legend.</param>
 		public LineItem( string label ) : base( label )
 		{
-			_symbol = new Symbol();
-			_line = new Line();
+			this._symbol = new Symbol();
+			this._line = new Line();
 		}
 		
 		/// <summary>
@@ -167,13 +166,13 @@ namespace ZedGraph
 		public LineItem( string label, IPointList points, Color color, SymbolType symbolType, float lineWidth )
 			: base( label, points )
 		{
-			_line = new Line( color );
+			this._line = new Line( color );
 			if ( lineWidth == 0 )
-				_line.IsVisible = false;
+				this._line.IsVisible = false;
 			else
-				_line.Width = lineWidth;
+				this._line.Width = lineWidth;
 
-			_symbol = new Symbol( symbolType, color );
+			this._symbol = new Symbol( symbolType, color );
 		}
 
 		/// <summary>
@@ -189,7 +188,7 @@ namespace ZedGraph
 		/// type of symbol to use for this <see cref="LineItem"/>.  Use <see cref="SymbolType.None"/>
 		/// to hide the symbols.</param>
 		public LineItem( string label, IPointList points, Color color, SymbolType symbolType )
-			: this( label, points, color, symbolType, ZedGraph.LineBase.Default.Width )
+			: this( label, points, color, symbolType, global::ZedGraph.ZedGraph.LineBase.Default.Width )
 		{
 		}
 
@@ -199,8 +198,8 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="LineItem"/> object from which to copy</param>
 		public LineItem( LineItem rhs ) : base( rhs )
 		{
-			_symbol = new Symbol( rhs.Symbol );
-			_line = new Line( rhs.Line );
+			this._symbol = new Symbol( rhs.Symbol );
+			this._line = new Line( rhs.Line );
 		}
 
 		/// <summary>
@@ -243,21 +242,21 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_symbol = (Symbol) info.GetValue( "symbol", typeof(Symbol) );
-			_line = (Line) info.GetValue( "line", typeof(Line) );
+			this._symbol = (Symbol) info.GetValue( "symbol", typeof(Symbol) );
+			this._line = (Line) info.GetValue( "line", typeof(Line) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "symbol", _symbol );
-			info.AddValue( "line", _line );
+			info.AddValue( "symbol", this._symbol );
+			info.AddValue( "line", this._line );
 		}
 	#endregion
 
@@ -286,11 +285,11 @@ namespace ZedGraph
 		/// </param>
 		override public void Draw( Graphics g, GraphPane pane, int pos, float scaleFactor  )
 		{
-			if ( _isVisible )
+			if ( this._isVisible )
 			{
-				Line.Draw( g, pane, this, scaleFactor );
+				this.Line.Draw( g, pane, this, scaleFactor );
 				
-				Symbol.Draw( g, pane, this, scaleFactor, IsSelected );
+				this.Symbol.Draw( g, pane, this, scaleFactor, this.IsSelected );
 			}
 		}		
 
@@ -322,12 +321,12 @@ namespace ZedGraph
 			//rect2.Y = yMid;
 			//rect2.Height = rect.Height / 2.0f;
 
-			_line.Fill.Draw( g, rect );
+			this._line.Fill.Draw( g, rect );
 
-			_line.DrawSegment( g, pane, rect.Left, yMid, rect.Right, yMid, scaleFactor );
+			this._line.DrawSegment( g, pane, rect.Left, yMid, rect.Right, yMid, scaleFactor );
 
             // Draw a sample symbol to the left of the label text				
-			_symbol.DrawSymbol( g, pane, xMid, yMid, scaleFactor, false, null );
+			this._symbol.DrawSymbol( g, pane, xMid, yMid, scaleFactor, false, null );
 
 		}
 	
@@ -360,10 +359,10 @@ namespace ZedGraph
 		{
 			coords = string.Empty;
 
-			if ( i < 0 || i >= _points.Count )
+			if ( i < 0 || i >= this._points.Count )
 				return false;
 
-			PointPair pt = _points[i];
+			PointPair pt = this._points[i];
 			if ( pt.IsInvalid )
 				return false;
 
@@ -371,16 +370,16 @@ namespace ZedGraph
 			ValueHandler valueHandler = new ValueHandler( pane, false );
 			valueHandler.GetValues( this, i, out x, out z, out y );
 
-			Axis yAxis = GetYAxis( pane );
-			Axis xAxis = GetXAxis( pane );
+			Axis yAxis = this.GetYAxis( pane );
+			Axis xAxis = this.GetXAxis( pane );
 
-			PointF pixPt = new PointF( xAxis.Scale.Transform( _isOverrideOrdinal, i, x ),
-							yAxis.Scale.Transform( _isOverrideOrdinal, i, y ) );
+			PointF pixPt = new PointF( xAxis.Scale.Transform( this._isOverrideOrdinal, i, x ),
+							yAxis.Scale.Transform( this._isOverrideOrdinal, i, y ) );
 			
 			if ( !pane.Chart.Rect.Contains( pixPt ) )
 				return false;
 
-			float halfSize = _symbol.Size * pane.CalcScaleFactor();
+			float halfSize = this._symbol.Size * pane.CalcScaleFactor();
 
 			coords = String.Format( "{0:f0},{1:f0},{2:f0},{3:f0}",
 					pixPt.X - halfSize, pixPt.Y - halfSize,

@@ -1,21 +1,15 @@
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.IO.Ports;
-
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
+    using System;
+    using System.IO;
+    using System.IO.Ports;
+    using System.Windows.Forms;
+
     public partial class SerialTerminalSettingsForm : Form
     {
         public SerialTerminalSettingsForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             CommPort com = CommPort.Instance;
 
@@ -24,12 +18,12 @@ namespace KUL.MDS.SerialTerminal
             for (int i=0; i<portList.Length; ++i)
             {
                 string name = portList[i];
-                comboBox1.Items.Add(name);
+                this.comboBox1.Items.Add(name);
                 if (name == Settings.Port.PortName)
                     found = i;
             }
             if (portList.Length > 0)
-                comboBox1.SelectedIndex = found;
+                this.comboBox1.SelectedIndex = found;
 
             Int32[] baudRates = {
                 100,300,600,1200,2400,4800,9600,14400,19200,
@@ -38,100 +32,100 @@ namespace KUL.MDS.SerialTerminal
             found = 0;
             for (int i=0; baudRates[i] != 0; ++i)
             {
-                comboBox2.Items.Add(baudRates[i].ToString());
+                this.comboBox2.Items.Add(baudRates[i].ToString());
                 if (baudRates[i] == Settings.Port.BaudRate)
                     found = i;
             }
-            comboBox2.SelectedIndex = found;
+            this.comboBox2.SelectedIndex = found;
 
-            comboBox3.Items.Add("5");
-            comboBox3.Items.Add("6");
-            comboBox3.Items.Add("7");
-            comboBox3.Items.Add("8");
-            comboBox3.SelectedIndex = Settings.Port.DataBits - 5;
+            this.comboBox3.Items.Add("5");
+            this.comboBox3.Items.Add("6");
+            this.comboBox3.Items.Add("7");
+            this.comboBox3.Items.Add("8");
+            this.comboBox3.SelectedIndex = Settings.Port.DataBits - 5;
 
             foreach (string s in Enum.GetNames(typeof(Parity)))
             {
-                comboBox4.Items.Add(s);
+                this.comboBox4.Items.Add(s);
             }
-            comboBox4.SelectedIndex = (int)Settings.Port.Parity;
+            this.comboBox4.SelectedIndex = (int)Settings.Port.Parity;
 
             foreach (string s in Enum.GetNames(typeof(StopBits)))
             {
-                comboBox5.Items.Add(s);
+                this.comboBox5.Items.Add(s);
             }
-            comboBox5.SelectedIndex = (int)Settings.Port.StopBits;
+            this.comboBox5.SelectedIndex = (int)Settings.Port.StopBits;
 
             foreach (string s in Enum.GetNames(typeof(Handshake)))
             {
-                comboBox6.Items.Add(s);
+                this.comboBox6.Items.Add(s);
             }
-            comboBox6.SelectedIndex = (int)Settings.Port.Handshake;
+            this.comboBox6.SelectedIndex = (int)Settings.Port.Handshake;
 
             switch (Settings.Option.AppendToSend)
             {
                 case Settings.Option.AppendType.AppendNothing:
-                    radioButton1.Checked = true;
+                    this.radioButton1.Checked = true;
                     break;
                 case Settings.Option.AppendType.AppendCR:
-                    radioButton2.Checked = true;
+                    this.radioButton2.Checked = true;
                     break;
                 case Settings.Option.AppendType.AppendLF:
-                    radioButton3.Checked = true;
+                    this.radioButton3.Checked = true;
                     break;
                 case Settings.Option.AppendType.AppendCRLF:
-                    radioButton4.Checked = true;
+                    this.radioButton4.Checked = true;
                     break;
             }
 
-            checkBox1.Checked = Settings.Option.HexOutput;
-            checkBox2.Checked = Settings.Option.MonoFont;
-            checkBox3.Checked = Settings.Option.LocalEcho;
-            checkBox4.Checked = Settings.Option.StayOnTop;
-			checkBox5.Checked = Settings.Option.FilterUseCase;
+            this.checkBox1.Checked = Settings.Option.HexOutput;
+            this.checkBox2.Checked = Settings.Option.MonoFont;
+            this.checkBox3.Checked = Settings.Option.LocalEcho;
+            this.checkBox4.Checked = Settings.Option.StayOnTop;
+			this.checkBox5.Checked = Settings.Option.FilterUseCase;
 
-			textBox1.Text = Settings.Option.LogFileName;
+			this.textBox1.Text = Settings.Option.LogFileName;
 		}
 
 		// OK
 		private void button1_Click(object sender, EventArgs e)
 		{
-			Settings.Port.PortName = comboBox1.Text;
-			Settings.Port.BaudRate = Int32.Parse(comboBox2.Text);
-			Settings.Port.DataBits = comboBox3.SelectedIndex + 5;
-			Settings.Port.Parity = (Parity)comboBox4.SelectedIndex;
-			Settings.Port.StopBits = (StopBits)comboBox5.SelectedIndex;
-			Settings.Port.Handshake = (Handshake)comboBox6.SelectedIndex;
+			Settings.Port.PortName = this.comboBox1.Text;
+			Settings.Port.BaudRate = Int32.Parse(this.comboBox2.Text);
+			Settings.Port.DataBits = this.comboBox3.SelectedIndex + 5;
+			Settings.Port.Parity = (Parity)this.comboBox4.SelectedIndex;
+			Settings.Port.StopBits = (StopBits)this.comboBox5.SelectedIndex;
+			Settings.Port.Handshake = (Handshake)this.comboBox6.SelectedIndex;
 
-			if (radioButton2.Checked)
+			if (this.radioButton2.Checked)
 				Settings.Option.AppendToSend = Settings.Option.AppendType.AppendCR;
-			else if (radioButton3.Checked)
+			else if (this.radioButton3.Checked)
 				Settings.Option.AppendToSend = Settings.Option.AppendType.AppendLF;
-			else if (radioButton4.Checked)
+			else if (this.radioButton4.Checked)
 				Settings.Option.AppendToSend = Settings.Option.AppendType.AppendCRLF;
 			else
 				Settings.Option.AppendToSend = Settings.Option.AppendType.AppendNothing;
 
-			Settings.Option.HexOutput = checkBox1.Checked;
-			Settings.Option.MonoFont = checkBox2.Checked;
-			Settings.Option.LocalEcho = checkBox3.Checked;
-			Settings.Option.StayOnTop = checkBox4.Checked;
-			Settings.Option.FilterUseCase = checkBox5.Checked;
+			Settings.Option.HexOutput = this.checkBox1.Checked;
+			Settings.Option.MonoFont = this.checkBox2.Checked;
+			Settings.Option.LocalEcho = this.checkBox3.Checked;
+			Settings.Option.StayOnTop = this.checkBox4.Checked;
+			Settings.Option.FilterUseCase = this.checkBox5.Checked;
 
-			Settings.Option.LogFileName = textBox1.Text;
+			Settings.Option.LogFileName = this.textBox1.Text;
 
 			CommPort com = CommPort.Instance;
 			com.Open();
 
 			Settings.Write();
 
-			Close();
+			this.Close();
 		}
 
 		// Cancel
         private void button2_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
 		private void button3_Click(object sender, EventArgs e)
@@ -148,13 +142,13 @@ namespace KUL.MDS.SerialTerminal
 
             if (fileDialog1.ShowDialog() == DialogResult.OK)
             {
-				textBox1.Text = fileDialog1.FileName;
-				if (File.Exists(textBox1.Text))
-					File.Delete(textBox1.Text);
+				this.textBox1.Text = fileDialog1.FileName;
+				if (File.Exists(this.textBox1.Text))
+					File.Delete(this.textBox1.Text);
 			}
             else
             {
-				textBox1.Text = "";
+				this.textBox1.Text = "";
             }
         }
     }

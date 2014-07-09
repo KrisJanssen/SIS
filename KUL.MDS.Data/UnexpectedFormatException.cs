@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.Data
+﻿namespace SIS.Data
 {
+    using System;
+
     class UnexpectedFormatException : Exception
     {
         // The constructor that takes msg as a parameter

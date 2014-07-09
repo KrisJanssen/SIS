@@ -7,11 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using KUL.MDS.Base;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
+    using SIS.Base;
+
     public interface IHotKeyTarget
         : IDisposedEvent,
           IFormAssociate

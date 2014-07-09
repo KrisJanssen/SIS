@@ -7,11 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
     public enum VirtualFolderName
     {

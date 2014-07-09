@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using KUL.MDS.SystemLayer;
-
-
-namespace KUL.MDS.ScanModes
+﻿namespace SIS.ScanModes.XZ
 {
+    using System;
+    using System.Collections.Generic;
+
+    using SIS.ScanModes.Core;
+    using SIS.ScanModes.Enums;
+    using SIS.Systemlayer;
+
     /// <summary>
     /// Object supplies the necessary coordinates to a stage based upon the physical parameters that fully describe a unidirectional STED scan
     /// </summary>

@@ -1,11 +1,6 @@
-﻿namespace KUL.MDS.Library
+﻿namespace SIS.Library
 {
-
     using System;
-    using System.Drawing;
-    using System.Data;
-    using System.Reflection;
-    using System.Windows.Forms;
     using System.IO;
 
     // Logger class 
@@ -30,9 +25,9 @@
         public Logger(string LogFileName)
         {
             this.strLogFile = LogFileName;
-            openFile();
-            _writelog("");
-            closeFile();
+            this.openFile();
+            this._writelog("");
+            this.closeFile();
         }
 
 
@@ -40,23 +35,23 @@
         {
             try
             {
-                swLog = File.AppendText(strLogFile);
-                isReady = true;
+                this.swLog = File.AppendText(this.strLogFile);
+                this.isReady = true;
             }
             catch
             {
-                isReady = false;
+                this.isReady = false;
             }
         }
 
         private void closeFile()
         {
 
-            if (isReady)
+            if (this.isReady)
             {
                 try
                 {
-                    swLog.Close();
+                    this.swLog.Close();
                 }
                 catch
                 {
@@ -92,17 +87,17 @@
                     break;
             }
             stub += message;
-            openFile();
-            _writelog(stub);
-            closeFile();
+            this.openFile();
+            this._writelog(stub);
+            this.closeFile();
             Console.WriteLine(stub);
         }
 
         private void _writelog(string msg)
         {
-            if (isReady)
+            if (this.isReady)
             {
-                swLog.WriteLine(msg);
+                this.swLog.WriteLine(msg);
             }
             else
             {

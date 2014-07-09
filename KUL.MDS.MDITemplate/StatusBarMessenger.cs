@@ -1,8 +1,6 @@
-using System;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	public interface IStatusBarMessage
+    public interface IStatusBarMessage
 	{
 		string StatusMessage { get; set; }
 	} ;

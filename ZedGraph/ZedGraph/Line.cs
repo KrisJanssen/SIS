@@ -17,15 +17,15 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class representing all the characteristics of the Line
 	/// segments that make up a curve on the graph.
 	/// </summary>
@@ -153,8 +153,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.SmoothTension"/>
 		public bool IsSmooth
 		{
-			get { return _isSmooth; }
-			set { _isSmooth = value; }
+			get { return this._isSmooth; }
+			set { this._isSmooth = value; }
 		}
 		/// <summary>
 		/// Gets or sets a property that determines the smoothing tension
@@ -172,8 +172,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.SmoothTension"/>
 		public float SmoothTension
 		{
-			get { return _smoothTension; }
-			set { _smoothTension = value; }
+			get { return this._smoothTension; }
+			set { this._smoothTension = value; }
 		}
 		/// <summary>
 		/// Determines if the <see cref="CurveItem"/> will be drawn by directly connecting the
@@ -192,8 +192,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.StepType"/>
 		public StepType StepType
 		{
-			get { return _stepType; }
-			set { _stepType = value; }
+			get { return this._stepType; }
+			set { this._stepType = value; }
 		}
 
 		/// <summary>
@@ -202,8 +202,8 @@ namespace ZedGraph
 		/// </summary>
 		public Fill Fill
 		{
-			get { return _fill; }
-			set { _fill = value; }
+			get { return this._fill; }
+			set { this._fill = value; }
 		}
 
 		/// <summary>
@@ -222,8 +222,8 @@ namespace ZedGraph
 		/// </remarks>
 		public bool IsOptimizedDraw
 		{
-			get { return _isOptimizedDraw; }
-			set { _isOptimizedDraw = value; }
+			get { return this._isOptimizedDraw; }
+			set { this._isOptimizedDraw = value; }
 		}
 
 	#endregion
@@ -247,12 +247,12 @@ namespace ZedGraph
 		/// <param name="color">The color to assign to this new Line object</param>
 		public Line( Color color )
 		{
-			_color = color.IsEmpty ? Default.Color : color;
-			_stepType = Default.StepType;
-			_isSmooth = Default.IsSmooth;
-			_smoothTension = Default.SmoothTension;
-			_fill = new Fill( Default.FillColor, Default.FillBrush, Default.FillType );
-			_isOptimizedDraw = Default.IsOptimizedDraw;
+			this._color = color.IsEmpty ? Default.Color : color;
+			this._stepType = Default.StepType;
+			this._isSmooth = Default.IsSmooth;
+			this._smoothTension = Default.SmoothTension;
+			this._fill = new Fill( Default.FillColor, Default.FillBrush, Default.FillType );
+			this._isOptimizedDraw = Default.IsOptimizedDraw;
 		}
 
 		/// <summary>
@@ -261,12 +261,12 @@ namespace ZedGraph
 		/// <param name="rhs">The Line object from which to copy</param>
 		public Line( Line rhs ) : base( rhs )
 		{
-			_color = rhs._color;
-			_stepType = rhs._stepType;
-			_isSmooth = rhs._isSmooth;
-			_smoothTension = rhs._smoothTension;
-			_fill = rhs._fill.Clone();
-			_isOptimizedDraw = rhs._isOptimizedDraw;
+			this._color = rhs._color;
+			this._stepType = rhs._stepType;
+			this._isSmooth = rhs._isSmooth;
+			this._smoothTension = rhs._smoothTension;
+			this._fill = rhs._fill.Clone();
+			this._isOptimizedDraw = rhs._isOptimizedDraw;
 		}
 
 		/// <summary>
@@ -313,32 +313,32 @@ namespace ZedGraph
 
 			//if ( sch >= 14 )
 			//	_color = (Color) info.GetValue( "color", typeof( Color ) );
-			_stepType = (StepType)info.GetValue( "stepType", typeof( StepType ) );
-			_isSmooth = info.GetBoolean( "isSmooth" );
-			_smoothTension = info.GetSingle( "smoothTension" );
-			_fill = (Fill)info.GetValue( "fill", typeof( Fill ) );
+			this._stepType = (StepType)info.GetValue( "stepType", typeof( StepType ) );
+			this._isSmooth = info.GetBoolean( "isSmooth" );
+			this._smoothTension = info.GetSingle( "smoothTension" );
+			this._fill = (Fill)info.GetValue( "fill", typeof( Fill ) );
 
 			if ( sch >= 13 )
-				_isOptimizedDraw = info.GetBoolean( "isOptimizedDraw" );
+				this._isOptimizedDraw = info.GetBoolean( "isOptimizedDraw" );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 
 			info.AddValue( "schema", schema );
 			//info.AddValue( "color", _color );
-			info.AddValue( "stepType", _stepType );
-			info.AddValue( "isSmooth", _isSmooth );
-			info.AddValue( "smoothTension", _smoothTension );
-			info.AddValue( "fill", _fill );
+			info.AddValue( "stepType", this._stepType );
+			info.AddValue( "isSmooth", this._isSmooth );
+			info.AddValue( "smoothTension", this._smoothTension );
+			info.AddValue( "fill", this._fill );
 
-			info.AddValue( "isOptimizedDraw", _isOptimizedDraw );
+			info.AddValue( "isOptimizedDraw", this._isOptimizedDraw );
 		}
 
 	#endregion
@@ -376,15 +376,15 @@ namespace ZedGraph
 				//	GraphPane.Default.SelectedLine.
 
 				SmoothingMode sModeSave = g.SmoothingMode;
-				if ( _isAntiAlias )
+				if ( this._isAntiAlias )
 					g.SmoothingMode = SmoothingMode.HighQuality;
 
 				if ( curve is StickItem )
-					DrawSticks( g, pane, curve, scaleFactor );
+					this.DrawSticks( g, pane, curve, scaleFactor );
 				else if ( this.IsSmooth || this.Fill.IsVisible )
-					DrawSmoothFilledCurve( g, pane, curve, scaleFactor );
+					this.DrawSmoothFilledCurve( g, pane, curve, scaleFactor );
 				else
-					DrawCurve( g, pane, curve, scaleFactor );
+					this.DrawCurve( g, pane, curve, scaleFactor );
 
 				g.SmoothingMode = sModeSave;
 			}
@@ -419,9 +419,9 @@ namespace ZedGraph
 		public void DrawSegment( Graphics g, GraphPane pane, float x1, float y1,
 								  float x2, float y2, float scaleFactor )
 		{
-			if ( _isVisible && !this.Color.IsEmpty )
+			if ( this._isVisible && !this.Color.IsEmpty )
 			{
-				using ( Pen pen = GetPen( pane, scaleFactor ) )
+				using ( Pen pen = this.GetPen( pane, scaleFactor ) )
 				{
 					g.DrawLine( pen, x1, y1, x2, y2 );
 				}
@@ -485,7 +485,7 @@ namespace ZedGraph
 
 							if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
 							{
-								using ( Pen tPen = GetPen( pane, scaleFactor, pt ) )
+								using ( Pen tPen = this.GetPen( pane, scaleFactor, pt ) )
 									g.DrawLine( tPen, pixX, pixY, pixX, basePix );
 							}
 							else
@@ -534,10 +534,10 @@ namespace ZedGraph
 			IPointList points = curve.Points;
 
 			if ( this.IsVisible && !this.Color.IsEmpty && points != null &&
-				BuildPointsArray( pane, curve, out arrPoints, out count ) &&
+				this.BuildPointsArray( pane, curve, out arrPoints, out count ) &&
 				count > 2 )
 			{
-				float tension = _isSmooth ? _smoothTension : 0f;
+				float tension = this._isSmooth ? this._smoothTension : 0f;
 
 				// Fill the curve if needed
 				if ( this.Fill.IsVisible )
@@ -549,7 +549,7 @@ namespace ZedGraph
 						path.AddCurve( arrPoints, 0, count - 2, tension );
 
 						double yMin = yAxis._scale._min < 0 ? 0.0 : yAxis._scale._min;
-						CloseCurve( pane, curve, arrPoints, count, yMin, path );
+						this.CloseCurve( pane, curve, arrPoints, count, yMin, path );
 
 						RectangleF rect = path.GetBounds();
 						using ( Brush brush = source._fill.MakeBrush( rect ) )
@@ -580,9 +580,9 @@ namespace ZedGraph
 
 				// If it's a smooth curve, go ahead and render the path.  Otherwise, use the
 				// standard drawcurve method just in case there are missing values.
-				if ( _isSmooth )
+				if ( this._isSmooth )
 				{
-					using ( Pen pen = GetPen( pane, scaleFactor ) )
+					using ( Pen pen = this.GetPen( pane, scaleFactor ) )
 					{
 						// Stroke the curve
 						g.DrawCurve( pen, arrPoints, 0, count - 2, tension );
@@ -591,7 +591,7 @@ namespace ZedGraph
 					}
 				}
 				else
-					DrawCurve( g, pane, curve, scaleFactor );
+					this.DrawCurve( g, pane, curve, scaleFactor );
 			}
 		}
 
@@ -670,12 +670,12 @@ namespace ZedGraph
 
 			using ( Pen pen = source.GetPen( pane, scaleFactor ) )
 			{
-				if ( points != null && !_color.IsEmpty && this.IsVisible )
+				if ( points != null && !this._color.IsEmpty && this.IsVisible )
 				{
 					//bool lastOut = false;
 					bool isOut;
 
-					bool isOptDraw = _isOptimizedDraw && points.Count > 1000;
+					bool isOptDraw = this._isOptimizedDraw && points.Count > 1000;
 
 					// (Dale-a-b) we'll set an element to true when it has been drawn	
 					bool[,] isPixelDrawn = null;
@@ -749,13 +749,13 @@ namespace ZedGraph
 											lastY > 5000000 || lastY < -5000000 ||
 											tmpX > 5000000 || tmpX < -5000000 ||
 											tmpY > 5000000 || tmpY < -5000000 )
-										InterpolatePoint( g, pane, curve, lastPt, scaleFactor, pen,
+										this.InterpolatePoint( g, pane, curve, lastPt, scaleFactor, pen,
 														lastX, lastY, tmpX, tmpY );
 									else if ( !isOut )
 									{
 										if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
 										{
-											using ( Pen tPen = GetPen( pane, scaleFactor, lastPt ) )
+											using ( Pen tPen = this.GetPen( pane, scaleFactor, lastPt ) )
 											{
 												if ( this.StepType == StepType.NonStep )
 												{
@@ -811,7 +811,7 @@ namespace ZedGraph
 								}
 								catch
 								{
-									InterpolatePoint( g, pane, curve, lastPt, scaleFactor, pen,
+									this.InterpolatePoint( g, pane, curve, lastPt, scaleFactor, pen,
 												lastX, lastY, tmpX, tmpY );
 								}
 
@@ -882,7 +882,7 @@ namespace ZedGraph
 
 			using ( Pen pen = source.GetPen( pane, scaleFactor ) )
 			{
-				if ( points != null && !_color.IsEmpty && this.IsVisible )
+				if ( points != null && !this._color.IsEmpty && this.IsVisible )
 				{
 					//bool lastOut = false;
 					bool isOut;
@@ -942,13 +942,13 @@ namespace ZedGraph
 											lastY > 5000000 || lastY < -5000000 ||
 											tmpX > 5000000 || tmpX < -5000000 ||
 											tmpY > 5000000 || tmpY < -5000000 )
-										InterpolatePoint( g, pane, curve, lastPt, scaleFactor, pen,
+										this.InterpolatePoint( g, pane, curve, lastPt, scaleFactor, pen,
 														lastX, lastY, tmpX, tmpY );
 									else if ( !isOut )
 									{
 										if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
 										{
-											using ( Pen tPen = GetPen( pane, scaleFactor, lastPt ) )
+											using ( Pen tPen = this.GetPen( pane, scaleFactor, lastPt ) )
 											{
 												if ( this.StepType == StepType.NonStep )
 												{
@@ -1004,7 +1004,7 @@ namespace ZedGraph
 								}
 								catch
 								{
-									InterpolatePoint( g, pane, curve, lastPt, scaleFactor, pen,
+									this.InterpolatePoint( g, pane, curve, lastPt, scaleFactor, pen,
 												lastX, lastY, tmpX, tmpY );
 								}
 
@@ -1097,7 +1097,7 @@ namespace ZedGraph
 				*/
 				if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
 				{
-					using ( Pen tPen = GetPen( pane, scaleFactor, lastPt ) )
+					using ( Pen tPen = this.GetPen( pane, scaleFactor, lastPt ) )
 					{
 						if ( this.StepType == StepType.NonStep )
 						{
@@ -1186,7 +1186,7 @@ namespace ZedGraph
 
 				// Step type plots get twice as many points.  Always add three points so there is
 				// room to close out the curve for area fills.
-				arrPoints = new PointF[( _stepType == ZedGraph.StepType.NonStep ? 1 : 2 ) *
+				arrPoints = new PointF[( this._stepType == global::ZedGraph.ZedGraph.StepType.NonStep ? 1 : 2 ) *
 											points.Count + 1];
 
 				// Loop over all points in the curve
@@ -1225,7 +1225,7 @@ namespace ZedGraph
 						// Add the pixel value pair into the points array
 						// Two points are added for step type curves
 						// ignore step-type setting for smooth curves
-						if ( _isSmooth || index == 0 || this.StepType == StepType.NonStep )
+						if ( this._isSmooth || index == 0 || this.StepType == StepType.NonStep )
 						{
 							arrPoints[index].X = curX;
 							arrPoints[index].Y = curY;
@@ -1308,7 +1308,7 @@ namespace ZedGraph
 
 				// Step type plots get twice as many points.  Always add three points so there is
 				// room to close out the curve for area fills.
-				arrPoints = new PointF[( _stepType == ZedGraph.StepType.NonStep ? 1 : 2 ) *
+				arrPoints = new PointF[( this._stepType == global::ZedGraph.ZedGraph.StepType.NonStep ? 1 : 2 ) *
 					( pane.LineType == LineType.Stack ? 2 : 1 ) *
 					points.Count + 1];
 
@@ -1335,7 +1335,7 @@ namespace ZedGraph
 						// Add the pixel value pair into the points array
 						// Two points are added for step type curves
 						// ignore step-type setting for smooth curves
-						if ( _isSmooth || index == 0 || this.StepType == StepType.NonStep )
+						if ( this._isSmooth || index == 0 || this.StepType == StepType.NonStep )
 						{
 							arrPoints[index].X = curX;
 							arrPoints[index].Y = curY;
@@ -1420,7 +1420,7 @@ namespace ZedGraph
 				PointF[] arrPoints2;
 				int count2;
 
-				float tension = _isSmooth ? _smoothTension : 0f;
+				float tension = this._isSmooth ? this._smoothTension : 0f;
 
 				// Find the next lower curve in the curveList that is also a LineItem type, and use
 				// its smoothing properties for the lower side of the filled area.
@@ -1441,7 +1441,7 @@ namespace ZedGraph
 
 				// Build another points array consisting of the low points (which are actually the points for
 				// the curve below the current curve)
-				BuildLowPointsArray( pane, curve, out arrPoints2, out count2 );
+				this.BuildLowPointsArray( pane, curve, out arrPoints2, out count2 );
 
 				// Add the new points to the GraphicsPath
 				path.AddCurve( arrPoints2, 0, count2 - 2, tension );

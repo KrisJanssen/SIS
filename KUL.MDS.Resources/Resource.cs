@@ -7,9 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-
-namespace KUL.MDS.AppResources
+namespace SIS.Resources
 {
     public abstract class Resource<T>
     {
@@ -21,7 +19,7 @@ namespace KUL.MDS.AppResources
             {
                 if (this.resource == null)
                 {
-                    this.resource = Load();
+                    this.resource = this.Load();
                 }
 
                 return this.resource;
@@ -30,7 +28,7 @@ namespace KUL.MDS.AppResources
 
         public T GetCopy()
         {
-            return Load();
+            return this.Load();
         }
 
         protected abstract T Load();

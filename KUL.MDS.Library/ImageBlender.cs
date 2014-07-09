@@ -1,11 +1,11 @@
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-
-namespace KUL.MDS.Library
+namespace SIS.Library
 {
-	public class ImageBlender
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
+
+    public class ImageBlender
 	{
 		public enum BlendOperation : int
 		{
@@ -59,7 +59,7 @@ namespace KUL.MDS.Library
 						new float[] { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f },
 						new float[] { 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }
 					} );			
-			ApplyColorMatrix(ref img, cMatrix);
+			this.ApplyColorMatrix(ref img, cMatrix);
 		}
 
 		// Adjustment values are between -1.0 and 1.0
@@ -75,14 +75,14 @@ namespace KUL.MDS.Library
 						new float[] { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f },
 						new float[] { adjValueR, adjValueG, adjValueB, 0.0f, 1.0f }
 					} );			
-			ApplyColorMatrix(ref img, cMatrix);
+			this.ApplyColorMatrix(ref img, cMatrix);
 		}
 
 
 		// Adjustment values are between -1.0 and 1.0
 		public void AdjustBrightness(Image img, float adjValue)
 		{
-			AdjustBrightness(img, adjValue, adjValue, adjValue);
+			this.AdjustBrightness(img, adjValue, adjValue, adjValue);
 		}
 
 
@@ -99,28 +99,28 @@ namespace KUL.MDS.Library
 						new float[] { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f },
 						new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
 					} );			
-			ApplyColorMatrix(ref img, cMatrix);
+			this.ApplyColorMatrix(ref img, cMatrix);
 		}
 
 
 		// Saturation. 0.0 = desaturate, 1.0 = identity, -1.0 = complementary colors
 		public void AdjustSaturation(Image img, float sat)
 		{
-			AdjustSaturation(img, sat, R_WEIGHT, G_WEIGHT, B_WEIGHT);
+			this.AdjustSaturation(img, sat, R_WEIGHT, G_WEIGHT, B_WEIGHT);
 		}
 
 
 		// Weights between 0.0 and 1.0
 		public void Desaturate(Image img, float RWeight, float GWeight, float BWeight)
 		{
-			AdjustSaturation(img, 0.0f, RWeight, GWeight, BWeight);
+			this.AdjustSaturation(img, 0.0f, RWeight, GWeight, BWeight);
 		}
 
 
 		// Desaturate using "default" NTSC defined color weights
 		public void Desaturate(Image img)
 		{
-			AdjustSaturation(img, 0.0f, R_WEIGHT, G_WEIGHT, B_WEIGHT);
+			this.AdjustSaturation(img, 0.0f, R_WEIGHT, G_WEIGHT, B_WEIGHT);
 		}
 
 
@@ -170,113 +170,113 @@ namespace KUL.MDS.Library
 					break;
 
 				case BlendOperation.ROP_MergePaint:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-								ref srcImage, srcX, srcY, new PerChannelProcessDelegate(MergePaint));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+								ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.MergePaint));
 					break;
 
 				case BlendOperation.ROP_NOTSourceErase:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(NOTSourceErase));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.NOTSourceErase));
 					break;
 
 				case BlendOperation.ROP_SourceAND:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(SourceAND));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.SourceAND));
 					break;
 
 				case BlendOperation.ROP_SourceErase:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(SourceErase));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.SourceErase));
 					break;
 
 				case BlendOperation.ROP_SourceInvert:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(SourceInvert));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.SourceInvert));
 					break;
 
 				case BlendOperation.ROP_SourcePaint:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(SourcePaint));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.SourcePaint));
 					break;
 
 				case BlendOperation.Blend_Darken:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendDarken));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendDarken));
 					break;
 
 				case BlendOperation.Blend_Multiply:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendMultiply));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendMultiply));
 					break;
 
 				case BlendOperation.Blend_Screen:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendScreen));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendScreen));
 					break;
 
 				case BlendOperation.Blend_Lighten:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendLighten));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendLighten));
 					break;
 
 				case BlendOperation.Blend_HardLight:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendHardLight));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendHardLight));
 					break;
 
 				case BlendOperation.Blend_Difference:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendDifference));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendDifference));
 					break;
 
 				case BlendOperation.Blend_PinLight:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendPinLight));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendPinLight));
 					break;
 
 				case BlendOperation.Blend_Overlay:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendOverlay));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendOverlay));
 					break;
 
 				case BlendOperation.Blend_Exclusion:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendExclusion));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendExclusion));
 					break;
 
 				case BlendOperation.Blend_SoftLight:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendSoftLight));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendSoftLight));
 					break;
 
 				case BlendOperation.Blend_ColorBurn:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendColorBurn));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendColorBurn));
 					break;
 
 				case BlendOperation.Blend_ColorDodge:
-					tempBmp = PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(BlendColorDodge));
+					tempBmp = this.PerChannelProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new PerChannelProcessDelegate(this.BlendColorDodge));
 					break;
 
 				case BlendOperation.Blend_Hue:
-					tempBmp = RGBProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new RGBProcessDelegate(BlendHue));
+					tempBmp = this.RGBProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new RGBProcessDelegate(this.BlendHue));
 					break;
 
 				case BlendOperation.Blend_Saturation:
-					tempBmp = RGBProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new RGBProcessDelegate(BlendSaturation));
+					tempBmp = this.RGBProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new RGBProcessDelegate(this.BlendSaturation));
 					break;
 
 				case BlendOperation.Blend_Color:
-					tempBmp = RGBProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new RGBProcessDelegate(BlendColor));
+					tempBmp = this.RGBProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new RGBProcessDelegate(this.BlendColor));
 					break;
 
 				case BlendOperation.Blend_Luminosity:
-					tempBmp = RGBProcess(ref destImage, destX, destY, destWidth, destHeight, 
-						ref srcImage, srcX, srcY, new RGBProcessDelegate(BlendLuminosity));
+					tempBmp = this.RGBProcess(ref destImage, destX, destY, destWidth, destHeight, 
+						ref srcImage, srcX, srcY, new RGBProcessDelegate(this.BlendLuminosity));
 					break;
 			}
 
@@ -294,22 +294,22 @@ namespace KUL.MDS.Library
 
 		public void BlendImages(Image destImage, Image srcImage, BlendOperation BlendOp)
 		{
-			BlendImages(destImage, 0, 0, destImage.Width, destImage.Height, srcImage, 0, 0, BlendOp);
+			this.BlendImages(destImage, 0, 0, destImage.Width, destImage.Height, srcImage, 0, 0, BlendOp);
 		}
 
 		public void BlendImages(Image destImage, BlendOperation BlendOp)
 		{
-			BlendImages(destImage, 0, 0, destImage.Width, destImage.Height, null, 0, 0, BlendOp);
+			this.BlendImages(destImage, 0, 0, destImage.Width, destImage.Height, null, 0, 0, BlendOp);
 		}
 
 		public void BlendImages(Image destImage, int destX, int destY, BlendOperation BlendOp)
 		{
-			BlendImages(destImage, destX, destY, destImage.Width - destX, destImage.Height - destY, null, 0, 0, BlendOp);
+			this.BlendImages(destImage, destX, destY, destImage.Width - destX, destImage.Height - destY, null, 0, 0, BlendOp);
 		}
 
 		public void BlendImages(Image destImage, int destX, int destY, int destWidth, int destHeight, BlendOperation BlendOp)
 		{
-			BlendImages(destImage, destX, destY, destWidth, destHeight, null, 0, 0, BlendOp);
+			this.BlendImages(destImage, destX, destY, destWidth, destHeight, null, 0, 0, BlendOp);
 		}
 		#endregion
 			
@@ -459,9 +459,9 @@ namespace KUL.MDS.Library
 				Magic1 = (float)(2*L-Magic2);
 
 				/* get RGB, change units from HLSMAX to RGBMAX */ 
-				R = (byte)((HueToRGB(Magic1,Magic2,H+(HLSMAX/3)) * RGBMAX + (HLSMAX/2))/HLSMAX);
-				G = (byte)((HueToRGB(Magic1,Magic2,H) * RGBMAX + (HLSMAX/2)) / HLSMAX);
-				B = (byte)((HueToRGB(Magic1,Magic2,H-(HLSMAX/3)) * RGBMAX + (HLSMAX/2))/HLSMAX);
+				R = (byte)((this.HueToRGB(Magic1,Magic2,H+(HLSMAX/3)) * RGBMAX + (HLSMAX/2))/HLSMAX);
+				G = (byte)((this.HueToRGB(Magic1,Magic2,H) * RGBMAX + (HLSMAX/2)) / HLSMAX);
+				B = (byte)((this.HueToRGB(Magic1,Magic2,H-(HLSMAX/3)) * RGBMAX + (HLSMAX/2))/HLSMAX);
 			}
 		}
 
@@ -604,36 +604,36 @@ namespace KUL.MDS.Library
 		private void BlendHue(byte sR, byte sG, byte sB, ref byte dR, ref byte dG, ref byte dB)
 		{
 			ushort sH, sL, sS, dH, dL, dS;
-			RGBToHLS(sR, sG, sB, out sH, out sL, out sS);
-			RGBToHLS(dR, dG, dB, out dH, out dL, out dS);
-			HLSToRGB(sH, dL, dS, out dR, out dG, out dB);
+			this.RGBToHLS(sR, sG, sB, out sH, out sL, out sS);
+			this.RGBToHLS(dR, dG, dB, out dH, out dL, out dS);
+			this.HLSToRGB(sH, dL, dS, out dR, out dG, out dB);
 		}
 
 		// use source Saturation
 		private void BlendSaturation(byte sR, byte sG, byte sB, ref byte dR, ref byte dG, ref byte dB)
 		{
 			ushort sH, sL, sS, dH, dL, dS;
-			RGBToHLS(sR, sG, sB, out sH, out sL, out sS);
-			RGBToHLS(dR, dG, dB, out dH, out dL, out dS);
-			HLSToRGB(dH, dL, sS, out dR, out dG, out dB);
+			this.RGBToHLS(sR, sG, sB, out sH, out sL, out sS);
+			this.RGBToHLS(dR, dG, dB, out dH, out dL, out dS);
+			this.HLSToRGB(dH, dL, sS, out dR, out dG, out dB);
 		}
 
 		// use source Color
 		private void BlendColor(byte sR, byte sG, byte sB, ref byte dR, ref byte dG, ref byte dB)
 		{
 			ushort sH, sL, sS, dH, dL, dS;
-			RGBToHLS(sR, sG, sB, out sH, out sL, out sS);
-			RGBToHLS(dR, dG, dB, out dH, out dL, out dS);
-			HLSToRGB(sH, dL, sS, out dR, out dG, out dB);
+			this.RGBToHLS(sR, sG, sB, out sH, out sL, out sS);
+			this.RGBToHLS(dR, dG, dB, out dH, out dL, out dS);
+			this.HLSToRGB(sH, dL, sS, out dR, out dG, out dB);
 		}
 
 		// use source Luminosity
 		private void BlendLuminosity(byte sR, byte sG, byte sB, ref byte dR, ref byte dG, ref byte dB)
 		{
 			ushort sH, sL, sS, dH, dL, dS;
-			RGBToHLS(sR, sG, sB, out sH, out sL, out sS);
-			RGBToHLS(dR, dG, dB, out dH, out dL, out dS);
-			HLSToRGB(dH, sL, dS, out dR, out dG, out dB);
+			this.RGBToHLS(sR, sG, sB, out sH, out sL, out sS);
+			this.RGBToHLS(dR, dG, dB, out dH, out dL, out dS);
+			this.HLSToRGB(dH, sL, dS, out dR, out dG, out dB);
 		}
 
 		#endregion

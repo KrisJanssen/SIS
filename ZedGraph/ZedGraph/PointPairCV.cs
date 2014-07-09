@@ -17,19 +17,16 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Collections;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
 #if ( !DOTNET1 )	// Is this a .Net 2 compilation?
-using System.Collections.Generic;
+
 #endif
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A simple instance that stores a data point (X, Y, Z).  This differs from a regular
 	/// <see cref="PointPair" /> in that it maps the <see cref="ColorValue" /> property
 	/// to an independent value.  That is, <see cref="ColorValue" /> and
@@ -85,7 +82,7 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema3" );
 
-			ColorValue = info.GetDouble( "ColorValue" );
+			this.ColorValue = info.GetDouble( "ColorValue" );
 		}
 
 		/// <summary>
@@ -93,12 +90,12 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema3", schema2 );
-			info.AddValue( "ColorValue", ColorValue );
+			info.AddValue( "ColorValue", this.ColorValue );
 		}
 
 	#endregion
@@ -112,8 +109,8 @@ namespace ZedGraph
 		/// </summary>
 		override public double ColorValue
 		{
-			get { return _colorValue; }
-			set { _colorValue = value; }
+			get { return this._colorValue; }
+			set { this._colorValue = value; }
 		}
 
 	#endregion

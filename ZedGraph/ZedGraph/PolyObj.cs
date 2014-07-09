@@ -17,16 +17,15 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class that represents a bordered and/or filled polygon object on
 	/// the graph.  A list of <see cref="PolyObj"/> objects is maintained by
 	/// the <see cref="GraphObjList"/> collection class.
@@ -60,8 +59,8 @@ namespace ZedGraph
 		/// </summary>
 		public PointD[] Points
 		{
-			get { return _points; }
-			set { _points = value; }
+			get { return this._points; }
+			set { this._points = value; }
 		}
 
 		/// <summary>
@@ -79,8 +78,8 @@ namespace ZedGraph
 		/// </remarks>
 		public bool IsClosedFigure
 		{
-			get { return _isClosedFigure; }
-			set { _isClosedFigure = value; }
+			get { return this._isClosedFigure; }
+			set { this._isClosedFigure = value; }
 		}
 
 	#endregion
@@ -102,7 +101,7 @@ namespace ZedGraph
 		public PolyObj( PointD[] points, Color borderColor, Color fillColor ) :
 				base( 0, 0, 1, 1, borderColor, fillColor )
 		{
-			_points = points;
+			this._points = points;
 		}
 
 		/// <summary>
@@ -115,7 +114,7 @@ namespace ZedGraph
 		/// </param>
 		public PolyObj( PointD[] points ) : base( 0, 0, 1, 1 )
 		{
-			_points = points;
+			this._points = points;
 		}
 
 		/// <summary>
@@ -145,7 +144,7 @@ namespace ZedGraph
 							Color fillColor1, Color fillColor2 ) :
 				base( 0, 0, 1, 1, borderColor, fillColor1, fillColor2 )
 		{
-			_points = points;
+			this._points = points;
 		}
 
 		/// <summary>
@@ -154,8 +153,8 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="PolyObj"/> object from which to copy</param>
 		public PolyObj( PolyObj rhs ) : base( rhs )
 		{
-			rhs._points = (PointD[]) _points.Clone();
-			rhs._isClosedFigure = _isClosedFigure;
+			rhs._points = (PointD[]) this._points.Clone();
+			rhs._isClosedFigure = this._isClosedFigure;
 		}
 
 		/// <summary>
@@ -198,10 +197,10 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema3" );
 
-			_points = (PointD[]) info.GetValue( "points", typeof(PointD[]) );
+			this._points = (PointD[]) info.GetValue( "points", typeof(PointD[]) );
 
 			if ( schema3 >= 11 )
-				_isClosedFigure = info.GetBoolean( "isClosedFigure" );
+				this._isClosedFigure = info.GetBoolean( "isClosedFigure" );
 
 		}
 		/// <summary>
@@ -209,14 +208,14 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema3", schema3 );
 
-			info.AddValue( "points", _points );
-			info.AddValue( "isClosedFigure", _isClosedFigure );
+			info.AddValue( "points", this._points );
+			info.AddValue( "isClosedFigure", this._isClosedFigure );
 		}
 	#endregion
 	
@@ -244,20 +243,20 @@ namespace ZedGraph
 		/// </param>
 		override public void Draw( Graphics g, PaneBase pane, float scaleFactor )
 		{
-			if ( _points != null && _points.Length > 1 )
+			if ( this._points != null && this._points.Length > 1 )
 			{
-				using ( GraphicsPath path = MakePath( pane ) )
+				using ( GraphicsPath path = this.MakePath( pane ) )
 				{
 					// Fill or draw the symbol as required
-					if ( _fill.IsVisible )
+					if ( this._fill.IsVisible )
 					{
 						using ( Brush brush = this.Fill.MakeBrush( path.GetBounds() ) )
 							g.FillPath( brush, path );
 					}
 
-					if ( _border.IsVisible )
+					if ( this._border.IsVisible )
 					{
-						using ( Pen pen = _border.GetPen( pane, scaleFactor ) )
+						using ( Pen pen = this._border.GetPen( pane, scaleFactor ) )
 							g.DrawPath( pen, path );
 					}
 				}
@@ -270,13 +269,13 @@ namespace ZedGraph
 			bool first = true;
 			PointF lastPt = new PointF();
 
-			foreach( PointD pt in _points )
+			foreach( PointD pt in this._points )
 			{
 				// Convert the coordinates from the user coordinate system
 				// to the screen coordinate system
 				// Offset the points by the location value
-				PointF pixPt = Location.Transform( pane, pt.X + _location.X, pt.Y + _location.Y,
-						_location.CoordinateFrame );
+				PointF pixPt = Location.Transform( pane, pt.X + this._location.X, pt.Y + this._location.Y,
+						this._location.CoordinateFrame );
 
 				if (	Math.Abs( pixPt.X ) < 100000 &&
 						Math.Abs( pixPt.Y ) < 100000 )
@@ -290,7 +289,7 @@ namespace ZedGraph
 				}
 			}
 
-			if ( _isClosedFigure )
+			if ( this._isClosedFigure )
 				path.CloseFigure();
 
 			return path;
@@ -318,12 +317,12 @@ namespace ZedGraph
 		/// <returns>true if the point lies in the bounding box, false otherwise</returns>
 		override public bool PointInBox( PointF pt, PaneBase pane, Graphics g, float scaleFactor )
 		{
-			if ( _points != null && _points.Length > 1 )
+			if ( this._points != null && this._points.Length > 1 )
 			{
 				if ( ! base.PointInBox(pt, pane, g, scaleFactor ) )
 					return false;
 
-				using ( GraphicsPath path = MakePath( pane ) )
+				using ( GraphicsPath path = this.MakePath( pane ) )
 					return path.IsVisible( pt );
 			}
 			else

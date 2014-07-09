@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace KUL.MDS.ScanModes
+﻿namespace SIS.ScanModes.Core
 {
+    using System;
+
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class ScanModeAttribute : Attribute
     {
@@ -9,14 +9,14 @@ namespace KUL.MDS.ScanModes
 
         public ScanModeAttribute(string sName)
         {
-            m_sName = sName;
+            this.m_sName = sName;
         }
 
         public string Name
         {
             get
             {
-                return m_sName;
+                return this.m_sName;
             }
         }
     }

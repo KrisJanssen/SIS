@@ -19,18 +19,18 @@
 
 #region Using directives
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// This class handles the drawing of the curve <see cref="ErrorBar"/> objects.
 	/// The Error Bars are the vertical lines with a symbol at each end.
 	/// </summary>
@@ -115,8 +115,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.IsVisible"/>
 		public bool IsVisible
 		{
-			get { return _isVisible; }
-			set { _isVisible = value; }
+			get { return this._isVisible; }
+			set { this._isVisible = value; }
 		}
 		
 		/// <summary>
@@ -129,8 +129,8 @@ namespace ZedGraph
 		/// </remarks>
 		public Color Color
 		{
-			get { return _color; }
-			set { _color = value; }
+			get { return this._color; }
+			set { this._color = value; }
 		}
 		/// <summary>
 		/// The pen width to be used for drawing error bars
@@ -142,8 +142,8 @@ namespace ZedGraph
 		/// </remarks>
 		public float PenWidth
 		{
-			get { return _penWidth; }
-			set { _penWidth = value; }
+			get { return this._penWidth; }
+			set { this._penWidth = value; }
 		}
 		/// <summary>
 		/// Contains the symbol element that will be drawn
@@ -151,8 +151,8 @@ namespace ZedGraph
 		/// </summary>
 		public Symbol Symbol
 		{
-			get { return _symbol; }
-			set { _symbol = value; }
+			get { return this._symbol; }
+			set { this._symbol = value; }
 		}
 
 	#endregion
@@ -177,11 +177,11 @@ namespace ZedGraph
 		/// </param>
 		public ErrorBar( Color color )
 		{
-			_symbol = new Symbol( Default.Type, color );
-			_symbol.Size = Default.Size;
-			_color = color;
-			_penWidth = Default.PenWidth;
-			_isVisible = Default.IsVisible;
+			this._symbol = new Symbol( Default.Type, color );
+			this._symbol.Size = Default.Size;
+			this._color = color;
+			this._penWidth = Default.PenWidth;
+			this._isVisible = Default.IsVisible;
 		}
 
 		/// <summary>
@@ -190,10 +190,10 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="ErrorBar"/> object from which to copy</param>
 		public ErrorBar( ErrorBar rhs )
 		{
-			_color = rhs.Color;
-			_isVisible = rhs.IsVisible;
-			_penWidth = rhs.PenWidth;
-			_symbol = rhs.Symbol.Clone();
+			this._color = rhs.Color;
+			this._isVisible = rhs.IsVisible;
+			this._penWidth = rhs.PenWidth;
+			this._symbol = rhs.Symbol.Clone();
 		}
 
 		/// <summary>
@@ -236,24 +236,24 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_isVisible = info.GetBoolean( "isVisible" );
-			_color = (Color) info.GetValue( "color", typeof(Color) );
-			_penWidth = info.GetSingle( "penWidth" );
-			_symbol = (Symbol) info.GetValue( "symbol", typeof(Symbol) );
+			this._isVisible = info.GetBoolean( "isVisible" );
+			this._color = (Color) info.GetValue( "color", typeof(Color) );
+			this._penWidth = info.GetSingle( "penWidth" );
+			this._symbol = (Symbol) info.GetValue( "symbol", typeof(Symbol) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
-			info.AddValue( "isVisible", _isVisible );
-			info.AddValue( "color", _color );
-			info.AddValue( "penWidth", _penWidth );
-			info.AddValue( "symbol", _symbol );
+			info.AddValue( "isVisible", this._isVisible );
+			info.AddValue( "color", this._color );
+			info.AddValue( "penWidth", this._penWidth );
+			info.AddValue( "symbol", this._symbol );
 		}
 	#endregion
 
@@ -299,17 +299,17 @@ namespace ZedGraph
 			if ( isXBase )
 			{
 				g.DrawLine( pen, pixBase, pixValue, pixBase, pixLowValue );
-				_symbol.DrawSymbol( g, pane, (int)pixBase, (int)pixValue,
+				this._symbol.DrawSymbol( g, pane, (int)pixBase, (int)pixValue,
 							scaleFactor, isSelected, dataValue );
-				_symbol.DrawSymbol( g, pane, (int)pixBase, (int)pixLowValue,
+				this._symbol.DrawSymbol( g, pane, (int)pixBase, (int)pixLowValue,
 							scaleFactor, isSelected, dataValue );
 			}
 			else
 			{
 				g.DrawLine( pen, pixValue, pixBase, pixLowValue, pixBase );
-				_symbol.DrawSymbol( g, pane, (int)pixValue, (int)pixBase,
+				this._symbol.DrawSymbol( g, pane, (int)pixValue, (int)pixBase,
 							scaleFactor, isSelected, dataValue );
-				_symbol.DrawSymbol( g, pane, (int)pixLowValue, (int)pixBase,
+				this._symbol.DrawSymbol( g, pane, (int)pixLowValue, (int)pixBase,
 							scaleFactor, isSelected, dataValue );
 			}
 		}
@@ -349,7 +349,7 @@ namespace ZedGraph
 		
 			if ( curve.Points != null && this.IsVisible )
 			{
-				using ( Pen pen = !curve.IsSelected ? new Pen( _color, _penWidth ) :
+				using ( Pen pen = !curve.IsSelected ? new Pen( this._color, this._penWidth ) :
 						new Pen( Selection.Border.Color, Selection.Border.Width ) )
 				{
 					// Loop over each defined point							

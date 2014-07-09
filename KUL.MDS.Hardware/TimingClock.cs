@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NationalInstruments.DAQmx;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware
 {
+    using NationalInstruments.DAQmx;
+
     public class TimingClock
     {
         private Task m_daqtskGlobalSync;

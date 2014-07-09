@@ -1,9 +1,8 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace KUL.MDS.SystemLayer
+﻿namespace SIS.Systemlayer
 {
+    using System.Drawing;
+    using System.Windows.Forms;
+
     public interface IInkHooks
     {
         void PerformDocumentMouseMove(MouseButtons button, int clicks, float x, float y, int delta, float pressure);

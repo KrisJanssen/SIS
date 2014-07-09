@@ -7,11 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.Snapping
 {
     public interface ISnapObstacleHost
     {

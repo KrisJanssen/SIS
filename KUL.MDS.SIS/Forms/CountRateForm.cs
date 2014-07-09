@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;  //for multi-threading
-using System.Windows.Forms;
-using KUL.MDS.Hardware;
+﻿//for multi-threading
 
-namespace KUL.MDS.SIS.Forms
+namespace SIS.Forms
 {
-	/// <summary>
+    using System;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using global::SIS.Hardware;
+
+    /// <summary>
 	/// Count Rate Form - displays the current count rate as measured from the APD source
 	/// </summary>
 	public partial class CountRateForm : Form
@@ -30,9 +26,9 @@ namespace KUL.MDS.SIS.Forms
 		{
 			get
 			{
-				if (m_threadStartCountRateMeter != null)
+				if (this.m_threadStartCountRateMeter != null)
 				{
-					return !m_threadStartCountRateMeter.IsAlive;
+					return !this.m_threadStartCountRateMeter.IsAlive;
 				}
 				else
 				{
@@ -45,18 +41,18 @@ namespace KUL.MDS.SIS.Forms
 		// Count Rate Form Constructor
 		public CountRateForm(PQTimeHarp __apdAPD)
 		{			
-			InitializeComponent();
-			m_apdAPD1 = __apdAPD;  // get the APD				
+			this.InitializeComponent();
+			this.m_apdAPD1 = __apdAPD;  // get the APD				
 		}
 
 		// Start the Count Rate Meter in a separate threat
 		public void RunCountRateMeter()
 		{			
-			m_threadStartCountRateMeter = new Thread(StartCountRateMeter);
-			m_threadStartCountRateMeter.Name = "StartCountRateMeter()";  // set the name of the thread
-			m_threadStartCountRateMeter.IsBackground = true;  // set the thread as a background thread
-			m_threadStartCountRateMeter.Priority = ThreadPriority.Normal;  // set the thread priority to normal            
-			m_threadStartCountRateMeter.Start();  // start the thread			
+			this.m_threadStartCountRateMeter = new Thread(this.StartCountRateMeter);
+			this.m_threadStartCountRateMeter.Name = "StartCountRateMeter()";  // set the name of the thread
+			this.m_threadStartCountRateMeter.IsBackground = true;  // set the thread as a background thread
+			this.m_threadStartCountRateMeter.Priority = ThreadPriority.Normal;  // set the thread priority to normal            
+			this.m_threadStartCountRateMeter.Start();  // start the thread			
 		}
 
 		// Start the count rate meter and show the result on the screen
@@ -65,15 +61,15 @@ namespace KUL.MDS.SIS.Forms
 			//Update UI
 			this.UpdateUI();
 
-			m_bIsButtonSTOPClicked = false;  // false because we want to probe the count rate at least once
+			this.m_bIsButtonSTOPClicked = false;  // false because we want to probe the count rate at least once
 			int _iCountRate = 0;
 			double _dCountRate = 0.0;
 			string _sFormatedCountRate = "";
 
 			// Loop in order to show continuously the count rate (the count rate is probed every 600ms are longer)
-			while (!m_bIsButtonSTOPClicked && m_apdAPD1 != null)
+			while (!this.m_bIsButtonSTOPClicked && this.m_apdAPD1 != null)
 			{
-				_iCountRate = m_apdAPD1.CountRate;  // get the count rate
+				_iCountRate = this.m_apdAPD1.CountRate;  // get the count rate
 				_dCountRate = Convert.ToDouble(_iCountRate);  // convert the count rate in order to recalc it in units of Cps/Kcps/Mcps
 
 				// Check if we really get a valid count rate
@@ -107,16 +103,16 @@ namespace KUL.MDS.SIS.Forms
 				else
 				{
 					_sFormatedCountRate = String.Format("{0}", "APD busy!");
-					m_bIsButtonSTOPClicked = true;  // causes to exit the loop because count rate cannot be measured - device seems busy
+					this.m_bIsButtonSTOPClicked = true;  // causes to exit the loop because count rate cannot be measured - device seems busy
 				}
 
 				//Update UI
-				UIUdateControl(this.btnCoutRateMeterAPD1, _sFormatedCountRate); // show count rate info or warning (in case is APD busy with another type of measurement)
+				this.UIUdateControl(this.btnCoutRateMeterAPD1, _sFormatedCountRate); // show count rate info or warning (in case is APD busy with another type of measurement)
 				this.UpdateUI();				
 			}
 			
 			// Free the pointer to the APD
-			m_apdAPD1 = null;			
+			this.m_apdAPD1 = null;			
 		}
 
 		private void ControlSetText(Button __btnControl, string __sString)
@@ -130,7 +126,7 @@ namespace KUL.MDS.SIS.Forms
 			{
 				if (__btnControl.InvokeRequired)
 				{
-					this.BeginInvoke(new UIUpdateButtonDelegate(ControlSetText), new object[] { __btnControl, __sString });  // update control text asynchronously (asynchronous Invoke necessary for the proper behavior when terminating the Count Rate Form)
+					this.BeginInvoke(new UIUpdateButtonDelegate(this.ControlSetText), new object[] { __btnControl, __sString });  // update control text asynchronously (asynchronous Invoke necessary for the proper behavior when terminating the Count Rate Form)
 				}
 				else
 				{
@@ -141,9 +137,9 @@ namespace KUL.MDS.SIS.Forms
 
 		private void UpdateUI()
 		{
-			if (InvokeRequired)
+			if (this.InvokeRequired)
 			{
-				BeginInvoke(new UIUpdateDelegate(this.Refresh));  //update GUI asynchronously (asynchronous Invoke necessary for the proper behavior when terminating the Count Rate Form)
+				this.BeginInvoke(new UIUpdateDelegate(this.Refresh));  //update GUI asynchronously (asynchronous Invoke necessary for the proper behavior when terminating the Count Rate Form)
 			}
 			else
 			{
@@ -157,10 +153,10 @@ namespace KUL.MDS.SIS.Forms
 		// Stop the count rate meter
 		private void StopCountRateMeter()
 		{
-			m_bIsButtonSTOPClicked = true;
-			if (m_threadStartCountRateMeter.IsAlive)
+			this.m_bIsButtonSTOPClicked = true;
+			if (this.m_threadStartCountRateMeter.IsAlive)
 			{
-				m_threadStartCountRateMeter.Join();  // wait for the StartCountRate() thread to complete				
+				this.m_threadStartCountRateMeter.Join();  // wait for the StartCountRate() thread to complete				
 			}			
 		}
 

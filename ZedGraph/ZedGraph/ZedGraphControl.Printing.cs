@@ -14,18 +14,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
-using System.Drawing.Printing;
-using System.Threading;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	partial class ZedGraphControl
+    using System;
+    using System.Drawing;
+    using System.Drawing.Printing;
+    using System.Windows.Forms;
+
+    partial class ZedGraphControl
 	{
 
 	#region Printing
@@ -38,7 +34,7 @@ namespace ZedGraph
 		/// <param name="e"></param>
 		protected void MenuClick_PageSetup( object sender, EventArgs e )
 		{
-			DoPageSetup();
+			this.DoPageSetup();
 		}
 
 		/// <summary>
@@ -49,7 +45,7 @@ namespace ZedGraph
 		/// <param name="e"></param>
 		protected void MenuClick_Print( object sender, EventArgs e )
 		{
-			DoPrint();
+			this.DoPrint();
 		}
 
 		/// <summary>
@@ -72,7 +68,7 @@ namespace ZedGraph
 			{
 				isPenSave[i + 1] = mPane[i].IsPenWidthScaled;
 				isFontSave[i + 1] = mPane[i].IsFontsScaled;
-				if ( _isPrintScaleAll )
+				if ( this._isPrintScaleAll )
 				{
 					mPane[i].IsPenWidthScaled = true;
 					mPane[i].IsFontsScaled = true;
@@ -81,7 +77,7 @@ namespace ZedGraph
 
 			RectangleF saveRect = mPane.Rect;
 			SizeF newSize = mPane.Rect.Size;
-			if ( _isPrintFillPage && _isPrintKeepAspectRatio )
+			if ( this._isPrintFillPage && this._isPrintKeepAspectRatio )
 			{
 				float xRatio = (float)e.MarginBounds.Width / (float)newSize.Width;
 				float yRatio = (float)e.MarginBounds.Height / (float)newSize.Height;
@@ -90,7 +86,7 @@ namespace ZedGraph
 				newSize.Width *= ratio;
 				newSize.Height *= ratio;
 			}
-			else if ( _isPrintFillPage )
+			else if ( this._isPrintFillPage )
 				newSize = e.MarginBounds.Size;
 
 			mPane.ReSize( e.Graphics, new RectangleF( e.MarginBounds.Left,
@@ -123,10 +119,10 @@ namespace ZedGraph
 				// Add a try/catch pair since the users of the control can't catch this one
 				try
 				{
-					if ( _pdSave == null )
+					if ( this._pdSave == null )
 					{
-						_pdSave = new PrintDocument();
-						_pdSave.PrintPage += new PrintPageEventHandler( Graph_PrintPage );
+						this._pdSave = new PrintDocument();
+						this._pdSave.PrintPage += new PrintPageEventHandler( this.Graph_PrintPage );
 					}
 				}
 				catch ( Exception exception )
@@ -134,9 +130,9 @@ namespace ZedGraph
 					MessageBox.Show( exception.Message );
 				}
 
-				return _pdSave;
+				return this._pdSave;
 			}
-			set { _pdSave = value; }
+			set { this._pdSave = value; }
 		}
 
 		/// <summary>
@@ -145,7 +141,7 @@ namespace ZedGraph
 		/// </summary>
 		public void DoPageSetup()
 		{
-			PrintDocument pd = PrintDocument;
+			PrintDocument pd = this.PrintDocument;
 
 			// Add a try/catch pair since the users of the control can't catch this one
 			try
@@ -190,7 +186,7 @@ namespace ZedGraph
 			// Add a try/catch pair since the users of the control can't catch this one
 			try
 			{
-				PrintDocument pd = PrintDocument;
+				PrintDocument pd = this.PrintDocument;
 
 				if ( pd != null )
 				{
@@ -218,7 +214,7 @@ namespace ZedGraph
 			// Add a try/catch pair since the users of the control can't catch this one
 			try
 			{
-				PrintDocument pd = PrintDocument;
+				PrintDocument pd = this.PrintDocument;
 
 				if ( pd != null )
 				{

@@ -1,11 +1,10 @@
-using System;
-using System.Windows.Forms;
-using System.Collections.Specialized;
-using System.Collections;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	public class RecentFilesMenuItem : MdiMenuItem
+    using System;
+    using System.Collections;
+    using System.Windows.Forms;
+
+    public class RecentFilesMenuItem : MdiMenuItem
 	{
 		private Hashtable m_mapMenuItemToFile = null;
 		
@@ -14,10 +13,10 @@ namespace KUL.MDS.MDITemplate
 
 		public RecentFilesMenuItem()
 		{
-			m_mapMenuItemToFile = new Hashtable();
+			this.m_mapMenuItemToFile = new Hashtable();
 			this.Text = "Recent files";
 			
-			Load();
+			this.Load();
 		}
 
 		public new bool Enabled
@@ -35,28 +34,28 @@ namespace KUL.MDS.MDITemplate
 		public void Load()
 		{
 			this.MenuItems.Clear();
-			m_mapMenuItemToFile.Clear();
+			this.m_mapMenuItemToFile.Clear();
 
 			foreach (string sFile in RecentFilesList.Get())
 			{
 				MenuItem itemFile = new MenuItem(FileNameHelpers.GetFileName(sFile));
 				this.MenuItems.Add(itemFile);
-				itemFile.Click += new EventHandler(MenuItem_Click);
-				m_mapMenuItemToFile.Add(itemFile, sFile);
+				itemFile.Click += new EventHandler(this.MenuItem_Click);
+				this.m_mapMenuItemToFile.Add(itemFile, sFile);
 			}
 
-			base.Enabled = (m_mapMenuItemToFile.Count > 0);
+			base.Enabled = (this.m_mapMenuItemToFile.Count > 0);
 		}
 
 		private void MenuItem_Click(object sender, EventArgs e)
 		{
-			string sFile = m_mapMenuItemToFile[sender] as string;
+			string sFile = this.m_mapMenuItemToFile[sender] as string;
 
 			if (sFile != null)
 			{
-				if (OpenFile != null)
+				if (this.OpenFile != null)
 				{
-					OpenFile(sFile);
+					this.OpenFile(sFile);
 				}
 			}
 
@@ -65,7 +64,7 @@ namespace KUL.MDS.MDITemplate
 
 		protected override void OnTestEnabled()
 		{
-			Load();
+			this.Load();
 		}
 
 	}

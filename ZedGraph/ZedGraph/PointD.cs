@@ -17,16 +17,11 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+
+    /// <summary>
 	/// Simple struct that stores X and Y coordinates as doubles.
 	/// </summary>
 	/// 
@@ -51,8 +46,8 @@ namespace ZedGraph
 		/// <param name="y">The Y coordinate</param>
 		public PointD( double x, double y )
 		{
-			X = x;
-			Y = y;
+			this.X = x;
+			this.Y = y;
 		}
 	}
 }

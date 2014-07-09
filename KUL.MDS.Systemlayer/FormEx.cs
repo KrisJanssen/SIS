@@ -7,15 +7,11 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SIS;
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Windows.Forms;
+
     /// <summary>
     /// Provides special methods and properties that must be implemented in a
     /// system-specific manner. It is implemented as an object that is hosted
@@ -96,10 +92,10 @@ namespace KUL.MDS.SystemLayer
         {
             bool handled = false;
 
-            if (ProcessCmdKeyRelay != null)
+            if (this.ProcessCmdKeyRelay != null)
             {
                 ProcessCmdKeyEventArgs e = new ProcessCmdKeyEventArgs(keyData, false);
-                ProcessCmdKeyRelay(this, e);
+                this.ProcessCmdKeyRelay(this, e);
                 handled = e.Handled;
             }
 
@@ -145,9 +141,9 @@ namespace KUL.MDS.SystemLayer
                 case NativeConstants.WM_NCACTIVATE:
                     if (this.forceActiveTitleBar && m.WParam == IntPtr.Zero)
                     {
-                        if (ignoreNcActivate > 0)
+                        if (this.ignoreNcActivate > 0)
                         {
-                            --ignoreNcActivate;
+                            --this.ignoreNcActivate;
                             goto default;
                         }
                         else if (Form.ActiveForm != this.host ||  // Gets rid of: if you have the form active, then click on the desktop --> desktop refreshes
@@ -201,7 +197,7 @@ namespace KUL.MDS.SystemLayer
                         SafeNativeMethods.PostMessageW(this.host.Handle, NativeConstants.WM_NCACTIVATE,
                             IntPtr.Zero, IntPtr.Zero);
 
-                        ++ignoreNcActivate;
+                        ++this.ignoreNcActivate;
                     }
 
                     if (m.WParam == new IntPtr(1))

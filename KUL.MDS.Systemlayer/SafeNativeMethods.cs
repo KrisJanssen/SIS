@@ -7,14 +7,14 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using Microsoft.Win32.SafeHandles;
-using System;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Security;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Runtime.InteropServices;
+    using System.Security;
+
+    using Microsoft.Win32.SafeHandles;
+
     [SuppressUnmanagedCodeSecurity]
     internal static class SafeNativeMethods
     {

@@ -7,11 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.ComponentModel;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.Events
 {
+    using System.ComponentModel;
+
     public class HandledEventArgs<T>
         : HandledEventArgs
     {

@@ -7,14 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Specialized;
-using System.Drawing;
-using System.Globalization;
-using System.Text;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.Snapping
 {
+    using System;
+
     public sealed class SnapDescription
     {
         private SnapObstacle snappedTo;

@@ -7,10 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-
-namespace KUL.MDS.Base
+namespace SIS.Base
 {
+    using System;
+
     public class EventArgs<T>
         : EventArgs
     {
@@ -19,7 +19,7 @@ namespace KUL.MDS.Base
         {
             get
             {
-                return data;
+                return this.data;
             }
         }
 

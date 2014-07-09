@@ -17,13 +17,12 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Collections;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+
+    /// <summary>
 	/// </summary>
 	/// <remarks>
 	/// </remarks>
@@ -82,9 +81,9 @@ namespace ZedGraph
 		{
 			//Clear the selection, but don't send the event,
 			//the event will be sent in "AddToSelection" by calling "UpdateSelection"
-			ClearSelection( master, false );
+			this.ClearSelection( master, false );
 
-			AddToSelection( master, ci );
+			this.AddToSelection( master, ci );
 		}
 
 		/// <summary>
@@ -98,9 +97,9 @@ namespace ZedGraph
 		{
 			//Clear the selection, but don't send the event,
 			//the event will be sent in "AddToSelection" by calling "UpdateSelection"
-			ClearSelection( master, false );
+			this.ClearSelection( master, false );
 
-			AddToSelection( master, ciList );
+			this.AddToSelection( master, ciList );
 		}
 
 		/// <summary>
@@ -112,9 +111,9 @@ namespace ZedGraph
 		public void AddToSelection( MasterPane master, CurveItem ci )
 		{
 			if ( this.Contains( ci ) == false )
-				Add( ci );
+				this.Add( ci );
 
-			UpdateSelection( master );
+			this.UpdateSelection( master );
 		}
 
 		/// <summary>
@@ -131,7 +130,7 @@ namespace ZedGraph
 					this.Add( ci );
 			}
 
-			UpdateSelection( master );
+			this.UpdateSelection( master );
 		}
 
 #if ( DOTNET1 )
@@ -158,7 +157,7 @@ namespace ZedGraph
 			if ( this.Contains( ci ) )
 				this.Remove( ci );
 
-			UpdateSelection( master );
+			this.UpdateSelection( master );
 
 		}
 
@@ -168,7 +167,7 @@ namespace ZedGraph
 		/// <param name="master">The <see cref="MasterPane" /> that "owns" the selection list.</param>
 		public void ClearSelection( MasterPane master )
 		{
-			ClearSelection( master, true );
+			this.ClearSelection( master, true );
 		}
 
 		/// <summary>
@@ -191,8 +190,8 @@ namespace ZedGraph
 
 			if ( sendEvent )
 			{
-				if ( SelectionChangedEvent != null )
-					SelectionChangedEvent( this, new EventArgs() );
+				if ( this.SelectionChangedEvent != null )
+					this.SelectionChangedEvent( this, new EventArgs() );
 			}
 		}
 
@@ -203,9 +202,9 @@ namespace ZedGraph
 		/// <param name="master">The <see cref="MasterPane" /> that "owns" the selection list.</param>
 		public void UpdateSelection( MasterPane master )
 		{
-			if ( Count <= 0 )
+			if ( this.Count <= 0 )
 			{
-				ClearSelection( master );
+				this.ClearSelection( master );
 				return;
 			}
 
@@ -246,8 +245,8 @@ namespace ZedGraph
 			}
 
 			//Send Selection Changed Event
-			if ( SelectionChangedEvent != null )
-				SelectionChangedEvent( this, new EventArgs() );
+			if ( this.SelectionChangedEvent != null )
+				this.SelectionChangedEvent( this, new EventArgs() );
 
 		}
 

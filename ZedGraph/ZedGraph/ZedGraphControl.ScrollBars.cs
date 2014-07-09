@@ -17,15 +17,12 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	partial class ZedGraphControl
+    using System;
+    using System.Windows.Forms;
+
+    partial class ZedGraphControl
 	{
 
 	#region ScrollBars
@@ -37,48 +34,48 @@ namespace ZedGraph
 				if ( ( e.Type != ScrollEventType.ThumbPosition &&
 						 e.Type != ScrollEventType.ThumbTrack ) ||
 					  ( e.Type == ScrollEventType.ThumbTrack &&
-						 _zoomState == null ) )
+						 this._zoomState == null ) )
 				{
-					ZoomStateSave( this.GraphPane, ZoomState.StateType.Scroll );
+					this.ZoomStateSave( this.GraphPane, ZoomState.StateType.Scroll );
 				}
 				for ( int i = 0; i < this.GraphPane.YAxisList.Count; i++ )
 				{
-					ScrollRange scroll = _yScrollRangeList[i];
+					ScrollRange scroll = this._yScrollRangeList[i];
 					if ( scroll.IsScrollable )
 					{
 						Axis axis = this.GraphPane.YAxisList[i];
-						HandleScroll( axis, e.NewValue, scroll.Min, scroll.Max, vScrollBar1.LargeChange,
+						this.HandleScroll( axis, e.NewValue, scroll.Min, scroll.Max, this.vScrollBar1.LargeChange,
 										!axis.Scale.IsReverse );
 					}
 				}
 
 				for ( int i = 0; i < this.GraphPane.Y2AxisList.Count; i++ )
 				{
-					ScrollRange scroll = _y2ScrollRangeList[i];
+					ScrollRange scroll = this._y2ScrollRangeList[i];
 					if ( scroll.IsScrollable )
 					{
 						Axis axis = this.GraphPane.Y2AxisList[i];
-						HandleScroll( axis, e.NewValue, scroll.Min, scroll.Max, vScrollBar1.LargeChange,
+						this.HandleScroll( axis, e.NewValue, scroll.Min, scroll.Max, this.vScrollBar1.LargeChange,
 										!axis.Scale.IsReverse );
 					}
 				}
 
-				ApplyToAllPanes( this.GraphPane );
+				this.ApplyToAllPanes( this.GraphPane );
 
-				ProcessEventStuff( vScrollBar1, e );
+				this.ProcessEventStuff( this.vScrollBar1, e );
 			}
 		}
 
 		private void ApplyToAllPanes( GraphPane primaryPane )
 		{
-			foreach ( GraphPane pane in _masterPane._paneList )
+			foreach ( GraphPane pane in this._masterPane._paneList )
 			{
 				if ( pane != primaryPane )
 				{
-					if ( _isSynchronizeXAxes )
-						Synchronize( primaryPane.XAxis, pane.XAxis );
-					if ( _isSynchronizeYAxes )
-						Synchronize( primaryPane.YAxis, pane.YAxis );
+					if ( this._isSynchronizeXAxes )
+						this.Synchronize( primaryPane.XAxis, pane.XAxis );
+					if ( this._isSynchronizeYAxes )
+						this.Synchronize( primaryPane.YAxis, pane.YAxis );
 				}
 			}
 		}
@@ -102,15 +99,15 @@ namespace ZedGraph
 				if ( ( e.Type != ScrollEventType.ThumbPosition &&
 						 e.Type != ScrollEventType.ThumbTrack ) ||
 					  ( e.Type == ScrollEventType.ThumbTrack &&
-						 _zoomState == null ) )
-					ZoomStateSave( this.GraphPane, ZoomState.StateType.Scroll );
+						 this._zoomState == null ) )
+					this.ZoomStateSave( this.GraphPane, ZoomState.StateType.Scroll );
 
-				HandleScroll( this.GraphPane.XAxis, e.NewValue, _xScrollRange.Min, _xScrollRange.Max,
-								hScrollBar1.LargeChange, this.GraphPane.XAxis.Scale.IsReverse );
+				this.HandleScroll( this.GraphPane.XAxis, e.NewValue, this._xScrollRange.Min, this._xScrollRange.Max,
+								this.hScrollBar1.LargeChange, this.GraphPane.XAxis.Scale.IsReverse );
 
-				ApplyToAllPanes( this.GraphPane );
+				this.ApplyToAllPanes( this.GraphPane );
 
-				ProcessEventStuff( hScrollBar1, e );
+				this.ProcessEventStuff( this.hScrollBar1, e );
 			}
 		}
 
@@ -119,22 +116,22 @@ namespace ZedGraph
 			if ( e.Type == ScrollEventType.ThumbTrack )
 			{
 				if ( this.ScrollProgressEvent != null )
-					this.ScrollProgressEvent( this, hScrollBar1, _zoomState,
+					this.ScrollProgressEvent( this, this.hScrollBar1, this._zoomState,
 								new ZoomState( this.GraphPane, ZoomState.StateType.Scroll ) );
 			}
 			else // if ( e.Type == ScrollEventType.ThumbPosition )
 			{
-				if ( _zoomState != null && _zoomState.IsChanged( this.GraphPane ) )
+				if ( this._zoomState != null && this._zoomState.IsChanged( this.GraphPane ) )
 				{
 					//this.GraphPane.ZoomStack.Push( _zoomState );
-					ZoomStatePush( this.GraphPane );
+					this.ZoomStatePush( this.GraphPane );
 
 					// Provide Callback to notify the user of pan events
 					if ( this.ScrollDoneEvent != null )
-						this.ScrollDoneEvent( this, hScrollBar1, _zoomState,
+						this.ScrollDoneEvent( this, this.hScrollBar1, this._zoomState,
 									new ZoomState( this.GraphPane, ZoomState.StateType.Scroll ) );
 
-					_zoomState = null;
+					this._zoomState = null;
 				}
 			}
 
@@ -249,37 +246,37 @@ namespace ZedGraph
 		{
 			if ( this.GraphPane != null )
 			{
-				double grace = CalcScrollGrace( this.GraphPane.XAxis.Scale._rangeMin,
+				double grace = this.CalcScrollGrace( this.GraphPane.XAxis.Scale._rangeMin,
 							this.GraphPane.XAxis.Scale._rangeMax );
 
-				_xScrollRange.Min = this.GraphPane.XAxis.Scale._rangeMin - grace;
-				_xScrollRange.Max = this.GraphPane.XAxis.Scale._rangeMax + grace;
-				_xScrollRange.IsScrollable = true;
+				this._xScrollRange.Min = this.GraphPane.XAxis.Scale._rangeMin - grace;
+				this._xScrollRange.Max = this.GraphPane.XAxis.Scale._rangeMax + grace;
+				this._xScrollRange.IsScrollable = true;
 
 				for ( int i = 0; i < this.GraphPane.YAxisList.Count; i++ )
 				{
 					Axis axis = this.GraphPane.YAxisList[i];
-					grace = CalcScrollGrace( axis.Scale._rangeMin, axis.Scale._rangeMax );
+					grace = this.CalcScrollGrace( axis.Scale._rangeMin, axis.Scale._rangeMax );
 					ScrollRange range = new ScrollRange( axis.Scale._rangeMin - grace,
-						axis.Scale._rangeMax + grace, _yScrollRangeList[i].IsScrollable );
+						axis.Scale._rangeMax + grace, this._yScrollRangeList[i].IsScrollable );
 
-					if ( i >= _yScrollRangeList.Count )
-						_yScrollRangeList.Add( range );
+					if ( i >= this._yScrollRangeList.Count )
+						this._yScrollRangeList.Add( range );
 					else
-						_yScrollRangeList[i] = range;
+						this._yScrollRangeList[i] = range;
 				}
 
 				for ( int i = 0; i < this.GraphPane.Y2AxisList.Count; i++ )
 				{
 					Axis axis = this.GraphPane.Y2AxisList[i];
-					grace = CalcScrollGrace( axis.Scale._rangeMin, axis.Scale._rangeMax );
+					grace = this.CalcScrollGrace( axis.Scale._rangeMin, axis.Scale._rangeMax );
 					ScrollRange range = new ScrollRange( axis.Scale._rangeMin - grace,
-							axis.Scale._rangeMax + grace, _y2ScrollRangeList[i].IsScrollable );
+							axis.Scale._rangeMax + grace, this._y2ScrollRangeList[i].IsScrollable );
 
-					if ( i >= _y2ScrollRangeList.Count )
-						_y2ScrollRangeList.Add( range );
+					if ( i >= this._y2ScrollRangeList.Count )
+						this._y2ScrollRangeList.Add( range );
 					else
-						_y2ScrollRangeList[i] = range;
+						this._y2ScrollRangeList[i] = range;
 				}
 
 				//this.GraphPane.CurveList.GetRange( out scrollMinX, out scrollMaxX,
@@ -293,12 +290,12 @@ namespace ZedGraph
 			if ( Math.Abs( max - min ) < 1e-30 )
 			{
 				if ( Math.Abs( max ) < 1e-30 )
-					return _scrollGrace;
+					return this._scrollGrace;
 				else
-					return max * _scrollGrace;
+					return max * this._scrollGrace;
 			}
 			else
-				return ( max - min ) * _scrollGrace;
+				return ( max - min ) * this._scrollGrace;
 		}
 
 		private void SetScroll( ScrollBar scrollBar, Axis axis, double scrollMin, double scrollMax )

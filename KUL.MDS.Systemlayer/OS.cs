@@ -7,12 +7,13 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using Microsoft.Win32;
-using System;
-using System.Globalization;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Globalization;
+
+    using Microsoft.Win32;
+
     public static class OS
     {
         /// <summary>

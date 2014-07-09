@@ -15,14 +15,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl
 {
+    using System.Runtime.InteropServices;
+
     /// <summary>
     /// Class that helps finding the pins for a specific filter
     /// </summary>

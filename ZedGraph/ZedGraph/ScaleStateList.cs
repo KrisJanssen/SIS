@@ -19,15 +19,16 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
 	/// A collection class that maintains a list of <see cref="ScaleState" />
 	/// objects, corresponding to the list of <see cref="Axis" /> objects
 	/// from <see cref="GraphPane.YAxisList" /> or <see cref="GraphPane.Y2AxisList" />.

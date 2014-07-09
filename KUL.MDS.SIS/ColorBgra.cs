@@ -7,19 +7,18 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using KUL.MDS.Library;
-
-namespace KUL.MDS.SIS
+namespace SIS
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Reflection;
+    using System.Runtime.InteropServices;
+
+    using global::SIS.Library;
+
     /// <summary>
     /// This is our pixel format that we will work with. It is always 32-bits / 4-bytes and is
     /// always laid out in BGRA order.
@@ -95,7 +94,7 @@ namespace KUL.MDS.SIS
                     throw new ArgumentOutOfRangeException("channel", channel, "valid range is [0,3]");
                 }
 
-                fixed (byte* p = &B)
+                fixed (byte* p = &this.B)
                 {
                     return p[channel];
                 }
@@ -108,7 +107,7 @@ namespace KUL.MDS.SIS
                     throw new ArgumentOutOfRangeException("channel", channel, "valid range is [0,3]");
                 }
 
-                fixed (byte* p = &B)
+                fixed (byte* p = &this.B)
                 {
                     p[channel] = value;
                 }
@@ -121,7 +120,7 @@ namespace KUL.MDS.SIS
         /// <returns>A value in the range 0 to 1 inclusive.</returns>
         public double GetIntensity()
         {
-            return ((0.114 * (double)B) + (0.587 * (double)G) + (0.299 * (double)R)) / 255.0;
+            return ((0.114 * (double)this.B) + (0.587 * (double)this.G) + (0.299 * (double)this.R)) / 255.0;
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace KUL.MDS.SIS
         /// <returns>A value in the range 0 to 255 inclusive.</returns>
         public byte GetIntensityByte()
         {
-            return (byte)((7471 * B + 38470 * G + 19595 * R) >> 16);
+            return (byte)((7471 * this.B + 38470 * this.G + 19595 * this.R) >> 16);
         }
 
         /// <summary>
@@ -191,7 +190,7 @@ namespace KUL.MDS.SIS
         {
             unchecked
             {
-                return (int)Bgra;
+                return (int)this.Bgra;
             }
         }
 
@@ -214,7 +213,7 @@ namespace KUL.MDS.SIS
         /// </summary>
         public ColorBgra NewAlpha(byte newA)
         {
-            return ColorBgra.FromBgra(B, G, R, newA);
+            return ColorBgra.FromBgra(this.B, this.G, this.R, newA);
         }
 
         /// <summary>
@@ -344,7 +343,7 @@ namespace KUL.MDS.SIS
         /// </summary>
         public Color ToColor()
         {
-            return Color.FromArgb(A, R, G, B);
+            return Color.FromArgb(this.A, this.R, this.G, this.B);
         }
 
         /// <summary>
@@ -662,7 +661,7 @@ namespace KUL.MDS.SIS
 
         public override string ToString()
         {
-            return "B: " + B + ", G: " + G + ", R: " + R + ", A: " + A;
+            return "B: " + this.B + ", G: " + this.G + ", R: " + this.R + ", A: " + this.A;
         }
 
         /// <summary>

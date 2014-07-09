@@ -17,17 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
 //============================================================================= 
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Forms;
-using System.Data;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary> 
+    using System;
+    using System.Data;
+    using System.Reflection;
+    using System.Windows.Forms;
+
+    /// <summary> 
 	///  
 	/// </summary> 
 	/// <seealso cref="IPointList" /> 
@@ -59,15 +56,15 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( index < 0 || index >= _bindingSource.Count )
+				if ( index < 0 || index >= this._bindingSource.Count )
 					throw new System.ArgumentOutOfRangeException( "Error: Index out of range" );
 
-				object row = _bindingSource[index];
+				object row = this._bindingSource[index];
 
-				double x = GetDouble( row, _xDataMember, index );
-				double y = GetDouble( row, _yDataMember, index );
-				double z = GetDouble( row, _zDataMember, index );
-				object tag = GetObject( row, _tagDataMember );
+				double x = this.GetDouble( row, this._xDataMember, index );
+				double y = this.GetDouble( row, this._yDataMember, index );
+				double z = this.GetDouble( row, this._zDataMember, index );
+				object tag = this.GetObject( row, this._tagDataMember );
 
 				PointPair pt = new PointPair( x, y, z );
 				pt.Tag = tag;
@@ -82,8 +79,8 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( _bindingSource != null )
-					return _bindingSource.Count;
+				if ( this._bindingSource != null )
+					return this._bindingSource.Count;
 				else
 					return 0;
 			}
@@ -101,7 +98,7 @@ namespace ZedGraph
 		/// if applicable.</remarks> 
 		public BindingSource BindingSource
 		{
-			get { return _bindingSource; }
+			get { return this._bindingSource; }
 		}
 
 		/// <summary> 
@@ -113,8 +110,8 @@ namespace ZedGraph
 		/// </remarks> 
 		public object DataSource
 		{
-			get { return _bindingSource.DataSource; }
-			set { _bindingSource.DataSource = value; }
+			get { return this._bindingSource.DataSource; }
+			set { this._bindingSource.DataSource = value; }
 		}
 
 		/// <summary> 
@@ -125,8 +122,8 @@ namespace ZedGraph
 		/// </remarks> 
 		public string XDataMember
 		{
-			get { return _xDataMember; }
-			set { _xDataMember = value; }
+			get { return this._xDataMember; }
+			set { this._xDataMember = value; }
 		}
 
 		/// <summary> 
@@ -137,8 +134,8 @@ namespace ZedGraph
 		/// </remarks> 
 		public string YDataMember
 		{
-			get { return _yDataMember; }
-			set { _yDataMember = value; }
+			get { return this._yDataMember; }
+			set { this._yDataMember = value; }
 		}
 
 		/// <summary> 
@@ -149,8 +146,8 @@ namespace ZedGraph
 		/// </remarks> 
 		public string ZDataMember
 		{
-			get { return _zDataMember; }
-			set { _zDataMember = value; }
+			get { return this._zDataMember; }
+			set { this._zDataMember = value; }
 		}
 
 		/// <summary> 
@@ -163,8 +160,8 @@ namespace ZedGraph
 		/// </remarks> 
 		public string TagDataMember
 		{
-			get { return _tagDataMember; }
-			set { _tagDataMember = value; }
+			get { return this._tagDataMember; }
+			set { this._tagDataMember = value; }
 		}
 
 		#endregion
@@ -176,11 +173,11 @@ namespace ZedGraph
 		/// </summary> 
 		public DataSourcePointList()
 		{
-			_bindingSource = new BindingSource();
-			_xDataMember = string.Empty;
-			_yDataMember = string.Empty;
-			_zDataMember = string.Empty;
-			_tagDataMember = string.Empty;
+			this._bindingSource = new BindingSource();
+			this._xDataMember = string.Empty;
+			this._yDataMember = string.Empty;
+			this._zDataMember = string.Empty;
+			this._tagDataMember = string.Empty;
 		}
 
 		/// <summary> 
@@ -190,15 +187,15 @@ namespace ZedGraph
 		public DataSourcePointList( DataSourcePointList rhs )
 			: this()
 		{
-			_bindingSource.DataSource = rhs._bindingSource.DataSource;
+			this._bindingSource.DataSource = rhs._bindingSource.DataSource;
 			if ( rhs._xDataMember != null )
-				_xDataMember = (string)rhs._xDataMember.Clone();
+				this._xDataMember = (string)rhs._xDataMember.Clone();
 			if ( rhs._yDataMember != null )
-				_yDataMember = (string)rhs._yDataMember.Clone();
+				this._yDataMember = (string)rhs._yDataMember.Clone();
 			if ( rhs._zDataMember != null )
-				_zDataMember = (string)rhs._zDataMember.Clone();
+				this._zDataMember = (string)rhs._zDataMember.Clone();
 			if ( rhs._tagDataMember != null )
-				_tagDataMember = (string)rhs._tagDataMember.Clone();
+				this._tagDataMember = (string)rhs._tagDataMember.Clone();
 		}
 
 		/// <summary> 

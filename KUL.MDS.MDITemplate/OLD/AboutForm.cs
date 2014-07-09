@@ -1,12 +1,10 @@
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.OLD
 {
-	public class AboutForm : System.Windows.Forms.Form
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    public class AboutForm : System.Windows.Forms.Form
 	{
 		private System.Windows.Forms.PictureBox m_pictureBoxAppIcon = null;
 		private System.Windows.Forms.Label m_labelCopyright = null;
@@ -16,12 +14,12 @@ namespace KUL.MDS.MDITemplate
 
 		public AboutForm()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 
 			if (!this.DesignMode)
 			{
-				InitialiseText();
-				InitialiseSize();
+				this.InitialiseText();
+				this.InitialiseSize();
 			}
 		}
 
@@ -29,9 +27,9 @@ namespace KUL.MDS.MDITemplate
 		{
 			if( disposing )
 			{
-				if(components != null)
+				if(this.components != null)
 				{
-					components.Dispose();
+					this.components.Dispose();
 				}
 			}
 			base.Dispose( disposing );
@@ -96,33 +94,33 @@ namespace KUL.MDS.MDITemplate
 		{
 			get
 			{
-				return m_pictureBoxAppIcon.Image;
+				return this.m_pictureBoxAppIcon.Image;
 			}
 
 			set
 			{
-				m_pictureBoxAppIcon.Image = value;
+				this.m_pictureBoxAppIcon.Image = value;
 			}
 		}
 
 		private void InitialiseText()
 		{
 			this.Text = string.Format("About {0}", Application.ProductName);
-			m_labelVersion.Text = string.Format("Version {0}", Application.ProductVersion);
-			m_labelCopyright.Text = string.Format("Copyright (c) {0} {1}", Application.CompanyName, DateTime.Now.Year);
+			this.m_labelVersion.Text = string.Format("Version {0}", Application.ProductVersion);
+			this.m_labelCopyright.Text = string.Format("Copyright (c) {0} {1}", Application.CompanyName, DateTime.Now.Year);
 		}
 
 		private void InitialiseSize()
 		{
-			int nVersionWidth = GetLabelWidth(m_labelVersion);
-			int nCopyrightWidth = GetLabelWidth(m_labelCopyright);
+			int nVersionWidth = this.GetLabelWidth(this.m_labelVersion);
+			int nCopyrightWidth = this.GetLabelWidth(this.m_labelCopyright);
 
 			int nLabelWidth = Math.Max(nVersionWidth, nCopyrightWidth);
 
-			m_labelVersion.Width = nLabelWidth;
-			m_labelCopyright.Width = nLabelWidth;
+			this.m_labelVersion.Width = nLabelWidth;
+			this.m_labelCopyright.Width = nLabelWidth;
 
-			int nRight = m_labelVersion.Left + m_labelVersion.Width + m_nBorder;
+			int nRight = this.m_labelVersion.Left + this.m_labelVersion.Width + m_nBorder;
 
 			this.Width = nRight;
 		}

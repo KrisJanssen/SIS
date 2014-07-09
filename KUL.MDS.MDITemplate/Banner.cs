@@ -7,16 +7,18 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Windows.Forms;
-using KUL.MDS.AppResources;
-using KUL.MDS.Library;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
+    using System.Windows.Forms;
+
+    using SIS.Library;
+    using SIS.Resources;
+    using SIS.Systemlayer;
+
     public sealed class Banner : Control
     {
         private System.Windows.Forms.PictureBox bannerImage;
@@ -65,7 +67,7 @@ namespace KUL.MDS.MDITemplate
 
         private void BannerTimer_Tick(object sender, EventArgs e)
         {
-            Form findForm = FindForm();
+            Form findForm = this.FindForm();
 
             if (findForm != null &&
                 findForm.WindowState != FormWindowState.Minimized)
@@ -93,7 +95,7 @@ namespace KUL.MDS.MDITemplate
                 int newBannerIndex = ticks / bannerPeriod;
                 float newBannerAlpha = (float)a;
 
-                if (banners.Length < 2 || SystemLayer.UserSessions.IsRemote)
+                if (this.banners.Length < 2 || UserSessions.IsRemote)
                 {
                     newBannerAlpha = 1.0f;
                 }
@@ -103,7 +105,7 @@ namespace KUL.MDS.MDITemplate
                 {
                     this.bannerAlpha = newBannerAlpha;
                     this.bannerIndex = newBannerIndex;
-                    SetUpBannerImage();
+                    this.SetUpBannerImage();
                 }
             }
         }
@@ -134,7 +136,7 @@ namespace KUL.MDS.MDITemplate
                     banner2.Size);
 
                 Rectangle gradientDstBounds = new Rectangle(
-                    new Point(logoAndGradient.Width - banner2.Width, 0),
+                    new Point(this.logoAndGradient.Width - banner2.Width, 0),
                     banner2.Size);
 
                 float alpha1 = this.bannerAlpha;
@@ -211,8 +213,8 @@ namespace KUL.MDS.MDITemplate
                     GraphicsUnit.Pixel,
                     ia2);
 
-                Rectangle pdnLogoBounds = new Rectangle(new Point(0, 0), pdnLogo.Size);
-                g.DrawImage(pdnLogo, pdnLogoBounds, pdnLogoBounds, GraphicsUnit.Pixel);
+                Rectangle pdnLogoBounds = new Rectangle(new Point(0, 0), this.pdnLogo.Size);
+                g.DrawImage(this.pdnLogo, pdnLogoBounds, pdnLogoBounds, GraphicsUnit.Pixel);
 
                 ia1.Dispose();
                 ia1 = null;
@@ -223,9 +225,9 @@ namespace KUL.MDS.MDITemplate
 
             Bitmap useThis;
 
-            if (this.bannerImage.Size == logoAndGradient.Size)
+            if (this.bannerImage.Size == this.logoAndGradient.Size)
             {
-                useThis = logoAndGradient;
+                useThis = this.logoAndGradient;
             }
             else
             {
@@ -242,9 +244,9 @@ namespace KUL.MDS.MDITemplate
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
                     g.DrawImage(
-                        logoAndGradient,
+                        this.logoAndGradient,
                         new Rectangle(0, 0, this.highQualityBmp.Width, this.highQualityBmp.Height),
-                        new Rectangle(0, 0, logoAndGradient.Width, logoAndGradient.Height),
+                        new Rectangle(0, 0, this.logoAndGradient.Width, this.logoAndGradient.Height),
                         GraphicsUnit.Pixel);
                 }
 
@@ -256,9 +258,9 @@ namespace KUL.MDS.MDITemplate
 
         public Banner()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.indexOffset = new Random().Next(this.banners.Length);
-            SetUpBannerImage();
+            this.SetUpBannerImage();
         }
 
         protected override void Dispose(bool disposing)
@@ -321,7 +323,7 @@ namespace KUL.MDS.MDITemplate
             this.bannerImage.Location = new System.Drawing.Point(0, 0);
             this.bannerImage.Name = "headerImage";
             this.bannerImage.Size = defaultSize;
-            this.bannerImage.SizeChanged += new EventHandler(BannerImage_SizeChanged);
+            this.bannerImage.SizeChanged += new EventHandler(this.BannerImage_SizeChanged);
             this.bannerImage.SizeMode = PictureBoxSizeMode.CenterImage;
             this.bannerImage.TabIndex = 0;
             this.bannerImage.TabStop = false;
@@ -342,7 +344,7 @@ namespace KUL.MDS.MDITemplate
             // bannerTimer
             //
             this.bannerTimer.Interval = 30;
-            this.bannerTimer.Tick += new EventHandler(BannerTimer_Tick);
+            this.bannerTimer.Tick += new EventHandler(this.BannerTimer_Tick);
             this.bannerTimer.Enabled = true;
             //
             // PdnBanner
@@ -350,13 +352,13 @@ namespace KUL.MDS.MDITemplate
             this.Controls.Add(this.bannerImage);
             this.Name = "PdnBanner";
             ((System.ComponentModel.ISupportInitialize)(this.bannerImage)).EndInit();
-            ResumeLayout();
-            PerformLayout();
+            this.ResumeLayout();
+            this.PerformLayout();
         }
 
         private void BannerImage_SizeChanged(object sender, EventArgs e)
         {
-            SetUpBannerImage();
+            this.SetUpBannerImage();
         }
     }
 }

@@ -7,10 +7,9 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Windows.Forms;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System.Windows.Forms;
+
     public delegate void RealParentWndProcDelegate(ref Message m);
 }

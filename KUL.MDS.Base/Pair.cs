@@ -7,10 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-
-namespace KUL.MDS.Base
+namespace SIS.Base
 {
+    using System;
+
     public static class Pair
     {
         public static Pair<T, U> Create<T, U>(T first, U second)

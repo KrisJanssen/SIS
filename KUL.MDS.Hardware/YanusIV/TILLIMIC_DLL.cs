@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware.YanusIV
 {
+    using System;
+    using System.Runtime.InteropServices;
+
     /// <summary>
     /// This class provides the DLL functions for interacting with YanusIV galvo scanner.
     /// </summary>
@@ -62,8 +59,8 @@ namespace KUL.MDS.Hardware
         {
             public LSM_Coordinate(double __dX, double __dY)
             {
-                X = __dX;
-                Y = __dY;
+                this.X = __dX;
+                this.Y = __dY;
             }
 
             public double X;///< The X coordinate
@@ -471,7 +468,7 @@ namespace KUL.MDS.Hardware
         /// <param name="handle">The LSM device handle for the given com port.</param>  
         /// <returns>int: An integer error code.</returns>  
         [DllImport(TillLibName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LSM_Open")]
-        internal static extern int LSM_Open([System.Runtime.InteropServices.InAttribute()] string port, ref IntPtr handle);
+        internal static extern int LSM_Open([In()] string port, ref IntPtr handle);
 
 
         /// <summary>

@@ -1,11 +1,10 @@
-using System;
-using System.IO;
-using System.IO.Ports;
-using System.Collections;
-using System.Threading;
-
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
+    using System;
+    using System.IO;
+    using System.IO.Ports;
+    using System.Threading;
+
     /// <summary> CommPort class creates a singleton instance
     /// of SerialPort (System.IO.Ports) </summary>
     /// <remarks> When ready, you open the port.
@@ -41,9 +40,9 @@ namespace KUL.MDS.SerialTerminal
 
         CommPort()
         {
-            _serialPort = new SerialPort();
-            _readThread = null;
-            _keepReading = false;
+            this._serialPort = new SerialPort();
+            this._readThread = null;
+            this._keepReading = false;
         }
 
         public static CommPort Instance
@@ -63,32 +62,32 @@ namespace KUL.MDS.SerialTerminal
 
         private void StartReading()
         {
-            if (!_keepReading)
+            if (!this._keepReading)
             {
-                _keepReading = true;
-                _readThread = new Thread(ReadPort);
-                _readThread.Start();
+                this._keepReading = true;
+                this._readThread = new Thread(this.ReadPort);
+                this._readThread.Start();
             }
         }
 
         private void StopReading()
         {
-            if (_keepReading)
+            if (this._keepReading)
             {
-                _keepReading = false;
-                _readThread.Join();	//block until exits
-                _readThread = null;
+                this._keepReading = false;
+                this._readThread.Join();	//block until exits
+                this._readThread = null;
             }
         }
 
         /// <summary> Get the data and pass it on. </summary>
         private void ReadPort()
         {
-            while (_keepReading)
+            while (this._keepReading)
             {
-                if (_serialPort.IsOpen)
+                if (this._serialPort.IsOpen)
                 {
-                    byte[] readBuffer = new byte[_serialPort.ReadBufferSize + 1];
+                    byte[] readBuffer = new byte[this._serialPort.ReadBufferSize + 1];
                     try
                     {
                         // If there are bytes available on the serial port,
@@ -97,9 +96,9 @@ namespace KUL.MDS.SerialTerminal
                         // on the serial port, Read will block until at least one byte
                         // is available on the port, up until the ReadTimeout milliseconds
                         // have elapsed, at which time a TimeoutException will be thrown.
-                        int count = _serialPort.Read(readBuffer, 0, _serialPort.ReadBufferSize);
+                        int count = this._serialPort.Read(readBuffer, 0, this._serialPort.ReadBufferSize);
                         String SerialIn = System.Text.Encoding.ASCII.GetString(readBuffer, 0, count);
-                        DataReceived(SerialIn);
+                        this.DataReceived(SerialIn);
                     }
                     catch (TimeoutException) { }
                 }
@@ -114,57 +113,57 @@ namespace KUL.MDS.SerialTerminal
         /// <summary> Open the serial port with current settings. </summary>
         public void Open()
         {
-            Close();
+            this.Close();
 
             try
             {
-                _serialPort.PortName = Settings.Port.PortName;
-                _serialPort.BaudRate = Settings.Port.BaudRate;
-                _serialPort.Parity = Settings.Port.Parity;
-                _serialPort.DataBits = Settings.Port.DataBits;
-                _serialPort.StopBits = Settings.Port.StopBits;
-                _serialPort.Handshake = Settings.Port.Handshake;
+                this._serialPort.PortName = Settings.Port.PortName;
+                this._serialPort.BaudRate = Settings.Port.BaudRate;
+                this._serialPort.Parity = Settings.Port.Parity;
+                this._serialPort.DataBits = Settings.Port.DataBits;
+                this._serialPort.StopBits = Settings.Port.StopBits;
+                this._serialPort.Handshake = Settings.Port.Handshake;
 
                 // Set the read/write timeouts
-                _serialPort.ReadTimeout = 50;
-                _serialPort.WriteTimeout = 50;
+                this._serialPort.ReadTimeout = 50;
+                this._serialPort.WriteTimeout = 50;
 
-                _serialPort.Open();
-                StartReading();
+                this._serialPort.Open();
+                this.StartReading();
             }
             catch (IOException)
             {
-                StatusChanged(String.Format("{0} does not exist", Settings.Port.PortName));
+                this.StatusChanged(String.Format("{0} does not exist", Settings.Port.PortName));
             }
             catch (UnauthorizedAccessException)
             {
-                StatusChanged(String.Format("{0} already in use", Settings.Port.PortName));
+                this.StatusChanged(String.Format("{0} already in use", Settings.Port.PortName));
             }
 
             // Update the status
-            if (_serialPort.IsOpen)
+            if (this._serialPort.IsOpen)
             {
-                string p = _serialPort.Parity.ToString().Substring(0, 1);   //First char
-                string h = _serialPort.Handshake.ToString();
-                if (_serialPort.Handshake == Handshake.None)
+                string p = this._serialPort.Parity.ToString().Substring(0, 1);   //First char
+                string h = this._serialPort.Handshake.ToString();
+                if (this._serialPort.Handshake == Handshake.None)
                     h = "no handshake"; // more descriptive than "None"
 
-                StatusChanged(String.Format("{0}: {1} bps, {2}{3}{4}, {5}",
-                    _serialPort.PortName, _serialPort.BaudRate,
-                    _serialPort.DataBits, p, (int)_serialPort.StopBits, h));
+                this.StatusChanged(String.Format("{0}: {1} bps, {2}{3}{4}, {5}",
+                    this._serialPort.PortName, this._serialPort.BaudRate,
+                    this._serialPort.DataBits, p, (int)this._serialPort.StopBits, h));
             }
             else
             {
-                StatusChanged(String.Format("{0} already in use", Settings.Port.PortName));
+                this.StatusChanged(String.Format("{0} already in use", Settings.Port.PortName));
             }
         }
 
         /// <summary> Close the serial port. </summary>
         public void Close()
         {
-            StopReading();
-            _serialPort.Close();
-            StatusChanged("connection closed");
+            this.StopReading();
+            this._serialPort.Close();
+            this.StatusChanged("connection closed");
         }
 
         /// <summary> Get the status of the serial port. </summary>
@@ -172,7 +171,7 @@ namespace KUL.MDS.SerialTerminal
         {
             get
             {
-                return _serialPort.IsOpen;
+                return this._serialPort.IsOpen;
             }
         }
 
@@ -187,7 +186,7 @@ namespace KUL.MDS.SerialTerminal
         /// <param name="data">An string containing the data to send. </param>
         public void Send(string data)
         {
-            if (IsOpen)
+            if (this.IsOpen)
             {
                 string lineEnding = "";
                 switch (Settings.Option.AppendToSend)
@@ -200,7 +199,7 @@ namespace KUL.MDS.SerialTerminal
                         lineEnding = "\r\n"; break;
                 }
 
-                _serialPort.Write(data + lineEnding);
+                this._serialPort.Write(data + lineEnding);
             }
         }
     }

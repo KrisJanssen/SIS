@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NationalInstruments.DAQmx;
-
-namespace KUL.MDS.Hardware
+﻿namespace SIS.Hardware
 {
+    using System;
+
+    using NationalInstruments.DAQmx;
+
     public class APD
     {
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -82,7 +81,7 @@ namespace KUL.MDS.Hardware
                 // Calculate how many ticks the photon counting should take.
                 // e.g. 0.5E-3 s * 20E6 ticks/s = 10000 ticks
                 // 20000000 ticks/second or 20000 ticks per ms or 10000 ticks per 0.5 ms
-                int _iBinTicks = Convert.ToInt32(__dBinTimeMilisec * m_iPulseGenTimeBase * 1000);
+                int _iBinTicks = Convert.ToInt32(__dBinTimeMilisec * this.m_iPulseGenTimeBase * 1000);
 
                 // Create new task instances that will be passed to the private member tasks.
                 Task _daqtskGate = new Task();
@@ -92,12 +91,12 @@ namespace KUL.MDS.Hardware
                 // This channel will create a single delayed edge upon triggering by the global sync pulsetrain or another source. 
                 // High time of the pulse determines bin time.
                 _daqtskGate.COChannels.CreatePulseChannelTicks(
-                    "/" + m_sBoardID + "/" + m_sPulseGenCtr, 
+                    "/" + this.m_sBoardID + "/" + this.m_sPulseGenCtr, 
                     "GatePulse", 
-                    "/" + m_sBoardID + "/" + m_iPulseGenTimeBase.ToString() + "MHzTimebase", 
+                    "/" + this.m_sBoardID + "/" + this.m_iPulseGenTimeBase.ToString() + "MHzTimebase", 
                     COPulseIdleState.Low,
-                     m_iPulseGenTimeBase,
-                     m_iPulseGenTimeBase, 
+                     this.m_iPulseGenTimeBase,
+                     this.m_iPulseGenTimeBase, 
                     _iBinTicks);
 
                 // We want to sync voltage out to Analog Piezo or  Digital Piezo with measurement without software intervention.
@@ -105,7 +104,7 @@ namespace KUL.MDS.Hardware
                 // or a PFI line (digital) to sync photon counting with movement.
                 // For each pixel a single pulse with a high duration equal to the photon binning time will be generated.
                 _daqtskGate.Triggers.StartTrigger.ConfigureDigitalEdgeTrigger(
-                    "/" + m_sBoardID + "/" + m_sPulseGenTrigger, 
+                    "/" + this.m_sBoardID + "/" + this.m_sPulseGenTrigger, 
                     DigitalEdgeStartTriggerEdge.Rising);
 
                 // This trigger will occur for every pixel so it should be retriggerable.
@@ -119,12 +118,12 @@ namespace KUL.MDS.Hardware
                 _daqtskGate.Control(TaskAction.Verify);
                 _daqtskGate.Control(TaskAction.Commit);
 
-                _logger.Info("Exact pixel time is " + _iBinTicks + " ticks of " + m_iPulseGenTimeBase.ToString() + " MHz Timebase");
+                _logger.Info("Exact pixel time is " + _iBinTicks + " ticks of " + this.m_iPulseGenTimeBase.ToString() + " MHz Timebase");
 
                 // Setup countertask for the actual timed APD counting.
                 // We will actually measure the width of the counting timing pulse in # of TTLs of the APD, thus effectively counting photons.
                 _daqtskAPD.CIChannels.CreatePulseWidthChannel(
-                    "/" + m_sBoardID + "/" + m_sAPDTTLCounter, 
+                    "/" + this.m_sBoardID + "/" + this.m_sAPDTTLCounter, 
                     "CountAPD", 
                     0.0, 
                     1000000, 
@@ -132,16 +131,16 @@ namespace KUL.MDS.Hardware
                     CIPulseWidthUnits.Ticks);
 
                 // On this terminal the timing pulse, that defines the bintime, will come in so that it's width can be counted.
-                _daqtskAPD.CIChannels.All.PulseWidthTerminal = "/" + m_sBoardID + "/" + m_sPulseGenCtr + "InternalOutput";
+                _daqtskAPD.CIChannels.All.PulseWidthTerminal = "/" + this.m_sBoardID + "/" + this.m_sPulseGenCtr + "InternalOutput";
 
                 // On this line the TTLs from the APD will come in.
-                _daqtskAPD.CIChannels.All.CounterTimebaseSource = "/" + m_sBoardID + "/" + m_sAPDInputLine;
+                _daqtskAPD.CIChannels.All.CounterTimebaseSource = "/" + this.m_sBoardID + "/" + this.m_sAPDInputLine;
 
                 // TODO: Evaluate the behavior of this setting. It might be necessary to deal with zero counts correctly although this is not 
                 // likeley because an APD probably has non-zero dark count!
                 _daqtskAPD.CIChannels.All.DuplicateCountPrevention = true;
 
-                if (!m_bUseDMA)
+                if (!this.m_bUseDMA)
                 {
                     // Boards that do not support multiple DMA channels might want to use interrupts instead.
                     _daqtskAPD.CIChannels.All.DataTransferMechanism = CIDataTransferMechanism.Interrupts;
@@ -189,13 +188,13 @@ namespace KUL.MDS.Hardware
             this.m_dTotalCountsRead = 0;
 
             // Create an instance of a reader to get counts from the HW buffer.
-            m_rdrCountReader = new CounterReader(this.m_daqtskAPDCount.Stream);
+            this.m_rdrCountReader = new CounterReader(this.m_daqtskAPDCount.Stream);
 
             // Start the task that counts the TTL's coming from the APD first.
-            m_daqtskAPDCount.Start();
+            this.m_daqtskAPDCount.Start();
 
             // Now start the pulse with duration of bintime. The length of this pulse will be measured in TTL ticks from the actual APD.
-            m_daqtskTimingPulse.Start();
+            this.m_daqtskTimingPulse.Start();
         }
 
         /// <summary>
@@ -205,7 +204,7 @@ namespace KUL.MDS.Hardware
         public UInt32[] Read()
         {
             UInt32[] _ui32Values = this.m_rdrCountReader.ReadMultiSampleUInt32(-1);
-            this.m_dTotalCountsRead = m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
+            this.m_dTotalCountsRead = this.m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
             return _ui32Values;
         }
 
@@ -215,19 +214,19 @@ namespace KUL.MDS.Hardware
         public void StopAPDAcquisition()
         {
             // Stop the pulse whose width is measured in TTL's coming from the APD.
-            m_daqtskTimingPulse.Stop();
+            this.m_daqtskTimingPulse.Stop();
             // Stop the task that counts the TTL's
-            m_daqtskAPDCount.Stop();
+            this.m_daqtskAPDCount.Stop();
 
-            this.m_dTotalCountsRead = m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
+            this.m_dTotalCountsRead = this.m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
 
             // Free the resources used.
-            m_daqtskTimingPulse.Control(TaskAction.Unreserve);
-            m_daqtskAPDCount.Control(TaskAction.Unreserve);
+            this.m_daqtskTimingPulse.Control(TaskAction.Unreserve);
+            this.m_daqtskAPDCount.Control(TaskAction.Unreserve);
 
             // Dispose of the tasks.
-            m_daqtskTimingPulse.Dispose();
-            m_daqtskAPDCount.Dispose();
+            this.m_daqtskTimingPulse.Dispose();
+            this.m_daqtskAPDCount.Dispose();
         }
     }
 }

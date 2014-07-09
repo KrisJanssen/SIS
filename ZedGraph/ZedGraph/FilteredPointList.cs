@@ -16,11 +16,12 @@
 //License along with this library; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================using System;
-using System;
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+
+    /// <summary>
 	/// An example of an <see cref="IPointList" /> implementation that stores large datasets, and
 	/// selectively filters the output data depending on the displayed range.
 	/// </summary>
@@ -109,31 +110,31 @@ namespace ZedGraph
 			get
 			{
 				// See if the array should be bounded
-				if ( _minBoundIndex >= 0 && _maxBoundIndex >= 0 && _maxPts >= 0 )
+				if ( this._minBoundIndex >= 0 && this._maxBoundIndex >= 0 && this._maxPts >= 0 )
 				{
 					// get number of points in bounded range
-					int nPts = _maxBoundIndex - _minBoundIndex + 1;
+					int nPts = this._maxBoundIndex - this._minBoundIndex + 1;
 
-					if ( nPts > _maxPts )
+					if ( nPts > this._maxPts )
 					{
 						// if we're skipping points, then calculate the new index
-						index = _minBoundIndex + (int) ( (double) index * (double) nPts / (double) _maxPts );
+						index = this._minBoundIndex + (int) ( (double) index * (double) nPts / (double) this._maxPts );
 					}
 					else
 					{
 						// otherwise, index is just offset by the start of the bounded range
-						index += _minBoundIndex;
+						index += this._minBoundIndex;
 					}
 				}
 
 				double xVal, yVal;
-				if ( index >= 0 && index < _x.Length )
-					xVal = _x[index];
+				if ( index >= 0 && index < this._x.Length )
+					xVal = this._x[index];
 				else
 					xVal = PointPair.Missing;
 
-				if ( index >= 0 && index < _y.Length )
-					yVal = _y[index];
+				if ( index >= 0 && index < this._y.Length )
+					yVal = this._y[index];
 				else
 					yVal = PointPair.Missing;
 
@@ -145,28 +146,28 @@ namespace ZedGraph
 			set
 			{
 				// See if the array should be bounded
-				if ( _minBoundIndex >= 0 && _maxBoundIndex >= 0 && _maxPts >= 0 )
+				if ( this._minBoundIndex >= 0 && this._maxBoundIndex >= 0 && this._maxPts >= 0 )
 				{
 					// get number of points in bounded range
-					int nPts = _maxBoundIndex - _minBoundIndex + 1;
+					int nPts = this._maxBoundIndex - this._minBoundIndex + 1;
 
-					if ( nPts > _maxPts )
+					if ( nPts > this._maxPts )
 					{
 						// if we're skipping points, then calculate the new index
-						index = _minBoundIndex + (int) ( (double) index * (double) nPts / (double) _maxPts );
+						index = this._minBoundIndex + (int) ( (double) index * (double) nPts / (double) this._maxPts );
 					}
 					else
 					{
 						// otherwise, index is just offset by the start of the bounded range
-						index += _minBoundIndex;
+						index += this._minBoundIndex;
 					}
 				}
 
-				if ( index >= 0 && index < _x.Length )
-					_x[index] = value.X;
+				if ( index >= 0 && index < this._x.Length )
+					this._x[index] = value.X;
 
-				if ( index >= 0 && index < _y.Length )
-					_y[index] = value.Y;
+				if ( index >= 0 && index < this._y.Length )
+					this._y[index] = value.Y;
 			}
 		}
 
@@ -177,21 +178,21 @@ namespace ZedGraph
 		{
 			get
 			{
-				int arraySize = _x.Length;
+				int arraySize = this._x.Length;
 
 				// Is the filter active?
-				if ( _minBoundIndex >= 0 && _maxBoundIndex >= 0 && _maxPts > 0 )
+				if ( this._minBoundIndex >= 0 && this._maxBoundIndex >= 0 && this._maxPts > 0 )
 				{
 					// get the number of points within the filter bounds
-					int boundSize = _maxBoundIndex - _minBoundIndex + 1;
+					int boundSize = this._maxBoundIndex - this._minBoundIndex + 1;
 
 					// limit the point count to the filter bounds
 					if ( boundSize < arraySize )
 						arraySize = boundSize;
 
 					// limit the point count to the declared max points
-					if ( arraySize > _maxPts )
-						arraySize = _maxPts;
+					if ( arraySize > this._maxPts )
+						arraySize = this._maxPts;
 				}
 
 				return arraySize;
@@ -204,7 +205,7 @@ namespace ZedGraph
 		/// </summary>
 		public int MaxPts
 		{
-			get { return _maxPts; }
+			get { return this._maxPts; }
 		}
 
 
@@ -218,8 +219,8 @@ namespace ZedGraph
 		/// </summary>
 		public FilteredPointList( double[] x, double[] y )
 		{
-			_x = x;
-			_y = y;
+			this._x = x;
+			this._y = y;
 		}
 
 		/// <summary>
@@ -228,11 +229,11 @@ namespace ZedGraph
 		/// <param name="rhs">The FilteredPointList from which to copy</param>
 		public FilteredPointList( FilteredPointList rhs )
 		{
-			_x = (double[]) rhs._x.Clone();
-			_y = (double[]) rhs._y.Clone();
-			_minBoundIndex = rhs._minBoundIndex;
-			_maxBoundIndex = rhs._maxBoundIndex;
-			_maxPts = rhs._maxPts;
+			this._x = (double[]) rhs._x.Clone();
+			this._y = (double[]) rhs._y.Clone();
+			this._minBoundIndex = rhs._minBoundIndex;
+			this._maxBoundIndex = rhs._maxBoundIndex;
+			this._maxPts = rhs._maxPts;
 
 		}
 
@@ -262,11 +263,11 @@ namespace ZedGraph
 		// New code mods by ingineer
 		public void SetBounds( double min, double max, int maxPts )
 		{
-			_maxPts = maxPts;
+			this._maxPts = maxPts;
 
 			// find the index of the start and end of the bounded range
-			int first = Array.BinarySearch( _x, min );
-			int last = Array.BinarySearch( _x, max );
+			int first = Array.BinarySearch( this._x, min );
+			int last = Array.BinarySearch( this._x, max );
 
 			// Make sure the bounded indices are legitimate
 			// if BinarySearch() doesn't find the value, it returns the bitwise
@@ -283,8 +284,8 @@ namespace ZedGraph
 			if ( last < 0 )
 			last = ~last;
 
-			_minBoundIndex = first;
-			_maxBoundIndex = last;
+			this._minBoundIndex = first;
+			this._maxBoundIndex = last;
 		}
 
 		// The old version, as of 21-Oct-2007

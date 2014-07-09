@@ -17,16 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-   /// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
    /// A class representing all the characteristics of the bar
    /// segments that make up a curve on the graph.
    /// </summary>
@@ -116,8 +114,8 @@ namespace ZedGraph
 		/// </param>
 		public Bar( Color color )
 		{
-			_border = new Border( Default.IsBorderVisible, Default.BorderColor, Default.BorderWidth );
-			_fill = new Fill( color.IsEmpty ? Default.FillColor : color,
+			this._border = new Border( Default.IsBorderVisible, Default.BorderColor, Default.BorderWidth );
+			this._fill = new Fill( color.IsEmpty ? Default.FillColor : color,
 									Default.FillBrush, Default.FillType );
 		}
 
@@ -127,8 +125,8 @@ namespace ZedGraph
 		/// <param name="rhs">The Bar object from which to copy</param>
 		public Bar( Bar rhs )
 		{
-			_border = (Border) rhs.Border.Clone();
-			_fill = (Fill) rhs.Fill.Clone();
+			this._border = (Border) rhs.Border.Clone();
+			this._fill = (Fill) rhs.Fill.Clone();
 		}
 
 		/// <summary>
@@ -171,20 +169,20 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_fill = (Fill) info.GetValue( "fill", typeof(Fill) );
-			_border = (Border) info.GetValue( "border", typeof(Border) );
+			this._fill = (Fill) info.GetValue( "fill", typeof(Fill) );
+			this._border = (Border) info.GetValue( "border", typeof(Border) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
-			info.AddValue( "fill", _fill );
-			info.AddValue( "border", _border );
+			info.AddValue( "fill", this._fill );
+			info.AddValue( "border", this._border );
 		}
 	#endregion
 
@@ -197,8 +195,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.BorderColor"/>
 		public Border Border
 		{
-			get { return _border; }
-			set { _border = value; }
+			get { return this._border; }
+			set { this._border = value; }
 		}
 		/// <summary>
 		/// Gets or sets the <see cref="ZedGraph.Fill"/> data for this
@@ -206,8 +204,8 @@ namespace ZedGraph
 		/// </summary>
 		public Fill Fill
 		{
-			get { return _fill; }
-			set { _fill = value; }
+			get { return this._fill; }
+			set { this._fill = value; }
 		}
 	#endregion
 
@@ -286,7 +284,7 @@ namespace ZedGraph
 			// Make a rectangle for the bar and draw it
 			RectangleF rect = new RectangleF( left, top, right - left, bottom - top );
 
-			Draw( g, pane, rect, scaleFactor, fullFrame, isSelected, dataValue );      
+			this.Draw( g, pane, rect, scaleFactor, fullFrame, isSelected, dataValue );      
 		}
 
 		/// <summary>
@@ -325,8 +323,8 @@ namespace ZedGraph
 			}
 			else
 			{
-				_fill.Draw( g, rect, dataValue );
-				_border.Draw( g, pane, scaleFactor, rect );
+				this._fill.Draw( g, rect, dataValue );
+				this._border.Draw( g, pane, scaleFactor, rect );
 			}
 		}
 
@@ -376,7 +374,7 @@ namespace ZedGraph
 
 			// Loop over each defined point and draw the corresponding bar                
 			for ( int i=0; i<curve.Points.Count; i++ )
-				DrawSingleBar( g, pane, curve, i, pos, baseAxis, valueAxis, barWidth, scaleFactor );
+				this.DrawSingleBar( g, pane, curve, i, pos, baseAxis, valueAxis, barWidth, scaleFactor );
 		}
 
 		/// <summary>
@@ -430,7 +428,7 @@ namespace ZedGraph
 				pos = 0;
 
 			// Draw the specified bar
-			DrawSingleBar( g, pane, curve, index, pos, baseAxis, valueAxis, barWidth, scaleFactor );
+			this.DrawSingleBar( g, pane, curve, index, pos, baseAxis, valueAxis, barWidth, scaleFactor );
 		}
 
 		/// <summary>

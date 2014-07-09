@@ -19,18 +19,18 @@
 
 #region Using directives
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Encapsulates an "Error Bar" curve type that displays a vertical or horizontal
 	/// line with a symbol at each end.
 	/// </summary>
@@ -70,7 +70,7 @@ namespace ZedGraph
 		/// </summary>
 		public ErrorBar Bar
 		{
-			get { return _bar; }
+			get { return this._bar; }
 		}
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace ZedGraph
 		/// <param name="label">The label that will appear in the legend.</param>
 		public ErrorBarItem( string label ) : base( label )
 		{
-			_bar = new ErrorBar();
+			this._bar = new ErrorBar();
 		}
 		
 		/// <summary>
@@ -138,7 +138,7 @@ namespace ZedGraph
 		public ErrorBarItem( string label, IPointList points, Color color )
 			: base( label, points )
 		{
-			_bar = new ErrorBar( color );
+			this._bar = new ErrorBar( color );
 		}
 
 		/// <summary>
@@ -147,7 +147,7 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="ErrorBarItem"/> object from which to copy</param>
 		public ErrorBarItem( ErrorBarItem rhs ) : base( rhs )
 		{
-			_bar = new ErrorBar( rhs.Bar );
+			this._bar = new ErrorBar( rhs.Bar );
 		}
 
 		/// <summary>
@@ -190,7 +190,7 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_bar = (ErrorBar) info.GetValue( "bar", typeof(ErrorBar) );
+			this._bar = (ErrorBar) info.GetValue( "bar", typeof(ErrorBar) );
 
 			// This is now just a dummy variable, since barBase was removed
 			BarBase barBase = (BarBase) info.GetValue( "barBase", typeof(BarBase) );
@@ -200,12 +200,12 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "bar", _bar );
+			info.AddValue( "bar", this._bar );
 
 			// BarBase is now just a dummy value, since the GraphPane.BarBase is used exclusively
 			info.AddValue( "barBase", BarBase.X );
@@ -237,9 +237,9 @@ namespace ZedGraph
 		/// </param>
 		override public void Draw( Graphics g, GraphPane pane, int pos, float scaleFactor  )
 		{
-			if ( _isVisible )
+			if ( this._isVisible )
 			{
-				_bar.Draw( g, pane, this, this.BaseAxis( pane ),
+				this._bar.Draw( g, pane, this, this.BaseAxis( pane ),
 								this.ValueAxis( pane ), scaleFactor );
 			}
 		}		
@@ -281,7 +281,7 @@ namespace ZedGraph
 				pixLowValue = rect.Left;
 			}
 
-			using ( Pen pen = new Pen( _bar.Color, _bar.PenWidth ) )
+			using ( Pen pen = new Pen( this._bar.Color, this._bar.PenWidth ) )
 			{
 				this.Bar.Draw( g, pane, pane._barSettings.Base == BarBase.X, pixBase, pixValue,
 									pixLowValue, scaleFactor, pen, false, null );
@@ -301,13 +301,13 @@ namespace ZedGraph
 		{
 			coords = string.Empty;
 
-			if ( i < 0 || i >= _points.Count )
+			if ( i < 0 || i >= this._points.Count )
 				return false;
 
-			Axis valueAxis = ValueAxis( pane );
-			Axis baseAxis = BaseAxis( pane );
+			Axis valueAxis = this.ValueAxis( pane );
+			Axis baseAxis = this.BaseAxis( pane );
 
-			float scaledSize = _bar.Symbol.Size * pane.CalcScaleFactor();
+			float scaledSize = this._bar.Symbol.Size * pane.CalcScaleFactor();
 
 			// pixBase = pixel value for the bar center on the base axis
 			// pixHiVal = pixel value for the bar top on the value axis
@@ -315,7 +315,7 @@ namespace ZedGraph
 			float pixBase, pixHiVal, pixLowVal;
 
 			float clusterWidth = pane.BarSettings.GetClusterWidth();
-			float barWidth = GetBarWidth( pane );
+			float barWidth = this.GetBarWidth( pane );
 			float clusterGap = pane._barSettings.MinClusterGap * barWidth;
 			float barGap = barWidth * pane._barSettings.MinBarGap;
 
@@ -331,13 +331,13 @@ namespace ZedGraph
 			//   by zero, etc.
 			// Also, any value <= zero on a log scale is invalid
 
-			if ( !_points[i].IsInvalid3D )
+			if ( !this._points[i].IsInvalid3D )
 			{
 				// calculate a pixel value for the top of the bar on value axis
-				pixLowVal = valueAxis.Scale.Transform( _isOverrideOrdinal, i, curLowVal );
-				pixHiVal = valueAxis.Scale.Transform( _isOverrideOrdinal, i, curHiVal );
+				pixLowVal = valueAxis.Scale.Transform( this._isOverrideOrdinal, i, curLowVal );
+				pixHiVal = valueAxis.Scale.Transform( this._isOverrideOrdinal, i, curHiVal );
 				// calculate a pixel value for the center of the bar on the base axis
-				pixBase = baseAxis.Scale.Transform( _isOverrideOrdinal, i, curBase );
+				pixBase = baseAxis.Scale.Transform( this._isOverrideOrdinal, i, curBase );
 
 				// Calculate the pixel location for the side of the bar (on the base axis)
 				float pixSide = pixBase - scaledSize / 2.0F;

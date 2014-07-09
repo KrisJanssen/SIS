@@ -7,23 +7,27 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
-using KUL.MDS.Library;
-using KUL.MDS.SystemLayer;
-using KUL.MDS.MDITemplate;
-using KUL.MDS.AppResources;
-
-namespace KUL.MDS.SIS
+namespace SIS
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Text;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using global::SIS.Library;
+    using global::SIS.MDITemplate.Settings;
+    using global::SIS.Systemlayer;
+    using global::SIS.Systemlayer.Settings;
+
+    using SIS.Forms;
+    using SIS.Resources;
+
     internal sealed class Startup
     {
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -164,22 +168,22 @@ namespace KUL.MDS.SIS
             string[] _sRequiredFiles =
                 new string[]
                 {
-                   "KUL.MDS.Base.dll",
-                   "KUL.MDS.Data.dll",
-                   "KUL.MDS.Hardware.dll",
-                   "KUL.MDS.Library.dll",
-                   "KUL.MDS.MDITemplate.dll",
-                   "KUL.MDS.Base.dll",
-                   "KUL.MDS.AppResources.dll",
-                   "KUL.MDS.ScanModes.dll",
-                   "KUL.MDS.SerialTerminal.dll",
-                   "KUL.MDS.SystemLayer.dll",
-                   "KUL.MDS.Validation.dll",
-                   "KUL.MDS.WPFControls.dll",
-                   "ZedGraph.dll",
-                   "AForge.dll",
-                   "AForge.Imaging.dll",
-                   "AForge.Math.dll",
+                   //"SIS.Base.dll",
+                   //"SIS.Data.dll",
+                   //"SIS.Hardware.dll",
+                   //"SIS.Library.dll",
+                   //"SIS.MDITemplate.dll",
+                   //"SIS.Base.dll",
+                   //"SIS.AppResources.dll",
+                   //"SIS.ScanModes.dll",
+                   //"SIS.SerialTerminal.dll",
+                   //"SIS.SystemLayer.dll",
+                   //"SIS.Validation.dll",
+                   //"SIS.WPFControls.dll",
+                   //"ZedGraph.dll",
+                   //"AForge.dll",
+                   //"AForge.Imaging.dll",
+                   //"AForge.Math.dll",
                 };
 
             string _sDirName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -257,9 +261,9 @@ namespace KUL.MDS.SIS
             }
             else
             {
-                if (CheckForImportantFiles())
+                if (this.CheckForImportantFiles())
                 {
-                    Startup.StartNewInstance(null, false, m_sArgs);
+                    Startup.StartNewInstance(null, false, this.m_sArgs);
                     return;
                 }
             }
@@ -267,7 +271,7 @@ namespace KUL.MDS.SIS
             // The rest of the code is put in a separate method so that certain DLL's
             // won't get delay loaded until after we try to do repairs.
             _logger.Info("Running Startup, stage 2 ...");
-            StartStage2();
+            this.StartStage2();
         }
 
         private void StartStage2()
@@ -297,7 +301,7 @@ namespace KUL.MDS.SIS
             // Check system requirements
             if (!OS.CheckOSRequirement())
             {
-                string message = Resources.GetString("Error.OSRequirement");
+                string message = Resources.Resources.GetString("Error.OSRequirement");
                 Utility.ErrorBox(null, message);
                 return;
             }
@@ -410,7 +414,7 @@ namespace KUL.MDS.SIS
 
             try
             {
-                errorFormat = KUL.MDS.AppResources.Resources.GetString("Startup.UnhandledError.Format");
+                errorFormat = Resources.Resources.GetString("Startup.UnhandledError.Format");
             }
 
             catch (Exception)
@@ -436,7 +440,7 @@ namespace KUL.MDS.SIS
 
             try
             {
-                headerFormat = Resources.GetString("CrashLog.HeaderText.Format");
+                headerFormat = Resources.Resources.GetString("CrashLog.HeaderText.Format");
             }
 
             catch (Exception ex13)
@@ -571,19 +575,19 @@ namespace KUL.MDS.SIS
                 try
                 {
                     fxInventory =
-                        (SystemLayer.OS.IsDotNetVersionInstalled(2, 0, 0, false) ? "2.0 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(2, 0, 1, false) ? "2.0_SP1 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(2, 0, 2, false) ? "2.0_SP2 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(3, 0, 0, false) ? "3.0 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(3, 0, 1, false) ? "3.0_SP1 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(3, 0, 2, false) ? "3.0_SP2 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(3, 5, 0, false) ? "3.5 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(3, 5, 1, false) ? "3.5_SP1 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(3, 5, 1, true) ? "3.5_SP1_Client " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(3, 5, 2, false) ? "3.5_SP2 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(4, 0, 0, false) ? "4.0 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(4, 0, 1, false) ? "4.0_SP1 " : "") +
-                        (SystemLayer.OS.IsDotNetVersionInstalled(4, 0, 2, false) ? "4.0_SP2 " : "")
+                        (OS.IsDotNetVersionInstalled(2, 0, 0, false) ? "2.0 " : "") +
+                        (OS.IsDotNetVersionInstalled(2, 0, 1, false) ? "2.0_SP1 " : "") +
+                        (OS.IsDotNetVersionInstalled(2, 0, 2, false) ? "2.0_SP2 " : "") +
+                        (OS.IsDotNetVersionInstalled(3, 0, 0, false) ? "3.0 " : "") +
+                        (OS.IsDotNetVersionInstalled(3, 0, 1, false) ? "3.0_SP1 " : "") +
+                        (OS.IsDotNetVersionInstalled(3, 0, 2, false) ? "3.0_SP2 " : "") +
+                        (OS.IsDotNetVersionInstalled(3, 5, 0, false) ? "3.5 " : "") +
+                        (OS.IsDotNetVersionInstalled(3, 5, 1, false) ? "3.5_SP1 " : "") +
+                        (OS.IsDotNetVersionInstalled(3, 5, 1, true) ? "3.5_SP1_Client " : "") +
+                        (OS.IsDotNetVersionInstalled(3, 5, 2, false) ? "3.5_SP2 " : "") +
+                        (OS.IsDotNetVersionInstalled(4, 0, 0, false) ? "4.0 " : "") +
+                        (OS.IsDotNetVersionInstalled(4, 0, 1, false) ? "4.0_SP1 " : "") +
+                        (OS.IsDotNetVersionInstalled(4, 0, 2, false) ? "4.0_SP2 " : "")
                         .Trim();
                 }
 
@@ -604,7 +608,7 @@ namespace KUL.MDS.SIS
 
                 try
                 {
-                    cpuName = SystemLayer.Processor.CpuName;
+                    cpuName = Processor.CpuName;
                 }
 
                 catch (Exception ex9)
@@ -614,7 +618,7 @@ namespace KUL.MDS.SIS
 
                 try
                 {
-                    cpuCount = SystemLayer.Processor.LogicalCpuCount.ToString() + "x";
+                    cpuCount = Processor.LogicalCpuCount.ToString() + "x";
                 }
 
                 catch (Exception ex10)
@@ -624,7 +628,7 @@ namespace KUL.MDS.SIS
 
                 try
                 {
-                    cpuSpeed = "@ ~" + SystemLayer.Processor.ApproximateSpeedMhz.ToString() + "MHz";
+                    cpuSpeed = "@ ~" + Processor.ApproximateSpeedMhz.ToString() + "MHz";
                 }
 
                 catch (Exception ex16)
@@ -672,7 +676,7 @@ namespace KUL.MDS.SIS
 
                 try
                 {
-                    totalPhysicalBytes = ((SystemLayer.Memory.TotalPhysicalBytes / 1024) / 1024) + " MB";
+                    totalPhysicalBytes = ((Memory.TotalPhysicalBytes / 1024) / 1024) + " MB";
                 }
 
                 catch (Exception ex11)
@@ -709,7 +713,7 @@ namespace KUL.MDS.SIS
                 try
                 {
                     localeName =
-                        "pdnr.c: " + Resources.Culture.Name +
+                        "pdnr.c: " + Resources.Resources.Culture.Name +
                         ", hklm: " + Settings.SystemWide.GetString(SettingNames.LanguageName, "n/a") +
                         ", hkcu: " + Settings.CurrentUser.GetString(SettingNames.LanguageName, "n/a") +
                         ", cc: " + CultureInfo.CurrentCulture.Name +
@@ -765,7 +769,7 @@ namespace KUL.MDS.SIS
                 {
                     StringBuilder featureSB = new StringBuilder();
 
-                    IEnumerable<string> featureList = SystemLayer.Tracing.GetLoggedFeatures();
+                    IEnumerable<string> featureList = Tracing.GetLoggedFeatures();
 
                     bool first = true;
                     foreach (string feature in featureList)

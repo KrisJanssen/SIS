@@ -17,11 +17,11 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+
+    /// <summary>
 	/// An exception thrown by ZedGraph.  A child class of <see cref="ApplicationException"/>.
 	/// </summary>
 	///

@@ -1,10 +1,11 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using KUL.MDS.SystemLayer;
-
-namespace KUL.MDS.Library
+﻿namespace SIS.Library.ImageControl
 {
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using SIS.Systemlayer;
+
     [System.Runtime.InteropServices.ComVisible(false)]
     public partial class ImageControl : UserControl
     {
@@ -92,8 +93,8 @@ namespace KUL.MDS.Library
                 }
                 if ((value == null))
                 {
-                    m_scrlbrHScrollBar.Enabled = false;
-                    m_scrlbrVScrollBar.Enabled = false;
+                    this.m_scrlbrHScrollBar.Enabled = false;
+                    this.m_scrlbrVScrollBar.Enabled = false;
                 }
             }
         }
@@ -102,11 +103,11 @@ namespace KUL.MDS.Library
         {
             get
             {
-                return m_drwcnvDrawCanvas.ImageText;
+                return this.m_drwcnvDrawCanvas.ImageText;
             }
             set
             {
-                m_drwcnvDrawCanvas.ImageText = value;
+                this.m_drwcnvDrawCanvas.ImageText = value;
             }
         }
 
@@ -221,7 +222,7 @@ namespace KUL.MDS.Library
         public ImageControl()
         {
             //  This call is required by the Windows Form Designer.
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public void FitToScreen()
@@ -231,7 +232,7 @@ namespace KUL.MDS.Library
 
         public void RotateFlip(RotateFlipType __rftpRotateFlipType)
         {
-            m_drwcnvDrawCanvas.RotateFlip(__rftpRotateFlipType);
+            this.m_drwcnvDrawCanvas.RotateFlip(__rftpRotateFlipType);
         }
 
         public void ZoomIn()
@@ -281,7 +282,7 @@ namespace KUL.MDS.Library
                 this.m_scrlbrVScrollBar.Value = OriginY;
             }
 
-            UpdateRulers();
+            this.UpdateRulers();
         }
 
         private void scrollBar_ValueChanged(Object sender, EventArgs e)
@@ -294,7 +295,7 @@ namespace KUL.MDS.Library
 
         private void m_drwcnvDrawCanvas_OnMousePositionChanged(object sender, EventArgs e)
         {
-            UpdateRulers();
+            this.UpdateRulers();
         }
 
         private void UpdateRulers()

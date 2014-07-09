@@ -17,16 +17,15 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Class that holds the specific properties for the minor grid.
 	/// </summary>
 	/// <author> John Champion </author>
@@ -50,11 +49,11 @@ namespace ZedGraph
 		/// </summary>
 		public MinorGrid()
 		{
-			_dashOn = Default.DashOn;
-			_dashOff = Default.DashOff;
-			_penWidth = Default.PenWidth;
-			_isVisible = Default.IsVisible;
-			_color = Default.Color;
+			this._dashOn = Default.DashOn;
+			this._dashOff = Default.DashOff;
+			this._penWidth = Default.PenWidth;
+			this._isVisible = Default.IsVisible;
+			this._color = Default.Color;
 		}
 
 		/// <summary>
@@ -63,13 +62,13 @@ namespace ZedGraph
 		/// <param name="rhs">The source <see cref="MinorGrid" /> to be copied.</param>
 		public MinorGrid( MinorGrid rhs )
 		{
-			_dashOn = rhs._dashOn;
-			_dashOff = rhs._dashOff;
-			_penWidth = rhs._penWidth;
+			this._dashOn = rhs._dashOn;
+			this._dashOff = rhs._dashOff;
+			this._penWidth = rhs._penWidth;
 
-			_isVisible = rhs._isVisible;
+			this._isVisible = rhs._isVisible;
 
-			_color = rhs._color;
+			this._color = rhs._color;
 		}
 
 		/// <summary>
@@ -108,8 +107,8 @@ namespace ZedGraph
 		/// <seealso cref="IsVisible"/>
 		public bool IsVisible
 		{
-			get { return _isVisible; }
-			set { _isVisible = value; }
+			get { return this._isVisible; }
+			set { this._isVisible = value; }
 		}
 
 		/// <summary>
@@ -125,8 +124,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.DashOn"/>.
 		public float DashOn
 		{
-			get { return _dashOn; }
-			set { _dashOn = value; }
+			get { return this._dashOn; }
+			set { this._dashOn = value; }
 		}
 		/// <summary>
 		/// The "Dash Off" mode for drawing the grid.
@@ -142,8 +141,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.DashOff"/>.
 		public float DashOff
 		{
-			get { return _dashOff; }
-			set { _dashOff = value; }
+			get { return this._dashOff; }
+			set { this._dashOff = value; }
 		}
 		/// <summary>
 		/// The pen width used for drawing the grid lines.
@@ -154,8 +153,8 @@ namespace ZedGraph
 		/// <seealso cref="Color"/>
 		public float PenWidth
 		{
-			get { return _penWidth; }
-			set { _penWidth = value; }
+			get { return this._penWidth; }
+			set { this._penWidth = value; }
 		}
 		/// <summary>
 		/// The color to use for drawing this <see cref="Axis"/> grid.
@@ -166,8 +165,8 @@ namespace ZedGraph
 		/// <seealso cref="PenWidth"/>
 		public Color Color
 		{
-			get { return _color; }
-			set { _color = value; }
+			get { return this._color; }
+			set { this._color = value; }
 		}
 
 	#endregion
@@ -192,31 +191,31 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_isVisible = info.GetBoolean( "isVisible" );
+			this._isVisible = info.GetBoolean( "isVisible" );
 
-			_dashOn = info.GetSingle( "dashOn" );
-			_dashOff = info.GetSingle( "dashOff" );
-			_penWidth = info.GetSingle( "penWidth" );
+			this._dashOn = info.GetSingle( "dashOn" );
+			this._dashOff = info.GetSingle( "dashOff" );
+			this._penWidth = info.GetSingle( "penWidth" );
 
-			_color = (Color)info.GetValue( "color", typeof( Color ) );
+			this._color = (Color)info.GetValue( "color", typeof( Color ) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
 
-			info.AddValue( "isVisible", _isVisible );
+			info.AddValue( "isVisible", this._isVisible );
 
-			info.AddValue( "dashOn", _dashOn );
-			info.AddValue( "dashOff", _dashOff );
-			info.AddValue( "penWidth", _penWidth );
+			info.AddValue( "dashOn", this._dashOn );
+			info.AddValue( "dashOff", this._dashOff );
+			info.AddValue( "penWidth", this._penWidth );
 
-			info.AddValue( "color", _color );
+			info.AddValue( "color", this._color );
 		}
 
 	#endregion
@@ -267,21 +266,21 @@ namespace ZedGraph
 		internal void Draw( Graphics g, Pen pen, float pixVal, float topPix )
 		{
 			// draw the minor grid
-			if ( _isVisible )
+			if ( this._isVisible )
 				g.DrawLine( pen, pixVal, 0.0F, pixVal, topPix );
 		}
 
 		internal Pen GetPen( GraphPane pane, float scaleFactor )
 		{
-			Pen pen = new Pen( _color,
-						pane.ScaledPenWidth( _penWidth, scaleFactor ) );
+			Pen pen = new Pen( this._color,
+						pane.ScaledPenWidth( this._penWidth, scaleFactor ) );
 
-			if ( _dashOff > 1e-10 && _dashOn > 1e-10 )
+			if ( this._dashOff > 1e-10 && this._dashOn > 1e-10 )
 			{
 				pen.DashStyle = DashStyle.Custom;
 				float[] pattern = new float[2];
-				pattern[0] = _dashOn;
-				pattern[1] = _dashOff;
+				pattern[0] = this._dashOn;
+				pattern[1] = this._dashOff;
 				pen.DashPattern = pattern;
 			}
 

@@ -16,16 +16,16 @@
 //License along with this library; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 //=============================================================================
-using System.Runtime.Serialization;
-using System.Drawing.Drawing2D;
-using System;
-using System.Text;
-using System.Drawing;
-using System.Security.Permissions;
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class representing a needle on the GasGuage chart
 	/// <see cref="GasGaugeNeedle"/>s.
 	/// </summary>
@@ -103,14 +103,14 @@ namespace ZedGraph
 		public GasGaugeNeedle( string label, double val, Color color )
 			: base( label )
 		{
-			NeedleValue = val;
-			NeedleColor = color;
-			NeedleWidth = Default.NeedleWidth;
-			SweepAngle = 0f;
-			_border = new Border( Default.BorderColor, Default.BorderWidth );
-			_labelDetail = new TextObj();
-			_labelDetail.FontSpec.Size = Default.FontSize;
-			_slicePath = null;
+			this.NeedleValue = val;
+			this.NeedleColor = color;
+			this.NeedleWidth = Default.NeedleWidth;
+			this.SweepAngle = 0f;
+			this._border = new Border( Default.BorderColor, Default.BorderWidth );
+			this._labelDetail = new TextObj();
+			this._labelDetail.FontSpec.Size = Default.FontSize;
+			this._slicePath = null;
 		}
 
 		/// <summary>
@@ -120,13 +120,13 @@ namespace ZedGraph
 		public GasGaugeNeedle( GasGaugeNeedle ggn )
 			: base( ggn )
 		{
-			NeedleValue = ggn.NeedleValue;
-			NeedleColor = ggn.NeedleColor;
-			NeedleWidth = ggn.NeedleWidth;
-			SweepAngle = ggn.SweepAngle;
-			_border = ggn.Border.Clone();
-			_labelDetail = ggn.LabelDetail.Clone();
-			_labelDetail.FontSpec.Size = ggn.LabelDetail.FontSpec.Size;
+			this.NeedleValue = ggn.NeedleValue;
+			this.NeedleColor = ggn.NeedleColor;
+			this.NeedleWidth = ggn.NeedleWidth;
+			this.SweepAngle = ggn.SweepAngle;
+			this._border = ggn.Border.Clone();
+			this._labelDetail = ggn.LabelDetail.Clone();
+			this._labelDetail.FontSpec.Size = ggn.LabelDetail.FontSpec.Size;
 		}
 
 		/// <summary>
@@ -157,8 +157,8 @@ namespace ZedGraph
 		/// </summary>
 		public float NeedleWidth
 		{
-			get { return _needleWidth; }
-			set { _needleWidth = value; }
+			get { return this._needleWidth; }
+			set { this._needleWidth = value; }
 		}
 
 		/// <summary>
@@ -166,8 +166,8 @@ namespace ZedGraph
 		/// </summary>
 		public Border Border
 		{
-			get { return ( _border ); }
-			set { _border = value; }
+			get { return ( this._border ); }
+			set { this._border = value; }
 		}
 
 		/// <summary>
@@ -175,7 +175,7 @@ namespace ZedGraph
 		/// </summary>
 		public GraphicsPath SlicePath
 		{
-			get { return _slicePath; }
+			get { return this._slicePath; }
 		}
 
 		/// <summary>
@@ -183,8 +183,8 @@ namespace ZedGraph
 		/// </summary>
 		public TextObj LabelDetail
 		{
-			get { return _labelDetail; }
-			set { _labelDetail = value; }
+			get { return this._labelDetail; }
+			set { this._labelDetail = value; }
 		}
 
 
@@ -193,11 +193,11 @@ namespace ZedGraph
 		/// </summary>
 		public Color NeedleColor
 		{
-			get { return _color; }
+			get { return this._color; }
 			set
 			{
-				_color = value;
-				Fill = new Fill( _color );
+				this._color = value;
+				this.Fill = new Fill( this._color );
 			}
 		}
 
@@ -206,8 +206,8 @@ namespace ZedGraph
 		/// </summary>
 		public Fill Fill
 		{
-			get { return _fill; }
-			set { _fill = value; }
+			get { return this._fill; }
+			set { this._fill = value; }
 		}
 
 		/// <summary>
@@ -215,8 +215,8 @@ namespace ZedGraph
 		/// </summary>
 		private float SweepAngle
 		{
-			get { return _sweepAngle; }
-			set { _sweepAngle = value; }
+			get { return this._sweepAngle; }
+			set { this._sweepAngle = value; }
 		}
 
 		/// <summary>
@@ -224,8 +224,8 @@ namespace ZedGraph
 		/// </summary>
 		public double NeedleValue
 		{
-			get { return ( _needleValue ); }
-			set { _needleValue = value > 0 ? value : 0; }
+			get { return ( this._needleValue ); }
+			set { this._needleValue = value > 0 ? value : 0; }
 		}
 
 		/// <summary>
@@ -273,14 +273,14 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_labelDetail = (TextObj)info.GetValue( "labelDetail", typeof( TextObj ) );
-			_fill = (Fill)info.GetValue( "fill", typeof( Fill ) );
-			_border = (Border)info.GetValue( "border", typeof( Border ) );
-			_needleValue = info.GetDouble( "needleValue" );
-			_boundingRectangle = (RectangleF)info.GetValue( "boundingRectangle", typeof( RectangleF ) );
-			_slicePath = (GraphicsPath)info.GetValue( "slicePath", typeof( GraphicsPath ) );
-			_sweepAngle = (float)info.GetDouble( "sweepAngle" );
-			_color = (Color)info.GetValue( "color", typeof( Color ) );
+			this._labelDetail = (TextObj)info.GetValue( "labelDetail", typeof( TextObj ) );
+			this._fill = (Fill)info.GetValue( "fill", typeof( Fill ) );
+			this._border = (Border)info.GetValue( "border", typeof( Border ) );
+			this._needleValue = info.GetDouble( "needleValue" );
+			this._boundingRectangle = (RectangleF)info.GetValue( "boundingRectangle", typeof( RectangleF ) );
+			this._slicePath = (GraphicsPath)info.GetValue( "slicePath", typeof( GraphicsPath ) );
+			this._sweepAngle = (float)info.GetDouble( "sweepAngle" );
+			this._color = (Color)info.GetValue( "color", typeof( Color ) );
 		}
 
 		/// <summary>
@@ -288,18 +288,18 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "labelDetail", _labelDetail );
-			info.AddValue( "fill", _fill );
-			info.AddValue( "border", _border );
-			info.AddValue( "needleValue", _needleValue );
-			info.AddValue( "boundingRectangle", _boundingRectangle );
-			info.AddValue( "slicePath", _slicePath );
-			info.AddValue( "sweepAngle", _sweepAngle );
+			info.AddValue( "labelDetail", this._labelDetail );
+			info.AddValue( "fill", this._fill );
+			info.AddValue( "border", this._border );
+			info.AddValue( "needleValue", this._needleValue );
+			info.AddValue( "boundingRectangle", this._boundingRectangle );
+			info.AddValue( "slicePath", this._slicePath );
+			info.AddValue( "sweepAngle", this._sweepAngle );
 		}
 
 	#endregion
@@ -395,18 +395,18 @@ namespace ZedGraph
 		{
 			if ( pane.Chart._rect.Width <= 0 && pane.Chart._rect.Height <= 0 )
 			{
-				_slicePath = null;
+				this._slicePath = null;
 			}
 			else
 			{
 				CalcRectangle( g, pane, scaleFactor, pane.Chart._rect );
 
-				_slicePath = new GraphicsPath();
+				this._slicePath = new GraphicsPath();
 
-				if ( !_isVisible )
+				if ( !this._isVisible )
 					return;
 
-				RectangleF tRect = _boundingRectangle;
+				RectangleF tRect = this._boundingRectangle;
 
 				if ( tRect.Width >= 1 && tRect.Height >= 1 )
 				{
@@ -418,14 +418,14 @@ namespace ZedGraph
 					matrix.Translate( tRect.X + ( tRect.Width / 2 ), tRect.Y + ( tRect.Height / 2 ), MatrixOrder.Prepend );
 
 					PointF[] pts = new PointF[2];
-					pts[0] = new PointF( ( ( tRect.Height * .10f ) / 2.0f ) * (float)Math.Cos( -SweepAngle * Math.PI / 180.0f ),
-					( ( tRect.Height * .10f ) / 2.0f ) * (float)Math.Sin( -SweepAngle * Math.PI / 180.0f ) );
-					pts[1] = new PointF( ( tRect.Width / 2.0f ) * (float)Math.Cos( -SweepAngle * Math.PI / 180.0f ),
-					( tRect.Width / 2.0f ) * (float)Math.Sin( -SweepAngle * Math.PI / 180.0f ) );
+					pts[0] = new PointF( ( ( tRect.Height * .10f ) / 2.0f ) * (float)Math.Cos( -this.SweepAngle * Math.PI / 180.0f ),
+					( ( tRect.Height * .10f ) / 2.0f ) * (float)Math.Sin( -this.SweepAngle * Math.PI / 180.0f ) );
+					pts[1] = new PointF( ( tRect.Width / 2.0f ) * (float)Math.Cos( -this.SweepAngle * Math.PI / 180.0f ),
+					( tRect.Width / 2.0f ) * (float)Math.Sin( -this.SweepAngle * Math.PI / 180.0f ) );
 
 					matrix.TransformPoints( pts );
 
-					Pen p = new Pen( NeedleColor, ( ( tRect.Height * .10f ) / 2.0f ) );
+					Pen p = new Pen( this.NeedleColor, ( ( tRect.Height * .10f ) / 2.0f ) );
 					p.EndCap = LineCap.ArrowAnchor;
 					g.DrawLine( p, pts[0].X, pts[0].Y, pts[1].X, pts[1].Y );
 
@@ -464,12 +464,12 @@ namespace ZedGraph
 		/// </param> 
 		public override void DrawLegendKey( Graphics g, GraphPane pane, RectangleF rect, float scaleFactor )
 		{
-			if ( !_isVisible )
+			if ( !this._isVisible )
 				return;
 
 			float yMid = rect.Top + rect.Height / 2.0F;
 
-			Pen pen = new Pen( NeedleColor, pane.ScaledPenWidth( NeedleWidth / 2, scaleFactor ) );
+			Pen pen = new Pen( this.NeedleColor, pane.ScaledPenWidth( this.NeedleWidth / 2, scaleFactor ) );
 			pen.StartCap = LineCap.Round;
 			pen.EndCap = LineCap.ArrowAnchor;
 			pen.DashStyle = DashStyle.Solid;

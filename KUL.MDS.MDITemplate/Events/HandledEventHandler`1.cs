@@ -7,11 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.Events
 {
     public delegate void HandledEventHandler<T>(object sender, HandledEventArgs<T> e);
 }

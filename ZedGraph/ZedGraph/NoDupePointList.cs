@@ -17,14 +17,12 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
 	/// A simple storage struct to maintain an individual sampling of data.  This only
 	/// contains two data values in order to reduce to memory load for large datasets.
 	/// (e.g., no Tag or Z property)
@@ -99,8 +97,8 @@ namespace ZedGraph
 		/// </remarks>
 		public int FilterMode
 		{
-			get { return _filterMode; }
-			set { _filterMode = value; }
+			get { return this._filterMode; }
+			set { this._filterMode = value; }
 		}
 
 		/// <summary>
@@ -110,7 +108,7 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsFiltered
 		{
-			get { return _isFiltered; }
+			get { return this._isFiltered; }
 		}
 
 		/// <summary>
@@ -132,8 +130,8 @@ namespace ZedGraph
 			get
 			{
 				int j = index;
-				if ( _isFiltered )
-					j = _visibleIndicies[index];
+				if ( this._isFiltered )
+					j = this._visibleIndicies[index];
 
 				DataPoint dp = base[j];
 				PointPair pt = new PointPair( dp.X, dp.Y );
@@ -142,8 +140,8 @@ namespace ZedGraph
 			set
 			{
 				int j = index;
-				if ( _isFiltered )
-					j = _visibleIndicies[index];
+				if ( this._isFiltered )
+					j = this._visibleIndicies[index];
 
 				DataPoint dp;
 				dp.X = value.X;
@@ -161,10 +159,10 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( !_isFiltered )
+				if ( !this._isFiltered )
 					return base.Count;
 				else
-					return _filteredCount;
+					return this._filteredCount;
 			}
 		}
 
@@ -186,7 +184,7 @@ namespace ZedGraph
 			DataPoint dp = new DataPoint();
 			dp.X = pt.X;
 			dp.Y = pt.Y;
-			Add( dp );
+			this.Add( dp );
 		}
 
 
@@ -200,7 +198,7 @@ namespace ZedGraph
 			DataPoint dp = new DataPoint();
 			dp.X = x;
 			dp.Y = y;
-			Add( dp );
+			this.Add( dp );
 		}
 
 
@@ -226,10 +224,10 @@ namespace ZedGraph
 		/// </summary>
 		public NoDupePointList()
 		{
-			_isFiltered = false;
-			_filteredCount = 0;
-			_visibleIndicies = null;
-			_filterMode = 0;
+			this._isFiltered = false;
+			this._filteredCount = 0;
+			this._visibleIndicies = null;
+			this._filterMode = 0;
 		}
 
 		/// <summary>
@@ -241,16 +239,16 @@ namespace ZedGraph
 		{
 			int count = rhs.TotalCount;
 			for ( int i = 0; i < count; i++ )
-				Add( rhs.GetDataPointAt( i ) );
+				this.Add( rhs.GetDataPointAt( i ) );
 
-			_filteredCount = rhs._filteredCount;
-			_isFiltered = rhs._isFiltered;
-			_filterMode = rhs._filterMode;
+			this._filteredCount = rhs._filteredCount;
+			this._isFiltered = rhs._isFiltered;
+			this._filterMode = rhs._filterMode;
 
 			if ( rhs._visibleIndicies != null )
-				_visibleIndicies = (int[]) rhs._visibleIndicies.Clone();
+				this._visibleIndicies = (int[]) rhs._visibleIndicies.Clone();
 			else
-				_visibleIndicies = null;
+				this._visibleIndicies = null;
 		}
 
 		/// <summary>
@@ -270,8 +268,8 @@ namespace ZedGraph
 		/// </summary>
 		public void ClearFilter()
 		{
-			_isFiltered = false;
-			_filteredCount = 0;
+			this._isFiltered = false;
+			this._filteredCount = 0;
 		}
 
 		/// <summary>
@@ -304,11 +302,11 @@ namespace ZedGraph
 		/// </param>
 		public void FilterData( GraphPane pane, Axis xAxis, Axis yAxis )
 		{
-			if ( _visibleIndicies == null || _visibleIndicies.Length < base.Count )
-				_visibleIndicies = new int[base.Count];
+			if ( this._visibleIndicies == null || this._visibleIndicies.Length < base.Count )
+				this._visibleIndicies = new int[base.Count];
 
-			_filteredCount = 0;
-			_isFiltered = true;
+			this._filteredCount = 0;
+			this._isFiltered = true;
 
 			int width = (int)pane.Chart.Rect.Width;
 			int height = (int)pane.Chart.Rect.Height;
@@ -323,7 +321,7 @@ namespace ZedGraph
 			xAxis.Scale.SetupScaleData( pane, xAxis );
 			yAxis.Scale.SetupScaleData( pane, yAxis );
 
-			int n = _filterMode < 0 ? 0 : _filterMode;
+			int n = this._filterMode < 0 ? 0 : this._filterMode;
 			int left = (int)pane.Chart.Rect.Left;
 			int top = (int)pane.Chart.Rect.Top;
 
@@ -348,8 +346,8 @@ namespace ZedGraph
 					if ( !used )
 					{
 						usedArray[x, y] = true;
-						_visibleIndicies[_filteredCount] = i;
-						_filteredCount++;
+						this._visibleIndicies[this._filteredCount] = i;
+						this._filteredCount++;
 					}
 				}
 			}

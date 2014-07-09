@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace KUL.MDS.SIS.Documents
+﻿namespace SIS.Documents
 {
+    using System;
+
     public struct ScanSettings
     {
         // Members of Scan Settings Section:

@@ -1,11 +1,9 @@
-using System;
-using System.Collections;
-using System.Text;
-using System.Windows.Forms;
-
-namespace KUL.MDS.Data
+namespace SIS.Data
 {
-	public class DocumentTypes
+    using System.Collections;
+    using System.Text;
+
+    public class DocumentTypes
 	{
         // We want DocumentTypes to be a singleton. This way it will always be available and it will hold
         // all information we will ever need on the documents we will try to load. We can subsequently create
@@ -41,14 +39,14 @@ namespace KUL.MDS.Data
         // The constructor obviously needs to be private to prevent normal instantiation.
 		private DocumentTypes()
 		{
-			Load();
+			this.Load();
 		}
 
 		public string OpenDialogFilter
 		{
 			get
 			{
-				return m_sLoadFilter;
+				return this.m_sLoadFilter;
 			}
 		}
 
@@ -56,7 +54,7 @@ namespace KUL.MDS.Data
 		{
 			get
 			{
-				return m_mapExtensionToType.Count;
+				return this.m_mapExtensionToType.Count;
 			}
 		}
 
@@ -87,7 +85,7 @@ namespace KUL.MDS.Data
 
 			string sExtension = sFileName.Substring(nLastDot);
 
-			System.Type typeDocument = m_mapExtensionToType[sExtension] as System.Type;
+			System.Type typeDocument = this.m_mapExtensionToType[sExtension] as System.Type;
 
 			if (typeDocument == null)
 			{
@@ -99,7 +97,7 @@ namespace KUL.MDS.Data
 
 		public DataSet CreateDocument(string sFileName)
 		{
-			DataSet document = CreateDocumentHelper(sFileName);
+			DataSet document = this.CreateDocumentHelper(sFileName);
 			
             //if (!document.SaveDocument(sFileName))
             //{
@@ -111,7 +109,7 @@ namespace KUL.MDS.Data
 
 		public DataSet OpenDocument(string sFileName)
 		{
-			DataSet document = CreateDocumentHelper(sFileName);
+			DataSet document = this.CreateDocumentHelper(sFileName);
 
             //if (document == null || !document.LoadDocument(sFileName, true))
             //{
@@ -124,7 +122,7 @@ namespace KUL.MDS.Data
 		private void Load()
 		{
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetCallingAssembly();
-			m_mapExtensionToType = new Hashtable();
+			this.m_mapExtensionToType = new Hashtable();
 
 			if (assembly != null)
 			{
@@ -135,21 +133,21 @@ namespace KUL.MDS.Data
 
 				foreach (System.Type type in aTypes)
 				{
-					DocumentAttribute [] aDocumentAttributes = GetDocumentAttributes(type);
+					DocumentAttribute [] aDocumentAttributes = this.GetDocumentAttributes(type);
 
 					if (aDocumentAttributes != null && aDocumentAttributes.Length > 0)
 					{
-						LoadAttributes(type, aDocumentAttributes);
-						LoadOpenFilterString(stringBuilderFilter, aDocumentAttributes);
-						LoadCreateFilterString(stringBuilderCreateFilter, aDocumentAttributes);
+						this.LoadAttributes(type, aDocumentAttributes);
+						this.LoadOpenFilterString(stringBuilderFilter, aDocumentAttributes);
+						this.LoadCreateFilterString(stringBuilderCreateFilter, aDocumentAttributes);
 					}
 				}
 
 				stringBuilderFilter.Append("All files (*.*)|*.*||");
-				m_sLoadFilter = stringBuilderFilter.ToString();
+				this.m_sLoadFilter = stringBuilderFilter.ToString();
 
 				stringBuilderCreateFilter.Append("|");
-				m_sCreateFilter = stringBuilderCreateFilter.ToString();
+				this.m_sCreateFilter = stringBuilderCreateFilter.ToString();
 			}
 		}
 
@@ -162,7 +160,7 @@ namespace KUL.MDS.Data
 		{
 			foreach (DocumentAttribute attribute in aDocumentAttributes)
 			{
-				m_mapExtensionToType.Add(attribute.Extension, type);
+				this.m_mapExtensionToType.Add(attribute.Extension, type);
 			}
 		}
 
@@ -202,7 +200,7 @@ namespace KUL.MDS.Data
 		{
 			Hashtable mapNameToExtension = new Hashtable();
 
-			BuildExtensionMap(mapNameToExtension, aDocumentAttributes);
+			this.BuildExtensionMap(mapNameToExtension, aDocumentAttributes);
 
 			foreach (string sName in mapNameToExtension.Keys)
 			{
@@ -247,7 +245,7 @@ namespace KUL.MDS.Data
 		{
 			get
 			{
-				return m_sCreateFilter;
+				return this.m_sCreateFilter;
 			}
 		}
 
@@ -257,7 +255,7 @@ namespace KUL.MDS.Data
 			{
 				ArrayList asExtensions = new ArrayList();
 
-				foreach (string sExtension in m_mapExtensionToType.Keys)
+				foreach (string sExtension in this.m_mapExtensionToType.Keys)
 				{
 					asExtensions.Add(sExtension);
 				}

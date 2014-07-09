@@ -7,11 +7,11 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-
-namespace KUL.MDS.Library
+namespace SIS.Library
 {
+    using System;
+    using System.Drawing;
+
     /// <summary>
     /// Encapsulates functionality for zooming/scaling coordinates.
     /// Includes methods for Size[F]'s, Point[F]'s, Rectangle[F]'s,
@@ -26,7 +26,7 @@ namespace KUL.MDS.Library
         {
             get
             {
-                return denominator;
+                return this.denominator;
             }
         }
 
@@ -34,7 +34,7 @@ namespace KUL.MDS.Library
         {
             get
             {
-                return numerator;
+                return this.numerator;
             }
         }
 
@@ -42,7 +42,7 @@ namespace KUL.MDS.Library
         {
             get
             {
-                return (double)numerator / (double)denominator;
+                return (double)this.numerator / (double)this.denominator;
             }
         }
 
@@ -157,144 +157,144 @@ namespace KUL.MDS.Library
 
         public override int GetHashCode()
         {
-            return numerator.GetHashCode() ^ denominator.GetHashCode();
+            return this.numerator.GetHashCode() ^ this.denominator.GetHashCode();
         }
 
         //private static string percentageFormat = SISResources.GetString("ScaleFactor.Percentage.Format");
         private static string percentageFormat = "ScaleFactor.Percentage.Format";
         public override string ToString()
         {
-            return string.Format(percentageFormat, Math.Round(100 * Ratio));
+            return string.Format(percentageFormat, Math.Round(100 * this.Ratio));
         }
 
         public int ScaleScalar(int x)
         {
-            return (int)(((long)x * numerator) / denominator);
+            return (int)(((long)x * this.numerator) / this.denominator);
         }
 
         public int UnscaleScalar(int x)
         {
-            return (int)(((long)x * denominator) / numerator);
+            return (int)(((long)x * this.denominator) / this.numerator);
         }
 
         public float ScaleScalar(float x)
         {
-            return (x * (float)numerator) / (float)denominator;
+            return (x * (float)this.numerator) / (float)this.denominator;
         }
 
         public float UnscaleScalar(float x)
         {
-            return (x * (float)denominator) / (float)numerator;
+            return (x * (float)this.denominator) / (float)this.numerator;
         }
 
         public double ScaleScalar(double x)
         {
-            return (x * (double)numerator) / (double)denominator;
+            return (x * (double)this.numerator) / (double)this.denominator;
         }
 
         public double UnscaleScalar(double x)
         {
-            return (x * (double)denominator) / (double)numerator;
+            return (x * (double)this.denominator) / (double)this.numerator;
         }
 
         public Point ScalePoint(Point p)
         {
-            return new Point(ScaleScalar(p.X), ScaleScalar(p.Y));
+            return new Point(this.ScaleScalar(p.X), this.ScaleScalar(p.Y));
         }
 
         public PointF ScalePoint(PointF p)
         {
-            return new PointF(ScaleScalar(p.X), ScaleScalar(p.Y));
+            return new PointF(this.ScaleScalar(p.X), this.ScaleScalar(p.Y));
         }
 
         public PointF ScalePointJustX(PointF p)
         {
-            return new PointF(ScaleScalar(p.X), p.Y);
+            return new PointF(this.ScaleScalar(p.X), p.Y);
         }
 
         public PointF ScalePointJustY(PointF p)
         {
-            return new PointF(p.X, ScaleScalar(p.Y));
+            return new PointF(p.X, this.ScaleScalar(p.Y));
         }
 
         public PointF UnscalePoint(PointF p)
         {
-            return new PointF(UnscaleScalar(p.X), UnscaleScalar(p.Y));
+            return new PointF(this.UnscaleScalar(p.X), this.UnscaleScalar(p.Y));
         }
 
         public PointF UnscalePointJustX(PointF p)
         {
-            return new PointF(UnscaleScalar(p.X), p.Y);
+            return new PointF(this.UnscaleScalar(p.X), p.Y);
         }
 
         public PointF UnscalePointJustY(PointF p)
         {
-            return new PointF(p.X, UnscaleScalar(p.Y));
+            return new PointF(p.X, this.UnscaleScalar(p.Y));
         }
 
         public Point ScalePointJustX(Point p)
         {
-            return new Point(ScaleScalar(p.X), p.Y);
+            return new Point(this.ScaleScalar(p.X), p.Y);
         }
 
         public Point ScalePointJustY(Point p)
         {
-            return new Point(p.X, ScaleScalar(p.Y));
+            return new Point(p.X, this.ScaleScalar(p.Y));
         }
 
         public Point UnscalePoint(Point p)
         {
-            return new Point(UnscaleScalar(p.X), UnscaleScalar(p.Y));
+            return new Point(this.UnscaleScalar(p.X), this.UnscaleScalar(p.Y));
         }
 
         public Point UnscalePointJustX(Point p)
         {
-            return new Point(UnscaleScalar(p.X), p.Y);
+            return new Point(this.UnscaleScalar(p.X), p.Y);
         }
 
         public Point UnscalePointJustY(Point p)
         {
-            return new Point(p.X, UnscaleScalar(p.Y));
+            return new Point(p.X, this.UnscaleScalar(p.Y));
         }
 
         public SizeF ScaleSize(SizeF s)
         {
-            return new SizeF(ScaleScalar(s.Width), ScaleScalar(s.Height));
+            return new SizeF(this.ScaleScalar(s.Width), this.ScaleScalar(s.Height));
         }
 
         public SizeF UnscaleSize(SizeF s)
         {
-            return new SizeF(UnscaleScalar(s.Width), UnscaleScalar(s.Height));
+            return new SizeF(this.UnscaleScalar(s.Width), this.UnscaleScalar(s.Height));
         }
 
         public Size ScaleSize(Size s)
         {
-            return new Size(ScaleScalar(s.Width), ScaleScalar(s.Height));
+            return new Size(this.ScaleScalar(s.Width), this.ScaleScalar(s.Height));
         }
 
         public Size UnscaleSize(Size s)
         {
-            return new Size(UnscaleScalar(s.Width), UnscaleScalar(s.Height));
+            return new Size(this.UnscaleScalar(s.Width), this.UnscaleScalar(s.Height));
         }
 
         public RectangleF ScaleRectangle(RectangleF rectF)
         {
-            return new RectangleF(ScalePoint(rectF.Location), ScaleSize(rectF.Size));
+            return new RectangleF(this.ScalePoint(rectF.Location), this.ScaleSize(rectF.Size));
         }
 
         public RectangleF UnscaleRectangle(RectangleF rectF)
         {
-            return new RectangleF(UnscalePoint(rectF.Location), UnscaleSize(rectF.Size));
+            return new RectangleF(this.UnscalePoint(rectF.Location), this.UnscaleSize(rectF.Size));
         }
 
         public Rectangle ScaleRectangle(Rectangle rect)
         {
-            return new Rectangle(ScalePoint(rect.Location), ScaleSize(rect.Size));
+            return new Rectangle(this.ScalePoint(rect.Location), this.ScaleSize(rect.Size));
         }
 
         public Rectangle UnscaleRectangle(Rectangle rect)
         {
-            return new Rectangle(UnscalePoint(rect.Location), UnscaleSize(rect.Size));
+            return new Rectangle(this.UnscalePoint(rect.Location), this.UnscaleSize(rect.Size));
         }
 
         private static readonly double[] scales = 
@@ -326,7 +326,7 @@ namespace KUL.MDS.Library
         /// <returns>The new ScaleFactor value.</returns>
         public ScaleFactor GetNextLarger()
         {
-            double ratio = Ratio + 0.005;
+            double ratio = this.Ratio + 0.005;
 
             int index = Array.FindIndex(
                 scales,
@@ -347,7 +347,7 @@ namespace KUL.MDS.Library
 
         public ScaleFactor GetNextSmaller()
         {
-            double ratio = Ratio - 0.005;
+            double ratio = this.Ratio - 0.005;
 
             int index = Array.FindIndex(
                 scales,

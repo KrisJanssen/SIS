@@ -15,22 +15,15 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Interop;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
-using System.Runtime.InteropServices;
-using System.Windows.Media.Animation;
-using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Data;
-using System.Diagnostics;
-
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Data;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+
     public class CCDPlayer : Image, IDisposable
     {
         #region Variables
@@ -44,13 +37,13 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         public void Dispose()
         {
             // Check whether we have a valid device
-            if (Device != null)
+            if (this.Device != null)
             {
                 // Yes, dispose it
-                Device.Dispose();
+                this.Device.Dispose();
 
                 // Clear device
-                Device = null;
+                this.Device = null;
             }
         }
         #endregion
@@ -61,8 +54,8 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// </summary>
         public CCDDevice Device
         {
-            get { return (CCDDevice)GetValue(DeviceProperty); }
-            set { SetValue(DeviceProperty, value); }
+            get { return (CCDDevice)this.GetValue(DeviceProperty); }
+            set { this.SetValue(DeviceProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Device.  This enables animation, styling, binding, etc...
@@ -74,8 +67,8 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// </summary>
         public double Rotation
         {
-            get { return (double)GetValue(RotationProperty); }
-            set { SetValue(RotationProperty, value); }
+            get { return (double)this.GetValue(RotationProperty); }
+            set { this.SetValue(RotationProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Rotation.  This enables animation, styling, binding, etc...
@@ -87,8 +80,8 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// </summary>
         public float Framerate
         {
-            get { return (float)GetValue(FramerateProperty); }
-            set { SetValue(FramerateProperty, value); }
+            get { return (float)this.GetValue(FramerateProperty); }
+            set { this.SetValue(FramerateProperty, value); }
         }
 
         public static readonly DependencyProperty FramerateProperty =
@@ -102,7 +95,7 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
             get
             {
                 // Return right value
-                return (Device != null) ? new TransformedBitmap(Device.BitmapSource.Clone(), new RotateTransform(Rotation)) : null;
+                return (this.Device != null) ? new TransformedBitmap(this.Device.BitmapSource.Clone(), new RotateTransform(this.Rotation)) : null;
             }
         }
         #endregion
@@ -171,7 +164,7 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
             device.Stop();
 
             // Unsubscribe
-            device.NewBitmapReady -= device_OnNewBitmapReady;
+            device.NewBitmapReady -= this.device_OnNewBitmapReady;
         }
 
         /// <summary>
@@ -183,16 +176,16 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         {
             // Create new binding for the framerate
             Binding b = new Binding();
-            b.Source = Device;
+            b.Source = this.Device;
             b.Path = new PropertyPath(CCDDevice.FramerateProperty);
-            SetBinding(CCDPlayer.FramerateProperty, b);
+            this.SetBinding(CCDPlayer.FramerateProperty, b);
 
             // Get the sender
             CCDDevice typedSender = sender as CCDDevice;
             if (typedSender != null)
             {
                 // Set the source of the image
-                Source = typedSender.BitmapSource;
+                this.Source = typedSender.BitmapSource;
             }
         }
         #endregion

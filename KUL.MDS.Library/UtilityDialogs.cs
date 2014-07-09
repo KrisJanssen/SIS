@@ -1,29 +1,12 @@
-﻿using Microsoft.Win32;
-//using PaintDotNet.Threading;
-using KUL.MDS.SystemLayer;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Globalization;
-using System.IO;
-using System.Net;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
-using KUL.MDS.SIS;
-using KUL.MDS.AppResources;
+﻿//using PaintDotNet.Threading;
 
-namespace KUL.MDS.Library
+namespace SIS.Library
 {
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using SIS.Resources;
+
     /// <summary>
     /// Defines miscellaneous constants and static functions.
     /// </summary>

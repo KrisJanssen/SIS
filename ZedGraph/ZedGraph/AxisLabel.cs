@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Class that handles the data associated with text title and its associated font
 	/// properties.  Inherits from <see cref="Label" />, and adds <see cref="IsOmitMag" />
 	/// and <see cref="IsTitleAtCross" /> properties, which are specifically associated with
@@ -60,8 +59,8 @@ namespace ZedGraph
 								bool isItalic, bool isUnderline ) :
 			base( text, fontFamily, fontSize, color, isBold, isItalic, isUnderline )
 		{
-			_isOmitMag = false;
-			_isTitleAtCross = true;
+			this._isOmitMag = false;
+			this._isTitleAtCross = true;
 		}
 
 		/// <summary>
@@ -71,8 +70,8 @@ namespace ZedGraph
 		public AxisLabel( AxisLabel rhs )
 			: base( rhs )
 		{
-			_isOmitMag = rhs._isOmitMag;
-			_isTitleAtCross = rhs._isTitleAtCross;
+			this._isOmitMag = rhs._isOmitMag;
+			this._isTitleAtCross = rhs._isTitleAtCross;
 		}
 
 		/// <summary>
@@ -116,8 +115,8 @@ namespace ZedGraph
 		/// <seealso cref="Scale.Format"/>
 		public bool IsOmitMag
 		{
-			get { return _isOmitMag; }
-			set { _isOmitMag = value; }
+			get { return this._isOmitMag; }
+			set { this._isOmitMag = value; }
 		}
 
 		/// <summary>
@@ -130,8 +129,8 @@ namespace ZedGraph
 		/// </remarks>
 		public bool IsTitleAtCross
 		{
-			get { return _isTitleAtCross; }
-			set { _isTitleAtCross = value; }
+			get { return this._isTitleAtCross; }
+			set { this._isTitleAtCross = value; }
 		}
 
 	#endregion
@@ -156,22 +155,22 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch2 = info.GetInt32( "schema3" );
 
-			_isOmitMag = info.GetBoolean( "isOmitMag" );
-			_isTitleAtCross = info.GetBoolean( "isTitleAtCross" );
+			this._isOmitMag = info.GetBoolean( "isOmitMag" );
+			this._isTitleAtCross = info.GetBoolean( "isTitleAtCross" );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 
 			info.AddValue( "schema3", schema2 );
-			info.AddValue( "isOmitMag", _isVisible );
-			info.AddValue( "isTitleAtCross", _isTitleAtCross );
+			info.AddValue( "isOmitMag", this._isVisible );
+			info.AddValue( "isTitleAtCross", this._isTitleAtCross );
 		}
 		#endregion
 

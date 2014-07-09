@@ -7,19 +7,14 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using KUL.MDS.SIS;
-using KUL.MDS.Library;
-using KUL.MDS.AppResources;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using SIS.Library;
+    using SIS.Resources;
+
     internal class AboutDialog 
         : BaseForm
     {
@@ -35,7 +30,7 @@ namespace KUL.MDS.MDITemplate
             //
             // Required for Windows Form Designer support
             //
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.richCreditsBox.BackColor = SystemColors.Window;
 
@@ -73,7 +68,7 @@ namespace KUL.MDS.MDITemplate
             this.creditsLabel = new System.Windows.Forms.Label();
             this.richCreditsBox = new System.Windows.Forms.RichTextBox();
             this.copyrightLabel = new System.Windows.Forms.TextBox();
-            this.sisBanner = new KUL.MDS.MDITemplate.Banner();
+            this.sisBanner = new Banner();
             this.versionLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
-namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
+    using System.Drawing;
+    using System.Windows.Forms;
+
     public partial class BlendImageForm : Form
     {
         public Image Imgage
@@ -24,7 +19,7 @@ namespace KUL.MDS.SIS.Forms
         }
         public BlendImageForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

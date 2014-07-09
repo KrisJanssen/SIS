@@ -7,20 +7,23 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Resources;
-using System.Threading;
-using System.Windows.Forms;
-using KUL.MDS.AppResources;
-using KUL.MDS.Base;
-using KUL.MDS.Library;
-using KUL.MDS.SystemLayer;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Resources;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using SIS.Base;
+    using SIS.Library;
+    using SIS.MDITemplate.Moving;
+    using SIS.MDITemplate.Snapping;
+    using SIS.Resources;
+    using SIS.Systemlayer;
+
     /// <summary>
     /// This Form class is used to fix a few bugs in Windows Forms, and to add a few performance
     /// enhancements, such as disabling opacity != 1.0 when running in a remote TS/RD session.
@@ -89,8 +92,8 @@ namespace KUL.MDS.MDITemplate
 
         protected override void OnShown(EventArgs e)
         {
-            isShown = true;
-            Tracing.LogFeature("ShowDialog(" + GetType().FullName + ")");
+            this.isShown = true;
+            Tracing.LogFeature("ShowDialog(" + this.GetType().FullName + ")");
             base.OnShown(e);
         }
 
@@ -260,7 +263,7 @@ namespace KUL.MDS.MDITemplate
 
         public void RestoreWindow()
         {
-            if (WindowState == FormWindowState.Minimized)
+            if (this.WindowState == FormWindowState.Minimized)
             {
                 UI.RestoreWindow(this);
             }
@@ -405,7 +408,7 @@ namespace KUL.MDS.MDITemplate
                             Function<bool, Keys> invokeMe = (Function<bool, Keys>)invokeList[i];
                             object concreteTarget = GetConcreteTarget(invokeMe.Target);
 
-                            if (IsTargetFormActive(concreteTarget))
+                            if (this.IsTargetFormActive(concreteTarget))
                             {
                                 bool result = invokeMe(keyData);
 
@@ -435,19 +438,19 @@ namespace KUL.MDS.MDITemplate
 
             if (!handled)
             {
-                handled = ProcessCmdKeyData(e.KeyData);
+                handled = this.ProcessCmdKeyData(e.KeyData);
                 e.Handled = handled;
             }
         }
 
         public bool RelayProcessCmdKey(ref Message msg, Keys keyData)
         {
-            return ProcessCmdKeyData(keyData);
+            return this.ProcessCmdKeyData(keyData);
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            bool processed = ProcessCmdKeyData(keyData);
+            bool processed = this.ProcessCmdKeyData(keyData);
 
             if (!processed)
             {
@@ -459,11 +462,11 @@ namespace KUL.MDS.MDITemplate
 
         private bool ProcessCmdKeyData(Keys keyData)
         {
-            bool shouldHandle = ShouldProcessHotKey(keyData);
+            bool shouldHandle = this.ShouldProcessHotKey(keyData);
 
             if (shouldHandle)
             {
-                bool processed = ProcessFormHotKey(keyData);
+                bool processed = this.ProcessFormHotKey(keyData);
                 return processed;
             }
             else
@@ -518,12 +521,12 @@ namespace KUL.MDS.MDITemplate
         {
             get
             {
-                return instanceEnableOpacity;
+                return this.instanceEnableOpacity;
             }
 
             set
             {
-                instanceEnableOpacity = value;
+                this.instanceEnableOpacity = value;
                 this.DecideOpacitySetting();
             }
         }
@@ -585,22 +588,22 @@ namespace KUL.MDS.MDITemplate
             UI.InitScaling(this);
 
             this.SuspendLayout();
-            InitializeComponent();
+            this.InitializeComponent();
 
-            this.formEx = new KUL.MDS.SystemLayer.FormEx(this, new RealParentWndProcDelegate(this.RealWndProc));
+            this.formEx = new FormEx(this, new RealParentWndProcDelegate(this.RealWndProc));
             this.Controls.Add(this.formEx);
             this.formEx.Visible = false;
-            DecideOpacitySetting();
+            this.DecideOpacitySetting();
             this.ResumeLayout(false);
 
-            this.formEx.ProcessCmdKeyRelay += OnProcessCmdKeyRelay;
+            this.formEx.ProcessCmdKeyRelay += this.OnProcessCmdKeyRelay;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             if (!this.DesignMode)
             {
-                LoadResources();
+                this.LoadResources();
             }
 
             base.OnLoad(e);
@@ -611,7 +614,7 @@ namespace KUL.MDS.MDITemplate
             if (!this.DesignMode)
             {
                 string stringName = this.Name + ".Localized";
-                string stringValue = StringsResourceManager.GetString(stringName);
+                string stringValue = this.StringsResourceManager.GetString(stringName);
 
                 if (stringValue != null)
                 {
@@ -621,7 +624,7 @@ namespace KUL.MDS.MDITemplate
 
                         if (boolValue)
                         {
-                            LoadLocalizedResources();
+                            this.LoadLocalizedResources();
                         }
                     }
 
@@ -642,7 +645,7 @@ namespace KUL.MDS.MDITemplate
 
         private void LoadLocalizedResources()
         {
-            LoadLocalizedResources(this.Name, this);
+            this.LoadLocalizedResources(this.Name, this);
         }
 
         private void ParsePair(string theString, out int x, out int y)
@@ -674,7 +677,7 @@ namespace KUL.MDS.MDITemplate
                     int x;
                     int y;
 
-                    ParsePair(locationString, out x, out y);
+                    this.ParsePair(locationString, out x, out y);
                     control.Location = new Point(x, y);
                 }
 
@@ -695,7 +698,7 @@ namespace KUL.MDS.MDITemplate
                     int width;
                     int height;
 
-                    ParsePair(sizeString, out width, out height);
+                    this.ParsePair(sizeString, out width, out height);
                     control.Size = new Size(width, height);
                 }
 
@@ -711,7 +714,7 @@ namespace KUL.MDS.MDITemplate
                 if (child.Name == null || child.Name.Length > 0)
                 {
                     string newBaseName = baseName + "." + child.Name;
-                    LoadLocalizedResources(newBaseName, child);
+                    this.LoadLocalizedResources(newBaseName, child);
                 }
                 else
                 {
@@ -732,24 +735,24 @@ namespace KUL.MDS.MDITemplate
 
         private void EnableOpacityChangedHandler(object sender, EventArgs e)
         {
-            DecideOpacitySetting();
+            this.DecideOpacitySetting();
         }
 
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
 
-            BaseForm.EnableOpacityChanged += new EventHandler(EnableOpacityChangedHandler);
-            UserSessions.SessionChanged += new EventHandler(UserSessions_SessionChanged);
-            DecideOpacitySetting();
+            BaseForm.EnableOpacityChanged += new EventHandler(this.EnableOpacityChangedHandler);
+            UserSessions.SessionChanged += new EventHandler(this.UserSessions_SessionChanged);
+            this.DecideOpacitySetting();
         }
 
         protected override void OnHandleDestroyed(EventArgs e)
         {
             base.OnHandleDestroyed(e);
 
-            BaseForm.EnableOpacityChanged -= new EventHandler(EnableOpacityChangedHandler);
-            UserSessions.SessionChanged -= new EventHandler(UserSessions_SessionChanged);
+            BaseForm.EnableOpacityChanged -= new EventHandler(this.EnableOpacityChangedHandler);
+            UserSessions.SessionChanged -= new EventHandler(this.UserSessions_SessionChanged);
         }
 
         /// <summary>
@@ -759,10 +762,10 @@ namespace KUL.MDS.MDITemplate
         {
             if (disposing)
             {
-                if (components != null)
+                if (this.components != null)
                 {
-                    components.Dispose();
-                    components = null;
+                    this.components.Dispose();
+                    this.components = null;
                 }
             }
 
@@ -787,14 +790,14 @@ namespace KUL.MDS.MDITemplate
 
             set
             {
-                if (enableOpacity)
+                if (this.enableOpacity)
                 {
                     // Bypassing Form.Opacity eliminates a "black flickering" that occurs when
                     // the form transitions from Opacity=1.0 to Opacity != 1.0, or vice versa.
                     // It appears to be a result of toggling the WS_EX_LAYERED style, or the
                     // fact that Form.Opacity re-applies visual styles when this value transition
                     // takes place.
-                    SystemLayer.UI.SetFormOpacity(this, value);
+                    UI.SetFormOpacity(this, value);
                 }
 
                 this.ourOpacity = value;
@@ -875,18 +878,18 @@ namespace KUL.MDS.MDITemplate
         public event MovingEventHandler Moving;
         protected virtual void OnMoving(MovingEventArgs mea)
         {
-            if (Moving != null)
+            if (this.Moving != null)
             {
-                Moving(this, mea);
+                this.Moving(this, mea);
             }
         }
 
         public event CancelEventHandler QueryEndSession;
         protected virtual void OnQueryEndSession(CancelEventArgs e)
         {
-            if (QueryEndSession != null)
+            if (this.QueryEndSession != null)
             {
-                QueryEndSession(this, e);
+                this.QueryEndSession(this, e);
             }
         }
 
@@ -897,7 +900,7 @@ namespace KUL.MDS.MDITemplate
 
         void RealWndProc(ref Message m)
         {
-            OurWndProc(ref m);
+            this.OurWndProc(ref m);
         }
 
         protected override void WndProc(ref Message m)
@@ -908,7 +911,7 @@ namespace KUL.MDS.MDITemplate
             }
             else if (!this.formEx.HandleParentWndProc(ref m))
             {
-                OurWndProc(ref m);
+                this.OurWndProc(ref m);
             }
         }
 
@@ -923,7 +926,7 @@ namespace KUL.MDS.MDITemplate
                         Rectangle rect = Rectangle.FromLTRB(p[0], p[1], p[2], p[3]);
 
                         MovingEventArgs mea = new MovingEventArgs(rect);
-                        OnMoving(mea);
+                        this.OnMoving(mea);
 
                         p[0] = mea.Rectangle.Left;
                         p[1] = mea.Rectangle.Top;
@@ -937,7 +940,7 @@ namespace KUL.MDS.MDITemplate
                 // WinForms doesn't handle this message correctly and wrongly returns 0 instead of 1.
                 case 0x0011: // WM_QUERYENDSESSION
                     CancelEventArgs e = new CancelEventArgs();
-                    OnQueryEndSession(e);
+                    this.OnQueryEndSession(e);
                     m.Result = e.Cancel ? IntPtr.Zero : new IntPtr(1);
                     break;
 
@@ -956,14 +959,14 @@ namespace KUL.MDS.MDITemplate
                     this.snapManager = new SnapManager();
                 }
 
-                return snapManager;
+                return this.snapManager;
             }
         }
 
         public Size ClientSizeToWindowSize(Size clientSize)
         {
-            Size baseClientSize = ClientSize;
-            Size baseWindowSize = Size;
+            Size baseClientSize = this.ClientSize;
+            Size baseWindowSize = this.Size;
 
             int extraWidth = baseWindowSize.Width - baseClientSize.Width;
             int extraHeight = baseWindowSize.Height - baseClientSize.Height;
@@ -974,8 +977,8 @@ namespace KUL.MDS.MDITemplate
 
         public Size WindowSizeToClientSize(Size windowSize)
         {
-            Size baseClientSize = ClientSize;
-            Size baseWindowSize = Size;
+            Size baseClientSize = this.ClientSize;
+            Size baseWindowSize = this.Size;
 
             int extraWidth = baseWindowSize.Width - baseClientSize.Width;
             int extraHeight = baseWindowSize.Height - baseClientSize.Height;
@@ -987,7 +990,7 @@ namespace KUL.MDS.MDITemplate
         public Rectangle ClientBoundsToWindowBounds(Rectangle clientBounds)
         {
             Rectangle currentBounds = this.Bounds;
-            Rectangle currentClientBounds = this.RectangleToScreen(ClientRectangle);
+            Rectangle currentClientBounds = this.RectangleToScreen(this.ClientRectangle);
 
             Rectangle newWindowBounds = new Rectangle(
                 clientBounds.Left - (currentClientBounds.Left - currentBounds.Left),
@@ -1001,7 +1004,7 @@ namespace KUL.MDS.MDITemplate
         public Rectangle WindowBoundsToClientBounds(Rectangle windowBounds)
         {
             Rectangle currentBounds = this.Bounds;
-            Rectangle currentClientBounds = this.RectangleToScreen(ClientRectangle);
+            Rectangle currentClientBounds = this.RectangleToScreen(this.ClientRectangle);
 
             Rectangle newClientBounds = new Rectangle(
                 windowBounds.Left + (currentClientBounds.Left - currentBounds.Left),
@@ -1041,9 +1044,9 @@ namespace KUL.MDS.MDITemplate
                 ourScreen = Screen.PrimaryScreen;
             }
 
-            Rectangle currentBounds = Bounds;
+            Rectangle currentBounds = this.Bounds;
             Rectangle newBounds = EnsureRectIsOnScreen(ourScreen, currentBounds);
-            Bounds = newBounds;
+            this.Bounds = newBounds;
         }
 
         public static Rectangle EnsureRectIsOnScreen(Screen screen, Rectangle bounds)

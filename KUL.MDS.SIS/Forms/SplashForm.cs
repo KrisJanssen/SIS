@@ -7,17 +7,15 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using KUL.MDS.MDITemplate;
-using KUL.MDS.AppResources;
-
-namespace KUL.MDS.SIS
+namespace SIS.Forms
 {
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using global::SIS.MDITemplate;
+
+    using SIS.Resources;
+
     internal class SISSplashForm
         : SplashForm
     {
@@ -32,13 +30,13 @@ namespace KUL.MDS.SIS
             //
             // Required for Windows Form Designer support
             //
-            InitializeComponent();
+            this.InitializeComponent();
 
             // Fill in the status label
-            banner.BannerText = Resources.GetString("SplashForm.StatusLabel.Text");
+            this.banner.BannerText = Resources.GetString("SplashForm.StatusLabel.Text");
 
             // Fill in the copyright label
-            copyrightLabel.Text = Info.GetCopyrightString();
+            this.copyrightLabel.Text = Info.GetCopyrightString();
         }
 
         #region Windows Form Designer generated code

@@ -7,13 +7,11 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections.Generic;
-
-namespace KUL.MDS.SystemLayer.GpcWrapper
+namespace SIS.Systemlayer.GpcWrapper
 {
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+
     internal sealed class VertexList
     {
         public int NofVertices;
@@ -44,25 +42,25 @@ namespace KUL.MDS.SystemLayer.GpcWrapper
 
         public VertexList(PointF[] p)
         {
-            NofVertices = p.Length;
-            Vertex = new Vertex[NofVertices];
+            this.NofVertices = p.Length;
+            this.Vertex = new Vertex[this.NofVertices];
             for (int i = 0; i < p.Length; i++)
-                Vertex[i] = new Vertex((double)p[i].X, (double)p[i].Y);
+                this.Vertex[i] = new Vertex((double)p[i].X, (double)p[i].Y);
         }
 
         public GraphicsPath ToGraphicsPath()
         {
             GraphicsPath graphicsPath = new GraphicsPath();
-            graphicsPath.AddLines(ToPoints());
+            graphicsPath.AddLines(this.ToPoints());
             return graphicsPath;
         }
 
         public PointF[] ToPoints()
         {
-            PointF[] vertexArray = new PointF[NofVertices];
-            for (int i = 0; i < NofVertices; i++)
+            PointF[] vertexArray = new PointF[this.NofVertices];
+            for (int i = 0; i < this.NofVertices; i++)
             {
-                vertexArray[i] = new PointF((float)Vertex[i].X, (float)Vertex[i].Y);
+                vertexArray[i] = new PointF((float)this.Vertex[i].X, (float)this.Vertex[i].Y);
             }
             return vertexArray;
         }
@@ -71,11 +69,11 @@ namespace KUL.MDS.SystemLayer.GpcWrapper
         {
             GraphicsPath graphicsPath = new GraphicsPath();
 
-            for (int i = 0; i < NofVertices - 2; i++)
+            for (int i = 0; i < this.NofVertices - 2; i++)
             {
-                graphicsPath.AddPolygon(new PointF[3]{ new PointF( (float)Vertex[i].X,   (float)Vertex[i].Y ),
-				                                           new PointF( (float)Vertex[i+1].X, (float)Vertex[i+1].Y ),
-				                                           new PointF( (float)Vertex[i+2].X, (float)Vertex[i+2].Y )  });
+                graphicsPath.AddPolygon(new PointF[3]{ new PointF( (float)this.Vertex[i].X,   (float)this.Vertex[i].Y ),
+				                                           new PointF( (float)this.Vertex[i+1].X, (float)this.Vertex[i+1].Y ),
+				                                           new PointF( (float)this.Vertex[i+2].X, (float)this.Vertex[i+2].Y )  });
             }
 
             return graphicsPath;
@@ -83,12 +81,12 @@ namespace KUL.MDS.SystemLayer.GpcWrapper
 
         public override string ToString()
         {
-            string s = "Polygon with " + NofVertices + " vertices: ";
+            string s = "Polygon with " + this.NofVertices + " vertices: ";
 
-            for (int i = 0; i < NofVertices; i++)
+            for (int i = 0; i < this.NofVertices; i++)
             {
-                s += Vertex[i].ToString();
-                if (i != NofVertices - 1)
+                s += this.Vertex[i].ToString();
+                if (i != this.NofVertices - 1)
                     s += ",";
             }
             return s;

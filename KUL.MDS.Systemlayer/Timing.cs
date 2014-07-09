@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KUL.MDS.SystemLayer
+﻿namespace SIS.Systemlayer
 {
     /// <summary>
     /// Methods for keeping track of time in a high precision manner.
@@ -22,7 +20,7 @@ namespace KUL.MDS.SystemLayer
         {
             get
             {
-                return birthTick;
+                return this.birthTick;
             }
         }
 
@@ -34,7 +32,7 @@ namespace KUL.MDS.SystemLayer
         {
             ulong tick;
             SafeNativeMethods.QueryPerformanceCounter(out tick);
-            return tick / countsPerMs;
+            return tick / this.countsPerMs;
         }
 
         /// <summary>
@@ -45,7 +43,7 @@ namespace KUL.MDS.SystemLayer
         {
             ulong tick;
             SafeNativeMethods.QueryPerformanceCounter(out tick);
-            return (double)tick / countsPerMsDouble;
+            return (double)tick / this.countsPerMsDouble;
         }
 
         /// <summary>
@@ -60,9 +58,9 @@ namespace KUL.MDS.SystemLayer
                 NativeMethods.ThrowOnWin32Error("QueryPerformanceFrequency returned false");
             }
 
-            countsPerMs = frequency / 1000;
-            countsPerMsDouble = (double)frequency / 1000.0;
-            birthTick = GetTickCount();
+            this.countsPerMs = frequency / 1000;
+            this.countsPerMsDouble = (double)frequency / 1000.0;
+            this.birthTick = this.GetTickCount();
         }
     }
 }

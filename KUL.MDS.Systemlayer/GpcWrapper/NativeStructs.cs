@@ -7,13 +7,11 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
-namespace KUL.MDS.SystemLayer.GpcWrapper
+namespace SIS.Systemlayer.GpcWrapper
 {
+    using System;
+    using System.Runtime.InteropServices;
+
     internal static class NativeStructs
     {
         [StructLayout(LayoutKind.Sequential)]

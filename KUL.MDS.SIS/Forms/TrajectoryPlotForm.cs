@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using ZedGraph;
-
-
-namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using ZedGraph.ZedGraph;
+
     public partial class TrajectoryPlotForm : Form
     {
         private double[,] m_NMCoordinates;
@@ -23,14 +19,14 @@ namespace KUL.MDS.SIS.Forms
                 this.m_NMCoordinates = value;
                 if (this.DataChanged != null)
                 {
-                    DataChanged(this, new EventArgs());
+                    this.DataChanged(this, new EventArgs());
                 }
             }
         }
 
         public TrajectoryPlotForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             GraphPane XCoordPane = this.XCoordGraph.GraphPane;
             GraphPane YCoordPane = this.YCoordGraph.GraphPane;
@@ -52,7 +48,7 @@ namespace KUL.MDS.SIS.Forms
             this.tabPage2.Text = "Y";
             this.tabPage3.Text = "XY";
 
-            this.DataChanged += new EventHandler(TrajectoryPlotForm_DataChanged);
+            this.DataChanged += new EventHandler(this.TrajectoryPlotForm_DataChanged);
         }
 
         void TrajectoryPlotForm_DataChanged(object sender, EventArgs e)
@@ -94,7 +90,7 @@ namespace KUL.MDS.SIS.Forms
         {
             if (e.CloseReason != CloseReason.UserClosing) return;
             e.Cancel = true;
-            Hide();
+            this.Hide();
         }
     }
 }

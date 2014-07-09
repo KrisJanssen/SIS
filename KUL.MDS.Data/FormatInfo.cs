@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.Data
+﻿namespace SIS.Data
 {
+    using System.Collections.Generic;
+
     public struct FormatInfo
     {
         private string m_sName;               // short name, usually basename of .cpp/.h files  

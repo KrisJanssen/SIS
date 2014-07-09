@@ -4,14 +4,11 @@
 //#define NOINK
 //#endif
 
-using System;
-using System.Collections;
-using System.Reflection;
-using System.Windows.Forms;
-using KUL.MDS.SIS;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Windows.Forms;
+
     public static class Ink
     {
         private static bool isInkAvailable = false;
@@ -32,27 +29,27 @@ namespace KUL.MDS.SystemLayer
 
             public System.Drawing.Graphics CreateGraphics()
             {
-                return subject.CreateGraphics();
+                return this.subject.CreateGraphics();
             }
 
             public void PerformDocumentMouseMove(System.Windows.Forms.MouseButtons button, int clicks, float x, float y, int delta, float pressure)
             {
-                subject.PerformDocumentMouseMove(button, clicks, x, y, delta, pressure);
+                this.subject.PerformDocumentMouseMove(button, clicks, x, y, delta, pressure);
             }
 
             public System.Drawing.PointF ScreenToDocument(System.Drawing.PointF pointF)
             {
-                return subject.ScreenToDocument(pointF);
+                return this.subject.ScreenToDocument(pointF);
             }
 
             public void PerformDocumentMouseUp(System.Windows.Forms.MouseButtons button, int clicks, float x, float y, int delta, float pressure)
             {
-                subject.PerformDocumentMouseUp(button, clicks, x, y, delta, pressure);
+                this.subject.PerformDocumentMouseUp(button, clicks, x, y, delta, pressure);
             }
 
             public void PerformDocumentMouseDown(System.Windows.Forms.MouseButtons button, int clicks, float x, float y, int delta, float pressure)
             {
-                subject.PerformDocumentMouseDown(button, clicks, x, y, delta, pressure);
+                this.subject.PerformDocumentMouseDown(button, clicks, x, y, delta, pressure);
             }
         }
 

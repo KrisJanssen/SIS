@@ -7,18 +7,16 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Security;
-using System.Security.AccessControl;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer.Settings
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.IO;
+
+    using Microsoft.Win32;
+
     /// <summary>
     /// Stores non-volatile name/value settings. These persist between sessions of the application.
     /// </summary>
@@ -61,7 +59,7 @@ namespace KUL.MDS.SystemLayer
             {
                 try
                 {
-                    softwareKey = rootKey.CreateSubKey(hkcuKey);
+                    softwareKey = this.rootKey.CreateSubKey(hkcuKey);
                 }
 
                 catch (Exception)
@@ -77,7 +75,7 @@ namespace KUL.MDS.SystemLayer
         {
             try
             {
-                Delete(key);
+                this.Delete(key);
                 return true;
             }
 
@@ -93,7 +91,7 @@ namespace KUL.MDS.SystemLayer
         /// <param name="key">The key to delete.</param>
         public void Delete(string key)
         {
-            using (RegistryKey SISKey = CreateSettingsKey(true))
+            using (RegistryKey SISKey = this.CreateSettingsKey(true))
             {
                 SISKey.DeleteValue(key, false);
             }
@@ -105,7 +103,7 @@ namespace KUL.MDS.SystemLayer
         /// <param name="keys">The keys to delete.</param>
         public void Delete(string[] keys)
         {
-            using (RegistryKey SISKey = CreateSettingsKey(true))
+            using (RegistryKey SISKey = this.CreateSettingsKey(true))
             {
                 foreach (string key in keys)
                 {
@@ -121,7 +119,7 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key.</returns>
         public object GetObject(string key)
         {
-            using (RegistryKey SISKey = CreateSettingsKey(false))
+            using (RegistryKey SISKey = this.CreateSettingsKey(false))
             {
                 return SISKey.GetValue(key);
             }
@@ -137,7 +135,7 @@ namespace KUL.MDS.SystemLayer
         {
             try
             {
-                using (RegistryKey SISKey = CreateSettingsKey(false))
+                using (RegistryKey SISKey = this.CreateSettingsKey(false))
                 {
                     return SISKey.GetValue(key, defaultValue);
                 }
@@ -156,7 +154,7 @@ namespace KUL.MDS.SystemLayer
         /// <param name="value">The new value of the key.</param>
         public void SetObject(string key, object value)
         {
-            using (RegistryKey SISKey = CreateSettingsKey(true))
+            using (RegistryKey SISKey = this.CreateSettingsKey(true))
             {
                 SISKey.SetValue(key, value);
             }
@@ -169,7 +167,7 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key.</returns>
         public string GetString(string key)
         {
-            return (string)GetObject(key);
+            return (string)this.GetObject(key);
         }
 
         /// <summary>
@@ -180,7 +178,7 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key, or defaultValue if it didn't exist.</returns>
         public string GetString(string key, string defaultValue)
         {
-            return (string)GetObject(key, defaultValue);
+            return (string)this.GetObject(key, defaultValue);
         }
 
         /// <summary>
@@ -190,7 +188,7 @@ namespace KUL.MDS.SystemLayer
         /// <param name="value">The new value of the key.</param>
         public void SetString(string key, string value)
         {
-            SetObject(key, value);
+            this.SetObject(key, value);
         }
 
         /// <summary>
@@ -201,7 +199,7 @@ namespace KUL.MDS.SystemLayer
             foreach (string key in nvc.Keys)
             {
                 string value = nvc[key];
-                SetString("Test\\" + key, value);
+                this.SetString("Test\\" + key, value);
             }
         }
 
@@ -212,7 +210,7 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key.</returns>
         public bool GetBoolean(string key)
         {
-            return bool.Parse(GetString(key));
+            return bool.Parse(this.GetString(key));
         }
 
         /// <summary>
@@ -223,7 +221,7 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key, or defaultValue if it didn't exist.</returns>
         public bool GetBoolean(string key, bool defaultValue)
         {
-            return bool.Parse(GetString(key, defaultValue.ToString()));
+            return bool.Parse(this.GetString(key, defaultValue.ToString()));
         }
 
         /// <summary>
@@ -233,7 +231,7 @@ namespace KUL.MDS.SystemLayer
         /// <param name="value">The new value of the key.</param>
         public void SetBoolean(string key, bool value)
         {
-            SetString(key, value.ToString());
+            this.SetString(key, value.ToString());
         }
 
         /// <summary>
@@ -243,8 +241,8 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key.</returns>
         public Point GetPoint(string key)
         {
-            int x = GetInt32(key + pointXSuffix);
-            int y = GetInt32(key + pointYSuffix);
+            int x = this.GetInt32(key + pointXSuffix);
+            int y = this.GetInt32(key + pointYSuffix);
             return new Point(x, y);
         }
 
@@ -256,8 +254,8 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key, or defaultValue if it didn't exist.</returns>
         public Point GetPoint(string key, Point defaultValue)
         {
-            int x = GetInt32(key + pointXSuffix, defaultValue.X);
-            int y = GetInt32(key + pointYSuffix, defaultValue.Y);
+            int x = this.GetInt32(key + pointXSuffix, defaultValue.X);
+            int y = this.GetInt32(key + pointYSuffix, defaultValue.Y);
             return new Point(x, y);
         }
 
@@ -268,8 +266,8 @@ namespace KUL.MDS.SystemLayer
         /// <param name="value">The new value of the key.</param>
         public void SetPoint(string key, Point value)
         {
-            SetInt32(key + pointXSuffix, value.X);
-            SetInt32(key + pointYSuffix, value.Y);
+            this.SetInt32(key + pointXSuffix, value.X);
+            this.SetInt32(key + pointYSuffix, value.Y);
         }
 
         /// <summary>
@@ -279,7 +277,7 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key.</returns>
         public Int32 GetInt32(string key)
         {
-            return Int32.Parse(GetString(key));
+            return Int32.Parse(this.GetString(key));
         }
 
         /// <summary>
@@ -290,7 +288,7 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key, or defaultValue if it didn't exist.</returns>
         public Int32 GetInt32(string key, Int32 defaultValue)
         {
-            return Int32.Parse(GetString(key, defaultValue.ToString()));
+            return Int32.Parse(this.GetString(key, defaultValue.ToString()));
         }
 
         /// <summary>
@@ -301,7 +299,7 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key, or defaultValue if it didn't exist.</returns>
         public float GetSingle(string key, float defaultValue)
         {
-            return Single.Parse(GetString(key, defaultValue.ToString()));
+            return Single.Parse(this.GetString(key, defaultValue.ToString()));
         }
 
         /// <summary>
@@ -311,7 +309,7 @@ namespace KUL.MDS.SystemLayer
         /// <returns>The value of the key.</returns>
         public float GetSingle(string key)
         {
-            return Single.Parse(GetString(key));
+            return Single.Parse(this.GetString(key));
         }
 
         /// <summary>
@@ -321,7 +319,7 @@ namespace KUL.MDS.SystemLayer
         /// <param name="value">The new value of the key.</param>
         public void SetInt32(string key, int value)
         {
-            SetString(key, value.ToString());
+            this.SetString(key, value.ToString());
         }
 
         /// <summary>
@@ -331,7 +329,7 @@ namespace KUL.MDS.SystemLayer
         /// <param name="value">The new value of the key.</param>
         public void SetSingle(string key, float value)
         {
-            SetString(key, value.ToString());
+            this.SetString(key, value.ToString());
         }
 
         /// <summary>
@@ -342,7 +340,7 @@ namespace KUL.MDS.SystemLayer
         /// <remarks>This method treats the key value as a stream of base64 encoded bytes that represent a PNG image.</remarks>
         public Image GetImage(string key)
         {
-            string imageB64 = GetString(key);
+            string imageB64 = this.GetString(key);
             byte[] pngBytes = Convert.FromBase64String(imageB64);
             MemoryStream ms = new MemoryStream(pngBytes);
             Image image = Image.FromStream(ms);
@@ -362,18 +360,18 @@ namespace KUL.MDS.SystemLayer
             value.Save(ms, ImageFormat.Png);
             byte[] buffer = ms.GetBuffer();
             string base64 = Convert.ToBase64String(buffer);
-            SetString(key, base64);
+            this.SetString(key, base64);
             ms.Close();
         }
 
         public string Get(string key)
         {
-            return GetString(key);
+            return this.GetString(key);
         }
 
         public void Set(string key, string value)
         {
-            SetString(key, value);
+            this.SetString(key, value);
         }
     }
 }

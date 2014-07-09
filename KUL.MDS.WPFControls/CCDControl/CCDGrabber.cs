@@ -15,16 +15,12 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.Windows.Media;
-using System.ComponentModel;
-
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl
 {
+    using System;
+    using System.ComponentModel;
+    using System.Runtime.InteropServices;
+
     internal class CCDGrabber : ISampleGrabberCB, INotifyPropertyChanged
     {
         #region Win32 imports
@@ -57,11 +53,11 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// </summary>
         public int Width
         {
-            get { return _width; }
+            get { return this._width; }
             set
             {
-                _width = value;
-                OnPropertyChanged("Width");
+                this._width = value;
+                this.OnPropertyChanged("Width");
             }
         }
 
@@ -70,11 +66,11 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// </summary>
         public int Height
         {
-            get { return _height; }
+            get { return this._height; }
             set
             {
-                _height = value;
-                OnPropertyChanged("Height");
+                this._height = value;
+                this.OnPropertyChanged("Height");
             }
         }
         #endregion
@@ -87,27 +83,27 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
 
         public int BufferCB(double sampleTime, IntPtr buffer, int bufferLen)
         {
-            if (Map != IntPtr.Zero)
+            if (this.Map != IntPtr.Zero)
             {
-                CopyMemory(Map, buffer, bufferLen);
-                OnNewFrameArrived();
+                CopyMemory(this.Map, buffer, bufferLen);
+                this.OnNewFrameArrived();
             }
             return 0;
         }
 
         void OnNewFrameArrived()
         {
-            if (NewFrameArrived != null)
+            if (this.NewFrameArrived != null)
             {
-                NewFrameArrived(this, null);
+                this.NewFrameArrived(this, null);
             }
         }
 
         void OnPropertyChanged(string name)
         {
-            if (PropertyChanged != null)
+            if (this.PropertyChanged != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
+                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
         #endregion

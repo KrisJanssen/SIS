@@ -1,12 +1,11 @@
-using System;
-using System.Text;
-using System.Runtime.InteropServices;
-
 /// <summary>
 /// Read/Write values to an ini file
 /// </summary>
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
+    using System.Runtime.InteropServices;
+    using System.Text;
+
     public class IniFile 
     {
         public string path;
@@ -20,7 +19,7 @@ namespace KUL.MDS.SerialTerminal
             string key,string def, StringBuilder retVal, int size,string filePath);
 
         public IniFile(string INIPath){
-            path = INIPath;
+            this.path = INIPath;
         }
 
         public void WriteValue(string Section, string Key, string Value) {

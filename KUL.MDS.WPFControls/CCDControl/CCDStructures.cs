@@ -15,14 +15,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl
 {
+    using System;
+    using System.Runtime.InteropServices;
+
     [ComVisible(false)]
     internal enum PinDirection
     {
@@ -55,22 +52,22 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
 
         ~AMMediaType()
         {
-            Dispose(false);
+            this.Dispose(false);
         }
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             // remove me from the Finalization queue 
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (FormatSize != 0)
-                Marshal.FreeCoTaskMem(FormatPtr);
-            if (unkPtr != IntPtr.Zero)
-                Marshal.Release(unkPtr);
+            if (this.FormatSize != 0)
+                Marshal.FreeCoTaskMem(this.FormatPtr);
+            if (this.unkPtr != IntPtr.Zero)
+                Marshal.Release(this.unkPtr);
         }
     }
 

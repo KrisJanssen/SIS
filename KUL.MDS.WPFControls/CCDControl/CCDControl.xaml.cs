@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using KUL.MDS.WPFControls.CCDControl.Device;
-using System.Collections.ObjectModel;
-
-namespace KUL.MDS.WPFControls.CCDControl.UI
+﻿namespace SIS.WPFControls.CCDControl
 {
+    using System.Collections.ObjectModel;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media.Imaging;
+
     /// <summary>
     /// Interaction logic for WebcanControl.xaml
     /// </summary>
@@ -42,7 +31,7 @@ namespace KUL.MDS.WPFControls.CCDControl.UI
             // Create default device
             //SelectedWebcamMonikerString = (CCDDevice.DeviceMonikers.Length > 0) ? CCDDevice.DeviceMonikers[0].MonikerString : "";
             this.SelectedWebcamMonikerString = "";
-            this.Unloaded += new RoutedEventHandler(CCDControl_Unloaded);
+            this.Unloaded += new RoutedEventHandler(this.CCDControl_Unloaded);
         }
 
         void CCDControl_Unloaded(object sender, RoutedEventArgs e)
@@ -121,8 +110,8 @@ namespace KUL.MDS.WPFControls.CCDControl.UI
         /// </summary>
         public double WebcamRotation
         {
-            get { return (double)GetValue(WebcamRotationProperty); }
-            set { SetValue(WebcamRotationProperty, value); }
+            get { return (double)this.GetValue(WebcamRotationProperty); }
+            set { this.SetValue(WebcamRotationProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for WebcamRotation.  This enables animation, styling, binding, etc...
@@ -131,8 +120,8 @@ namespace KUL.MDS.WPFControls.CCDControl.UI
 
         public double TargetEllipseDiameter
         {
-            get { return (double)GetValue(TargetEllipseDiameterProperty); }
-            set { SetValue(TargetEllipseDiameterProperty, value); }
+            get { return (double)this.GetValue(TargetEllipseDiameterProperty); }
+            set { this.SetValue(TargetEllipseDiameterProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for WebcamRotation.  This enables animation, styling, binding, etc...
@@ -144,8 +133,8 @@ namespace KUL.MDS.WPFControls.CCDControl.UI
         /// </summary>
         public CCDDevice SelectedWebcam
         {
-            get { return (CCDDevice)GetValue(SelectedWebcamProperty); }
-            set { SetValue(SelectedWebcamProperty, value); }
+            get { return (CCDDevice)this.GetValue(SelectedWebcamProperty); }
+            set { this.SetValue(SelectedWebcamProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SelectedWebcam.  This enables animation, styling, binding, etc...
@@ -157,8 +146,8 @@ namespace KUL.MDS.WPFControls.CCDControl.UI
         /// </summary>
         public string SelectedWebcamMonikerString
         {
-            get { return (string)GetValue(SelectedWebcamMonikerStringProperty); }
-            set { SetValue(SelectedWebcamMonikerStringProperty, value); }
+            get { return (string)this.GetValue(SelectedWebcamMonikerStringProperty); }
+            set { this.SetValue(SelectedWebcamMonikerStringProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SelectedWebcamMonikerString.  This enables animation, styling, binding, etc...
@@ -170,8 +159,8 @@ namespace KUL.MDS.WPFControls.CCDControl.UI
         /// </summary>
         public ObservableCollection<BitmapSource> SelectedImages
         {
-            get { return (ObservableCollection<BitmapSource>)GetValue(SelectedImagesProperty); }
-            set { SetValue(SelectedImagesProperty, value); }
+            get { return (ObservableCollection<BitmapSource>)this.GetValue(SelectedImagesProperty); }
+            set { this.SetValue(SelectedImagesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SelectedImages.  This enables animation, styling, binding, etc...

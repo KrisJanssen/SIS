@@ -17,16 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// An abstract base class that represents a text object on the graph.  A list of
 	/// <see cref="GraphObj"/> objects is maintained by the
 	/// <see cref="GraphObjList"/> collection class.
@@ -128,8 +126,8 @@ namespace ZedGraph
 		/// </summary>
 		public Location Location
 		{
-			get { return _location; }
-			set { _location = value; }
+			get { return this._location; }
+			set { this._location = value; }
 		}
 
 		/// <summary>
@@ -145,8 +143,8 @@ namespace ZedGraph
 		/// objects having the same <see cref="ZedGraph.ZOrder"/> value.</remarks>
 		public ZOrder ZOrder
 		{
-			get { return _zOrder; }
-			set { _zOrder = value; }
+			get { return this._zOrder; }
+			set { this._zOrder = value; }
 		}
 		
 		/// <summary>
@@ -155,8 +153,8 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsVisible
 		{
-			get { return _isVisible; }
-			set { _isVisible = value; }
+			get { return this._isVisible; }
+			set { this._isVisible = value; }
 		}
 
 		/// <summary>
@@ -167,8 +165,8 @@ namespace ZedGraph
 		/// false to leave it unclipped.</value>
 		public bool IsClippedToChartRect
 		{
-			get { return _isClippedToChartRect; }
-			set { _isClippedToChartRect = value; }
+			get { return this._isClippedToChartRect; }
+			set { this._isClippedToChartRect = value; }
 		}
 
 		/// <summary>
@@ -177,8 +175,8 @@ namespace ZedGraph
 		// /// <seealso cref="ZedGraph.Web.IsImageMap" />
 		public Link Link
 		{
-			get { return _link; }
-			set { _link = value; }
+			get { return this._link; }
+			set { this._link = value; }
 		}
 
 		/// <summary>
@@ -189,9 +187,9 @@ namespace ZedGraph
 		{
 			get
 			{
-				return	_zOrder == ZOrder.A_InFront ||
-							_zOrder == ZOrder.B_BehindLegend ||
-							_zOrder == ZOrder.C_BehindChartBorder;
+				return	this._zOrder == ZOrder.A_InFront ||
+							this._zOrder == ZOrder.B_BehindLegend ||
+							this._zOrder == ZOrder.C_BehindChartBorder;
 			}
 		}
 
@@ -302,12 +300,12 @@ namespace ZedGraph
 		/// the vertical alignment of the object with respect to the (x,y) location</param>
 		public GraphObj( double x, double y, CoordType coordType, AlignH alignH, AlignV alignV )
 		{
-			_isVisible = true;
-			_isClippedToChartRect = Default.IsClippedToChartRect;
+			this._isVisible = true;
+			this._isClippedToChartRect = Default.IsClippedToChartRect;
 			this.Tag = null;
-			_zOrder = ZOrder.A_InFront;
-			_location = new Location( x, y, coordType, alignH, alignV );
-			_link = new Link();
+			this._zOrder = ZOrder.A_InFront;
+			this._location = new Location( x, y, coordType, alignH, alignV );
+			this._link = new Link();
 		}
 
 		/// <summary>
@@ -337,12 +335,12 @@ namespace ZedGraph
 		public GraphObj( double x, double y, double x2, double y2, CoordType coordType,
 					AlignH alignH, AlignV alignV )
 		{
-			_isVisible = true;
-			_isClippedToChartRect = Default.IsClippedToChartRect;
+			this._isVisible = true;
+			this._isClippedToChartRect = Default.IsClippedToChartRect;
 			this.Tag = null;
-			_zOrder = ZOrder.A_InFront;
-			_location = new Location( x, y, x2, y2, coordType, alignH, alignV );
-			_link = new Link();
+			this._zOrder = ZOrder.A_InFront;
+			this._location = new Location( x, y, x2, y2, coordType, alignH, alignV );
+			this._link = new Link();
 		}
 
 		/// <summary>
@@ -352,9 +350,9 @@ namespace ZedGraph
 		public GraphObj( GraphObj rhs )
 		{
 			// Copy value types
-			_isVisible = rhs.IsVisible;
-			_isClippedToChartRect = rhs._isClippedToChartRect;
-			_zOrder = rhs.ZOrder;
+			this._isVisible = rhs.IsVisible;
+			this._isClippedToChartRect = rhs._isClippedToChartRect;
+			this._zOrder = rhs.ZOrder;
 
 			// copy reference types by cloning
 			if ( rhs.Tag is ICloneable )
@@ -362,8 +360,8 @@ namespace ZedGraph
 			else
 				this.Tag = rhs.Tag;
 
-			_location = rhs.Location.Clone();
-			_link = rhs._link.Clone();
+			this._location = rhs.Location.Clone();
+			this._link = rhs._link.Clone();
 		}
 
 		/// <summary>
@@ -412,30 +410,30 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_location = (Location) info.GetValue( "location", typeof(Location) );
-			_isVisible = info.GetBoolean( "isVisible" );
-			Tag = info.GetValue( "Tag", typeof(object) );
-			_zOrder = (ZOrder) info.GetValue( "zOrder", typeof(ZOrder) );
+			this._location = (Location) info.GetValue( "location", typeof(Location) );
+			this._isVisible = info.GetBoolean( "isVisible" );
+			this.Tag = info.GetValue( "Tag", typeof(object) );
+			this._zOrder = (ZOrder) info.GetValue( "zOrder", typeof(ZOrder) );
 
-			_isClippedToChartRect = info.GetBoolean( "isClippedToChartRect" );
-			_link = (Link) info.GetValue( "link", typeof( Link ) );
+			this._isClippedToChartRect = info.GetBoolean( "isClippedToChartRect" );
+			this._link = (Link) info.GetValue( "link", typeof( Link ) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
-			info.AddValue( "location", _location );
-			info.AddValue( "isVisible", _isVisible );
-			info.AddValue( "Tag", Tag );
-			info.AddValue( "zOrder", _zOrder );
+			info.AddValue( "location", this._location );
+			info.AddValue( "isVisible", this._isVisible );
+			info.AddValue( "Tag", this.Tag );
+			info.AddValue( "zOrder", this._zOrder );
 
-			info.AddValue( "isClippedToChartRect", _isClippedToChartRect );
-			info.AddValue( "link", _link );
+			info.AddValue( "isClippedToChartRect", this._isClippedToChartRect );
+			info.AddValue( "link", this._link );
 		}
 	#endregion
 
@@ -487,7 +485,7 @@ namespace ZedGraph
 		{
 			GraphPane gPane = pane as GraphPane;
 
-			if ( gPane != null && _isClippedToChartRect && !gPane.Chart.Rect.Contains( pt ) )
+			if ( gPane != null && this._isClippedToChartRect && !gPane.Chart.Rect.Contains( pt ) )
 				return false;
 
 			return true;

@@ -19,21 +19,22 @@
 
 #region Using directives
 
-using System;
-using System.Text;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using System.Drawing.Imaging;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-using System.IO;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
+    using System.Drawing.Text;
+    using System.IO;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// An abstract base class that defines basic functionality for handling a pane.  This class is the
 	/// parent class for <see cref="MasterPane"/> and <see cref="GraphPane"/>.
 	/// </summary>
@@ -248,8 +249,8 @@ namespace ZedGraph
 		/// <seealso cref="ReSize"/>
 		public RectangleF Rect
 		{
-			get { return _rect; }
-			set { _rect = value; }
+			get { return this._rect; }
+			set { this._rect = value; }
 		}
 
 		/// <summary>
@@ -258,7 +259,7 @@ namespace ZedGraph
 		/// <value>A reference to a <see cref="Legend"/> object</value>
 		public Legend Legend
 		{
-			get { return _legend; }
+			get { return this._legend; }
 		}
 
 		/// <summary>
@@ -274,7 +275,7 @@ namespace ZedGraph
 		/// <seealso cref="Default.FontSize"/>
 		public Label Title
 		{
-			get { return _title; }
+			get { return this._title; }
 		}
 
 		/// <summary>
@@ -289,8 +290,8 @@ namespace ZedGraph
 		/// </remarks>
 		public object Tag
 		{
-			get { return _tag; }
-			set { _tag = value; }
+			get { return this._tag; }
+			set { this._tag = value; }
 		}
 
 		/// <summary>
@@ -301,8 +302,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.BorderPenWidth"/>
 		public Border Border
 		{
-			get { return _border; }
-			set { _border = value; }
+			get { return this._border; }
+			set { this._border = value; }
 		}
 
 		/// <summary>
@@ -311,8 +312,8 @@ namespace ZedGraph
 		/// </summary>
 		public Fill	Fill
 		{
-			get { return _fill; }
-			set { _fill = value; }
+			get { return this._fill; }
+			set { this._fill = value; }
 		}
 
 		/// <summary>
@@ -321,8 +322,8 @@ namespace ZedGraph
 		/// <value>A reference to a <see cref="GraphObjList"/> collection object</value>
 		public GraphObjList GraphObjList
 		{
-			get { return _graphObjList; }
-			set { _graphObjList = value; }
+			get { return this._graphObjList; }
+			set { this._graphObjList = value; }
 		}
 
 		/// <summary>
@@ -331,8 +332,8 @@ namespace ZedGraph
 		/// </summary>
 		public Margin Margin
 		{
-			get { return _margin; }
-			set { _margin = value; }
+			get { return this._margin; }
+			set { this._margin = value; }
 		}
 
 		/// <summary>
@@ -350,8 +351,8 @@ namespace ZedGraph
 		/// <seealso cref="CalcScaleFactor"/>
 		public float BaseDimension
 		{
-			get { return _baseDimension; }
-			set { _baseDimension = value; }
+			get { return this._baseDimension; }
+			set { this._baseDimension = value; }
 		}
 
 		/// <summary>
@@ -361,8 +362,8 @@ namespace ZedGraph
 		/// </summary>
 		public float TitleGap
 		{
-			get { return _titleGap; }
-			set { _titleGap = value; }
+			get { return this._titleGap; }
+			set { this._titleGap = value; }
 		}
 
 		/// <summary>
@@ -375,8 +376,8 @@ namespace ZedGraph
 		/// <seealso cref="PaneBase.CalcScaleFactor"/>
 		public bool IsFontsScaled
 		{
-			get { return _isFontsScaled; }
-			set { _isFontsScaled = value; }
+			get { return this._isFontsScaled; }
+			set { this._isFontsScaled = value; }
 		}
 		/// <summary>
 		/// Gets or sets the property that controls whether or not pen widths are scaled for this
@@ -399,8 +400,8 @@ namespace ZedGraph
 		/// <seealso cref="CalcScaleFactor"/>
 		public bool IsPenWidthScaled
 		{
-			get { return _isPenWidthScaled; }
-			set { _isPenWidthScaled = value; }
+			get { return this._isPenWidthScaled; }
+			set { this._isPenWidthScaled = value; }
 		}
 
 	#endregion
@@ -420,29 +421,29 @@ namespace ZedGraph
 		/// </summary>
 		public PaneBase( string title, RectangleF paneRect )
 		{
-			_rect = paneRect;
+			this._rect = paneRect;
 
-			_legend = new Legend();
+			this._legend = new Legend();
 				
-			_baseDimension = Default.BaseDimension;
-			_margin = new Margin();
-			_titleGap = Default.TitleGap;
+			this._baseDimension = Default.BaseDimension;
+			this._margin = new Margin();
+			this._titleGap = Default.TitleGap;
 
-			_isFontsScaled = Default.IsFontsScaled;
-			_isPenWidthScaled = Default.IsPenWidthScaled;
-			_fill = new Fill( Default.FillColor );
-			_border = new Border( Default.IsBorderVisible, Default.BorderColor,
+			this._isFontsScaled = Default.IsFontsScaled;
+			this._isPenWidthScaled = Default.IsPenWidthScaled;
+			this._fill = new Fill( Default.FillColor );
+			this._border = new Border( Default.IsBorderVisible, Default.BorderColor,
 				Default.BorderPenWidth );
 
-			_title = new GapLabel( title, Default.FontFamily,
+			this._title = new GapLabel( title, Default.FontFamily,
 				Default.FontSize, Default.FontColor, Default.FontBold,
 				Default.FontItalic, Default.FontUnderline );
-			_title._fontSpec.Fill.IsVisible = false;
-			_title._fontSpec.Border.IsVisible = false;
+			this._title._fontSpec.Fill.IsVisible = false;
+			this._title._fontSpec.Border.IsVisible = false;
 
-			_graphObjList = new GraphObjList();
+			this._graphObjList = new GraphObjList();
 			
-			_tag = null;
+			this._tag = null;
 		}
 
 		/// <summary>
@@ -452,27 +453,27 @@ namespace ZedGraph
 		public PaneBase( PaneBase rhs )
 		{
 			// copy over all the value types
-			_isFontsScaled = rhs._isFontsScaled;
-			_isPenWidthScaled = rhs._isPenWidthScaled;
+			this._isFontsScaled = rhs._isFontsScaled;
+			this._isPenWidthScaled = rhs._isPenWidthScaled;
 
-			_titleGap = rhs._titleGap;
-			_baseDimension = rhs._baseDimension;
-			_margin = rhs._margin.Clone();
-			_rect = rhs._rect;
+			this._titleGap = rhs._titleGap;
+			this._baseDimension = rhs._baseDimension;
+			this._margin = rhs._margin.Clone();
+			this._rect = rhs._rect;
 
 			// Copy the reference types by cloning
-			_fill = rhs._fill.Clone();
-			_border = rhs._border.Clone();
-			_title = rhs._title.Clone();
+			this._fill = rhs._fill.Clone();
+			this._border = rhs._border.Clone();
+			this._title = rhs._title.Clone();
 
-			_legend = rhs.Legend.Clone();
-			_title = rhs._title.Clone();
-			_graphObjList = rhs._graphObjList.Clone();
+			this._legend = rhs.Legend.Clone();
+			this._title = rhs._title.Clone();
+			this._graphObjList = rhs._graphObjList.Clone();
 			
 			if ( rhs._tag is ICloneable )
-				_tag = ((ICloneable) rhs._tag).Clone();
+				this._tag = ((ICloneable) rhs._tag).Clone();
 			else
-				_tag = rhs._tag;
+				this._tag = rhs._tag;
 		}
 
 
@@ -535,21 +536,21 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_rect = (RectangleF) info.GetValue( "rect", typeof(RectangleF) );
-			_legend = (Legend) info.GetValue( "legend", typeof(Legend) );
-			_title = (GapLabel) info.GetValue( "title", typeof(GapLabel) );
+			this._rect = (RectangleF) info.GetValue( "rect", typeof(RectangleF) );
+			this._legend = (Legend) info.GetValue( "legend", typeof(Legend) );
+			this._title = (GapLabel) info.GetValue( "title", typeof(GapLabel) );
 			//this.isShowTitle = info.GetBoolean( "isShowTitle" );
-			_isFontsScaled = info.GetBoolean( "isFontsScaled" );
-			_isPenWidthScaled = info.GetBoolean( "isPenWidthScaled" );
+			this._isFontsScaled = info.GetBoolean( "isFontsScaled" );
+			this._isPenWidthScaled = info.GetBoolean( "isPenWidthScaled" );
 			//this.fontSpec = (FontSpec) info.GetValue( "fontSpec" , typeof(FontSpec) );
-			_titleGap = info.GetSingle( "titleGap" );
-			_fill = (Fill) info.GetValue( "fill", typeof(Fill) );
-			_border = (Border) info.GetValue( "border", typeof(Border) );
-			_baseDimension = info.GetSingle( "baseDimension" );
-			_margin = (Margin)info.GetValue( "margin", typeof( Margin ) );
-			_graphObjList = (GraphObjList) info.GetValue( "graphObjList", typeof(GraphObjList) );
+			this._titleGap = info.GetSingle( "titleGap" );
+			this._fill = (Fill) info.GetValue( "fill", typeof(Fill) );
+			this._border = (Border) info.GetValue( "border", typeof(Border) );
+			this._baseDimension = info.GetSingle( "baseDimension" );
+			this._margin = (Margin)info.GetValue( "margin", typeof( Margin ) );
+			this._graphObjList = (GraphObjList) info.GetValue( "graphObjList", typeof(GraphObjList) );
 
-			_tag = info.GetValue( "tag", typeof(object) );
+			this._tag = info.GetValue( "tag", typeof(object) );
 
 		}
 		/// <summary>
@@ -557,27 +558,27 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
 
-			info.AddValue( "rect", _rect );
-			info.AddValue( "legend", _legend );
-			info.AddValue( "title", _title );
+			info.AddValue( "rect", this._rect );
+			info.AddValue( "legend", this._legend );
+			info.AddValue( "title", this._title );
 			//info.AddValue( "isShowTitle", isShowTitle );
-			info.AddValue( "isFontsScaled", _isFontsScaled );
-			info.AddValue( "isPenWidthScaled", _isPenWidthScaled );
-			info.AddValue( "titleGap", _titleGap );
+			info.AddValue( "isFontsScaled", this._isFontsScaled );
+			info.AddValue( "isPenWidthScaled", this._isPenWidthScaled );
+			info.AddValue( "titleGap", this._titleGap );
 
 			//info.AddValue( "fontSpec", fontSpec );
-			info.AddValue( "fill", _fill );
-			info.AddValue( "border", _border );
-			info.AddValue( "baseDimension", _baseDimension );
-			info.AddValue( "margin", _margin );
-			info.AddValue( "graphObjList", _graphObjList );
+			info.AddValue( "fill", this._fill );
+			info.AddValue( "border", this._border );
+			info.AddValue( "baseDimension", this._baseDimension );
+			info.AddValue( "margin", this._margin );
+			info.AddValue( "graphObjList", this._graphObjList );
 
-			info.AddValue( "tag", _tag );
+			info.AddValue( "tag", this._tag );
 		}
 	#endregion
 
@@ -594,23 +595,23 @@ namespace ZedGraph
 		/// </param>
 		public virtual void Draw( Graphics g  )
 		{
-			if ( _rect.Width <= 1 || _rect.Height <= 1 )
+			if ( this._rect.Width <= 1 || this._rect.Height <= 1 )
 				return;
 
 			// calculate scaleFactor on "normal" pane size (BaseDimension)
 			float scaleFactor = this.CalcScaleFactor();
 
 			// Fill the pane background and draw a border around it			
-			DrawPaneFrame( g, scaleFactor );
+			this.DrawPaneFrame( g, scaleFactor );
 
 			// Clip everything to the rect
-			g.SetClip( _rect );
+			g.SetClip( this._rect );
 
 			// Draw the GraphItems that are behind everything
-			_graphObjList.Draw( g, this, scaleFactor, ZOrder.H_BehindAll );
+			this._graphObjList.Draw( g, this, scaleFactor, ZOrder.H_BehindAll );
 
 			// Draw the Pane Title
-			DrawTitle( g, scaleFactor );
+			this.DrawTitle( g, scaleFactor );
 
 			// Draw the Legend
 			//this.Legend.Draw( g, this, scaleFactor );
@@ -641,23 +642,23 @@ namespace ZedGraph
 		{
 			// get scaled values for the paneGap and character height
 			//float scaledOuterGap = (float) ( Default.OuterPaneGap * scaleFactor );
-			float charHeight = _title._fontSpec.GetHeight( scaleFactor );
+			float charHeight = this._title._fontSpec.GetHeight( scaleFactor );
 
 			// chart rect starts out at the full pane rect.  It gets reduced to make room for the legend,
 			// scales, titles, etc.
 			RectangleF innerRect = new RectangleF(
-							_rect.Left + _margin.Left * scaleFactor,
-							_rect.Top + _margin.Top * scaleFactor,
-							_rect.Width - scaleFactor * ( _margin.Left + _margin.Right ),
-							_rect.Height - scaleFactor * ( _margin.Top + _margin.Bottom ) );
+							this._rect.Left + this._margin.Left * scaleFactor,
+							this._rect.Top + this._margin.Top * scaleFactor,
+							this._rect.Width - scaleFactor * ( this._margin.Left + this._margin.Right ),
+							this._rect.Height - scaleFactor * ( this._margin.Top + this._margin.Bottom ) );
 
 			// Leave room for the title
-			if ( _title._isVisible && _title._text != string.Empty )
+			if ( this._title._isVisible && this._title._text != string.Empty )
 			{
-				SizeF titleSize = _title._fontSpec.BoundingBox( g, _title._text, scaleFactor );
+				SizeF titleSize = this._title._fontSpec.BoundingBox( g, this._title._text, scaleFactor );
 				// Leave room for the title height, plus a line spacing of charHeight * _titleGap
-				innerRect.Y += titleSize.Height + charHeight * _titleGap;
-				innerRect.Height -= titleSize.Height + charHeight * _titleGap;
+				innerRect.Y += titleSize.Height + charHeight * this._titleGap;
+				innerRect.Height -= titleSize.Height + charHeight * this._titleGap;
 			}
 
 			// Calculate the legend rect, and back it out of the current ChartRect
@@ -681,15 +682,15 @@ namespace ZedGraph
 		public void DrawPaneFrame( Graphics g, float scaleFactor )
 		{
 			// Erase the pane background, filling it with the specified brush
-			_fill.Draw( g, _rect );
+			this._fill.Draw( g, this._rect );
 
 			// Reduce the rect width and height by 1 pixel so that for a rect of
 			// new RectangleF( 0, 0, 100, 100 ), which should be 100 pixels wide, we cover
 			// from 0 through 99.  The draw routines normally cover from 0 through 100, which is
 			// actually 101 pixels wide.
-			RectangleF rect = new RectangleF( _rect.X, _rect.Y, _rect.Width - 1, _rect.Height - 1 );
+			RectangleF rect = new RectangleF( this._rect.X, this._rect.Y, this._rect.Width - 1, this._rect.Height - 1 );
 
-			_border.Draw( g, this, scaleFactor, rect );
+			this._border.Draw( g, this, scaleFactor, rect );
 		}
 
 		/// <summary>
@@ -707,15 +708,15 @@ namespace ZedGraph
 		public void DrawTitle( Graphics g, float scaleFactor )
 		{	
 			// only draw the title if it's required
-			if ( _title._isVisible )
+			if ( this._title._isVisible )
 			{
-				SizeF size = _title._fontSpec.BoundingBox( g, _title._text, scaleFactor );
+				SizeF size = this._title._fontSpec.BoundingBox( g, this._title._text, scaleFactor );
 				
 				// use the internal fontSpec class to draw the text using user-specified and/or
 				// default attributes.
-				_title._fontSpec.Draw( g, this, _title._text,
-					( _rect.Left + _rect.Right ) / 2,
-					_rect.Top + _margin.Top * (float) scaleFactor + size.Height / 2.0F,
+				this._title._fontSpec.Draw( g, this, this._title._text,
+					( this._rect.Left + this._rect.Right ) / 2,
+					this._rect.Top + this._margin.Top * (float) scaleFactor + size.Height / 2.0F,
 					AlignH.Center, AlignV.Center, scaleFactor );
 			}
 		}
@@ -731,7 +732,7 @@ namespace ZedGraph
 		/// <param name="rect">The new size for the <see cref="Rect"/>.</param>
 		public virtual void ReSize( Graphics g, RectangleF rect )
 		{
-			_rect = rect;
+			this._rect = rect;
 		}
 
 		/// <summary>
@@ -759,7 +760,7 @@ namespace ZedGraph
 			const float ASPECTLIMIT = 1.5F;
 			
 			// if font scaling is turned off, then always return a 1.0 scale factor
-			if ( !_isFontsScaled )
+			if ( !this._isFontsScaled )
 				return 1.0f;
 
 			// Assume the standard width (BaseDimension) is 8.0 inches
@@ -768,16 +769,16 @@ namespace ZedGraph
 			// if the rect is 16.0 inches wide, the fonts will be double-sized.
 		
 			// Scale the size depending on the client area width in linear fashion
-			if ( _rect.Height <= 0 )
+			if ( this._rect.Height <= 0 )
 				return 1.0F;
-			float length = _rect.Width;
-			float aspect = _rect.Width / _rect.Height;
+			float length = this._rect.Width;
+			float aspect = this._rect.Width / this._rect.Height;
 			if ( aspect > ASPECTLIMIT )
-				length = _rect.Height * ASPECTLIMIT;
+				length = this._rect.Height * ASPECTLIMIT;
 			if ( aspect < 1.0F / ASPECTLIMIT )
-				length = _rect.Width * ASPECTLIMIT;
+				length = this._rect.Width * ASPECTLIMIT;
 
-			scaleFactor = length / ( _baseDimension * 72F );
+			scaleFactor = length / ( this._baseDimension * 72F );
 
 			// Don't let the scaleFactor get ridiculous
 			if ( scaleFactor < 0.1F )
@@ -799,7 +800,7 @@ namespace ZedGraph
 		/// <returns>The scaled pen width, in world pixels</returns>
 		public float ScaledPenWidth( float penWidth, float scaleFactor )
 		{
-			if ( _isPenWidthScaled )
+			if ( this._isPenWidthScaled )
 				return (float)( penWidth * scaleFactor );
 			else
 				return penWidth;
@@ -815,7 +816,7 @@ namespace ZedGraph
 		/// <seealso cref="GetMetafile(int,int)"/>
 		public Bitmap GetImage()
 		{
-			return GetImage( false );
+			return this.GetImage( false );
 		}
 
 		/// <summary>
@@ -828,10 +829,10 @@ namespace ZedGraph
 		/// <seealso cref="GetMetafile(int,int)"/>
 		public Bitmap GetImage( bool isAntiAlias )
 		{
-			Bitmap bitmap = new Bitmap( (int) _rect.Width, (int) _rect.Height );
+			Bitmap bitmap = new Bitmap( (int) this._rect.Width, (int) this._rect.Height );
 			using ( Graphics bitmapGraphics = Graphics.FromImage( bitmap ) )
 			{
-				bitmapGraphics.TranslateTransform( -_rect.Left, -_rect.Top );
+				bitmapGraphics.TranslateTransform( -this._rect.Left, -this._rect.Top );
 				this.Draw( bitmapGraphics );
 			}
 
@@ -855,7 +856,7 @@ namespace ZedGraph
 			bitmap.SetResolution( dpi, dpi );
 			using ( Graphics bitmapGraphics = Graphics.FromImage( bitmap ) )
 			{
-				MakeImage( bitmapGraphics, width, height, isAntiAlias );
+				this.MakeImage( bitmapGraphics, width, height, isAntiAlias );
 			}
 
 			return bitmap;
@@ -873,7 +874,7 @@ namespace ZedGraph
 		/// <seealso cref="Bitmap"/>
 		public Bitmap GetImage( int width, int height, float dpi )
 		{
-			return GetImage( width, height, dpi, false );
+			return this.GetImage( width, height, dpi, false );
 		}
 
 		/// <summary>
@@ -900,7 +901,7 @@ namespace ZedGraph
 		private void MakeImage( Graphics g, int width, int height, bool antiAlias )
 		{
 			//g.SmoothingMode = SmoothingMode.AntiAlias;
-			SetAntiAliasMode( g, antiAlias );
+			this.SetAntiAliasMode( g, antiAlias );
 
 			// This is actually a shallow clone, so we don't duplicate all the data, curveLists, etc.
 			PaneBase tempPane = this.ShallowClone();
@@ -935,7 +936,7 @@ namespace ZedGraph
 			using ( Graphics bmg = Graphics.FromImage( bm ) )
 			{
 				this.ReSize( bmg, this.Rect );
-				SetAntiAliasMode( bmg, antiAlias );
+				this.SetAntiAliasMode( bmg, antiAlias );
 				this.Draw( bmg );
 			}
 		}
@@ -961,7 +962,7 @@ namespace ZedGraph
 			{
 				IntPtr hdc = g.GetHdc();
 				Stream stream = new MemoryStream();
-				Metafile metafile = new Metafile( stream, hdc, _rect,
+				Metafile metafile = new Metafile( stream, hdc, this._rect,
 							MetafileFrameUnit.Pixel, EmfType.EmfPlusDual );
 				g.ReleaseHdc( hdc );
 
@@ -975,7 +976,7 @@ namespace ZedGraph
 					//metafileGraphics.PageScale = 1f;
 
 					// output
-					MakeImage( metafileGraphics, width, height, isAntiAlias );
+					this.MakeImage( metafileGraphics, width, height, isAntiAlias );
 					//this.Draw( metafileGraphics );
 
 					return metafile;
@@ -998,7 +999,7 @@ namespace ZedGraph
 		/// <seealso cref="GetMetafile()"/>
 		public Metafile GetMetafile( int width, int height )
 		{
-			return GetMetafile( width, height, false );
+			return this.GetMetafile( width, height, false );
 		}
 
 		/// <summary>
@@ -1014,14 +1015,14 @@ namespace ZedGraph
 			{
 				IntPtr hdc = g.GetHdc();
 				Stream stream = new MemoryStream();
-				Metafile metafile = new Metafile( stream, hdc, _rect,
+				Metafile metafile = new Metafile( stream, hdc, this._rect,
 							MetafileFrameUnit.Pixel, EmfType.EmfOnly );
 
 				using ( Graphics metafileGraphics = Graphics.FromImage( metafile ) )
 				{
-					metafileGraphics.TranslateTransform( -_rect.Left, -_rect.Top );
+					metafileGraphics.TranslateTransform( -this._rect.Left, -this._rect.Top );
 					metafileGraphics.PageUnit = System.Drawing.GraphicsUnit.Pixel;
-					PointF P = new PointF( _rect.Width, _rect.Height );
+					PointF P = new PointF( this._rect.Width, this._rect.Height );
 					PointF[] PA = new PointF[] { P };
 					metafileGraphics.TransformPoints( CoordinateSpace.Page, CoordinateSpace.Device, PA );
 					//metafileGraphics.PageScale = 1f;
@@ -1198,17 +1199,17 @@ namespace ZedGraph
 			else if ( coord == CoordType.XChartFractionYPaneFraction )
 			{
 				ptPix.X = (float)( chartRect.Left + x * chartRect.Width );
-				ptPix.Y = (float)( this.Rect.Top + y * _rect.Height );
+				ptPix.Y = (float)( this.Rect.Top + y * this._rect.Height );
 			}
 			else if ( coord == CoordType.XPaneFractionYChartFraction )
 			{
-				ptPix.X = (float)( this.Rect.Left + x * _rect.Width );
+				ptPix.X = (float)( this.Rect.Left + x * this._rect.Width );
 				ptPix.Y = (float)( chartRect.Top + y * chartRect.Height );
 			}
 			else	// PaneFraction
 			{
-				ptPix.X = (float)( _rect.Left + x * _rect.Width );
-				ptPix.Y = (float)( _rect.Top + y * _rect.Height );
+				ptPix.X = (float)( this._rect.Left + x * this._rect.Width );
+				ptPix.Y = (float)( this._rect.Top + y * this._rect.Height );
 			}
 
 			return ptPix;

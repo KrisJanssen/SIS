@@ -1,11 +1,9 @@
-using System;
-using System.Text;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+
+    /// <summary>
 	/// Hue-Saturation-Brightness Color class to store a color value, and to manage conversions
 	/// to and from RGB colors in the <see cref="Color" /> struct.
 	/// </summary>

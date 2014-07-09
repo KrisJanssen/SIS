@@ -18,9 +18,9 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>KUL.MDS.SIS</RootNamespace>
+    <RootNamespace>SIS</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>KUL.MDS.SIS.Startup</StartupObject>
+    <StartupObject>SIS.Startup</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -139,17 +139,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AForge, Version=1.1.0.0, Culture=neutral, PublicKeyToken=9a0d19ffd4e7fe67, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>External References\AForge.dll</HintPath>
-    </Reference>
     <Reference Include="AForge.Imaging, Version=1.1.0.0, Culture=neutral, PublicKeyToken=d604c8342bbdeba9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>External References\AForge.Imaging.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math, Version=1.1.0.0, Culture=neutral, PublicKeyToken=ec69efb6646d15f1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>External References\AForge.Math.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\Binaries\log4net-1.2.11\Binaries\net\4.0\release\log4net.dll</HintPath>
@@ -166,9 +158,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data">
-      <Name>System.Data</Name>
-    </Reference>
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
@@ -176,12 +165,6 @@
       <Name>System.Windows.Forms</Name>
     </Reference>
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml">
-      <Name>System.XML</Name>
-    </Reference>
-    <Reference Include="UIAutomationProvider">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -379,45 +362,37 @@
       <Project>{6b39450c-d9f3-4a54-9a05-4bba38e0bf90}</Project>
       <Name>DevDefined.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KUL.MDS.Data\KUL.MDS.Data.csproj">
-      <Project>{3B5BCD2B-A0BD-497D-9869-A1298AA32CE4}</Project>
-      <Name>KUL.MDS.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KUL.MDS.Hardware\KUL.MDS.Hardware.csproj">
+    <ProjectReference Include="..\KUL.MDS.Hardware\SIS.Hardware.csproj">
       <Project>{92578237-0A47-4AC3-A7B9-B84239BCB72E}</Project>
-      <Name>KUL.MDS.Hardware</Name>
+      <Name>SIS.Hardware</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KUL.MDS.Library\KUL.MDS.Library.csproj">
+    <ProjectReference Include="..\KUL.MDS.Library\SIS.Library.csproj">
       <Project>{AFCE2F08-7BD7-4F73-ABC1-9FFAFCEEACEF}</Project>
-      <Name>KUL.MDS.Library</Name>
+      <Name>SIS.Library</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KUL.MDS.MDITemplate\KUL.MDS.MDITemplate.csproj">
+    <ProjectReference Include="..\KUL.MDS.MDITemplate\SIS.MDITemplate.csproj">
       <Project>{065D1334-343C-4EB1-8F62-4003A3F7D0C9}</Project>
-      <Name>KUL.MDS.MDITemplate</Name>
+      <Name>SIS.MDITemplate</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KUL.MDS.Resources\KUL.MDS.Resources.csproj">
+    <ProjectReference Include="..\KUL.MDS.Resources\SIS.Resources.csproj">
       <Project>{04D2293F-76E4-4318-AF0F-10A24EC5899D}</Project>
-      <Name>KUL.MDS.Resources</Name>
+      <Name>SIS.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KUL.MDS.ScanModes\KUL.MDS.ScanModes.csproj">
+    <ProjectReference Include="..\KUL.MDS.ScanModes\SIS.ScanModes.csproj">
       <Project>{C30788B7-5765-4215-90E4-D973CE0C15F2}</Project>
-      <Name>KUL.MDS.ScanModes</Name>
+      <Name>SIS.ScanModes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KUL.MDS.SerialTerminal\KUL.MDS.SerialTerminal.csproj">
-      <Project>{ABD27080-6E3B-4981-B16A-885E17CA2AF2}</Project>
-      <Name>KUL.MDS.SerialTerminal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KUL.MDS.Systemlayer\KUL.MDS.Systemlayer.csproj">
+    <ProjectReference Include="..\KUL.MDS.Systemlayer\SIS.Systemlayer.csproj">
       <Project>{DD096382-A82E-4656-8ADC-85A5BC4476D7}</Project>
-      <Name>KUL.MDS.Systemlayer</Name>
+      <Name>SIS.Systemlayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KUL.MDS.Validation\KUL.MDS.Validation.csproj">
+    <ProjectReference Include="..\KUL.MDS.Validation\SIS.Validation.csproj">
       <Project>{A52D6403-0252-4A82-8C53-122B3CC036FC}</Project>
-      <Name>KUL.MDS.Validation</Name>
+      <Name>SIS.Validation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KUL.MDS.WPFControls\KUL.MDS.WPFControls.csproj">
+    <ProjectReference Include="..\KUL.MDS.WPFControls\SIS.WPFControls.csproj">
       <Project>{5B6DEF7E-BAB5-45D0-8B14-AC1B412A55F4}</Project>
-      <Name>KUL.MDS.WPFControls</Name>
+      <Name>SIS.WPFControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\ZedGraph\ZedGraph.csproj">
       <Project>{2541686B-1673-43BF-AF89-3163945DB009}</Project>

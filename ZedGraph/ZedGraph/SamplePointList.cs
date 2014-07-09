@@ -1,10 +1,9 @@
-using System;
-using System.Collections;
-using System.Text;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections;
+
+    /// <summary>
 	/// enumeration used to indicate which type of data will be plotted.
 	/// </summary>
 	public enum SampleType
@@ -45,24 +44,24 @@ namespace ZedGraph
 		/// </summary>
 		public DateTime Time
 		{
-			get { return _time; }
-			set { _time = value; }
+			get { return this._time; }
+			set { this._time = value; }
 		}
 		/// <summary>
 		/// The position at sample time
 		/// </summary>
 		public double Position
 		{
-			get { return _position; }
-			set { _position = value; }
+			get { return this._position; }
+			set { this._position = value; }
 		}
 		/// <summary>
 		/// The instantaneous velocity at sample time
 		/// </summary>
 		public double Velocity
 		{
-			get { return _velocity; }
-			set { _velocity = value; }
+			get { return this._velocity; }
+			set { this._velocity = value; }
 		}
 	}
 
@@ -96,9 +95,9 @@ namespace ZedGraph
 			get
 			{
 				PointPair pt = new PointPair();
-				Sample sample = (Sample) list[index];
-				pt.X = GetValue( sample, XType );
-				pt.Y = GetValue( sample, YType );
+				Sample sample = (Sample) this.list[index];
+				pt.X = this.GetValue( sample, this.XType );
+				pt.Y = this.GetValue( sample, this.YType );
 				return pt;
 			}
 		}
@@ -108,7 +107,7 @@ namespace ZedGraph
 		/// </summary>
 		public int Count
 		{
-			get { return list.Count; }
+			get { return this.list.Count; }
 		}
 
 		/// <summary>
@@ -126,13 +125,13 @@ namespace ZedGraph
 				case SampleType.Time:
 					return sample.Time.ToOADate();
 				case SampleType.TimeDiff:
-					return sample.Time.ToOADate() - ( (Sample)list[0] ).Time.ToOADate();
+					return sample.Time.ToOADate() - ( (Sample)this.list[0] ).Time.ToOADate();
 				case SampleType.VelocityAvg:
-					double timeDiff = sample.Time.ToOADate() - ( (Sample)list[0] ).Time.ToOADate();
+					double timeDiff = sample.Time.ToOADate() - ( (Sample)this.list[0] ).Time.ToOADate();
 					if ( timeDiff <= 0 )
 						return PointPair.Missing;
 					else
-						return ( sample.Position - ( (Sample)list[0] ).Position ) / timeDiff;
+						return ( sample.Position - ( (Sample)this.list[0] ).Position ) / timeDiff;
 				case SampleType.VelocityInst:
 					return sample.Velocity;
 				default:
@@ -147,7 +146,7 @@ namespace ZedGraph
 		/// <returns>The ordinal position at which the sample was added</returns>
 		public int Add( Sample sample )
 		{
-			return list.Add( sample );
+			return this.list.Add( sample );
 		}
 
 		// generic Clone: just call the typesafe version
@@ -172,9 +171,9 @@ namespace ZedGraph
 		/// </summary>
 		public SamplePointList()
 		{
-			XType = SampleType.Time;
-			YType = SampleType.Position;
-			list = new ArrayList();
+			this.XType = SampleType.Time;
+			this.YType = SampleType.Position;
+			this.list = new ArrayList();
 		}
 
 		/// <summary>
@@ -184,8 +183,8 @@ namespace ZedGraph
 		/// <param name="rhs">The SamplePointList to be copied</param>
 		public SamplePointList( SamplePointList rhs )
 		{
-			XType = rhs.XType;
-			YType = rhs.YType;
+			this.XType = rhs.XType;
+			this.YType = rhs.YType;
 
 			// Don't duplicate the data values, just copy the reference to the ArrayList
 			this.list = rhs.list;

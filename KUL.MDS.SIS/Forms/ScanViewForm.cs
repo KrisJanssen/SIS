@@ -1,23 +1,24 @@
-﻿using System;
-using System.Drawing;
-using System.Reflection;
-using System.Threading;
-using System.Windows.Forms;
-using KUL.MDS.Library;
-using KUL.MDS.MDITemplate;
-using KUL.MDS.SIS.Documents;
-using KUL.MDS.ScanModes;
-using KUL.MDS.WPFControls;
-using System.Collections.Generic;
-using KUL.MDS.SystemLayer;
-using System.IO;
-using log4net;
-using log4net.Layout;
-using DevDefined.Common.Appenders;
-
-namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
-    public partial class ScanViewForm : KUL.MDS.MDITemplate.MdiViewForm
+    using System;
+    using System.Drawing;
+    using System.IO;
+    using System.Reflection;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using DevDefined.Common.Appenders;
+
+    using global::SIS.Hardware;
+    using global::SIS.Hardware.YanusIV;
+    using global::SIS.Library;
+    using global::SIS.MDITemplate;
+    using global::SIS.ScanModes.Core;
+
+    using log4net.Layout;
+    using SIS.Documents;
+
+    public partial class ScanViewForm : MdiViewForm
     {
 
         #region Member Variables
@@ -26,17 +27,17 @@ namespace KUL.MDS.SIS.Forms
         // We need one or more APDs, a Piezo and a timing clock to sync everything.
         //private KUL.MDS.Hardware.APD m_apdAPD1;
         //private KUL.MDS.Hardware.APD m_apdAPD2;
-        private KUL.MDS.Hardware.PQTimeHarp m_apdAPD;
-        private KUL.MDS.Hardware.IPiezoStage m_Stage;
+        private PQTimeHarp m_apdAPD;
+        private IPiezoStage m_Stage;
         //private KUL.MDS.Hardware.PhotoDiode m_pdPhotoDiode;
         //private KUL.MDS.Hardware.TimingClock m_clckGlobalSync;
 
 
         // A progress bar that we can use to indicate... progress of various tasks that are handled.
-        private KUL.MDS.SIS.Forms.ProgressBarForm m_frmPBar = new ProgressBarForm();
-        private KUL.MDS.SIS.Forms.TrajectoryPlotForm m_frmTrajectoryForm = new TrajectoryPlotForm();
-        private KUL.MDS.SIS.Forms.ScanSettingsForm m_frmScanSettingsForm;
-		private KUL.MDS.SIS.Forms.CountRateForm m_frmCountRateForm;
+        private ProgressBarForm m_frmPBar = new ProgressBarForm();
+        private TrajectoryPlotForm m_frmTrajectoryForm = new TrajectoryPlotForm();
+        private ScanSettingsForm m_frmScanSettingsForm;
+		private CountRateForm m_frmCountRateForm;
 
         // Object to keep track of the current Scan Settings.
         private ScanSettings m_scnstSettings;
@@ -76,10 +77,10 @@ namespace KUL.MDS.SIS.Forms
         public ScanViewForm()
         {
             // This call is required by the Windows Form Designer.
-            InitializeComponent();
+            this.InitializeComponent();
 
             // Initialize form buttons.
-            InitInterface();
+            this.InitInterface();
 
 			// Create a new ColoredRichTextBoxAppender and give it a standard layout.
 			if (this.m_ColRTApp == null)
@@ -132,7 +133,7 @@ namespace KUL.MDS.SIS.Forms
             this.m_scnstSettings = ((NotifyEventArgs)e).Settings;
 
             // Make sure the changes to the settings are visible to the user.
-            ScanPropertiesToScreen();
+            this.ScanPropertiesToScreen();
         }
 
         /// <summary>
@@ -141,8 +142,8 @@ namespace KUL.MDS.SIS.Forms
         private void InitInterface()
         {
             // Make sure the progress bar is hidden.
-            m_frmPBar.Visible = false;
-            m_frmTrajectoryForm.Visible = false;
+            this.m_frmPBar.Visible = false;
+            this.m_frmTrajectoryForm.Visible = false;
 
 			// Set correct Validate button states
 			this.btnValidateInput.Enabled = true;
@@ -206,8 +207,8 @@ namespace KUL.MDS.SIS.Forms
                 {
                     int _TotalPixelsAcquired = this.m_apdAPD.TotalSamplesAcquired;  // the number of pixels acquired so far
                     int _TotalPixelsAcquiredPercentage = (int)(100.0 * ((double)_TotalPixelsAcquired / (double)(_docDocument.ImageWidthPx * _docDocument.ImageHeightPx)));  // the number of pixels in [%] acquired so far
-                    textBox1.Text = _TotalPixelsAcquired.ToString() + " (" + _TotalPixelsAcquiredPercentage.ToString() + "%)";
-                    textBox2.Text = _TotalPixelsAcquired.ToString() + " (" + _TotalPixelsAcquiredPercentage.ToString() + "%)";
+                    this.textBox1.Text = _TotalPixelsAcquired.ToString() + " (" + _TotalPixelsAcquiredPercentage.ToString() + "%)";
+                    this.textBox2.Text = _TotalPixelsAcquired.ToString() + " (" + _TotalPixelsAcquiredPercentage.ToString() + "%)";
                 }
             }            
 
@@ -216,9 +217,9 @@ namespace KUL.MDS.SIS.Forms
             {
                 if (this.m_Stage.IsInitialized)
                 {
-                    txtbxCurrXPos.Text = this.m_Stage.XPosition.ToString();
-                    txtbxCurrYPos.Text = this.m_Stage.YPosition.ToString();
-                    txtbxCurrZPos.Text = this.m_Stage.ZPosition.ToString();
+                    this.txtbxCurrXPos.Text = this.m_Stage.XPosition.ToString();
+                    this.txtbxCurrYPos.Text = this.m_Stage.YPosition.ToString();
+                    this.txtbxCurrZPos.Text = this.m_Stage.ZPosition.ToString();
                 }
             }            
             
@@ -231,7 +232,7 @@ namespace KUL.MDS.SIS.Forms
             //    textBox4.Text = _docDocument.GetChannelData(1)[this.m_apdAPD2.TotalSamplesAcquired - 1].ToString();
             //}
             // Get the in memory bitmaps to the screen.
-            PaintToScreen();
+            this.PaintToScreen();
 
             // Process any events that might be waiting.
             Application.DoEvents();
@@ -264,10 +265,10 @@ namespace KUL.MDS.SIS.Forms
             {
                 if (this.btnStageOnOff.Text == str_STAGE_BUTTON_TEXT_ON)  // do not close the form if the stage is still ON
                 {                    
-                    throw new KUL.MDS.Hardware.StageNotReleasedException("The stage was not released! Please use stage control to turn it off!");                    
+                    throw new StageNotReleasedException("The stage was not released! Please use stage control to turn it off!");                    
                 }                
             }
-            catch (KUL.MDS.Hardware.StageNotReleasedException ex)
+            catch (StageNotReleasedException ex)
             {
                 MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
@@ -277,10 +278,10 @@ namespace KUL.MDS.SIS.Forms
             {
 				if (this.btnAPDOnOff.Text == str_APD_BUTTON_TEXT_ON)  // do not close the form if the APD is still ON
                 {                    
-                    throw new KUL.MDS.Hardware.StageNotReleasedException("The APD was not released! Please use APD control to turn it off!");                    
+                    throw new StageNotReleasedException("The APD was not released! Please use APD control to turn it off!");                    
                 }                
             }
-            catch (KUL.MDS.Hardware.StageNotReleasedException ex)
+            catch (StageNotReleasedException ex)
             {
                 MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
@@ -328,7 +329,7 @@ namespace KUL.MDS.SIS.Forms
         {
             this.scanImageControl2.FitToScreen();
             // Update the UI.
-            UpdateUI();
+            this.UpdateUI();
         }
 
         private void btnScanSettings_Click(object sender, EventArgs e)
@@ -338,7 +339,7 @@ namespace KUL.MDS.SIS.Forms
             //this.m_frmScanSettingsForm = new ScanSettingsForm(_docDocument.Settings);
             this.m_frmScanSettingsForm = new ScanSettingsForm(this.m_scnstSettings);
 
-            this.m_frmScanSettingsForm.UpdateParameters += m_frmScanSettingsForm_UpdateParameters;
+            this.m_frmScanSettingsForm.UpdateParameters += this.m_frmScanSettingsForm_UpdateParameters;
 
             this.m_frmScanSettingsForm.Visible = true;
         }
@@ -347,7 +348,7 @@ namespace KUL.MDS.SIS.Forms
 		{
 			if (this.m_apdAPD != null)
 			{
-				if (m_frmCountRateForm == null)  // case the form does not exists
+				if (this.m_frmCountRateForm == null)  // case the form does not exists
 				{
 					this.m_frmCountRateForm = new CountRateForm(this.m_apdAPD);
 					this.m_frmCountRateForm.Visible = true;
@@ -382,18 +383,18 @@ namespace KUL.MDS.SIS.Forms
 
         private void UpdateProgress(int __iProgress)
         {
-            m_frmPBar.Progress = __iProgress;
+            this.m_frmPBar.Progress = __iProgress;
         }
 
         private void ShowProgress()
         {
-            m_frmPBar.Visible = true;
+            this.m_frmPBar.Visible = true;
         }
 
         private void HideProgress()
         {
-            m_frmPBar.Visible = false;
-            m_frmPBar.Progress = 0;
+            this.m_frmPBar.Visible = false;
+            this.m_frmPBar.Progress = 0;
         }
 
         #endregion
@@ -403,21 +404,21 @@ namespace KUL.MDS.SIS.Forms
 
         protected override void OnUpdateDocument()
         {
-            ScanPropertiesToScreen();
-            PaintToScreen();
+            this.ScanPropertiesToScreen();
+            this.PaintToScreen();
         }
 
         protected override void OnUpdateView(object update)
         {
-            ScanPropertiesToScreen();
-            PaintToScreen();
+            this.ScanPropertiesToScreen();
+            this.PaintToScreen();
         }
 
         protected override void OnInitialUpdate()
         {
             this.m_scnstSettings = ((ScanDocument)this.Document).Settings;
-            ScanPropertiesToScreen();
-            PaintToScreen();
+            this.ScanPropertiesToScreen();
+            this.PaintToScreen();
         }
 
         #endregion
@@ -450,7 +451,7 @@ namespace KUL.MDS.SIS.Forms
             _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD1[0] = _bmpTemp;
+            this.m_bmpBitmapsAPD1[0] = _bmpTemp;
 
             _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
                 _docDocument.MaxIntensity[0],
@@ -467,7 +468,7 @@ namespace KUL.MDS.SIS.Forms
             _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD1[1] = _bmpTemp;
+            this.m_bmpBitmapsAPD1[1] = _bmpTemp;
 
             _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
                 _docDocument.MaxIntensity[0],
@@ -484,7 +485,7 @@ namespace KUL.MDS.SIS.Forms
             _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD1[2] = _bmpTemp;
+            this.m_bmpBitmapsAPD1[2] = _bmpTemp;
 
             _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
                 _docDocument.MaxIntensity[0],
@@ -501,7 +502,7 @@ namespace KUL.MDS.SIS.Forms
             _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD1[3] = _bmpTemp;
+            this.m_bmpBitmapsAPD1[3] = _bmpTemp;
 
             this.scanImageControl2.ImageHeight = _docDocument.XScanSizeNm;
             this.scanImageControl2.ImageWidth = _docDocument.YScanSizeNm;
@@ -523,7 +524,7 @@ namespace KUL.MDS.SIS.Forms
             _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD2[0] = _bmpTemp;
+            this.m_bmpBitmapsAPD2[0] = _bmpTemp;
 
             _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
                 _docDocument.MaxIntensity[1],
@@ -540,7 +541,7 @@ namespace KUL.MDS.SIS.Forms
             _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD2[1] = _bmpTemp;
+            this.m_bmpBitmapsAPD2[1] = _bmpTemp;
 
             _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
                 _docDocument.MaxIntensity[1],
@@ -557,7 +558,7 @@ namespace KUL.MDS.SIS.Forms
             _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD2[2] = _bmpTemp;
+            this.m_bmpBitmapsAPD2[2] = _bmpTemp;
 
             _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
                 _docDocument.MaxIntensity[1],
@@ -574,51 +575,51 @@ namespace KUL.MDS.SIS.Forms
             _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD2[3] = _bmpTemp;
+            this.m_bmpBitmapsAPD2[3] = _bmpTemp;
 
             if (this.checkBox8.Checked)
             {
-                this.m_filter.OverlayImage = m_bmpBitmapsAPD2[3];
-                System.Drawing.Bitmap newImage = this.m_filter.Apply(m_bmpBitmapsAPD1[2]);
+                this.m_filter.OverlayImage = this.m_bmpBitmapsAPD2[3];
+                System.Drawing.Bitmap newImage = this.m_filter.Apply(this.m_bmpBitmapsAPD1[2]);
                 this.scanImageControl1.Image = newImage;
-                this.scanImageControl2.Image = m_bmpBitmapsAPD2[1];
+                this.scanImageControl2.Image = this.m_bmpBitmapsAPD2[1];
             }
 
             else if (this.checkBox9.Checked)
             {
-                this.m_filter.OverlayImage = m_bmpBitmapsAPD1[3];
-                System.Drawing.Bitmap newImage = this.m_filter.Apply(m_bmpBitmapsAPD2[2]);
+                this.m_filter.OverlayImage = this.m_bmpBitmapsAPD1[3];
+                System.Drawing.Bitmap newImage = this.m_filter.Apply(this.m_bmpBitmapsAPD2[2]);
                 this.scanImageControl2.Image = newImage;
-                this.scanImageControl1.Image = m_bmpBitmapsAPD1[1];
+                this.scanImageControl1.Image = this.m_bmpBitmapsAPD1[1];
             }
 
             else
             {
                 if (this.checkBox4.Checked)
                 {
-                    this.scanImageControl2.Image = m_bmpBitmapsAPD2[2];
+                    this.scanImageControl2.Image = this.m_bmpBitmapsAPD2[2];
                 }
                 if (this.checkBox5.Checked)
                 {
-                    this.scanImageControl2.Image = m_bmpBitmapsAPD2[3];
+                    this.scanImageControl2.Image = this.m_bmpBitmapsAPD2[3];
                 }
                 if (!this.checkBox4.Checked & !this.checkBox5.Checked)
                 {
 
-                    this.scanImageControl2.Image = m_bmpBitmapsAPD2[1];
+                    this.scanImageControl2.Image = this.m_bmpBitmapsAPD2[1];
                 }
 
                 if (this.checkBox6.Checked)
                 {
-                    this.scanImageControl1.Image = m_bmpBitmapsAPD1[2];
+                    this.scanImageControl1.Image = this.m_bmpBitmapsAPD1[2];
                 }
                 if (this.checkBox7.Checked)
                 {
-                    this.scanImageControl1.Image = m_bmpBitmapsAPD1[3];
+                    this.scanImageControl1.Image = this.m_bmpBitmapsAPD1[3];
                 }
                 if (!this.checkBox6.Checked & !this.checkBox7.Checked)
                 {
-                    this.scanImageControl1.Image = m_bmpBitmapsAPD1[1];
+                    this.scanImageControl1.Image = this.m_bmpBitmapsAPD1[1];
                 }
             }
 
@@ -642,49 +643,49 @@ namespace KUL.MDS.SIS.Forms
         // When we select a different display mode for the scan images we have to re-paint
         private void chkbxCorrectedImage_CheckedChanged(object sender, EventArgs e)
         {
-            PaintToScreen();
+            this.PaintToScreen();
         }
 
         // When we select a different display mode for the scan images we have to re-paint
         private void chkbxNormalized_CheckedChanged(object sender, EventArgs e)
         {
-            PaintToScreen();
+            this.PaintToScreen();
         }
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
-            PaintToScreen();
+            this.PaintToScreen();
 
             this.checkBox5.Checked = false;
         }
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
-            PaintToScreen();
+            this.PaintToScreen();
             this.checkBox4.Checked = false;
         }
 
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
         {
-            PaintToScreen();
+            this.PaintToScreen();
             this.checkBox7.Checked = false;
         }
 
         private void checkBox7_CheckedChanged(object sender, EventArgs e)
         {
-            PaintToScreen();
+            this.PaintToScreen();
             this.checkBox6.Checked = false;
         }
 
         private void checkBox8_CheckedChanged(object sender, EventArgs e)
         {
-            PaintToScreen();
+            this.PaintToScreen();
             this.checkBox9.Checked = false;
         }
 
         private void checkBox9_CheckedChanged(object sender, EventArgs e)
         {
-            PaintToScreen();
+            this.PaintToScreen();
             this.checkBox8.Checked = false;
         }
 
@@ -764,15 +765,15 @@ namespace KUL.MDS.SIS.Forms
 				if (this.m_Stage == null)
 				{
 					// Create and setup a Galvo scanner with the given settings
-					this.m_Stage = new KUL.MDS.Hardware.YanusIV(
+					this.m_Stage = new YanusIV(
 						_docDocument.Settings.GalvoSerialPortName,
 						_docDocument.Settings.GalvoMagnificationObjective, _docDocument.Settings.GalvoScanLensFocalLength,
 						_docDocument.Settings.GalvoRangeAngleDegrees, _docDocument.Settings.GalvoRangeAngleInt);
 
 					// Hook up EventHandler methods to the events of the stage
-					this.m_Stage.PositionChanged += m_Stage_PositionChanged;
-					this.m_Stage.ErrorOccurred += m_Stage_ErrorOccurred;
-					this.m_Stage.EngagedChanged += m_Stage_EngagedChanged;
+					this.m_Stage.PositionChanged += this.m_Stage_PositionChanged;
+					this.m_Stage.ErrorOccurred += this.m_Stage_ErrorOccurred;
+					this.m_Stage.EngagedChanged += this.m_Stage_EngagedChanged;
 				}
 
 				// Second connect to the controller hardware and initialize it
@@ -783,9 +784,9 @@ namespace KUL.MDS.SIS.Forms
 					if (!this.m_Stage.IsInitialized)  // if initialization is not successful release resources	
 					{
 						// Release methods from the events of the stage
-						this.m_Stage.PositionChanged -= m_Stage_PositionChanged;
-						this.m_Stage.ErrorOccurred -= m_Stage_ErrorOccurred;
-						this.m_Stage.EngagedChanged -= m_Stage_EngagedChanged;
+						this.m_Stage.PositionChanged -= this.m_Stage_PositionChanged;
+						this.m_Stage.ErrorOccurred -= this.m_Stage_ErrorOccurred;
+						this.m_Stage.EngagedChanged -= this.m_Stage_EngagedChanged;
 
 						// Release stage/galvo object
 						this.m_Stage = null;  			
@@ -801,9 +802,9 @@ namespace KUL.MDS.SIS.Forms
 					this.m_Stage.Release();
 															
 					// Release stage events
-					this.m_Stage.PositionChanged -=	m_Stage_PositionChanged;
-					this.m_Stage.ErrorOccurred -= m_Stage_ErrorOccurred;
-					this.m_Stage.EngagedChanged -= m_Stage_EngagedChanged;
+					this.m_Stage.PositionChanged -=	this.m_Stage_PositionChanged;
+					this.m_Stage.ErrorOccurred -= this.m_Stage_ErrorOccurred;
+					this.m_Stage.EngagedChanged -= this.m_Stage_EngagedChanged;
 
 					// Release stage object
 					this.m_Stage = null;  					
@@ -858,15 +859,15 @@ namespace KUL.MDS.SIS.Forms
 				if (this.m_apdAPD == null)
 				{				
 					// Create and setup a Time Harp counting board with the given settings
-					this.m_apdAPD = new KUL.MDS.Hardware.PQTimeHarp(
+					this.m_apdAPD = new PQTimeHarp(
 						_docDocument.Settings.TimeHarpMeasurementMode, _docDocument.Settings.TimeHarpCFDMin, _docDocument.Settings.TimeHarpCFDZeroCross,
 						_docDocument.Settings.TimeHarpSyncLevel, _docDocument.Settings.TimeHarpRangeCode, _docDocument.Settings.TimeHarpOffset,
 						_docDocument.Settings.TimeHarpMarkerEdge, _docDocument.Settings.TimeHarpGlobalTTTRBufferSize, _docDocument.Settings.TimeHarpLinePTTTRBufferSize);
 
 					// Hook up EventHandler methods to the events of the APD
-					this.m_apdAPD.PositionChanged += m_APD_PositionChanged;
-					this.m_apdAPD.ErrorOccurred += m_APD_ErrorOccurred;
-					this.m_apdAPD.EngagedChanged += m_APD_EngagedChanged;
+					this.m_apdAPD.PositionChanged += this.m_APD_PositionChanged;
+					this.m_apdAPD.ErrorOccurred += this.m_APD_ErrorOccurred;
+					this.m_apdAPD.EngagedChanged += this.m_APD_EngagedChanged;
 				}
 						
 				// Connect to the controller hardware and initialize it
@@ -877,9 +878,9 @@ namespace KUL.MDS.SIS.Forms
 					if (!this.m_apdAPD.IsInitialized)  // if initialization is not successful release the APD
 					{
 						// Release APD events
-						this.m_apdAPD.PositionChanged -= m_APD_PositionChanged;
-						this.m_apdAPD.ErrorOccurred -= m_APD_ErrorOccurred;
-						this.m_apdAPD.EngagedChanged -= m_APD_EngagedChanged;
+						this.m_apdAPD.PositionChanged -= this.m_APD_PositionChanged;
+						this.m_apdAPD.ErrorOccurred -= this.m_APD_ErrorOccurred;
+						this.m_apdAPD.EngagedChanged -= this.m_APD_EngagedChanged;
 
 						// Release APD object
 						this.m_apdAPD = null;
@@ -895,9 +896,9 @@ namespace KUL.MDS.SIS.Forms
 					this.m_apdAPD.Release();
 
 					// Release APD events
-					this.m_apdAPD.PositionChanged -= m_APD_PositionChanged;
-					this.m_apdAPD.ErrorOccurred -= m_APD_ErrorOccurred;
-					this.m_apdAPD.EngagedChanged -= m_APD_EngagedChanged;
+					this.m_apdAPD.PositionChanged -= this.m_APD_PositionChanged;
+					this.m_apdAPD.ErrorOccurred -= this.m_APD_ErrorOccurred;
+					this.m_apdAPD.EngagedChanged -= this.m_APD_EngagedChanged;
 
 					// Release APD object
 					this.m_apdAPD = null;				
@@ -936,7 +937,7 @@ namespace KUL.MDS.SIS.Forms
 
 
 			// Update the UI.
-			UpdateUI();
+			this.UpdateUI();
 		}
 
 
@@ -969,9 +970,9 @@ namespace KUL.MDS.SIS.Forms
 
         void m_Stage_PositionChanged(object __oSender, EventArgs __evargsE)
         {
-            if (InvokeRequired)
+            if (this.InvokeRequired)
             {
-                Invoke(new UIUpdateDelegate(this.UpdateUI));
+                this.Invoke(new UIUpdateDelegate(this.UpdateUI));
             }
             else
             {
@@ -982,14 +983,14 @@ namespace KUL.MDS.SIS.Forms
 
         void m_Stage_ErrorOccurred(object __oSender, EventArgs __evargsE)
         {
-            MessageBox.Show(m_Stage.CurrentError);            
+            MessageBox.Show(this.m_Stage.CurrentError);            
         }
 
         void m_APD_PositionChanged(object __oSender, EventArgs __evargsE)
         {
-            if (InvokeRequired)
+            if (this.InvokeRequired)
             {
-                Invoke(new UIUpdateDelegate(this.UpdateUI));
+                this.Invoke(new UIUpdateDelegate(this.UpdateUI));
             }
             else
             {
@@ -1000,7 +1001,7 @@ namespace KUL.MDS.SIS.Forms
 
         void m_APD_ErrorOccurred(object __oSender, EventArgs __evargsE)
         {
-            MessageBox.Show(m_apdAPD.CurrentError);
+            MessageBox.Show(this.m_apdAPD.CurrentError);
         }
 
         #endregion
@@ -1049,7 +1050,7 @@ namespace KUL.MDS.SIS.Forms
 
             // Generate the requested Scanmode. The settings can now be fetched from the document itself.
             // Currently the MaxSpeed and CycleTime are not used in the Scanmode object.
-            KUL.MDS.Library.ComboBoxItem<Type> item = (KUL.MDS.Library.ComboBoxItem<Type>)this.scanModeComboBox1.SelectedItem;
+            ComboBoxItem<Type> item = (ComboBoxItem<Type>)this.scanModeComboBox1.SelectedItem;
 
             object[] _oScanParameters = {
                                  _docDocument.ImageWidthPx,
@@ -1088,7 +1089,7 @@ namespace KUL.MDS.SIS.Forms
 			this.btnScanStart.BackColor = Color.FromKnownColor(KnownColor.Lime);
 
             // Continue with prepping and eventually running the scan.
-            PrepnRunScan(m_BiScan);
+            this.PrepnRunScan(m_BiScan);
         }
 
         private void PrepnRunScan(Scanmode __scnmScan)
@@ -1097,13 +1098,13 @@ namespace KUL.MDS.SIS.Forms
             ScanDocument _docDocument = this.Document as ScanDocument;
 
             // Disable the controls so the user cannot interfere with the scan. Only stopping the scan will be allowed.
-            DisableCtrls();
+            this.DisableCtrls();
 
             // Get the new experimental settings to screen.
             this.ScanPropertiesToScreen();
                
             // Check if the stage and APD are definitely engaged and ready.... if not all other operations would be useless!
-            if (m_Stage.IsInitialized && m_apdAPD.IsInitialized)
+            if (this.m_Stage.IsInitialized && this.m_apdAPD.IsInitialized)
             {
                 // Make sure the Stop button works.
                 this.btnScanStop.Enabled = true;
@@ -1111,12 +1112,12 @@ namespace KUL.MDS.SIS.Forms
 
                 // Counting and timing settings for the APD                
                 bool _bIsToApplyTimeGating = this.m_checkbxApplyTimeGatingWhileScanning.Checked;  // indicates whether we want to do time gating or not (true = do gating; false = do not perform gating)
-                double _dGatingTimeMinMillisec = Convert.ToDouble(txtboxTimeGatingMinAPD1.Text.Trim()) * 1e-6;  // min gating time in [ms]
-                double _dGatingTimeMaxMillisec = Convert.ToDouble(txtboxTimeGatingMaxAPD1.Text.Trim()) * 1e-6;  // max gating time in [ms]
+                double _dGatingTimeMinMillisec = Convert.ToDouble(this.txtboxTimeGatingMinAPD1.Text.Trim()) * 1e-6;  // min gating time in [ms]
+                double _dGatingTimeMaxMillisec = Convert.ToDouble(this.txtboxTimeGatingMaxAPD1.Text.Trim()) * 1e-6;  // max gating time in [ms]
 
-                int _iTypeOfScan = (m_checkbxBidirScan.Checked) ? 1 : 0;  // set the type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
+                int _iTypeOfScan = (this.m_checkbxBidirScan.Checked) ? 1 : 0;  // set the type of scan (0 - unidirectional, 1 - bidirectional, 2 - line scan, 3 - point scan)
                 int _iAcquisitionTime = 0;  // acquisition time in [ms] - the amount of time that the APD will count photons. Note that zero here means the acquisition time will be set to its max value (~10 hours)                
-                bool _bSaveTTTRData = m_checkbxSaveTTTRData.Checked;  //to save or not the raw photon data
+                bool _bSaveTTTRData = this.m_checkbxSaveTTTRData.Checked;  //to save or not the raw photon data
                 string _sTTTRFile = Path.GetDirectoryName(_docDocument.FilePath) + "\\" + _docDocument.Settings.TimeHarpNameTTTRFile + ".t3r";  // the path and name to the data file with raw photon data (the TTTR file)
 
                 if (!this.m_checkbxContinuousScan.Checked)  // if we scan in a non-continuous mode we set some limit of the acquisition time based on the size of the image and the pixel time (note that later we have to set this acquisition time bigger because of some delays until the measurement starts and/or ends)
@@ -1147,11 +1148,11 @@ namespace KUL.MDS.SIS.Forms
                 
                 // Run the actual measurement in a separate thread to the UI thread. This will prevent the UI from blocking and it will
                 // enable continuous updates of the UI with scan data.
-                bckgwrkPerformScan.RunWorkerAsync(__scnmScan);
+                this.bckgwrkPerformScan.RunWorkerAsync(__scnmScan);
             }
 
             // Update the UI.
-            UpdateUI();
+            this.UpdateUI();
         }
 
         private void bckgwrkPerformScan_DoWork(object __oSender, System.ComponentModel.DoWorkEventArgs __evargsE)
@@ -1262,16 +1263,16 @@ namespace KUL.MDS.SIS.Forms
                 }
                 
                 // Update the UI.
-                if (InvokeRequired)
+                if (this.InvokeRequired)
                 {
                     // Get the in memory bitmap to the screen.
                     //Invoke(new UIUpdateDelegate(PaintToScreen));
                     // Update the rest of the UI.
-                    Invoke(new UIUpdateDelegate(UpdateUI));
+                    this.Invoke(new UIUpdateDelegate(this.UpdateUI));
                 }
 
                 // Check if the worker was not cancelled.
-                if (bckgwrkPerformScan.CancellationPending)
+                if (this.bckgwrkPerformScan.CancellationPending)
                 {
                     __evargsE.Cancel = true;
                     _bStop = true;
@@ -1283,22 +1284,22 @@ namespace KUL.MDS.SIS.Forms
             this.m_Stage.Stop();
 
             // Update the UI.
-            if (InvokeRequired)
+            if (this.InvokeRequired)
             {
                 // Get the in memory bitmap to the screen.
                 //Invoke(new UIUpdateDelegate(PaintToScreen));
                 // Update the rest of the UI.
-                Invoke(new UIUpdateDelegate(UpdateUI));
+                this.Invoke(new UIUpdateDelegate(this.UpdateUI));
             }                      
         }
 
         private void btnScanStop_Click(object __oSender, EventArgs __evargsE)
         {
             // Cancel de backgroundworker.
-            bckgwrkPerformScan.CancelAsync();
+            this.bckgwrkPerformScan.CancelAsync();
 
             // Enable all controls again.
-            EnableCtrls();
+            this.EnableCtrls();
 
             // Disable the Stop button again.
             this.btnScanStop.Enabled = false;
@@ -1469,7 +1470,7 @@ namespace KUL.MDS.SIS.Forms
 			uint[] _ui32FramePixelBuffer = null;  // the extracted time gated image will be stored in this array
 
 			// We probe to possible file paths for a valid TTTR file
-			int _iTTTRFileCounter = KUL.MDS.Hardware.PQTimeHarp.Files.FileCounter;  // counts (starting from 0) how many TTTR files we have written to hard disk so far
+			int _iTTTRFileCounter = PQTimeHarp.Files.FileCounter;  // counts (starting from 0) how many TTTR files we have written to hard disk so far
 			string _sInputFile1 = Path.ChangeExtension( _docDocument.FilePath, ".t3r");  // the path and name to the data file with raw photon data (the TTTR file) - first we assign that the name is the same as the saved SIS ".dat" file but with ".t3r" extension
 			string _sInputFile2 = Path.GetDirectoryName( _docDocument.FilePath ) + "\\" + _docDocument.Settings.TimeHarpNameTTTRFile + "." + _iTTTRFileCounter.ToString() + ".t3r";  // the path and name to the data file with raw photon data (the TTTR file) - this is the supposed temp TTTR file
 
@@ -1490,7 +1491,7 @@ namespace KUL.MDS.SIS.Forms
 			// If there is a TTTR file, extract image as a pixel buffer
 			if ( _sInputFile != "" )
 			{
-				KUL.MDS.Hardware.PQTimeHarp.ExtractImageFromTTTRFile( __bIsToApplyTimeGating, __dGatingTimeMinMillisec, __dGatingTimeMaxMillisec, _sInputFile, ref _iRecordsOffset,ref _dXScanSizeNm, ref _dYScanSizeNm, ref _iXImageWidth, ref _iYImageHeight, ref _ui32FramePixelBuffer );
+				PQTimeHarp.ExtractImageFromTTTRFile( __bIsToApplyTimeGating, __dGatingTimeMinMillisec, __dGatingTimeMaxMillisec, _sInputFile, ref _iRecordsOffset,ref _dXScanSizeNm, ref _dYScanSizeNm, ref _iXImageWidth, ref _iYImageHeight, ref _ui32FramePixelBuffer );
 
 				// Check if we indeed have a valid image in the TTTR file and the size matches with those from the current settings - if yes then store it in the scan doc data structure 
 				if ( _ui32FramePixelBuffer != null && _dXScanSizeNm == _docDocument.XScanSizeNm && _dXScanSizeNm == _docDocument.YScanSizeNm && _iXImageWidth == _docDocument.ImageWidthPx && _iYImageHeight == _docDocument.ImageHeightPx )
@@ -1506,14 +1507,14 @@ namespace KUL.MDS.SIS.Forms
 			// Get time gating settings
 			int _iChannel = 0;  // channel is 0 because the button is assigned to APD1 and we show the result on the APD1's channel
 			bool _bIsToApplyTimeGating = true;  // we want gating so set to true
-			double _dGatingTimeMinMillisec = Convert.ToDouble( txtboxTimeGatingMinAPD1.Text.Trim() ) * 1e-6;  // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
-			double _dGatingTimeMaxMillisec = Convert.ToDouble( txtboxTimeGatingMaxAPD1.Text.Trim() ) * 1e-6;  // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
+			double _dGatingTimeMinMillisec = Convert.ToDouble( this.txtboxTimeGatingMinAPD1.Text.Trim() ) * 1e-6;  // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
+			double _dGatingTimeMaxMillisec = Convert.ToDouble( this.txtboxTimeGatingMaxAPD1.Text.Trim() ) * 1e-6;  // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
 			
 			// Apply gating with the given settings
-			ApplyTimeGating( _iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec );
+			this.ApplyTimeGating( _iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec );
 
 			// Update the GUI
-			UpdateUI();
+			this.UpdateUI();
 		}
 
 
@@ -1526,10 +1527,10 @@ namespace KUL.MDS.SIS.Forms
 			double _dGatingTimeMaxMillisec = 0.0;  // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
 
 			// Apply gating with the given settings
-			ApplyTimeGating( _iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec );
+			this.ApplyTimeGating( _iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec );
 
 			// Update the GUI
-			UpdateUI();
+			this.UpdateUI();
 		}
 
 
@@ -1538,14 +1539,14 @@ namespace KUL.MDS.SIS.Forms
 			// Get time gating settings
 			int _iChannel = 1;  // channel is 1 because the button is assigned to APD2 and we show the result on the APD2's channel
 			bool _bIsToApplyTimeGating = true;  // we want gating so set to true
-			double _dGatingTimeMinMillisec = Convert.ToDouble( txtboxTimeGatingMinAPD2.Text.Trim() ) * 1e-6;  // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
-			double _dGatingTimeMaxMillisec = Convert.ToDouble( txtboxTimeGatingMaxAPD2.Text.Trim() ) * 1e-6;  // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
+			double _dGatingTimeMinMillisec = Convert.ToDouble( this.txtboxTimeGatingMinAPD2.Text.Trim() ) * 1e-6;  // the lower bound of the gating window (user input is in [ns], so we also convert it to [ms])
+			double _dGatingTimeMaxMillisec = Convert.ToDouble( this.txtboxTimeGatingMaxAPD2.Text.Trim() ) * 1e-6;  // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
 
 			// Apply gating with the given settings
-			ApplyTimeGating( _iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec );
+			this.ApplyTimeGating( _iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec );
 
 			// Update the GUI
-			UpdateUI();
+			this.UpdateUI();
 		}
 
 
@@ -1558,10 +1559,10 @@ namespace KUL.MDS.SIS.Forms
 			double _dGatingTimeMaxMillisec = 0.0;  // the upper bound of the gating window (user input is in [ns], so we also convert it to [ms])							
 
 			// Apply gating with the given settings
-			ApplyTimeGating( _iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec );
+			this.ApplyTimeGating( _iChannel, _bIsToApplyTimeGating, _dGatingTimeMinMillisec, _dGatingTimeMaxMillisec );
 
 			// Update the GUI
-			UpdateUI();
+			this.UpdateUI();
 		}
 
 
@@ -1623,13 +1624,13 @@ namespace KUL.MDS.SIS.Forms
 				}
 
 				// Update screen values for the current document
-				ScanPropertiesToScreen();
+				this.ScanPropertiesToScreen();
 				this.Text = _docDocument.FileName;  //update document title
 				_docDocument.Modified = false;  // update the modified state of the currently opened document (must be false, this a new document)
 			}
 			
 			// Update the GUI			
-			UpdateUI();
+			this.UpdateUI();
 		}
 
 
@@ -1686,13 +1687,13 @@ namespace KUL.MDS.SIS.Forms
 				}
 
 				// Update screen values for the current document
-				ScanPropertiesToScreen();				
+				this.ScanPropertiesToScreen();				
 				this.Text = _docDocument.FileName;  //update document title
 				_docDocument.Modified = false;  // update the modified state of the currently opened document (must be false, this is a new document)
 			}
 						
 			// Update the GUI
-			UpdateUI();
+			this.UpdateUI();
 		}
 
 		#endregion View next/previous data file

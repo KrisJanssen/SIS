@@ -19,17 +19,16 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
 	/// A collection class containing a list of <see cref="YAxis"/> objects.
 	/// </summary>
 	/// 
@@ -106,7 +105,7 @@ namespace ZedGraph
 		{
 			get
 			{
-				int index = IndexOf( title );
+				int index = this.IndexOf( title );
 				if ( index >= 0 )
 					return this[index];
 				else
@@ -176,9 +175,9 @@ namespace ZedGraph
 		public int Add( string title )
 		{
 			YAxis axis = new YAxis( title );
-			Add( axis );
+			this.Add( axis );
 
-			return Count - 1;
+			return this.Count - 1;
 		}
 
 		#endregion

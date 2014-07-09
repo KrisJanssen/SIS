@@ -1,8 +1,8 @@
-using System;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+    using System;
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
 	public class DocumentAttribute : Attribute
 	{
 		private string m_sName = null;
@@ -10,7 +10,7 @@ namespace KUL.MDS.MDITemplate
 		
 		public DocumentAttribute(string sName, string sExtension)
 		{			
-			m_sName = sName;
+			this.m_sName = sName;
 
 			if (sExtension.Length == 0)
 			{
@@ -22,14 +22,14 @@ namespace KUL.MDS.MDITemplate
 				throw new Exception("The extension for the document must begin with a period ('.')");
 			}
 
-			m_sExtension = sExtension;
+			this.m_sExtension = sExtension;
 		}
 
 		public string Name
 		{
 			get
 			{
-				return m_sName;
+				return this.m_sName;
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace KUL.MDS.MDITemplate
 		{
 			get
 			{
-				return m_sExtension;
+				return this.m_sExtension;
 			}
 		}
 	}

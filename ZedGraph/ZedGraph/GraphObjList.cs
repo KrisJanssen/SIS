@@ -17,13 +17,13 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+
+    /// <summary>
 	/// A collection class containing a list of <see cref="TextObj"/> objects
 	/// to be displayed on the graph.
 	/// </summary>
@@ -100,7 +100,7 @@ namespace ZedGraph
 		{
 			get
 			{
-				int index = IndexOfTag( tag );
+				int index = this.IndexOfTag( tag );
 				if ( index >= 0 )
 					return( this[index]  );
 				else
@@ -179,7 +179,7 @@ namespace ZedGraph
 		/// was not found.</returns>
 		public int Move( int index, int relativePos )
 		{
-			if ( index < 0 || index >= Count )
+			if ( index < 0 || index >= this.Count )
 				return -1;
 
 			GraphObj graphObj = this[index];
@@ -188,10 +188,10 @@ namespace ZedGraph
 			index += relativePos;
 			if ( index < 0 )
 				index = 0;
-			if ( index > Count )
-				index = Count;
+			if ( index > this.Count )
+				index = this.Count;
 
-			Insert( index, graphObj );
+			this.Insert( index, graphObj );
 			return index;
 		}
 
@@ -283,7 +283,7 @@ namespace ZedGraph
 			index = -1;
 			
 			// Search in reverse direction to honor the Z-order
-			for ( int i=Count-1; i>=0; i-- )
+			for ( int i=this.Count-1; i>=0; i-- )
 			{
 				if ( this[i].PointInBox( mousePt, pane, g, scaleFactor ) )
 				{

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-
-namespace KUL.MDS.ScanModes
+﻿namespace SIS.ScanModes.Core
 {
+    using System;
+    using System.Collections;
+
+    using SIS.ScanModes.Enums;
+
     /// <summary>
     /// ScanMode objects derived the abstract ScanMode supply the necessary coordinates to a stage based upon the physical parameters that fully describe a specific scantype
     /// </summary>
@@ -542,7 +542,7 @@ namespace KUL.MDS.ScanModes
 
                 this.CalculateAnalogScanCoordinates();
 
-                return m_dAnalogScanCoordinates;
+                return this.m_dAnalogScanCoordinates;
             }
         }
 
@@ -616,32 +616,32 @@ namespace KUL.MDS.ScanModes
             this.m_dMaxSpeed = __dMaxSpeed;
             this.m_dCycleTime = __dCycleTime;
 
-            m_iTrig1Start = 0;
-            m_iTrig2Start = 0;
-            m_iTrig3Start = 0;
-            m_iTrig4Start = 0;
+            this.m_iTrig1Start = 0;
+            this.m_iTrig2Start = 0;
+            this.m_iTrig3Start = 0;
+            this.m_iTrig4Start = 0;
 
-            m_iTrig1End = 0;
-            m_iTrig2End = 0;
-            m_iTrig3End = 0;
-            m_iTrig4End = 0;
+            this.m_iTrig1End = 0;
+            this.m_iTrig2End = 0;
+            this.m_iTrig3End = 0;
+            this.m_iTrig4End = 0;
 
-            m_bTrig1Set = false;
-            m_bTrig2Set = false;
-            m_bTrig3Set = false;
-            m_bTrig4Set = false;
+            this.m_bTrig1Set = false;
+            this.m_bTrig2Set = false;
+            this.m_bTrig3Set = false;
+            this.m_bTrig4Set = false;
 
-            m_bTrig12Set = false;
-            m_bTrig13Set = false;
-            m_bTrig14Set = false;
-            m_bTrig23Set = false;
-            m_bTrig24Set = false;
-            m_bTrig34Set = false;
+            this.m_bTrig12Set = false;
+            this.m_bTrig13Set = false;
+            this.m_bTrig14Set = false;
+            this.m_bTrig23Set = false;
+            this.m_bTrig24Set = false;
+            this.m_bTrig34Set = false;
 
-            m_iTrig1Type = (int)TriggerType.PulseTrigger;
-            m_iTrig2Type = (int)TriggerType.PulseTrigger;
-            m_iTrig3Type = (int)TriggerType.PulseTrigger;
-            m_iTrig4Type = (int)TriggerType.PulseTrigger;
+            this.m_iTrig1Type = (int)TriggerType.PulseTrigger;
+            this.m_iTrig2Type = (int)TriggerType.PulseTrigger;
+            this.m_iTrig3Type = (int)TriggerType.PulseTrigger;
+            this.m_iTrig4Type = (int)TriggerType.PulseTrigger;
 
             this.CalculateAnalogScanCoordinates();
         }

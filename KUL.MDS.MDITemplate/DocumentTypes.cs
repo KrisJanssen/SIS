@@ -1,11 +1,9 @@
-using System;
-using System.Collections;
-using System.Text;
-using System.Windows.Forms;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	internal class DocumentTypes
+    using System.Collections;
+    using System.Text;
+
+    internal class DocumentTypes
 	{
 		private Hashtable m_mapExtensionToType = null;
 		private string m_sLoadFilter = null;
@@ -13,14 +11,14 @@ namespace KUL.MDS.MDITemplate
 		
 		public DocumentTypes()
 		{
-			Load();
+			this.Load();
 		}
 
 		public string OpenDialogFilter
 		{
 			get
 			{
-				return m_sLoadFilter;
+				return this.m_sLoadFilter;
 			}
 		}
 
@@ -28,7 +26,7 @@ namespace KUL.MDS.MDITemplate
 		{
 			get
 			{
-				return m_mapExtensionToType.Count;
+				return this.m_mapExtensionToType.Count;
 			}
 		}
 
@@ -59,7 +57,7 @@ namespace KUL.MDS.MDITemplate
 
 			string sExtension = sFileName.Substring(nLastDot);
 
-			System.Type typeDocument = m_mapExtensionToType[sExtension] as System.Type;
+			System.Type typeDocument = this.m_mapExtensionToType[sExtension] as System.Type;
 
 			if (typeDocument == null)
 			{
@@ -71,7 +69,7 @@ namespace KUL.MDS.MDITemplate
 
 		public MdiDocument CreateDocument(string sFileName)
 		{
-			MdiDocument document = CreateDocumentHelper(sFileName);
+			MdiDocument document = this.CreateDocumentHelper(sFileName);
 			
 			if (!document.SaveDocument(sFileName))
 			{
@@ -83,7 +81,7 @@ namespace KUL.MDS.MDITemplate
 
 		public MdiDocument OpenDocument(string sFileName)
 		{
-			MdiDocument document = CreateDocumentHelper(sFileName);
+			MdiDocument document = this.CreateDocumentHelper(sFileName);
 
 			if (document == null || !document.LoadDocument(sFileName, true))
 			{
@@ -96,7 +94,7 @@ namespace KUL.MDS.MDITemplate
 		private void Load()
 		{
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetEntryAssembly();
-			m_mapExtensionToType = new Hashtable();
+			this.m_mapExtensionToType = new Hashtable();
 
 			if (assembly != null)
 			{
@@ -107,21 +105,21 @@ namespace KUL.MDS.MDITemplate
 
 				foreach (System.Type type in aTypes)
 				{
-					DocumentAttribute [] aDocumentAttributes = GetDocumentAttributes(type);
+					DocumentAttribute [] aDocumentAttributes = this.GetDocumentAttributes(type);
 
 					if (aDocumentAttributes != null && aDocumentAttributes.Length > 0)
 					{
-						LoadAttributes(type, aDocumentAttributes);
-						LoadOpenFilterString(stringBuilderFilter, aDocumentAttributes);
-						LoadCreateFilterString(stringBuilderCreateFilter, aDocumentAttributes);
+						this.LoadAttributes(type, aDocumentAttributes);
+						this.LoadOpenFilterString(stringBuilderFilter, aDocumentAttributes);
+						this.LoadCreateFilterString(stringBuilderCreateFilter, aDocumentAttributes);
 					}
 				}
 
 				stringBuilderFilter.Append("All files (*.*)|*.*||");
-				m_sLoadFilter = stringBuilderFilter.ToString();
+				this.m_sLoadFilter = stringBuilderFilter.ToString();
 
 				stringBuilderCreateFilter.Append("|");
-				m_sCreateFilter = stringBuilderCreateFilter.ToString();
+				this.m_sCreateFilter = stringBuilderCreateFilter.ToString();
 			}
 		}
 
@@ -134,7 +132,7 @@ namespace KUL.MDS.MDITemplate
 		{
 			foreach (DocumentAttribute attribute in aDocumentAttributes)
 			{
-				m_mapExtensionToType.Add(attribute.Extension, type);
+				this.m_mapExtensionToType.Add(attribute.Extension, type);
 			}
 		}
 
@@ -174,7 +172,7 @@ namespace KUL.MDS.MDITemplate
 		{
 			Hashtable mapNameToExtension = new Hashtable();
 
-			BuildExtensionMap(mapNameToExtension, aDocumentAttributes);
+			this.BuildExtensionMap(mapNameToExtension, aDocumentAttributes);
 
 			foreach (string sName in mapNameToExtension.Keys)
 			{
@@ -205,10 +203,10 @@ namespace KUL.MDS.MDITemplate
 
 		public string GetSaveFilter(MdiViewForm view)
 		{
-			DocumentAttribute [] aDocumentAttributes = GetDocumentAttributes(view.Document.GetType());
+			DocumentAttribute [] aDocumentAttributes = this.GetDocumentAttributes(view.Document.GetType());
 			
 			StringBuilder stringBuilder = new StringBuilder();
-			LoadOpenFilterString(stringBuilder, aDocumentAttributes);
+			this.LoadOpenFilterString(stringBuilder, aDocumentAttributes);
 
 			stringBuilder.Append("All files (*.*)|*.*||");
 
@@ -219,7 +217,7 @@ namespace KUL.MDS.MDITemplate
 		{
 			get
 			{
-				return m_sCreateFilter;
+				return this.m_sCreateFilter;
 			}
 		}
 
@@ -229,7 +227,7 @@ namespace KUL.MDS.MDITemplate
 			{
 				ArrayList asExtensions = new ArrayList();
 
-				foreach (string sExtension in m_mapExtensionToType.Keys)
+				foreach (string sExtension in this.m_mapExtensionToType.Keys)
 				{
 					asExtensions.Add(sExtension);
 				}

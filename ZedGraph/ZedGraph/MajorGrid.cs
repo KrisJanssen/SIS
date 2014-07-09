@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Class that handles the data associated with the major grid lines on the chart.
 	/// Inherits from <see cref="MinorGrid" />.
 	/// </summary>
@@ -44,12 +43,12 @@ namespace ZedGraph
 		/// </summary>
 		public MajorGrid()
 		{
-			_dashOn = Default.DashOn;
-			_dashOff = Default.DashOff;
-			_penWidth = Default.PenWidth;
-			_isVisible = Default.IsVisible;
-			_color = Default.Color;
-			_isZeroLine = Default.IsZeroLine;
+			this._dashOn = Default.DashOn;
+			this._dashOff = Default.DashOff;
+			this._penWidth = Default.PenWidth;
+			this._isVisible = Default.IsVisible;
+			this._color = Default.Color;
+			this._isZeroLine = Default.IsZeroLine;
 		}
 
 		/// <summary>
@@ -58,7 +57,7 @@ namespace ZedGraph
 		/// <param name="rhs">The source <see cref="MajorGrid" /> to be copied.</param>
 		public MajorGrid( MajorGrid rhs ) : base( rhs )
 		{
-			_isZeroLine = rhs._isZeroLine;
+			this._isZeroLine = rhs._isZeroLine;
 		}
 
 		/// <summary>
@@ -97,8 +96,8 @@ namespace ZedGraph
 		/// <value>true to show the zero line, false otherwise</value>
 		public bool IsZeroLine
 		{
-			get { return _isZeroLine; }
-			set { _isZeroLine = value; }
+			get { return this._isZeroLine; }
+			set { this._isZeroLine = value; }
 		}
 
 	#endregion
@@ -124,21 +123,21 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_isZeroLine = info.GetBoolean( "isZeroLine" );
+			this._isZeroLine = info.GetBoolean( "isZeroLine" );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 
 			info.AddValue( "schema2", schema2 );
 
-			info.AddValue( "isZeroLine", _isZeroLine );
+			info.AddValue( "isZeroLine", this._isZeroLine );
 		}
 
 	#endregion

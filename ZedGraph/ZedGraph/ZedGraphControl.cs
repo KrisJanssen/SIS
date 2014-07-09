@@ -17,25 +17,15 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using System.Drawing.Imaging;
-using System.Drawing.Printing;
-using System.Data;
-using System.Globalization;
-using System.IO;
-using System.Resources;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
-using System.Threading;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-/*
+    using System.Drawing;
+    using System.Drawing.Printing;
+    using System.Reflection;
+    using System.Resources;
+    using System.Windows.Forms;
+
+    /*
 	/// <summary>
 	/// 
 	/// </summary>
@@ -496,11 +486,11 @@ namespace ZedGraph
 		/// </summary>
 		public ZedGraphControl()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 
 			// These commands do nothing, but they get rid of the compiler warnings for
 			// unused events
-			bool b = MouseDown == null || MouseUp == null || MouseMove == null;
+			bool b = this.MouseDown == null || this.MouseUp == null || this.MouseMove == null;
 
 			// Link in these events from the base class, since we disable them from this class.
 			base.MouseDown += new System.Windows.Forms.MouseEventHandler( this.ZedGraphControl_MouseDown );
@@ -510,24 +500,24 @@ namespace ZedGraph
 			//this.MouseWheel += new System.Windows.Forms.MouseEventHandler( this.ZedGraphControl_MouseWheel );
 
 			// Use double-buffering for flicker-free updating:
-			SetStyle( ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint
+			this.SetStyle( ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint
 				| ControlStyles.DoubleBuffer | ControlStyles.ResizeRedraw, true );
 			//isTransparentBackground = false;
 			//SetStyle( ControlStyles.Opaque, false );
-			SetStyle( ControlStyles.SupportsTransparentBackColor, true );
+			this.SetStyle( ControlStyles.SupportsTransparentBackColor, true );
 			//this.BackColor = Color.Transparent;
 
-			_resourceManager = new ResourceManager( "ZedGraph.ZedGraph.ZedGraphLocale",
+			this._resourceManager = new ResourceManager( "ZedGraph.ZedGraph.ZedGraphLocale",
 				Assembly.GetExecutingAssembly() );
 
 			Rectangle rect = new Rectangle( 0, 0, this.Size.Width, this.Size.Height );
-			_masterPane = new MasterPane( "", rect );
-			_masterPane.Margin.All = 0;
-			_masterPane.Title.IsVisible = false;
+			this._masterPane = new MasterPane( "", rect );
+			this._masterPane.Margin.All = 0;
+			this._masterPane.Title.IsVisible = false;
 
-			string titleStr = _resourceManager.GetString( "title_def" );
-			string xStr = _resourceManager.GetString( "x_title_def" );
-			string yStr = _resourceManager.GetString( "y_title_def" );
+			string titleStr = this._resourceManager.GetString( "title_def" );
+			string xStr = this._resourceManager.GetString( "x_title_def" );
+			string yStr = this._resourceManager.GetString( "y_title_def" );
 
 			//GraphPane graphPane = new GraphPane( rect, "Title", "X Axis", "Y Axis" );
 			GraphPane graphPane = new GraphPane( rect, titleStr, xStr, yStr );
@@ -536,7 +526,7 @@ namespace ZedGraph
 				graphPane.AxisChange( g );
 				//g.Dispose();
 			}
-			_masterPane.Add( graphPane );
+			this._masterPane.Add( graphPane );
 
 			this.hScrollBar1.Minimum = 0;
 			this.hScrollBar1.Maximum = 100;
@@ -546,15 +536,15 @@ namespace ZedGraph
 			this.vScrollBar1.Maximum = 100;
 			this.vScrollBar1.Value = 0;
 
-			_xScrollRange = new ScrollRange( true );
-			_yScrollRangeList = new ScrollRangeList();
-			_y2ScrollRangeList = new ScrollRangeList();
+			this._xScrollRange = new ScrollRange( true );
+			this._yScrollRangeList = new ScrollRangeList();
+			this._y2ScrollRangeList = new ScrollRangeList();
 
-			_yScrollRangeList.Add( new ScrollRange( true ) );
-			_y2ScrollRangeList.Add( new ScrollRange( false ) );
+			this._yScrollRangeList.Add( new ScrollRange( true ) );
+			this._y2ScrollRangeList.Add( new ScrollRange( false ) );
 
-			_zoomState = null;
-			_zoomStateStack = new ZoomStateStack();
+			this._zoomState = null;
+			this._zoomStateStack = new ZoomStateStack();
 		}
 
 		/// <summary>
@@ -568,12 +558,12 @@ namespace ZedGraph
 			{
 				if ( disposing )
 				{
-					if ( components != null )
-						components.Dispose();
+					if ( this.components != null )
+						this.components.Dispose();
 				}
 				base.Dispose( disposing );
 
-				_masterPane = null;
+				this._masterPane = null;
 			}
 		}
 	
@@ -592,21 +582,21 @@ namespace ZedGraph
 		{
 			lock ( this )
 			{
-				if ( BeenDisposed || _masterPane == null || this.GraphPane == null )
+				if ( this.BeenDisposed || this._masterPane == null || this.GraphPane == null )
 					return;
 
-				if ( hScrollBar1 != null && this.GraphPane != null &&
-					vScrollBar1 != null && _yScrollRangeList != null )
+				if ( this.hScrollBar1 != null && this.GraphPane != null &&
+					this.vScrollBar1 != null && this._yScrollRangeList != null )
 				{
-					SetScroll( hScrollBar1, this.GraphPane.XAxis, _xScrollRange.Min, _xScrollRange.Max );
-					SetScroll( vScrollBar1, this.GraphPane.YAxis, _yScrollRangeList[0].Min,
-						_yScrollRangeList[0].Max );
+					this.SetScroll( this.hScrollBar1, this.GraphPane.XAxis, this._xScrollRange.Min, this._xScrollRange.Max );
+					this.SetScroll( this.vScrollBar1, this.GraphPane.YAxis, this._yScrollRangeList[0].Min,
+						this._yScrollRangeList[0].Max );
 				}
 
 				base.OnPaint( e );
 
 				// Add a try/catch pair since the users of the control can't catch this one
-				try { _masterPane.Draw( e.Graphics ); }
+				try { this._masterPane.Draw( e.Graphics ); }
 				catch { }
 			}
 
@@ -676,34 +666,34 @@ namespace ZedGraph
 		{
 			lock ( this )
 			{
-				if ( BeenDisposed || _masterPane == null )
+				if ( this.BeenDisposed || this._masterPane == null )
 					return;
 
 				Size newSize = this.Size;
 
-				if ( _isShowHScrollBar )
+				if ( this._isShowHScrollBar )
 				{
-					hScrollBar1.Visible = true;
+					this.hScrollBar1.Visible = true;
 					newSize.Height -= this.hScrollBar1.Size.Height;
-					hScrollBar1.Location = new Point( 0, newSize.Height );
-					hScrollBar1.Size = new Size( newSize.Width, hScrollBar1.Height );
+					this.hScrollBar1.Location = new Point( 0, newSize.Height );
+					this.hScrollBar1.Size = new Size( newSize.Width, this.hScrollBar1.Height );
 				}
 				else
-					hScrollBar1.Visible = false;
+					this.hScrollBar1.Visible = false;
 
-				if ( _isShowVScrollBar )
+				if ( this._isShowVScrollBar )
 				{
-					vScrollBar1.Visible = true;
+					this.vScrollBar1.Visible = true;
 					newSize.Width -= this.vScrollBar1.Size.Width;
-					vScrollBar1.Location = new Point( newSize.Width, 0 );
-					vScrollBar1.Size = new Size( vScrollBar1.Width, newSize.Height );
+					this.vScrollBar1.Location = new Point( newSize.Width, 0 );
+					this.vScrollBar1.Size = new Size( this.vScrollBar1.Width, newSize.Height );
 				}
 				else
-					vScrollBar1.Visible = false;
+					this.vScrollBar1.Visible = false;
 
 				using ( Graphics g = this.CreateGraphics() )
 				{
-					_masterPane.ReSize( g, new RectangleF( 0, 0, newSize.Width, newSize.Height ) );
+					this._masterPane.ReSize( g, new RectangleF( 0, 0, newSize.Width, newSize.Height ) );
 					//g.Dispose();
 				}
 				this.Invalidate();
@@ -721,17 +711,17 @@ namespace ZedGraph
 		{
 			lock ( this )
 			{
-				if ( BeenDisposed || _masterPane == null )
+				if ( this.BeenDisposed || this._masterPane == null )
 					return;
 
 				using ( Graphics g = this.CreateGraphics() )
 				{
-					_masterPane.AxisChange( g );
+					this._masterPane.AxisChange( g );
 					//g.Dispose();
 				}
 
-				if ( _isAutoScrollRange )
-					SetScrollRangeFromData();
+				if ( this._isAutoScrollRange )
+					this.SetScrollRangeFromData();
 			}
 		}
 	#endregion
@@ -753,22 +743,22 @@ namespace ZedGraph
 		/// </returns>
 		private ZoomState ZoomStateSave( GraphPane primaryPane, ZoomState.StateType type )
 		{
-			ZoomStateClear();
+			this.ZoomStateClear();
 
-			if ( _isSynchronizeXAxes || _isSynchronizeYAxes )
+			if ( this._isSynchronizeXAxes || this._isSynchronizeYAxes )
 			{
-				foreach ( GraphPane pane in _masterPane._paneList )
+				foreach ( GraphPane pane in this._masterPane._paneList )
 				{
 					ZoomState state = new ZoomState( pane, type );
 					if ( pane == primaryPane )
-						_zoomState = state;
-					_zoomStateStack.Add( state );
+						this._zoomState = state;
+					this._zoomStateStack.Add( state );
 				}
 			}
 			else
-				_zoomState = new ZoomState( primaryPane, type );
+				this._zoomState = new ZoomState( primaryPane, type );
 
-			return _zoomState;
+			return this._zoomState;
 		}
 
 		/// <summary>
@@ -783,18 +773,18 @@ namespace ZedGraph
 		/// are taking place</param>
 		private void ZoomStateRestore( GraphPane primaryPane )
 		{
-			if ( _isSynchronizeXAxes || _isSynchronizeYAxes )
+			if ( this._isSynchronizeXAxes || this._isSynchronizeYAxes )
 			{
-				for ( int i = 0; i < _masterPane._paneList.Count; i++ )
+				for ( int i = 0; i < this._masterPane._paneList.Count; i++ )
 				{
-					if ( i < _zoomStateStack.Count )
-						_zoomStateStack[i].ApplyState( _masterPane._paneList[i] );
+					if ( i < this._zoomStateStack.Count )
+						this._zoomStateStack[i].ApplyState( this._masterPane._paneList[i] );
 				}
 			}
-			else if ( _zoomState != null )
-				_zoomState.ApplyState( primaryPane );
+			else if ( this._zoomState != null )
+				this._zoomState.ApplyState( primaryPane );
 
-			ZoomStateClear();
+			this.ZoomStateClear();
 		}
 
 		/// <summary>
@@ -812,18 +802,18 @@ namespace ZedGraph
 		/// </returns>
 		private void ZoomStatePush( GraphPane primaryPane )
 		{
-			if ( _isSynchronizeXAxes || _isSynchronizeYAxes )
+			if ( this._isSynchronizeXAxes || this._isSynchronizeYAxes )
 			{
-				for ( int i = 0; i < _masterPane._paneList.Count; i++ )
+				for ( int i = 0; i < this._masterPane._paneList.Count; i++ )
 				{
-					if ( i < _zoomStateStack.Count )
-						_masterPane._paneList[i].ZoomStack.Add( _zoomStateStack[i] );
+					if ( i < this._zoomStateStack.Count )
+						this._masterPane._paneList[i].ZoomStack.Add( this._zoomStateStack[i] );
 				}
 			}
-			else if ( _zoomState != null )
-				primaryPane.ZoomStack.Add( _zoomState );
+			else if ( this._zoomState != null )
+				primaryPane.ZoomStack.Add( this._zoomState );
 
-			ZoomStateClear();
+			this.ZoomStateClear();
 		}
 
 		/// <summary>
@@ -831,8 +821,8 @@ namespace ZedGraph
 		/// </summary>
 		private void ZoomStateClear()
 		{
-			_zoomStateStack.Clear();
-			_zoomState = null;
+			this._zoomStateStack.Clear();
+			this._zoomState = null;
 		}
 
 		/// <summary>
@@ -840,7 +830,7 @@ namespace ZedGraph
 		/// </summary>
 		private void ZoomStatePurge()
 		{
-			foreach ( GraphPane pane in _masterPane._paneList )
+			foreach ( GraphPane pane in this._masterPane._paneList )
 				pane.ZoomStack.Clear();
 		}
 

@@ -7,18 +7,18 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Windows.Forms;
-using KUL.MDS.Base;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.Snapping
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Globalization;
+    using System.Windows.Forms;
+
+    using SIS.Base;
+    using SIS.Systemlayer;
+
     public sealed class SnapManager
     {
         private Dictionary<SnapObstacle, SnapDescription> obstacles =
@@ -71,7 +71,7 @@ namespace KUL.MDS.MDITemplate
             if (isSnapped)
             {
                 string snappedToString = loadFrom.Get(prefix + snappedToValueName);
-                SnapObstacle snappedTo = FindObstacle(snappedToString);
+                SnapObstacle snappedTo = this.FindObstacle(snappedToString);
 
                 string horizontalEdgeString = loadFrom.Get(prefix + horizontalEdgeValueName);
                 HorizontalSnapEdge horizontalEdge = (HorizontalSnapEdge)Enum.Parse(typeof(HorizontalSnapEdge), horizontalEdgeString, true);
@@ -123,7 +123,7 @@ namespace KUL.MDS.MDITemplate
                 // TODO: how do we 'erase' something that has this property set to false, for full generality?
                 if (obstacle.EnableSave)
                 {
-                    SaveSnapObstacleData(saveTo, obstacle);
+                    this.SaveSnapObstacleData(saveTo, obstacle);
                 }
             }
         }
@@ -137,14 +137,14 @@ namespace KUL.MDS.MDITemplate
             {
                 if (obstacle.EnableSave)
                 {
-                    LoadSnapObstacleData(loadFrom, obstacle);
+                    this.LoadSnapObstacleData(loadFrom, obstacle);
                 }
             }
         }
 
         public void ParkObstacle(ISnapObstacleHost obstacle, ISnapObstacleHost snappedTo, HorizontalSnapEdge hEdge, VerticalSnapEdge vEdge)
         {
-            ParkObstacle(obstacle.SnapObstacle, snappedTo.SnapObstacle, hEdge, vEdge);
+            this.ParkObstacle(obstacle.SnapObstacle, snappedTo.SnapObstacle, hEdge, vEdge);
         }
 
         public void ParkObstacle(SnapObstacle obstacle, SnapObstacle snappedTo, HorizontalSnapEdge hEdge, VerticalSnapEdge vEdge)
@@ -156,7 +156,7 @@ namespace KUL.MDS.MDITemplate
 
         public void ReparkObstacle(ISnapObstacleHost obstacle)
         {
-            ReparkObstacle(obstacle.SnapObstacle);
+            this.ReparkObstacle(obstacle.SnapObstacle);
         }
 
         public void ReparkObstacle(SnapObstacle obstacle)
@@ -174,7 +174,7 @@ namespace KUL.MDS.MDITemplate
 
         public void AddSnapObstacle(ISnapObstacleHost snapObstacleHost)
         {
-            AddSnapObstacle(snapObstacleHost.SnapObstacle);
+            this.AddSnapObstacle(snapObstacleHost.SnapObstacle);
         }
 
         public void AddSnapObstacle(SnapObstacle snapObstacle)
@@ -185,8 +185,8 @@ namespace KUL.MDS.MDITemplate
 
                 if (snapObstacle.StickyEdges)
                 {
-                    snapObstacle.BoundsChanging += SnapObstacle_BoundsChanging;
-                    snapObstacle.BoundsChanged += SnapObstacle_BoundsChanged;
+                    snapObstacle.BoundsChanging += this.SnapObstacle_BoundsChanging;
+                    snapObstacle.BoundsChanged += this.SnapObstacle_BoundsChanged;
                 }
             }
         }
@@ -200,7 +200,7 @@ namespace KUL.MDS.MDITemplate
             SnapObstacle senderSO = (SnapObstacle)sender;
             Rectangle fromRect = e.Data;
             Rectangle toRect = senderSO.Bounds;
-            UpdateDependentObstacles(senderSO, fromRect, toRect);
+            this.UpdateDependentObstacles(senderSO, fromRect, toRect);
         }
 
         private void UpdateDependentObstacles(SnapObstacle senderSO, Rectangle fromRect, Rectangle toRect)
@@ -248,7 +248,7 @@ namespace KUL.MDS.MDITemplate
                         obstacle.RequestBoundsChange(newBounds);
 
                         // Recursively update anything snapped to this obstacle
-                        UpdateDependentObstacles(obstacle, oldBounds, newBounds);
+                        this.UpdateDependentObstacles(obstacle, oldBounds, newBounds);
                     }
                 }
             }
@@ -256,7 +256,7 @@ namespace KUL.MDS.MDITemplate
 
         public void RemoveSnapObstacle(ISnapObstacleHost snapObstacleHost)
         {
-            RemoveSnapObstacle(snapObstacleHost.SnapObstacle);
+            this.RemoveSnapObstacle(snapObstacleHost.SnapObstacle);
         }
 
         public void RemoveSnapObstacle(SnapObstacle snapObstacle)
@@ -267,15 +267,15 @@ namespace KUL.MDS.MDITemplate
 
                 if (snapObstacle.StickyEdges)
                 {
-                    snapObstacle.BoundsChanging -= SnapObstacle_BoundsChanging;
-                    snapObstacle.BoundsChanged -= SnapObstacle_BoundsChanged;
+                    snapObstacle.BoundsChanging -= this.SnapObstacle_BoundsChanging;
+                    snapObstacle.BoundsChanged -= this.SnapObstacle_BoundsChanged;
                 }
             }
         }
 
         public bool ContainsSnapObstacle(ISnapObstacleHost snapObstacleHost)
         {
-            return ContainsSnapObstacle(snapObstacleHost.SnapObstacle);
+            return this.ContainsSnapObstacle(snapObstacleHost.SnapObstacle);
         }
 
         public bool ContainsSnapObstacle(SnapObstacle snapObstacle)
@@ -532,8 +532,8 @@ namespace KUL.MDS.MDITemplate
         /// </remarks>
         public Point AdjustObstacleDestination(SnapObstacle movingObstacle, Point newLocation)
         {
-            Point adjusted1 = AdjustObstacleDestination(movingObstacle, newLocation, false);
-            Point adjusted2 = AdjustObstacleDestination(movingObstacle, adjusted1, true);
+            Point adjusted1 = this.AdjustObstacleDestination(movingObstacle, newLocation, false);
+            Point adjusted2 = this.AdjustObstacleDestination(movingObstacle, adjusted1, true);
             return adjusted2;
         }
 
@@ -552,7 +552,7 @@ namespace KUL.MDS.MDITemplate
 
                 if (avoidee.Enabled && !object.ReferenceEquals(avoidee, movingObstacle))
                 {
-                    SnapDescription newSD2 = DetermineNewSnapDescription(movingObstacle, adjustedLocation, avoidee, newSD);
+                    SnapDescription newSD2 = this.DetermineNewSnapDescription(movingObstacle, adjustedLocation, avoidee, newSD);
 
                     if (newSD2 != null)
                     {

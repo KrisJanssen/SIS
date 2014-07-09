@@ -17,14 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class than contains information about the position of an object on the graph.
 	/// </summary>
 	/// 
@@ -71,8 +71,8 @@ namespace ZedGraph
 		/// </summary>
 		public AlignH AlignH
 		{
-			get { return _alignH; }
-			set { _alignH = value; }
+			get { return this._alignH; }
+			set { this._alignH = value; }
 		}
 		/// <summary>
 		/// A vertical alignment parameter for this object specified
@@ -80,8 +80,8 @@ namespace ZedGraph
 		/// </summary>
 		public AlignV AlignV
 		{
-			get { return _alignV; }
-			set { _alignV = value; }
+			get { return this._alignV; }
+			set { this._alignV = value; }
 		}
 		/// <summary>
 		/// The coordinate system to be used for defining the object position
@@ -90,8 +90,8 @@ namespace ZedGraph
 		/// enum</value>
 		public CoordType CoordinateFrame
 		{
-			get { return _coordinateFrame; }
-			set { _coordinateFrame = value; }
+			get { return this._coordinateFrame; }
+			set { this._coordinateFrame = value; }
 		}
 		/// <summary>
 		/// The x position of the object.
@@ -104,8 +104,8 @@ namespace ZedGraph
 		/// </remarks>
 		public double X
 		{
-			get { return _x; }
-			set { _x = value; }
+			get { return this._x; }
+			set { this._x = value; }
 		}
 		/// <summary>
 		/// The y position of the object.
@@ -118,8 +118,8 @@ namespace ZedGraph
 		/// </remarks>
 		public double Y
 		{
-			get { return _y; }
-			set { _y = value; }
+			get { return this._y; }
+			set { this._y = value; }
 		}
 		/// <summary>
 		/// The x1 position of the object (an alias for the x position).
@@ -132,8 +132,8 @@ namespace ZedGraph
 		/// </remarks>
 		public double X1
 		{
-			get { return _x; }
-			set { _x = value; }
+			get { return this._x; }
+			set { this._x = value; }
 		}
 		/// <summary>
 		/// The y1 position of the object (an alias for the y position).
@@ -146,8 +146,8 @@ namespace ZedGraph
 		/// </remarks>
 		public double Y1
 		{
-			get { return _y; }
-			set { _y = value; }
+			get { return this._y; }
+			set { this._y = value; }
 		}
 		/// <summary>
 		/// The width of the object.
@@ -158,8 +158,8 @@ namespace ZedGraph
 		/// </remarks>
 		public double Width
 		{
-			get { return _width; }
-			set { _width = value; }
+			get { return this._width; }
+			set { this._width = value; }
 		}
 		/// <summary>
 		/// The height of the object.
@@ -170,8 +170,8 @@ namespace ZedGraph
 		/// </remarks>
 		public double Height
 		{
-			get { return _height; }
-			set { _height = value; }
+			get { return this._height; }
+			set { this._height = value; }
 		}
 		/// <summary>
 		/// The x2 position of the object.
@@ -187,7 +187,7 @@ namespace ZedGraph
 		/// </remarks>
 		public double X2
 		{
-			get { return _x+_width; }
+			get { return this._x+this._width; }
 			//set { width = value-x; }
 		}
 		/// <summary>
@@ -204,7 +204,7 @@ namespace ZedGraph
 		/// </remarks>
 		public double Y2
 		{
-			get { return _y+_height; }
+			get { return this._y+this._height; }
 			//set { height = value-y; }
 		}
 
@@ -222,13 +222,13 @@ namespace ZedGraph
 		/// units.</value>
 		public RectangleF Rect
 		{
-			get { return new RectangleF( (float)_x, (float)_y, (float)_width, (float)_height ); }
+			get { return new RectangleF( (float)this._x, (float)this._y, (float)this._width, (float)this._height ); }
 			set
 			{
-				_x = value.X;
-				_y = value.Y;
-				_width = value.Width;
-				_height = value.Height;
+				this._x = value.X;
+				this._y = value.Y;
+				this._width = value.Width;
+				this._height = value.Height;
 			}
 		}
 
@@ -243,8 +243,8 @@ namespace ZedGraph
 		/// <value>A <see cref="PointF"/> in <see cref="CoordinateFrame"/> units.</value>
 		public PointF TopLeft
 		{
-			get { return new PointF( (float)_x, (float)_y ); }
-			set { _x = value.X; _y = value.Y; }
+			get { return new PointF( (float)this._x, (float)this._y ); }
+			set { this._x = value.X; this._y = value.Y; }
 		}
 
 		/// <summary>
@@ -309,13 +309,13 @@ namespace ZedGraph
 		/// the vertical alignment of the object with respect to the (x,y) location</param>
 		public Location( double x, double y, CoordType coordType, AlignH alignH, AlignV alignV )
 		{
-			_x = x;
-			_y = y;
-			_width = 0;
-			_height = 0;
-			_coordinateFrame = coordType;
-			_alignH = alignH;
-			_alignV = alignV;
+			this._x = x;
+			this._y = y;
+			this._width = 0;
+			this._height = 0;
+			this._coordinateFrame = coordType;
+			this._alignH = alignH;
+			this._alignV = alignV;
 		}
 		
 		/// <summary>
@@ -345,8 +345,8 @@ namespace ZedGraph
 			CoordType coordType, AlignH alignH, AlignV alignV ) :
 				this( x, y, coordType, alignH, alignV )
 		{
-			_width = width;
-			_height = height;
+			this._width = width;
+			this._height = height;
 		}
 		
 		/// <summary>
@@ -355,13 +355,13 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="Location"/> object from which to copy</param>
 		public Location( Location rhs )
 		{
-			_x = rhs._x;
-			_y = rhs._y;
-			_width = rhs._width;
-			_height = rhs._height;
-			_coordinateFrame = rhs.CoordinateFrame;
-			_alignH = rhs.AlignH;
-			_alignV = rhs.AlignV;
+			this._x = rhs._x;
+			this._y = rhs._y;
+			this._width = rhs._width;
+			this._height = rhs._height;
+			this._coordinateFrame = rhs.CoordinateFrame;
+			this._alignH = rhs.AlignH;
+			this._alignV = rhs.AlignV;
 		}
 
 		/// <summary>
@@ -404,30 +404,30 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_alignV = (AlignV) info.GetValue( "alignV", typeof(AlignV) );
-			_alignH = (AlignH) info.GetValue( "alignH", typeof(AlignH) );
-			_x = info.GetDouble( "x" );
-			_y = info.GetDouble( "y" );
-			_width = info.GetDouble( "width" );
-			_height = info.GetDouble( "height" );
-			_coordinateFrame = (CoordType) info.GetValue( "coordinateFrame", typeof(CoordType) );
+			this._alignV = (AlignV) info.GetValue( "alignV", typeof(AlignV) );
+			this._alignH = (AlignH) info.GetValue( "alignH", typeof(AlignH) );
+			this._x = info.GetDouble( "x" );
+			this._y = info.GetDouble( "y" );
+			this._width = info.GetDouble( "width" );
+			this._height = info.GetDouble( "height" );
+			this._coordinateFrame = (CoordType) info.GetValue( "coordinateFrame", typeof(CoordType) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
-			info.AddValue( "alignV", _alignV );
-			info.AddValue( "alignH", _alignH );
-			info.AddValue( "x", _x );
-			info.AddValue( "y", _y );
-			info.AddValue( "width", _width );
-			info.AddValue( "height", _height );
-			info.AddValue( "coordinateFrame", _coordinateFrame );
+			info.AddValue( "alignV", this._alignV );
+			info.AddValue( "alignH", this._alignH );
+			info.AddValue( "x", this._x );
+			info.AddValue( "y", this._y );
+			info.AddValue( "width", this._width );
+			info.AddValue( "height", this._height );
+			info.AddValue( "coordinateFrame", this._coordinateFrame );
 		}
 	#endregion
 
@@ -444,8 +444,8 @@ namespace ZedGraph
 		/// specified user point.</returns>
 		public PointF Transform( PaneBase pane )
 		{
-			return Transform( pane, _x, _y,
-						_coordinateFrame );
+			return Transform( pane, this._x, this._y,
+						this._coordinateFrame );
 		}
 		
 		/// <summary>
@@ -494,16 +494,16 @@ namespace ZedGraph
 		/// <returns>The top-left corner of the object</returns>
 		public PointF TransformTopLeft( PaneBase pane, float width, float height )
 		{
-			PointF pt = Transform( pane );
+			PointF pt = this.Transform( pane );
 			
-			if ( _alignH == AlignH.Right )
+			if ( this._alignH == AlignH.Right )
 				pt.X -= width;
-			else if ( _alignH == AlignH.Center )
+			else if ( this._alignH == AlignH.Center )
 				pt.X -= width / 2.0F;
 				
-			if ( _alignV == AlignV.Bottom )
+			if ( this._alignV == AlignV.Bottom )
 				pt.Y -= height;
-			else if ( _alignV == AlignV.Center )
+			else if ( this._alignV == AlignV.Center )
 				pt.Y -= height / 2.0F;
 			
 			return pt;
@@ -522,7 +522,7 @@ namespace ZedGraph
 		/// <value>A <see cref="PointF"/> in pixel units.</value>
 		public PointF TransformTopLeft( PaneBase pane )
 		{
-			return Transform( pane );
+			return this.Transform( pane );
 		}
 
 		/// <summary>
@@ -537,7 +537,7 @@ namespace ZedGraph
 		/// <value>A <see cref="PointF"/> in pixel units.</value>
 		public PointF TransformBottomRight( PaneBase pane )
 		{
-			return Transform( pane, this.X2, this.Y2, _coordinateFrame );
+			return Transform( pane, this.X2, this.Y2, this._coordinateFrame );
 		}
 
 		/// <summary>
@@ -553,8 +553,8 @@ namespace ZedGraph
 		/// <value>A <see cref="RectangleF"/> in pixel units.</value>
 		public RectangleF TransformRect( PaneBase pane )
 		{
-			PointF pix1 = TransformTopLeft( pane );
-			PointF pix2 = TransformBottomRight( pane );
+			PointF pix1 = this.TransformTopLeft( pane );
+			PointF pix2 = this.TransformBottomRight( pane );
 			//PointF pix3 = TransformTopLeft( pane, pix2.X - pix1.X, pix2.Y - pix1.Y );
 
 			return new RectangleF( pix1.X, pix1.Y, Math.Abs(pix2.X - pix1.X), Math.Abs(pix2.Y - pix1.Y) );

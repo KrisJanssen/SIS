@@ -1,10 +1,10 @@
-using System;
-using Microsoft.Win32;
-using System.Windows.Forms;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	public sealed class ApplicationSettingsKey
+    using System.Windows.Forms;
+
+    using Microsoft.Win32;
+
+    public sealed class ApplicationSettingsKey
 	{
 		static public RegistryKey Get(bool fWrite)
 		{

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace KUL.MDS.ScanModes
+﻿namespace SIS.ScanModes.Core
 {
+    using System;
+
     /// <summary>
     /// A set of supporting methods used in ScanMode generation.
     /// </summary>

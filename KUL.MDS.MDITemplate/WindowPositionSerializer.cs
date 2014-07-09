@@ -1,20 +1,20 @@
-using System;
-using System.Windows.Forms;
-using Microsoft.Win32;
-using System.Drawing;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	public class FormPositionSerializer
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using Microsoft.Win32;
+
+    public class FormPositionSerializer
 	{
 		private string m_sName = null;
 		private const string m_sKey = @"Settings\WindowPositions";
 
 		public FormPositionSerializer(Form form, string sName)
 		{
-			m_sName = sName;
+			this.m_sName = sName;
 
-			form.Closing += new System.ComponentModel.CancelEventHandler(form_Closing);
+			form.Closing += new System.ComponentModel.CancelEventHandler(this.form_Closing);
 			RegistryKey registryKey = ApplicationSettingsKey.Get(false);
 
 			if (registryKey != null)
@@ -23,7 +23,7 @@ namespace KUL.MDS.MDITemplate
 
 				if (subKey != null)
 				{
-					string sPosition = subKey.GetValue(m_sName) as string;
+					string sPosition = subKey.GetValue(this.m_sName) as string;
 
 					if (sPosition != null && sPosition.Length > 0)
 					{
@@ -66,7 +66,7 @@ namespace KUL.MDS.MDITemplate
 					RectangleConverter converter = new RectangleConverter();
 					string sRectangle = converter.ConvertToString(form.Bounds);
 
-					subKey.SetValue(m_sName, sRectangle);
+					subKey.SetValue(this.m_sName, sRectangle);
 					subKey.Close();
 
 					registryKey.Close();

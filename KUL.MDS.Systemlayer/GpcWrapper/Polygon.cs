@@ -7,15 +7,15 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
-
-namespace KUL.MDS.SystemLayer.GpcWrapper
+namespace SIS.Systemlayer.GpcWrapper
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Runtime.InteropServices;
+
     internal sealed class Polygon
     {
         public int NofContours;
@@ -32,21 +32,21 @@ namespace KUL.MDS.SystemLayer.GpcWrapper
         {
             byte[] pathTypes = path.PathTypes;
 
-            NofContours = 0;
+            this.NofContours = 0;
             foreach (byte b in pathTypes)
             {
                 if ((b & ((byte)PathPointType.CloseSubpath)) != 0)
                 {
-                    NofContours++;
+                    this.NofContours++;
                 }
             }
 
-            ContourIsHole = new bool[NofContours];
-            Contour = new VertexList[NofContours];
+            this.ContourIsHole = new bool[this.NofContours];
+            this.Contour = new VertexList[this.NofContours];
 
-            for (int i = 0; i < NofContours; i++)
+            for (int i = 0; i < this.NofContours; i++)
             {
-                ContourIsHole[i] = (i == 0);
+                this.ContourIsHole[i] = (i == 0);
             }
 
             int contourNr = 0;
@@ -63,7 +63,7 @@ namespace KUL.MDS.SystemLayer.GpcWrapper
                 {
                     PointF[] pointArray = contour.ToArray();
                     VertexList vl = new VertexList(pointArray);
-                    Contour[contourNr++] = vl;
+                    this.Contour[contourNr++] = vl;
                     contour.Clear();
                 }
             }
@@ -73,11 +73,11 @@ namespace KUL.MDS.SystemLayer.GpcWrapper
         {
             GraphicsPath path = new GraphicsPath();
 
-            for (int i = 0; i < NofContours; i++)
+            for (int i = 0; i < this.NofContours; i++)
             {
-                PointF[] points = Contour[i].ToPoints();
+                PointF[] points = this.Contour[i].ToPoints();
 
-                if (ContourIsHole[i])
+                if (this.ContourIsHole[i])
                 {
                     Array.Reverse(points);
                 }

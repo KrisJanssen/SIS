@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KUL.MDS.AppResources
+﻿namespace SIS.Resources
 {
     public enum StartupTestType
     {

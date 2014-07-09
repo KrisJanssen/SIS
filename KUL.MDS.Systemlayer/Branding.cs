@@ -1,4 +1,4 @@
-﻿namespace KUL.MDS.SystemLayer
+﻿namespace SIS.Systemlayer
 {
     /// <summary>
     /// Provides methods that control branding aspects of SIS. For instance,

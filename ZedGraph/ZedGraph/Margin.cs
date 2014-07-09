@@ -17,15 +17,13 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Class that handles that stores the margin properties for the GraphPane
 	/// </summary>
 	/// 
@@ -52,10 +50,10 @@ namespace ZedGraph
 		/// </summary>
 		public Margin()
 		{
-			_left = Default.Left;
-			_right = Default.Right;
-			_top = Default.Top;
-			_bottom = Default.Bottom;
+			this._left = Default.Left;
+			this._right = Default.Right;
+			this._top = Default.Top;
+			this._bottom = Default.Bottom;
 		}
 
 		/// <summary>
@@ -64,10 +62,10 @@ namespace ZedGraph
 		/// <param name="rhs">the <see cref="Margin" /> instance to be copied.</param>
 		public Margin( Margin rhs )
 		{
-			_left = rhs._left;
-			_right = rhs._right;
-			_top = rhs._top;
-			_bottom = rhs._bottom;
+			this._left = rhs._left;
+			this._right = rhs._right;
+			this._top = rhs._top;
+			this._bottom = rhs._bottom;
 		}
 
 		/// <summary>
@@ -106,8 +104,8 @@ namespace ZedGraph
 		/// <seealso cref="Bottom"/>
 		public float Left
 		{
-			get { return _left; }
-			set { _left = value; }
+			get { return this._left; }
+			set { this._left = value; }
 		}
 		/// <summary>
 		/// Gets or sets a float value that determines the margin area between the right edge of the
@@ -122,8 +120,8 @@ namespace ZedGraph
 		/// <seealso cref="Bottom"/>
 		public float Right
 		{
-			get { return _right; }
-			set { _right = value; }
+			get { return this._right; }
+			set { this._right = value; }
 		}
 		/// <summary>
 		/// Gets or sets a float value that determines the margin area between the top edge of the
@@ -138,8 +136,8 @@ namespace ZedGraph
 		/// <seealso cref="Bottom"/>
 		public float Top
 		{
-			get { return _top; }
-			set { _top = value; }
+			get { return this._top; }
+			set { this._top = value; }
 		}
 		/// <summary>
 		/// Gets or sets a float value that determines the margin area between the bottom edge of the
@@ -154,8 +152,8 @@ namespace ZedGraph
 		/// <seealso cref="Top"/>
 		public float Bottom
 		{
-			get { return _bottom; }
-			set { _bottom = value; }
+			get { return this._bottom; }
+			set { this._bottom = value; }
 		}
 
 		/// <summary>
@@ -172,10 +170,10 @@ namespace ZedGraph
 		{
 			set
 			{
-				_bottom = value;
-				_top = value;
-				_left = value;
-				_right = value;
+				this._bottom = value;
+				this._top = value;
+				this._left = value;
+				this._right = value;
 			}
 		}
 
@@ -201,25 +199,25 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_left = info.GetSingle( "left" );
-			_right = info.GetSingle( "right" );
-			_top = info.GetSingle( "top" );
-			_bottom = info.GetSingle( "bottom" );
+			this._left = info.GetSingle( "left" );
+			this._right = info.GetSingle( "right" );
+			this._top = info.GetSingle( "top" );
+			this._bottom = info.GetSingle( "bottom" );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
 
-			info.AddValue( "left", _left );
-			info.AddValue( "right", _right );
-			info.AddValue( "top", _top );
-			info.AddValue( "bottom", _bottom );
+			info.AddValue( "left", this._left );
+			info.AddValue( "right", this._right );
+			info.AddValue( "top", this._top );
+			info.AddValue( "bottom", this._bottom );
 		}
 
 	#endregion

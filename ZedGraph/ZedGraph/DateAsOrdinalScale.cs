@@ -17,16 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Collections;
-using System.Text;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// The DateAsOrdinalScale class inherits from the <see cref="Scale" /> class, and implements
 	/// the features specific to <see cref="AxisType.DateAsOrdinal" />.
 	/// </summary>
@@ -101,8 +99,8 @@ namespace ZedGraph
 		/// </remarks>
 		public override double Min
 		{
-			get { return _min; }
-			set { _min = XDate.MakeValidDate( value ); _minAuto = false; }
+			get { return this._min; }
+			set { this._min = XDate.MakeValidDate( value ); this._minAuto = false; }
 		}
 
 		/// <summary>
@@ -115,8 +113,8 @@ namespace ZedGraph
 		/// </remarks>
 		public override double Max
 		{
-			get { return _max; }
-			set { _max = XDate.MakeValidDate( value ); _maxAuto = false; }
+			get { return this._max; }
+			set { this._max = XDate.MakeValidDate( value ); this._maxAuto = false; }
 		}
 
 	#endregion
@@ -183,7 +181,7 @@ namespace ZedGraph
 */
 			// Set the DateFormat by calling CalcDateStepSize
 			//			DateScale.CalcDateStepSize( range, Default.TargetXSteps, this );
-			SetDateFormat( pane );
+			this.SetDateFormat( pane );
 
 			// Now, set the axis range based on a ordinal scale
 			base.PickScale( pane, g, scaleFactor );
@@ -192,7 +190,7 @@ namespace ZedGraph
 
 		internal void SetDateFormat( GraphPane pane )
 		{
-			if ( _formatAuto )
+			if ( this._formatAuto )
 			{
 				double range = 10;
 
@@ -206,8 +204,8 @@ namespace ZedGraph
 					int p2 = pane.CurveList[0].Points.Count;
 					if ( pane.IsBoundedRanges )
 					{
-						p1 = (int) Math.Floor( _ownerAxis.Scale.Min );
-						p2 = (int) Math.Ceiling( _ownerAxis.Scale.Max );
+						p1 = (int) Math.Floor( this._ownerAxis.Scale.Min );
+						p2 = (int) Math.Ceiling( this._ownerAxis.Scale.Max );
 						p1 = Math.Min( Math.Max( p1, 1 ), pane.CurveList[0].Points.Count );
 						p2 = Math.Min( Math.Max( p2, 1 ), pane.CurveList[0].Points.Count );
 						if ( p2 > p1 )
@@ -216,7 +214,7 @@ namespace ZedGraph
 							pt2 = pane.CurveList[0].Points[p2-1];
 						}
 					}
-					if ( _ownerAxis is XAxis || _ownerAxis is X2Axis )
+					if ( this._ownerAxis is XAxis || this._ownerAxis is X2Axis )
 					{
 						val1 = pt1.X;
 						val2 = pt2.X;
@@ -238,27 +236,27 @@ namespace ZedGraph
 				}
 
 				if ( range > Default.RangeYearYear )
-					_format = Default.FormatYearYear;
+					this._format = Default.FormatYearYear;
 				else if ( range > Default.RangeYearMonth )
-					_format = Default.FormatYearMonth;
+					this._format = Default.FormatYearMonth;
 				else if ( range > Default.RangeMonthMonth )
-					_format = Default.FormatMonthMonth;
+					this._format = Default.FormatMonthMonth;
 				else if ( range > Default.RangeDayDay )
-					_format = Default.FormatDayDay;
+					this._format = Default.FormatDayDay;
 				else if ( range > Default.RangeDayHour )
-					_format = Default.FormatDayHour;
+					this._format = Default.FormatDayHour;
 				else if ( range > Default.RangeHourHour )
-					_format = Default.FormatHourHour;
+					this._format = Default.FormatHourHour;
 				else if ( range > Default.RangeHourMinute )
-					_format = Default.FormatHourMinute;
+					this._format = Default.FormatHourMinute;
 				else if ( range > Default.RangeMinuteMinute )
-					_format = Default.FormatMinuteMinute;
+					this._format = Default.FormatMinuteMinute;
 				else if ( range > Default.RangeMinuteSecond )
-					_format = Default.FormatMinuteSecond;
+					this._format = Default.FormatMinuteSecond;
 				else if ( range > Default.RangeSecondSecond )
-					_format = Default.FormatSecondSecond;
+					this._format = Default.FormatSecondSecond;
 				else // MilliSecond
-					_format = Default.FormatMillisecond;
+					this._format = Default.FormatMillisecond;
 			}
 		}
 
@@ -281,8 +279,8 @@ namespace ZedGraph
 		/// <returns>The resulting value label as a <see cref="string" /></returns>
 		override internal string MakeLabel( GraphPane pane, int index, double dVal )
 		{
-			if ( _format == null )
-				_format = Scale.Default.Format;
+			if ( this._format == null )
+				this._format = Scale.Default.Format;
 
 			double val;
 
@@ -290,11 +288,11 @@ namespace ZedGraph
 
 			if ( pane.CurveList.Count > 0 && pane.CurveList[0].Points.Count > tmpIndex )
 			{
-				if ( _ownerAxis is XAxis || _ownerAxis is X2Axis )
+				if ( this._ownerAxis is XAxis || this._ownerAxis is X2Axis )
 				val = pane.CurveList[0].Points[tmpIndex].X;
 				else
 					val = pane.CurveList[0].Points[tmpIndex].Y;
-				return XDate.ToString( val, _format );
+				return XDate.ToString( val, this._format );
 			}
 			else
 				return string.Empty;
@@ -327,7 +325,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.Data
+﻿namespace SIS.Data
 {
+    using System.Collections.Generic;
+    using System.Windows.Forms;
+
     public abstract class DataSet
     {
         protected FormatInfo m_structFormatInfo;
@@ -74,9 +72,9 @@ namespace KUL.MDS.Data
         // Constructor. This is overridable without an abstract or virtual modifier.
         protected DataSet()
         {
-            m_strlstOptions = new List<string>();
-            m_mdtaMetaData = null;
-            m_blcklstBlocks = new List<Block>();
+            this.m_strlstOptions = new List<string>();
+            this.m_mdtaMetaData = null;
+            this.m_blcklstBlocks = new List<Block>();
         }
 
         public abstract void LoadData(System.IO.FileStream __fstrmFile);
@@ -87,7 +85,7 @@ namespace KUL.MDS.Data
         {
             try
             {
-                if (__iN < 0 || (int)__iN >= m_blcklstBlocks.Count)
+                if (__iN < 0 || (int)__iN >= this.m_blcklstBlocks.Count)
                     throw new BlockDoesNotExistException("no block #" + __iN.ToString() + " in this file!");
                 return this.m_blcklstBlocks[__iN];
             }

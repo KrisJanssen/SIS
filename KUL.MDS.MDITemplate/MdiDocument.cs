@@ -1,10 +1,9 @@
-using System;
-using System.Collections;
-using System.Windows.Forms;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	public abstract class MdiDocument
+    using System.Collections;
+    using System.Windows.Forms;
+
+    public abstract class MdiDocument
 	{
 		static private ArrayList m_aDocuments = null;
 		static private MdiDocument m_documentActive = null;
@@ -14,7 +13,7 @@ namespace KUL.MDS.MDITemplate
 
 		public MdiDocument()
 		{
-			m_aViews = new ArrayList();
+			this.m_aViews = new ArrayList();
 
 			if (m_aDocuments == null)
 			{
@@ -26,16 +25,16 @@ namespace KUL.MDS.MDITemplate
 
 		public void AddView(MdiViewForm view)
 		{
-			m_aViews.Add(view);
+			this.m_aViews.Add(view);
 
-			view.Closing += new System.ComponentModel.CancelEventHandler(view_Closing);
+			view.Closing += new System.ComponentModel.CancelEventHandler(this.view_Closing);
 		}
 
 		public MdiViewForm[] Views
 		{
 			get
 			{
-				return m_aViews.ToArray(typeof(MdiViewForm)) as MdiViewForm[];
+				return this.m_aViews.ToArray(typeof(MdiViewForm)) as MdiViewForm[];
 			}
 		}
 
@@ -71,13 +70,13 @@ namespace KUL.MDS.MDITemplate
 		{
 			get
 			{
-				if (m_sFilePath == null)
+				if (this.m_sFilePath == null)
 				{
 					return "";
 				}
 				else
 				{
-					return FileNameHelpers.GetFileName(m_sFilePath);
+					return FileNameHelpers.GetFileName(this.m_sFilePath);
 				}
 			}
 		}
@@ -86,20 +85,20 @@ namespace KUL.MDS.MDITemplate
 		{
 			get
 			{
-				if (m_sFilePath == null)
+				if (this.m_sFilePath == null)
 				{
 					return "";
 				}
 				else
 				{
-					return m_sFilePath;
+					return this.m_sFilePath;
 				}
 			}
 		}
 
 		public void UpdateAllViews(MdiViewForm formFrom, object update)
 		{
-			foreach (MdiViewForm view in m_aViews)
+			foreach (MdiViewForm view in this.m_aViews)
 			{
 				if (view != formFrom)
 				{
@@ -112,19 +111,19 @@ namespace KUL.MDS.MDITemplate
 		{
 			get
 			{
-				return m_fModified;
+				return this.m_fModified;
 			}
 
 			set
 			{
-				m_fModified = value;
-				UpdateViewTitles();
+				this.m_fModified = value;
+				this.UpdateViewTitles();
 			}
 		}
 
 		private void UpdateViewTitles()
 		{
-			foreach (MdiViewForm view in m_aViews)
+			foreach (MdiViewForm view in this.m_aViews)
 			{
 				view.UpdateViewTitle();
 			}
@@ -132,13 +131,13 @@ namespace KUL.MDS.MDITemplate
 
 		private void view_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			if (m_aViews.Count == 1 && m_fModified)
+			if (this.m_aViews.Count == 1 && this.m_fModified)
 			{
 				switch (MessageBox.Show("This document has been modified. Do you want to save ?", this.FileName, 
 					MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
 				{
 					case DialogResult.Yes:
-						SaveDocument(m_sFilePath);
+						this.SaveDocument(this.m_sFilePath);
 						m_aDocuments.Remove(this);
 						break;
 					case DialogResult.No:
@@ -157,24 +156,24 @@ namespace KUL.MDS.MDITemplate
 
 		public bool LoadDocument(string sFilePath, bool fAddToRecentFiles)
 		{
-			m_sFilePath = sFilePath;
+			this.m_sFilePath = sFilePath;
 
 			if (fAddToRecentFiles)
 			{
 				RecentFilesList.Get().Add(sFilePath);
 			}
 
-			return OnLoadDocument(sFilePath);
+			return this.OnLoadDocument(sFilePath);
 		}
 
 		public bool SaveDocument(string sFilePath)
 		{
-			UpdateDocument();
+			this.UpdateDocument();
 			this.Modified = false;
-			if (OnSaveDocument(sFilePath))
+			if (this.OnSaveDocument(sFilePath))
 			{
-				m_sFilePath = sFilePath;
-				UpdateViewTitles();
+				this.m_sFilePath = sFilePath;
+				this.UpdateViewTitles();
 
 				RecentFilesList.Get().Add(sFilePath);
 
@@ -188,7 +187,7 @@ namespace KUL.MDS.MDITemplate
 
 		public void UpdateDocument()
 		{
-			foreach (MdiViewForm view in m_aViews)
+			foreach (MdiViewForm view in this.m_aViews)
 			{
 				view.UpdateDocument();
 			}
@@ -196,7 +195,7 @@ namespace KUL.MDS.MDITemplate
 
 		public MdiViewForm CreateView()
 		{
-			MdiViewForm view = OnCreateView();
+			MdiViewForm view = this.OnCreateView();
 
 			if (view == null)
 			{
@@ -204,7 +203,7 @@ namespace KUL.MDS.MDITemplate
 			}
 			else
 			{
-				AddView(view);
+				this.AddView(view);
 				return view;
 			}
 		}

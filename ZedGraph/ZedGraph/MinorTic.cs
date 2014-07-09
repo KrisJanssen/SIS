@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Class that holds the specific properties for the minor tics.
 	/// </summary>
 	/// <author> John Champion </author>
@@ -51,15 +50,15 @@ namespace ZedGraph
 		/// </summary>
 		public MinorTic()
 		{
-			_size = Default.Size;
-			_color = Default.Color;
-			_penWidth = Default.PenWidth;
+			this._size = Default.Size;
+			this._color = Default.Color;
+			this._penWidth = Default.PenWidth;
 
 			this.IsOutside = Default.IsOutside;
 			this.IsInside = Default.IsInside;
 			this.IsOpposite = Default.IsOpposite;
-			_isCrossOutside = Default.IsCrossOutside;
-			_isCrossInside = Default.IsCrossInside;
+			this._isCrossOutside = Default.IsCrossOutside;
+			this._isCrossInside = Default.IsCrossInside;
 		}
 
 		/// <summary>
@@ -68,15 +67,15 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="MinorTic" /> that is to be copied.</param>
 		public MinorTic( MinorTic rhs )
 		{
-			_size = rhs._size;
-			_color = rhs._color;
-			_penWidth = rhs._penWidth;
+			this._size = rhs._size;
+			this._color = rhs._color;
+			this._penWidth = rhs._penWidth;
 
 			this.IsOutside = rhs.IsOutside;
 			this.IsInside = rhs.IsInside;
 			this.IsOpposite = rhs.IsOpposite;
-			_isCrossOutside = rhs._isCrossOutside;
-			_isCrossInside = rhs._isCrossInside;
+			this._isCrossOutside = rhs._isCrossOutside;
+			this._isCrossInside = rhs._isCrossInside;
 		}
 
 		/// <summary>
@@ -112,8 +111,8 @@ namespace ZedGraph
 		/// <seealso cref="Axis.IsVisible"/>
 		public Color Color
 		{
-			get { return _color; }
-			set { _color = value; }
+			get { return this._color; }
+			set { this._color = value; }
 		}
 
 		/// <summary>
@@ -131,8 +130,8 @@ namespace ZedGraph
 		/// <seealso cref="Color"/>
 		public float Size
 		{
-			get { return _size; }
-			set { _size = value; }
+			get { return this._size; }
+			set { this._size = value; }
 		}
 		/// <summary>
 		/// Calculate the scaled tic size for this <see cref="Axis"/>
@@ -149,7 +148,7 @@ namespace ZedGraph
 		/// <seealso cref="PaneBase.CalcScaleFactor"/>
 		public float ScaledTic( float scaleFactor )
 		{
-			return (float)( _size * scaleFactor );
+			return (float)( this._size * scaleFactor );
 		}
 
 		/// <summary>
@@ -174,8 +173,8 @@ namespace ZedGraph
 				this.IsOutside = value;
 				this.IsInside = value;
 				this.IsOpposite = value;
-				_isCrossOutside = value;
-				_isCrossInside = value;
+				this._isCrossOutside = value;
+				this._isCrossInside = value;
 			}
 		}
 
@@ -196,8 +195,8 @@ namespace ZedGraph
 		/// <seealso cref="IsCrossOutside"/>
 		public bool IsOutside
 		{
-			get { return _isOutside; }
-			set { _isOutside = value; }
+			get { return this._isOutside; }
+			set { this._isOutside = value; }
 		}
 
 		/// <summary>
@@ -217,8 +216,8 @@ namespace ZedGraph
 		/// <seealso cref="IsCrossOutside"/>
 		public bool IsInside
 		{
-			get { return _isInside; }
-			set { _isInside = value; }
+			get { return this._isInside; }
+			set { this._isInside = value; }
 		}
 
 		/// <summary>
@@ -239,8 +238,8 @@ namespace ZedGraph
 		/// <seealso cref="IsCrossOutside"/>
 		public bool IsOpposite
 		{
-			get { return _isOpposite; }
-			set { _isOpposite = value; }
+			get { return this._isOpposite; }
+			set { this._isOpposite = value; }
 		}
 
 		/// <summary>
@@ -261,8 +260,8 @@ namespace ZedGraph
 		/// <value>true to show the major cross tic marks, false otherwise</value>
 		public bool IsCrossOutside
 		{
-			get { return _isCrossOutside; }
-			set { _isCrossOutside = value; }
+			get { return this._isCrossOutside; }
+			set { this._isCrossOutside = value; }
 		}
 		/// <summary>
 		/// Gets or sets the display mode for the <see cref="Axis"/> major inside 
@@ -282,8 +281,8 @@ namespace ZedGraph
 		/// <value>true to show the major cross tic marks, false otherwise</value>
 		public bool IsCrossInside
 		{
-			get { return _isCrossInside; }
-			set { _isCrossInside = value; }
+			get { return this._isCrossInside; }
+			set { this._isCrossInside = value; }
 		}
 
 		/// <summary>
@@ -296,8 +295,8 @@ namespace ZedGraph
 		/// <seealso cref="Color"/>
 		public float PenWidth
 		{
-			get { return _penWidth; }
-			set { _penWidth = value; }
+			get { return this._penWidth; }
+			set { this._penWidth = value; }
 		}
 
 	#endregion
@@ -322,15 +321,15 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_color = (Color) info.GetValue( "color", typeof( Color ) );
-			_size = info.GetSingle( "size" );
-			_penWidth = info.GetSingle( "penWidth" );
+			this._color = (Color) info.GetValue( "color", typeof( Color ) );
+			this._size = info.GetSingle( "size" );
+			this._penWidth = info.GetSingle( "penWidth" );
 
-			IsOutside = info.GetBoolean( "IsOutside" );
-			IsInside = info.GetBoolean( "IsInside" );
-			IsOpposite = info.GetBoolean( "IsOpposite" );
-			_isCrossOutside = info.GetBoolean( "isCrossOutside" );
-			_isCrossInside = info.GetBoolean( "isCrossInside" );
+			this.IsOutside = info.GetBoolean( "IsOutside" );
+			this.IsInside = info.GetBoolean( "IsInside" );
+			this.IsOpposite = info.GetBoolean( "IsOpposite" );
+			this._isCrossOutside = info.GetBoolean( "isCrossOutside" );
+			this._isCrossInside = info.GetBoolean( "isCrossInside" );
 		}
 
 		/// <summary>
@@ -338,20 +337,20 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema", schema );
 
-			info.AddValue( "color", _color );
-			info.AddValue( "size", _size );
-			info.AddValue( "penWidth", _penWidth );
+			info.AddValue( "color", this._color );
+			info.AddValue( "size", this._size );
+			info.AddValue( "penWidth", this._penWidth );
 
-			info.AddValue( "IsOutside", IsOutside );
-			info.AddValue( "IsInside", IsInside );
-			info.AddValue( "IsOpposite", IsOpposite );
-			info.AddValue( "isCrossOutside", _isCrossOutside );
-			info.AddValue( "isCrossInside", _isCrossInside );
+			info.AddValue( "IsOutside", this.IsOutside );
+			info.AddValue( "IsInside", this.IsInside );
+			info.AddValue( "IsOpposite", this.IsOpposite );
+			info.AddValue( "isCrossOutside", this._isCrossOutside );
+			info.AddValue( "isCrossInside", this._isCrossInside );
 
 		}
 
@@ -474,7 +473,7 @@ namespace ZedGraph
 				g.DrawLine( pen, pixVal, shift, pixVal, shift + scaledTic );
 
 			// draw the cross tic
-			if ( _isCrossOutside )
+			if ( this._isCrossOutside )
 				g.DrawLine( pen, pixVal, 0.0f, pixVal, scaledTic );
 
 			// draw the inside tic
@@ -482,7 +481,7 @@ namespace ZedGraph
 				g.DrawLine( pen, pixVal, shift, pixVal, shift - scaledTic );
 
 			// draw the inside cross tic
-			if ( _isCrossInside )
+			if ( this._isCrossInside )
 				g.DrawLine( pen, pixVal, 0.0f, pixVal, -scaledTic );
 
 			// draw the opposite tic
@@ -492,7 +491,7 @@ namespace ZedGraph
 
 		internal Pen GetPen( GraphPane pane, float scaleFactor )
 		{
-			return new Pen( _color, pane.ScaledPenWidth( _penWidth, scaleFactor ) );
+			return new Pen( this._color, pane.ScaledPenWidth( this._penWidth, scaleFactor ) );
 		}
 
 	#endregion

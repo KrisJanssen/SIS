@@ -7,14 +7,15 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using Microsoft.Win32;
-using System;
-using System.Security.Principal;
-using System.Threading;
-using System.Windows.Forms;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Security.Principal;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using Microsoft.Win32;
+
     /// <summary>
     /// Security related static methods and properties.
     /// </summary>

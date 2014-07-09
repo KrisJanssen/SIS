@@ -7,11 +7,11 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Drawing;
+
     /// <summary>
     /// Sometimes you need a Graphics instance when you don't really have access to one.
     /// Example situations include retrieving the bounds or scanlines of a Region.
@@ -29,7 +29,7 @@ namespace KUL.MDS.SystemLayer
         {
             get
             {
-                return graphics;
+                return this.graphics;
             }
         }
 
@@ -47,18 +47,18 @@ namespace KUL.MDS.SystemLayer
 
         ~NullGraphics()
         {
-            Dispose(false);
+            this.Dispose(false);
         }
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         private void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!this.disposed)
             {
                 if (disposing)
                 {
@@ -67,7 +67,7 @@ namespace KUL.MDS.SystemLayer
                 }
 
                 SafeNativeMethods.DeleteDC(this.hdc);
-                disposed = true;
+                this.disposed = true;
             }
         }
     }

@@ -17,15 +17,15 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class that handles the basic attributes of a line segment.
 	/// </summary>
 	/// <remarks>
@@ -155,8 +155,8 @@ namespace ZedGraph
 		/// <seealso cref="GradientFill"/>
 		public Color Color
 		{
-			get { return _color; }
-			set { _color = value; }
+			get { return this._color; }
+			set { this._color = value; }
 		}
 		/// <summary>
 		/// The style of the <see cref="Line"/>, defined as a <see cref="DashStyle"/> enum.
@@ -167,8 +167,8 @@ namespace ZedGraph
 		/// <seealso cref="DashOff" />
 		public DashStyle Style
 		{
-			get { return _style; }
-			set { _style = value; }
+			get { return this._style; }
+			set { this._style = value; }
 		}
 
 		/// <summary>
@@ -185,8 +185,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.DashOn"/>.
 		public float DashOn
 		{
-			get { return _dashOn; }
-			set { _dashOn = value; }
+			get { return this._dashOn; }
+			set { this._dashOn = value; }
 		}
 		/// <summary>
 		/// The "Dash Off" mode for drawing the line.
@@ -202,8 +202,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.DashOff"/>.
 		public float DashOff
 		{
-			get { return _dashOff; }
-			set { _dashOff = value; }
+			get { return this._dashOff; }
+			set { this._dashOff = value; }
 		}
 
 		/// <summary>
@@ -212,8 +212,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.Width"/>
 		public float Width
 		{
-			get { return _width; }
-			set { _width = value; }
+			get { return this._width; }
+			set { this._width = value; }
 		}
 		/// <summary>
 		/// Gets or sets a property that shows or hides the <see cref="Line"/>.
@@ -222,8 +222,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.IsVisible"/>
 		public bool IsVisible
 		{
-			get { return _isVisible; }
-			set { _isVisible = value; }
+			get { return this._isVisible; }
+			set { this._isVisible = value; }
 		}
 		/// <summary>
 		/// Gets or sets a value that determines if the lines are drawn using
@@ -237,8 +237,8 @@ namespace ZedGraph
 		/// </remarks>
 		public bool IsAntiAlias
 		{
-			get { return _isAntiAlias; }
-			set { _isAntiAlias = value; }
+			get { return this._isAntiAlias; }
+			set { this._isAntiAlias = value; }
 		}
 
 		/// <summary>
@@ -253,8 +253,8 @@ namespace ZedGraph
 		/// <seealso cref="Color"/>
 		public Fill GradientFill
 		{
-			get { return _gradientFill; }
-			set { _gradientFill = value; }
+			get { return this._gradientFill; }
+			set { this._gradientFill = value; }
 		}
 
 	#endregion
@@ -278,15 +278,15 @@ namespace ZedGraph
 		/// <param name="color">The color to assign to this new Line object</param>
 		public LineBase( Color color )
 		{
-			_width = Default.Width;
-			_style = Default.Style;
-			_dashOn = Default.DashOn;
-			_dashOff = Default.DashOff;
-			_isVisible = Default.IsVisible;
-			_color = color.IsEmpty ? Default.Color : color;
-			_isAntiAlias = Default.IsAntiAlias;
-			_gradientFill = new Fill( Color.Red, Color.White );
-			_gradientFill.Type = FillType.None;
+			this._width = Default.Width;
+			this._style = Default.Style;
+			this._dashOn = Default.DashOn;
+			this._dashOff = Default.DashOff;
+			this._isVisible = Default.IsVisible;
+			this._color = color.IsEmpty ? Default.Color : color;
+			this._isAntiAlias = Default.IsAntiAlias;
+			this._gradientFill = new Fill( Color.Red, Color.White );
+			this._gradientFill.Type = FillType.None;
 		}
 
 		/// <summary>
@@ -295,16 +295,16 @@ namespace ZedGraph
 		/// <param name="rhs">The LineBase object from which to copy</param>
 		public LineBase( LineBase rhs )
 		{
-			_width = rhs._width;
-			_style = rhs._style;
-			_dashOn = rhs._dashOn;
-			_dashOff = rhs._dashOff;
+			this._width = rhs._width;
+			this._style = rhs._style;
+			this._dashOn = rhs._dashOn;
+			this._dashOff = rhs._dashOff;
 
-			_isVisible = rhs._isVisible;
-			_color = rhs._color;
+			this._isVisible = rhs._isVisible;
+			this._color = rhs._color;
 
-			_isAntiAlias = rhs._isAntiAlias;
-			_gradientFill = new Fill( rhs._gradientFill );
+			this._isAntiAlias = rhs._isAntiAlias;
+			this._gradientFill = new Fill( rhs._gradientFill );
 		}
 
 		/// <summary>
@@ -362,14 +362,14 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema0" );
 
-			_width = info.GetSingle( "width" );
-			_style = (DashStyle)info.GetValue( "style", typeof( DashStyle ) );
-			_dashOn = info.GetSingle( "dashOn" );
-			_dashOff = info.GetSingle( "dashOff" );
-			_isVisible = info.GetBoolean( "isVisible" );
-			_isAntiAlias = info.GetBoolean( "isAntiAlias" );
-			_color = (Color)info.GetValue( "color", typeof( Color ) );
-			_gradientFill = (Fill)info.GetValue( "gradientFill", typeof( Fill ) );
+			this._width = info.GetSingle( "width" );
+			this._style = (DashStyle)info.GetValue( "style", typeof( DashStyle ) );
+			this._dashOn = info.GetSingle( "dashOn" );
+			this._dashOff = info.GetSingle( "dashOff" );
+			this._isVisible = info.GetBoolean( "isVisible" );
+			this._isAntiAlias = info.GetBoolean( "isAntiAlias" );
+			this._color = (Color)info.GetValue( "color", typeof( Color ) );
+			this._gradientFill = (Fill)info.GetValue( "gradientFill", typeof( Fill ) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize
@@ -379,19 +379,19 @@ namespace ZedGraph
 		/// serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the
 		/// serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			info.AddValue( "schema0", schema0 );
 
-			info.AddValue( "width", _width );
-			info.AddValue( "style", _style );
-			info.AddValue( "dashOn", _dashOn );
-			info.AddValue( "dashOff", _dashOff );
-			info.AddValue( "isVisible", _isVisible );
-			info.AddValue( "isAntiAlias", _isAntiAlias );
-			info.AddValue( "color", _color );
-			info.AddValue( "gradientFill", _gradientFill );
+			info.AddValue( "width", this._width );
+			info.AddValue( "style", this._style );
+			info.AddValue( "dashOn", this._dashOn );
+			info.AddValue( "dashOff", this._dashOff );
+			info.AddValue( "isVisible", this._isVisible );
+			info.AddValue( "isAntiAlias", this._isAntiAlias );
+			info.AddValue( "color", this._color );
+			info.AddValue( "gradientFill", this._gradientFill );
 		}
 
 	#endregion
@@ -415,7 +415,7 @@ namespace ZedGraph
 		/// </returns>
 		public Pen GetPen( PaneBase pane, float scaleFactor )
 		{
-			return GetPen( pane, scaleFactor, null );
+			return this.GetPen( pane, scaleFactor, null );
 		}
 
 		/// <summary>
@@ -441,23 +441,23 @@ namespace ZedGraph
 		/// </returns>
 		public Pen GetPen( PaneBase pane, float scaleFactor, PointPair dataValue )
 		{
-			Color color = _color;
-			if ( _gradientFill.IsGradientValueType )
-				color = _gradientFill.GetGradientColor( dataValue );
+			Color color = this._color;
+			if ( this._gradientFill.IsGradientValueType )
+				color = this._gradientFill.GetGradientColor( dataValue );
 
 			Pen pen = new Pen( color,
-						pane.ScaledPenWidth( _width, scaleFactor ) );
+						pane.ScaledPenWidth( this._width, scaleFactor ) );
 
-			pen.DashStyle = _style;
+			pen.DashStyle = this._style;
 
-			if ( _style == DashStyle.Custom )
+			if ( this._style == DashStyle.Custom )
 			{
-				if ( _dashOff > 1e-10 && _dashOn > 1e-10 )
+				if ( this._dashOff > 1e-10 && this._dashOn > 1e-10 )
 				{
 					pen.DashStyle = DashStyle.Custom;
 					float[] pattern = new float[2];
-					pattern[0] = _dashOn;
-					pattern[1] = _dashOff;
+					pattern[0] = this._dashOn;
+					pattern[1] = this._dashOff;
 					pen.DashPattern = pattern;
 				}
 				else

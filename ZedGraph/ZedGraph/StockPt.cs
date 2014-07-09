@@ -17,15 +17,13 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-using IComparer = System.Collections.IComparer;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// The basic <see cref="PointPair" /> class holds three data values (X, Y, Z).  This
 	/// class extends the basic PointPair to contain five data values (X, Y, Z, Open, Close).
 	/// </summary>
@@ -184,10 +182,10 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema3" );
 
-			Open = info.GetDouble( "Open" );
-			Close = info.GetDouble( "Close" );
-			Vol = info.GetDouble( "Vol" );
-			ColorValue = info.GetDouble( "ColorValue" );
+			this.Open = info.GetDouble( "Open" );
+			this.Close = info.GetDouble( "Close" );
+			this.Vol = info.GetDouble( "Vol" );
+			this.ColorValue = info.GetDouble( "ColorValue" );
 		}
 
 		/// <summary>
@@ -195,15 +193,15 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema3", schema2 );
-			info.AddValue( "Open", Open );
-			info.AddValue( "Close", Close );
-			info.AddValue( "Vol", Vol );
-			info.AddValue( "ColorValue", ColorValue );
+			info.AddValue( "Open", this.Open );
+			info.AddValue( "Close", this.Close );
+			info.AddValue( "Vol", this.Vol );
+			info.AddValue( "ColorValue", this.ColorValue );
 		}
 
 	#endregion
@@ -215,8 +213,8 @@ namespace ZedGraph
 		/// </summary>
 		public double Date
 		{
-			get { return X; }
-			set { X = value; }
+			get { return this.X; }
+			set { this.X = value; }
 		}
 
 		/// <summary>
@@ -224,8 +222,8 @@ namespace ZedGraph
 		/// </summary>
 		public double High
 		{
-			get { return Y; }
-			set { Y = value; }
+			get { return this.Y; }
+			set { this.Y = value; }
 		}
 
 		/// <summary>
@@ -233,8 +231,8 @@ namespace ZedGraph
 		/// </summary>
 		public double Low
 		{
-			get { return Z; }
-			set { Z = value; }
+			get { return this.Z; }
+			set { this.Z = value; }
 		}
 
 		/// <summary>
@@ -243,8 +241,8 @@ namespace ZedGraph
 		/// </summary>
 		override public double ColorValue
 		{
-			get { return _colorValue; }
-			set { _colorValue = value; }
+			get { return this._colorValue; }
+			set { this._colorValue = value; }
 		}
 
 		/// <summary>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.ScanModes
+﻿namespace SIS.ScanModes.Enums
 {
     public enum TriggerType : int
     {

@@ -1,4 +1,4 @@
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
     partial class AboutBox
     {
@@ -12,9 +12,9 @@ namespace KUL.MDS.SerialTerminal
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }

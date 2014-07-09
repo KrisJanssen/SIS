@@ -7,9 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
     public enum ExecutePrivilege
     {

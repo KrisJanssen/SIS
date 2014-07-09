@@ -17,16 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class that represents a bordered and/or filled box (rectangle) object on
 	/// the graph.  A list of
 	/// BoxObj objects is maintained by the <see cref="GraphObjList"/> collection class.
@@ -86,8 +84,8 @@ namespace ZedGraph
 		/// </summary>
 		public Fill	Fill
 		{
-			get { return _fill; }
-			set { _fill = value; }
+			get { return this._fill; }
+			set { this._fill = value; }
 		}
 		/// <summary>
 		/// Gets or sets the <see cref="ZedGraph.Border"/> object, which
@@ -96,8 +94,8 @@ namespace ZedGraph
 		/// </summary>
 		public Border Border
 		{
-			get { return _border; }
-			set { _border = value; }
+			get { return this._border; }
+			set { this._border = value; }
 		}
 	#endregion
 	
@@ -231,21 +229,21 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_fill = (Fill) info.GetValue( "fill", typeof(Fill) );
-			_border = (Border) info.GetValue( "border", typeof(Border) );
+			this._fill = (Fill) info.GetValue( "fill", typeof(Fill) );
+			this._border = (Border) info.GetValue( "border", typeof(Border) );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "fill", _fill );
-			info.AddValue( "border", _border );
+			info.AddValue( "fill", this._fill );
+			info.AddValue( "border", this._border );
 		}
 	#endregion
 	
@@ -288,10 +286,10 @@ namespace ZedGraph
 					Math.Abs( pixRect.Bottom ) < 100000 )
 			{
 				// If the box is to be filled, fill it
-				_fill.Draw( g, pixRect );
+				this._fill.Draw( g, pixRect );
 				
 				// Draw the border around the box if required
-				_border.Draw( g, pane, scaleFactor, pixRect );
+				this._border.Draw( g, pane, scaleFactor, pixRect );
 			}
 		}
 		
@@ -322,7 +320,7 @@ namespace ZedGraph
 
 			// transform the x,y location from the user-defined
 			// coordinate frame to the screen pixel location
-			RectangleF pixRect = _location.TransformRect( pane );
+			RectangleF pixRect = this._location.TransformRect( pane );
 
 			return pixRect.Contains( pt );
 		}
@@ -335,7 +333,7 @@ namespace ZedGraph
 		{
 			// transform the x,y location from the user-defined
 			// coordinate frame to the screen pixel location
-			RectangleF pixRect = _location.TransformRect( pane );
+			RectangleF pixRect = this._location.TransformRect( pane );
 
 			shape = "rect";
 			coords = String.Format( "{0:f0},{1:f0},{2:f0},{3:f0}",

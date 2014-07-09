@@ -7,16 +7,16 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
-using KUL.MDS.Base;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Reflection;
+
+    using SIS.Base;
+
     /// <summary>
     /// Methods for manual profiling and tracing.
     /// </summary>
@@ -73,7 +73,7 @@ namespace KUL.MDS.SystemLayer
             {
                 get
                 {
-                    return message;
+                    return this.message;
                 }
             }
 
@@ -81,7 +81,7 @@ namespace KUL.MDS.SystemLayer
             {
                 get
                 {
-                    return timestamp;
+                    return this.timestamp;
                 }
             }
 

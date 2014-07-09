@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KUL.MDS.Data
+﻿namespace SIS.Data
 {
+    using System.Collections.Generic;
+
     public class Block
     {
         // Members.
@@ -11,7 +9,7 @@ namespace KUL.MDS.Data
 
         // Blocks can have a name (but usually it doesn't have)
         private string m_sName;
-        private List<KUL.MDS.Data.Column> m_lColumns;
+        private List<Column> m_lColumns;
 
         // Fields.
         public MetaData MetaData
@@ -41,9 +39,9 @@ namespace KUL.MDS.Data
         // Constructor.
         public Block()
         {
-            m_mdtaMetaData = null;
-            m_sName = string.Empty;
-            m_lColumns = new List<Column>();
+            this.m_mdtaMetaData = null;
+            this.m_sName = string.Empty;
+            this.m_lColumns = new List<Column>();
         }
 
         // handy pseudo-column that returns index of point as value
@@ -77,7 +75,7 @@ namespace KUL.MDS.Data
             int _iMinN = -1;
             for (int _iI = 0; _iI < this.m_lColumns.Count; _iI++)
             {
-                int _iN = m_lColumns[_iI].GetPointCount();
+                int _iN = this.m_lColumns[_iI].GetPointCount();
                 if (_iMinN == -1 || (_iN != -1 && _iN < _iMinN))
                     _iMinN = _iN;
             }

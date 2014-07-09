@@ -7,13 +7,13 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using KUL.MDS.Base;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate.Snapping
 {
+    using System;
+    using System.Drawing;
+
+    using SIS.Base;
+
     public abstract class SnapObstacle
     {
         public const int DefaultSnapProximity = 15;
@@ -55,7 +55,7 @@ namespace KUL.MDS.MDITemplate
         public bool RequestBoundsChange(Rectangle newBounds)
         {
             bool handled = false;
-            OnBoundsChangeRequested(newBounds, ref handled);
+            this.OnBoundsChangeRequested(newBounds, ref handled);
             return handled;
         }
 
@@ -139,9 +139,9 @@ namespace KUL.MDS.MDITemplate
         public event EventHandler<EventArgs<Rectangle>> BoundsChanging;
         protected virtual void OnBoundsChanging()
         {
-            if (BoundsChanging != null)
+            if (this.BoundsChanging != null)
             {
-                BoundsChanging(this, new EventArgs<Rectangle>(this.Bounds));
+                this.BoundsChanging(this, new EventArgs<Rectangle>(this.Bounds));
             }
         }
 
@@ -154,9 +154,9 @@ namespace KUL.MDS.MDITemplate
         public event EventHandler<EventArgs<Rectangle>> BoundsChanged;
         protected virtual void OnBoundsChanged()
         {
-            if (BoundsChanged != null)
+            if (this.BoundsChanged != null)
             {
-                BoundsChanged(this, new EventArgs<Rectangle>(this.previousBounds));
+                this.BoundsChanged(this, new EventArgs<Rectangle>(this.previousBounds));
             }
         }
 

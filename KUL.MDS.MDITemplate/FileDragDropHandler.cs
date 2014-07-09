@@ -1,10 +1,10 @@
-using System;
-using System.Windows.Forms;
-using System.Collections;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
-	public class FileDragDropHandler
+    using System;
+    using System.Collections;
+    using System.Windows.Forms;
+
+    public class FileDragDropHandler
 	{
 		private Hashtable m_mapAllowedExtensions = null;
 
@@ -13,27 +13,27 @@ namespace KUL.MDS.MDITemplate
 
 		public FileDragDropHandler(Form form, string [] asExtensions)
 		{
-			InitialiseEvents(form);
-			InitialiseExtensionMap(asExtensions);
+			this.InitialiseEvents(form);
+			this.InitialiseExtensionMap(asExtensions);
 		}
 
 		private void InitialiseEvents(Form form)
 		{
 			form.AllowDrop = true;
-			form.DragEnter += new DragEventHandler(form_DragEnter);
-			form.DragLeave += new EventHandler(form_DragLeave);
-			form.DragDrop += new DragEventHandler(form_DragDrop);
+			form.DragEnter += new DragEventHandler(this.form_DragEnter);
+			form.DragLeave += new EventHandler(this.form_DragLeave);
+			form.DragDrop += new DragEventHandler(this.form_DragDrop);
 		}
 
 		private void InitialiseExtensionMap(string [] asExtensions)
 		{
-			m_mapAllowedExtensions = new Hashtable();
+			this.m_mapAllowedExtensions = new Hashtable();
 
 			if (asExtensions != null)
 			{
 				foreach (string sExtension in asExtensions)
 				{
-					m_mapAllowedExtensions.Add(sExtension, null);
+					this.m_mapAllowedExtensions.Add(sExtension, null);
 				}
 			}
 		}
@@ -42,7 +42,7 @@ namespace KUL.MDS.MDITemplate
 		{
 			if (e.Data.GetDataPresent(DataFormats.FileDrop))
 			{
-				if (TestExtensions(e))
+				if (this.TestExtensions(e))
 				{
 					e.Effect = DragDropEffects.Copy;
 				}
@@ -71,7 +71,7 @@ namespace KUL.MDS.MDITemplate
 				{
 					string sExtension = FileNameHelpers.GetExtension(sFileName);
 
-					if (!m_mapAllowedExtensions.Contains(sExtension))
+					if (!this.m_mapAllowedExtensions.Contains(sExtension))
 					{
 						return false;
 					}
@@ -89,11 +89,11 @@ namespace KUL.MDS.MDITemplate
 		{
 			string [] asFiles = e.Data.GetData(DataFormats.FileDrop) as string[];
 
-			if (asFiles != null && FileDropped != null)
+			if (asFiles != null && this.FileDropped != null)
 			{
 				foreach (string sFileName in asFiles)
 				{
-					FileDropped(sFileName);
+					this.FileDropped(sFileName);
 				}
 			}
 		}

@@ -17,16 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class that encapsulates Border (frame) properties for an object.  The <see cref="Border"/> class
 	/// is used in a variety of ZedGraph objects to handle the drawing of the Border around the object.
 	/// </summary>
@@ -69,7 +67,7 @@ namespace ZedGraph
 		/// </summary>
 		public Border() : base()
 		{
-			_inflateFactor = Default.InflateFactor;
+			this._inflateFactor = Default.InflateFactor;
 		}
 
 		/// <summary>
@@ -81,8 +79,8 @@ namespace ZedGraph
         public Border( bool isVisible, Color color, float width ) :
 			  base( color )
 		{
-			_width = width;
-			_isVisible = isVisible;
+			this._width = width;
+			this._isVisible = isVisible;
 		}
 
 		/// <summary>
@@ -101,7 +99,7 @@ namespace ZedGraph
 		/// <param name="rhs">The Border object from which to copy</param>
 		public Border( Border rhs ) : base( rhs )
 		{
-			_inflateFactor = rhs._inflateFactor;
+			this._inflateFactor = rhs._inflateFactor;
 		}
 
 		/// <summary>
@@ -145,20 +143,20 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_inflateFactor = info.GetSingle( "inflateFactor" );
+			this._inflateFactor = info.GetSingle( "inflateFactor" );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 
 			info.AddValue( "schema", schema );
-			info.AddValue( "inflateFactor", _inflateFactor );
+			info.AddValue( "inflateFactor", this._inflateFactor );
 		}
 	#endregion
 		
@@ -172,8 +170,8 @@ namespace ZedGraph
 		/// </remarks>
 		public float InflateFactor
 		{
-			get { return _inflateFactor; }
-			set { _inflateFactor = value; }
+			get { return this._inflateFactor; }
+			set { this._inflateFactor = value; }
 		}
 	#endregion
 
@@ -225,14 +223,14 @@ namespace ZedGraph
 		{
 			// Need to use the RectangleF props since rounding it can cause the axisFrame to
 			// not line up properly with the last tic mark
-			if ( _isVisible )
+			if ( this._isVisible )
 			{
 				RectangleF tRect = rect;
 
-				float		scaledInflate = (float) ( _inflateFactor * scaleFactor );
+				float		scaledInflate = (float) ( this._inflateFactor * scaleFactor );
 				tRect.Inflate( scaledInflate, scaledInflate );
 
-				using ( Pen pen = GetPen( pane, scaleFactor) )
+				using ( Pen pen = this.GetPen( pane, scaleFactor) )
 					g.DrawRectangle( pen, tRect.X, tRect.Y, tRect.Width, tRect.Height );
 			}
 		}

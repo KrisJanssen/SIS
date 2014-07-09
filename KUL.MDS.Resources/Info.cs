@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
-using KUL.MDS.AppResources;
-using System.IO;
-using System.Reflection;
-using System.Globalization;
-using KUL.MDS.SIS;
-
-namespace KUL.MDS.AppResources
+﻿namespace SIS.Resources
 {
+    using System;
+    using System.Drawing;
+    using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Text;
+    using System.Windows.Forms;
+
     /// <summary>
     /// A few utility functions specific to KUL.MDS.SIS.exe
     /// </summary>

@@ -1,20 +1,20 @@
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using KUL.MDS.SystemLayer;
-using KUL.MDS.Base;
-using System.Threading;
-using KUL.MDS.Library;
-using System.Collections.Generic;
-using KUL.MDS.AppResources;
-using System.IO;
-
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.IO;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using SIS.Base;
+    using SIS.Library;
+    using SIS.Resources;
+    using SIS.Systemlayer;
+
     //public class MdiParentForm : System.Windows.Forms.Form
-    public class MdiParentForm : KUL.MDS.MDITemplate.BaseForm
+    public class MdiParentForm : BaseForm
     {
         protected System.Windows.Forms.MainMenu m_menuMain = null;
         protected MdiMenuItem m_menuItemFile = null;
@@ -73,7 +73,7 @@ namespace KUL.MDS.MDITemplate
             {
                 if (this.singleInstanceManager != null)
                 {
-                    this.singleInstanceManager.InstanceMessageReceived -= new EventHandler(SingleInstanceManager_InstanceMessageReceived);
+                    this.singleInstanceManager.InstanceMessageReceived -= new EventHandler(this.SingleInstanceManager_InstanceMessageReceived);
                     this.singleInstanceManager.SetWindow(null);
                 }
 
@@ -82,14 +82,14 @@ namespace KUL.MDS.MDITemplate
                 if (this.singleInstanceManager != null)
                 {
                     this.singleInstanceManager.SetWindow(this);
-                    this.singleInstanceManager.InstanceMessageReceived += new EventHandler(SingleInstanceManager_InstanceMessageReceived);
+                    this.singleInstanceManager.InstanceMessageReceived += new EventHandler(this.SingleInstanceManager_InstanceMessageReceived);
                 }
             }
         }
 
         private void SingleInstanceManager_InstanceMessageReceived(object sender, EventArgs e)
         {
-            BeginInvoke(new Procedure(ProcessQueuedInstanceMessages), null);
+            this.BeginInvoke(new Procedure(this.ProcessQueuedInstanceMessages), null);
         }
 
         protected override void OnShown(EventArgs e)
@@ -109,12 +109,12 @@ namespace KUL.MDS.MDITemplate
 
         private void ProcessQueuedInstanceMessages()
         {
-            if (IsDisposed)
+            if (this.IsDisposed)
             {
                 return;
             }
 
-            if (IsHandleCreated &&
+            if (this.IsHandleCreated &&
                 !Info.IsExpired &&
                 this.singleInstanceManager != null)
             {
@@ -135,7 +135,7 @@ namespace KUL.MDS.MDITemplate
 
                 foreach (string message in messages)
                 {
-                    bool result = ProcessMessage(message);
+                    bool result = this.ProcessMessage(message);
 
                     if (!result)
                     {
@@ -197,7 +197,7 @@ namespace KUL.MDS.MDITemplate
 
         private bool ProcessMessage(string message)
         {
-            if (IsDisposed)
+            if (this.IsDisposed)
             {
                 return false;
             }
@@ -206,7 +206,7 @@ namespace KUL.MDS.MDITemplate
             string actionParm;
             bool result;
 
-            result = SplitMessage(message, out action, out actionParm);
+            result = this.SplitMessage(message, out action, out actionParm);
 
             if (!result)
             {
@@ -220,24 +220,24 @@ namespace KUL.MDS.MDITemplate
                     break;
 
                 case ArgumentAction.Open:
-                    Activate();
+                    this.Activate();
 
-                    if (IsCurrentModalForm && Enabled)
+                    if (this.IsCurrentModalForm && this.Enabled)
                     {
                         //result = this.appWorkspace.OpenFileInNewWorkspace(actionParm);
-                        OpenDocument(actionParm);
+                        this.OpenDocument(actionParm);
                         result = true;
                     }
 
                     break;
 
                 case ArgumentAction.OpenUntitled:
-                    Activate();
+                    this.Activate();
 
-                    if (!string.IsNullOrEmpty(actionParm) && IsCurrentModalForm && Enabled)
+                    if (!string.IsNullOrEmpty(actionParm) && this.IsCurrentModalForm && this.Enabled)
                     {
                         //result = this.appWorkspace.OpenFileInNewWorkspace(actionParm, false);
-                        OpenDocument(actionParm);
+                        this.OpenDocument(actionParm);
                         result = true;
 
                         if (result)
@@ -284,7 +284,7 @@ namespace KUL.MDS.MDITemplate
             if (!this.IsDisposed &&
                 (this.queuedInstanceMessages.Count > 0 || (this.singleInstanceManager != null && this.singleInstanceManager.AreMessagesPending)))
             {
-                ProcessQueuedInstanceMessages();
+                this.ProcessQueuedInstanceMessages();
             }
         }
 
@@ -425,19 +425,19 @@ namespace KUL.MDS.MDITemplate
             }
 
 
-            InitializeComponent();
+            this.InitializeComponent();
 
             if (!this.DesignMode)
             {
-                m_documentTypes = new DocumentTypes();
+                this.m_documentTypes = new DocumentTypes();
 
                 this.Text = Application.ProductName;
 
-                m_menuItemHelpAbout.Text = string.Format("About {0}...", Application.ProductName);
-                m_menuItemRecentFiles.OpenFile += new KUL.MDS.MDITemplate.RecentFilesMenuItem.OpenFileHandler(m_menuItemRecentFiles_OpenFile);
+                this.m_menuItemHelpAbout.Text = string.Format("About {0}...", Application.ProductName);
+                this.m_menuItemRecentFiles.OpenFile += new RecentFilesMenuItem.OpenFileHandler(this.m_menuItemRecentFiles_OpenFile);
 
-                m_dragDropHandler = new FileDragDropHandler(this, m_documentTypes.Extensions);
-                m_dragDropHandler.FileDropped += new KUL.MDS.MDITemplate.FileDragDropHandler.FileDropHandler(m_dragDropHandler_FileDropped);
+                this.m_dragDropHandler = new FileDragDropHandler(this, this.m_documentTypes.Extensions);
+                this.m_dragDropHandler.FileDropped += new FileDragDropHandler.FileDropHandler(this.m_dragDropHandler_FileDropped);
             }
 
             foreach (string _sFileName in _lFileNames)
@@ -456,16 +456,16 @@ namespace KUL.MDS.MDITemplate
                 //this.appWorkspace.ActiveDocumentWorkspace.Document.Dirty = false;
             }
 
-            Application.Idle += new EventHandler(Application_Idle);
+            Application.Idle += new EventHandler(this.Application_Idle);
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (components != null)
+                if (this.components != null)
                 {
-                    components.Dispose();
+                    this.components.Dispose();
                 }
             }
             base.Dispose(disposing);
@@ -480,21 +480,21 @@ namespace KUL.MDS.MDITemplate
         {
             this.components = new System.ComponentModel.Container();
             this.m_menuMain = new System.Windows.Forms.MainMenu(this.components);
-            this.m_menuItemFile = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemFileNew = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemFileOpen = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemFileClose = new KUL.MDS.MDITemplate.MdiMenuItem();
+            this.m_menuItemFile = new MdiMenuItem();
+            this.m_menuItemFileNew = new MdiMenuItem();
+            this.m_menuItemFileOpen = new MdiMenuItem();
+            this.m_menuItemFileClose = new MdiMenuItem();
             this.m_menuItemFileSeparator2 = new System.Windows.Forms.MenuItem();
-            this.m_menuItemFileSave = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemFileSaveAs = new KUL.MDS.MDITemplate.MdiMenuItem();
+            this.m_menuItemFileSave = new MdiMenuItem();
+            this.m_menuItemFileSaveAs = new MdiMenuItem();
             this.m_menuItemFileSeperator2 = new System.Windows.Forms.MenuItem();
-            this.m_menuItemRecentFiles = new KUL.MDS.MDITemplate.RecentFilesMenuItem();
-            this.m_menuItemFileSeparator = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemFileExit = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemWindow = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemHelp = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemHelpAbout = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_statusBar = new KUL.MDS.MDITemplate.MessengerStatusBar();
+            this.m_menuItemRecentFiles = new RecentFilesMenuItem();
+            this.m_menuItemFileSeparator = new MdiMenuItem();
+            this.m_menuItemFileExit = new MdiMenuItem();
+            this.m_menuItemWindow = new MdiMenuItem();
+            this.m_menuItemHelp = new MdiMenuItem();
+            this.m_menuItemHelpAbout = new MdiMenuItem();
+            this.m_statusBar = new MessengerStatusBar();
             this.SuspendLayout();
             // 
             // m_menuMain
@@ -656,7 +656,7 @@ namespace KUL.MDS.MDITemplate
 
             if (!this.DesignMode)
             {
-                m_positionSerializer = new FormPositionSerializer(this, "MainForm");
+                this.m_positionSerializer = new FormPositionSerializer(this, "MainForm");
             }
         }
 
@@ -677,12 +677,12 @@ namespace KUL.MDS.MDITemplate
         {
             get
             {
-                return m_imageApplication;
+                return this.m_imageApplication;
             }
 
             set
             {
-                m_imageApplication = value;
+                this.m_imageApplication = value;
             }
         }
 
@@ -696,17 +696,17 @@ namespace KUL.MDS.MDITemplate
 
         private void m_menuItemFileExit_Click(object sender, System.EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
         private void m_menuFileOpen_Click(object sender, System.EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = m_documentTypes.OpenDialogFilter;
+            dialog.Filter = this.m_documentTypes.OpenDialogFilter;
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                OpenDocument(dialog.FileName);
+                this.OpenDocument(dialog.FileName);
             }
         }
 
@@ -726,7 +726,7 @@ namespace KUL.MDS.MDITemplate
             }
 
             // Replaced sFile by sFileLower here.
-            MdiDocument document = m_documentTypes.OpenDocument(sFileLower);
+            MdiDocument document = this.m_documentTypes.OpenDocument(sFileLower);
 
             if (document == null)
             {
@@ -737,21 +737,21 @@ namespace KUL.MDS.MDITemplate
             }
             else
             {
-                CreateView(document);
+                this.CreateView(document);
             }
 
-            UpdateMenuItems();
+            this.UpdateMenuItems();
         }
 
         private void m_menuItemFileSave_Click(object sender, System.EventArgs e)
         {
-            MdiViewForm view = ActiveView;
+            MdiViewForm view = this.ActiveView;
 
             if (view != null)
             {
                 if (view.Document.FilePath.Length == 0)
                 {
-                    m_menuItemFileSaveAs_Click(sender, e);
+                    this.m_menuItemFileSaveAs_Click(sender, e);
                 }
                 else
                 {
@@ -767,12 +767,12 @@ namespace KUL.MDS.MDITemplate
 
         private void m_menuItemFileSaveAs_Click(object sender, System.EventArgs e)
         {
-            MdiViewForm view = ActiveView;
+            MdiViewForm view = this.ActiveView;
 
             if (view != null)
             {
                 SaveFileDialog dialog = new SaveFileDialog();
-                dialog.Filter = m_documentTypes.GetSaveFilter(view);
+                dialog.Filter = this.m_documentTypes.GetSaveFilter(view);
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -789,7 +789,7 @@ namespace KUL.MDS.MDITemplate
 
         private void m_menuItemFileClose_Click(object sender, System.EventArgs e)
         {
-            MdiViewForm view = ActiveView;
+            MdiViewForm view = this.ActiveView;
 
             if (view != null)
             {
@@ -799,20 +799,20 @@ namespace KUL.MDS.MDITemplate
 
         private void m_menuItemFileNew_Click(object sender, System.EventArgs e)
         {
-            if (m_documentTypes.Count == 0)
+            if (this.m_documentTypes.Count == 0)
             {
                 return;
             }
 
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = m_documentTypes.CreateFilter;
+            dialog.Filter = this.m_documentTypes.CreateFilter;
 
             if (dialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
-            MdiDocument document = m_documentTypes.CreateDocument(dialog.FileName);
+            MdiDocument document = this.m_documentTypes.CreateDocument(dialog.FileName);
 
             if (document == null)
             {
@@ -823,7 +823,7 @@ namespace KUL.MDS.MDITemplate
             }
             else
             {
-                if (CreateView(document))
+                if (this.CreateView(document))
                 {
                     RecentFilesList.Get().Add(dialog.FileName);
                 }
@@ -848,8 +848,8 @@ namespace KUL.MDS.MDITemplate
                 view.MdiParent = this;
                 view.InitialUpdate();
                 view.Show();
-                view.Closed += new EventHandler(view_Closed);
-                view.Activated += new EventHandler(view_Activated);
+                view.Closed += new EventHandler(this.view_Closed);
+                view.Activated += new EventHandler(this.view_Activated);
                 return true;
             }
         }
@@ -864,17 +864,17 @@ namespace KUL.MDS.MDITemplate
 
         private void m_menuItemRecentFiles_OpenFile(string sFile)
         {
-            OpenDocument(sFile);
+            this.OpenDocument(sFile);
         }
 
         private void m_dragDropHandler_FileDropped(string sFileName)
         {
-            OpenDocument(sFileName);
+            this.OpenDocument(sFileName);
         }
 
         private void UpdateMenuItems()
         {
-            foreach (MdiMenuItem item in m_menuMain.MenuItems)
+            foreach (MdiMenuItem item in this.m_menuMain.MenuItems)
             {
                 if (item != null)
                 {
@@ -885,12 +885,12 @@ namespace KUL.MDS.MDITemplate
 
         private void view_Closed(object sender, EventArgs e)
         {
-            UpdateMenuItems();
+            this.UpdateMenuItems();
         }
 
         private void view_Activated(object sender, EventArgs e)
         {
-            UpdateMenuItems();
+            this.UpdateMenuItems();
         }
     }
 }

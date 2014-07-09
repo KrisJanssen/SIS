@@ -19,18 +19,18 @@
 
 #region Using directives
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// This class handles the drawing of the curve <see cref="OHLCBar"/> objects.
 	/// </summary>
 	/// 
@@ -107,8 +107,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.IsOpenCloseVisible"/>
 		public bool IsOpenCloseVisible
 		{
-			get { return _isOpenCloseVisible; }
-			set { _isOpenCloseVisible = value; }
+			get { return this._isOpenCloseVisible; }
+			set { this._isOpenCloseVisible = value; }
 		}
 
 		/// <summary>
@@ -130,8 +130,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.Size"/>
 		public float Size
 		{
-			get { return _size; }
-			set { _size = value; _isAutoSize = false; }
+			get { return this._size; }
+			set { this._size = value; this._isAutoSize = false; }
 		}
 
 		/// <summary>
@@ -141,8 +141,8 @@ namespace ZedGraph
 		/// </summary>
 		public Boolean IsAutoSize
 		{
-			get { return _isAutoSize; }
-			set { _isAutoSize = value; }
+			get { return this._isAutoSize; }
+			set { this._isAutoSize = value; }
 		}
 
 	#endregion
@@ -168,9 +168,9 @@ namespace ZedGraph
 		/// </param>
 		public OHLCBar( Color color ) : base( color )
 		{
-			_size = Default.Size;
-			_isAutoSize = Default.IsAutoSize;
-			_isOpenCloseVisible = Default.IsOpenCloseVisible;
+			this._size = Default.Size;
+			this._isAutoSize = Default.IsAutoSize;
+			this._isOpenCloseVisible = Default.IsOpenCloseVisible;
 		}
 
 		/// <summary>
@@ -179,9 +179,9 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="OHLCBar"/> object from which to copy</param>
 		public OHLCBar( OHLCBar rhs ) : base( rhs )
 		{
-			_isOpenCloseVisible = rhs._isOpenCloseVisible;
-			_size = rhs._size;
-			_isAutoSize = rhs._isAutoSize;
+			this._isOpenCloseVisible = rhs._isOpenCloseVisible;
+			this._size = rhs._size;
+			this._isAutoSize = rhs._isAutoSize;
 		}
 
 		/// <summary>
@@ -226,23 +226,23 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema" );
 
-			_isOpenCloseVisible = info.GetBoolean( "isOpenCloseVisible" );
-			_size = info.GetSingle( "size" );
-			_isAutoSize = info.GetBoolean( "isAutoSize" );
+			this._isOpenCloseVisible = info.GetBoolean( "isOpenCloseVisible" );
+			this._size = info.GetSingle( "size" );
+			this._isAutoSize = info.GetBoolean( "isAutoSize" );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema", schema );
-			info.AddValue( "isOpenCloseVisible", _isOpenCloseVisible );
-			info.AddValue( "size", _size );
-			info.AddValue( "isAutoSize", _isAutoSize );
+			info.AddValue( "isOpenCloseVisible", this._isOpenCloseVisible );
+			info.AddValue( "size", this._size );
+			info.AddValue( "isAutoSize", this._isAutoSize );
 		}
 
 	#endregion
@@ -290,18 +290,18 @@ namespace ZedGraph
 				{
 					if ( Math.Abs( pixLow ) < 1000000 && Math.Abs( pixHigh ) < 1000000 )
 						g.DrawLine( pen, pixBase, pixHigh, pixBase, pixLow );
-					if ( _isOpenCloseVisible && Math.Abs( pixOpen ) < 1000000 )
+					if ( this._isOpenCloseVisible && Math.Abs( pixOpen ) < 1000000 )
 						g.DrawLine( pen, pixBase - halfSize, pixOpen, pixBase, pixOpen );
-					if ( _isOpenCloseVisible && Math.Abs( pixClose ) < 1000000 )
+					if ( this._isOpenCloseVisible && Math.Abs( pixClose ) < 1000000 )
 						g.DrawLine( pen, pixBase, pixClose, pixBase + halfSize, pixClose );
 				}
 				else
 				{
 					if ( Math.Abs( pixLow ) < 1000000 && Math.Abs( pixHigh ) < 1000000 )
 						g.DrawLine( pen, pixHigh, pixBase, pixLow, pixBase );
-					if ( _isOpenCloseVisible && Math.Abs( pixOpen ) < 1000000 )
+					if ( this._isOpenCloseVisible && Math.Abs( pixOpen ) < 1000000 )
 						g.DrawLine( pen, pixOpen, pixBase - halfSize, pixOpen, pixBase );
-					if ( _isOpenCloseVisible && Math.Abs( pixClose ) < 1000000 )
+					if ( this._isOpenCloseVisible && Math.Abs( pixClose ) < 1000000 )
 						g.DrawLine( pen, pixClose, pixBase, pixClose, pixBase + halfSize );
 				}
 			}
@@ -342,9 +342,9 @@ namespace ZedGraph
 			if ( curve.Points != null )
 			{
 				//float halfSize = _size * scaleFactor;
-				float halfSize = GetBarWidth( pane, baseAxis, scaleFactor );
+				float halfSize = this.GetBarWidth( pane, baseAxis, scaleFactor );
 
-				using ( Pen pen = !curve.IsSelected ? new Pen( _color, _width ) :
+				using ( Pen pen = !curve.IsSelected ? new Pen( this._color, this._width ) :
 						new Pen( Selection.Border.Color, Selection.Border.Width ) )
 //				using ( Pen pen = new Pen( _color, _penWidth ) )
 				{
@@ -388,13 +388,13 @@ namespace ZedGraph
 
 							if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
 							{
-								using ( Pen tPen = GetPen( pane, scaleFactor, pt ) )
-									Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,
+								using ( Pen tPen = this.GetPen( pane, scaleFactor, pt ) )
+									this.Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,
 											pixBase, pixHigh, pixLow, pixOpen,
 											pixClose, halfSize, tPen );
 							}
 							else
-								Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,
+								this.Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,
 										pixBase, pixHigh, pixLow, pixOpen,
 										pixClose, halfSize, pen );
 						}
@@ -420,11 +420,11 @@ namespace ZedGraph
 		public float GetBarWidth( GraphPane pane, Axis baseAxis, float scaleFactor )
 		{
 			float width;
-			if ( _isAutoSize )
-				width = baseAxis._scale.GetClusterWidth( _userScaleSize ) /
+			if ( this._isAutoSize )
+				width = baseAxis._scale.GetClusterWidth( this._userScaleSize ) /
 								( 1.0F + pane._barSettings.MinClusterGap ) / 2.0f;
 			else
-				width = (float)( _size * scaleFactor ) / 2.0f;
+				width = (float)( this._size * scaleFactor ) / 2.0f;
 
 			// use integral size
 			return (int)(width + 0.5f);

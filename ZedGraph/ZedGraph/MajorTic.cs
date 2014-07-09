@@ -17,15 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// Class that holds the specific properties for the major tics.  Inherits from
 	/// <see cref="MinorTic" />.
 	/// </summary>
@@ -43,17 +42,17 @@ namespace ZedGraph
 		/// </summary>
 		public MajorTic()
 		{
-			_size = Default.Size;
-			_color = Default.Color;
-			_penWidth = Default.PenWidth;
+			this._size = Default.Size;
+			this._color = Default.Color;
+			this._penWidth = Default.PenWidth;
 
 			this.IsOutside = Default.IsOutside;
 			this.IsInside = Default.IsInside;
 			this.IsOpposite = Default.IsOpposite;
-			_isCrossOutside = Default.IsCrossOutside;
-			_isCrossInside = Default.IsCrossInside;
+			this._isCrossOutside = Default.IsCrossOutside;
+			this._isCrossInside = Default.IsCrossInside;
 
-			_isBetweenLabels = false;
+			this._isBetweenLabels = false;
 		}
 
 		/// <summary>
@@ -63,7 +62,7 @@ namespace ZedGraph
 		public MajorTic( MajorTic rhs )
 			: base( rhs )
 		{
-			_isBetweenLabels = rhs._isBetweenLabels;
+			this._isBetweenLabels = rhs._isBetweenLabels;
 		}
 
 		/// <summary>
@@ -105,8 +104,8 @@ namespace ZedGraph
 		/// <seealso cref="MinorTic.IsCrossInside"/>
 		public bool IsBetweenLabels
 		{
-			get { return _isBetweenLabels; }
-			set { _isBetweenLabels = value; }
+			get { return this._isBetweenLabels; }
+			set { this._isBetweenLabels = value; }
 		}
 
 	#endregion
@@ -132,7 +131,7 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch2 = info.GetInt32( "schema2" );
 
-			_isBetweenLabels = info.GetBoolean( "isBetweenLabels" );
+			this._isBetweenLabels = info.GetBoolean( "isBetweenLabels" );
 		}
 
 		/// <summary>
@@ -140,14 +139,14 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 
 			info.AddValue( "schema2", schema2 );
 
-			info.AddValue( "isBetweenLabels", _isBetweenLabels );
+			info.AddValue( "isBetweenLabels", this._isBetweenLabels );
 		}
 
 	#endregion

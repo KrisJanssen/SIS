@@ -7,12 +7,11 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
-using System;
-using System.Runtime.InteropServices;
-
-namespace KUL.MDS.SystemLayer.GpcWrapper
+namespace SIS.Systemlayer.GpcWrapper
 {
+    using System;
+    using System.Runtime.InteropServices;
+
     internal static class NativeMethods
     {
         private static class X64

@@ -7,13 +7,12 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-
-namespace KUL.MDS.Base
+namespace SIS.Base
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents an enumerable collection of items. Each item can only be present
     /// in the collection once. An item's identity is determined by a combination
@@ -38,7 +37,7 @@ namespace KUL.MDS.Base
         {
             try
             {
-                hashtable.Add(item, null);
+                this.hashtable.Add(item, null);
             }
 
             catch (ArgumentNullException e1)
@@ -61,7 +60,7 @@ namespace KUL.MDS.Base
         {
             try
             {
-                hashtable.Remove(item);
+                this.hashtable.Remove(item);
             }
 
             catch (ArgumentNullException e1)
@@ -80,7 +79,7 @@ namespace KUL.MDS.Base
         {
             try
             {
-                return hashtable.ContainsKey(item);
+                return this.hashtable.ContainsKey(item);
             }
 
             catch (ArgumentNullException e1)
@@ -107,7 +106,7 @@ namespace KUL.MDS.Base
 
             foreach (object theObject in cloneMe)
             {
-                Add(theObject);
+                this.Add(theObject);
             }
         }
 
@@ -122,7 +121,7 @@ namespace KUL.MDS.Base
         /// <param name="copyMe">The Set to copy from.</param>
         private Set(Set copyMe)
         {
-            hashtable = (Hashtable)copyMe.Clone();
+            this.hashtable = (Hashtable)copyMe.Clone();
         }
 
         #region IEnumerable Members
@@ -133,7 +132,7 @@ namespace KUL.MDS.Base
         /// <returns>An IEnumerator for the Set.</returns>
         public IEnumerator GetEnumerator()
         {
-            return hashtable.Keys.GetEnumerator();
+            return this.hashtable.Keys.GetEnumerator();
         }
 
         #endregion
@@ -171,7 +170,7 @@ namespace KUL.MDS.Base
         {
             get
             {
-                return hashtable.Count;
+                return this.hashtable.Count;
             }
         }
 
@@ -238,7 +237,7 @@ namespace KUL.MDS.Base
         /// <returns>An array of object references.</returns>
         public object[] ToArray()
         {
-            object[] array = new object[Count];
+            object[] array = new object[this.Count];
             int index = 0;
 
             foreach (object o in this)
@@ -257,7 +256,7 @@ namespace KUL.MDS.Base
         /// <returns>An array of objects of the requested type.</returns>
         public Array ToArray(Type type)
         {
-            Array array = Array.CreateInstance(type, Count);
+            Array array = Array.CreateInstance(type, this.Count);
             int index = 0;
 
             foreach (object o in this)
@@ -407,13 +406,13 @@ namespace KUL.MDS.Base
         {
             foreach (T item in items)
             {
-                Add(item);
+                this.Add(item);
             }
         }
 
         public void AddRange(params T[] items)
         {
-            AddRange((IEnumerable<T>)items);
+            this.AddRange((IEnumerable<T>)items);
         }
 
         /// <summary>
@@ -472,7 +471,7 @@ namespace KUL.MDS.Base
 
             foreach (T theObject in cloneMe)
             {
-                Add(theObject);
+                this.Add(theObject);
             }
         }
 
@@ -521,7 +520,7 @@ namespace KUL.MDS.Base
         /// <returns></returns>
         object ICloneable.Clone()
         {
-            return Clone();
+            return this.Clone();
         }
 
         #endregion
@@ -613,7 +612,7 @@ namespace KUL.MDS.Base
         /// <returns>An array of object references.</returns>
         public T[] ToArray()
         {
-            T[] array = new T[Count];
+            T[] array = new T[this.Count];
             int index = 0;
 
             foreach (T o in this)

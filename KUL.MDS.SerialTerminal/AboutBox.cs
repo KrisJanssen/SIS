@@ -1,28 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Reflection;
-
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
+    using System;
+    using System.Reflection;
+    using System.Windows.Forms;
+
     partial class AboutBox : Form
     {
         public AboutBox()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             //  Initialize the AboutBox to display the product information from the assembly information.
             //  Change assembly information settings for your application through either:
             //  - Project->Properties->Application->Assembly Information
             //  - AssemblyInfo.cs
-            this.Text = String.Format("About {0}", AssemblyTitle);
-            this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-            this.labelCopyright.Text = AssemblyCopyright;
-            this.labelCompanyName.Text = AssemblyCompany;
-            this.textBoxDescription.Text = AssemblyDescription;
+            this.Text = String.Format("About {0}", this.AssemblyTitle);
+            this.labelProductName.Text = this.AssemblyProduct;
+            this.labelVersion.Text = String.Format("Version {0}", this.AssemblyVersion);
+            this.labelCopyright.Text = this.AssemblyCopyright;
+            this.labelCompanyName.Text = this.AssemblyCompany;
+            this.textBoxDescription.Text = this.AssemblyDescription;
         }
 
         #region Assembly Attribute Accessors
@@ -114,7 +111,7 @@ namespace KUL.MDS.SerialTerminal
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
     }
 }

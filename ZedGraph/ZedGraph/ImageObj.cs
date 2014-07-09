@@ -19,18 +19,19 @@
 
 #region Using directives
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// A class that represents an image object on the graph.  A list of
 	/// <see cref="GraphObj"/> objects is maintained by the <see cref="GraphObjList"/>
 	/// collection class.
@@ -78,8 +79,8 @@ namespace ZedGraph
         /// <value> A <see cref="System.Drawing.Image"/> class reference. </value>
 		public Image Image
 		{
-			get { return _image; }
-			set { _image = value; }
+			get { return this._image; }
+			set { this._image = value; }
 		}
 		/// <summary>
 		/// Gets or sets a property that determines if the image will be scaled to the
@@ -89,8 +90,8 @@ namespace ZedGraph
 		/// to the destination rectangle</value>
 		public bool IsScaled
 		{
-			get { return _isScaled; }
-			set { _isScaled = value; }
+			get { return this._isScaled; }
+			set { this._isScaled = value; }
 		}
 	#endregion
 	
@@ -143,8 +144,8 @@ namespace ZedGraph
 				base( rect.X, rect.Y, rect.Width, rect.Height, coordType,
 					alignH, alignV )
 		{
-			_image = image;
-			_isScaled = Default.IsScaled;
+			this._image = image;
+			this._isScaled = Default.IsScaled;
 		}
 
 		/// <overloads>Constructors for the <see cref="ImageObj"/> object</overloads>
@@ -171,8 +172,8 @@ namespace ZedGraph
 					double width, double height ) :
 				base( left, top, width, height )
 		{
-			_image = image;
-			_isScaled = Default.IsScaled;
+			this._image = image;
+			this._isScaled = Default.IsScaled;
 		}
 
 		/// <summary>
@@ -181,8 +182,8 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="ImageObj"/> object from which to copy</param>
 		public ImageObj( ImageObj rhs ) : base( rhs )
 		{
-			_image = rhs._image;
-			_isScaled = rhs.IsScaled;
+			this._image = rhs._image;
+			this._isScaled = rhs.IsScaled;
 		}
 
 		/// <summary>
@@ -224,21 +225,21 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_image = (Image) info.GetValue( "image", typeof(Image) );
-			_isScaled = info.GetBoolean( "isScaled" );
+			this._image = (Image) info.GetValue( "image", typeof(Image) );
+			this._isScaled = info.GetBoolean( "isScaled" );
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 			info.AddValue( "schema2", schema2 );
-			info.AddValue( "image", _image );
-			info.AddValue( "isScaled", _isScaled );
+			info.AddValue( "image", this._image );
+			info.AddValue( "isScaled", this._isScaled );
 		}
 	#endregion
 	
@@ -264,19 +265,19 @@ namespace ZedGraph
 		/// </param>
 		override public void Draw( Graphics g, PaneBase pane, float scaleFactor )
 		{
-			if ( _image != null )
+			if ( this._image != null )
 			{
 				// Convert the rectangle coordinates from the user coordinate system
 				// to the screen coordinate system
-				RectangleF tmpRect = _location.TransformRect( pane );
+				RectangleF tmpRect = this._location.TransformRect( pane );
 
-				if ( _isScaled )
-					g.DrawImage( _image, tmpRect );
+				if ( this._isScaled )
+					g.DrawImage( this._image, tmpRect );
 				else
 				{
 					Region clip = g.Clip;
 					g.SetClip( tmpRect );
-					g.DrawImageUnscaled( _image, Rectangle.Round( tmpRect ) );
+					g.DrawImageUnscaled( this._image, Rectangle.Round( tmpRect ) );
 					g.SetClip( clip, CombineMode.Replace );
 					//g.DrawImageUnscaledAndClipped( image, Rectangle.Round( tmpRect ) );
 				}
@@ -307,14 +308,14 @@ namespace ZedGraph
 		/// <returns>true if the point lies in the bounding box, false otherwise</returns>
 		override public bool PointInBox( PointF pt, PaneBase pane, Graphics g, float scaleFactor )
 		{
-			if ( _image != null )
+			if ( this._image != null )
 			{
 				if ( ! base.PointInBox(pt, pane, g, scaleFactor ) )
 					return false;
 
 				// transform the x,y location from the user-defined
 				// coordinate frame to the screen pixel location
-				RectangleF tmpRect = _location.TransformRect( pane );
+				RectangleF tmpRect = this._location.TransformRect( pane );
 
 				return tmpRect.Contains( pt );
 			}
@@ -330,7 +331,7 @@ namespace ZedGraph
 		{
 			// transform the x,y location from the user-defined
 			// coordinate frame to the screen pixel location
-			RectangleF pixRect = _location.TransformRect( pane );
+			RectangleF pixRect = this._location.TransformRect( pane );
 
 			shape = "rect";
 			coords = String.Format( "{0:f0},{1:f0},{2:f0},{3:f0}",

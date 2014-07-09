@@ -1,15 +1,12 @@
-using System;
-using System.IO;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
+    using System;
+    using System.Collections;
+    using System.Drawing;
+    using System.IO;
+    using System.Text;
+    using System.Windows.Forms;
+
     public partial class SerialTerminalMainForm : Form
     {
 		/// <summary>
@@ -22,8 +19,8 @@ namespace KUL.MDS.SerialTerminal
 
 			public Line(string str, Color color)
 			{
-				Str = str;
-				ForeColor = color;
+				this.Str = str;
+				this.ForeColor = color;
 			}
 		};
 
@@ -34,28 +31,28 @@ namespace KUL.MDS.SerialTerminal
 
 		public SerialTerminalMainForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            splitContainer1.FixedPanel = FixedPanel.Panel1;
-            splitContainer2.FixedPanel = FixedPanel.Panel2;
+            this.splitContainer1.FixedPanel = FixedPanel.Panel1;
+            this.splitContainer2.FixedPanel = FixedPanel.Panel2;
 
-            AcceptButton = button5; //Send
-            CancelButton = button4; //Close
+            this.AcceptButton = this.button5; //Send
+            this.CancelButton = this.button4; //Close
 
-			outputList_Initialize();
+			this.outputList_Initialize();
 
 			Settings.Read();
-            TopMost = Settings.Option.StayOnTop;
+            this.TopMost = Settings.Option.StayOnTop;
 
 			// let form use multiple fonts
-            origFont = Font;
+            this.origFont = this.Font;
             FontFamily ff = new FontFamily("Courier New");
-            monoFont = new Font(ff, 8, FontStyle.Regular);
-            Font = Settings.Option.MonoFont ? monoFont : origFont;
+            this.monoFont = new Font(ff, 8, FontStyle.Regular);
+            this.Font = Settings.Option.MonoFont ? this.monoFont : this.origFont;
 
             CommPort com = CommPort.Instance;
-            com.StatusChanged += OnStatusChanged;
-            com.DataReceived += OnDataReceived;
+            com.StatusChanged += this.OnStatusChanged;
+            com.DataReceived += this.OnDataReceived;
             com.Open();
 		}
 
@@ -106,7 +103,7 @@ namespace KUL.MDS.SerialTerminal
 		/// <returns>true if matches filter</returns>
 		bool outputList_ApplyFilter(String s)
 		{
-			if (filterString == "")
+			if (this.filterString == "")
 			{
 				return true;
 			}
@@ -116,12 +113,12 @@ namespace KUL.MDS.SerialTerminal
 			}
 			else if (Settings.Option.FilterUseCase)
 			{
-				return (s.IndexOf(filterString) != -1);
+				return (s.IndexOf(this.filterString) != -1);
 			}
 			else
 			{
 			    string upperString = s.ToUpper();
-			    string upperFilter = filterString.ToUpper();
+			    string upperFilter = this.filterString.ToUpper();
 				return (upperString.IndexOf(upperFilter) != -1);
 			}
 		}
@@ -131,10 +128,10 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		void outputList_ClearAll()
 		{
-			lines.Clear();
-			partialLine = null;
+			this.lines.Clear();
+			this.partialLine = null;
 
-			outputList.Items.Clear();
+			this.outputList.Items.Clear();
 		}
 
 		/// <summary>
@@ -142,17 +139,17 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		void outputList_Refresh()
 		{
-			outputList.BeginUpdate();
-			outputList.Items.Clear();
-			foreach (Line line in lines)
+			this.outputList.BeginUpdate();
+			this.outputList.Items.Clear();
+			foreach (Line line in this.lines)
 			{
-				if (outputList_ApplyFilter(line.Str))
+				if (this.outputList_ApplyFilter(line.Str))
 				{
-					outputList.Items.Add(line);
+					this.outputList.Items.Add(line);
 				}
 			}
-			outputList.EndUpdate();
-			outputList_Scroll();
+			this.outputList.EndUpdate();
+			this.outputList_Scroll();
 		}
 
 		/// <summary>
@@ -161,12 +158,12 @@ namespace KUL.MDS.SerialTerminal
 		Line outputList_Add(string str, Color color)
 		{
 			Line newLine = new Line(str, color);
-			lines.Add(newLine);
+			this.lines.Add(newLine);
 
-			if (outputList_ApplyFilter(newLine.Str))
+			if (this.outputList_ApplyFilter(newLine.Str))
 			{
-				outputList.Items.Add(newLine);
-				outputList_Scroll();
+				this.outputList.Items.Add(newLine);
+				this.outputList_Scroll();
 			}
 
 			return newLine;
@@ -179,24 +176,24 @@ namespace KUL.MDS.SerialTerminal
 		void outputList_Update(Line line)
 		{
 			// should we add to output?
-			if (outputList_ApplyFilter(line.Str))
+			if (this.outputList_ApplyFilter(line.Str))
 			{
 				// is the line already displayed?
 				bool found = false;
-				for (int i = 0; i < outputList.Items.Count; ++i)
+				for (int i = 0; i < this.outputList.Items.Count; ++i)
 				{
-					int index = (outputList.Items.Count - 1) - i;
-					if (line == outputList.Items[index])
+					int index = (this.outputList.Items.Count - 1) - i;
+					if (line == this.outputList.Items[index])
 					{
 						// is item visible?
-						int itemsPerPage = (int)(outputList.Height / outputList.ItemHeight);
-						if (index >= outputList.TopIndex &&
-							index < (outputList.TopIndex + itemsPerPage))
+						int itemsPerPage = (int)(this.outputList.Height / this.outputList.ItemHeight);
+						if (index >= this.outputList.TopIndex &&
+							index < (this.outputList.TopIndex + itemsPerPage))
 						{
 							// is there a way to refresh just one line
 							// without redrawing the entire listbox?
 							// changing the item value has no effect
-							outputList.Refresh();
+							this.outputList.Refresh();
 						}
 						found = true;
 						break;
@@ -205,7 +202,7 @@ namespace KUL.MDS.SerialTerminal
 				if (!found)
 				{
 					// not found, so add it
-					outputList.Items.Add(line);
+					this.outputList.Items.Add(line);
 				}
 			}
 		}
@@ -216,26 +213,26 @@ namespace KUL.MDS.SerialTerminal
 		private void outputList_Initialize()
 		{
 			// owner draw for listbox so we can add color
-			outputList.DrawMode = DrawMode.OwnerDrawFixed;
-			outputList.DrawItem += new DrawItemEventHandler(outputList_DrawItem);
-			outputList.ClearSelected();
+			this.outputList.DrawMode = DrawMode.OwnerDrawFixed;
+			this.outputList.DrawItem += new DrawItemEventHandler(this.outputList_DrawItem);
+			this.outputList.ClearSelected();
 
 			// build the outputList context menu
-			popUpMenu = new ContextMenu();
-			popUpMenu.MenuItems.Add("&Copy", new EventHandler(outputList_Copy));
-			popUpMenu.MenuItems[0].Visible = true;
-			popUpMenu.MenuItems[0].Enabled = false;
-			popUpMenu.MenuItems[0].Shortcut = Shortcut.CtrlC;
-			popUpMenu.MenuItems[0].ShowShortcut = true;
-			popUpMenu.MenuItems.Add("Copy All", new EventHandler(outputList_CopyAll));
-			popUpMenu.MenuItems[1].Visible = true;
-			popUpMenu.MenuItems.Add("Select &All", new EventHandler(outputList_SelectAll));
-			popUpMenu.MenuItems[2].Visible = true;
-			popUpMenu.MenuItems[2].Shortcut = Shortcut.CtrlA;
-			popUpMenu.MenuItems[2].ShowShortcut = true;
-			popUpMenu.MenuItems.Add("Clear Selected", new EventHandler(outputList_ClearSelected));
-			popUpMenu.MenuItems[3].Visible = true;
-			outputList.ContextMenu = popUpMenu;
+			this.popUpMenu = new ContextMenu();
+			this.popUpMenu.MenuItems.Add("&Copy", new EventHandler(this.outputList_Copy));
+			this.popUpMenu.MenuItems[0].Visible = true;
+			this.popUpMenu.MenuItems[0].Enabled = false;
+			this.popUpMenu.MenuItems[0].Shortcut = Shortcut.CtrlC;
+			this.popUpMenu.MenuItems[0].ShowShortcut = true;
+			this.popUpMenu.MenuItems.Add("Copy All", new EventHandler(this.outputList_CopyAll));
+			this.popUpMenu.MenuItems[1].Visible = true;
+			this.popUpMenu.MenuItems.Add("Select &All", new EventHandler(this.outputList_SelectAll));
+			this.popUpMenu.MenuItems[2].Visible = true;
+			this.popUpMenu.MenuItems[2].Shortcut = Shortcut.CtrlA;
+			this.popUpMenu.MenuItems[2].ShowShortcut = true;
+			this.popUpMenu.MenuItems.Add("Clear Selected", new EventHandler(this.outputList_ClearSelected));
+			this.popUpMenu.MenuItems[3].Visible = true;
+			this.outputList.ContextMenu = this.popUpMenu;
 		}
 
 		/// <summary>
@@ -244,9 +241,9 @@ namespace KUL.MDS.SerialTerminal
 		void outputList_DrawItem(object sender, DrawItemEventArgs e)
 		{
 			e.DrawBackground();
-			if (e.Index >= 0 && e.Index < outputList.Items.Count)
+			if (e.Index >= 0 && e.Index < this.outputList.Items.Count)
 			{
-				Line line = (Line)outputList.Items[e.Index];
+				Line line = (Line)this.outputList.Items[e.Index];
 
 				// if selected, make the text color readable
 				Color color = line.ForeColor;
@@ -266,10 +263,10 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		void outputList_Scroll()
 		{
-			if (scrolling)
+			if (this.scrolling)
 			{
-				int itemsPerPage = (int)(outputList.Height / outputList.ItemHeight);
-				outputList.TopIndex = outputList.Items.Count - itemsPerPage;
+				int itemsPerPage = (int)(this.outputList.Height / this.outputList.ItemHeight);
+				this.outputList.TopIndex = this.outputList.Items.Count - itemsPerPage;
 			}
 		}
 
@@ -278,7 +275,7 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void outputList_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			popUpMenu.MenuItems[0].Enabled = (outputList.SelectedItems.Count > 0);
+			this.popUpMenu.MenuItems[0].Enabled = (this.outputList.SelectedItems.Count > 0);
 		}
 
 		/// <summary>
@@ -286,13 +283,13 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void outputList_Copy(object sender, EventArgs e)
 		{
-			int iCount = outputList.SelectedItems.Count;
+			int iCount = this.outputList.SelectedItems.Count;
 			if (iCount > 0)
 			{
 				String[] source = new String[iCount];
 				for (int i = 0; i < iCount; ++i)
 				{
-					source[i] = ((Line)outputList.SelectedItems[i]).Str;
+					source[i] = ((Line)this.outputList.SelectedItems[i]).Str;
 				}
 
 				String dest = String.Join("\r\n", source);
@@ -305,13 +302,13 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void outputList_CopyAll(object sender, EventArgs e)
 		{
-			int iCount = outputList.Items.Count;
+			int iCount = this.outputList.Items.Count;
 			if (iCount > 0)
 			{
 				String[] source = new String[iCount];
 				for (int i = 0; i < iCount; ++i)
 				{
-					source[i] = ((Line)outputList.Items[i]).Str;
+					source[i] = ((Line)this.outputList.Items[i]).Str;
 				}
 
 				String dest = String.Join("\r\n", source);
@@ -324,12 +321,12 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void outputList_SelectAll(object sender, EventArgs e)
 		{
-			outputList.BeginUpdate();
-			for (int i = 0; i < outputList.Items.Count; ++i)
+			this.outputList.BeginUpdate();
+			for (int i = 0; i < this.outputList.Items.Count; ++i)
 			{
-			    outputList.SetSelected(i, true);
+			    this.outputList.SetSelected(i, true);
 			}
-			outputList.EndUpdate();
+			this.outputList.EndUpdate();
 		}
 
 		/// <summary>
@@ -337,8 +334,8 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void outputList_ClearSelected(object sender, EventArgs e)
 		{
-			outputList.ClearSelected();
-			outputList.SelectedItem = -1;
+			this.outputList.ClearSelected();
+			this.outputList.SelectedItem = -1;
 		}
 
 		#endregion
@@ -393,18 +390,18 @@ namespace KUL.MDS.SerialTerminal
 		/// <returns></returns>
 		private Line AddData(String StringIn)
 		{
-			String StringOut = PrepareData(StringIn);
+			String StringOut = this.PrepareData(StringIn);
 
 			// if we have a partial line, add to it.
-			if (partialLine != null)
+			if (this.partialLine != null)
 			{
 				// tack it on
-				partialLine.Str = partialLine.Str + StringOut;
-				outputList_Update(partialLine);
-				return partialLine;
+				this.partialLine.Str = this.partialLine.Str + StringOut;
+				this.outputList_Update(this.partialLine);
+				return this.partialLine;
 			}
 
-			return outputList_Add(StringOut, receivedColor);
+			return this.outputList_Add(StringOut, this.receivedColor);
 		}
 
 		// delegate used for Invoke
@@ -417,15 +414,15 @@ namespace KUL.MDS.SerialTerminal
 		public void OnDataReceived(string dataIn)
         {
             //Handle multi-threading
-            if (InvokeRequired)
+            if (this.InvokeRequired)
             {
-				Invoke(new StringDelegate(OnDataReceived), new object[] { dataIn });
+				this.Invoke(new StringDelegate(this.OnDataReceived), new object[] { dataIn });
                 return;
             }
 
 			// pause scrolling to speed up output of multiple lines
-			bool saveScrolling = scrolling;
-			scrolling = false;
+			bool saveScrolling = this.scrolling;
+			this.scrolling = false;
 
             // if we detect a line terminator, add line to output
             int index;
@@ -436,19 +433,19 @@ namespace KUL.MDS.SerialTerminal
 				String StringIn = dataIn.Substring(0, index);
 				dataIn = dataIn.Remove(0, index + 1);
 
-				logFile_writeLine(AddData(StringIn).Str);
-				partialLine = null;	// terminate partial line
+				this.logFile_writeLine(this.AddData(StringIn).Str);
+				this.partialLine = null;	// terminate partial line
             }
 
 			// if we have data remaining, add a partial line
 			if (dataIn.Length > 0)
 			{
-				partialLine = AddData(dataIn);
+				this.partialLine = this.AddData(dataIn);
 			}
 
 			// restore scrolling
-			scrolling = saveScrolling;
-			outputList_Scroll();
+			this.scrolling = saveScrolling;
+			this.outputList_Scroll();
 		}
 
 		/// <summary>
@@ -457,13 +454,13 @@ namespace KUL.MDS.SerialTerminal
 		public void OnStatusChanged(string status)
 		{
 			//Handle multi-threading
-			if (InvokeRequired)
+			if (this.InvokeRequired)
 			{
-				Invoke(new StringDelegate(OnStatusChanged), new object[] { status });
+				this.Invoke(new StringDelegate(this.OnStatusChanged), new object[] { status });
 				return;
 			}
 
-			textBox1.Text = status;
+			this.textBox1.Text = status;
 		}
 
 		#endregion
@@ -484,7 +481,7 @@ namespace KUL.MDS.SerialTerminal
 			{
 				com.Open();
 			}
-			outputList.Focus();
+			this.outputList.Focus();
 		}
 
 		/// <summary>
@@ -492,8 +489,8 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            filterString = textBox2.Text;
-			outputList_Refresh();
+            this.filterString = this.textBox2.Text;
+			this.outputList_Refresh();
 		}
 
 		/// <summary>
@@ -501,13 +498,13 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void button1_Click(object sender, EventArgs e)
 		{
-			TopMost = false;
+			this.TopMost = false;
 
 			SerialTerminalSettingsForm form2 = new SerialTerminalSettingsForm();
 			form2.ShowDialog();
 
-			TopMost = Settings.Option.StayOnTop;
-			Font = Settings.Option.MonoFont ? monoFont : origFont;
+			this.TopMost = Settings.Option.StayOnTop;
+			this.Font = Settings.Option.MonoFont ? this.monoFont : this.origFont;
 		}
 
 		/// <summary>
@@ -515,7 +512,7 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void button2_Click(object sender, EventArgs e)
 		{
-			outputList_ClearAll();
+			this.outputList_ClearAll();
 		}
 
 		/// <summary>
@@ -523,12 +520,12 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void button3_Click(object sender, EventArgs e)
 		{
-			TopMost = false;
+			this.TopMost = false;
 
 			AboutBox about = new AboutBox();
 			about.ShowDialog();
 
-			TopMost = Settings.Option.StayOnTop;
+			this.TopMost = Settings.Option.StayOnTop;
 		}
 
 		/// <summary>
@@ -536,7 +533,7 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void button4_Click(object sender, EventArgs e)
 		{
-			Close();
+			this.Close();
 		}
 
 		/// <summary>
@@ -544,9 +541,9 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void button5_Click(object sender, EventArgs e)
         {
-            string command = textBox3.Text;
-            textBox3.Text = "";
-            textBox3.Focus();
+            string command = this.textBox3.Text;
+            this.textBox3.Text = "";
+            this.textBox3.Focus();
 
 			if (command.Length > 0)
 			{
@@ -555,7 +552,7 @@ namespace KUL.MDS.SerialTerminal
 
 				if (Settings.Option.LocalEcho)
 				{
-					outputList_Add(command + "\n", sentColor);
+					this.outputList_Add(command + "\n", this.sentColor);
 				}
             }
         }
@@ -577,8 +574,8 @@ namespace KUL.MDS.SerialTerminal
 
 				if (Settings.Option.LocalEcho)
 				{
-					outputList_Add("SendFile " + dialog.FileName + "," +
-						text.Length.ToString() + " byte(s)\n", sentColor);
+					this.outputList_Add("SendFile " + dialog.FileName + "," +
+						text.Length.ToString() + " byte(s)\n", this.sentColor);
 				}
 			}
 		}
@@ -588,8 +585,8 @@ namespace KUL.MDS.SerialTerminal
 		/// </summary>
 		private void button7_Click(object sender, EventArgs e)
 		{
-			scrolling = !scrolling;
-			outputList_Scroll();
+			this.scrolling = !this.scrolling;
+			this.outputList_Scroll();
 		}
 
 		#endregion

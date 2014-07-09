@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
-namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
+    using System.Windows.Forms;
+
     public partial class ProgressBarForm : Form
     {
         public ProgressBarForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public int Progress

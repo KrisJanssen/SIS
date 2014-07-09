@@ -17,16 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Collections;
-using System.Text;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// The LogScale class inherits from the <see cref="Scale" /> class, and implements
 	/// the features specific to <see cref="AxisType.Log" />.
 	/// </summary>
@@ -98,8 +96,8 @@ namespace ZedGraph
 		/// </remarks>
 		public override double Min
 		{
-			get { return _min; }
-			set { if ( value > 0 ) _min = value; }
+			get { return this._min; }
+			set { if ( value > 0 ) this._min = value; }
 		}
 
 		/// <summary>
@@ -112,8 +110,8 @@ namespace ZedGraph
 		/// </remarks>
 		public override double Max
 		{
-			get { return _max; }
-			set { if ( value > 0 ) _max = value; }
+			get { return this._max; }
+			set { if ( value > 0 ) this._max = value; }
 		}
 
 	#endregion
@@ -141,8 +139,8 @@ namespace ZedGraph
 		{
 			base.SetupScaleData( pane, axis );
 
-			_minLinTemp = Linearize( _min );
-			_maxLinTemp = Linearize( _max );
+			this._minLinTemp = this.Linearize( this._min );
+			this._maxLinTemp = this.Linearize( this._max );
 		}
 
 		/// <summary>
@@ -192,7 +190,7 @@ namespace ZedGraph
 		/// </returns>
 		override internal double CalcMajorTicValue( double baseVal, double tic )
 		{
-			return baseVal + (double)tic * CyclesPerStep;
+			return baseVal + (double)tic * this.CyclesPerStep;
 
 		//	double val = baseVal + (double)tic * CyclesPerStep;
 		//	double frac = val - Math.Floor( val );
@@ -254,12 +252,12 @@ namespace ZedGraph
 		/// </returns>
 		override internal double CalcBaseTic()
 		{
-			if ( _baseTic != PointPair.Missing )
-				return _baseTic;
+			if ( this._baseTic != PointPair.Missing )
+				return this._baseTic;
 			else
 			{
 				// go to the nearest even multiple of the step size
-				return Math.Ceiling( Scale.SafeLog( _min ) - 0.00000001 );
+				return Math.Ceiling( Scale.SafeLog( this._min ) - 0.00000001 );
 			}
 
 		}
@@ -279,7 +277,7 @@ namespace ZedGraph
 
 			//nTics = (int)( ( Math.Floor( Scale.SafeLog( _max ) + 1.0e-12 ) ) -
 			//		( Math.Ceiling( Scale.SafeLog( _min ) - 1.0e-12 ) ) + 1 ) / CyclesPerStep;
-			nTics = (int)( ( Scale.SafeLog( _max ) - Scale.SafeLog( _min ) ) / CyclesPerStep ) + 1;
+			nTics = (int)( ( Scale.SafeLog( this._max ) - Scale.SafeLog( this._min ) ) / this.CyclesPerStep ) + 1;
 
 			if ( nTics < 1 )
 				nTics = 1;
@@ -292,7 +290,7 @@ namespace ZedGraph
 		private double CyclesPerStep
 		{
 			//get { return (int)Math.Max( Math.Floor( Scale.SafeLog( _majorStep ) ), 1 ); }
-			get { return _majorStep; }
+			get { return this._majorStep; }
 		}
 
 		/// <summary>
@@ -337,43 +335,43 @@ namespace ZedGraph
 			base.PickScale( pane, g, scaleFactor );
 
 			// Majorstep is always 1 for log scales
-			if ( _majorStepAuto )
-				_majorStep = 1.0;
+			if ( this._majorStepAuto )
+				this._majorStep = 1.0;
 
-			_mag = 0;		// Never use a magnitude shift for log scales
+			this._mag = 0;		// Never use a magnitude shift for log scales
 			//this.numDec = 0;		// The number of decimal places to display is not used
 
 			// Check for bad data range
-			if ( _min <= 0.0 && _max <= 0.0 )
+			if ( this._min <= 0.0 && this._max <= 0.0 )
 			{
-				_min = 1.0;
-				_max = 10.0;
+				this._min = 1.0;
+				this._max = 10.0;
 			}
-			else if ( _min <= 0.0 )
+			else if ( this._min <= 0.0 )
 			{
-				_min = _max / 10.0;
+				this._min = this._max / 10.0;
 			}
-			else if ( _max <= 0.0 )
+			else if ( this._max <= 0.0 )
 			{
-				_max = _min * 10.0;
+				this._max = this._min * 10.0;
 			}
 
 			// Test for trivial condition of range = 0 and pick a suitable default
-			if ( _max - _min < 1.0e-20 )
+			if ( this._max - this._min < 1.0e-20 )
 			{
-				if ( _maxAuto )
-					_max = _max * 2.0;
-				if ( _minAuto )
-					_min = _min / 2.0;
+				if ( this._maxAuto )
+					this._max = this._max * 2.0;
+				if ( this._minAuto )
+					this._min = this._min / 2.0;
 			}
 
 			// Get the nearest power of 10 (no partial log cycles allowed)
-			if ( _minAuto )
-				_min = Math.Pow( (double) 10.0,
-					Math.Floor( Math.Log10( _min ) ) );
-			if ( _maxAuto )
-				_max = Math.Pow( (double) 10.0,
-					Math.Ceiling( Math.Log10( _max ) ) );
+			if ( this._minAuto )
+				this._min = Math.Pow( (double) 10.0,
+					Math.Floor( Math.Log10( this._min ) ) );
+			if ( this._maxAuto )
+				this._max = Math.Pow( (double) 10.0,
+					Math.Ceiling( Math.Log10( this._max ) ) );
 
 		}
 
@@ -395,13 +393,13 @@ namespace ZedGraph
 		/// <returns>The resulting value label as a <see cref="string" /></returns>
 		override internal string MakeLabel( GraphPane pane, int index, double dVal )
 		{
-			if ( _format == null )
-				_format = Scale.Default.Format;
+			if ( this._format == null )
+				this._format = Scale.Default.Format;
 
-			if ( _isUseTenPower )
+			if ( this._isUseTenPower )
 				return string.Format( "{0:F0}", dVal );
 			else
-				return Math.Pow( 10.0, dVal ).ToString( _format );
+				return Math.Pow( 10.0, dVal ).ToString( this._format );
 		}
 
 	#endregion
@@ -431,7 +429,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		[SecurityPermission(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );

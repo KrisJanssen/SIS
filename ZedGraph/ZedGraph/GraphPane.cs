@@ -17,21 +17,16 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections;
-using System.Drawing.Imaging;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-using System.ComponentModel;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	// <summary>
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+    using System.Windows.Forms;
+
+    // <summary>
 	// <c>ZedGraph</c> is a class library and UserControl (<see cref="ZedGraphControl"/>) that display
 	// 2D line graphs of user specified data.  The <c>ZedGraph</c> namespace includes all functionality
 	// required to draw, modify, and update the graph.
@@ -203,8 +198,8 @@ namespace ZedGraph
 		/// <value>A reference to a <see cref="CurveList"/> collection object</value>
 		public CurveList CurveList
 		{
-			get { return _curveList; }
-			set { _curveList = value; }
+			get { return this._curveList; }
+			set { this._curveList = value; }
 		}
 		/// <summary>
 		/// Accesses the <see cref="XAxis"/> for this graph
@@ -212,7 +207,7 @@ namespace ZedGraph
 		/// <value>A reference to a <see cref="XAxis"/> object</value>
 		public XAxis XAxis
 		{
-			get { return _xAxis; }
+			get { return this._xAxis; }
 		}
 		/// <summary>
 		/// Accesses the <see cref="X2Axis"/> for this graph
@@ -220,7 +215,7 @@ namespace ZedGraph
 		/// <value>A reference to a <see cref="X2Axis"/> object</value>
 		public X2Axis X2Axis
 		{
-			get { return _x2Axis; }
+			get { return this._x2Axis; }
 		}
 		/// <summary>
 		/// Accesses the primary <see cref="YAxis"/> for this graph
@@ -230,7 +225,7 @@ namespace ZedGraph
 		/// <seealso cref="Y2AxisList" />
 		public YAxis YAxis
 		{
-			get { return _yAxisList[0] as YAxis; }
+			get { return this._yAxisList[0] as YAxis; }
 		}
 		/// <summary>
 		/// Accesses the primary <see cref="Y2Axis"/> for this graph
@@ -240,7 +235,7 @@ namespace ZedGraph
 		/// <seealso cref="Y2AxisList" />
 		public Y2Axis Y2Axis
 		{
-			get { return _y2AxisList[0] as Y2Axis; }
+			get { return this._y2AxisList[0] as Y2Axis; }
 		}
 
 		/// <summary>
@@ -248,14 +243,14 @@ namespace ZedGraph
 		/// </summary>
 		public YAxisList YAxisList
 		{
-			get { return _yAxisList; }
+			get { return this._yAxisList; }
 		}
 		/// <summary>
 		/// Gets the collection of Y2 axes that belong to this <see cref="GraphPane" />.
 		/// </summary>
 		public Y2AxisList Y2AxisList
 		{
-			get { return _y2AxisList; }
+			get { return this._y2AxisList; }
 		}
 
 		/// <summary>
@@ -263,7 +258,7 @@ namespace ZedGraph
 		/// </summary>
 		public Chart Chart
 		{
-			get { return _chart; }
+			get { return this._chart; }
 		}
 
 		/// <summary>
@@ -272,7 +267,7 @@ namespace ZedGraph
 		/// </summary>
 		public BarSettings BarSettings
 		{
-			get { return _barSettings; }
+			get { return this._barSettings; }
 		}
 
 	#endregion
@@ -294,8 +289,8 @@ namespace ZedGraph
 			" or just the visible data points")]
 		public bool IsIgnoreInitial
 		{
-			get { return _isIgnoreInitial; }
-			set { _isIgnoreInitial = value; }
+			get { return this._isIgnoreInitial; }
+			set { this._isIgnoreInitial = value; }
 		}
 		/// <summary> Gets or sets a boolean value that determines if the auto-scaled axis ranges will
 		/// subset the data points based on any manually set scale range values.</summary>
@@ -306,8 +301,8 @@ namespace ZedGraph
 		/// all data points when calculating scale ranges.</remarks>
 		public bool IsBoundedRanges
 		{
-			get { return _isBoundedRanges; }
-			set { _isBoundedRanges = value; }
+			get { return this._isBoundedRanges; }
+			set { this._isBoundedRanges = value; }
 		}
 		/// <summary>Gets or sets a value that determines whether or not initial
 		/// <see cref="PointPairBase.Missing"/> values will cause the line segments of
@@ -319,8 +314,8 @@ namespace ZedGraph
 		/// this value. </remarks>
 		public bool IsIgnoreMissing
 		{
-			get { return _isIgnoreMissing; }
-			set { _isIgnoreMissing = value; }
+			get { return this._isIgnoreMissing; }
+			set { this._isIgnoreMissing = value; }
 		}
 		
 		/// <summary>
@@ -335,8 +330,8 @@ namespace ZedGraph
 		/// </remarks>
 		public bool IsAlignGrids
 		{
-			get { return _isAlignGrids; }
-			set { _isAlignGrids = value; }
+			get { return this._isAlignGrids; }
+			set { this._isAlignGrids = value; }
 		}
 
 		/// <summary>Determines how the <see cref="LineItem"/>
@@ -346,8 +341,8 @@ namespace ZedGraph
 		/// <seealso cref="Default.LineType"/>
 		public LineType LineType
 		{
-			get { return _lineType; }
-			set { _lineType = value; }
+			get { return this._lineType; }
+			set { this._lineType = value; }
 		}
 
 		/// <summary>
@@ -357,7 +352,7 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsZoomed
 		{
-			get { return !_zoomStack.IsEmpty; }
+			get { return !this._zoomStack.IsEmpty; }
 		}
 
 		/// <summary>
@@ -365,7 +360,7 @@ namespace ZedGraph
 		/// </summary>
 		public ZoomStateStack ZoomStack
 		{
-			get { return _zoomStack; }
+			get { return this._zoomStack; }
 		}
 
 	#endregion
@@ -398,27 +393,27 @@ namespace ZedGraph
 			string xTitle, string yTitle )
 			: base( title, rect )
 		{
-			_xAxis = new XAxis( xTitle );
-			_x2Axis = new X2Axis( "" );
+			this._xAxis = new XAxis( xTitle );
+			this._x2Axis = new X2Axis( "" );
 
-			_yAxisList = new YAxisList();
-			_y2AxisList = new Y2AxisList();
+			this._yAxisList = new YAxisList();
+			this._y2AxisList = new Y2AxisList();
 
-			_yAxisList.Add( new YAxis( yTitle ) );
-			_y2AxisList.Add( new Y2Axis( string.Empty ) );
+			this._yAxisList.Add( new YAxis( yTitle ) );
+			this._y2AxisList.Add( new Y2Axis( string.Empty ) );
 
-			_curveList = new CurveList();
-			_zoomStack = new ZoomStateStack();
+			this._curveList = new CurveList();
+			this._zoomStack = new ZoomStateStack();
 
-			_isIgnoreInitial = Default.IsIgnoreInitial;
-			_isBoundedRanges = Default.IsBoundedRanges;
-			_isAlignGrids = false;
+			this._isIgnoreInitial = Default.IsIgnoreInitial;
+			this._isBoundedRanges = Default.IsBoundedRanges;
+			this._isAlignGrids = false;
 
-			_chart = new Chart();
+			this._chart = new Chart();
 
-			_barSettings = new BarSettings( this );
+			this._barSettings = new BarSettings( this );
 
-			_lineType = Default.LineType;
+			this._lineType = Default.LineType;
 		}
 
 		/// <summary>
@@ -429,26 +424,26 @@ namespace ZedGraph
 			: base( rhs )
 		{
 			// copy values for all the value types
-			_isIgnoreInitial = rhs.IsIgnoreInitial;
-			_isBoundedRanges = rhs._isBoundedRanges;
-			_isAlignGrids = rhs._isAlignGrids;
+			this._isIgnoreInitial = rhs.IsIgnoreInitial;
+			this._isBoundedRanges = rhs._isBoundedRanges;
+			this._isAlignGrids = rhs._isAlignGrids;
 
-			_chart = rhs._chart.Clone();
+			this._chart = rhs._chart.Clone();
 
-			_barSettings = new BarSettings( rhs._barSettings, this );
+			this._barSettings = new BarSettings( rhs._barSettings, this );
 
-			_lineType = rhs.LineType;
+			this._lineType = rhs.LineType;
 
 
 			// copy all the reference types with deep copies
-			_xAxis = new XAxis( rhs.XAxis );
-			_x2Axis = new X2Axis( rhs.X2Axis );
+			this._xAxis = new XAxis( rhs.XAxis );
+			this._x2Axis = new X2Axis( rhs.X2Axis );
 
-			_yAxisList = new YAxisList( rhs._yAxisList );
-			_y2AxisList = new Y2AxisList( rhs._y2AxisList );
+			this._yAxisList = new YAxisList( rhs._yAxisList );
+			this._y2AxisList = new Y2AxisList( rhs._y2AxisList );
 
-			_curveList = new CurveList( rhs.CurveList );
-			_zoomStack = new ZoomStateStack( rhs._zoomStack );
+			this._curveList = new CurveList( rhs.CurveList );
+			this._zoomStack = new ZoomStateStack( rhs._zoomStack );
 
 		}
 
@@ -498,59 +493,59 @@ namespace ZedGraph
 			// backwards compatible as new member variables are added to classes
 			int sch = info.GetInt32( "schema2" );
 
-			_xAxis = (XAxis)info.GetValue( "xAxis", typeof( XAxis ) );
+			this._xAxis = (XAxis)info.GetValue( "xAxis", typeof( XAxis ) );
 			if ( sch >= 11 )
-				_x2Axis = (X2Axis)info.GetValue( "x2Axis", typeof( X2Axis ) );
+				this._x2Axis = (X2Axis)info.GetValue( "x2Axis", typeof( X2Axis ) );
 			else
-				_x2Axis = new X2Axis( "" );
+				this._x2Axis = new X2Axis( "" );
 
-			_yAxisList = (YAxisList)info.GetValue( "yAxisList", typeof( YAxisList ) );
-			_y2AxisList = (Y2AxisList)info.GetValue( "y2AxisList", typeof( Y2AxisList ) );
+			this._yAxisList = (YAxisList)info.GetValue( "yAxisList", typeof( YAxisList ) );
+			this._y2AxisList = (Y2AxisList)info.GetValue( "y2AxisList", typeof( Y2AxisList ) );
 
-			_curveList = (CurveList)info.GetValue( "curveList", typeof( CurveList ) );
+			this._curveList = (CurveList)info.GetValue( "curveList", typeof( CurveList ) );
 
-			_chart = (Chart) info.GetValue( "chart", typeof( Chart ) );
+			this._chart = (Chart) info.GetValue( "chart", typeof( Chart ) );
 
-			_barSettings = (BarSettings)info.GetValue( "barSettings", typeof( BarSettings ) );
-			_barSettings._ownerPane = this;
+			this._barSettings = (BarSettings)info.GetValue( "barSettings", typeof( BarSettings ) );
+			this._barSettings._ownerPane = this;
 
-			_isIgnoreInitial = info.GetBoolean( "isIgnoreInitial" );
-			_isBoundedRanges = info.GetBoolean( "isBoundedRanges" );
-			_isIgnoreMissing = info.GetBoolean( "isIgnoreMissing" );
-			_isAlignGrids = info.GetBoolean( "isAlignGrids" );
+			this._isIgnoreInitial = info.GetBoolean( "isIgnoreInitial" );
+			this._isBoundedRanges = info.GetBoolean( "isBoundedRanges" );
+			this._isIgnoreMissing = info.GetBoolean( "isIgnoreMissing" );
+			this._isAlignGrids = info.GetBoolean( "isAlignGrids" );
 
-			_lineType = (LineType)info.GetValue( "lineType", typeof( LineType ) );
+			this._lineType = (LineType)info.GetValue( "lineType", typeof( LineType ) );
 
-			_zoomStack = new ZoomStateStack();
+			this._zoomStack = new ZoomStateStack();
 		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
 
 			info.AddValue( "schema2", schema2 );
 
-			info.AddValue( "xAxis", _xAxis );
-			info.AddValue( "x2Axis", _x2Axis );
-			info.AddValue( "yAxisList", _yAxisList );
-			info.AddValue( "y2AxisList", _y2AxisList );
-			info.AddValue( "curveList", _curveList );
+			info.AddValue( "xAxis", this._xAxis );
+			info.AddValue( "x2Axis", this._x2Axis );
+			info.AddValue( "yAxisList", this._yAxisList );
+			info.AddValue( "y2AxisList", this._y2AxisList );
+			info.AddValue( "curveList", this._curveList );
 
-			info.AddValue( "chart", _chart );
+			info.AddValue( "chart", this._chart );
 
-			info.AddValue( "barSettings", _barSettings );
+			info.AddValue( "barSettings", this._barSettings );
 
-			info.AddValue( "isIgnoreInitial", _isIgnoreInitial );
-			info.AddValue( "isBoundedRanges", _isBoundedRanges );
-			info.AddValue( "isIgnoreMissing", _isIgnoreMissing );
-			info.AddValue( "isAlignGrids", _isAlignGrids );
+			info.AddValue( "isIgnoreInitial", this._isIgnoreInitial );
+			info.AddValue( "isBoundedRanges", this._isBoundedRanges );
+			info.AddValue( "isIgnoreMissing", this._isIgnoreMissing );
+			info.AddValue( "isAlignGrids", this._isAlignGrids );
 
-			info.AddValue( "lineType", _lineType );
+			info.AddValue( "lineType", this._lineType );
 		}
 
 	#endregion
@@ -577,7 +572,7 @@ namespace ZedGraph
 		public void AxisChange()
 		{
 			using ( Graphics g = Graphics.FromHwnd( IntPtr.Zero ) )
-				AxisChange( g );
+				this.AxisChange( g );
 		}
 
 		/// <summary>
@@ -603,9 +598,9 @@ namespace ZedGraph
 			//double	xMin, xMax, yMin, yMax, y2Min, y2Max;
 
 			// Get the scale range of the data (all curves)
-			_curveList.GetRange( /* out xMin, out xMax, out yMin,
+			this._curveList.GetRange( /* out xMin, out xMax, out yMin,
 				out yMax, out y2Min, out y2Max, */
-				_isIgnoreInitial, _isBoundedRanges, this );
+				this._isIgnoreInitial, this._isBoundedRanges, this );
 
 			// Determine the scale factor
 			float scaleFactor = this.CalcScaleFactor();
@@ -618,32 +613,32 @@ namespace ZedGraph
 				this.X2Axis.IsVisible = false;
 				this.YAxis.IsVisible = false;
 				this.Y2Axis.IsVisible = false;
-				_chart.Border.IsVisible = false;
+				this._chart.Border.IsVisible = false;
 				//this.Legend.Position = LegendPos.TopCenter;
 			}
 
 			// Set the ClusterScaleWidth, if needed
 			//_barSettings.CalcClusterScaleWidth();
-			if ( _barSettings._clusterScaleWidthAuto )
-				_barSettings._clusterScaleWidth = 1.0;
+			if ( this._barSettings._clusterScaleWidthAuto )
+				this._barSettings._clusterScaleWidth = 1.0;
 
 			// if the ChartRect is not yet determined, then pick a scale based on a default ChartRect
 			// size (using 75% of Rect -- code is in Axis.CalcMaxLabels() )
 			// With the scale picked, call CalcChartRect() so calculate a real ChartRect
 			// then let the scales re-calculate to make sure that the assumption was ok
-			if ( _chart._isRectAuto )
+			if ( this._chart._isRectAuto )
 			{
-				PickScale( g, scaleFactor );
+				this.PickScale( g, scaleFactor );
 
-				_chart._rect = CalcChartRect( g );
+				this._chart._rect = this.CalcChartRect( g );
 				//this.pieRect = PieItem.CalcPieRect( g, this, scaleFactor, this.chartRect );
 			}
 
 			// Pick new scales based on the range
-			PickScale( g, scaleFactor );
+			this.PickScale( g, scaleFactor );
 
 			// Set the ClusterScaleWidth, if needed
-			_barSettings.CalcClusterScaleWidth();
+			this._barSettings.CalcClusterScaleWidth();
 
 			// Trigger the AxisChangeEvent
 			if ( this.AxisChangeEvent != null )
@@ -655,10 +650,10 @@ namespace ZedGraph
 		{
 			int maxTics = 0;
 
-			_xAxis._scale.PickScale( this, g, scaleFactor );
-			_x2Axis._scale.PickScale( this, g, scaleFactor );
+			this._xAxis._scale.PickScale( this, g, scaleFactor );
+			this._x2Axis._scale.PickScale( this, g, scaleFactor );
 
-			foreach ( Axis axis in _yAxisList )
+			foreach ( Axis axis in this._yAxisList )
 			{
 				axis._scale.PickScale( this, g, scaleFactor );
 				if ( axis._scale.MaxAuto )
@@ -667,7 +662,7 @@ namespace ZedGraph
 					maxTics = nTics > maxTics ? nTics : maxTics;
 				}
 			}
-			foreach ( Axis axis in _y2AxisList )
+			foreach ( Axis axis in this._y2AxisList )
 			{
 				axis._scale.PickScale( this, g, scaleFactor );
 				if ( axis._scale.MaxAuto )
@@ -677,13 +672,13 @@ namespace ZedGraph
 				}
 			}
 
-			if ( _isAlignGrids )
+			if ( this._isAlignGrids )
 			{
-				foreach ( Axis axis in _yAxisList )
-					ForceNumTics( axis, maxTics );
+				foreach ( Axis axis in this._yAxisList )
+					this.ForceNumTics( axis, maxTics );
 
-				foreach ( Axis axis in _y2AxisList )
-					ForceNumTics( axis, maxTics );
+				foreach ( Axis axis in this._y2AxisList )
+					this.ForceNumTics( axis, maxTics );
 			}
 
 		}
@@ -720,11 +715,11 @@ namespace ZedGraph
 			// ZOrder.G_BehindAll
 			base.Draw( g );
 
-			if ( _rect.Width <= 1 || _rect.Height <= 1 )
+			if ( this._rect.Width <= 1 || this._rect.Height <= 1 )
 				return;
 
 			// Clip everything to the rect
-			g.SetClip( _rect );
+			g.SetClip( this._rect );
 
 			// calculate scaleFactor on "normal" pane size (BaseDimension)
 			float scaleFactor = this.CalcScaleFactor();
@@ -733,98 +728,98 @@ namespace ZedGraph
 			// if the size of the ChartRect is determined automatically, then do so
 			// otherwise, calculate the legendrect, scalefactor, hstack, and legendwidth parameters
 			// but leave the ChartRect alone
-			if ( _chart._isRectAuto )
+			if ( this._chart._isRectAuto )
 			{
-				_chart._rect = CalcChartRect( g, scaleFactor );
+				this._chart._rect = this.CalcChartRect( g, scaleFactor );
 				//this.pieRect = PieItem.CalcPieRect( g, this, scaleFactor, this.chartRect );
 			}
 			else
-				CalcChartRect( g, scaleFactor );
+				this.CalcChartRect( g, scaleFactor );
 
 			// do a sanity check on the ChartRect
-			if ( _chart._rect.Width < 1 || _chart._rect.Height < 1 )
+			if ( this._chart._rect.Width < 1 || this._chart._rect.Height < 1 )
 				return;
 
 			// Draw the graph features only if there is at least one curve with data
 			// if ( _curveList.HasData() &&
 			// Go ahead and draw the graph, even without data.  This makes the control
 			// version still look like a graph before it is fully set up
-			bool showGraf = AxisRangesValid();
+			bool showGraf = this.AxisRangesValid();
 
 			// Setup the axes for graphing - This setup must be done before
 			// the GraphObj's are drawn so that the Transform functions are
 			// ready.  Also, this should be done before CalcChartRect so that the
 			// Axis.Cross - shift parameter can be calculated.
-			_xAxis.Scale.SetupScaleData( this, _xAxis );
-			_x2Axis.Scale.SetupScaleData( this, _x2Axis );
-			foreach ( Axis axis in _yAxisList )
+			this._xAxis.Scale.SetupScaleData( this, this._xAxis );
+			this._x2Axis.Scale.SetupScaleData( this, this._x2Axis );
+			foreach ( Axis axis in this._yAxisList )
 				axis.Scale.SetupScaleData( this, axis );
-			foreach ( Axis axis in _y2AxisList )
+			foreach ( Axis axis in this._y2AxisList )
 				axis.Scale.SetupScaleData( this, axis );
 
 			// Draw the GraphItems that are behind the Axis objects
 			if ( showGraf )
-				_graphObjList.Draw( g, this, scaleFactor, ZOrder.G_BehindChartFill );
+				this._graphObjList.Draw( g, this, scaleFactor, ZOrder.G_BehindChartFill );
 
 			// Fill the axis background
-			_chart.Fill.Draw( g, _chart._rect );
+			this._chart.Fill.Draw( g, this._chart._rect );
 
 			if ( showGraf )
 			{
 				// Draw the GraphItems that are behind the CurveItems
-				_graphObjList.Draw( g, this, scaleFactor, ZOrder.F_BehindGrid );
+				this._graphObjList.Draw( g, this, scaleFactor, ZOrder.F_BehindGrid );
 
-				DrawGrid( g, scaleFactor );
+				this.DrawGrid( g, scaleFactor );
 
 				// Draw the GraphItems that are behind the CurveItems
-				_graphObjList.Draw( g, this, scaleFactor, ZOrder.E_BehindCurves );
+				this._graphObjList.Draw( g, this, scaleFactor, ZOrder.E_BehindCurves );
 
 				// Clip the points to the actual plot area
-				g.SetClip( _chart._rect );
-				_curveList.Draw( g, this, scaleFactor );
-				g.SetClip( _rect );
+				g.SetClip( this._chart._rect );
+				this._curveList.Draw( g, this, scaleFactor );
+				g.SetClip( this._rect );
 
 			}
 
 			if ( showGraf )
 			{
 				// Draw the GraphItems that are behind the Axis objects
-				_graphObjList.Draw( g, this, scaleFactor, ZOrder.D_BehindAxis );
+				this._graphObjList.Draw( g, this, scaleFactor, ZOrder.D_BehindAxis );
 
 				// Draw the Axes
-				_xAxis.Draw( g, this, scaleFactor, 0.0f );
-				_x2Axis.Draw( g, this, scaleFactor, 0.0f );
+				this._xAxis.Draw( g, this, scaleFactor, 0.0f );
+				this._x2Axis.Draw( g, this, scaleFactor, 0.0f );
 
 				float yPos = 0;
-				foreach ( Axis axis in _yAxisList )
+				foreach ( Axis axis in this._yAxisList )
 				{
 					axis.Draw( g, this, scaleFactor, yPos );
 					yPos += axis._tmpSpace;
 				}
 
 				yPos = 0;
-				foreach ( Axis axis in _y2AxisList )
+				foreach ( Axis axis in this._y2AxisList )
 				{
 					axis.Draw( g, this, scaleFactor, yPos );
 					yPos += axis._tmpSpace;
 				}
 
 				// Draw the GraphItems that are behind the Axis border
-				_graphObjList.Draw( g, this, scaleFactor, ZOrder.C_BehindChartBorder );
+				this._graphObjList.Draw( g, this, scaleFactor, ZOrder.C_BehindChartBorder );
 			}
 
 			// Border the axis itself
-			_chart.Border.Draw( g, this, scaleFactor, _chart._rect );
+			this._chart.Border.Draw( g, this, scaleFactor, this._chart._rect );
 
 			if ( showGraf )
 			{
 				// Draw the GraphItems that are behind the Legend object
-				_graphObjList.Draw( g, this, scaleFactor, ZOrder.B_BehindLegend );
+				this._graphObjList.Draw( g, this, scaleFactor, ZOrder.B_BehindLegend );
 
-				_legend.Draw( g, this, scaleFactor );
+				this._legend.Draw( g, this, scaleFactor );
 
 				// Draw the GraphItems that are in front of all other items
-				_graphObjList.Draw( g, this, scaleFactor, ZOrder.A_InFront );
+				this._graphObjList.Draw( g, this, scaleFactor, ZOrder.A_InFront );
 			}
 
 			// Reset the clipping
@@ -845,18 +840,18 @@ namespace ZedGraph
 
 		internal void DrawGrid( Graphics g, float scaleFactor )
 		{
-			_xAxis.DrawGrid( g, this, scaleFactor, 0.0f );
-			_x2Axis.DrawGrid( g, this, scaleFactor, 0.0f );
+			this._xAxis.DrawGrid( g, this, scaleFactor, 0.0f );
+			this._x2Axis.DrawGrid( g, this, scaleFactor, 0.0f );
 
 			float shiftPos = 0.0f;
-			foreach ( YAxis yAxis in _yAxisList )
+			foreach ( YAxis yAxis in this._yAxisList )
 			{
 				yAxis.DrawGrid( g, this, scaleFactor, shiftPos );
 				shiftPos += yAxis._tmpSpace;
 			}
 
 			shiftPos = 0.0f;
-			foreach ( Y2Axis y2Axis in _y2AxisList )
+			foreach ( Y2Axis y2Axis in this._y2AxisList )
 			{
 				y2Axis.DrawGrid( g, this, scaleFactor, shiftPos );
 				shiftPos += y2Axis._tmpSpace;
@@ -865,12 +860,12 @@ namespace ZedGraph
 
 		private bool AxisRangesValid()
 		{
-			bool showGraf = _xAxis._scale._min < _xAxis._scale._max &&
-					_x2Axis._scale._min < _x2Axis._scale._max;
-			foreach ( Axis axis in _yAxisList )
+			bool showGraf = this._xAxis._scale._min < this._xAxis._scale._max &&
+					this._x2Axis._scale._min < this._x2Axis._scale._max;
+			foreach ( Axis axis in this._yAxisList )
 				if ( axis._scale._min >= axis._scale._max )
 					showGraf = false;
-			foreach ( Axis axis in _y2AxisList )
+			foreach ( Axis axis in this._y2AxisList )
 				if ( axis._scale._min >= axis._scale._max )
 					showGraf = false;
 
@@ -895,7 +890,7 @@ namespace ZedGraph
 			//int		hStack;
 			//float	legendWidth, legendHeight;
 
-			return CalcChartRect( g, CalcScaleFactor() );
+			return this.CalcChartRect( g, this.CalcScaleFactor() );
 		}
 
 		/// <summary>
@@ -937,12 +932,12 @@ namespace ZedGraph
 			// actual minimum axis space for the top side of the chart rect
 			float minSpaceT = 0;
 
-			_xAxis.CalcSpace( g, this, scaleFactor, out minSpaceB );
-			_x2Axis.CalcSpace( g, this, scaleFactor, out minSpaceT );
+			this._xAxis.CalcSpace( g, this, scaleFactor, out minSpaceB );
+			this._x2Axis.CalcSpace( g, this, scaleFactor, out minSpaceT );
 
 			//minSpaceB = _xAxis.tmpMinSpace;
 
-			foreach ( Axis axis in _yAxisList )
+			foreach ( Axis axis in this._yAxisList )
 			{
 				float fixedSpace;
 				float tmp = axis.CalcSpace( g, this, scaleFactor, out fixedSpace );
@@ -952,7 +947,7 @@ namespace ZedGraph
 
 				minSpaceL += fixedSpace;
 			}
-			foreach ( Axis axis in _y2AxisList )
+			foreach ( Axis axis in this._y2AxisList )
 			{
 				float fixedSpace;
 				float tmp = axis.CalcSpace( g, this, scaleFactor, out fixedSpace );
@@ -965,25 +960,25 @@ namespace ZedGraph
 
 			float spaceB = 0, spaceT = 0, spaceL = 0, spaceR = 0;
 
-			SetSpace( _xAxis, clientRect.Height - _xAxis._tmpSpace, ref spaceB, ref spaceT );
+			this.SetSpace( this._xAxis, clientRect.Height - this._xAxis._tmpSpace, ref spaceB, ref spaceT );
 //			minSpaceT = Math.Max( minSpaceT, spaceT );
-			SetSpace( _x2Axis, clientRect.Height - _x2Axis._tmpSpace, ref spaceT, ref spaceB );
-			_xAxis._tmpSpace = spaceB;
-			_x2Axis._tmpSpace = spaceT;
+			this.SetSpace( this._x2Axis, clientRect.Height - this._x2Axis._tmpSpace, ref spaceT, ref spaceB );
+			this._xAxis._tmpSpace = spaceB;
+			this._x2Axis._tmpSpace = spaceT;
 
 			float totSpaceL = 0;
 			float totSpaceR = 0;
 
-			foreach ( Axis axis in _yAxisList )
+			foreach ( Axis axis in this._yAxisList )
 			{
-				SetSpace( axis, clientRect.Width - totSpaceY, ref spaceL, ref spaceR );
+				this.SetSpace( axis, clientRect.Width - totSpaceY, ref spaceL, ref spaceR );
 				minSpaceR = Math.Max( minSpaceR, spaceR );
 				totSpaceL += spaceL;
 				axis._tmpSpace = spaceL;
 			}
-			foreach ( Axis axis in _y2AxisList )
+			foreach ( Axis axis in this._y2AxisList )
 			{
-				SetSpace( axis, clientRect.Width - totSpaceY, ref spaceR, ref spaceL );
+				this.SetSpace( axis, clientRect.Width - totSpaceY, ref spaceR, ref spaceL );
 				minSpaceL = Math.Max( minSpaceL, spaceL );
 				totSpaceR += spaceR;
 				axis._tmpSpace = spaceR;
@@ -1001,7 +996,7 @@ namespace ZedGraph
 			tmpRect.Height -= spaceT + spaceB;
 			tmpRect.Y += spaceT;
 
-			_legend.CalcRect( g, this, scaleFactor, ref tmpRect );
+			this._legend.CalcRect( g, this, scaleFactor, ref tmpRect );
 
 			return tmpRect;
 		}
@@ -1050,11 +1045,11 @@ namespace ZedGraph
 		/// property if the calculated result is more than the current value.</param>
 		public void SetMinSpaceBuffer( Graphics g, float bufferFraction, bool isGrowOnly )
 		{
-			_xAxis.SetMinSpaceBuffer( g, this, bufferFraction, isGrowOnly );
-			_x2Axis.SetMinSpaceBuffer( g, this, bufferFraction, isGrowOnly );
-			foreach ( Axis axis in _yAxisList )
+			this._xAxis.SetMinSpaceBuffer( g, this, bufferFraction, isGrowOnly );
+			this._x2Axis.SetMinSpaceBuffer( g, this, bufferFraction, isGrowOnly );
+			foreach ( Axis axis in this._yAxisList )
 				axis.SetMinSpaceBuffer( g, this, bufferFraction, isGrowOnly );
-			foreach ( Axis axis in _y2AxisList )
+			foreach ( Axis axis in this._y2AxisList )
 				axis.SetMinSpaceBuffer( g, this, bufferFraction, isGrowOnly );
 		}
 
@@ -1084,7 +1079,7 @@ namespace ZedGraph
 		public LineItem AddCurve( string label, double[] x, double[] y, Color color )
 		{
 			LineItem curve = new LineItem( label, x, y, color, SymbolType.Default );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1109,7 +1104,7 @@ namespace ZedGraph
 		public LineItem AddCurve( string label, IPointList points, Color color )
 		{
 			LineItem curve = new LineItem( label, points, color, SymbolType.Default );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1139,7 +1134,7 @@ namespace ZedGraph
 			Color color, SymbolType symbolType )
 		{
 			LineItem curve = new LineItem( label, x, y, color, symbolType );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1167,7 +1162,7 @@ namespace ZedGraph
 			Color color, SymbolType symbolType )
 		{
 			LineItem curve = new LineItem( label, points, color, symbolType );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1194,7 +1189,7 @@ namespace ZedGraph
 		public StickItem AddStick( string label, double[] x, double[] y, Color color )
 		{
 			StickItem curve = new StickItem( label, x, y, color );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1219,7 +1214,7 @@ namespace ZedGraph
 		public StickItem AddStick( string label, IPointList points, Color color )
 		{
 			StickItem curve = new StickItem( label, points, color );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1249,7 +1244,7 @@ namespace ZedGraph
 		public OHLCBarItem AddOHLCBar( string label, IPointList points, Color color )
 		{
 			OHLCBarItem curve = new OHLCBarItem( label, points, color );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1277,7 +1272,7 @@ namespace ZedGraph
 		public JapaneseCandleStickItem AddJapaneseCandleStick( string label, IPointList points )
 		{
 			JapaneseCandleStickItem curve = new JapaneseCandleStickItem( label, points );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1309,7 +1304,7 @@ namespace ZedGraph
 		{
 			ErrorBarItem curve = new ErrorBarItem( label, new PointPairList( x, y, baseValue ),
 				color );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1333,7 +1328,7 @@ namespace ZedGraph
 		public ErrorBarItem AddErrorBar( string label, IPointList points, Color color )
 		{
 			ErrorBarItem curve = new ErrorBarItem( label, points, color );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1357,7 +1352,7 @@ namespace ZedGraph
 		public BarItem AddBar( string label, IPointList points, Color color )
 		{
 			BarItem curve = new BarItem( label, points, color );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1383,7 +1378,7 @@ namespace ZedGraph
 		public BarItem AddBar( string label, double[] x, double[] y, Color color )
 		{
 			BarItem curve = new BarItem( label, x, y, color );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1413,7 +1408,7 @@ namespace ZedGraph
 			double[] baseVal, Color color )
 		{
 			HiLowBarItem curve = new HiLowBarItem( label, x, y, baseVal, color );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1437,7 +1432,7 @@ namespace ZedGraph
 		public HiLowBarItem AddHiLowBar( string label, IPointList points, Color color )
 		{
 			HiLowBarItem curve = new HiLowBarItem( label, points, color );
-			_curveList.Add( curve );
+			this._curveList.Add( curve );
 
 			return curve;
 		}
@@ -1520,10 +1515,10 @@ namespace ZedGraph
 		public PointF GeneralTransform( PointF ptF, CoordType coord )
 		{
 			// Setup the scaling data based on the chart rect
-			_xAxis.Scale.SetupScaleData( this, _xAxis );
-			foreach ( Axis axis in _yAxisList )
+			this._xAxis.Scale.SetupScaleData( this, this._xAxis );
+			foreach ( Axis axis in this._yAxisList )
 				axis.Scale.SetupScaleData( this, axis );
-			foreach ( Axis axis in _y2AxisList )
+			foreach ( Axis axis in this._y2AxisList )
 				axis.Scale.SetupScaleData( this, axis );
 
 			return this.TransformCoord( ptF.X, ptF.Y, coord );
@@ -1550,10 +1545,10 @@ namespace ZedGraph
 		public PointF GeneralTransform( double x, double y, CoordType coord )
 		{
 			// Setup the scaling data based on the chart rect
-			_xAxis.Scale.SetupScaleData( this, _xAxis );
-			foreach ( Axis axis in _yAxisList )
+			this._xAxis.Scale.SetupScaleData( this, this._xAxis );
+			foreach ( Axis axis in this._yAxisList )
 				axis.Scale.SetupScaleData( this, axis );
-			foreach ( Axis axis in _y2AxisList )
+			foreach ( Axis axis in this._y2AxisList )
 				axis.Scale.SetupScaleData( this, axis );
 
 			return this.TransformCoord( x, y, coord );
@@ -1577,7 +1572,7 @@ namespace ZedGraph
 		public void ReverseTransform( PointF ptF, out double x, out double y )
 		{
 			// Setup the scaling data based on the chart rect
-			_xAxis.Scale.SetupScaleData( this, _xAxis );
+			this._xAxis.Scale.SetupScaleData( this, this._xAxis );
 			this.YAxis.Scale.SetupScaleData( this, this.YAxis );
 
 			x = this.XAxis.Scale.ReverseTransform( ptF.X );
@@ -1606,8 +1601,8 @@ namespace ZedGraph
 			out double y2 )
 		{
 			// Setup the scaling data based on the chart rect
-			_xAxis.Scale.SetupScaleData( this, _xAxis );
-			_x2Axis.Scale.SetupScaleData( this, _x2Axis );
+			this._xAxis.Scale.SetupScaleData( this, this._xAxis );
+			this._x2Axis.Scale.SetupScaleData( this, this._x2Axis );
 			this.YAxis.Scale.SetupScaleData( this, this.YAxis );
 			this.Y2Axis.Scale.SetupScaleData( this, this.Y2Axis );
 
@@ -1642,18 +1637,18 @@ namespace ZedGraph
 					out double x, out double y )
 		{
 			// Setup the scaling data based on the chart rect
-			Axis xAxis = _xAxis;
+			Axis xAxis = this._xAxis;
 			if ( isX2Axis )
-				xAxis = _x2Axis;
+				xAxis = this._x2Axis;
 
 			xAxis.Scale.SetupScaleData( this, xAxis );
 			x = xAxis.Scale.ReverseTransform( ptF.X );
 
 			Axis yAxis = null;
-			if ( isY2Axis && Y2AxisList.Count > yAxisIndex )
-				yAxis = Y2AxisList[yAxisIndex];
-			else if ( !isY2Axis && YAxisList.Count > yAxisIndex )
-				yAxis = YAxisList[yAxisIndex];
+			if ( isY2Axis && this.Y2AxisList.Count > yAxisIndex )
+				yAxis = this.Y2AxisList[yAxisIndex];
+			else if ( !isY2Axis && this.YAxisList.Count > yAxisIndex )
+				yAxis = this.YAxisList[yAxisIndex];
 
 			if ( yAxis != null )
 			{
@@ -1690,23 +1685,23 @@ namespace ZedGraph
 			out double[] y2 )
 		{
 			// Setup the scaling data based on the chart rect
-			_xAxis.Scale.SetupScaleData( this, _xAxis );
+			this._xAxis.Scale.SetupScaleData( this, this._xAxis );
 			x = this.XAxis.Scale.ReverseTransform( ptF.X );
-			_x2Axis.Scale.SetupScaleData( this, _x2Axis );
+			this._x2Axis.Scale.SetupScaleData( this, this._x2Axis );
 			x2 = this.X2Axis.Scale.ReverseTransform( ptF.X );
 
-			y = new double[_yAxisList.Count];
-			y2 = new double[_y2AxisList.Count];
+			y = new double[this._yAxisList.Count];
+			y2 = new double[this._y2AxisList.Count];
 
-			for ( int i = 0; i < _yAxisList.Count; i++ )
+			for ( int i = 0; i < this._yAxisList.Count; i++ )
 			{
-				Axis axis = _yAxisList[i];
+				Axis axis = this._yAxisList[i];
 				axis.Scale.SetupScaleData( this, axis );
 				y[i] = axis.Scale.ReverseTransform( ptF.Y );
 			}
-			for ( int i = 0; i < _y2AxisList.Count; i++ )
+			for ( int i = 0; i < this._y2AxisList.Count; i++ )
 			{
-				Axis axis = _y2AxisList[i];
+				Axis axis = this._y2AxisList[i];
 				axis.Scale.SetupScaleData( this, axis );
 				y2[i] = axis.Scale.ReverseTransform( ptF.Y );
 			}
@@ -1731,8 +1726,8 @@ namespace ZedGraph
 			axis.MinorTic.IsOpposite = false;
 			axis.MajorTic.IsInside = false;
 			axis.MinorTic.IsInside = false;
-			_yAxisList.Add( axis );
-			return _yAxisList.Count - 1;
+			this._yAxisList.Add( axis );
+			return this._yAxisList.Count - 1;
 		}
 
 		/// <summary>
@@ -1754,8 +1749,8 @@ namespace ZedGraph
 			axis.MinorTic.IsOpposite = false;
 			axis.MajorTic.IsInside = false;
 			axis.MinorTic.IsInside = false;
-			_y2AxisList.Add( axis );
-			return _y2AxisList.Count - 1;
+			this._y2AxisList.Add( axis );
+			return this._y2AxisList.Count - 1;
 		}
 
 		/// <summary>
@@ -1800,9 +1795,9 @@ namespace ZedGraph
 			index = -1;
 
 			// Make sure that the axes & data are being drawn
-			if ( AxisRangesValid() )
+			if ( this.AxisRangesValid() )
 			{
-				float scaleFactor = CalcScaleFactor();
+				float scaleFactor = this.CalcScaleFactor();
 				//int			hStack;
 				//float		legendWidth, legendHeight;
 				RectangleF tmpRect;
@@ -1811,7 +1806,7 @@ namespace ZedGraph
 				ZOrder saveZOrder = ZOrder.H_BehindAll;
 
 				// Calculate the chart rect, deducting the area for the scales, titles, legend, etc.
-				RectangleF tmpChartRect = CalcChartRect( g, scaleFactor );
+				RectangleF tmpChartRect = this.CalcChartRect( g, scaleFactor );
 
 				// See if the point is in a GraphObj
 				// If so, just save the object and index so we can see if other overlying objects were
@@ -1832,11 +1827,11 @@ namespace ZedGraph
 				}
 
 				// See if the point is in the Pane Title
-				SizeF paneTitleBox = _title._fontSpec.BoundingBox( g, _title._text, scaleFactor );
-				if ( saveZOrder <= ZOrder.H_BehindAll && _title._isVisible )
+				SizeF paneTitleBox = this._title._fontSpec.BoundingBox( g, this._title._text, scaleFactor );
+				if ( saveZOrder <= ZOrder.H_BehindAll && this._title._isVisible )
 				{
-					tmpRect = new RectangleF( ( _rect.Left + _rect.Right - paneTitleBox.Width ) / 2,
-						_rect.Top + _margin.Top * scaleFactor,
+					tmpRect = new RectangleF( ( this._rect.Left + this._rect.Right - paneTitleBox.Width ) / 2,
+						this._rect.Top + this._margin.Top * scaleFactor,
 						paneTitleBox.Width, paneTitleBox.Height );
 					if ( tmpRect.Contains( mousePt ) )
 					{
@@ -1848,9 +1843,9 @@ namespace ZedGraph
 				float left = tmpChartRect.Left;
 
 				// See if the point is in one of the Y Axes
-				for ( int yIndex = 0; yIndex < _yAxisList.Count; yIndex++ )
+				for ( int yIndex = 0; yIndex < this._yAxisList.Count; yIndex++ )
 				{
-					Axis yAxis = _yAxisList[yIndex];
+					Axis yAxis = this._yAxisList[yIndex];
 					float width = yAxis._tmpSpace;
 					if ( width > 0 )
 					{
@@ -1870,9 +1865,9 @@ namespace ZedGraph
 				left = tmpChartRect.Right;
 
 				// See if the point is in one of the Y2 Axes
-				for ( int yIndex = 0; yIndex < _y2AxisList.Count; yIndex++ )
+				for ( int yIndex = 0; yIndex < this._y2AxisList.Count; yIndex++ )
 				{
-					Axis y2Axis = _y2AxisList[yIndex];
+					Axis y2Axis = this._y2AxisList[yIndex];
 					float width = y2Axis._tmpSpace;
 					if ( width > 0 )
 					{
@@ -1890,7 +1885,7 @@ namespace ZedGraph
 				}
 
 				// See if the point is in the X Axis
-				float height = _xAxis._tmpSpace;
+				float height = this._xAxis._tmpSpace;
 
 				tmpRect = new RectangleF( tmpChartRect.Left, tmpChartRect.Bottom,
 					tmpChartRect.Width, height ); //_rect.Bottom - tmpChartRect.Bottom );
@@ -1902,7 +1897,7 @@ namespace ZedGraph
 				}
 
 				// See if the point is in the X2 Axis
-				height = _x2Axis._tmpSpace;
+				height = this._x2Axis._tmpSpace;
 
 				tmpRect = new RectangleF( tmpChartRect.Left,
 						tmpChartRect.Top - height,
@@ -1916,7 +1911,7 @@ namespace ZedGraph
 
 				CurveItem curve;
 				// See if it's a data point
-				if ( saveZOrder <= ZOrder.E_BehindCurves && FindNearestPoint( mousePt, out curve, out index ) )
+				if ( saveZOrder <= ZOrder.E_BehindCurves && this.FindNearestPoint( mousePt, out curve, out index ) )
 				{
 					nearestObj = curve;
 					return true;
@@ -1961,7 +1956,7 @@ namespace ZedGraph
 		{
 			CurveList targetCurveList = new CurveList();
 			targetCurveList.Add( targetCurve );
-			return FindNearestPoint( mousePt, targetCurveList,
+			return this.FindNearestPoint( mousePt, targetCurveList,
 				out nearestCurve, out iNearest );
 		}
 
@@ -1989,7 +1984,7 @@ namespace ZedGraph
 		public bool FindNearestPoint( PointF mousePt,
 			out CurveItem nearestCurve, out int iNearest )
 		{
-			return FindNearestPoint( mousePt, _curveList,
+			return this.FindNearestPoint( mousePt, this._curveList,
 				out nearestCurve, out iNearest );
 		}
 
@@ -2026,7 +2021,7 @@ namespace ZedGraph
 			iNearest = -1;
 
 			// If the point is outside the ChartRect, always return false
-			if ( !_chart._rect.Contains( mousePt ) )
+			if ( !this._chart._rect.Contains( mousePt ) )
 				return false;
 
 			double x, x2;
@@ -2034,9 +2029,9 @@ namespace ZedGraph
 			double[] y2;
 
 			//ReverseTransform( mousePt, out x, out y, out y2 );
-			ReverseTransform( mousePt, out x, out x2, out y, out y2 );
+			this.ReverseTransform( mousePt, out x, out x2, out y, out y2 );
 
-			if ( !AxisRangesValid() )
+			if ( !this.AxisRangesValid() )
 				return false;
 
 			ValueHandler valueHandler = new ValueHandler( this, false );
@@ -2074,19 +2069,19 @@ namespace ZedGraph
 					if ( curve.IsY2Axis )
 					{
 						yAct = y2[yIndex];
-						yMinAct = _y2AxisList[yIndex]._scale._min;
-						yMaxAct = _y2AxisList[yIndex]._scale._max;
+						yMinAct = this._y2AxisList[yIndex]._scale._min;
+						yMaxAct = this._y2AxisList[yIndex]._scale._max;
 					}
 					else
 					{
 						yAct = y[yIndex];
-						yMinAct = _yAxisList[yIndex]._scale._min;
-						yMaxAct = _yAxisList[yIndex]._scale._max;
+						yMinAct = this._yAxisList[yIndex]._scale._min;
+						yMaxAct = this._yAxisList[yIndex]._scale._max;
 					}
 
-					yPixPerUnitAct = _chart._rect.Height / ( yMaxAct - yMinAct );
+					yPixPerUnitAct = this._chart._rect.Height / ( yMaxAct - yMinAct );
 
-					double xPixPerUnit = _chart._rect.Width / ( xAxis._scale._max - xAxis._scale._min );
+					double xPixPerUnit = this._chart._rect.Width / ( xAxis._scale._max - xAxis._scale._min );
 					xAct = xAxis is XAxis ? x : x2;
 
 					IPointList points = curve.Points;
@@ -2163,7 +2158,7 @@ namespace ZedGraph
 								else if ( xVal >= xAxis._scale._min && xVal <= xAxis._scale._max &&
 											yVal >= yMinAct && yVal <= yMaxAct )
 								{
-									if ( curve is LineItem && _lineType == LineType.Stack )
+									if ( curve is LineItem && this._lineType == LineType.Stack )
 									{
 										double zVal;
 										valueHandler.GetValues( curve, iPt, out xVal, out zVal, out yVal );
@@ -2193,7 +2188,7 @@ namespace ZedGraph
 			if ( nearestCurve is LineItem )
 			{
 				float halfSymbol = (float)( ( (LineItem)nearestCurve ).Symbol.Size *
-					CalcScaleFactor() / 2 );
+					this.CalcScaleFactor() / 2 );
 				minDist -= halfSymbol * halfSymbol;
 				if ( minDist < 0 )
 					minDist = 0;
@@ -2238,7 +2233,7 @@ namespace ZedGraph
 			index = -1;
 
 			// First look for graph objects that lie in front of the data points
-			foreach ( GraphObj graphObj in _graphObjList )
+			foreach ( GraphObj graphObj in this._graphObjList )
 			{
 				link = graphObj._link;
 				bool inFront = graphObj.IsInFrontOfData;
@@ -2254,7 +2249,7 @@ namespace ZedGraph
 			}
 
 			// Second, look at the curve data points
-			foreach ( CurveItem curve in _curveList )
+			foreach ( CurveItem curve in this._curveList )
 			{
 				link = curve._link;
 
@@ -2262,7 +2257,7 @@ namespace ZedGraph
 				{
 					CurveItem nearestCurve;
 
-					if ( FindNearestPoint( mousePt, curve, out nearestCurve, out index ) )
+					if ( this.FindNearestPoint( mousePt, curve, out nearestCurve, out index ) )
 					{
 						source = curve;
 						return true;
@@ -2271,7 +2266,7 @@ namespace ZedGraph
 			}
 
 			// Third, look for graph objects that lie behind the data points
-			foreach ( GraphObj graphObj in _graphObjList )
+			foreach ( GraphObj graphObj in this._graphObjList )
 			{
 				link = graphObj._link;
 				bool inFront = graphObj.IsInFrontOfData;

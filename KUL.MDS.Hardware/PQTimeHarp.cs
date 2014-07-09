@@ -1,16 +1,27 @@
-﻿using System;  //for basic functions and data types			
-using System.Text;  //for StringBuilder 
-using System.IO;  //for File operations
-using System.Drawing;  //for images
-using System.Drawing.Imaging;  //for images
-using System.Runtime.InteropServices;	//for Marshalling data and other functions for managed <-> unmanaged code interactions
-using System.Diagnostics;  //for performance testing
-using System.Threading;  //for multi-threading
+﻿//for basic functions and data types			
+//for StringBuilder 
+//for File operations
+//for images
+//for images
+//for Marshalling data and other functions for managed <-> unmanaged code interactions
+//for performance testing
+
+//for multi-threading
 //using System.Threading.Tasks;  //for threading with Tasks and async/await asynchronous operations
 
 
-namespace KUL.MDS.Hardware
+namespace SIS.Hardware
 {
+    using System;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.IO;
+    using System.Runtime.InteropServices;
+    using System.Text;
+    using System.Threading;
+
+    using SIS.Hardware.TimeHarp;
+
     /// <summary>
     /// PQTimeHarp class provides support for Time Harp board.
     /// Note: Only one object instance is allowed to exist at a time from this class because the Time Harp DLL
@@ -76,18 +87,18 @@ namespace KUL.MDS.Hardware
             if (__iErrorCode < 0)  //check the success of the previous operation
             {                
                 this.m_sbCurrentError = new StringBuilder("Time Harp: reporting an error --> " + __sAppendErrorMessage);
-                this.m_sbCurrentError.Append(GetCurrentError(__iErrorCode));
+                this.m_sbCurrentError.Append(this.GetCurrentError(__iErrorCode));
                 
                 // Throw an ErrorOccurred event to inform the user.
-                if (ErrorOccurred != null)
+                if (this.ErrorOccurred != null)
                 {
                     _logger.Debug(this.m_sbCurrentError.ToString());
-                    ErrorOccurred(this, new EventArgs());
+                    this.ErrorOccurred(this, new EventArgs());
                 }
             }
             else
             {
-                this.m_sbCurrentError = GetCurrentError(__iErrorCode);
+                this.m_sbCurrentError = this.GetCurrentError(__iErrorCode);
             }            
         }
 
@@ -105,10 +116,10 @@ namespace KUL.MDS.Hardware
 				int _iCountRate = -1;  // set to -1 to indicate unsuccessful attempt to get the count rate
 
 				// Check if there is some measurement running, if not return the count rate
-				if (!m_IsMeasurementRunning)
+				if (!this.m_IsMeasurementRunning)
 				{
-					_iCountRate = GetCountRate(_iMeasurementMode, _iAcquisitionTime);
-					m_iCountRate = _iCountRate;  //keeps track of the last probed count rate value
+					_iCountRate = this.GetCountRate(_iMeasurementMode, _iAcquisitionTime);
+					this.m_iCountRate = _iCountRate;  //keeps track of the last probed count rate value
 				}
 
 				return _iCountRate;
@@ -128,7 +139,7 @@ namespace KUL.MDS.Hardware
 		{
 			get
 			{
-				return m_bIsInitialized;
+				return this.m_bIsInitialized;
 			}
 		}
 				      
@@ -143,11 +154,11 @@ namespace KUL.MDS.Hardware
                 this.m_bIsInitialized = false;
 
                 // Reset error state to default, i.e. no error present
-				m_iErrorCode = ERR_CODE_DEFAULT;
+				this.m_iErrorCode = ERR_CODE_DEFAULT;
                 
-                if (EngagedChanged != null)
+                if (this.EngagedChanged != null)
                 {
-                    EngagedChanged(this, new EventArgs());
+                    this.EngagedChanged(this, new EventArgs());
                 }
 
                 _logger.Info("Time Harp: now Time Harp is OFF!"); 
@@ -169,7 +180,7 @@ namespace KUL.MDS.Hardware
         /// </summary>   
         private void RequestMeasurementStop()  //stop Time Harp acquisition by setting IsMesurementToBeStop = True
         {
-            m_IsMesurementToBeStopped = true;  //allows to stop Time Harp acquisition by setting its value to true
+            this.m_IsMesurementToBeStopped = true;  //allows to stop Time Harp acquisition by setting its value to true
         }
 
 
@@ -225,7 +236,7 @@ namespace KUL.MDS.Hardware
 		public int GlobalTTTRBufferSize  //set or get property value
 		{
 			get { return m_iGlobalTTTRBufferSize; }
-			set { m_iGlobalTTTRBufferSize = GetGlobalTTTRBufferSize(value); }
+			set { m_iGlobalTTTRBufferSize = this.GetGlobalTTTRBufferSize(value); }
 		}
 
 
@@ -256,7 +267,7 @@ namespace KUL.MDS.Hardware
 		public int LinePTTTRBufferSize  //set or get property value
 		{
 			get { return m_iLinePTTTRBufferSize; }
-			set { m_iLinePTTTRBufferSize = GetLinePTTTRBufferSize(value); }
+			set { m_iLinePTTTRBufferSize = this.GetLinePTTTRBufferSize(value); }
 		}
 		  		       	                	
 
@@ -320,7 +331,7 @@ namespace KUL.MDS.Hardware
                     _fsOutputFileStream = File.Open(_strCurrentFileName, FileMode.Create, FileAccess.Write, FileShare.None); //create and open the output file for writing                   
                     _bwOutputFile = new BinaryWriter(_fsOutputFileStream);  //allocate the binary writer - makes the actual writing of the binary data to hard drive
 
-					WriteTTTRHeaderToFile(_bwOutputFile, ref Files.TTTRFileHeader);  //write TTTR header to file
+					this.WriteTTTRHeaderToFile(_bwOutputFile, ref Files.TTTRFileHeader);  //write TTTR header to file
                     WriteTTTRBufferToFile(_bwOutputFile, ref Files.RecordsCount, __indexLowerTTTRBuffer, __indexUpperTTTRBuffer, __TTTRBuffer); // TTTR buffer to file
                     WriteTTTRNumberOfRecordsToFile(_bwOutputFile, TimeHarpDefinitions.SizeTTTRDefaultFileHeader - 8, Files.RecordsCount);  //update the number of records written to the TTTR file so far                    
                 }
@@ -330,10 +341,10 @@ namespace KUL.MDS.Hardware
 					//throw new Exception("KUL.MDS.Hardware.PQTimeHarp. Exception - " + "The file: " + _strCurrentFileName + " could not be created by WriteTTTRDataToFile() function!");
 
                     // Throw an ErrorOccurred event to inform the user.
-                    if (ErrorOccurred != null)
+                    if (this.ErrorOccurred != null)
                     {
 						_logger.Error( "Time Harp: reporting error --> the file " + _strCurrentFileName + " could not be created by WriteTTTRDataToFile() function!" + " Exception Message: " + ex.Message );
-                        ErrorOccurred(this, new EventArgs());
+                        this.ErrorOccurred(this, new EventArgs());
                     } 
                 }
 
@@ -352,7 +363,7 @@ namespace KUL.MDS.Hardware
                         _fsOutputFileStream = File.Open(_strCurrentFileName, FileMode.Create, FileAccess.Write, FileShare.None); //create and open the output file for writing                        
                         _bwOutputFile = new BinaryWriter(_fsOutputFileStream);  //allocate the binary writer - makes the actual writing of the binary data to hard drive
 
-						WriteTTTRHeaderToFile(_bwOutputFile, ref Files.TTTRFileHeader);  //write TTTR header to file
+						this.WriteTTTRHeaderToFile(_bwOutputFile, ref Files.TTTRFileHeader);  //write TTTR header to file
                     }
                     else  //open the previous file and append the buffer data to it
                     {
@@ -371,10 +382,10 @@ namespace KUL.MDS.Hardware
 					//throw new Exception("KUL.MDS.Hardware.PQTimeHarp. Exception - " + "The file: " + _strCurrentFileName + " could not be open in append mode by WriteTTTRDataToFile() function!");
                     
                     // Throw an ErrorOccurred event to inform the user.
-                    if (ErrorOccurred != null)
+                    if (this.ErrorOccurred != null)
                     {
 						_logger.Error( "Time Harp: reporting error --> the file " + _strCurrentFileName + " could not be created by WriteTTTRDataToFile() function!" + " Exception Message: " + ex.Message );
-                        ErrorOccurred(this, new EventArgs());
+                        this.ErrorOccurred(this, new EventArgs());
                     }
                 }
 
@@ -488,19 +499,19 @@ namespace KUL.MDS.Hardware
             __TTTRFileHeader.BinaryHeader.ActiveCurve = 0;
             __bwOutputFile.Write(__TTTRFileHeader.BinaryHeader.ActiveCurve);  //write Int32 to file
 
-			__TTTRFileHeader.BinaryHeader.MeasurementMode = m_iMeasurementMode + 2;
+			__TTTRFileHeader.BinaryHeader.MeasurementMode = this.m_iMeasurementMode + 2;
             __bwOutputFile.Write(__TTTRFileHeader.BinaryHeader.MeasurementMode);  //write Int32 to file
 
             __TTTRFileHeader.BinaryHeader.SubMode = 0;
             __bwOutputFile.Write(__TTTRFileHeader.BinaryHeader.SubMode);  //write Int32 to file
 
-			__TTTRFileHeader.BinaryHeader.RangeNo = m_iRangeCode;
+			__TTTRFileHeader.BinaryHeader.RangeNo = this.m_iRangeCode;
             __bwOutputFile.Write(__TTTRFileHeader.BinaryHeader.RangeNo);  //write Int32 to file
 
-			__TTTRFileHeader.BinaryHeader.Offset = m_iOffset;
+			__TTTRFileHeader.BinaryHeader.Offset = this.m_iOffset;
             __bwOutputFile.Write(__TTTRFileHeader.BinaryHeader.Offset);  //write Int32 to file
 
-			__TTTRFileHeader.BinaryHeader.AcquisitionTime = m_iAcquisitionTime;
+			__TTTRFileHeader.BinaryHeader.AcquisitionTime = this.m_iAcquisitionTime;
             __bwOutputFile.Write(__TTTRFileHeader.BinaryHeader.AcquisitionTime);  //write Int32 to file
 
             __TTTRFileHeader.BinaryHeader.StopAt = TimeHarpDefinitions.OVERFLOWMAX;
@@ -577,25 +588,25 @@ namespace KUL.MDS.Hardware
 			__TTTRFileHeader.BoardHeader.HardwareIdent = StringToCharArray(TimeHarpDefinitions.IdentString, 16);
             __bwOutputFile.Write(__TTTRFileHeader.BoardHeader.HardwareIdent);  //write char[16] to file
 
-			__TTTRFileHeader.BoardHeader.HardwareVersion = StringToCharArray(m_sHardwareVersion, 8);
+			__TTTRFileHeader.BoardHeader.HardwareVersion = StringToCharArray(this.m_sHardwareVersion, 8);
             __bwOutputFile.Write(__TTTRFileHeader.BoardHeader.HardwareVersion);  //write char[8] to file
 
-			__TTTRFileHeader.BoardHeader.BoardSerial = Convert.ToInt32(m_sSerialNumber);
+			__TTTRFileHeader.BoardHeader.BoardSerial = Convert.ToInt32(this.m_sSerialNumber);
             __bwOutputFile.Write(__TTTRFileHeader.BoardHeader.BoardSerial);  //write Int32 to file
 
-			__TTTRFileHeader.BoardHeader.CFDZeroCross = m_iCFDZeroCross;
+			__TTTRFileHeader.BoardHeader.CFDZeroCross = this.m_iCFDZeroCross;
             __bwOutputFile.Write(__TTTRFileHeader.BoardHeader.CFDZeroCross);  //write Int32 to file
 
-			__TTTRFileHeader.BoardHeader.CFDDiscrMin = m_iCFDDiscrMin;
+			__TTTRFileHeader.BoardHeader.CFDDiscrMin = this.m_iCFDDiscrMin;
             __bwOutputFile.Write(__TTTRFileHeader.BoardHeader.CFDDiscrMin);  //write Int32 to file
 
-			__TTTRFileHeader.BoardHeader.SyncLevel = m_iSyncLevel;
+			__TTTRFileHeader.BoardHeader.SyncLevel = this.m_iSyncLevel;
             __bwOutputFile.Write(__TTTRFileHeader.BoardHeader.SyncLevel);  //write Int32 to file
 
             __TTTRFileHeader.BoardHeader.CurveOffset = 0;
             __bwOutputFile.Write(__TTTRFileHeader.BoardHeader.CurveOffset);  //write Int32 to file
 
-			__TTTRFileHeader.BoardHeader.Resolution = m_fResolution;
+			__TTTRFileHeader.BoardHeader.Resolution = this.m_fResolution;
             __bwOutputFile.Write(__TTTRFileHeader.BoardHeader.Resolution);  //write float to file
 
 
@@ -622,13 +633,13 @@ namespace KUL.MDS.Hardware
             __bwOutputFile.Write(__TTTRFileHeader.TTTRHeader.Reserved5);  //write Int32 to file
 
             //Console.WriteLine("WriteTTTRHeaderToFile(): TTTRHeader.SyncRate = {0}, this.m_iSyncRate = {1}", __TTTRFileHeader.TTTRHeader.SyncRate, this.m_iSyncRate);  //for debugging purposes
-			__TTTRFileHeader.TTTRHeader.SyncRate = m_iSyncRate;
+			__TTTRFileHeader.TTTRHeader.SyncRate = this.m_iSyncRate;
             __bwOutputFile.Write(__TTTRFileHeader.TTTRHeader.SyncRate);  //write Int32 to file
 
-            __TTTRFileHeader.TTTRHeader.AverageCFDRate = m_iCountRate;
+            __TTTRFileHeader.TTTRHeader.AverageCFDRate = this.m_iCountRate;
             __bwOutputFile.Write(__TTTRFileHeader.TTTRHeader.AverageCFDRate);  //write Int32 to file
 
-			__TTTRFileHeader.TTTRHeader.StopAfter = m_iAcquisitionTime;
+			__TTTRFileHeader.TTTRHeader.StopAfter = this.m_iAcquisitionTime;
             __bwOutputFile.Write(__TTTRFileHeader.TTTRHeader.StopAfter);  //write Int32 to file
 
             __TTTRFileHeader.TTTRHeader.StopReason = 0;
@@ -1455,17 +1466,17 @@ namespace KUL.MDS.Hardware
             //this.m_IsMeasurementRunning = true;  //because we are about to start a measurement we do not want to stop it (so set it to True)
 
             // Create and spawn two threads which will be responsible for reading and storing the Time Harp FiFo buffer
-            ThreadsStatus.APDReadThread.Thread = new Thread(Read);  //execute Read() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see APDReadThread variable in there)
+            ThreadsStatus.APDReadThread.Thread = new Thread(this.Read);  //execute Read() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see APDReadThread variable in there)
             ThreadsStatus.APDReadThread.Thread.Name = "APD_Read()";  //set the name of the thread
             ThreadsStatus.APDReadThread.Thread.IsBackground = true;  //set the thread as a background thread
             ThreadsStatus.APDReadThread.Thread.Priority = ThreadPriority.Highest;  //set the thread priority to above normal in order to assure we collect all buffer events from FiFo
             
-            ThreadsStatus.APDSaveThread.Thread = new Thread(Save);  //execute Save() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see APDSaveThread variable in there)
+            ThreadsStatus.APDSaveThread.Thread = new Thread(this.Save);  //execute Save() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see APDSaveThread variable in there)
             ThreadsStatus.APDSaveThread.Thread.Name = "APD_Save()";  //set the name of the thread
             ThreadsStatus.APDSaveThread.Thread.IsBackground = true;  //set the thread as a background thread
             ThreadsStatus.APDSaveThread.Thread.Priority = ThreadPriority.Normal;  //set the thread priority to above normal
 
-			ThreadsStatus.BuildImageThread.Thread = new Thread(BuildImage);  //execute BuildImage() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see BuildImageThread variable in there)
+			ThreadsStatus.BuildImageThread.Thread = new Thread(this.BuildImage);  //execute BuildImage() function in a separate thread. Note that the thread status is kept in ThreadsStatus structure (see BuildImageThread variable in there)
 			ThreadsStatus.BuildImageThread.Thread.Name = "APD_BuildImage()";  //set the name of the thread
 			ThreadsStatus.BuildImageThread.Thread.IsBackground = true;  //set the thread as a background thread
 			ThreadsStatus.BuildImageThread.Thread.Priority = ThreadPriority.Normal;  //set the thread priority to normal
@@ -1487,7 +1498,7 @@ namespace KUL.MDS.Hardware
         /// </summary>  
         public void StopAPDAcquisition()
         {
-            RequestMeasurementStop();  //tell all threads engaged in the APD acquisition to stop
+            this.RequestMeasurementStop();  //tell all threads engaged in the APD acquisition to stop
         }
 
 
@@ -1498,7 +1509,7 @@ namespace KUL.MDS.Hardware
         /// </summary>  
         public void RunAPDAcquisition()
         {
-            StartAPDAcquisition();  //start APD acquisition and storing raw TTTR data
+            this.StartAPDAcquisition();  //start APD acquisition and storing raw TTTR data
 
             // Join the created for the acquisition and storing threads
             if (ThreadsStatus.APDReadThread.Thread.IsAlive) ThreadsStatus.APDReadThread.Thread.Join();  //wait for the thread to finish
@@ -1612,16 +1623,16 @@ namespace KUL.MDS.Hardware
                     for (int i = 0; i < (TimeHarpDefinitions.FIFOSIZE / TimeHarpDefinitions.DMABLOCKSZ); i++)  //max one FIFO full
                     {
                         // Fetch data records from FIFO                    
-                        StartDMATransfer(ref _ui32TTTRBuffer, _ui32TTTRBuffer1, _ui32TTTRBuffer2, _iNumberTTTRBufferToProcess, ref _iNumberOfRecords, _iNumberOfRecords1, _iNumberOfRecords2);
+                        this.StartDMATransfer(ref _ui32TTTRBuffer, _ui32TTTRBuffer1, _ui32TTTRBuffer2, _iNumberTTTRBufferToProcess, ref _iNumberOfRecords, _iNumberOfRecords1, _iNumberOfRecords2);
                     
                         // Process any TTTR buffer which is ready to be processed
                         if (_iNumberTTTRBufferToProcess > 0)  //check if we really have a buffer to process (must be 1 or 2 for a ready to process buffer)
                         {
                             // Before copy the fetched FiFo to the global buffer, check if we potentially are going to overwrite an area of the global buffer still in processing in some of the other threads (see Save() and BuildImage() functions)
-                            CheckGlobalTTTROverwrite(_iNumberOfRecords);
+                            this.CheckGlobalTTTROverwrite(_iNumberOfRecords);
 
                             // Copy the fetched FIFO array to the global FIFO buffer array                                                                                                               
-                            CopyFiFoToArray(_ui32TTTRBuffer, _iNumberOfRecords);
+                            this.CopyFiFoToArray(_ui32TTTRBuffer, _iNumberOfRecords);
                         }
 
                         // Complete DMA transfer and assign few other variables
@@ -1632,10 +1643,10 @@ namespace KUL.MDS.Hardware
 							//throw new Exception("KUL.MDS.Hardware.PQTimeHarp Exception - Time Harp DMA buffer error by function Read()");
 
                             // Throw an ErrorOccurred event to inform the user.
-                            if (ErrorOccurred != null)
+                            if (this.ErrorOccurred != null)
                             {
                                 _logger.Debug("Time Harp: reporting error --> DMA buffer error by function Read()!");
-                                ErrorOccurred(this, new EventArgs());
+                                this.ErrorOccurred(this, new EventArgs());
                             }
                         }
 
@@ -1648,16 +1659,16 @@ namespace KUL.MDS.Hardware
 								//throw new Exception("KUL.MDS.Hardware.PQTimeHarp Exception - Time Harp DMA buffer error by function Read()");
 
                                 // Throw an ErrorOccurred event to inform the user.
-                                if (ErrorOccurred != null)
+                                if (this.ErrorOccurred != null)
                                 {
                                     _logger.Debug("Time Harp: reporting error --> DMA buffer error by function Read()!");
-                                    ErrorOccurred(this, new EventArgs());
+                                    this.ErrorOccurred(this, new EventArgs());
                                 }
                             }
                         }
 
                         // Flip indexes so that they point to the next TTTR buffer that is in a state to be processed
-                        AssignIndexesForNextTTTRBuffer(ref _iNumberTTTRBufferToProcess, _iNumberOfRecords, ref _iNumberOfRecords1, ref _iNumberOfRecords2);
+                        this.AssignIndexesForNextTTTRBuffer(ref _iNumberTTTRBufferToProcess, _iNumberOfRecords, ref _iNumberOfRecords1, ref _iNumberOfRecords2);
 
                     }  //END for-loop (int i = 0; i < (TimeHarpDefinitions.FIFOSIZE / TimeHarpDefinitions.DMABLOCKSZ); i++)
 
@@ -1687,10 +1698,10 @@ namespace KUL.MDS.Hardware
                     }
 
                     // Before copy the fetched FiFo to the global buffer, check if we potentially are going to overwrite an area of the global buffer still in processing in some of the other threads (see Save() and BuildImage() functions)
-                    CheckGlobalTTTROverwrite(_iNumberOfRecords);
+                    this.CheckGlobalTTTROverwrite(_iNumberOfRecords);
 
                     // Copy the fetched FIFO array to the global FIFO buffer array                                      
-                    CopyFiFoToArray(_ui32TTTRBuffer, _iNumberOfRecords);
+                    this.CopyFiFoToArray(_ui32TTTRBuffer, _iNumberOfRecords);
 
                     // if we have got the FiFo buffer _bFiFoTimeOut = false
                     _bFiFoTimeOut = false;  //reset FiFo time out state
@@ -1704,17 +1715,17 @@ namespace KUL.MDS.Hardware
                     //Console.WriteLine();
                     //Console.WriteLine();
                     //sw.Start();
-                    StartDMATransfer(ref _ui32TTTRBuffer, _ui32TTTRBuffer1, _ui32TTTRBuffer2, _iNumberTTTRBufferToProcess, ref _iNumberOfRecords, _iNumberOfRecords1, _iNumberOfRecords2);
+                    this.StartDMATransfer(ref _ui32TTTRBuffer, _ui32TTTRBuffer1, _ui32TTTRBuffer2, _iNumberTTTRBufferToProcess, ref _iNumberOfRecords, _iNumberOfRecords1, _iNumberOfRecords2);
                     
                     // Process any TTTR buffer which is ready to be processed
                     if (_iNumberTTTRBufferToProcess > 0)  //check if we really have a buffer to process (must be 1 or 2 for a ready to process buffer)
                     {
                         // Before copy the fetched FiFo to the global buffer, check if we potentially are going to overwrite an area of the global buffer still in processing in some of the other threads (see Save() and BuildImage() functions)
-                        CheckGlobalTTTROverwrite(_iNumberOfRecords);
+                        this.CheckGlobalTTTROverwrite(_iNumberOfRecords);
 
                         // Copy the fetched FIFO array to the global FIFO buffer array
                         //sw.Start();                  
-                        CopyFiFoToArray(_ui32TTTRBuffer, _iNumberOfRecords);
+                        this.CopyFiFoToArray(_ui32TTTRBuffer, _iNumberOfRecords);
                         //sw.Stop();
                         //Console.WriteLine("Read(): _bFiFoHalfFull: Array.Copy(): {0}[ms], {1}[ts]", sw.ElapsedMilliseconds, sw.ElapsedTicks);  //for debugging purposes
                         //sw.Reset();
@@ -1729,15 +1740,15 @@ namespace KUL.MDS.Hardware
 						//throw new Exception("KUL.MDS.Hardware.PQTimeHarp Exception - Time Harp DMA buffer error by function Read()");
 
                         // Throw an ErrorOccurred event to inform the user.
-                        if (ErrorOccurred != null)
+                        if (this.ErrorOccurred != null)
                         {
                             _logger.Debug("Time Harp: reporting error --> DMA buffer error by function Read()!");
-                            ErrorOccurred(this, new EventArgs());
+                            this.ErrorOccurred(this, new EventArgs());
                         }
                     }
 
                     // Flip indexes so that they point to the next TTTR buffer that is in a state to be processed
-                    AssignIndexesForNextTTTRBuffer(ref _iNumberTTTRBufferToProcess, _iNumberOfRecords, ref _iNumberOfRecords1, ref _iNumberOfRecords2);
+                    this.AssignIndexesForNextTTTRBuffer(ref _iNumberTTTRBufferToProcess, _iNumberOfRecords, ref _iNumberOfRecords1, ref _iNumberOfRecords2);
 
                     //sw.Stop();
                     //Console.WriteLine("Read(): _bFiFoHalfFull: StartDMA()-ArrayCopy()-CompleteDMA(): {0}[ms], {1}[ts]", sw.ElapsedMilliseconds, sw.ElapsedTicks);  //for debugging purposes
@@ -1752,16 +1763,16 @@ namespace KUL.MDS.Hardware
                 else if (_bFiFoTimeOut && !_bFiFoEmpty)  // Handle the case of slow counts rate - process buffer data before FIFO gets half full. Buffer must be not empty in order to process, i.e. _bFiFoEmpty = false
                 {
                     // Fetch data records from FIFO                    
-                    StartDMATransfer(ref _ui32TTTRBuffer, _ui32TTTRBuffer1, _ui32TTTRBuffer2, _iNumberTTTRBufferToProcess, ref _iNumberOfRecords, _iNumberOfRecords1, _iNumberOfRecords2);
+                    this.StartDMATransfer(ref _ui32TTTRBuffer, _ui32TTTRBuffer1, _ui32TTTRBuffer2, _iNumberTTTRBufferToProcess, ref _iNumberOfRecords, _iNumberOfRecords1, _iNumberOfRecords2);
                     
                     // Process any TTTR buffer which is ready to be processed
                     if (_iNumberTTTRBufferToProcess > 0)  //check if we really have a buffer to process (must be 1 or 2 for a ready to process buffer)
                     {
                         // Before copy the fetched FiFo to the global buffer, check if we potentially are going to overwrite an area of the global buffer still in processing in some of the other threads (see Save() and BuildImage() functions)
-                        CheckGlobalTTTROverwrite(_iNumberOfRecords);
+                        this.CheckGlobalTTTROverwrite(_iNumberOfRecords);
 
                         // Copy the fetched FIFO array to the global FIFO buffer array                                         
-                        CopyFiFoToArray(_ui32TTTRBuffer, _iNumberOfRecords);
+                        this.CopyFiFoToArray(_ui32TTTRBuffer, _iNumberOfRecords);
                     }
 
                     // Complete DMA transfer and assign few other variables
@@ -1772,15 +1783,15 @@ namespace KUL.MDS.Hardware
 						//throw new Exception("KUL.MDS.Hardware.PQTimeHarp Exception - Time Harp DMA buffer error by function Read()");
 
                         // Throw an ErrorOccurred event to inform the user.
-                        if (ErrorOccurred != null)
+                        if (this.ErrorOccurred != null)
                         {
                             _logger.Debug("Time Harp: reporting error --> DMA buffer error by function Read()!");
-                            ErrorOccurred(this, new EventArgs());
+                            this.ErrorOccurred(this, new EventArgs());
                         }
                     }
 
                     // Flip indexes so that they point to the next TTTR buffer that is in a state to be processed
-                    AssignIndexesForNextTTTRBuffer(ref _iNumberTTTRBufferToProcess, _iNumberOfRecords, ref _iNumberOfRecords1, ref _iNumberOfRecords2);
+                    this.AssignIndexesForNextTTTRBuffer(ref _iNumberTTTRBufferToProcess, _iNumberOfRecords, ref _iNumberOfRecords1, ref _iNumberOfRecords2);
 
                     // if we have got the FiFo buffer _bFiFoTimeOut = false
                     _bFiFoTimeOut = false;  //rest FiFo time out state
@@ -1975,12 +1986,12 @@ namespace KUL.MDS.Hardware
                 //sw.Start();
                 if (_indexTTTRBufferLowerBound < _indexTTTRBufferUpperBound)  //check if there is something to be saved in the given buffer
                 {
-                    WriteTTTRDataToFile(ScanStatus.GlobalTTTRBuffer, _indexTTTRBufferLowerBound, _indexTTTRBufferUpperBound, Files.TTTRFileName);  //write the current TTTR buffer to file
+                    this.WriteTTTRDataToFile(ScanStatus.GlobalTTTRBuffer, _indexTTTRBufferLowerBound, _indexTTTRBufferUpperBound, Files.TTTRFileName);  //write the current TTTR buffer to file
                     ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound = _indexTTTRBufferUpperBound;
                 }
                 else if (_indexTTTRBufferLowerBound > _indexTTTRBufferUpperBound)  //it means the filling of the GlobalTTTRBuffer[] buffer started again so save the chunk up to the end of the buffer and prepare it for the next round of storage iteration
                 {
-                    WriteTTTRDataToFile(ScanStatus.GlobalTTTRBuffer, _indexTTTRBufferLowerBound, ScanStatus.GlobalTTTRBuffer.Length, Files.TTTRFileName);  //write the current TTTR buffer to file
+                    this.WriteTTTRDataToFile(ScanStatus.GlobalTTTRBuffer, _indexTTTRBufferLowerBound, ScanStatus.GlobalTTTRBuffer.Length, Files.TTTRFileName);  //write the current TTTR buffer to file
                     ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound = 0;  //set the index to zero so that next time we start to save from the beginning of the global buffer                    
                 }
                 //sw.Stop();
@@ -2007,17 +2018,17 @@ namespace KUL.MDS.Hardware
 
             if (_indexTTTRBufferLowerBound < _indexTTTRBufferUpperBound)  //check if there is something to be saved in the given buffer
             {
-                WriteTTTRDataToFile(ScanStatus.GlobalTTTRBuffer, _indexTTTRBufferLowerBound, _indexTTTRBufferUpperBound, Files.TTTRFileName);  //write the current TTTR buffer to file
+                this.WriteTTTRDataToFile(ScanStatus.GlobalTTTRBuffer, _indexTTTRBufferLowerBound, _indexTTTRBufferUpperBound, Files.TTTRFileName);  //write the current TTTR buffer to file
                 ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound = _indexTTTRBufferUpperBound;
             }
             else if (_indexTTTRBufferLowerBound > _indexTTTRBufferUpperBound)  //it means the filling of the GlobalTTTRBuffer[] buffer started again so save the chunk up to the end of the buffer and prepare it for the next round of storage iteration
             {
-                WriteTTTRDataToFile(ScanStatus.GlobalTTTRBuffer, _indexTTTRBufferLowerBound, ScanStatus.GlobalTTTRBuffer.Length, Files.TTTRFileName);  //write the current TTTR buffer to file
+                this.WriteTTTRDataToFile(ScanStatus.GlobalTTTRBuffer, _indexTTTRBufferLowerBound, ScanStatus.GlobalTTTRBuffer.Length, Files.TTTRFileName);  //write the current TTTR buffer to file
                 ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound = 0;  //set the index to zero so that next time we start to save from the beginning of the global buffer                    
 
                 // Save the last chunk of data (in case the global buffer was being filled from the beginning)
                 _indexTTTRBufferLowerBound = ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound;
-                WriteTTTRDataToFile(ScanStatus.GlobalTTTRBuffer, _indexTTTRBufferLowerBound, _indexTTTRBufferUpperBound, Files.TTTRFileName);  //write the current TTTR buffer to file
+                this.WriteTTTRDataToFile(ScanStatus.GlobalTTTRBuffer, _indexTTTRBufferLowerBound, _indexTTTRBufferUpperBound, Files.TTTRFileName);  //write the current TTTR buffer to file
                 ThreadsStatus.APDSaveThread.IndexTTTRBufferLowerBound = _indexTTTRBufferUpperBound;
             }
 
@@ -2885,7 +2896,7 @@ namespace KUL.MDS.Hardware
             )
         {
             // Check if we are already initialized - only set up values if we are not initialized
-            if (!m_bIsInitialized)
+            if (!this.m_bIsInitialized)
             {
                 this.CFDDiscrMin = __iCFDDiscrMin; //validate and set the CFD level of Time Harp
 				this.CFDZeroCross = __iCFDZeroCross; //validate and set the CFD zero cross level of Time Harp
@@ -2933,10 +2944,10 @@ namespace KUL.MDS.Hardware
                     string _strErrorString = "Time Harp: reporting error --> Time Harp DLL version mismatch: ";
                 
                     // Throw an ErrorOccurred event to inform the user.
-                    if (ErrorOccurred != null)
+                    if (this.ErrorOccurred != null)
                     {
                         _logger.Debug(_strErrorString + this.m_sbCurrentError.ToString());
-                        ErrorOccurred(this, new EventArgs());
+                        this.ErrorOccurred(this, new EventArgs());
                     }                
                 }
 
@@ -3010,11 +3021,11 @@ namespace KUL.MDS.Hardware
                     this.m_bIsInitialized = false;               
 
                     // Throw an ErrorOccurred event to inform the user.
-                    if (ErrorOccurred != null)
+                    if (this.ErrorOccurred != null)
                     {
                         _logger.Debug("Time Harp: something went wrong initializing Time Harp!");
                         _logger.Debug("Time Harp: reporting problem --> " + this.m_sbCurrentError.ToString());
-                        ErrorOccurred(this, new EventArgs());
+                        this.ErrorOccurred(this, new EventArgs());
                     } 
                 }
 

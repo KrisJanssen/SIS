@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using KUL.MDS.SIS.Documents;
-
-namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
+    using System;
+    using System.Windows.Forms;
+
+    using SIS.Documents;
+
     public partial class ScanSettingsForm : Form
     {
         private object[] m_oParameters;
@@ -21,14 +16,14 @@ namespace KUL.MDS.SIS.Forms
         public ScanSettingsForm(ScanSettings __scnstSettings)
         {
             this.m_docScanDocument = __scnstSettings;
-            InitializeComponent();
-            UpdateThis();
+            this.InitializeComponent();
+            this.UpdateThis();
         }
 
         // Wire up the event
         protected void OnUpdateParameters()
         {
-            if (UpdateParameters != null) UpdateParameters(this, new NotifyEventArgs(this.m_docScanDocument));
+            if (this.UpdateParameters != null) this.UpdateParameters(this, new NotifyEventArgs(this.m_docScanDocument));
         }
 
         private void UpdateThis()

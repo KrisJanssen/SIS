@@ -15,22 +15,19 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Windows.Media;
-using System.Windows.Interop;
-using System.Windows;
-using System.Windows.Media.Imaging;
-using System.Diagnostics;
-using System.ComponentModel;
-
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Runtime.InteropServices;
+    using System.Runtime.InteropServices.ComTypes;
+    using System.Threading;
+    using System.Windows;
+    using System.Windows.Interop;
+    using System.Windows.Media;
+
     public class CCDDevice : DependencyObject, IDisposable
     {
         #region Win32
@@ -206,8 +203,8 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// </summary>
         public InteropBitmap BitmapSource
         {
-            get { return (InteropBitmap)GetValue(BitmapSourceProperty); }
-            private set { SetValue(BitmapSourcePropertyKey, value); }
+            get { return (InteropBitmap)this.GetValue(BitmapSourceProperty); }
+            private set { this.SetValue(BitmapSourcePropertyKey, value); }
         }
 
         private static readonly DependencyPropertyKey BitmapSourcePropertyKey =
@@ -220,8 +217,8 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// </summary>
         public string Name
         {
-            get { return (string)GetValue(NameProperty); }
-            set { SetValue(NameProperty, value); }
+            get { return (string)this.GetValue(NameProperty); }
+            set { this.SetValue(NameProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Name.  This enables animation, styling, binding, etc...
@@ -233,8 +230,8 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// </summary>
         public string MonikerString
         {
-            get { return (string)GetValue(MonikerStringProperty); }
-            set { SetValue(MonikerStringProperty, value); }
+            get { return (string)this.GetValue(MonikerStringProperty); }
+            set { this.SetValue(MonikerStringProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MonikerString.  This enables animation, styling, binding, etc...
@@ -246,8 +243,8 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// </summary>
         public float Framerate
         {
-            get { return (float)GetValue(FramerateProperty); }
-            set { SetValue(FramerateProperty, value); }
+            get { return (float)this.GetValue(FramerateProperty); }
+            set { this.SetValue(FramerateProperty, value); }
         }
 
         public static readonly DependencyProperty FramerateProperty =
@@ -261,9 +258,9 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
             get
             {
                 // Check if we have a worker thread
-                if (m_thrdWorker == null) return false;
+                if (this.m_thrdWorker == null) return false;
 
-                return m_thrdWorker.IsAlive;
+                return this.m_thrdWorker.IsAlive;
             }
         }
 
@@ -279,14 +276,14 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         private void CCDGrabber_NewFrameArrived(object sender, EventArgs e)
         {
             // Make sure to be thread safe
-            if (Dispatcher != null)
+            if (this.Dispatcher != null)
             {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (SendOrPostCallback)delegate
                 {
-                    if (BitmapSource != null)
+                    if (this.BitmapSource != null)
                     {
-                        BitmapSource.Invalidate();
-                        UpdateFramerate();
+                        this.BitmapSource.Invalidate();
+                        this.UpdateFramerate();
                     }
                 }, null);
             }
@@ -332,33 +329,33 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// <param name="e">PropertyChangedEventArgs</param>
         private void CCDGrabber_PropertyChanged(object __oSender, PropertyChangedEventArgs __propcheaE)
         {
-            Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.DataBind, (SendOrPostCallback)delegate
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.DataBind, (SendOrPostCallback)delegate
             {
                 try
                 {
-                    if ((m_grbrCapGrabber.Width != default(int)) && (m_grbrCapGrabber.Height != default(int)))
+                    if ((this.m_grbrCapGrabber.Width != default(int)) && (this.m_grbrCapGrabber.Height != default(int)))
                     {
                         // Get the pixel count
-                        uint pcount = (uint)(m_grbrCapGrabber.Width * m_grbrCapGrabber.Height * PixelFormats.Bgr32.BitsPerPixel / 8);
+                        uint pcount = (uint)(this.m_grbrCapGrabber.Width * this.m_grbrCapGrabber.Height * PixelFormats.Bgr32.BitsPerPixel / 8);
 
                         // Create a file mapping
-                        m_iptrSection = CreateFileMapping(new IntPtr(-1), IntPtr.Zero, 0x04, 0, pcount, null);
-                        m_iptrMap = MapViewOfFile(m_iptrSection, 0xF001F, 0, 0, pcount);
+                        this.m_iptrSection = CreateFileMapping(new IntPtr(-1), IntPtr.Zero, 0x04, 0, pcount, null);
+                        this.m_iptrMap = MapViewOfFile(this.m_iptrSection, 0xF001F, 0, 0, pcount);
 
                         // Get the bitmap
-                        BitmapSource = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(
-                            m_iptrSection, 
-                            m_grbrCapGrabber.Width,
-                            m_grbrCapGrabber.Height, 
+                        this.BitmapSource = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(
+                            this.m_iptrSection, 
+                            this.m_grbrCapGrabber.Width,
+                            this.m_grbrCapGrabber.Height, 
                             PixelFormats.Bgr32, 
-                            m_grbrCapGrabber.Width * PixelFormats.Bgr32.BitsPerPixel / 8, 0);
+                            this.m_grbrCapGrabber.Width * PixelFormats.Bgr32.BitsPerPixel / 8, 0);
 
-                        m_grbrCapGrabber.Map = m_iptrMap;
+                        this.m_grbrCapGrabber.Map = this.m_iptrMap;
 
                         // Invoke event
-                        if (NewBitmapReady != null)
+                        if (this.NewBitmapReady != null)
                         {
-                            NewBitmapReady(this, null);
+                            this.NewBitmapReady(this, null);
                         }
                     }
                 }
@@ -376,18 +373,18 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         private void UpdateFramerate()
         {
             // Increase the frames
-            m_dFrames++;
+            this.m_dFrames++;
 
             // Check the timer
-            if (m_stpwtchTimer.ElapsedMilliseconds >= 1000)
+            if (this.m_stpwtchTimer.ElapsedMilliseconds >= 1000)
             {
                 // Set the framerate
-                Framerate = (float)Math.Round(m_dFrames * 1000 / m_stpwtchTimer.ElapsedMilliseconds);
+                this.Framerate = (float)Math.Round(this.m_dFrames * 1000 / this.m_stpwtchTimer.ElapsedMilliseconds);
 
                 // Reset the timer again so we can count the framerate again
-                m_stpwtchTimer.Reset();
-                m_stpwtchTimer.Start();
-                m_dFrames = 0;
+                this.m_stpwtchTimer.Reset();
+                this.m_stpwtchTimer.Start();
+                this.m_dFrames = 0;
             }
         }
 
@@ -398,14 +395,14 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         private void InitializeDeviceForMoniker(string __sMoniker)
         {
             // Store moniker (since dependency properties are not thread-safe, store it locally as well)
-            m_sMonikerString = __sMoniker;
+            this.m_sMonikerString = __sMoniker;
 
             // Find the name
             foreach (FilterInfo filterInfo in DeviceMonikers)
             {
                 if (filterInfo.MonikerString == __sMoniker)
                 {
-                    Name = filterInfo.Name;
+                    this.Name = filterInfo.Name;
                     break;
                 }
             }
@@ -417,7 +414,7 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         public void Start()
         {
             // First check if we have a valid moniker string
-            if (string.IsNullOrEmpty(m_sMonikerString)) return;
+            if (string.IsNullOrEmpty(this.m_sMonikerString)) return;
 
             // Check if we are already running
             if (this.IsRunning)
@@ -427,16 +424,16 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
             }
 
             // Create new grabber
-            m_grbrCapGrabber = new CCDGrabber();
-            m_grbrCapGrabber.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(CCDGrabber_PropertyChanged);
-            m_grbrCapGrabber.NewFrameArrived += new EventHandler(CCDGrabber_NewFrameArrived);
+            this.m_grbrCapGrabber = new CCDGrabber();
+            this.m_grbrCapGrabber.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.CCDGrabber_PropertyChanged);
+            this.m_grbrCapGrabber.NewFrameArrived += new EventHandler(this.CCDGrabber_NewFrameArrived);
 
             // Create manual reset event
-            m_rstevStopSignal = new ManualResetEvent(false);
+            this.m_rstevStopSignal = new ManualResetEvent(false);
 
             // Start the thread
-            m_thrdWorker = new Thread(RunWorker);
-            m_thrdWorker.Start();
+            this.m_thrdWorker = new Thread(this.RunWorker);
+            this.m_thrdWorker.Start();
         }
 
         /// <summary>
@@ -468,10 +465,10 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
         /// </summary>
         private void Release()
         {
-            if (m_thrdWorker != null)
+            if (this.m_thrdWorker != null)
             {
                 // Yes, stop via the event
-                m_rstevStopSignal.Set();
+                this.m_rstevStopSignal.Set();
 
                 Thread.Sleep(100);
 
@@ -479,26 +476,26 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
                 //_worker.Join();
 
                 // Stop the thread.
-                m_thrdWorker.Abort();
+                this.m_thrdWorker.Abort();
 
                 // Dispose of the thread.
-                m_thrdWorker = null;
+                this.m_thrdWorker = null;
             }
 
             // Clear the event
-            if (m_rstevStopSignal != null)
+            if (this.m_rstevStopSignal != null)
             {
-                m_rstevStopSignal.Close();
-                m_rstevStopSignal = null;
+                this.m_rstevStopSignal.Close();
+                this.m_rstevStopSignal = null;
             }
 
             // Clean up
-            m_igrphbldGraph = null;
-            m_sourceObject = null;
-            m_grabberObject = null;
-            m_isplGrabber = null;
-            m_grbrCapGrabber = null;
-            m_imedctrlControl = null;
+            this.m_igrphbldGraph = null;
+            this.m_sourceObject = null;
+            this.m_grabberObject = null;
+            this.m_isplGrabber = null;
+            this.m_grbrCapGrabber = null;
+            this.m_imedctrlControl = null;
         }
 
         /// <summary>
@@ -509,28 +506,28 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
             try
             {
                 // Create the main graph
-                m_igrphbldGraph = Activator.CreateInstance(Type.GetTypeFromCLSID(FilterGraph)) as IGraphBuilder;
+                this.m_igrphbldGraph = Activator.CreateInstance(Type.GetTypeFromCLSID(FilterGraph)) as IGraphBuilder;
 
                 // Create the webcam source
-                m_sourceObject = FilterInfo.CreateFilter(m_sMonikerString);
+                this.m_sourceObject = FilterInfo.CreateFilter(this.m_sMonikerString);
 
                 // Create the grabber
-                m_isplGrabber = Activator.CreateInstance(Type.GetTypeFromCLSID(SampleGrabber)) as ISampleGrabber;
-                m_grabberObject = m_isplGrabber as IBaseFilter;
+                this.m_isplGrabber = Activator.CreateInstance(Type.GetTypeFromCLSID(SampleGrabber)) as ISampleGrabber;
+                this.m_grabberObject = this.m_isplGrabber as IBaseFilter;
 
                 // Add the source and grabber to the main graph
-                m_igrphbldGraph.AddFilter(m_sourceObject, "source");
-                m_igrphbldGraph.AddFilter(m_grabberObject, "grabber");
+                this.m_igrphbldGraph.AddFilter(this.m_sourceObject, "source");
+                this.m_igrphbldGraph.AddFilter(this.m_grabberObject, "grabber");
 
                 using (AMMediaType mediaType = new AMMediaType())
                 {
                     mediaType.MajorType = MediaTypes.Video;
                     mediaType.SubType = MediaSubTypes.RGB32;
-                    m_isplGrabber.SetMediaType(mediaType);
+                    this.m_isplGrabber.SetMediaType(mediaType);
 
-                    if (m_igrphbldGraph.Connect(m_sourceObject.GetPin(PinDirection.Output, 0), m_grabberObject.GetPin(PinDirection.Input, 0)) >= 0)
+                    if (this.m_igrphbldGraph.Connect(this.m_sourceObject.GetPin(PinDirection.Output, 0), this.m_grabberObject.GetPin(PinDirection.Input, 0)) >= 0)
                     {
-                        if (m_isplGrabber.GetConnectedMediaType(mediaType) == 0)
+                        if (this.m_isplGrabber.GetConnectedMediaType(mediaType) == 0)
                         {
                             // During startup, this code can be too fast, so try at least 3 times
                             int retryCount = 0;
@@ -544,8 +541,8 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
                                 {
                                     // Retrieve the grabber information
                                     VideoInfoHeader header = (VideoInfoHeader)Marshal.PtrToStructure(mediaType.FormatPtr, typeof(VideoInfoHeader));
-                                    m_grbrCapGrabber.Width = header.BmiHeader.Width;
-                                    m_grbrCapGrabber.Height = header.BmiHeader.Height;
+                                    this.m_grbrCapGrabber.Width = header.BmiHeader.Width;
+                                    this.m_grbrCapGrabber.Height = header.BmiHeader.Height;
 
                                     // Succeeded
                                     succeeded = true;
@@ -561,29 +558,29 @@ namespace KUL.MDS.WPFControls.CCDControl.Device
                             }
                         }
                     }
-                    m_igrphbldGraph.Render(m_grabberObject.GetPin(PinDirection.Output, 0));
-                    m_isplGrabber.SetBufferSamples(false);
-                    m_isplGrabber.SetOneShot(false);
-                    m_isplGrabber.SetCallback(m_grbrCapGrabber, 1);
+                    this.m_igrphbldGraph.Render(this.m_grabberObject.GetPin(PinDirection.Output, 0));
+                    this.m_isplGrabber.SetBufferSamples(false);
+                    this.m_isplGrabber.SetOneShot(false);
+                    this.m_isplGrabber.SetCallback(this.m_grbrCapGrabber, 1);
 
                     // Get the video window
-                    IVideoWindow wnd = (IVideoWindow)m_igrphbldGraph;
+                    IVideoWindow wnd = (IVideoWindow)this.m_igrphbldGraph;
                     wnd.put_AutoShow(false);
                     wnd = null;
 
                     // Create the control and run
-                    m_imedctrlControl = (IMediaControl)m_igrphbldGraph;
-                    m_imedctrlControl.Run();
+                    this.m_imedctrlControl = (IMediaControl)this.m_igrphbldGraph;
+                    this.m_imedctrlControl.Run();
 
                     // Wait for the stop signal
-                    while (!m_rstevStopSignal.WaitOne(0, true))
+                    while (!this.m_rstevStopSignal.WaitOne(0, true))
                     {
                         Thread.Sleep(10);
                     }
 
                     // Stop when ready
                     // _control.StopWhenReady();
-                    m_imedctrlControl.Stop();
+                    this.m_imedctrlControl.Stop();
 
                     // Wait a bit... It apparently takes some time to stop IMediaControl
                     Thread.Sleep(1000);

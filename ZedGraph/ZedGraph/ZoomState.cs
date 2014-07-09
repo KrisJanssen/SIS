@@ -19,14 +19,15 @@
 
 #region Using directives
 
-using System;
-using System.Text;
+
 
 #endregion
 
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+
+    /// <summary>
 	/// A class that captures all the scale range settings for a <see cref="GraphPane"/>.
 	/// </summary>
 	/// <remarks>
@@ -81,7 +82,7 @@ namespace ZedGraph
 		/// </summary>
 		public StateType Type
 		{
-			get { return _type; }
+			get { return this._type; }
 		}
 
 		/// <summary>
@@ -94,7 +95,7 @@ namespace ZedGraph
 		{
 			get
 			{
-				switch ( _type )
+				switch ( this._type )
 				{
 					case StateType.Pan:
 						return "Pan";
@@ -121,11 +122,11 @@ namespace ZedGraph
 		public ZoomState( GraphPane pane, StateType type )
 		{
 
-			_xAxis = new ScaleState( pane.XAxis );
-			_x2Axis = new ScaleState( pane.X2Axis );
-			_yAxis = new ScaleStateList( pane.YAxisList );
-			_y2Axis = new ScaleStateList( pane.Y2AxisList );
-			_type = type;
+			this._xAxis = new ScaleState( pane.XAxis );
+			this._x2Axis = new ScaleState( pane.X2Axis );
+			this._yAxis = new ScaleStateList( pane.YAxisList );
+			this._y2Axis = new ScaleStateList( pane.Y2AxisList );
+			this._type = type;
 		}
 
 		/// <summary>
@@ -134,10 +135,10 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="ZoomState"/> object from which to copy</param>
 		public ZoomState( ZoomState rhs )
 		{
-			_xAxis = new ScaleState( rhs._xAxis );
-			_x2Axis = new ScaleState( rhs._x2Axis );
-			_yAxis = new ScaleStateList( rhs._yAxis );
-			_y2Axis = new ScaleStateList( rhs._y2Axis );
+			this._xAxis = new ScaleState( rhs._xAxis );
+			this._x2Axis = new ScaleState( rhs._x2Axis );
+			this._yAxis = new ScaleStateList( rhs._yAxis );
+			this._y2Axis = new ScaleStateList( rhs._y2Axis );
 		}
 
 		/// <summary>
@@ -167,10 +168,10 @@ namespace ZedGraph
 		/// copied.</param>
 		public void ApplyState( GraphPane pane )
 		{
-			_xAxis.ApplyScale( pane.XAxis );
-			_x2Axis.ApplyScale( pane.X2Axis );
-			_yAxis.ApplyScale( pane.YAxisList );
-			_y2Axis.ApplyScale( pane.Y2AxisList );
+			this._xAxis.ApplyScale( pane.XAxis );
+			this._x2Axis.ApplyScale( pane.X2Axis );
+			this._yAxis.ApplyScale( pane.YAxisList );
+			this._y2Axis.ApplyScale( pane.Y2AxisList );
 		}
 
 		/// <summary>
@@ -181,10 +182,10 @@ namespace ZedGraph
 		/// <returns>true if the states are different, false otherwise</returns>
 		public bool IsChanged( GraphPane pane )
 		{
-			return _xAxis.IsChanged( pane.XAxis ) ||
-					_x2Axis.IsChanged( pane.X2Axis ) ||
-					_yAxis.IsChanged( pane.YAxisList ) ||
-					_y2Axis.IsChanged( pane.Y2AxisList );
+			return this._xAxis.IsChanged( pane.XAxis ) ||
+					this._x2Axis.IsChanged( pane.X2Axis ) ||
+					this._yAxis.IsChanged( pane.YAxisList ) ||
+					this._y2Axis.IsChanged( pane.Y2AxisList );
 		}
 
 	}

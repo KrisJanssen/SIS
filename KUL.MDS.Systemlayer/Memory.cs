@@ -1,15 +1,11 @@
 ﻿//#define REPORTLEAKS
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-
-namespace KUL.MDS.SystemLayer
+namespace SIS.Systemlayer
 {
+    using System;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
+
     /// <summary>
     /// Contains methods for allocating, freeing, and performing operations on memory 
     /// that is fixed (pinned) in memory.

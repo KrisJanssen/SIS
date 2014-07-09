@@ -17,14 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using System;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-
-namespace ZedGraph
+namespace ZedGraph.ZedGraph
 {
-	/// <summary>
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
+
+    /// <summary>
 	/// <see cref="X2Axis"/> inherits from <see cref="Axis"/>, and defines the
 	/// special characteristics of a horizontal axis, specifically located at
 	/// the top of the <see cref="Chart.Rect"/> of the <see cref="GraphPane"/>
@@ -81,10 +81,10 @@ namespace ZedGraph
 		public X2Axis( string title )
 			: base( title )
 		{
-			_isVisible = Default.IsVisible;
-			_majorGrid._isZeroLine = Default.IsZeroLine;
-			_scale._fontSpec.Angle = 180F;
-			_title._fontSpec.Angle = 180F;
+			this._isVisible = Default.IsVisible;
+			this._majorGrid._isZeroLine = Default.IsZeroLine;
+			this._scale._fontSpec.Angle = 180F;
+			this._title._fontSpec.Angle = 180F;
 		}
 
 		/// <summary>
@@ -143,7 +143,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		[SecurityPermission( SecurityAction.Demand, SerializationFormatter = true )]
 		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
 			base.GetObjectData( info, context );
@@ -214,9 +214,9 @@ namespace ZedGraph
 		/// <returns>The shift amount measured in pixels</returns>
 		internal override float CalcCrossShift( GraphPane pane )
 		{
-			double effCross = EffectiveCrossValue( pane );
+			double effCross = this.EffectiveCrossValue( pane );
 
-			if ( !_crossAuto )
+			if ( !this._crossAuto )
 				return pane.YAxis.Scale.Transform( effCross ) - pane.YAxis.Scale._maxPix;
 			else
 				return 0;
