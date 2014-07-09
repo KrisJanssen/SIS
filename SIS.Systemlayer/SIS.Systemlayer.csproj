@@ -83,8 +83,6 @@
     <Compile Include="GpcWrapper\Polygon.cs" />
     <Compile Include="GpcWrapper\Vertex.cs" />
     <Compile Include="GpcWrapper\VertexList.cs" />
-    <Compile Include="IInkHooks.cs" />
-    <Compile Include="Ink.cs" />
     <Compile Include="ISimpleCollection.cs" />
     <Compile Include="IStylusReaderHooks.cs" />
     <Compile Include="Memory.cs" />
@@ -110,19 +108,12 @@
     <Compile Include="SingleInstanceManager.cs" />
     <Compile Include="SISGraphics.cs" />
     <Compile Include="SISSettings.cs" />
-    <Compile Include="StylusAsyncPlugin.cs" />
-    <Compile Include="StylusReader.cs" />
     <Compile Include="Timing.cs" />
     <Compile Include="Tracing.cs" />
     <Compile Include="UI.cs" />
     <Compile Include="UserSessions.cs" />
     <Compile Include="VirtualFolderName.cs" />
     <Compile Include="VisualStyleClass.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Microsoft.Ink\Microsoft.Ink.dll" />
-    <Content Include="Microsoft.Ink\Microsoft.Ink.resources.dll" />
-    <Content Include="Microsoft.Ink\Microsoft.Ink.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SIS.Base\SIS.Base.csproj">

@@ -679,15 +679,6 @@ namespace SIS
 
                 try
                 {
-                    inkInfo = Ink.IsAvailable() ? "yes" : "no";
-                }
-                catch (Exception ex15)
-                {
-                    inkInfo = "--- Exception while populating inkInfo: " + ex15.ToString() + Environment.NewLine;
-                }
-
-                try
-                {
                     string autoCheckForUpdates = Settings.SystemWide.GetString(
                         SettingNames.AutoCheckForUpdates, 
                         noInfoString);
