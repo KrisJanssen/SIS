@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using NationalInstruments.DAQmx;
-using KUL.MDS.SystemLayer;
+using SIS.SystemLayer;
 
-namespace KUL.MDS.Hardware
+namespace SIS.Hardware
 {
     public class PhotoDiode
     {

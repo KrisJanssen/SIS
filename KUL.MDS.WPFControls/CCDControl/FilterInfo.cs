@@ -19,7 +19,7 @@ using System;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl.Device
 {
     /// <summary>
     /// FilterInfo class

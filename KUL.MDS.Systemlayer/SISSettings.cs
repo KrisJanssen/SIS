@@ -1,7 +1,7 @@
-﻿using KUL.MDS.SystemLayer;
+﻿using SIS.SystemLayer;
 using System;
 
-namespace KUL.MDS.SIS
+namespace SIS
 {
     /// <summary>
     /// Symbolic constants for our settings. Settings are stored in CurrentUser unless

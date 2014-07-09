@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.IO.Ports;
 
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
     public partial class SerialTerminalSettingsForm : Form
     {

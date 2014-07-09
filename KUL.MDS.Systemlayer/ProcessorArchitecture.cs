@@ -1,4 +1,4 @@
-﻿namespace KUL.MDS.SystemLayer
+﻿namespace SIS.SystemLayer
 {
     public enum ProcessorArchitecture
     {

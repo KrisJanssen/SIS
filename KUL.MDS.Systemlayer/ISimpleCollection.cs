@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     public interface ISimpleCollection<K, V>
     {

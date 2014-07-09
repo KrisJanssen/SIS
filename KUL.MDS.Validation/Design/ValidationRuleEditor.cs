@@ -4,7 +4,7 @@ using System.ComponentModel.Design;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 
-namespace KUL.MDS.Validation.Design
+namespace SIS.Validation.Design
 {
 	internal class ValidationRuleEditor : UITypeEditor
 	{

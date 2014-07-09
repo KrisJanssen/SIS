@@ -20,9 +20,9 @@ using System.Security;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using KUL.MDS.Base;
+using SIS.Base;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     public static class Shell
     {

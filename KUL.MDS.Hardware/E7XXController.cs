@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 
-namespace KUL.MDS.Hardware
+namespace SIS.Hardware
 {
 	/// <summary>
 	/// Summary description for E7XX.

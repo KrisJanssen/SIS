@@ -1,4 +1,4 @@
-﻿//using KUL.MDS.SystemLayer;
+﻿//using SIS.SystemLayer;
 //using System;
 //using System.Drawing;
 //using System.Collections;
@@ -6,7 +6,7 @@
 //using System.Windows.Forms;
 //using Microsoft.Win32;
 
-//namespace KUL.MDS.MDITemplate
+//namespace SIS.MDITemplate
 //{
 
 //    // TODO: move

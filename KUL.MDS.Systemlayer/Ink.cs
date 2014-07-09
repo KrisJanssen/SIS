@@ -8,9 +8,9 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.Windows.Forms;
-using KUL.MDS.SIS;
+using SIS;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     public static class Ink
     {

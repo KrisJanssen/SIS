@@ -4,38 +4,38 @@ using System.Drawing.Imaging;  //for images
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using KUL.MDS.Library;
-using KUL.MDS.SIS.Documents;
-using KUL.MDS.ScanModes;
-using KUL.MDS.WPFControls;
+using SIS.Library;
+using SIS.Documents;
+using SIS.ScanModes;
+using SIS.WPFControls;
 using System.Collections.Generic;
-using KUL.MDS.SystemLayer;
+using SIS.SystemLayer;
 using System.IO;
 using System.Runtime.InteropServices;	//for Marshalling data and other functions for managed <-> unmanaged code interactions
 using log4net;
 using log4net.Layout;
 using DevDefined.Common.Appenders;
 
-namespace KUL.MDS.SIS.Forms
+namespace SIS.Forms
 {
-    public partial class ScanViewForm : KUL.MDS.MDITemplate.MdiViewForm
+    public partial class ScanViewForm : SIS.MDITemplate.MdiViewForm
     {
 
         #region Member Variables
 
         // The various essential objects representing hardware.
         // We need one or more APDs, a Piezo and a timing clock to sync everything.
-        private KUL.MDS.Hardware.APD m_apdAPD1;
-        private KUL.MDS.Hardware.APD m_apdAPD2;
-        private KUL.MDS.Hardware.IPiezoStage m_Stage;
-        private KUL.MDS.Hardware.PhotoDiode m_pdPhotoDiode;
-        private KUL.MDS.Hardware.TimingClock m_clckGlobalSync;
+        private SIS.Hardware.APD m_apdAPD1;
+        private SIS.Hardware.APD m_apdAPD2;
+        private SIS.Hardware.IPiezoStage m_Stage;
+        private SIS.Hardware.PhotoDiode m_pdPhotoDiode;
+        private SIS.Hardware.TimingClock m_clckGlobalSync;
 
 
         // A progress bar that we can use to indicate... progress of various tasks that are handled.
-        private KUL.MDS.SIS.Forms.ProgressBarForm m_frmPBar = new ProgressBarForm();
-        private KUL.MDS.SIS.Forms.TrajectoryPlotForm m_frmTrajectoryForm = new TrajectoryPlotForm();
-        private KUL.MDS.SIS.Forms.ScanSettingsForm m_frmScanSettingsForm;
+        private SIS.Forms.ProgressBarForm m_frmPBar = new ProgressBarForm();
+        private SIS.Forms.TrajectoryPlotForm m_frmTrajectoryForm = new TrajectoryPlotForm();
+        private SIS.Forms.ScanSettingsForm m_frmScanSettingsForm;
 
         // Object to keep track of the current Scan Settings.
         private ScanSettings m_scnstSettings;
@@ -84,9 +84,9 @@ namespace KUL.MDS.SIS.Forms
             // 6) Input terminal carrying TTLs from physical APD
             //
             // TODO: Put this stuff in some sort of config file/the Windows registry.
-            this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr1", 20, "PFI27", "Ctr0", "PFI39", this.checkBoxDMA.Checked);
-            this.m_apdAPD2 = new KUL.MDS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", this.checkBoxDMA.Checked);
-            //this.m_pdPhotoDiode = new KUL.MDS.Hardware.PhotoDiode("Dev2", "Ctr0", "80MHzTimebase", "RTSI0", "ai0");
+            this.m_apdAPD1 = new SIS.Hardware.APD("Dev1", "Ctr1", 20, "PFI27", "Ctr0", "PFI39", this.checkBoxDMA.Checked);
+            this.m_apdAPD2 = new SIS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", this.checkBoxDMA.Checked);
+            //this.m_pdPhotoDiode = new SIS.Hardware.PhotoDiode("Dev2", "Ctr0", "80MHzTimebase", "RTSI0", "ai0");
             
             // Create a new ColoredRichTextBoxAppender and give it a standard layout.
             this.m_ColRTApp = new DevDefined.Common.Appenders.ColoredRichTextBoxAppender(this.richTextBox1,1000,500);
@@ -101,7 +101,7 @@ namespace KUL.MDS.SIS.Forms
             #region Piezo
 
             // The piezo stage is the most critical hardware resource. To prevent conflicts it is created as a singleton instance.
-            this.m_Stage = KUL.MDS.Hardware.PIDigitalStage.Instance;
+            this.m_Stage = SIS.Hardware.PIDigitalStage.Instance;
 
             // Hook up EventHandler methods to the events of the stage.
             this.m_Stage.PositionChanged += new EventHandler(m_Stage_PositionChanged);
@@ -231,14 +231,14 @@ namespace KUL.MDS.SIS.Forms
             {
                 if (m_Stage.IsInitialized)
                 {
-                    throw new KUL.MDS.Hardware.StageNotReleasedException("The stage was not released! Please use stage control to turn it off!");
+                    throw new SIS.Hardware.StageNotReleasedException("The stage was not released! Please use stage control to turn it off!");
                 }
                 this.m_Stage.PositionChanged -= new EventHandler(m_Stage_PositionChanged);
                 this.m_Stage.ErrorOccurred -= new EventHandler(m_Stage_ErrorOccurred);
                 this.m_Stage.EngagedChanged -= new EventHandler(m_Stage_EngagedChanged);
             }
 
-            catch (KUL.MDS.Hardware.StageNotReleasedException ex)
+            catch (SIS.Hardware.StageNotReleasedException ex)
             {
                 MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
@@ -800,7 +800,7 @@ namespace KUL.MDS.SIS.Forms
 
             // Generate the requested Scanmode. The settings can now be fetched from the document itself.
             // Currently the MaxSpeed and CycleTime are not used in the Scanmode object.
-            KUL.MDS.Library.ComboBoxItem<Type> item = (KUL.MDS.Library.ComboBoxItem<Type>)this.scanModeComboBox1.SelectedItem;
+            SIS.Library.ComboBoxItem<Type> item = (SIS.Library.ComboBoxItem<Type>)this.scanModeComboBox1.SelectedItem;
 
             object[] _oScanParameters = {
                                  _docDocument.ImageWidthPx,

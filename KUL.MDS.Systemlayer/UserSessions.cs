@@ -12,7 +12,7 @@ using System.Collections;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     /// <summary>
     /// Encapsulates information and events about the current user session.

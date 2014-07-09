@@ -7,12 +7,12 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
+using SIS.SystemLayer;
 using System;
 using System.Collections;
 using System.Drawing;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     /// <summary>
     /// Data structure to manage the Most Recently Used list of files.

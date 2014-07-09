@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     internal static class NativeMethods
     {

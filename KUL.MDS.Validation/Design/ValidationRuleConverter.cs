@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
 using System.Globalization;
 
-namespace KUL.MDS.Validation.Design
+namespace SIS.Validation.Design
 {
 	/// <summary>
 	/// ValidationRuleConverter allow ValidationRule to be Designer's serializable.

@@ -10,7 +10,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     /// <summary>
     /// Used by classes to indicate they are associated with a certain Form, even if

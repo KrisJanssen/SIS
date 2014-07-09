@@ -10,7 +10,7 @@
 using Microsoft.Win32.SafeHandles;
 using System;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     internal static class NativeConstants
     {

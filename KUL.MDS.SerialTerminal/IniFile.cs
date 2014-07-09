@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 /// <summary>
 /// Read/Write values to an ini file
 /// </summary>
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
     public class IniFile 
     {

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KUL.MDS.SerialTerminal")]
-[assembly: AssemblyDescription("KUL.MDS.SerialTerminal emulates Termite. It is useful for logging output from an RS232 communication device.")]
+[assembly: AssemblyTitle("SIS.SerialTerminal")]
+[assembly: AssemblyDescription("SIS.SerialTerminal emulates Termite. It is useful for logging output from an RS232 communication device.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Kris Janssen")]
-[assembly: AssemblyProduct("KUL.MDS.SerialTerminal")]
+[assembly: AssemblyProduct("SIS.SerialTerminal")]
 [assembly: AssemblyCopyright("Copyright © 2008. All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

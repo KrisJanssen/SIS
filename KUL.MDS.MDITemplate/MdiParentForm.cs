@@ -3,18 +3,18 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using KUL.MDS.SystemLayer;
-using KUL.MDS.Base;
+using SIS.SystemLayer;
+using SIS.Base;
 using System.Threading;
-using KUL.MDS.Library;
+using SIS.Library;
 using System.Collections.Generic;
-using KUL.MDS.AppResources;
+using SIS.AppResources;
 using System.IO;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     //public class MdiParentForm : System.Windows.Forms.Form
-    public class MdiParentForm : KUL.MDS.MDITemplate.BaseForm
+    public class MdiParentForm : SIS.MDITemplate.BaseForm
     {
         protected System.Windows.Forms.MainMenu m_menuMain = null;
         protected MdiMenuItem m_menuItemFile = null;
@@ -434,10 +434,10 @@ namespace KUL.MDS.MDITemplate
                 this.Text = Application.ProductName;
 
                 m_menuItemHelpAbout.Text = string.Format("About {0}...", Application.ProductName);
-                m_menuItemRecentFiles.OpenFile += new KUL.MDS.MDITemplate.RecentFilesMenuItem.OpenFileHandler(m_menuItemRecentFiles_OpenFile);
+                m_menuItemRecentFiles.OpenFile += new SIS.MDITemplate.RecentFilesMenuItem.OpenFileHandler(m_menuItemRecentFiles_OpenFile);
 
                 m_dragDropHandler = new FileDragDropHandler(this, m_documentTypes.Extensions);
-                m_dragDropHandler.FileDropped += new KUL.MDS.MDITemplate.FileDragDropHandler.FileDropHandler(m_dragDropHandler_FileDropped);
+                m_dragDropHandler.FileDropped += new SIS.MDITemplate.FileDragDropHandler.FileDropHandler(m_dragDropHandler_FileDropped);
             }
 
             foreach (string _sFileName in _lFileNames)
@@ -480,21 +480,21 @@ namespace KUL.MDS.MDITemplate
         {
             this.components = new System.ComponentModel.Container();
             this.m_menuMain = new System.Windows.Forms.MainMenu(this.components);
-            this.m_menuItemFile = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemFileNew = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemFileOpen = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemFileClose = new KUL.MDS.MDITemplate.MdiMenuItem();
+            this.m_menuItemFile = new SIS.MDITemplate.MdiMenuItem();
+            this.m_menuItemFileNew = new SIS.MDITemplate.MdiMenuItem();
+            this.m_menuItemFileOpen = new SIS.MDITemplate.MdiMenuItem();
+            this.m_menuItemFileClose = new SIS.MDITemplate.MdiMenuItem();
             this.m_menuItemFileSeparator2 = new System.Windows.Forms.MenuItem();
-            this.m_menuItemFileSave = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemFileSaveAs = new KUL.MDS.MDITemplate.MdiMenuItem();
+            this.m_menuItemFileSave = new SIS.MDITemplate.MdiMenuItem();
+            this.m_menuItemFileSaveAs = new SIS.MDITemplate.MdiMenuItem();
             this.m_menuItemFileSeperator2 = new System.Windows.Forms.MenuItem();
-            this.m_menuItemRecentFiles = new KUL.MDS.MDITemplate.RecentFilesMenuItem();
-            this.m_menuItemFileSeparator = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemFileExit = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemWindow = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemHelp = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_menuItemHelpAbout = new KUL.MDS.MDITemplate.MdiMenuItem();
-            this.m_statusBar = new KUL.MDS.MDITemplate.MessengerStatusBar();
+            this.m_menuItemRecentFiles = new SIS.MDITemplate.RecentFilesMenuItem();
+            this.m_menuItemFileSeparator = new SIS.MDITemplate.MdiMenuItem();
+            this.m_menuItemFileExit = new SIS.MDITemplate.MdiMenuItem();
+            this.m_menuItemWindow = new SIS.MDITemplate.MdiMenuItem();
+            this.m_menuItemHelp = new SIS.MDITemplate.MdiMenuItem();
+            this.m_menuItemHelpAbout = new SIS.MDITemplate.MdiMenuItem();
+            this.m_statusBar = new SIS.MDITemplate.MessengerStatusBar();
             this.SuspendLayout();
             // 
             // m_menuMain

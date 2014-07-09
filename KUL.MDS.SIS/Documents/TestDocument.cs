@@ -1,11 +1,11 @@
 //using System;
-//using KUL.MDS.MDITemplate;
-//using KUL.MDS.SIS.Forms;
+//using SIS.MDITemplate;
+//using SIS.Forms;
 
-//namespace KUL.MDS.SIS.Documents
+//namespace SIS.Documents
 //{
 //    [Document("Test document files", ".txt")]
-//    public class TestDocument : KUL.MDS.MDITemplate.MdiDocument
+//    public class TestDocument : SIS.MDITemplate.MdiDocument
 //    {
 //        private string m_sText;
 

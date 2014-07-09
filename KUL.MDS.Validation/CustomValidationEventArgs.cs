@@ -1,6 +1,6 @@
 using System;
 
-namespace KUL.MDS.Validation
+namespace SIS.Validation
 {
 	/// <summary>
 	/// Delegate for custom validation methods.

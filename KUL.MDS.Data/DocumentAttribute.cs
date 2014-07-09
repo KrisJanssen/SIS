@@ -1,6 +1,6 @@
 using System;
 
-namespace KUL.MDS.Data
+namespace SIS.Data
 {
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
 	public class DocumentAttribute : Attribute

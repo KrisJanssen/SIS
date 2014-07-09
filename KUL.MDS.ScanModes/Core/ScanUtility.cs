@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KUL.MDS.ScanModes
+namespace SIS.ScanModes
 {
     /// <summary>
     /// A set of supporting methods used in ScanMode generation.

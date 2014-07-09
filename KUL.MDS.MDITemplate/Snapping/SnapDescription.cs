@@ -13,7 +13,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Text;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     public sealed class SnapDescription
     {

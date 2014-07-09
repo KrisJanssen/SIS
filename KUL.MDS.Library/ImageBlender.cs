@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-namespace KUL.MDS.Library
+namespace SIS.Library
 {
 	public class ImageBlender
 	{

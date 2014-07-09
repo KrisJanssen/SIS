@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Windows.Forms;
 
-namespace KUL.MDS.Validation.Design
+namespace SIS.Validation.Design
 {
 	/// <summary>
 	/// ValidationProviderDesigner add verbs for Validation setup on the PropertyGrid.

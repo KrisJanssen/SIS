@@ -3,21 +3,21 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using KUL.MDS.Library;
-using KUL.MDS.SIS.Documents;
-using KUL.MDS.SerialTerminal;
-using KUL.MDS.AppResources;
+using SIS.Library;
+using SIS.Documents;
+using SIS.SerialTerminal;
+using SIS.AppResources;
 using System.Threading;
 using AutoUpdaterDotNET;
 
-namespace KUL.MDS.SIS
+namespace SIS
 {
-	public class MainForm : KUL.MDS.MDITemplate.MdiParentForm
+	public class MainForm : SIS.MDITemplate.MdiParentForm
     {
         #region TO BE REMOVED
 
-        //private KUL.MDS.MDITemplate.MdiMenuItem m_menuLaserComms;
-        //private KUL.MDS.MDITemplate.MdiMenuItem m_menuSetupChannel;
+        //private SIS.MDITemplate.MdiMenuItem m_menuLaserComms;
+        //private SIS.MDITemplate.MdiMenuItem m_menuSetupChannel;
         //private SerialTerminalMainForm m_serfrmSettings;
 
         #endregion

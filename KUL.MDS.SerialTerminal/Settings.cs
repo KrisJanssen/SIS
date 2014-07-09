@@ -4,7 +4,7 @@ using System.IO.Ports;
 using System.Collections;
 using System.Windows.Forms; // for Application.StartupPath
 
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
     /// <summary>
     /// Persistent settings

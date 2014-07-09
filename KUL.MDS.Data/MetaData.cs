@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KUL.MDS.Data
+namespace SIS.Data
 {
     public class MetaData
     {

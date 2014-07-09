@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace KUL.MDS.Base
+namespace SIS.Base
 {
     /// <summary>
     /// Represents an enumerable collection of items. Each item can only be present

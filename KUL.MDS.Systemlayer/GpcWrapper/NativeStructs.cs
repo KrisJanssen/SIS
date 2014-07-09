@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace KUL.MDS.SystemLayer.GpcWrapper
+namespace SIS.SystemLayer.GpcWrapper
 {
     internal static class NativeStructs
     {

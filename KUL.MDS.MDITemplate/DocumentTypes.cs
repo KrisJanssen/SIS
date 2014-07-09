@@ -3,7 +3,7 @@ using System.Collections;
 using System.Text;
 using System.Windows.Forms;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	internal class DocumentTypes
 	{

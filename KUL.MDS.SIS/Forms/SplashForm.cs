@@ -7,16 +7,16 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
+using SIS.SystemLayer;
 using System;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using KUL.MDS.MDITemplate;
-using KUL.MDS.AppResources;
+using SIS.MDITemplate;
+using SIS.AppResources;
 
-namespace KUL.MDS.SIS
+namespace SIS
 {
     internal class SISSplashForm
         : SplashForm

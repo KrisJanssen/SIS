@@ -16,9 +16,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using KUL.MDS.Library;
+using SIS.Library;
 
-namespace KUL.MDS.SIS
+namespace SIS
 {
     /// <summary>
     /// This is our pixel format that we will work with. It is always 32-bits / 4-bytes and is

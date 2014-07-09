@@ -3,10 +3,10 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KUL.MDS.Data
+namespace SIS.Data
 {
     // Represents a column of fixed-step data.
-    public class StepColumn : KUL.MDS.Data.Column
+    public class StepColumn : SIS.Data.Column
     {
         private double m_dStart;
         

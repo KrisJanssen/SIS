@@ -7,15 +7,15 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
-using KUL.MDS.Base;
+using SIS.SystemLayer;
+using SIS.Base;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     /// <summary>
     /// Methods for manual profiling and tracing.

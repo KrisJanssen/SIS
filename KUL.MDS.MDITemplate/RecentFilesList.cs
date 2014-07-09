@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections.Specialized;
 using Microsoft.Win32;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	public class RecentFilesList : StringCollection
 	{

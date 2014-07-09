@@ -13,7 +13,7 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     /// <summary>
     /// Provides a way to manage and communicate between instances of an application

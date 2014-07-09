@@ -3,7 +3,7 @@ using System.Web.UI.WebControls;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace KUL.MDS.Validation
+namespace SIS.Validation
 {
 	/// <summary>
 	/// Provide comparison of string data.  This class currently

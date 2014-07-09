@@ -2,7 +2,7 @@
 //using System.Collections.Generic;
 //using System.Text;
 
-//namespace KUL.MDS.ScanModes
+//namespace SIS.ScanModes
 //{
 //    public class UniDirDigScanmode : Scanmode
 //    {

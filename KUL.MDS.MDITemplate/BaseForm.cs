@@ -14,12 +14,12 @@ using System.Drawing;
 using System.Resources;
 using System.Threading;
 using System.Windows.Forms;
-using KUL.MDS.AppResources;
-using KUL.MDS.Base;
-using KUL.MDS.Library;
-using KUL.MDS.SystemLayer;
+using SIS.AppResources;
+using SIS.Base;
+using SIS.Library;
+using SIS.SystemLayer;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     /// <summary>
     /// This Form class is used to fix a few bugs in Windows Forms, and to add a few performance
@@ -587,7 +587,7 @@ namespace KUL.MDS.MDITemplate
             this.SuspendLayout();
             InitializeComponent();
 
-            this.formEx = new KUL.MDS.SystemLayer.FormEx(this, new RealParentWndProcDelegate(this.RealWndProc));
+            this.formEx = new SIS.SystemLayer.FormEx(this, new RealParentWndProcDelegate(this.RealWndProc));
             this.Controls.Add(this.formEx);
             this.formEx.Visible = false;
             DecideOpacitySetting();

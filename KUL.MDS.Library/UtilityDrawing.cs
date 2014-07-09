@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 //using PaintDotNet.Threading;
-using KUL.MDS.SystemLayer;
+using SIS.SystemLayer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace KUL.MDS.Library
+namespace SIS.Library
 {
     /// <summary>
     /// Defines miscellaneous constants and static functions.

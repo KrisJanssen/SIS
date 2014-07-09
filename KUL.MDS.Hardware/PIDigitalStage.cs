@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Text;
 using System.Threading;
-using KUL.MDS.ScanModes;
-using KUL.MDS.SystemLayer;
+using SIS.ScanModes;
+using SIS.SystemLayer;
 
-namespace KUL.MDS.Hardware
+namespace SIS.Hardware
 {
     public class PIDigitalStage : IPiezoStage
     {

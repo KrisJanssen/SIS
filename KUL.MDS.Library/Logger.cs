@@ -1,4 +1,4 @@
-﻿namespace KUL.MDS.Library
+﻿namespace SIS.Library
 {
 
     using System;

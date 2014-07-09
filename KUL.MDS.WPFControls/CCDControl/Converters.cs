@@ -6,7 +6,7 @@ using System.Windows.Data;
 using System.Diagnostics;
 using System.Windows;
 
-namespace KUL.MDS.WPFControls.CCDControl.Converters
+namespace SIS.WPFControls.CCDControl.Converters
 {
     /// <summary>
     /// Converts a double to 3/4 of its value

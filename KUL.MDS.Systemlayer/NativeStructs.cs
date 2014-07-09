@@ -10,7 +10,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     internal static class NativeStructs
     {

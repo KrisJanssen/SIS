@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace KUL.MDS.Validation.Design
+namespace SIS.Validation.Design
 {
 	/// <summary>
 	/// RegExItemCollection allow RegExPattern to be bindable.

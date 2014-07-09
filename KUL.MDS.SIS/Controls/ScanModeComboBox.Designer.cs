@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace KUL.MDS.SIS.Controls
+namespace SIS.Controls
 {
     partial class ScanModeComboBox : ComboBox
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace KUL.MDS.Hardware
+namespace SIS.Hardware
 {
     public enum DetectorTypes { APD, TimeHarp };
 

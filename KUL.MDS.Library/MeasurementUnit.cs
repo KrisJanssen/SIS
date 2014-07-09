@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KUL.MDS.Library
+namespace SIS.Library
 {
     /// <summary>
     /// Specifies the unit of measure for the given data.

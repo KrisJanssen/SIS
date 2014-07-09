@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
     partial class AboutBox : Form
     {

@@ -1,4 +1,4 @@
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
     partial class AboutBox
     {

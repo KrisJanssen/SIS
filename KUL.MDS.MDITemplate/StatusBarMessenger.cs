@@ -1,6 +1,6 @@
 using System;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	public interface IStatusBarMessage
 	{

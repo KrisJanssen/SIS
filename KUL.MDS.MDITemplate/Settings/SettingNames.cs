@@ -7,10 +7,10 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
+using SIS.SystemLayer;
 using System;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     /// <summary>
     /// Symbolic constants for our settings. Settings are stored in CurrentUser unless

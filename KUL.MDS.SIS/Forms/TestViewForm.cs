@@ -3,12 +3,12 @@
 //using System.ComponentModel;
 //using System.Drawing;
 //using System.Windows.Forms;
-//using KUL.MDS.SIS.Documents;
+//using SIS.Documents;
 //using System.Reflection;
 
-//namespace KUL.MDS.SIS.Forms
+//namespace SIS.Forms
 //{
-//    public class TestViewForm : KUL.MDS.MDITemplate.MdiViewForm
+//    public class TestViewForm : SIS.MDITemplate.MdiViewForm
 //    {
 //        private System.Windows.Forms.TextBox m_textBox;
 //        private System.ComponentModel.IContainer components = null;

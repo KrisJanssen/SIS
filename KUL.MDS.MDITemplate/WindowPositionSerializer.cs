@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Drawing;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	public class FormPositionSerializer
 	{

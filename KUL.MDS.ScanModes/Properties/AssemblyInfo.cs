@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KUL.MDS.ScanModes")]
+[assembly: AssemblyTitle("SIS.ScanModes")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("KUL.MDS.ScanModes")]
+[assembly: AssemblyProduct("SIS.ScanModes")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

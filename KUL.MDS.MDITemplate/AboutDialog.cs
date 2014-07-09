@@ -14,11 +14,11 @@ using System.Drawing.Imaging;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using KUL.MDS.SIS;
-using KUL.MDS.Library;
-using KUL.MDS.AppResources;
+using SIS;
+using SIS.Library;
+using SIS.AppResources;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     internal class AboutDialog 
         : BaseForm
@@ -73,7 +73,7 @@ namespace KUL.MDS.MDITemplate
             this.creditsLabel = new System.Windows.Forms.Label();
             this.richCreditsBox = new System.Windows.Forms.RichTextBox();
             this.copyrightLabel = new System.Windows.Forms.TextBox();
-            this.sisBanner = new KUL.MDS.MDITemplate.Banner();
+            this.sisBanner = new SIS.MDITemplate.Banner();
             this.versionLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 

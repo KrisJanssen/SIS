@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     /// <summary>
     /// Methods for keeping track of time in a high precision manner.

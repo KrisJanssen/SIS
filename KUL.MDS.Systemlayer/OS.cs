@@ -11,7 +11,7 @@ using Microsoft.Win32;
 using System;
 using System.Globalization;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     public static class OS
     {

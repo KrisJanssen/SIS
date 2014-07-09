@@ -12,7 +12,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 
-namespace KUL.MDS.SystemLayer.GpcWrapper
+namespace SIS.SystemLayer.GpcWrapper
 {
     internal sealed class VertexList
     {

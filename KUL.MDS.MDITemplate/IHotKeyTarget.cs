@@ -8,9 +8,9 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 using System;
-using KUL.MDS.Base;
+using SIS.Base;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     public interface IHotKeyTarget
         : IDisposedEvent,

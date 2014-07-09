@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace KUL.MDS.SIS.Forms
+namespace SIS.Forms
 {
     public partial class ProgressBarForm : Form
     {

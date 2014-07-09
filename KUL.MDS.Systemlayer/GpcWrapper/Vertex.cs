@@ -9,7 +9,7 @@
 
 using System;
 
-namespace KUL.MDS.SystemLayer.GpcWrapper
+namespace SIS.SystemLayer.GpcWrapper
 {
     internal struct Vertex
     {

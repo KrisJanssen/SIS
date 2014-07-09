@@ -9,7 +9,7 @@
 
 using System;
 
-namespace KUL.MDS.Base
+namespace SIS.Base
 {
     public static class Do
     {

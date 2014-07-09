@@ -7,14 +7,14 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SIS;
+using SIS;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     /// <summary>
     /// Provides special methods and properties that must be implemented in a

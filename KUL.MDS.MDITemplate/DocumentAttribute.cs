@@ -1,6 +1,6 @@
 using System;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
 	public class DocumentAttribute : Attribute

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KUL.MDS.ScanModes
+namespace SIS.ScanModes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class ScanModeAttribute : Attribute

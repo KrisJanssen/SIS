@@ -9,7 +9,7 @@
 
 using System;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     public enum OSType
     {

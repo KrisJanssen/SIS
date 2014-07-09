@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Media;
 using System.ComponentModel;
 
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl.Device
 {
     internal class CCDGrabber : ISampleGrabberCB, INotifyPropertyChanged
     {

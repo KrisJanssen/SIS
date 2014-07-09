@@ -1,4 +1,4 @@
-﻿namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
     partial class ScanSettingsForm
     {
@@ -29,19 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            KUL.MDS.Validation.ValidationRule validationRule1 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule2 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule3 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule4 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule5 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule6 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule7 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule8 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule9 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule10 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule11 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule12 = new KUL.MDS.Validation.ValidationRule();
-            KUL.MDS.Validation.ValidationRule validationRule13 = new KUL.MDS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule1 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule2 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule3 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule4 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule5 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule6 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule7 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule8 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule9 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule10 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule11 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule12 = new SIS.Validation.ValidationRule();
+            SIS.Validation.ValidationRule validationRule13 = new SIS.Validation.ValidationRule();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScanSettingsForm));
             this.m_lblSetInitX = new System.Windows.Forms.Label();
             this.m_lblSetInitY = new System.Windows.Forms.Label();
@@ -76,7 +76,7 @@
             this.m_btnAccept = new System.Windows.Forms.Button();
             this.m_btnCancel = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.validationProvider1 = new KUL.MDS.Validation.ValidationProvider(this.components);
+            this.validationProvider1 = new SIS.Validation.ValidationProvider(this.components);
             this.m_grpbxExpSettings.SuspendLayout();
             this.m_tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -335,7 +335,7 @@
             this.m_txtbxSetInitX.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetInitX.TabIndex = 1;
             this.m_txtbxSetInitX.Text = "0";
-            validationRule1.DataType = KUL.MDS.Validation.ValidationDataType.Double;
+            validationRule1.DataType = SIS.Validation.ValidationDataType.Double;
             validationRule1.InitialValue = "0";
             validationRule1.MaximumValue = "90000";
             validationRule1.MinimumValue = "0";
@@ -351,7 +351,7 @@
             this.m_txtbxSetInitY.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetInitY.TabIndex = 2;
             this.m_txtbxSetInitY.Text = "0";
-            validationRule2.DataType = KUL.MDS.Validation.ValidationDataType.Double;
+            validationRule2.DataType = SIS.Validation.ValidationDataType.Double;
             validationRule2.InitialValue = "0";
             validationRule2.MaximumValue = "90000";
             validationRule2.MinimumValue = "0";
@@ -367,7 +367,7 @@
             this.m_txtbxSetInitZ.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetInitZ.TabIndex = 3;
             this.m_txtbxSetInitZ.Text = "0";
-            validationRule3.DataType = KUL.MDS.Validation.ValidationDataType.Double;
+            validationRule3.DataType = SIS.Validation.ValidationDataType.Double;
             validationRule3.InitialValue = "0";
             validationRule3.MaximumValue = "90000";
             validationRule3.MinimumValue = "0";
@@ -383,7 +383,7 @@
             this.m_txtbxSetImageWidth.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetImageWidth.TabIndex = 4;
             this.m_txtbxSetImageWidth.Text = "256";
-            validationRule4.DataType = KUL.MDS.Validation.ValidationDataType.Integer;
+            validationRule4.DataType = SIS.Validation.ValidationDataType.Integer;
             validationRule4.InitialValue = "256";
             validationRule4.MaximumValue = "512";
             validationRule4.MinimumValue = "0";
@@ -399,7 +399,7 @@
             this.m_txtbxSetImageHeight.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetImageHeight.TabIndex = 5;
             this.m_txtbxSetImageHeight.Text = "256";
-            validationRule5.DataType = KUL.MDS.Validation.ValidationDataType.Integer;
+            validationRule5.DataType = SIS.Validation.ValidationDataType.Integer;
             validationRule5.InitialValue = "256";
             validationRule5.MaximumValue = "512";
             validationRule5.MinimumValue = "0";
@@ -415,7 +415,7 @@
             this.m_txtbxSetImageDepth.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetImageDepth.TabIndex = 6;
             this.m_txtbxSetImageDepth.Text = "256";
-            validationRule6.DataType = KUL.MDS.Validation.ValidationDataType.Integer;
+            validationRule6.DataType = SIS.Validation.ValidationDataType.Integer;
             validationRule6.InitialValue = "0";
             validationRule6.MaximumValue = "512";
             validationRule6.MinimumValue = "0";
@@ -431,7 +431,7 @@
             this.m_txtbxSetOverScanPxX.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetOverScanPxX.TabIndex = 7;
             this.m_txtbxSetOverScanPxX.Text = "0";
-            validationRule7.DataType = KUL.MDS.Validation.ValidationDataType.Integer;
+            validationRule7.DataType = SIS.Validation.ValidationDataType.Integer;
             validationRule7.InitialValue = "0";
             validationRule7.MaximumValue = "20";
             validationRule7.MinimumValue = "0";
@@ -447,7 +447,7 @@
             this.m_txtbxSetOverScanPxY.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetOverScanPxY.TabIndex = 8;
             this.m_txtbxSetOverScanPxY.Text = "0";
-            validationRule8.DataType = KUL.MDS.Validation.ValidationDataType.Integer;
+            validationRule8.DataType = SIS.Validation.ValidationDataType.Integer;
             validationRule8.InitialValue = "0";
             validationRule8.MaximumValue = "20";
             validationRule8.MinimumValue = "0";
@@ -463,7 +463,7 @@
             this.m_txtbxSetOverScanPxZ.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetOverScanPxZ.TabIndex = 9;
             this.m_txtbxSetOverScanPxZ.Text = "0";
-            validationRule9.DataType = KUL.MDS.Validation.ValidationDataType.Integer;
+            validationRule9.DataType = SIS.Validation.ValidationDataType.Integer;
             validationRule9.InitialValue = "0";
             validationRule9.MaximumValue = "20";
             validationRule9.MinimumValue = "0";
@@ -479,7 +479,7 @@
             this.m_txtbxSetImageWidthnm.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetImageWidthnm.TabIndex = 10;
             this.m_txtbxSetImageWidthnm.Text = "1000";
-            validationRule10.DataType = KUL.MDS.Validation.ValidationDataType.Double;
+            validationRule10.DataType = SIS.Validation.ValidationDataType.Double;
             validationRule10.InitialValue = "1000";
             validationRule10.MaximumValue = "90000";
             validationRule10.MinimumValue = "0";
@@ -495,7 +495,7 @@
             this.m_txtbxSetImageHeightnm.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetImageHeightnm.TabIndex = 11;
             this.m_txtbxSetImageHeightnm.Text = "1000";
-            validationRule11.DataType = KUL.MDS.Validation.ValidationDataType.Double;
+            validationRule11.DataType = SIS.Validation.ValidationDataType.Double;
             validationRule11.InitialValue = "1000";
             validationRule11.MaximumValue = "90000";
             validationRule11.MinimumValue = "0";
@@ -511,7 +511,7 @@
             this.m_txtbxSetImageDepthnm.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetImageDepthnm.TabIndex = 12;
             this.m_txtbxSetImageDepthnm.Text = "1000";
-            validationRule12.DataType = KUL.MDS.Validation.ValidationDataType.Double;
+            validationRule12.DataType = SIS.Validation.ValidationDataType.Double;
             validationRule12.InitialValue = "0";
             validationRule12.MaximumValue = "90000";
             validationRule12.MinimumValue = "0";
@@ -530,7 +530,7 @@
             validationRule13.InitialValue = "0.2";
             validationRule13.MaximumValue = "20";
             validationRule13.MinimumValue = "0.2";
-            validationRule13.Operator = KUL.MDS.Validation.ValidationCompareOperator.GreaterThanEqual;
+            validationRule13.Operator = SIS.Validation.ValidationCompareOperator.GreaterThanEqual;
             validationRule13.ValueToCompare = "0.2";
             this.validationProvider1.SetValidationRule(this.m_txtbxSetTimePPixel, validationRule13);
             // 
@@ -632,7 +632,7 @@
         private System.Windows.Forms.Label m_lblSetTimePPixel;
 
         private System.Windows.Forms.TextBox m_txtbxSetTimePPixel;
-        private KUL.MDS.Validation.ValidationProvider validationProvider1;
+        private SIS.Validation.ValidationProvider validationProvider1;
         private System.Windows.Forms.Button m_btnAccept;
         private System.Windows.Forms.Button m_btnDefault;
         private System.Windows.Forms.Button m_btnCancel;

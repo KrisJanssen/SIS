@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KUL.MDS.Data
+namespace SIS.Data
 {
     public class Block
     {
@@ -11,7 +11,7 @@ namespace KUL.MDS.Data
 
         // Blocks can have a name (but usually it doesn't have)
         private string m_sName;
-        private List<KUL.MDS.Data.Column> m_lColumns;
+        private List<SIS.Data.Column> m_lColumns;
 
         // Fields.
         public MetaData MetaData

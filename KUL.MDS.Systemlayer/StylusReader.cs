@@ -10,14 +10,14 @@
 using Microsoft.Ink;
 using Microsoft.StylusInput;
 using Microsoft.StylusInput.PluginData;
-using KUL.MDS.SIS;
+using SIS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace KUL.MDS.SIS
+namespace SIS
 {
     public sealed class StylusReader
     {
@@ -36,7 +36,7 @@ namespace KUL.MDS.SIS
             }
 
             RealTimeStylus stylus = new RealTimeStylus(control, true);
-            KUL.MDS.SIS.StylusAsyncPlugin stylusReader = new KUL.MDS.SIS.StylusAsyncPlugin(subject, control);
+            SIS.StylusAsyncPlugin stylusReader = new SIS.StylusAsyncPlugin(subject, control);
 
             stylus.AsyncPluginCollection.Add(stylusReader);
             stylus.SetDesiredPacketDescription(new Guid[] { PacketProperty.X, 

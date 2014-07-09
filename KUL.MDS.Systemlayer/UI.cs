@@ -7,7 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SIS;
+using SIS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,9 +18,9 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using KUL.MDS.Base;
+using SIS.Base;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     /// <summary>
     /// Contains static methods related to the user interface.

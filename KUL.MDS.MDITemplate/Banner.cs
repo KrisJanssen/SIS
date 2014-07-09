@@ -12,10 +12,10 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
-using KUL.MDS.AppResources;
-using KUL.MDS.Library;
+using SIS.AppResources;
+using SIS.Library;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     public sealed class Banner : Control
     {

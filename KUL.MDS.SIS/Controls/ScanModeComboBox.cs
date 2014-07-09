@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using KUL.MDS.ScanModes;
-using KUL.MDS.SystemLayer;
-using KUL.MDS.AppResources;
+using SIS.ScanModes;
+using SIS.SystemLayer;
+using SIS.AppResources;
 
-namespace KUL.MDS.SIS.Controls
+namespace SIS.Controls
 {
     public partial class ScanModeComboBox : ComboBox
     {
@@ -69,7 +69,7 @@ namespace KUL.MDS.SIS.Controls
                 try
                 {
                     ScanModeAttribute[] _ScanModeAttributes = type.GetCustomAttributes(typeof(ScanModeAttribute), true) as ScanModeAttribute[];
-                    this.Items.Add(new KUL.MDS.Library.ComboBoxItem<Type>(_ScanModeAttributes[0].Name, type));
+                    this.Items.Add(new SIS.Library.ComboBoxItem<Type>(_ScanModeAttributes[0].Name, type));
                 }
 
                 catch

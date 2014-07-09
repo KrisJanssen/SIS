@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     /// <summary>
     /// Contains methods for allocating, freeing, and performing operations on memory 

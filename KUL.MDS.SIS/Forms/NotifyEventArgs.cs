@@ -1,6 +1,6 @@
-﻿using KUL.MDS.SIS.Documents;
+﻿using SIS.Documents;
 
-namespace KUL.MDS.SIS.Forms
+namespace SIS.Forms
 {
     public class NotifyEventArgs : System.EventArgs
     {

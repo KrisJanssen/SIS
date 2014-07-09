@@ -17,7 +17,7 @@ using System.IO;
 using System.Security;
 using System.Security.AccessControl;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     /// <summary>
     /// Stores non-volatile name/value settings. These persist between sessions of the application.

@@ -13,7 +13,7 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     [SuppressUnmanagedCodeSecurity]
     internal static class SafeNativeMethods

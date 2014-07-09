@@ -10,9 +10,9 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using KUL.MDS.Base;
+using SIS.Base;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     public abstract class SnapObstacle
     {

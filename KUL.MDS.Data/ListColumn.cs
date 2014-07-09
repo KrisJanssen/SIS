@@ -3,10 +3,10 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KUL.MDS.Data
+namespace SIS.Data
 {
     // column uses vector<double> to represent the data.
-    public class ListColumn : KUL.MDS.Data.Column
+    public class ListColumn : SIS.Data.Column
     {
         private double m_dMinVal;
         private double m_dMaxVal;

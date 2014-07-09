@@ -15,10 +15,10 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
-using KUL.MDS.SystemLayer;
+using SIS.SystemLayer;
 using System.Threading;
 
-namespace KUL.MDS.Library
+namespace SIS.Library
 {
     public sealed class Ruler
         : UserControl

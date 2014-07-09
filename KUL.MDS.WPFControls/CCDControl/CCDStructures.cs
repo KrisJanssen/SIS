@@ -21,7 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl.Device
 {
     [ComVisible(false)]
     internal enum PinDirection

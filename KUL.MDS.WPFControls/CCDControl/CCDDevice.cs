@@ -29,7 +29,7 @@ using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.ComponentModel;
 
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl.Device
 {
     public class CCDDevice : DependencyObject, IDisposable
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KUL.MDS.SIS.Exceptions
+namespace SIS.Exceptions
 {
     /// <summary>
     /// This Exception will get thrown when the requested voltage exceeds the global minimum.

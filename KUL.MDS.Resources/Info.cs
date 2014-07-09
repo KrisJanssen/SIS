@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
-using KUL.MDS.AppResources;
+using SIS.AppResources;
 using System.IO;
 using System.Reflection;
 using System.Globalization;
-using KUL.MDS.SIS;
+using SIS;
 
-namespace KUL.MDS.AppResources
+namespace SIS.AppResources
 {
     /// <summary>
-    /// A few utility functions specific to KUL.MDS.SIS.exe
+    /// A few utility functions specific to SIS.exe
     /// </summary>
     public static class Info
     {

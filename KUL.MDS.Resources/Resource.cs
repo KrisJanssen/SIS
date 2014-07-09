@@ -9,7 +9,7 @@
 
 using System;
 
-namespace KUL.MDS.AppResources
+namespace SIS.AppResources
 {
     public abstract class Resource<T>
     {

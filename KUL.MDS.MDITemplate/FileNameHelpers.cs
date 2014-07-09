@@ -1,6 +1,6 @@
 using System;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	public sealed class FileNameHelpers
 	{

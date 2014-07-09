@@ -4,7 +4,7 @@ using System.IO.Ports;
 using System.Collections;
 using System.Threading;
 
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
     /// <summary> CommPort class creates a singleton instance
     /// of SerialPort (System.IO.Ports) </summary>

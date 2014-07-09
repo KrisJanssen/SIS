@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using KUL.MDS.SystemLayer;
+using SIS.SystemLayer;
 
-namespace KUL.MDS.Library
+namespace SIS.Library
 {
     [System.Runtime.InteropServices.ComVisible(false)]
     public partial class ImageControl : UserControl

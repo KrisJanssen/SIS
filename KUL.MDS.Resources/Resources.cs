@@ -7,7 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
+using SIS.SystemLayer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,12 +20,12 @@ using System.Reflection;
 using System.Resources;
 using System.Windows.Forms;
 
-namespace KUL.MDS.AppResources
+namespace SIS.AppResources
 {
     public static class Resources
     {
         private static ResourceManager resourceManager;
-        private const string ourNamespace = "KUL.MDS.AppResources";
+        private const string ourNamespace = "SIS.AppResources";
         private static Assembly ourAssembly;
         private static string[] localeDirs;
         private static CultureInfo pdnCulture;
@@ -127,7 +127,7 @@ namespace KUL.MDS.AppResources
         {
             //const string left = "PaintDotNet.Strings.3";
             //const string right = ".resources";
-            const string left = "KUL.MDS";
+            const string left = "SIS";
             const string right = ".dll";
             string ourDir = ResourcesDir;
             string fileSpec = left + "*" + right;
@@ -217,7 +217,7 @@ namespace KUL.MDS.AppResources
         {
             //const string stringsFileName = "PaintDotNet.Strings.3";
             //const string stringsFileName = "PI_Digital_Stage_Test_Framework.Resources.SIS";
-            const string stringsFileName = "KUL.MDS.SIS.Resources.SIS";
+            const string stringsFileName = "SIS.Resources.SIS";
             //ResourceManager rm = ResourceManager.CreateFileBasedResourceManager(stringsFileName, ResourcesDir, null);
             ResourceManager rm = new ResourceManager(stringsFileName, Assembly.GetEntryAssembly());
             return rm;

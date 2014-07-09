@@ -6,7 +6,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Web.UI.WebControls;
 
-namespace KUL.MDS.Validation
+namespace SIS.Validation
 {
 	/// <summary>
 	/// ValidationRule is designed to be a simple as possible to
@@ -14,7 +14,7 @@ namespace KUL.MDS.Validation
 	/// rule can be attach to a control, so we can have a many
 	/// instances of this class.
 	/// </summary>
-	[TypeConverter(typeof(KUL.MDS.Validation.Design.ValidationRuleConverter))]
+	[TypeConverter(typeof(SIS.Validation.Design.ValidationRuleConverter))]
 	public class ValidationRule : ICloneable
 	{
 		#region "Basic Settings"

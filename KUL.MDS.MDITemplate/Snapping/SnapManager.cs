@@ -7,7 +7,7 @@
 // .                                                                           //
 /////////////////////////////////////////////////////////////////////////////////
 
-using KUL.MDS.SystemLayer;
+using SIS.SystemLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -15,9 +15,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using KUL.MDS.Base;
+using SIS.Base;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     public sealed class SnapManager
     {

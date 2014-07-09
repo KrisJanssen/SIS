@@ -1,6 +1,6 @@
 using System;
 
-namespace KUL.MDS.Validation.Design
+namespace SIS.Validation.Design
 {
 	/// <summary>
 	/// RegExItem.

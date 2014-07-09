@@ -4,7 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	public class AboutForm : System.Windows.Forms.Form
 	{

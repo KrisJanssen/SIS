@@ -14,7 +14,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 
-namespace KUL.MDS.SystemLayer.GpcWrapper
+namespace SIS.SystemLayer.GpcWrapper
 {
     internal sealed class Polygon
     {

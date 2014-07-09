@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Windows.Forms;
 
-namespace KUL.MDS.Validation.Design
+namespace SIS.Validation.Design
 {
 	/// <summary>
 	/// ValidationRuleDesignForm use to setup validation rule and assign it to a

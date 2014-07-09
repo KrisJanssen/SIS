@@ -3,10 +3,10 @@
 //using System.Text;
 //using NationalInstruments.DAQmx;
 //using System.ComponentModel;
-//using KUL.MDS.Library;
+//using SIS.Library;
 //using System.Threading;
 
-//namespace KUL.MDS.Hardware
+//namespace SIS.Hardware
 //{
 //    public class PIAnalogStage : IPiezoStage
 //    {
@@ -269,8 +269,8 @@
 //                this.CalculateMove(m_dVoltageXCurrent, m_dVoltageYCurrent, this.NmToVoltage(__dXPosNm), this.NmToVoltage(__dYPosNm), 1000);
 
 //                // Check the generated voltages.
-//                double _dMinV = KUL.MDS.Library.Helper.FindMin(m_dVoltages, 2, m_dVoltages.Length / 2);
-//                double _dMaxV = KUL.MDS.Library.Helper.FindMax(m_dVoltages, 2, m_dVoltages.Length / 2);
+//                double _dMinV = SIS.Library.Helper.FindMin(m_dVoltages, 2, m_dVoltages.Length / 2);
+//                double _dMaxV = SIS.Library.Helper.FindMax(m_dVoltages, 2, m_dVoltages.Length / 2);
 
 //                if (_dMinV < m_dVoltageMin)
 //                {

@@ -2,7 +2,7 @@ using System;
 using System.Windows.Forms;
 using System.Collections;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	public class FileDragDropHandler
 	{

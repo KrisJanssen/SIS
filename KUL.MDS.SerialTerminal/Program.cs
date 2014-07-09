@@ -3,7 +3,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
     //static class Program
     //{

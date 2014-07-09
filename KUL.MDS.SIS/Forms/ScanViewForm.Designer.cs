@@ -1,4 +1,4 @@
-﻿namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
     partial class ScanViewForm
     {
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScanViewForm));
-            this.valprovSISValidationProvider = new KUL.MDS.Validation.ValidationProvider(this.components);
+            this.valprovSISValidationProvider = new SIS.Validation.ValidationProvider(this.components);
             this.bckgwrkPerformScan = new System.ComponentModel.BackgroundWorker();
             this.bckgwrkPerformMove = new System.ComponentModel.BackgroundWorker();
             this.m_TabControl = new System.Windows.Forms.TabControl();
@@ -48,7 +48,7 @@
             this.m_lblGoToZ = new System.Windows.Forms.Label();
             this.m_lblGoToY = new System.Windows.Forms.Label();
             this.m_lblGoToX = new System.Windows.Forms.Label();
-            this.scanModeComboBox1 = new KUL.MDS.SIS.Controls.ScanModeComboBox();
+            this.scanModeComboBox1 = new SIS.Controls.ScanModeComboBox();
             this.btnScanStart = new System.Windows.Forms.Button();
             this.lblStageVoltageEngaged = new System.Windows.Forms.Label();
             this.btnStageOFF = new System.Windows.Forms.Button();
@@ -82,10 +82,10 @@
             this.chkbxNormalized = new System.Windows.Forms.CheckBox();
             this.lblColorBarMinInt1 = new System.Windows.Forms.Label();
             this.chkbxCorrectedImage = new System.Windows.Forms.CheckBox();
-            this.scanImageControl1 = new KUL.MDS.Library.ImageControl();
-            this.scanImageControl2 = new KUL.MDS.Library.ImageControl();
-            this.drwcnvColorBar2 = new KUL.MDS.Library.DrawCanvas();
-            this.drwcnvColorBar1 = new KUL.MDS.Library.DrawCanvas();
+            this.scanImageControl1 = new SIS.Library.ImageControl();
+            this.scanImageControl2 = new SIS.Library.ImageControl();
+            this.drwcnvColorBar2 = new SIS.Library.DrawCanvas();
+            this.drwcnvColorBar1 = new SIS.Library.DrawCanvas();
             this.lblColorBarMaxInt2 = new System.Windows.Forms.Label();
             this.lblColorBarMinInt2 = new System.Windows.Forms.Label();
             this.btnImageFit = new System.Windows.Forms.Button();
@@ -95,7 +95,7 @@
             this.m_txtbxScanPropertiesFromFile = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
-            this.ccdControl1 = new KUL.MDS.WPFControls.CCDControl.UI.CCDControl();
+            this.ccdControl1 = new SIS.WPFControls.CCDControl.UI.CCDControl();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -964,7 +964,7 @@
 
         #endregion
 
-        private KUL.MDS.Validation.ValidationProvider valprovSISValidationProvider;
+        private SIS.Validation.ValidationProvider valprovSISValidationProvider;
         private System.ComponentModel.BackgroundWorker bckgwrkPerformScan;
         private System.ComponentModel.BackgroundWorker bckgwrkPerformMove;
         private System.Windows.Forms.TabControl m_TabControl;
@@ -979,14 +979,14 @@
         private System.Windows.Forms.CheckBox chkbxNormalized;
         private System.Windows.Forms.Label lblColorBarMinInt1;
         private System.Windows.Forms.CheckBox chkbxCorrectedImage;
-        private KUL.MDS.Library.ImageControl scanImageControl2;
-        public KUL.MDS.Library.DrawCanvas drwcnvColorBar2;
-        public KUL.MDS.Library.DrawCanvas drwcnvColorBar1;
+        private SIS.Library.ImageControl scanImageControl2;
+        public SIS.Library.DrawCanvas drwcnvColorBar2;
+        public SIS.Library.DrawCanvas drwcnvColorBar1;
         private System.Windows.Forms.Label lblColorBarMaxInt2;
         private System.Windows.Forms.Label lblColorBarMinInt2;
         private System.Windows.Forms.Button btnImageFit;
         private System.Windows.Forms.GroupBox groupBox1;
-        private KUL.MDS.Library.ImageControl scanImageControl1;
+        private SIS.Library.ImageControl scanImageControl1;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
@@ -1001,7 +1001,7 @@
         private System.Windows.Forms.Button btnMoveAbs;
         private System.Windows.Forms.Button btnScanStart;
         private System.Windows.Forms.Button btnStop;
-        private KUL.MDS.SIS.Controls.ScanModeComboBox scanModeComboBox1;
+        private SIS.Controls.ScanModeComboBox scanModeComboBox1;
         private System.Windows.Forms.Button m_btnScanSettings;
         private System.Windows.Forms.Label m_lblGoToX;
         private System.Windows.Forms.Label m_lblGoToY;
@@ -1020,7 +1020,7 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Integration.ElementHost elementHost2;
-        private KUL.MDS.WPFControls.CCDControl.UI.CCDControl ccdControl1;
+        private SIS.WPFControls.CCDControl.UI.CCDControl ccdControl1;
         private System.Windows.Forms.CheckBox checkBox7;
         private System.Windows.Forms.CheckBox checkBox6;
         private System.Windows.Forms.CheckBox checkBox5;

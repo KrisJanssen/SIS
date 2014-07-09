@@ -1,4 +1,4 @@
-﻿namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
     partial class BlendImageForm
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.imageControl1 = new KUL.MDS.Library.ImageControl();
+            this.imageControl1 = new SIS.Library.ImageControl();
             this.SuspendLayout();
             // 
             // imageControl1
@@ -64,6 +64,6 @@
 
         #endregion
 
-        private KUL.MDS.Library.ImageControl imageControl1;
+        private SIS.Library.ImageControl imageControl1;
     }
 }

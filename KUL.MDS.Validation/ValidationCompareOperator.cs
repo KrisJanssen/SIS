@@ -1,6 +1,6 @@
 using System;
 
-namespace KUL.MDS.Validation
+namespace SIS.Validation
 {
 	/// <summary>
 	/// Operations that can be perform in Compare Validation.

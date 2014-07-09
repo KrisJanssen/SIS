@@ -9,7 +9,7 @@
 
 using System;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     // Copied from System.IO.MonoIOError.cs, (C) 2002 Dan Lewis
 

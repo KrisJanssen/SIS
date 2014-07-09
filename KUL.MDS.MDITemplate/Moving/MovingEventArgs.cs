@@ -10,7 +10,7 @@
 using System;
 using System.Drawing;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
     public sealed class MovingEventArgs
         : EventArgs

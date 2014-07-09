@@ -1,13 +1,13 @@
 ﻿using Microsoft.Ink;
 using Microsoft.StylusInput;
 using Microsoft.StylusInput.PluginData;
-using KUL.MDS.SIS;
+using SIS;
 using System;
 using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace KUL.MDS.SIS
+namespace SIS
 {
     internal sealed class StylusAsyncPlugin
         : IStylusAsyncPlugin

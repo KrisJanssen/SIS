@@ -4,10 +4,10 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	//public class MdiViewForm : System.Windows.Forms.Form
-    public class MdiViewForm : KUL.MDS.MDITemplate.BaseForm
+    public class MdiViewForm : SIS.MDITemplate.BaseForm
 	{
 		private MdiDocument m_document = null;
 

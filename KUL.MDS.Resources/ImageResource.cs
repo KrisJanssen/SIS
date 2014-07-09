@@ -10,7 +10,7 @@
 using System;
 using System.Drawing;
 
-namespace KUL.MDS.AppResources
+namespace SIS.AppResources
 {
     public abstract class ImageResource
         : Resource<Image>

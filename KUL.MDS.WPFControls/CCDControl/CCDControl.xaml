@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="KUL.MDS.WPFControls.CCDControl.UI.CCDControl"
+﻿<UserControl x:Class="SIS.WPFControls.CCDControl.UI.CCDControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:KUL.MDS.WPFControls.CCDControl.UI"
-    xmlns:localconverters="clr-namespace:KUL.MDS.WPFControls.CCDControl.Converters"
-    xmlns:webcam="clr-namespace:KUL.MDS.WPFControls.CCDControl.Device"
+    xmlns:local="clr-namespace:SIS.WPFControls.CCDControl.UI"
+    xmlns:localconverters="clr-namespace:SIS.WPFControls.CCDControl.Converters"
+    xmlns:webcam="clr-namespace:SIS.WPFControls.CCDControl.Device"
     Name="CCDcam" >
 
     <UserControl.Resources>

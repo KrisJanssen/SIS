@@ -4,16 +4,16 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
-using KUL.MDS.MDITemplate;
-using KUL.MDS.SIS.Forms;
+using SIS.MDITemplate;
+using SIS.Forms;
 
-namespace KUL.MDS.SIS.Documents
+namespace SIS.Documents
 {
     /// <summary>
     /// This class provides an object for loading scan files. The object provides scan data as well as scan settings.
     /// </summary>
     [Document("Scan document files", ".dat")]
-    public class ScanDocument : KUL.MDS.MDITemplate.MdiDocument
+    public class ScanDocument : SIS.MDITemplate.MdiDocument
     {
         #region Members
         private ScanSettings m_scnstSettings;

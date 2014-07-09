@@ -13,7 +13,7 @@ using System.Security.Principal;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     /// <summary>
     /// Security related static methods and properties.

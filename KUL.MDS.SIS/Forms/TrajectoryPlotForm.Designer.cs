@@ -1,4 +1,4 @@
-﻿namespace KUL.MDS.SIS.Forms
+﻿namespace SIS.Forms
 {
     partial class TrajectoryPlotForm
     {

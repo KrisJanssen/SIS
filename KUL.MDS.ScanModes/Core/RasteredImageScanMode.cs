@@ -8,7 +8,7 @@
 //using System.Text;
 //using System.Web;
 
-//namespace KUL.MDS.ScanModes
+//namespace SIS.ScanModes
 //{
 //    class RasteredImageScanMode
 //    {

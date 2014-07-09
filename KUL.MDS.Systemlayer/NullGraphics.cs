@@ -10,7 +10,7 @@
 using System;
 using System.Drawing;
 
-namespace KUL.MDS.SystemLayer
+namespace SIS.SystemLayer
 {
     /// <summary>
     /// Sometimes you need a Graphics instance when you don't really have access to one.

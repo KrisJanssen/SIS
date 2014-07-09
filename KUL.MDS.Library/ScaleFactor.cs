@@ -10,7 +10,7 @@
 using System;
 using System.Drawing;
 
-namespace KUL.MDS.Library
+namespace SIS.Library
 {
     /// <summary>
     /// Encapsulates functionality for zooming/scaling coordinates.

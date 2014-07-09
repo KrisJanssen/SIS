@@ -3,7 +3,7 @@
 //using System.Text;
 
 
-//namespace KUL.MDS.ScanModes
+//namespace SIS.ScanModes
 //{
 //    [ScanMode("Bidirectional Scan")]
 //    public class BiDirScan : Scanmode

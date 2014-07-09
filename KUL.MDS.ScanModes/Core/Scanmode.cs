@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 
-namespace KUL.MDS.ScanModes
+namespace SIS.ScanModes
 {
     /// <summary>
     /// ScanMode objects derived the abstract ScanMode supply the necessary coordinates to a stage based upon the physical parameters that fully describe a specific scantype

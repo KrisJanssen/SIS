@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace KUL.MDS.ScanModes
+namespace SIS.ScanModes
 {
     public sealed class ScanModeCollection
     {

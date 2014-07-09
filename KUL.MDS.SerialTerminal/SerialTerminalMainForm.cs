@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace KUL.MDS.SerialTerminal
+namespace SIS.SerialTerminal
 {
     public partial class SerialTerminalMainForm : Form
     {

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using ZedGraph;
 
 
-namespace KUL.MDS.SIS.Forms
+namespace SIS.Forms
 {
     public partial class TrajectoryPlotForm : Form
     {

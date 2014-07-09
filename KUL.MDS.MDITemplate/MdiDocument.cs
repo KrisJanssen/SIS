@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Windows.Forms;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	public abstract class MdiDocument
 	{

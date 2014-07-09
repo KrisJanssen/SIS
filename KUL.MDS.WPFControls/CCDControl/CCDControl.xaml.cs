@@ -11,10 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using KUL.MDS.WPFControls.CCDControl.Device;
+using SIS.WPFControls.CCDControl.Device;
 using System.Collections.ObjectModel;
 
-namespace KUL.MDS.WPFControls.CCDControl.UI
+namespace SIS.WPFControls.CCDControl.UI
 {
     /// <summary>
     /// Interaction logic for WebcanControl.xaml

@@ -2,7 +2,7 @@ using System;
 using Microsoft.Win32;
 using System.Windows.Forms;
 
-namespace KUL.MDS.MDITemplate
+namespace SIS.MDITemplate
 {
 	public sealed class ApplicationSettingsKey
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 using System;
-namespace KUL.MDS.Library
+namespace SIS.Library
 {
    partial class DrawCanvas
    {

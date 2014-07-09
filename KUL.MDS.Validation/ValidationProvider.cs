@@ -8,14 +8,14 @@ using System.Text;
 using System.Reflection;
 using System.ComponentModel.Design;
 
-namespace KUL.MDS.Validation
+namespace SIS.Validation
 {
 	/// <summary>
 	/// Provider validation properties to controls that can be validated.
 	/// </summary>
 	[ProvideProperty("ValidationRule", typeof(Control))]
-	[Designer(typeof(KUL.MDS.Validation.Design.ValidationProviderDesigner))]
-	[ToolboxBitmap(typeof(KUL.MDS.Validation.ValidationProvider), "Validation.ico")]
+	[Designer(typeof(SIS.Validation.Design.ValidationProviderDesigner))]
+	[ToolboxBitmap(typeof(SIS.Validation.ValidationProvider), "Validation.ico")]
 	public class ValidationProvider : System.ComponentModel.Component, IExtenderProvider
 	{
 		private Hashtable					_ValidationRules		= new Hashtable();
@@ -299,7 +299,7 @@ namespace KUL.MDS.Validation
 		/// <param name="inputComponent"></param>
 		/// <returns></returns>
 		[DefaultValue(null), Category("Data")]
-		[Editor(typeof(KUL.MDS.Validation.Design.ValidationRuleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+		[Editor(typeof(SIS.Validation.Design.ValidationRuleEditor), typeof(System.Drawing.Design.UITypeEditor))]
 		public ValidationRule GetValidationRule(object inputComponent)
 		{
 			return (this._ValidationRules[inputComponent] as ValidationRule);

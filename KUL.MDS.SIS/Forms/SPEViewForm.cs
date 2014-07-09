@@ -3,14 +3,14 @@
 //using System.ComponentModel;
 //using System.Drawing;
 //using System.Windows.Forms;
-//using KUL.MDS.SIS.Documents;
+//using SIS.Documents;
 //using System.Reflection;
 //using ZedGraph;
 
 
-//namespace KUL.MDS.SIS.Forms
+//namespace SIS.Forms
 //{
-//    public class SPEViewForm : KUL.MDS.MDITemplate.MdiViewForm
+//    public class SPEViewForm : SIS.MDITemplate.MdiViewForm
 //    {
 //        private ZedGraph.ZedGraphControl zedGraphControl1;
 //        private System.ComponentModel.IContainer components = null;
@@ -93,8 +93,8 @@
 //        {
 //            SPEDocument _docDocument = this.Document as SPEDocument;
 
-//            KUL.MDS.Data.Column XCol = _docDocument.DataSet.GetBlock(0).GetColumn(1);
-//            KUL.MDS.Data.Column YCol = _docDocument.DataSet.GetBlock(0).GetColumn(2);
+//            SIS.Data.Column XCol = _docDocument.DataSet.GetBlock(0).GetColumn(1);
+//            SIS.Data.Column YCol = _docDocument.DataSet.GetBlock(0).GetColumn(2);
 
 
 //            // get a reference to the GraphPane

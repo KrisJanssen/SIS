@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KUL.MDS.Hardware
+namespace SIS.Hardware
 {
     class APDSettings : AcquisitionSettings
     {

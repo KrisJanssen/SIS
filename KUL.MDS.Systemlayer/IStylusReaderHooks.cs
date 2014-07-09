@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace KUL.MDS.SIS
+namespace SIS
 {
     public interface IStylusReaderHooks
     {

@@ -17,12 +17,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using KUL.MDS.Library;
-using KUL.MDS.SystemLayer;
-using KUL.MDS.MDITemplate;
-using KUL.MDS.AppResources;
+using SIS.Library;
+using SIS.SystemLayer;
+using SIS.MDITemplate;
+using SIS.AppResources;
 
-namespace KUL.MDS.SIS
+namespace SIS
 {
     internal sealed class Startup
     {
@@ -164,18 +164,18 @@ namespace KUL.MDS.SIS
             string[] _sRequiredFiles =
                 new string[]
                 {
-                   "KUL.MDS.Base.dll",
-                   "KUL.MDS.Data.dll",
-                   "KUL.MDS.Hardware.dll",
-                   "KUL.MDS.Library.dll",
-                   "KUL.MDS.MDITemplate.dll",
-                   "KUL.MDS.Base.dll",
-                   "KUL.MDS.AppResources.dll",
-                   "KUL.MDS.ScanModes.dll",
-                   "KUL.MDS.SerialTerminal.dll",
-                   "KUL.MDS.SystemLayer.dll",
-                   "KUL.MDS.Validation.dll",
-                   "KUL.MDS.WPFControls.dll",
+                   "SIS.Base.dll",
+                   "SIS.Data.dll",
+                   "SIS.Hardware.dll",
+                   "SIS.Library.dll",
+                   "SIS.MDITemplate.dll",
+                   "SIS.Base.dll",
+                   "SIS.AppResources.dll",
+                   "SIS.ScanModes.dll",
+                   "SIS.SerialTerminal.dll",
+                   "SIS.SystemLayer.dll",
+                   "SIS.Validation.dll",
+                   "SIS.WPFControls.dll",
                    "ZedGraph.dll",
                    "AForge.dll",
                    "AForge.Imaging.dll",
@@ -410,7 +410,7 @@ namespace KUL.MDS.SIS
 
             try
             {
-                errorFormat = KUL.MDS.AppResources.Resources.GetString("Startup.UnhandledError.Format");
+                errorFormat = SIS.AppResources.Resources.GetString("Startup.UnhandledError.Format");
             }
 
             catch (Exception)

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KUL.MDS.AppResources
+namespace SIS.AppResources
 {
     public enum StartupTestType
     {

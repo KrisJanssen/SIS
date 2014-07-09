@@ -29,7 +29,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Diagnostics;
 
-namespace KUL.MDS.WPFControls.CCDControl.Device
+namespace SIS.WPFControls.CCDControl.Device
 {
     public class CCDPlayer : Image, IDisposable
     {

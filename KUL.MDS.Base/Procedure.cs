@@ -9,7 +9,7 @@
 
 using System;
 
-namespace KUL.MDS.Base
+namespace SIS.Base
 {
     public delegate void Procedure();
     public delegate void Procedure<T>(T t);
