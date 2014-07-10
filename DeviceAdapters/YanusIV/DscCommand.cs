@@ -6,7 +6,7 @@
 //   Structure that represents a DSC command line
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace SIS.Hardware.YanusIV
+namespace SIS.Hardware
 {
     /// <summary>
     /// Structure that represents a DSC command line

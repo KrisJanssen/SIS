@@ -6,7 +6,7 @@
 //   Class to facilitate the interaction with DSC scan protocol - assembling protocol, reading it etc.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace SIS.Hardware.YanusIV
+namespace SIS.Hardware
 {
     using System;
     using System.Collections.Generic;

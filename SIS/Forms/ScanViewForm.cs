@@ -24,7 +24,6 @@ namespace SIS.Forms
 
     using SIS.Documents;
     using SIS.Hardware;
-    using SIS.Hardware.YanusIV;
     using SIS.Library;
     using SIS.MDITemplate;
     using SIS.ScanModes.Core;

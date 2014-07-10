@@ -6,7 +6,7 @@
 //   The DSC channel.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace SIS.Hardware.YanusIV
+namespace SIS.Hardware
 {
     /// <summary>
     /// The DSC channel.

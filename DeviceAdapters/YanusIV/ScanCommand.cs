@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SIS.Hardware.YanusIV
+namespace SIS.Hardware
 {
     /// <summary>
     /// The scan command.

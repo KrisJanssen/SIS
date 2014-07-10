@@ -103,14 +103,6 @@
     <Compile Include="PQTimeHarp.cs" />
     <Compile Include="TimeHarp\TimeHarpDLL.cs" />
     <Compile Include="TimeHarp\TimeHarpDefinitions.cs" />
-    <Compile Include="YanusIV\DscChannel.cs" />
-    <Compile Include="YanusIV\DspCommand.cs" />
-    <Compile Include="YanusIV\DspError.cs" />
-    <Compile Include="YanusIV\ScanCommand.cs" />
-    <Compile Include="YanusIV\TILLIMIC_DLL.cs" />
-    <Compile Include="YanusIV\TillIMIC.cs" />
-    <Compile Include="YanusIV\DscProtocol.cs" />
-    <Compile Include="YanusIV\DscCommand.cs" />
     <Compile Include="E7XXController.cs" />
     <Compile Include="IDetector.cs" />
     <Compile Include="PhotoDiode.cs" />
@@ -129,7 +121,6 @@
     <Compile Include="StageNotReleasedException.cs" />
     <Compile Include="TimeHarpSettings.cs" />
     <Compile Include="TimingClock.cs" />
-    <Compile Include="YanusIV\YanusIV.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SIS.Library\SIS.Library.csproj">

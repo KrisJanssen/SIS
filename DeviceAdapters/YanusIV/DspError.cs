@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SIS.Hardware.YanusIV
+namespace SIS.Hardware
 {
     /// <summary>
     /// An enumeration of all error codes that can be returned by the Yanus IV DSC.

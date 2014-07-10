@@ -6,7 +6,7 @@
 //   Class that represents YanusIV galvo scanner
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace SIS.Hardware.YanusIV
+namespace SIS.Hardware
 {
     using System;
     using System.Collections.Generic;
@@ -14,10 +14,9 @@ namespace SIS.Hardware.YanusIV
     using System.Threading;
 
     using log4net;
-
     using SIS.Hardware.ComPort;
-    using SIS.Library;
     using SIS.ScanModes.Core;
+    using SIS.Library;
 
     /// <summary>
     /// Class that represents YanusIV galvo scanner

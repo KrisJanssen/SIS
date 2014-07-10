@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevDefined.Tools", "DevDefi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdater.NET", "AutoUpdater.NET\AutoUpdater.NET.csproj", "{FB9E7E6B-B19F-4F37-A708-2996190CEF13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS.YanusIV", "DeviceAdapters\YanusIV\YanusIV.csproj", "{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -467,6 +469,26 @@ Global
 		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.SingleImage|x64.ActiveCfg = Debug|Any CPU
 		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.SingleImage|x86.ActiveCfg = Release|x86
 		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.SingleImage|x86.Build.0 = Release|x86
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.CD_ROM|x64.ActiveCfg = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.DVD-5|x64.ActiveCfg = Debug|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.Release|x64.ActiveCfg = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.Release|x86.ActiveCfg = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.SingleImage|x64.ActiveCfg = Release|Any CPU
+		{16B5AAFD-FC64-44D9-9A50-F11CB27F5C50}.SingleImage|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -352,6 +352,10 @@
       <Project>{6b39450c-d9f3-4a54-9a05-4bba38e0bf90}</Project>
       <Name>DevDefined.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DeviceAdapters\YanusIV\YanusIV.csproj">
+      <Project>{16b5aafd-fc64-44d9-9a50-f11cb27f5c50}</Project>
+      <Name>YanusIV</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIS.Hardware\SIS.Hardware.csproj">
       <Project>{92578237-0A47-4AC3-A7B9-B84239BCB72E}</Project>
       <Name>SIS.Hardware</Name>
