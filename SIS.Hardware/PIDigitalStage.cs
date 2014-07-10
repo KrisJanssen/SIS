@@ -688,8 +688,6 @@ namespace SIS.Hardware
                 }
             }
 
-            
-
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.YZ)
             {
                 // Create wave tables for axis 1 and 3 and reserve space in them.
@@ -717,8 +715,6 @@ namespace SIS.Hardware
                 }
             }
 
-            
-
             // For debug purposes. Read back the stored waves from controller memory.
             // double[] _data1 = new double[_dYCoord.Length];
             // double[] _data2 = new double[_dYCoord.Length];
@@ -726,7 +722,8 @@ namespace SIS.Hardware
             // this.IsError(E7XXController.qGWD(this.m_iControllerID, Convert.ToChar(axis1), 0, _dXCoord.Length, _data1));
             // string axis2 = "2";
             // this.IsError(E7XXController.qGWD(this.m_iControllerID, Convert.ToChar(axis2), 0, _dYCoord.Length, _data2));
-            #region Repeat Number Set
+
+            
 
             // Set the wave generator repeat number via parameter 0x13000003. 
             // This number defines the amount of scan lines in the image.
@@ -743,7 +740,7 @@ namespace SIS.Hardware
                     + this.m_sCurrentError);
             }
 
-            #endregion
+            
 
             #region Triggers
 

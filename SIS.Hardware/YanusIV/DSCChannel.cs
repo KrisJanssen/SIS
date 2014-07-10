@@ -11,7 +11,7 @@ namespace SIS.Hardware.YanusIV
     /// <summary>
     /// The DSC channel.
     /// </summary>
-    public enum DSCChannel
+    public enum DscChannel
     {
         /// <summary>
         /// Dummy channel
@@ -35,6 +35,7 @@ namespace SIS.Hardware.YanusIV
 
         /// <summary>
         /// The digital out (DO)
+        /// 3 bits pattern/marker
         /// </summary>
         DO = 7 // Channel 7 (digital outputs - 3 bits pattern/marker)
     }

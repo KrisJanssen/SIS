@@ -17,34 +17,34 @@ namespace SIS.Hardware.YanusIV
     /// <summary>
     /// Class to facilitate the interaction with DSC scan protocol - assembling protocol, reading it etc.
     /// </summary>
-    public class DSCProtocol
+    public class DscProtocol
     {
         #region Fields
 
         /// <summary>
         /// The m_l cmd list.
         /// </summary>
-        private List<DSCCommand> m_lCmdList; // list that contains the DSC protocol commands
+        private List<DscCommand> m_lCmdList; // list that contains the DSC protocol commands
 
         #endregion
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="DSCProtocol"/> class from being created.  Empty class constructor. 
+        /// Prevents a default instance of the <see cref="DscProtocol"/> class from being created.  Empty class constructor. 
         /// </summary>
-        private DSCProtocol()
+        private DscProtocol()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DSCProtocol"/> class. 
+        /// Initializes a new instance of the <see cref="DscProtocol"/> class. 
         /// Default class constructor. 
         /// </summary>
         /// <param name="__lDSCCommandList">
         /// The __l DSC Command List.
         /// </param>
-        private DSCProtocol(List<DSCCommand> __lDSCCommandList)
+        private DscProtocol(List<DscCommand> __lDSCCommandList)
         {
             this.m_lCmdList = __lDSCCommandList;
         }
@@ -70,7 +70,7 @@ namespace SIS.Hardware.YanusIV
                 StringBuilder _sbCmdString = new StringBuilder();
 
                 // Format a DSCComand command as a string so that it is suitable to send to the YanusIV galvo scanner
-                foreach (DSCCommand _dscCmd in this.m_lCmdList)
+                foreach (DscCommand _dscCmd in this.m_lCmdList)
                 {
                     _sbCmdString.Append("A ");
                     _sbCmdString.Append((char)_dscCmd.ScanCmd + ",");
@@ -95,11 +95,11 @@ namespace SIS.Hardware.YanusIV
         /// The __s Protocol.
         /// </param>
         /// <returns>
-        /// The <see cref="DSCProtocol"/>.
+        /// The <see cref="DscProtocol"/>.
         /// </returns>
-        public static DSCProtocol FromString(string __sProtocol)
+        public static DscProtocol FromString(string __sProtocol)
         {
-            List<DSCCommand> _lCmdList = new List<DSCCommand>();
+            List<DscCommand> _lCmdList = new List<DscCommand>();
 
             // The regex we will use to scan commands is the following:
             // A\s+[0,V,R,I,J,S,E,U,D],\d+,[0,3,4,5,7],\-?\d+
@@ -118,7 +118,7 @@ namespace SIS.Hardware.YanusIV
             foreach (Capture c in _mtchCommandStrings)
             {
                 string _sCurent = c.Value;
-                DSCCommand _dspcNew = new DSCCommand();
+                DscCommand _dspcNew = new DscCommand();
 
                 switch (_sCurent.Substring(c.Value.IndexOf(" ") + 1, 1))
                 {
@@ -157,14 +157,14 @@ namespace SIS.Hardware.YanusIV
                 _sCurent = _sCurent.Substring(c.Value.IndexOf(" ") + 1);
                 string[] _sParts = _sCurent.Split(new[] { "," }, StringSplitOptions.None);
                 _dspcNew.Cycle = Convert.ToUInt64(_sParts[1]);
-                _dspcNew.Channel = (DSCChannel)Convert.ToInt16(_sParts[2]);
+                _dspcNew.Channel = (DscChannel)Convert.ToInt16(_sParts[2]);
                 _dspcNew.Value = Convert.ToInt64(_sParts[3]);
                 _lCmdList.Add(_dspcNew);
 
                 // c.Value; // write the value to the console "pattern"
             }
 
-            DSCProtocol _dscpNewProtocol = new DSCProtocol(_lCmdList);
+            DscProtocol _dscpNewProtocol = new DscProtocol(_lCmdList);
             return _dscpNewProtocol;
         }
 
@@ -205,7 +205,7 @@ namespace SIS.Hardware.YanusIV
             while (_ui64PointsGenerated < _ui64PointsToGenerate)
             {
                 // Get the command to process...
-                DSCCommand _dscCmd = this.m_lCmdList[_iCmdIndex];
+                DscCommand _dscCmd = this.m_lCmdList[_iCmdIndex];
 
                 // If we processed all commands in the same cycle, we can get to updating values...
                 if (_dscCmd.Cycle > _ui64PrevCmdCycle)
@@ -234,7 +234,7 @@ namespace SIS.Hardware.YanusIV
                 switch (_dscCmd.ScanCmd)
                 {
                     case ScanCommand.scan_cmd_set_value:
-                        if (_dscCmd.Channel == DSCChannel.X)
+                        if (_dscCmd.Channel == DscChannel.X)
                         {
                             _i64CurrPosX = _dscCmd.Value;
                         }
@@ -249,7 +249,7 @@ namespace SIS.Hardware.YanusIV
                         break;
 
                     case ScanCommand.scan_cmd_set_value_relative:
-                        if (_dscCmd.Channel == DSCChannel.X)
+                        if (_dscCmd.Channel == DscChannel.X)
                         {
                             _i64CurrPosX += _dscCmd.Value;
                         }
@@ -264,7 +264,7 @@ namespace SIS.Hardware.YanusIV
                         break;
 
                     case ScanCommand.scan_cmd_set_increment_1:
-                        if (_dscCmd.Channel == DSCChannel.X)
+                        if (_dscCmd.Channel == DscChannel.X)
                         {
                             _i64CurrIncX = _dscCmd.Value;
                         }
@@ -279,7 +279,7 @@ namespace SIS.Hardware.YanusIV
                         break;
 
                     case ScanCommand.scan_cmd_set_increment_2:
-                        if (_dscCmd.Channel == DSCChannel.X)
+                        if (_dscCmd.Channel == DscChannel.X)
                         {
                             _i64CurrIncIncX = _dscCmd.Value;
                         }
