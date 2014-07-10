@@ -77,9 +77,9 @@ namespace SIS.Hardware.YanusIV
         #region Static Fields
 
         /// <summary>
-        /// The _logger.
+        /// The Logger.
         /// </summary>
-        private static readonly ILog _logger =
+        private static readonly ILog Logger =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #endregion
@@ -260,7 +260,7 @@ namespace SIS.Hardware.YanusIV
         /// <summary>
         /// The engaged changed.
         /// </summary>
-        public event EventHandler EngagedChanged; // Event thrown whenever the stage is switched on, or off.
+        public event EventHandler EngagedChanged; // Event thrown whenever the stage is switched ON, or OFF.
 
         /// <summary>
         /// The error occurred.
@@ -498,7 +498,7 @@ namespace SIS.Hardware.YanusIV
                 this.m_prtComm.StatusChanged += this.OnStatusChanged;
 
                 // Try to open YanusIV COM (serial) port with the respective COM settings
-                _logger.Debug("YanusIV: starting initialization...");
+                Logger.Debug("YanusIV: starting initialization...");
                 this.m_prtComm.Open();
 
                 // Check if COM port is active and then if YanusIV is ON
@@ -524,13 +524,13 @@ namespace SIS.Hardware.YanusIV
                 if (this.m_errCurrentError == DSPError.SCAN_CMD_NO_ERROR
                     || this.m_errCurrentError == DSPError.SCAN_CMD_RUN_ABORTED)
                 {
-                    _logger.Debug("YanusIV: engage seems to have worked!");
+                    Logger.Debug("YanusIV: engage seems to have worked!");
                     this.m_bIsInitialized = true;
                 }
                 else
                 {
-                    _logger.Debug("YanusIV: something went wrong initializing YanusIV!");
-                    _logger.Debug("YanusIV: error is --> " + this.m_errCurrentError.ToString());
+                    Logger.Debug("YanusIV: something went wrong initializing YanusIV!");
+                    Logger.Debug("YanusIV: error is --> " + this.m_errCurrentError.ToString());
 
                     if (this.m_prtComm.IsOpen)
                     {
@@ -566,8 +566,8 @@ namespace SIS.Hardware.YanusIV
             string _sCmdY = this.QuickValueCmd(DSCChannel.Y, this.ConvertNanometersToAngle(__dYPosNm));
 
             // Debug
-            _logger.Debug("YanusIV: trying to send MoveAbs X --> " + _sCmdX);
-            _logger.Debug("YanusIV: trying to send MoveAbs Y --> " + _sCmdY);
+            Logger.Debug("YanusIV: trying to send MoveAbs X --> " + _sCmdX);
+            Logger.Debug("YanusIV: trying to send MoveAbs Y --> " + _sCmdY);
 
             // Try to send the DSP scan command to YanusIV!
             this.SendIfAvailable(_sCmdX);
@@ -636,11 +636,11 @@ namespace SIS.Hardware.YanusIV
                     this.EngagedChanged(this, new EventArgs());
                 }
 
-                _logger.Info("YanusIV: now galvo is OFF!");
+                Logger.Info("YanusIV: now galvo is OFF!");
             }
             else
             {
-                _logger.Info("YanusIV: doing nothing, galvo is already OFF!");
+                Logger.Info("YanusIV: doing nothing, galvo is already OFF!");
             }
         }
 
@@ -656,7 +656,7 @@ namespace SIS.Hardware.YanusIV
         public void Scan(Scanmode __scmScanMode, bool __bResend)
         {
             // Info
-            _logger.Info("Starting Scan ...");
+            Logger.Info("Starting Scan ...");
 
             // Check if we create and execute a new DSP protocol
             if (__bResend)
@@ -752,7 +752,7 @@ namespace SIS.Hardware.YanusIV
             // the DSP command "do nothing" breaks/stops the current protocol execution
 
             // Info
-            _logger.Info("YanusIV: scan finished/stopped!");
+            Logger.Info("YanusIV: scan finished/stopped!");
 
             // Send the Stop protocol execution command
             this.SendIfAvailable(_sCmd);
@@ -809,7 +809,7 @@ namespace SIS.Hardware.YanusIV
             double __dTimePPixel)
         {
             // Debug
-            _logger.Debug("YanusIV: create a DSP protocol to scan rectangle...");
+            Logger.Debug("YanusIV: create a DSP protocol to scan rectangle...");
 
             // Set and check the scanning range in terms of angles values - starting angle position and angle scan range.
             long _int64XScanAngleInt = this.ConvertNanometersToAngle(__dXScanSizeNm);
@@ -886,7 +886,7 @@ namespace SIS.Hardware.YanusIV
                                 DSCChannel.None, 
                                 __int64ScanCommandLoopCount)); // add start DSP loop
 
-                        // Go to top initial position from where we start to scan the rectangle
+                        // Go to top initial position from where we start to scan the rectangle at cycle 0
                         this.m_lCmdList.Add(
                             new DSCCommand(ScanCommand.scan_cmd_set_value, 0UL, DSCChannel.X, _int64StartXAngleInt));
 
@@ -903,9 +903,9 @@ namespace SIS.Hardware.YanusIV
                                 0UL, 
                                 DSCChannel.X, 
                                 _int64XAngleIntPerCycle)); // set the increment along X so that first we scan along X
-                        this.m_lCmdList.Add(new DSCCommand(ScanCommand.scan_cmd_set_increment_1, 0UL, DSCChannel.Y, 0L));
 
                         // set the increment along Y to zero (first we scan a line along X)
+                        this.m_lCmdList.Add(new DSCCommand(ScanCommand.scan_cmd_set_increment_1, 0UL, DSCChannel.Y, 0L));
 
                         // Raise a frame marker - marks the beginning of a frame (the el. signal appears on the digital outputs port of YanusIV). Note that we need a frame marker to extract an image from the raw Time Harp data stream.
                         this.m_lCmdList.Add(
@@ -1175,6 +1175,130 @@ namespace SIS.Hardware.YanusIV
                         break;
                     }
 
+                case 2:
+                    {
+                        // The scan type is unidirectional scan
+                        // Start DSP loop 1
+                        this.m_lCmdList.Add(
+                            new DSCCommand(
+                                ScanCommand.scan_cmd_loop_start,
+                                0UL,
+                                DSCChannel.None,
+                                __int64ScanCommandLoopCount)); // add start DSP loop
+
+                        // Go to top initial position from where we start to scan the rectangle at cycle 0
+                        this.m_lCmdList.Add(
+                            new DSCCommand(ScanCommand.scan_cmd_set_value, 0UL, DSCChannel.X, _int64StartXAngleInt));
+
+                        // move X to the left end of the rectangle
+                        this.m_lCmdList.Add(
+                            new DSCCommand(ScanCommand.scan_cmd_set_value, 0UL, DSCChannel.Y, _int64StartYAngleInt));
+
+                        // move Y to the top end of the rectangle
+
+                        // Set the axes increments so that we cover the whole scan range (increments are applied on every 10us cycle) - controls the scanning along X and Y
+                        this.m_lCmdList.Add(
+                            new DSCCommand(
+                                ScanCommand.scan_cmd_set_increment_1,
+                                0UL,
+                                DSCChannel.X,
+                                _int64XAngleIntPerCycle)); // set the increment along X so that first we scan along X
+
+                        // set the increment along Y to zero (first we scan a line along X)
+                        this.m_lCmdList.Add(new DSCCommand(ScanCommand.scan_cmd_set_increment_1, 0UL, DSCChannel.Y, 0L));
+
+                        // Raise a frame marker - marks the beginning of a frame (the el. signal appears on the digital outputs port of YanusIV). Note that we need a frame marker to extract an image from the raw Time Harp data stream.
+                        this.m_lCmdList.Add(
+                            new DSCCommand(ScanCommand.scan_cmd_set_value, 0UL, DSCChannel.DO, _int64FrameMarker));
+
+                        // raise the frame marker
+                        this.m_lCmdList.Add(new DSCCommand(ScanCommand.scan_cmd_set_value, 1UL, DSCChannel.DO, 0L));
+
+                        // set down the frame marker (it is enough to raise the marker for one cycle only)
+
+                        // Start DSP loop 2 - this loop scans the rest of the frame + one more line (this line marks the end of the frame)
+                        this.m_lCmdList.Add(
+                            new DSCCommand(
+                                ScanCommand.scan_cmd_loop_start,
+                                _ui64XAngleCycles,
+                                DSCChannel.None,
+                                __intImageHeightPx));
+
+                        // add start DSP loop - the number of loops equals the number of lines to scan, i.e. the height of the image
+
+                        // Go to top initial X position from where we start to scan a new line
+                        this.m_lCmdList.Add(
+                            new DSCCommand(
+                                ScanCommand.scan_cmd_set_value,
+                                _ui64XAngleCycles,
+                                DSCChannel.X,
+                                _int64StartXAngleInt)); // move X to the left end of the rectangle
+
+                        // Set the Y axis decrement so that we go to the next line
+                        //this.m_lCmdList.Add(
+                        //    new DSCCommand(
+                        //        ScanCommand.scan_cmd_set_increment_1,
+                        //        _ui64XAngleCycles,
+                        //        DSCChannel.Y,
+                        //        -_int64YAngleIntPerCycle));
+
+                        // set the decrement along Y so that we go to the next line along Y (top down scanning)
+
+                        // Raise a line marker - marks the beginning of a line (the el. signal appears on the digital outputs port of YanusIV). Note that we need a line marker to extract an image from the raw Time Harp data stream.
+                        this.m_lCmdList.Add(
+                            new DSCCommand(
+                                ScanCommand.scan_cmd_set_value,
+                                _ui64XAngleCycles,
+                                DSCChannel.DO,
+                                _int64LineMarker)); // raise the line marker
+                        this.m_lCmdList.Add(
+                            new DSCCommand(ScanCommand.scan_cmd_set_value, _ui64XAngleCycles + 1UL, DSCChannel.DO, 0L));
+
+                        // set down the line marker (it is enough to raise the marker for one cycle only)
+
+                        // Set the Y axis decrement to zero so that we stay on the new line
+                        //this.m_lCmdList.Add(
+                        //    new DSCCommand(
+                        //        ScanCommand.scan_cmd_set_increment_1,
+                        //        _ui64XAngleCycles + 1UL,
+                        //        DSCChannel.Y,
+                        //        0L));
+
+                        // End DSP loop 2
+                        this.m_lCmdList.Add(
+                            new DSCCommand(ScanCommand.scan_cmd_loop_end, 2L * _ui64XAngleCycles, DSCChannel.None, 0L));
+
+                        // add end DSP loop - note that we multiply by factor of 2 because the first line was already scanned before entering the second loop.
+
+                        // Set the axes increments to zero so that we stop the scanning - the frame is done, so no need to move the galvo axes (if we do not stop the increment of the axes they may go out of range, which is dangerous).
+                        this.m_lCmdList.Add(
+                            new DSCCommand(
+                                ScanCommand.scan_cmd_set_increment_1,
+                                ((UInt64)__intImageHeightPx) * _ui64XAngleCycles + _ui64XAngleCycles,
+                                DSCChannel.X,
+                                0L));
+
+                        // set the increment along X to zero (scanning the current frame finished) - note that we scanned one more line than the image height, therefore we need to take into account when calculating the end cycle value
+                        this.m_lCmdList.Add(
+                            new DSCCommand(
+                                ScanCommand.scan_cmd_set_increment_1,
+                                ((UInt64)__intImageHeightPx) * _ui64XAngleCycles + _ui64XAngleCycles,
+                                DSCChannel.Y,
+                                0L));
+
+                        // set the increment along Y to zero (scanning the current frame finished) - note that we scanned one more line than the image height, therefore we need to take into account when calculating the end cycle value
+
+                        // End DSP loop 1
+                        this.m_lCmdList.Add(
+                            new DSCCommand(
+                                ScanCommand.scan_cmd_loop_end,
+                                ((UInt64)__intImageHeightPx) * _ui64XAngleCycles + _ui64XAngleCycles,
+                                DSCChannel.None,
+                                0L)); // add end DSP loop
+
+                        break;
+                    }
+
                 default:
                     {
                         break;
@@ -1194,7 +1318,7 @@ namespace SIS.Hardware.YanusIV
             string _sCmd = ((char)DSPCommand.DSP_CMD_CLEAR_PROT).ToString(); // clears the currently loaded DSP protocol
 
             // Debug
-            _logger.Debug("YanusIV: DSP protocol cleared!");
+            Logger.Debug("YanusIV: DSP protocol cleared!");
 
             // Send the Clear protocol command to YanusIV as well
             this.SendIfAvailable(_sCmd);
@@ -1272,7 +1396,7 @@ namespace SIS.Hardware.YanusIV
             int _intDSPFailedLoadsCount = 0; // counts how many times the load of the DSP failed
 
             // Debug
-            _logger.Debug("YanusIV: trying to load the DSP protocol...");
+            Logger.Debug("YanusIV: trying to load the DSP protocol...");
 
             // Strings to represent the DSP protocol to send
             StringBuilder _sbDSPString = new StringBuilder();
@@ -1306,12 +1430,12 @@ namespace SIS.Hardware.YanusIV
                     // Send the DSP command string to the serial port
                     if (this.m_prtComm != null && this.m_prtComm.IsOpen)
                     {
-                        _logger.Debug("YanusIV: send DSP command --> " + _sDSPString);
+                        Logger.Debug("YanusIV: send DSP command --> " + _sDSPString);
                         this.m_prtComm.Write(_sDSPString);
                     }
                     else
                     {
-                        _logger.Error("YanusIV: check COM Port - port seems closed or not active!");
+                        Logger.Error("YanusIV: check COM Port - port seems closed or not active!");
                     }
 
                     // Read back the answer of YanusIV and check for errors - if such we have to load the whole DSP protocol again
@@ -1325,7 +1449,7 @@ namespace SIS.Hardware.YanusIV
                     {
                         // if the response is not as expected we must try to reload the whole DSP protocol again
                         // Debug
-                        _logger.Debug("YanusIV: DSP protocol failed to load! Trying again...");
+                        Logger.Debug("YanusIV: DSP protocol failed to load! Trying again...");
 
                         _bDSPCommandLoaded = false;
                         _intDSPFailedLoadsCount++;
@@ -1373,7 +1497,7 @@ namespace SIS.Hardware.YanusIV
             // Show info to the user if there was/were DSP protocol reloads
             if (_intDSPFailedLoadsCount > 0)
             {
-                _logger.Info("YanusIV: DSP protocol reloaded " + (_intDSPFailedLoadsCount + 1).ToString() + "x!");
+                Logger.Info("YanusIV: DSP protocol reloaded " + (_intDSPFailedLoadsCount + 1).ToString() + "x!");
 
                 // the number of reloads is the number of failed attempts + the successful one
             }
@@ -1397,7 +1521,7 @@ namespace SIS.Hardware.YanusIV
             {
                 this.m_sPartialResponse += param.Substring(0, index);
                 param = param.Remove(0, index + 1);
-                _logger.Debug("YanusIV: response says --> " + this.m_sPartialResponse);
+                Logger.Debug("YanusIV: response says --> " + this.m_sPartialResponse);
 
                 if (this.m_sPartialResponse != null)
                 {
@@ -1420,7 +1544,7 @@ namespace SIS.Hardware.YanusIV
         /// </param>
         private void OnStatusChanged(string param)
         {
-            _logger.Info("YanusIV: status says --> " + param);
+            Logger.Info("YanusIV: status says --> " + param);
         }
 
         /// <summary>
@@ -1455,7 +1579,7 @@ namespace SIS.Hardware.YanusIV
                         // Throw an ErrorOccurred event to inform the user.
                         if (this.ErrorOccurred != null)
                         {
-                            _logger.Debug(string.Format("YanusIV: returned a DSPError = {0}!", e.ToString()));
+                            Logger.Debug(string.Format("YanusIV: returned a DSPError = {0}!", e.ToString()));
                             this.ErrorOccurred(this, new EventArgs());
                         }
                     }
@@ -1504,12 +1628,12 @@ namespace SIS.Hardware.YanusIV
         {
             if (this.m_prtComm != null && this.m_prtComm.IsOpen)
             {
-                _logger.Debug("YanusIV: send DSP command --> " + __sCmd);
+                Logger.Debug("YanusIV: send DSP command --> " + __sCmd);
                 this.m_prtComm.Send(__sCmd);
             }
             else
             {
-                _logger.Error("YanusIV: check COM Port - port seems closed or not active!");
+                Logger.Error("YanusIV: check COM Port - port seems closed or not active!");
             }
         }
 
@@ -1524,7 +1648,7 @@ namespace SIS.Hardware.YanusIV
             // starts/executes the currently loaded DSP protocol
 
             // Debug
-            _logger.Debug("YanusIV: scan started!");
+            Logger.Debug("YanusIV: scan started!");
 
             // Send the Start/Execute protocol command
             this.SendIfAvailable(_sCmd);

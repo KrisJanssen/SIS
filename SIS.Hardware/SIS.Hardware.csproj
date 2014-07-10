@@ -103,6 +103,7 @@
     <Compile Include="PQTimeHarp.cs" />
     <Compile Include="TimeHarp\TimeHarpDLL.cs" />
     <Compile Include="TimeHarp\TimeHarpDefinitions.cs" />
+    <Compile Include="YanusIV\DSCChannel.cs" />
     <Compile Include="YanusIV\TILLIMIC_DLL.cs" />
     <Compile Include="YanusIV\TillIMIC.cs" />
     <Compile Include="YanusIV\DSCProtocol.cs" />

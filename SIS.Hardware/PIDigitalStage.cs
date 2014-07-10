@@ -634,8 +634,6 @@ namespace SIS.Hardware
                 _dZCoord[_iI] = Math.Round(__scmScanMode.NMScanCoordinates[2, _iI] / 1000, 4);
             }
 
-            
-
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.XY)
             {
                 // Create wave tables for axis 1 and 2 and reserve space in them.
@@ -662,10 +660,6 @@ namespace SIS.Hardware
                     }
                 }
             }
-
-            
-
-            #region XZ Motion
 
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.XZ)
             {
@@ -694,9 +688,7 @@ namespace SIS.Hardware
                 }
             }
 
-            #endregion
-
-            #region YZ Motion
+            
 
             if (__scmScanMode.ScanAxes == (int)ScanAxesTypes.YZ)
             {
@@ -725,7 +717,7 @@ namespace SIS.Hardware
                 }
             }
 
-            #endregion
+            
 
             // For debug purposes. Read back the stored waves from controller memory.
             // double[] _data1 = new double[_dYCoord.Length];
