@@ -384,10 +384,6 @@
       <Project>{A52D6403-0252-4A82-8C53-122B3CC036FC}</Project>
       <Name>SIS.Validation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SIS.WPFControls\SIS.WPFControls.csproj">
-      <Project>{5B6DEF7E-BAB5-45D0-8B14-AC1B412A55F4}</Project>
-      <Name>SIS.WPFControls</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="External References\" />
