@@ -615,8 +615,8 @@ namespace SIS.Hardware
 
                 this.AddRectangle(
                     this.m_lCmdList,
-                    new CoordinateD{X = __scmScanMode.InitialX, Y = __scmScanMode.InitialY},
-                    new SizeD{Height = __scmScanMode.YScanSizeNm, Width = __scmScanMode.XScanSizeNm},
+                    new CoordinateD{X = __scmScanMode.InitialX / 1E9, Y = __scmScanMode.InitialY / 1E9},
+                    new SizeD{Height = __scmScanMode.YScanSizeNm / 1E9, Width = __scmScanMode.XScanSizeNm / 1E9},
                     0d,
                     __scmScanMode.ImageWidthPx,
                     __scmScanMode.ImageHeightPx,
@@ -727,7 +727,7 @@ namespace SIS.Hardware
             var deltaCoordinate = new SizeD
                                       {
                                           Width = secondCoordinate.X - firsCoordinate.X, 
-                                          Height = secondCoordinate.Y - firsCoordinate.X
+                                          Height = secondCoordinate.Y - firsCoordinate.Y
                                       };
 
             return deltaCoordinate;

@@ -109,12 +109,12 @@ namespace SIS.Hardware
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
             get
             {
-                if (this.width != 0)
+                if (this.width != 0L)
                 {
                     return false;
                 }
 
-                return this.height == 0;
+                return this.height == 0L;
             }
         }
 
