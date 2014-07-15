@@ -1,6 +1,7 @@
 <StyleCopSettings Version="105">
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
+      <Value>Galvo</Value>
       <Value>Piezo</Value>
       <Value>Yanus</Value>
     </CollectionProperty>

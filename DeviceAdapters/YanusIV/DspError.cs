@@ -7,14 +7,13 @@
 //   Codes are returned by the DSC via RS232 as decimal numbers in ASCII representation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware
 {
     /// <summary>
     /// An enumeration of all error codes that can be returned by the Yanus IV DSC.
     /// Codes are returned by the DSC via RS232 as decimal numbers in ASCII representation.
     /// </summary>
-    public enum DspError
+    internal enum DspError
     {
         /// <summary>
         /// No error.

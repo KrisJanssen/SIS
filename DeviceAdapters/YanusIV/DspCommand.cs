@@ -6,13 +6,12 @@
 //   The DSP command.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware
 {
     /// <summary>
     /// The DSP command.
     /// </summary>
-    public enum DspCommand
+    internal enum DspCommand
     {
         /// <summary>
         /// Do nothing but keeps the interface busy and signals. 

@@ -11,7 +11,7 @@ namespace SIS.Hardware
     /// <summary>
     /// The DSC channel.
     /// </summary>
-    public enum DscChannel
+    internal enum DscChannel
     {
         /// <summary>
         /// Dummy channel

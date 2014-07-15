@@ -17,7 +17,7 @@ namespace SIS.Hardware
     /// <summary>
     /// Class to facilitate the interaction with DSC scan protocol - assembling protocol, reading it etc.
     /// </summary>
-    public class DscProtocol
+    internal class DscProtocol
     {
         #region Fields
 

@@ -6,13 +6,12 @@
 //   The scan command.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SIS.Hardware
 {
     /// <summary>
     /// The scan command.
     /// </summary>
-    public enum ScanCommand
+    internal enum ScanCommand
     {
         /// <summary>
         /// Do nothing.

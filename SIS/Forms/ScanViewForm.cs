@@ -1748,9 +1748,7 @@ namespace SIS.Forms
                     this.m_Stage = new YanusIV(
                         _docDocument.Settings.GalvoSerialPortName, 
                         _docDocument.Settings.GalvoMagnificationObjective, 
-                        _docDocument.Settings.GalvoScanLensFocalLength, 
-                        _docDocument.Settings.GalvoRangeAngleDegrees, 
-                        _docDocument.Settings.GalvoRangeAngleInt);
+                        _docDocument.Settings.GalvoScanLensFocalLength);
 
                     // Hook up EventHandler methods to the events of the stage
                     this.m_Stage.PositionChanged += this.m_Stage_PositionChanged;

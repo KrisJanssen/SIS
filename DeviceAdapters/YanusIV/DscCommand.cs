@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DSCCommand.cs" company="Kris Janssen">
+// <copyright file="DscCommand.cs" company="Kris Janssen">
 //   Copyright (c) 2014 Kris Janssen
 // </copyright>
 // <summary>
@@ -11,7 +11,7 @@ namespace SIS.Hardware
     /// <summary>
     /// Structure that represents a DSC command line
     /// </summary>
-    public struct DscCommand
+    internal struct DscCommand
     {
         #region Fields
 

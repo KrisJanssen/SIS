@@ -42,13 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DSCChannel.cs" />
+    <Compile Include="DscChannel.cs" />
     <Compile Include="DscCommand.cs" />
-    <Compile Include="DSCProtocol.cs" />
+    <Compile Include="DscProtocol.cs" />
+    <Compile Include="DscScanbuilder.cs" />
     <Compile Include="DspCommand.cs" />
     <Compile Include="DspError.cs" />
+    <Compile Include="CoordinateL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScanCommand.cs" />
+    <Compile Include="CoordinateD.cs" />
+    <Compile Include="ScanMarkers.cs" />
+    <Compile Include="SizeD.cs" />
+    <Compile Include="SizeL.cs" />
     <Compile Include="YanusIV.cs" />
   </ItemGroup>
   <ItemGroup>
