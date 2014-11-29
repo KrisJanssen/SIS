@@ -336,16 +336,22 @@ namespace KUL.MDS.Hardware
 
             try
             {
-                this.m_daqtskMasterClock.Stop();
-                this.m_daqtskMasterClock.Control(TaskAction.Unreserve);
-                this.m_daqtskMasterClock.Dispose();
-                this.m_daqtskMasterClock = null;
+                if (this.m_daqtskMasterClock != null)
+                {
+                    this.m_daqtskMasterClock.Stop();
+                    this.m_daqtskMasterClock.Control(TaskAction.Unreserve);
+                    this.m_daqtskMasterClock.Dispose();
+                    this.m_daqtskMasterClock = null;
+                }
 
                 // Properly dispose of the AO tasks that control the piezo stage.
-                this.m_daqtskMoveStage.Stop();
-                this.m_daqtskMoveStage.Control(TaskAction.Unreserve);
-                this.m_daqtskMoveStage.Dispose();
-                this.m_daqtskMoveStage = null;
+                if (this.m_daqtskMoveStage != null)
+                {
+                    this.m_daqtskMoveStage.Stop();
+                    this.m_daqtskMoveStage.Control(TaskAction.Unreserve);
+                    this.m_daqtskMoveStage.Dispose();
+                    this.m_daqtskMoveStage = null;
+                }
 
                 // Return a status indication for the stage.
                 this.m_bIsInitialized = false;
@@ -375,7 +381,7 @@ namespace KUL.MDS.Hardware
             double _dVoltageResY = (__dFinVoltageY - __dInitVoltageY) / __iSteps;
 
             // Array to store the voltages for the entire move operation.
-            double[,] _dMovement = new double[2, __iSteps * 2];
+            double[,] _dMovement = new double[3, __iSteps * 2];
 
             // Calculate the actual voltages for the intended movement on X.
             // Movement will be one axis at a time.
@@ -405,6 +411,9 @@ namespace KUL.MDS.Hardware
 
                 // Write voltage for Y.
                 _dMovement[1, _iI + __iSteps] = _dCurrentVoltageY;
+
+                // Write voltage for Z.
+                _dMovement[2, _iI + __iSteps] = 0.0;
             }
 
             this.m_dVoltages = _dMovement;
@@ -412,95 +421,117 @@ namespace KUL.MDS.Hardware
 
         public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
         {
-            //try
-            //{
-            //    // Calculate the voltages that make up the full scan.
-            //    this.CalculateMove(m_dVoltageXCurrent, m_dVoltageYCurrent, this.NmToVoltage(__dXPosNm), this.NmToVoltage(__dYPosNm), 1000);
+            try
+            {
+                // Calculate the voltages that make up the full scan.
+                this.CalculateMove(m_dVoltageXCurrent, m_dVoltageYCurrent, this.NmToVoltage(__dXPosNm), this.NmToVoltage(__dYPosNm), 1000);
 
-            //    // Check the generated voltages.
-            //    double _dMinV = KUL.MDS.Library.Helper.FindMin(m_dVoltages, 2, m_dVoltages.Length / 2);
-            //    double _dMaxV = KUL.MDS.Library.Helper.FindMax(m_dVoltages, 2, m_dVoltages.Length / 2);
+                // Check the generated voltages.
+                //double _dMinV = KUL.MDS.Library.Helper.FindMin(m_dVoltages, 2, m_dVoltages.Length / 2);
+                //double _dMaxV = KUL.MDS.Library.Helper.FindMax(m_dVoltages, 2, m_dVoltages.Length / 2);
 
-            //    if (_dMinV < m_dVoltageMin)
-            //    {
-            //        throw new MinVoltageExceededException("The move you wish to execute will cause a voltage too LOW condition!" +
-            //            "\r\n\r\nVoltage Value: " + _dMinV.ToString());
-            //    }
+                //if (_dMinV < m_dVoltageMin)
+                //{
+                //    throw new MinVoltageExceededException("The move you wish to execute will cause a voltage too LOW condition!" +
+                //        "\r\n\r\nVoltage Value: " + _dMinV.ToString());
+                //}
 
-            //    if (_dMaxV > m_dVoltageMax)
-            //    {
-            //        throw new MinVoltageExceededException("The move you wish to execute will cause a voltage too HIGH condition!" +
-            //            "\r\n\r\nVoltage Value: " + _dMaxV.ToString());
-            //    }
+                //if (_dMaxV > m_dVoltageMax)
+                //{
+                //    throw new MinVoltageExceededException("The move you wish to execute will cause a voltage too HIGH condition!" +
+                //        "\r\n\r\nVoltage Value: " + _dMaxV.ToString());
+                //}
 
-            //    if (this.m_daqtskMoveStage != null)
-            //    {
-            //        // Setup the timing source.
-            //        this.m_TimingClock = new TimingClock();
-            //        this.m_TimingClock.SetupClock(500.0);
+                //if (this.m_daqtskMoveStage != null)
+                //{
+                    //if (this.m_daqtskMasterClock != null)
+                    //{
+                    //    this.m_daqtskMasterClock.Stop();
+                    //    this.m_daqtskMasterClock.Control(TaskAction.Unreserve);
+                    //    this.m_daqtskMasterClock.Dispose();
+                    //    this.m_daqtskMasterClock = null;
+                    //}
+                    //// Setup the timing source.
+                    //this.m_TimingClock = new TimingClock();
+                    //this.m_TimingClock.SetupClock(500.0);
 
-            //        // Prepare the stage control task for writing as many samples as necessary to complete the scan.
-            //        this.Configure(500.0, m_dVoltages.Length / 2);
+                    // Prepare the stage control task for writing as many samples as necessary to complete the scan.
+                    this.Configure(1.0, m_dVoltages.Length / 2);
 
-            //        double _dProgress = 0.0;
+                    double _dProgress = 0.0;
 
-            //        // Objects to perform reads and writes on our DAQ tasks.
-            //        this.m_wrtrVoltageWriter = new AnalogMultiChannelWriter(this.m_daqtskMoveStage.Stream);
+                    // Objects to perform reads and writes on our DAQ tasks.
+                    this.m_wrtrVoltageWriter = new AnalogMultiChannelWriter(this.m_daqtskMoveStage.Stream);
 
-            //        // Perform the actual AO write.
-            //        this.m_wrtrVoltageWriter.WriteMultiSample(false, m_dVoltages);
+                    // Perform the actual AO write.
+                    this.m_wrtrVoltageWriter.WriteMultiSample(false, m_dVoltages);
 
-            //        // Start all four tasks in the correct order. Global sync should be last.
-            //        this.m_daqtskMoveStage.Start();
-            //        //m_daqtskGlobalSync.Start();
-            //        this.m_TimingClock.Start();
+                    // Start all four tasks in the correct order. Global sync should be last.
+                    this.m_daqtskMoveStage.Start();
+                    this.m_daqtskMasterClock.Start();
+                    //m_daqtskGlobalSync.Start();
+                    //this.m_TimingClock.Start();
 
-            //        while (this.m_daqtskMoveStage.IsDone != true)
-            //        {
-            //            // Update the UI every 0.1 seconds, more than fast enough.
-            //            Thread.Sleep(100);
+                    while (this.m_daqtskMoveStage.IsDone != true)
+                    {
+                        
 
-            //            // Update the voltages.
-            //            m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
-            //            m_dVoltageXCurrent = m_dVoltages[0, m_iSamplesToStageCurrent - 1];
-            //            m_dVoltageYCurrent = m_dVoltages[1, m_iSamplesToStageCurrent - 1];
+                        //_logger.Info("ping");
 
-            //            _dProgress = ((double)m_iSamplesToStageCurrent / (m_dVoltages.Length / 2)) * 100;
+                        // Update the voltages.
+                        m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
+                        //m_dVoltageXCurrent = m_dVoltages[0, m_iSamplesToStageCurrent - 1];
+                        //m_dVoltageYCurrent = m_dVoltages[1, m_iSamplesToStageCurrent - 1];
 
-            //            if (PositionChanged != null)
-            //            {
-            //                PositionChanged(this, new EventArgs());
-            //            }
-            //        }
+                        _dProgress = ((double)m_iSamplesToStageCurrent / (m_dVoltages.Length / 2)) * 100;
+                        _logger.Info("Move Pct. done: " + _dProgress.ToString());
+                        //if (PositionChanged != null)
+                        //{
+                        //    PositionChanged(this, new EventArgs());
+                        //}
 
-            //        // Stop the Timing Clock.
-            //        this.m_TimingClock.Stop();
+                        // Update the UI every 0.1 seconds, more than fast enough.
+                        Thread.Sleep(50);
+                    }
 
-            //        // Update the voltages.
-            //        this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
-            //        this.m_dVoltageXCurrent = m_dVoltages[0, m_iSamplesToStageCurrent - 1];
-            //        this.m_dVoltageYCurrent = m_dVoltages[1, m_iSamplesToStageCurrent - 1];
+                    // Stop the Timing Clock.
+                    //this.m_TimingClock.Stop();
 
-            //        // Update Progress.
-            //        _dProgress = ((double)m_iSamplesToStageCurrent / (m_dVoltages.Length / 2)) * 100;
+                    // Update the voltages.
+                    //this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
+                    //this.m_dVoltageXCurrent = m_dVoltages[0, m_iSamplesToStageCurrent - 1];
+                    //this.m_dVoltageYCurrent = m_dVoltages[1, m_iSamplesToStageCurrent - 1];
 
-            //        // Stop the move task for the stage.
-            //        m_daqtskMoveStage.Stop();
+                    //// Update Progress.
+                    //_dProgress = ((double)m_iSamplesToStageCurrent / (m_dVoltages.Length / 2)) * 100;
 
-            //        // Dispose the writer and reader.
-            //        m_wrtrVoltageWriter = null;
-            //    }
-            //    else
-            //    {
-            //        //EnableCtrls();
-            //        throw new StageNotEngagedException("The Piezo stage was not engaged properly, please use stage control to engage it!");
-            //    }
-            //}
+                    m_daqtskMasterClock.Stop();
+                    // Stop the move task for the stage.
+                    m_daqtskMoveStage.Stop();
 
-            //catch (MinVoltageExceededException ex)
-            //{
-            //    // Needs implementation.
-            //}
+                    m_daqtskMasterClock.Control(TaskAction.Unreserve);
+                    m_daqtskMoveStage.Control(TaskAction.Unreserve);
+
+                    m_daqtskMasterClock.Dispose();
+                    m_daqtskMoveStage.Dispose();
+
+                    m_daqtskMasterClock = null;
+                    m_daqtskMoveStage = null;
+
+                    // Dispose the writer and reader.
+                    m_wrtrVoltageWriter = null;
+                //}
+                //else
+                //{
+                //    //EnableCtrls();
+                //    throw new StageNotEngagedException("The Piezo stage was not engaged properly, please use stage control to engage it!");
+                //}
+            }
+
+            catch (MinVoltageExceededException ex)
+            {
+                // Needs implementation.
+            }
         }
 
         public void MoveRel(double __dXPosNm, double __dYPosNm, double __dZPosNm)
