@@ -82,8 +82,8 @@ namespace KUL.MDS.SIS.Forms
             // 6) Input terminal carrying TTLs from physical APD
             //
             // TODO: Put this stuff in some sort of config file/the Windows registry.
-            this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr1", 20, "PFI27", "Ctr0", "PFI39", this.checkBoxDMA.Checked);
-            this.m_apdAPD2 = new KUL.MDS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", this.checkBoxDMA.Checked);
+            this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr1", 100, "Ctr2InternalOutput", "Ctr0", "PFI8", this.checkBoxDMA.Checked);
+            //this.m_apdAPD2 = new KUL.MDS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", this.checkBoxDMA.Checked);
             //this.m_pdPhotoDiode = new KUL.MDS.Hardware.PhotoDiode("Dev2", "Ctr0", "80MHzTimebase", "RTSI0", "ai0");
             
             // Create a new ColoredRichTextBoxAppender and give it a standard layout.
@@ -99,7 +99,9 @@ namespace KUL.MDS.SIS.Forms
             #region Piezo
 
             // The piezo stage is the most critical hardware resource. To prevent conflicts it is created as a singleton instance.
-            this.m_Stage = KUL.MDS.Hardware.PIDigitalStage.Instance;
+            //this.m_Stage = KUL.MDS.Hardware.PIDigitalStage.Instance;
+            this.m_Stage = KUL.MDS.Hardware.PIAnalogStage.Instance;
+
 
             // Hook up EventHandler methods to the events of the stage.
             this.m_Stage.PositionChanged += new EventHandler(m_Stage_PositionChanged);
@@ -186,7 +188,7 @@ namespace KUL.MDS.SIS.Forms
             txtbxCurrYPos.Text = this.m_Stage.YPosition.ToString();
             txtbxCurrZPos.Text = this.m_Stage.ZPosition.ToString();
             textBox1.Text = this.m_apdAPD1.TotalSamplesAcuired.ToString();
-            textBox2.Text = this.m_apdAPD2.TotalSamplesAcuired.ToString();
+            //textBox2.Text = this.m_apdAPD2.TotalSamplesAcuired.ToString();
             //if (this.m_apdAPD1.TotalSamplesAcuired > 0)
             //{
             //    textBox3.Text = _docDocument.GetChannelData(0)[this.m_apdAPD1.TotalSamplesAcuired - 1].ToString();
@@ -854,7 +856,7 @@ namespace KUL.MDS.SIS.Forms
 
                 // this.m_clckGlobalSync.SetupClock(this.m_clckGlobalSync.Frequency(_docDocument.TimePPixel, 0.1F));
                 this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
-                this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+                //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                 //this.m_pdPhotoDiode.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
 
                 // Prepare the stage control task for writing as many samples as necessary to complete the scan.
@@ -901,7 +903,7 @@ namespace KUL.MDS.SIS.Forms
 
             // Start the APD. It will now count photons every time it is triggered by either a clock or a digital controller.
             this.m_apdAPD1.StartAPDAcquisition();
-            this.m_apdAPD2.StartAPDAcquisition();
+            //this.m_apdAPD2.StartAPDAcquisition();
             //this.m_pdPhotoDiode.StartAPDAcquisition();
 
             // Initiate stage scan movement.
@@ -934,22 +936,22 @@ namespace KUL.MDS.SIS.Forms
                     // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
                     _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
                 }
-                if (_readsamples2 < _docDocument.PixelCount)
-                {
-                    _ui32SingleReadValues2 = this.m_apdAPD2.Read();
+                //if (_readsamples2 < _docDocument.PixelCount)
+                //{
+                //    _ui32SingleReadValues2 = this.m_apdAPD2.Read();
 
-                    for (int _i = 0; _i < _ui32SingleReadValues2.Length; _i++)
-                    {
-                        _ui32AllReadValues2[_readsamples2 + _i] = _ui32SingleReadValues2[_i];
+                //    for (int _i = 0; _i < _ui32SingleReadValues2.Length; _i++)
+                //    {
+                //        _ui32AllReadValues2[_readsamples2 + _i] = _ui32SingleReadValues2[_i];
 
-                        // For debug purposes.
-                        //_ui32AllReadValues2[_readsamples2 + _i] = (UInt32)RandomClass.Next(1, 1600);
-                    }
-                    //_lui32AllReadValues2.AddRange(_ui32SingleReadValues2);
+                //        // For debug purposes.
+                //        //_ui32AllReadValues2[_readsamples2 + _i] = (UInt32)RandomClass.Next(1, 1600);
+                //    }
+                //    //_lui32AllReadValues2.AddRange(_ui32SingleReadValues2);
 
-                    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                    _readsamples2 = _readsamples2 + _ui32SingleReadValues2.Length;
-                }
+                //    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+                //    _readsamples2 = _readsamples2 + _ui32SingleReadValues2.Length;
+                //}
                 //if (_readsamplesa < _docDocument.PixelCount * 100)
                 //{
                 //    _dSingleReadValuesa = this.m_pdPhotoDiode.Read();
@@ -970,11 +972,11 @@ namespace KUL.MDS.SIS.Forms
 
                 // Assign processed data to the actual document opject. This should only be done in the case of bidirectional scanning.
                 _docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
-                _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues2));
+                _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
                 //_docDocument.StoreChannelData(0, _Scan.PostProcessData(_lui32AllReadValues1.ToArray()));
                 //_docDocument.StoreChannelData(1, _Scan.PostProcessData(_lui32AllReadValues2.ToArray()));
 
-                if ((_readsamples1 == _docDocument.PixelCount) & (_readsamples2 == _docDocument.PixelCount))
+                if ((_readsamples1 == _docDocument.PixelCount))
                 {
                     if (!this.checkBoxCont.Checked)
                     {
@@ -1028,18 +1030,19 @@ namespace KUL.MDS.SIS.Forms
             Thread.Sleep(1000);
 
             // At the end of the scan, confirm the total amount of acquired samples to the user.
-            MessageBox.Show(
-                "\r\n\r\n X Position: " + this.m_Stage.XPosition.ToString() +
-                "\r\n Y Position: " + this.m_Stage.YPosition.ToString() +
-                "\r\n\r\n Samples read from APD1 Buffer: " + this.m_apdAPD1.TotalSamplesAcuired.ToString() +
-                "\r\n\r\n Samples read from APD2 Buffer: " + this.m_apdAPD2.TotalSamplesAcuired.ToString() +
-                "\r\n Samples stored to document for APD1: " + _readsamples1.ToString() +
-                "\r\n Samples stored to document for APD2: " + _readsamples2.ToString());
+            //MessageBox.Show(
+            //    "\r\n\r\n X Position: " + this.m_Stage.XPosition.ToString() +
+            //    "\r\n Y Position: " + this.m_Stage.YPosition.ToString() +
+            //    "\r\n\r\n Samples read from APD1 Buffer: " + this.m_apdAPD1.TotalSamplesAcuired.ToString() +
+            //    "\r\n\r\n Samples read from APD2 Buffer: " + this.m_apdAPD2.TotalSamplesAcuired.ToString() +
+            //    "\r\n Samples stored to document for APD1: " + _readsamples1.ToString() +
+            //    "\r\n Samples stored to document for APD2: " + _readsamples2.ToString());
 
             // Stop the move task for the stage.
             //m_daqtskTimingPulse.Stop();
             this.m_apdAPD1.StopAPDAcquisition();
-            this.m_apdAPD2.StopAPDAcquisition();
+            //this.m_apdAPD2.StopAPDAcquisition();
+            this.m_Stage.Stop();
             //this.m_pdPhotoDiode.StopAPDAcquisition();
         }
 

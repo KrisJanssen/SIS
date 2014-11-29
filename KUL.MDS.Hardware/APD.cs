@@ -114,10 +114,11 @@ namespace KUL.MDS.Hardware
 
                 // Be sure to route the timing pulse to the RTSI line to make it available on all the installed DAQ boards of the system.
                 // For syncing of other detection processess.
-                DaqSystem.Local.ConnectTerminals("/Dev1/Ctr0InternalOutput", "/Dev1/RTSI0");
+                //DaqSystem.Local.ConnectTerminals("/Dev1/Ctr0InternalOutput", "/Dev1/RTSI0");
 
                 _daqtskGate.Control(TaskAction.Verify);
                 _daqtskGate.Control(TaskAction.Commit);
+                _daqtskGate.Control(TaskAction.Unreserve);
 
                 _logger.Info("Exact pixel time is " + _iBinTicks + " ticks of " + m_iPulseGenTimeBase.ToString() + " MHz Timebase");
 
@@ -144,7 +145,7 @@ namespace KUL.MDS.Hardware
                 if (!m_bUseDMA)
                 {
                     // Boards that do not support multiple DMA channels might want to use interrupts instead.
-                    _daqtskAPD.CIChannels.All.DataTransferMechanism = CIDataTransferMechanism.Interrupts;
+                    _daqtskAPD.CIChannels.All.DataTransferMechanism = CIDataTransferMechanism.UsbBulk;
                 }
 
                 // We only want to collect as many counts as there are pixels or "steps" in the image.
