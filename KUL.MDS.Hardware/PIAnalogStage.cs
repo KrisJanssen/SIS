@@ -589,7 +589,7 @@ namespace KUL.MDS.Hardware
                 }
 
                 writer.WriteMultiSample(false, test);
-                //this.m_daqtskMoveStage.Start();
+                this.m_daqtskMoveStage.Start();
                 this.m_daqtskMasterClock.Start();
             }
             
