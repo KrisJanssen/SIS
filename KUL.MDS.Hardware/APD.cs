@@ -7,15 +7,16 @@ namespace KUL.MDS.Hardware
 {
     public class APD
     {
+        // Make the logger available.
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         
         // The Various NI-Daqmx tasks.
+        // APDCount will handle the actual counting of TTLs from the APD and is gated by GatePulse (to get the correct pixel time).
         private Task m_daqtskAPDCount;
-        private Task m_daqtskTimingPulse;
+        private Task m_daqtskGatePulse;
 
         // Strings holding NI Channel names for Tasks.
-        private string m_sBoardID;          /* "Dev2" for analog */
-                                            /* "Dev2" for digital */
+        private string m_sBoardID;          
         private string m_sPulseGenCtr;      /* "Ctr1" for analog */
         private string m_sPulseGenTrigger;  /* "RTSI0" for analog */
                                             /* "PFI27" for digital */
@@ -108,6 +109,9 @@ namespace KUL.MDS.Hardware
                     "/" + m_sBoardID + "/" + m_sPulseGenTrigger, 
                     DigitalEdgeStartTriggerEdge.Rising);
 
+                
+
+
                 // This trigger will occur for every pixel so it should be retriggerable.
                 _daqtskGate.Triggers.StartTrigger.Retriggerable = true;
                 _daqtskGate.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, 1);
@@ -166,13 +170,13 @@ namespace KUL.MDS.Hardware
                 _daqtskAPD.Control(TaskAction.Commit);
 
                 // Finally pass the tasks.
-                this.m_daqtskTimingPulse = _daqtskGate;
+                this.m_daqtskGatePulse = _daqtskGate;
                 this.m_daqtskAPDCount = _daqtskAPD;
             }
 
             catch (DaqException ex)
             {
-                this.m_daqtskTimingPulse = null;
+                this.m_daqtskGatePulse = null;
                 this.m_daqtskAPDCount = null;
 
                 // Inform the user about the error.
@@ -196,7 +200,7 @@ namespace KUL.MDS.Hardware
             m_daqtskAPDCount.Start();
 
             // Now start the pulse with duration of bintime. The length of this pulse will be measured in TTL ticks from the actual APD.
-            m_daqtskTimingPulse.Start();
+            m_daqtskGatePulse.Start();
         }
 
         /// <summary>
@@ -216,18 +220,18 @@ namespace KUL.MDS.Hardware
         public void StopAPDAcquisition()
         {
             // Stop the pulse whose width is measured in TTL's coming from the APD.
-            m_daqtskTimingPulse.Stop();
+            m_daqtskGatePulse.Stop();
             // Stop the task that counts the TTL's
             m_daqtskAPDCount.Stop();
 
             this.m_dTotalCountsRead = m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
 
             // Free the resources used.
-            m_daqtskTimingPulse.Control(TaskAction.Unreserve);
+            m_daqtskGatePulse.Control(TaskAction.Unreserve);
             m_daqtskAPDCount.Control(TaskAction.Unreserve);
 
             // Dispose of the tasks.
-            m_daqtskTimingPulse.Dispose();
+            m_daqtskGatePulse.Dispose();
             m_daqtskAPDCount.Dispose();
         }
     }

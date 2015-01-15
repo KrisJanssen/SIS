@@ -131,7 +131,7 @@ namespace KUL.MDS.Hardware
         /// Perform a scan.
         /// </summary>
         /// <param name="__scmScanMode">Scanmode that holds all spatial information for a scan and defines it completely.</param>
-        void Scan(Scanmode __scmScanMode, bool __bResend);
+        void Scan(Scanmode __scmScanMode, double __dPixelTime, bool __bResend);
 
         /// <summary>
         /// Stop a scan in progress. Leaves the stage in a recoverable state.

@@ -82,7 +82,8 @@ namespace KUL.MDS.SIS.Forms
             // 6) Input terminal carrying TTLs from physical APD
             //
             // TODO: Put this stuff in some sort of config file/the Windows registry.
-            this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr1", 100, "Ctr2InternalOutput", "Ctr0", "PFI8", this.checkBoxDMA.Checked);
+            //this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr1", 100, "Ctr2InternalOutput", "Ctr0", "PFI8", this.checkBoxDMA.Checked);
+            this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr0", 100, "PFI7", "Ctr1", "PFI15", this.checkBoxDMA.Checked);
             //this.m_apdAPD2 = new KUL.MDS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", this.checkBoxDMA.Checked);
             //this.m_pdPhotoDiode = new KUL.MDS.Hardware.PhotoDiode("Dev2", "Ctr0", "80MHzTimebase", "RTSI0", "ai0");
             
@@ -860,7 +861,7 @@ namespace KUL.MDS.SIS.Forms
                 //this.m_pdPhotoDiode.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
 
                 // Prepare the stage control task for writing as many samples as necessary to complete the scan.
-                this.m_Stage.Configure(_docDocument.TimePPixel * 2, _docDocument.PixelCount);
+                //this.m_Stage.Configure(_docDocument.TimePPixel * 2, _docDocument.PixelCount);
 
                 // Run the actual measurement in a separate thread to the UI thread. This will prevent the UI from blocking and it will
                 // enable continuous updates of the UI with scan data.
@@ -908,7 +909,7 @@ namespace KUL.MDS.SIS.Forms
 
             // Initiate stage scan movement.
             //this.m_Stage.Scan(_Scan, this.checkBox1.Checked);
-            this.m_Stage.Scan(_Scan, this.checkBox1.Checked);
+            this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, this.checkBox1.Checked);
 
             //while ((_readsamples1 < _docDocument.PixelCount) & (_bStop != true))
             //while ((_readsamples1 < _docDocument.PixelCount) & (_readsamples2 < _docDocument.PixelCount) & (_bStop != true))
@@ -992,7 +993,7 @@ namespace KUL.MDS.SIS.Forms
                         this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         this.m_apdAPD1.StartAPDAcquisition();
                         this.m_apdAPD2.StartAPDAcquisition();
-                        this.m_Stage.Scan(_Scan, false);
+                        this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, false);
                         _readsamples1 = 0;
                         _readsamples2 = 0;
                     }
