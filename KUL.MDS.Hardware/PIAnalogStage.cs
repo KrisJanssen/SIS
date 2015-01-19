@@ -522,10 +522,16 @@ namespace KUL.MDS.Hardware
             double[] linevolts = new double[size];
             int[] levels = new int[size];
 
-            for (int i = __scmScanMode.Trig1Start; i < __scmScanMode.Trig1End; i++)
+            for (int i = __scmScanMode.Trig1Start; i < __scmScanMode.Trig1End + 1; i++)
             {
                 linevolts[i] = 3;
                 levels[i] = 1;
+
+                // The start of line trigger.
+                if (i == __scmScanMode.Trig1Start)
+                {
+                    levels[i] = 3;
+                }
             }
 
             // Allocate space for the full image
@@ -545,6 +551,9 @@ namespace KUL.MDS.Hardware
                     longlevels[j + (i * size)] = levels[j];
                 }
             }
+
+            // Set the levels to achieve start of frame trigger.
+            longlevels[0] = 7;
 
             this.m_dGeneratorCoordinates = coordinates;
 
