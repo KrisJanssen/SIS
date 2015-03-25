@@ -385,7 +385,7 @@
             this.m_txtbxSetImageWidth.Text = "256";
             validationRule4.DataType = SIS.Validation.ValidationDataType.Integer;
             validationRule4.InitialValue = "256";
-            validationRule4.MaximumValue = "512";
+            validationRule4.MaximumValue = "4096";
             validationRule4.MinimumValue = "0";
             this.validationProvider1.SetValidationRule(this.m_txtbxSetImageWidth, validationRule4);
             // 
@@ -401,7 +401,7 @@
             this.m_txtbxSetImageHeight.Text = "256";
             validationRule5.DataType = SIS.Validation.ValidationDataType.Integer;
             validationRule5.InitialValue = "256";
-            validationRule5.MaximumValue = "512";
+            validationRule5.MaximumValue = "4096";
             validationRule5.MinimumValue = "0";
             this.validationProvider1.SetValidationRule(this.m_txtbxSetImageHeight, validationRule5);
             // 
@@ -417,7 +417,7 @@
             this.m_txtbxSetImageDepth.Text = "256";
             validationRule6.DataType = SIS.Validation.ValidationDataType.Integer;
             validationRule6.InitialValue = "0";
-            validationRule6.MaximumValue = "512";
+            validationRule6.MaximumValue = "4096";
             validationRule6.MinimumValue = "0";
             this.validationProvider1.SetValidationRule(this.m_txtbxSetImageDepth, validationRule6);
             // 

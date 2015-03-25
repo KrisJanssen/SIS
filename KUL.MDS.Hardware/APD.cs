@@ -21,6 +21,7 @@ namespace SIS.Hardware
     /// </summary>
     public class APD
     {
+<<<<<<< HEAD
         #region Static Fields
 
         /// <summary>
@@ -59,6 +60,24 @@ namespace SIS.Hardware
         /// The m_s board id.
         /// </summary>
         private readonly string m_sBoardID; /* "Dev2" for analog */
+=======
+        // Make the logger available.
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        
+        // The Various NI-Daqmx tasks.
+        // APDCount will handle the actual counting of TTLs from the APD and is gated by GatePulse (to get the correct pixel time).
+        private Task m_daqtskAPDCount;
+        private Task m_daqtskGatePulse;
+
+        // Strings holding NI Channel names for Tasks.
+        private string m_sBoardID;          
+        private string m_sPulseGenCtr;      /* "Ctr1" for analog */
+        private string m_sPulseGenTrigger;  /* "RTSI0" for analog */
+                                            /* "PFI27" for digital */
+        private string m_sAPDTTLCounter;    /* "Ctr0" for analog */
+        private string m_sAPDInputLine;     /* "PFI39" for analog */
+                                            /* "PFI39" for digital */
+>>>>>>> feature-AnalogPiezo
 
         /* "Dev2" for digital */
 
@@ -221,16 +240,20 @@ namespace SIS.Hardware
                     "/" + this.m_sBoardID + "/" + this.m_sPulseGenTrigger, 
                     DigitalEdgeStartTriggerEdge.Rising);
 
+                
+
+
                 // This trigger will occur for every pixel so it should be retriggerable.
                 _daqtskGate.Triggers.StartTrigger.Retriggerable = true;
                 _daqtskGate.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, 1);
 
                 // Be sure to route the timing pulse to the RTSI line to make it available on all the installed DAQ boards of the system.
                 // For syncing of other detection processess.
-                DaqSystem.Local.ConnectTerminals("/Dev1/Ctr0InternalOutput", "/Dev1/RTSI0");
+                //DaqSystem.Local.ConnectTerminals("/Dev1/Ctr0InternalOutput", "/Dev1/RTSI0");
 
                 _daqtskGate.Control(TaskAction.Verify);
                 _daqtskGate.Control(TaskAction.Commit);
+                _daqtskGate.Control(TaskAction.Unreserve);
 
                 _logger.Info(
                     "Exact pixel time is " + _iBinTicks + " ticks of " + this.m_iPulseGenTimeBase + " MHz Timebase");
@@ -259,7 +282,7 @@ namespace SIS.Hardware
                 if (!this.m_bUseDMA)
                 {
                     // Boards that do not support multiple DMA channels might want to use interrupts instead.
-                    _daqtskAPD.CIChannels.All.DataTransferMechanism = CIDataTransferMechanism.Interrupts;
+                    _daqtskAPD.CIChannels.All.DataTransferMechanism = CIDataTransferMechanism.UsbBulk;
                 }
 
                 // We only want to collect as many counts as there are pixels or "steps" in the image.
@@ -279,12 +302,12 @@ namespace SIS.Hardware
                 _daqtskAPD.Control(TaskAction.Commit);
 
                 // Finally pass the tasks.
-                this.m_daqtskTimingPulse = _daqtskGate;
+                this.m_daqtskGatePulse = _daqtskGate;
                 this.m_daqtskAPDCount = _daqtskAPD;
             }
             catch (DaqException ex)
             {
-                this.m_daqtskTimingPulse = null;
+                this.m_daqtskGatePulse = null;
                 this.m_daqtskAPDCount = null;
 
                 // Inform the user about the error.
@@ -308,7 +331,22 @@ namespace SIS.Hardware
             this.m_daqtskAPDCount.Start();
 
             // Now start the pulse with duration of bintime. The length of this pulse will be measured in TTL ticks from the actual APD.
+<<<<<<< HEAD
             this.m_daqtskTimingPulse.Start();
+=======
+            m_daqtskGatePulse.Start();
+        }
+
+        /// <summary>
+        /// Returns all counts in buffer.
+        /// </summary>
+        /// <returns></returns>
+        public UInt32[] Read()
+        {
+            UInt32[] _ui32Values = this.m_rdrCountReader.ReadMultiSampleUInt32(-1);
+            this.m_dTotalCountsRead = m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
+            return _ui32Values;
+>>>>>>> feature-AnalogPiezo
         }
 
         /// <summary>
@@ -317,20 +355,33 @@ namespace SIS.Hardware
         public void StopAPDAcquisition()
         {
             // Stop the pulse whose width is measured in TTL's coming from the APD.
+<<<<<<< HEAD
             this.m_daqtskTimingPulse.Stop();
 
+=======
+            m_daqtskGatePulse.Stop();
+>>>>>>> feature-AnalogPiezo
             // Stop the task that counts the TTL's
             this.m_daqtskAPDCount.Stop();
 
             this.m_dTotalCountsRead = this.m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
 
             // Free the resources used.
+<<<<<<< HEAD
             this.m_daqtskTimingPulse.Control(TaskAction.Unreserve);
             this.m_daqtskAPDCount.Control(TaskAction.Unreserve);
 
             // Dispose of the tasks.
             this.m_daqtskTimingPulse.Dispose();
             this.m_daqtskAPDCount.Dispose();
+=======
+            m_daqtskGatePulse.Control(TaskAction.Unreserve);
+            m_daqtskAPDCount.Control(TaskAction.Unreserve);
+
+            // Dispose of the tasks.
+            m_daqtskGatePulse.Dispose();
+            m_daqtskAPDCount.Dispose();
+>>>>>>> feature-AnalogPiezo
         }
 
         #endregion

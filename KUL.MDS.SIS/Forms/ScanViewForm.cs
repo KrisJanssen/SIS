@@ -153,11 +153,19 @@ namespace SIS.Forms
             // 5) Counter that counts TTLs from physical APD
             // 6) Input terminal carrying TTLs from physical APD
             // TODO: Put this stuff in some sort of config file/the Windows registry.
+<<<<<<< HEAD
             this.m_apdAPD1 = new APD("Dev1", "Ctr1", 20, "PFI27", "Ctr0", "PFI39", this.checkBoxDMA.Checked);
             this.m_apdAPD2 = new APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", this.checkBoxDMA.Checked);
 
             // this.m_pdPhotoDiode = new SIS.Hardware.PhotoDiode("Dev2", "Ctr0", "80MHzTimebase", "RTSI0", "ai0");
 
+=======
+            //this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr1", 100, "Ctr2InternalOutput", "Ctr0", "PFI8", this.checkBoxDMA.Checked);
+            this.m_apdAPD1 = new KUL.MDS.Hardware.APD("Dev1", "Ctr0", 100, "PFI7", "Ctr1", "PFI15", this.checkBoxDMA.Checked);
+            //this.m_apdAPD2 = new KUL.MDS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", this.checkBoxDMA.Checked);
+            //this.m_pdPhotoDiode = new KUL.MDS.Hardware.PhotoDiode("Dev2", "Ctr0", "80MHzTimebase", "RTSI0", "ai0");
+            
+>>>>>>> feature-AnalogPiezo
             // Create a new ColoredRichTextBoxAppender and give it a standard layout.
             this.m_ColRTApp = new ColoredRichTextBoxAppender(this.richTextBox1, 1000, 500);
             this.m_ColRTApp.Layout = new PatternLayout();
@@ -169,7 +177,13 @@ namespace SIS.Forms
             // m_clckGlobalSync = new TimingClock();
 
             // The piezo stage is the most critical hardware resource. To prevent conflicts it is created as a singleton instance.
+<<<<<<< HEAD
             this.m_Stage = PIDigitalStage.Instance;
+=======
+            //this.m_Stage = KUL.MDS.Hardware.PIDigitalStage.Instance;
+            this.m_Stage = KUL.MDS.Hardware.PIAnalogStage.Instance;
+
+>>>>>>> feature-AnalogPiezo
 
             // Hook up EventHandler methods to the events of the stage.
             this.m_Stage.PositionChanged += this.m_Stage_PositionChanged;
@@ -207,8 +221,32 @@ namespace SIS.Forms
         /// </summary>
         protected override void OnUpdateDocument()
         {
+<<<<<<< HEAD
             this.ScanPropertiesToScreen();
             this.PaintToScreen();
+=======
+            ScanDocument _docDocument = this.Document as ScanDocument;
+
+            // Update the UI with the current voltage to stage.
+            txtbxCurrXPos.Text = this.m_Stage.XPosition.ToString();
+            txtbxCurrYPos.Text = this.m_Stage.YPosition.ToString();
+            txtbxCurrZPos.Text = this.m_Stage.ZPosition.ToString();
+            textBox1.Text = this.m_apdAPD1.TotalSamplesAcuired.ToString();
+            //textBox2.Text = this.m_apdAPD2.TotalSamplesAcuired.ToString();
+            //if (this.m_apdAPD1.TotalSamplesAcuired > 0)
+            //{
+            //    textBox3.Text = _docDocument.GetChannelData(0)[this.m_apdAPD1.TotalSamplesAcuired - 1].ToString();
+            //}
+            //if (this.m_apdAPD1.TotalSamplesAcuired > 0)
+            //{
+            //    textBox4.Text = _docDocument.GetChannelData(1)[this.m_apdAPD2.TotalSamplesAcuired - 1].ToString();
+            //}
+            // Get the in memory bitmaps to the screen.
+            PaintToScreen();
+
+            // Process any events that might be waiting.
+            Application.DoEvents();
+>>>>>>> feature-AnalogPiezo
         }
 
         /// <summary>
@@ -682,8 +720,41 @@ namespace SIS.Forms
         /// </param>
         private void bckgwrkPerformMove_DoWork(object __oSender, DoWorkEventArgs __evargsE)
         {
+<<<<<<< HEAD
             var _dXYCoordinates = (double[])__evargsE.Argument;
             this.m_Stage.MoveAbs(_dXYCoordinates[0], _dXYCoordinates[1], _dXYCoordinates[2]);
+=======
+            // Acces the ScanDocument object related to this form.
+            ScanDocument _docDocument = this.Document as ScanDocument;
+
+            // Disable the controls so the user cannot interfere with the scan. Only stopping the scan will be allowed.
+            DisableCtrls();
+
+            // Get the new experimental settings to screen.
+            this.ScanPropertiesToScreen();
+
+            // Check if the stage is definitely engaged and ready.... if not all other operations would be useless!
+            if (m_Stage.IsInitialized)
+            {
+                // Make sure the Stop button works.
+                this.btnStop.Enabled = true;
+
+                // this.m_clckGlobalSync.SetupClock(this.m_clckGlobalSync.Frequency(_docDocument.TimePPixel, 0.1F));
+                this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+                //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+                //this.m_pdPhotoDiode.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+
+                // Prepare the stage control task for writing as many samples as necessary to complete the scan.
+                //this.m_Stage.Configure(_docDocument.TimePPixel * 2, _docDocument.PixelCount);
+
+                // Run the actual measurement in a separate thread to the UI thread. This will prevent the UI from blocking and it will
+                // enable continuous updates of the UI with scan data.
+                bckgwrkPerformScan.RunWorkerAsync(__scnmScan);
+            }
+
+            // Update the UI.
+            UpdateUI();
+>>>>>>> feature-AnalogPiezo
         }
 
         /// <summary>
@@ -730,6 +801,7 @@ namespace SIS.Forms
 
             // Start the APD. It will now count photons every time it is triggered by either a clock or a digital controller.
             this.m_apdAPD1.StartAPDAcquisition();
+<<<<<<< HEAD
             this.m_apdAPD2.StartAPDAcquisition();
 
             // this.m_pdPhotoDiode.StartAPDAcquisition();
@@ -737,6 +809,14 @@ namespace SIS.Forms
             // Initiate stage scan movement.
             // this.m_Stage.Scan(_Scan, this.checkBox1.Checked);
             this.m_Stage.Scan(_Scan, this.checkBox1.Checked);
+=======
+            //this.m_apdAPD2.StartAPDAcquisition();
+            //this.m_pdPhotoDiode.StartAPDAcquisition();
+
+            // Initiate stage scan movement.
+            //this.m_Stage.Scan(_Scan, this.checkBox1.Checked);
+            this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, this.checkBox1.Checked);
+>>>>>>> feature-AnalogPiezo
 
             // while ((_readsamples1 < _docDocument.PixelCount) & (_bStop != true))
             // while ((_readsamples1 < _docDocument.PixelCount) & (_readsamples2 < _docDocument.PixelCount) & (_bStop != true))
@@ -765,15 +845,22 @@ namespace SIS.Forms
                     // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
                     _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
                 }
+<<<<<<< HEAD
 
                 if (_readsamples2 < _docDocument.PixelCount)
                 {
                     _ui32SingleReadValues2 = this.m_apdAPD2.Read();
+=======
+                //if (_readsamples2 < _docDocument.PixelCount)
+                //{
+                //    _ui32SingleReadValues2 = this.m_apdAPD2.Read();
+>>>>>>> feature-AnalogPiezo
 
-                    for (int _i = 0; _i < _ui32SingleReadValues2.Length; _i++)
-                    {
-                        _ui32AllReadValues2[_readsamples2 + _i] = _ui32SingleReadValues2[_i];
+                //    for (int _i = 0; _i < _ui32SingleReadValues2.Length; _i++)
+                //    {
+                //        _ui32AllReadValues2[_readsamples2 + _i] = _ui32SingleReadValues2[_i];
 
+<<<<<<< HEAD
                         // For debug purposes.
                         // _ui32AllReadValues2[_readsamples2 + _i] = (UInt32)RandomClass.Next(1, 1600);
                     }
@@ -783,6 +870,19 @@ namespace SIS.Forms
                     // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
                     _readsamples2 = _readsamples2 + _ui32SingleReadValues2.Length;
                 }
+=======
+                //        // For debug purposes.
+                //        //_ui32AllReadValues2[_readsamples2 + _i] = (UInt32)RandomClass.Next(1, 1600);
+                //    }
+                //    //_lui32AllReadValues2.AddRange(_ui32SingleReadValues2);
+
+                //    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+                //    _readsamples2 = _readsamples2 + _ui32SingleReadValues2.Length;
+                //}
+                //if (_readsamplesa < _docDocument.PixelCount * 100)
+                //{
+                //    _dSingleReadValuesa = this.m_pdPhotoDiode.Read();
+>>>>>>> feature-AnalogPiezo
 
                 // if (_readsamplesa < _docDocument.PixelCount * 100)
                 // {
@@ -804,11 +904,19 @@ namespace SIS.Forms
 
                 // Assign processed data to the actual document opject. This should only be done in the case of bidirectional scanning.
                 _docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
+<<<<<<< HEAD
                 _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues2));
 
                 // _docDocument.StoreChannelData(0, _Scan.PostProcessData(_lui32AllReadValues1.ToArray()));
                 // _docDocument.StoreChannelData(1, _Scan.PostProcessData(_lui32AllReadValues2.ToArray()));
                 if ((_readsamples1 == _docDocument.PixelCount) & (_readsamples2 == _docDocument.PixelCount))
+=======
+                _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
+                //_docDocument.StoreChannelData(0, _Scan.PostProcessData(_lui32AllReadValues1.ToArray()));
+                //_docDocument.StoreChannelData(1, _Scan.PostProcessData(_lui32AllReadValues2.ToArray()));
+
+                if ((_readsamples1 == _docDocument.PixelCount))
+>>>>>>> feature-AnalogPiezo
                 {
                     if (!this.checkBoxCont.Checked)
                     {
@@ -825,7 +933,7 @@ namespace SIS.Forms
                         this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         this.m_apdAPD1.StartAPDAcquisition();
                         this.m_apdAPD2.StartAPDAcquisition();
-                        this.m_Stage.Scan(_Scan, false);
+                        this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, false);
                         _readsamples1 = 0;
                         _readsamples2 = 0;
                     }
@@ -866,17 +974,42 @@ namespace SIS.Forms
             Thread.Sleep(1000);
 
             // At the end of the scan, confirm the total amount of acquired samples to the user.
+<<<<<<< HEAD
             MessageBox.Show(
                 "\r\n\r\n X Position: " + this.m_Stage.XPosition + "\r\n Y Position: " + this.m_Stage.YPosition
                 + "\r\n\r\n Samples read from APD1 Buffer: " + this.m_apdAPD1.TotalSamplesAcuired
                 + "\r\n\r\n Samples read from APD2 Buffer: " + this.m_apdAPD2.TotalSamplesAcuired
                 + "\r\n Samples stored to document for APD1: " + _readsamples1
                 + "\r\n Samples stored to document for APD2: " + _readsamples2);
+=======
+            //MessageBox.Show(
+            //    "\r\n\r\n X Position: " + this.m_Stage.XPosition.ToString() +
+            //    "\r\n Y Position: " + this.m_Stage.YPosition.ToString() +
+            //    "\r\n\r\n Samples read from APD1 Buffer: " + this.m_apdAPD1.TotalSamplesAcuired.ToString() +
+            //    "\r\n\r\n Samples read from APD2 Buffer: " + this.m_apdAPD2.TotalSamplesAcuired.ToString() +
+            //    "\r\n Samples stored to document for APD1: " + _readsamples1.ToString() +
+            //    "\r\n Samples stored to document for APD2: " + _readsamples2.ToString());
+>>>>>>> feature-AnalogPiezo
 
             // Stop the move task for the stage.
             // m_daqtskTimingPulse.Stop();
             this.m_apdAPD1.StopAPDAcquisition();
+<<<<<<< HEAD
             this.m_apdAPD2.StopAPDAcquisition();
+=======
+            //this.m_apdAPD2.StopAPDAcquisition();
+            this.m_Stage.Stop();
+            //this.m_pdPhotoDiode.StopAPDAcquisition();
+        }
+
+        private void btnStop_Click(object __oSender, EventArgs __evargsE)
+        {
+            // Cancel de backgroundworker.
+            bckgwrkPerformScan.CancelAsync();
+
+            // Enable all controls again.
+            EnableCtrls();
+>>>>>>> feature-AnalogPiezo
 
             // this.m_pdPhotoDiode.StopAPDAcquisition();
         }
