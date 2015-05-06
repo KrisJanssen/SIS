@@ -135,18 +135,8 @@ namespace SIS.Hardware
         /// <summary>
         /// Perform a scan.
         /// </summary>
-<<<<<<< HEAD
-        /// <param name="__scmScanMode">
-        /// Scanmode that holds all spatial information for a scan and defines it completely.
-        /// </param>
-        /// <param name="__bResend">
-        /// The __b Resend.
-        /// </param>
-        void Scan(Scanmode __scmScanMode, bool __bResend);
-=======
         /// <param name="__scmScanMode">Scanmode that holds all spatial information for a scan and defines it completely.</param>
         void Scan(Scanmode __scmScanMode, double __dPixelTime, bool __bResend);
->>>>>>> feature-AnalogPiezo
 
         /// <summary>
         ///     Stop a scan in progress. Leaves the stage in a recoverable state.

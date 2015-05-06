@@ -107,7 +107,7 @@
     <ManifestKeyFile>Spectroscopy Imaging Suite_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -136,6 +136,12 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=1.1.0.0, Culture=neutral, PublicKeyToken=9a0d19ffd4e7fe67, processorArchitecture=MSIL">
@@ -224,7 +230,7 @@
       <DependentUpon>ScanSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SplashForm.cs">
-      <SubType>Form</SubType>
+      <SubType>form</SubType>
     </Compile>
     <Compile Include="Forms\TrajectoryPlotForm.cs">
       <SubType>Form</SubType>
@@ -241,7 +247,7 @@
       <DependentUpon>ProgressBarForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ScanViewForm.cs">
-      <SubType>Form</SubType>
+      <SubType>form</SubType>
     </Compile>
     <Compile Include="Forms\ScanViewForm.Designer.cs">
       <DependentUpon>ScanViewForm.cs</DependentUpon>
@@ -251,7 +257,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.cs">
-      <SubType>Form</SubType>
+      <SubType>form</SubType>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -268,6 +274,7 @@
     </Compile>
     <Compile Include="Forms\TestViewForm.cs" />
     <None Include="License\SIS.licenseheader" />
+    <None Include="Properties\app.manifest" />
     <None Include="Resources\Icon.ico" />
     <EmbeddedResource Include="Forms\BlendImageForm.resx">
       <DependentUpon>BlendImageForm.cs</DependentUpon>
@@ -312,7 +319,6 @@
     <EmbeddedResource Include="Resources\SISOLD.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="Spectroscopy Imaging Suite_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -370,12 +376,20 @@
       <Project>{6b39450c-d9f3-4a54-9a05-4bba38e0bf90}</Project>
       <Name>DevDefined.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DevDefined\DevDefined.Tools\DevDefined.Tools.csproj">
+      <Project>{612260f5-9371-434a-a3f0-b73ab668eceb}</Project>
+      <Name>DevDefined.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KUL.MDS.Base\SIS.Base.csproj">
+      <Project>{4e58eefc-82a4-4afd-82c8-718f8a453d12}</Project>
+      <Name>SIS.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KUL.MDS.Data\SIS.Data.csproj">
       <Project>{3B5BCD2B-A0BD-497D-9869-A1298AA32CE4}</Project>
       <Name>SIS.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\KUL.MDS.Hardware\SIS.Hardware.csproj">
-      <Project>{92578237-0A47-4AC3-A7B9-B84239BCB72E}</Project>
+      <Project>{92578237-0a47-4ac3-a7b9-b84239bcb72e}</Project>
       <Name>SIS.Hardware</Name>
     </ProjectReference>
     <ProjectReference Include="..\KUL.MDS.Library\SIS.Library.csproj">
@@ -391,7 +405,7 @@
       <Name>SIS.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\KUL.MDS.ScanModes\SIS.ScanModes.csproj">
-      <Project>{C30788B7-5765-4215-90E4-D973CE0C15F2}</Project>
+      <Project>{c30788b7-5765-4215-90e4-d973ce0c15f2}</Project>
       <Name>SIS.ScanModes</Name>
     </ProjectReference>
     <ProjectReference Include="..\KUL.MDS.SerialTerminal\SIS.SerialTerminal.csproj">
@@ -408,11 +422,7 @@
     </ProjectReference>
     <ProjectReference Include="..\KUL.MDS.WPFControls\SIS.WPFControls.csproj">
       <Project>{5B6DEF7E-BAB5-45D0-8B14-AC1B412A55F4}</Project>
-<<<<<<< HEAD
-      <Name>SIS.WPFControls</Name>
-=======
       <Name>KUL.MDS.WPFControls</Name>
->>>>>>> feature-AnalogPiezo
     </ProjectReference>
     <ProjectReference Include="..\ZedGraph\ZedGraph.csproj">
       <Project>{2541686B-1673-43BF-AF89-3163945DB009}</Project>

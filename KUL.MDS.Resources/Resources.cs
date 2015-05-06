@@ -118,7 +118,7 @@ namespace SIS.AppResources
         {
             //const string left = "PaintDotNet.Strings.3";
             //const string right = ".resources";
-            const string left = "SIS";
+            const string left = "KUL.MDS";
             const string right = ".dll";
             string ourDir = ResourcesDir;
             string fileSpec = left + "*" + right;
@@ -206,7 +206,6 @@ namespace SIS.AppResources
 
         private static ResourceManager CreateResourceManager()
         {
-            //const string stringsFileName = "PaintDotNet.Strings.3";
             //const string stringsFileName = "PI_Digital_Stage_Test_Framework.Resources.SIS";
             const string stringsFileName = "SIS.Resources.SIS";
             //ResourceManager rm = ResourceManager.CreateFileBasedResourceManager(stringsFileName, ResourcesDir, null);
