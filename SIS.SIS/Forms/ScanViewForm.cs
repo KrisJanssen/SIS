@@ -939,13 +939,14 @@ namespace SIS.Forms
                     if (this.checkBoxCont.Checked)
                     {
                         _bStop = false;
+                        this.m_Stage.Stop();
                         this.m_Stage.MoveAbs(0.0, 0.0, 0.0);
                         this.m_apdAPD1.StopAPDAcquisition();
-                        this.m_apdAPD2.StopAPDAcquisition();
+                        //this.m_apdAPD2.StopAPDAcquisition();
                         this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
-                        this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+                        //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         this.m_apdAPD1.StartAPDAcquisition();
-                        this.m_apdAPD2.StartAPDAcquisition();
+                        //this.m_apdAPD2.StartAPDAcquisition();
                         this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, false);
                         _readsamples1 = 0;
                         _readsamples2 = 0;
