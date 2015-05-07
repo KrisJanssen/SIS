@@ -855,13 +855,8 @@ namespace SIS.Forms
                 // Make sure the Stop button works.
                 this.btnStop.Enabled = true;
 
-                // this.m_clckGlobalSync.SetupClock(this.m_clckGlobalSync.Frequency(_docDocument.TimePPixel, 0.1F));
                 this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                 //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
-                //this.m_pdPhotoDiode.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
-
-                // Prepare the stage control task for writing as many samples as necessary to complete the scan.
-                //this.m_Stage.Configure(_docDocument.TimePPixel * 2, _docDocument.PixelCount);
 
                 // Run the actual measurement in a separate thread to the UI thread. This will prevent the UI from blocking and it will
                 // enable continuous updates of the UI with scan data.
@@ -886,29 +881,23 @@ namespace SIS.Forms
             // This int keeps track of the total number of samples already acquired. It is obviously zero at the beginning of measurement.
             int _readsamples1 = 0;
             int _readsamples2 = 0;
-            //int _readsamplesa = 0;
 
             // The array that will be assigned the current photon counts in the buffer.
             UInt32[] _ui32SingleReadValues1;
             UInt32[] _ui32SingleReadValues2;
-            //Double[] _dSingleReadValuesa;
 
             // The array that will hold the total samples already acquired. It is used as a temporary store for the measurement data
             // because the measured data needs to be processed before it can be assigned to the actual document object.
             UInt32[] _ui32AllReadValues1 = new UInt32[_docDocument.PixelCount];
             UInt32[] _ui32AllReadValues2 = new UInt32[_docDocument.PixelCount];
-            //Double[] _dAllreadValuesa = new Double[_docDocument.PixelCount * 100];
 
             //List<UInt32> _lui32AllReadValues1 = new List<UInt32>(_docDocument.PixelCount);
             //List<UInt32> _lui32AllReadValues2 = new List<UInt32>(_docDocument.PixelCount);
 
             // Start the APD. It will now count photons every time it is triggered by either a clock or a digital controller.
             this.m_apdAPD1.StartAPDAcquisition();
-            //this.m_apdAPD2.StartAPDAcquisition();
-            //this.m_pdPhotoDiode.StartAPDAcquisition();
 
             // Initiate stage scan movement.
-            //this.m_Stage.Scan(_Scan, this.checkBox1.Checked);
             this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, this.checkBox1.Checked);
 
             //while ((_readsamples1 < _docDocument.PixelCount) & (_bStop != true))
@@ -932,50 +921,14 @@ namespace SIS.Forms
                         // For debug purposes.
                         //_ui32AllReadValues1[_readsamples1 + _i] = (UInt32)RandomClass.Next(1, 1600);
                     }
-                    //_lui32AllReadValues1.AddRange(_ui32SingleReadValues1);
 
                     // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
                     _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
                 }
-                //if (_readsamples2 < _docDocument.PixelCount)
-                //{
-                //    _ui32SingleReadValues2 = this.m_apdAPD2.Read();
-
-                //    for (int _i = 0; _i < _ui32SingleReadValues2.Length; _i++)
-                //    {
-                //        _ui32AllReadValues2[_readsamples2 + _i] = _ui32SingleReadValues2[_i];
-
-                //        // For debug purposes.
-                //        //_ui32AllReadValues2[_readsamples2 + _i] = (UInt32)RandomClass.Next(1, 1600);
-                //    }
-                //    //_lui32AllReadValues2.AddRange(_ui32SingleReadValues2);
-
-                //    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                //    _readsamples2 = _readsamples2 + _ui32SingleReadValues2.Length;
-                //}
-                //if (_readsamplesa < _docDocument.PixelCount * 100)
-                //{
-                //    _dSingleReadValuesa = this.m_pdPhotoDiode.Read();
-
-                //    for (int _i = 0; _i < _dSingleReadValuesa.Length; _i++)
-                //    {
-                //        _dAllreadValuesa[_readsamplesa + _i] = _dSingleReadValuesa[_i];
-
-                //        // For debug purposes.
-                //        //_ui32AllReadValues2[_readsamples2 + _i] = (UInt32)RandomClass.Next(1, 1600);
-                //    }
-                //    //_lui32AllReadValues2.AddRange(_ui32SingleReadValues2);
-
-                //    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                //    _readsamplesa = _readsamplesa + _dSingleReadValuesa.Length;
-                //    Tracing.Ping("Analog Samples Read: " + _readsamplesa.ToString());
-                //}
 
                 // Assign processed data to the actual document opject. This should only be done in the case of bidirectional scanning.
                 _docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
                 _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
-                //_docDocument.StoreChannelData(0, _Scan.PostProcessData(_lui32AllReadValues1.ToArray()));
-                //_docDocument.StoreChannelData(1, _Scan.PostProcessData(_lui32AllReadValues2.ToArray()));
 
                 if ((_readsamples1 == _docDocument.PixelCount))
                 {
@@ -1016,10 +969,6 @@ namespace SIS.Forms
                 }
             }
 
-            // Stop the globalsync and dispose of it.
-            //m_daqtskGlobalSync.Stop();
-            //m_daqtskGlobalSync.Dispose();
-
             // Update the UI.
             if (InvokeRequired)
             {
@@ -1030,21 +979,10 @@ namespace SIS.Forms
             }
             Thread.Sleep(1000);
 
-            // At the end of the scan, confirm the total amount of acquired samples to the user.
-            //MessageBox.Show(
-            //    "\r\n\r\n X Position: " + this.m_Stage.XPosition.ToString() +
-            //    "\r\n Y Position: " + this.m_Stage.YPosition.ToString() +
-            //    "\r\n\r\n Samples read from APD1 Buffer: " + this.m_apdAPD1.TotalSamplesAcuired.ToString() +
-            //    "\r\n\r\n Samples read from APD2 Buffer: " + this.m_apdAPD2.TotalSamplesAcuired.ToString() +
-            //    "\r\n Samples stored to document for APD1: " + _readsamples1.ToString() +
-            //    "\r\n Samples stored to document for APD2: " + _readsamples2.ToString());
-
             // Stop the move task for the stage.
-            //m_daqtskTimingPulse.Stop();
             this.m_apdAPD1.StopAPDAcquisition();
             //this.m_apdAPD2.StopAPDAcquisition();
             this.m_Stage.Stop();
-            //this.m_pdPhotoDiode.StopAPDAcquisition();
         }
 
         private void btnStop_Click(object __oSender, EventArgs __evargsE)
