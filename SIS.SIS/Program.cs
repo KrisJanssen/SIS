@@ -282,11 +282,11 @@ namespace SIS
             }
             else
             {
-                //if (this.CheckForImportantFiles())
-                //{
+                if (this.CheckForImportantFiles())
+                {
                     StartNewInstance(null, false, this.m_sArgs);
                     return;
-                //}
+                }
             }
 
             // The rest of the code is put in a separate method so that certain DLL's
