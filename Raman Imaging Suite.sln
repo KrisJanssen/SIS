@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.22512.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectroscopy Imaging Suite", "SIS.SIS\Spectroscopy Imaging Suite.csproj", "{633F5B3A-C20B-42DE-9D58-651FB8C5886F}"
 	ProjectSection(ProjectDependencies) = postProject
