@@ -30,7 +30,7 @@ namespace SIS.Hardware
         private Task m_daqtskMoveStage;
 
         // Current array of coordinates for timed stage motion
-        private double[,] m_dScanGeneratorCoordinates;
+        private double[,] m_dScanCoordinates;
         private double[,] m_dMoveGeneratorCoordinates;
         private int[] m_iLongLevels;
 
@@ -449,7 +449,7 @@ namespace SIS.Hardware
         }
 
         // Calculates voltages for a direct move to a set of XY coordinates.
-        private void CalculateMove(double __dInitVoltageX, double __dInitVoltageY, double __dFinVoltageX, double __dFinVoltageY, int __iSteps)
+        private double[,] CalculateMove(double __dInitVoltageX, double __dInitVoltageY, double __dFinVoltageX, double __dFinVoltageY, int __iSteps)
         {
             // Init some variables.
             double _dCurrentVoltageX = __dInitVoltageX;
@@ -482,20 +482,20 @@ namespace SIS.Hardware
             }
 
 
-            this.m_dMoveGeneratorCoordinates = _dMovement;
+            return _dMovement;
         }
 
         public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
         {
             // Calculate the voltages that make up the full scan.
-            this.CalculateMove(
+            this.m_dMoveGeneratorCoordinates = this.CalculateMove(
                 m_dCurrentVoltageX,
                 m_dCurrentVoltageY,
                 this.NmToVoltage(__dXPosNm),
                 this.NmToVoltage(__dYPosNm),
                 1000);
 
-            int[] levels = Enumerable.Repeat(0, this.m_dScanGeneratorCoordinates.GetLength(1)).ToArray();
+            int[] levels = Enumerable.Repeat(0, this.m_dScanCoordinates.GetLength(1)).ToArray();
 
             this.TimedMove(1.0, this.m_dMoveGeneratorCoordinates, levels);
 
@@ -519,7 +519,7 @@ namespace SIS.Hardware
 
         public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend)
         {
-            if (__bResend | this.m_dScanGeneratorCoordinates == null)
+            if (__bResend | this.m_dScanCoordinates == null)
             {
                 int size = __scmScanMode.NMScanCoordinates.GetLength(1);
                 double delta = __scmScanMode.NMScanCoordinates[1, size - 1] - __scmScanMode.NMScanCoordinates[1, 0];
@@ -561,11 +561,11 @@ namespace SIS.Hardware
                 longlevels[0] = 7;
 
                 this.m_iLongLevels = longlevels;
-                this.m_dScanGeneratorCoordinates = coordinates;
+                this.m_dScanCoordinates = coordinates;
             }
-
+            this.m_dMoveGeneratorCoordinates = this.m_dScanCoordinates;
             // Perform the actual scan as a timed move.
-            this.TimedMove(__dPixelTime, this.m_dScanGeneratorCoordinates, this.m_iLongLevels);
+            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels);
         }
 
         public void Stop()
@@ -578,8 +578,8 @@ namespace SIS.Hardware
 
             if (this.m_iSamplesToStageCurrent > 0)
             {
-                m_dCurrentVoltageX = m_dScanGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
-                m_dCurrentVoltageY = m_dScanGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
+                m_dCurrentVoltageX = m_dMoveGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
+                m_dCurrentVoltageY = m_dMoveGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
             }
 
             _logger.Info("written : " + m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel.ToString());
@@ -659,8 +659,8 @@ namespace SIS.Hardware
                 if (m_iSamplesToStageCurrent > 0)
                 {
                     this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
-                    m_dCurrentVoltageX = m_dScanGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
-                    m_dCurrentVoltageY = m_dScanGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
+                    m_dCurrentVoltageX = m_dScanCoordinates[0, m_iSamplesToStageCurrent - 1];
+                    m_dCurrentVoltageY = m_dScanCoordinates[1, m_iSamplesToStageCurrent - 1];
                 }
 
                 // Update Progress.
