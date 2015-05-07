@@ -9,6 +9,7 @@ using NationalInstruments.DAQmx;
 
 namespace SIS.Hardware
 {
+    using System.Diagnostics;
     using System.Net.Mime;
     using System.Xml.Serialization;
 
@@ -29,7 +30,9 @@ namespace SIS.Hardware
         private Task m_daqtskMoveStage;
 
         // Current array of coordinates for timed stage motion
-        private double[,] m_dGeneratorCoordinates;
+        private double[,] m_dScanGeneratorCoordinates;
+        private double[,] m_dMoveGeneratorCoordinates;
+        private int[] m_iLongLevels;
 
         #endregion
 
@@ -479,7 +482,7 @@ namespace SIS.Hardware
             }
 
 
-            this.m_dGeneratorCoordinates = _dMovement;
+            this.m_dMoveGeneratorCoordinates = _dMovement;
         }
 
         public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
@@ -492,9 +495,9 @@ namespace SIS.Hardware
                 this.NmToVoltage(__dYPosNm),
                 1000);
 
-            int[] levels = Enumerable.Repeat(0, this.m_dGeneratorCoordinates.GetLength(1)).ToArray();
+            int[] levels = Enumerable.Repeat(0, this.m_dScanGeneratorCoordinates.GetLength(1)).ToArray();
 
-            this.TimedMove(1.0, this.m_dGeneratorCoordinates, levels);
+            this.TimedMove(1.0, this.m_dMoveGeneratorCoordinates, levels);
 
             while (this.m_daqtskMoveStage.IsDone != true)
             {
@@ -516,49 +519,53 @@ namespace SIS.Hardware
 
         public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend)
         {
-            int size = __scmScanMode.NMScanCoordinates.GetLength(1);
-            double delta = __scmScanMode.NMScanCoordinates[1, size - 1] - __scmScanMode.NMScanCoordinates[1, 0];
-
-            double[] linevolts = new double[size];
-            int[] levels = new int[size];
-
-            for (int i = __scmScanMode.Trig1Start; i < __scmScanMode.Trig1End + 1; i++)
+            if (__bResend | this.m_dScanGeneratorCoordinates == null)
             {
-                linevolts[i] = 3;
-                levels[i] = 1;
+                int size = __scmScanMode.NMScanCoordinates.GetLength(1);
+                double delta = __scmScanMode.NMScanCoordinates[1, size - 1] - __scmScanMode.NMScanCoordinates[1, 0];
 
-                // The start of line trigger.
-                if (i == __scmScanMode.Trig1Start)
+                double[] linevolts = new double[size];
+                int[] levels = new int[size];
+
+                for (int i = __scmScanMode.Trig1Start; i < __scmScanMode.Trig1End + 1; i++)
                 {
-                    levels[i] = 3;
+                    linevolts[i] = 3;
+                    levels[i] = 1;
+
+                    // The start of line trigger.
+                    if (i == __scmScanMode.Trig1Start)
+                    {
+                        levels[i] = 3;
+                    }
                 }
-            }
 
-            // Allocate space for the full image
-            double[,] coordinates =
-                new double[3, size * __scmScanMode.RepeatNumber];
+                // Allocate space for the full image
+                double[,] coordinates =
+                    new double[3, size * __scmScanMode.RepeatNumber];
 
-            int[] longlevels =
-                new int[size * __scmScanMode.RepeatNumber];
+                int[] longlevels =
+                    new int[size * __scmScanMode.RepeatNumber];
 
-            for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
-            {
-                for (int j = 0; j < size; j++)
+                for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
                 {
-                    coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.NMScanCoordinates[0, j]);
-                    coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.NMScanCoordinates[1, j] + i * delta);
-                    coordinates[2, j + (i * size)] = 0.0;
-                    longlevels[j + (i * size)] = levels[j];
+                    for (int j = 0; j < size; j++)
+                    {
+                        coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.NMScanCoordinates[0, j]);
+                        coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.NMScanCoordinates[1, j] + i * delta);
+                        coordinates[2, j + (i * size)] = 0.0;
+                        longlevels[j + (i * size)] = levels[j];
+                    }
                 }
+
+                // Set the levels to achieve start of frame trigger.
+                longlevels[0] = 7;
+
+                this.m_iLongLevels = longlevels;
+                this.m_dScanGeneratorCoordinates = coordinates;
             }
-
-            // Set the levels to achieve start of frame trigger.
-            longlevels[0] = 7;
-
-            this.m_dGeneratorCoordinates = coordinates;
 
             // Perform the actual scan as a timed move.
-            this.TimedMove(__dPixelTime, this.m_dGeneratorCoordinates, longlevels);
+            this.TimedMove(__dPixelTime, this.m_dScanGeneratorCoordinates, this.m_iLongLevels);
         }
 
         public void Stop()
@@ -571,8 +578,8 @@ namespace SIS.Hardware
 
             if (this.m_iSamplesToStageCurrent > 0)
             {
-                m_dCurrentVoltageX = m_dGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
-                m_dCurrentVoltageY = m_dGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
+                m_dCurrentVoltageX = m_dScanGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
+                m_dCurrentVoltageY = m_dScanGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
             }
 
             _logger.Info("written : " + m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel.ToString());
@@ -585,6 +592,10 @@ namespace SIS.Hardware
 
         private void TimedMove(double __dCycleTime, double[,] __dCoordinates, int[] __iLevels)
         {
+            Stopwatch watch = new Stopwatch();
+
+            watch.Start();
+            _logger.Debug("Start:" + watch.ElapsedMilliseconds.ToString());
             int _iSamplesPerChannel = __dCoordinates.Length / 3;
 
             // Prepare the stage control task for writing as many samples as necessary to complete Move.
@@ -607,10 +618,11 @@ namespace SIS.Hardware
                     " samples and requested sample count = " +
                     __dCoordinates.GetLength(1).ToString());
 
-
+                _logger.Debug("Start write:" + watch.ElapsedMilliseconds.ToString());
                 // Perform the actual AO write.
                 writerA.WriteMultiSample(false, __dCoordinates);
                 writerD.WriteMultiSamplePort(false, __iLevels);
+                _logger.Debug("End write:" + watch.ElapsedMilliseconds.ToString());
 
                 // Start all four tasks in the correct order. Global sync should be last.
                 this.m_daqtskMoveStage.Start();
@@ -647,8 +659,8 @@ namespace SIS.Hardware
                 if (m_iSamplesToStageCurrent > 0)
                 {
                     this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
-                    m_dCurrentVoltageX = m_dGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
-                    m_dCurrentVoltageY = m_dGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
+                    m_dCurrentVoltageX = m_dScanGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
+                    m_dCurrentVoltageY = m_dScanGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
                 }
 
                 // Update Progress.
