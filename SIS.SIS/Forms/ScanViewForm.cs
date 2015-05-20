@@ -141,7 +141,7 @@ namespace SIS.Forms
 
             //this.btnScanStart.Enabled = false;
             //this.btnStageOFF.Enabled = false;
-            this.btnValidateInput.Enabled = true;
+            this.btnCountRate.Enabled = true;
             //this.btnStop.Enabled = false;
 
             // Indicate that the stage is not yet brought online.
@@ -211,7 +211,7 @@ namespace SIS.Forms
         {
             // Disable the Scan button because validation is always necessary before scanning can start.
             this.btnScanStart.Enabled = true;
-            this.btnValidateInput.Enabled = true;
+            this.btnCountRate.Enabled = true;
             this.btnStop.Enabled = true;
         }
 
@@ -220,7 +220,7 @@ namespace SIS.Forms
         {
             // Disable the Scan button.
             this.btnScanStart.Enabled = false;
-            this.btnValidateInput.Enabled = false;
+            this.btnCountRate.Enabled = false;
             this.btnStop.Enabled = true;
         }
 
@@ -247,7 +247,7 @@ namespace SIS.Forms
             }
         }
 
-        private void btnValidateInput_Click(object sender, EventArgs e)
+        private void btnCountRate_Click(object sender, EventArgs e)
         {
             if (this.m_frmCountRate == null)
             {

@@ -59,7 +59,7 @@
             this.lblStageCurrXPos = new System.Windows.Forms.Label();
             this.btnMoveAbs = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
-            this.btnValidateInput = new System.Windows.Forms.Button();
+            this.btnCountRate = new System.Windows.Forms.Button();
             this.m_btnScanSettings = new System.Windows.Forms.Button();
             this.m_nupdFilenameCount = new System.Windows.Forms.NumericUpDown();
             this.m_chkbxAutosave = new System.Windows.Forms.CheckBox();
@@ -190,7 +190,7 @@
             this.tableLayoutPanel1.Controls.Add(this.lblStageCurrXPos, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnMoveAbs, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnStop, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.btnValidateInput, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnCountRate, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.m_btnScanSettings, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.m_nupdFilenameCount, 2, 5);
             this.tableLayoutPanel1.Controls.Add(this.m_chkbxAutosave, 3, 5);
@@ -446,16 +446,17 @@
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // btnValidateInput
+            // btnCountRate
             // 
-            this.btnValidateInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnValidateInput.Location = new System.Drawing.Point(3, 37);
-            this.btnValidateInput.Name = "btnValidateInput";
-            this.btnValidateInput.Size = new System.Drawing.Size(103, 28);
-            this.btnValidateInput.TabIndex = 34;
-            this.btnValidateInput.Text = "Validate";
-            this.btnValidateInput.UseVisualStyleBackColor = true;
-            this.btnValidateInput.Click += new System.EventHandler(this.btnValidateInput_Click);
+            this.btnCountRate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCountRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCountRate.Location = new System.Drawing.Point(3, 37);
+            this.btnCountRate.Name = "btnCountRate";
+            this.btnCountRate.Size = new System.Drawing.Size(103, 28);
+            this.btnCountRate.TabIndex = 34;
+            this.btnCountRate.Text = "Countrate";
+            this.btnCountRate.UseVisualStyleBackColor = true;
+            this.btnCountRate.Click += new System.EventHandler(this.btnCountRate_Click);
             // 
             // m_btnScanSettings
             // 
@@ -991,7 +992,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button btnValidateInput;
+        private System.Windows.Forms.Button btnCountRate;
         private System.Windows.Forms.Label lblStageVoltageEngaged;
         private System.Windows.Forms.Button btnStageOFF;
         private System.Windows.Forms.TextBox txtbxCurrYPos;

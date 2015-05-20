@@ -38,7 +38,7 @@ namespace SIS.Forms
 
             this.m_APD = new SIS.Hardware.APD("Dev1", "Ctr0", 100, "Ctr2InternalOutput", "Ctr1", "PFI15", false);
 
-            this.m_APD.SetupAPDCountAndTiming(100, 100000);
+            this.m_APD.SetupAPDCountAndTiming(100.0, 100000);
             this.m_APD.StartAPDAcquisition();
 
             this.m_tcClock.Start();
