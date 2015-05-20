@@ -17,7 +17,19 @@ namespace SIS.Hardware
     {
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        # region Essential Member Objects.
+        #region Constant Stage Parameters.
+
+        // Constant properties of the stage. These will be used in input validation and safe speed calculation for stage movement.
+        private const double m_dNmPVolt = 10000.0;
+        private const double m_dMaxPosition = 90000.0;
+
+        // Set global range for the Voltage outputs as an additional safety.
+        private const double m_dVoltageMax = 10.0;
+        private const double m_dVoltageMin = -10.0;
+
+        #endregion
+
+        #region Members.
 
         // The NI Task object that will handle actual stage control.
         // LineTrigger handles a multi bit 'bus' that can be programmed 
@@ -33,22 +45,6 @@ namespace SIS.Hardware
         private double[,] m_dScanCoordinates;
         private double[,] m_dMoveGeneratorCoordinates;
         private int[] m_iLongLevels;
-
-        #endregion
-
-        #region Constant Stage Parameters.
-
-        // Constant properties of the stage. These will be used in input validation and safe speed calculation for stage movement.
-        private const double m_dNmPVolt = 10000.0;
-        private const double m_dMaxPosition = 90000.0;
-
-        // Set global range for the Voltage outputs as an additional safety.
-        private const double m_dVoltageMax = 10.0;
-        private const double m_dVoltageMin = -10.0;
-
-        #endregion
-
-        #region Members.
 
         // Create variables to keep track of the currently set voltage to the Piezo stage.
         private double m_dCurrentVoltageX;
@@ -86,10 +82,6 @@ namespace SIS.Hardware
                 if (this.m_bIsInitialized)
                 {
                     return m_dCurrentVoltageX;
-                    //return this.m_iSamplesToStageCurrent;
-                    //double[] _dPositions = new double[3];
-                    //this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
-                    //return _dPositions[0] * 1000;
                 }
                 else
                 {
@@ -108,10 +100,6 @@ namespace SIS.Hardware
                 if (this.m_bIsInitialized)
                 {
                     return m_dCurrentVoltageY;
-                    //return this.m_iSamplesToStageCurrent;
-                    //double[] _dPositions = new double[3];
-                    //this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
-                    //return _dPositions[1] * 1000;
                 }
                 else
                 {
@@ -121,7 +109,7 @@ namespace SIS.Hardware
         }
 
         /// <summary>
-        /// Returns the current Y position of the stage in nm.
+        /// Returns the current Z position of the stage in nm.
         /// </summary>
         public double ZPosition
         {
@@ -130,10 +118,6 @@ namespace SIS.Hardware
                 if (this.m_bIsInitialized)
                 {
                     return 0.0;
-                    //return this.m_iSamplesToStageCurrent;
-                    //double[] _dPositions = new double[3];
-                    //this.IsError(E7XXController.qPOS(this.m_iControllerID, "123", _dPositions));
-                    //return _dPositions[2] * 1000;
                 }
                 else
                 {
@@ -172,14 +156,6 @@ namespace SIS.Hardware
             get
             {
                 return true;
-                //if (this.Moving() || this.GeneratorRunning())
-                //{
-                //    return true;
-                //}
-                //else
-                //{
-                //    return false;
-                //}
             }
         }
 
@@ -201,13 +177,6 @@ namespace SIS.Hardware
         /// Event thrown whenever the stage is switched on, or off.
         /// </summary>
         public event EventHandler EngagedChanged;
-
-        #endregion
-
-        #region Delegates.
-
-        //private delegate void UIUpdateDelegate();
-        //private delegate void ProgressUpdate(int _iProgress);
 
         #endregion
 
@@ -284,7 +253,7 @@ namespace SIS.Hardware
                 _logger.Error("Unable to connect set up AO channels for Move task!");
             }
 
-            // If everything went well, tell everyone :)
+            // If everything went well, tell everyone.
             if (EngagedChanged != null)
             {
                 EngagedChanged(this, new EventArgs());
@@ -397,7 +366,7 @@ namespace SIS.Hardware
 
         public void Release()
         {
-            this.MoveAbs(0.0, 0.0, 0.0);
+            this.Home();
 
             try
             {
@@ -499,12 +468,12 @@ namespace SIS.Hardware
 
             this.TimedMove(1.0, this.m_dMoveGeneratorCoordinates, levels);
 
-            while (this.m_daqtskMoveStage.IsDone != true)
-            {
-                Thread.Sleep(100);
-            }
+            //while (this.m_daqtskMoveStage.IsDone != true)
+            //{
+            //    Thread.Sleep(100);
+            //}
 
-            this.Stop();
+            //this.Stop();
         }
 
         public void MoveRel(double __dXPosNm, double __dYPosNm, double __dZPosNm)
@@ -682,12 +651,7 @@ namespace SIS.Hardware
                 m_daqtskLineTrigger.Stop();
             }
 
-            //finally
-            //{
-            //    m_daqtskMasterClock.Stop();
-            //    m_daqtskMoveStage.Stop();
-            //    m_daqtskLineTrigger.Stop();
-            //}
+            this.Stop();
         }
 
         #endregion
