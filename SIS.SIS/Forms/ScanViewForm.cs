@@ -900,9 +900,6 @@ namespace SIS.Forms
             // Initiate stage scan movement.
             this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, this.checkBox1.Checked);
 
-            //while ((_readsamples1 < _docDocument.PixelCount) & (_bStop != true))
-            //while ((_readsamples1 < _docDocument.PixelCount) & (_readsamples2 < _docDocument.PixelCount) & (_bStop != true))
-            //while ((_readsamples2 < _docDocument.PixelCount) & (_bStop != true))
             while (_bStop != true)
             {
                 // Update the UI every 0.1 seconds, more than fast enough.
@@ -926,7 +923,7 @@ namespace SIS.Forms
                     _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
                 }
 
-                // Assign processed data to the actual document opject. This should only be done in the case of bidirectional scanning.
+                // Assign processed data to the actual document opject.
                 _docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
                 _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
 

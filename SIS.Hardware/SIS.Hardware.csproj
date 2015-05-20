@@ -118,7 +118,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SIS.Library\SIS.Library.csproj">
       <Project>{AFCE2F08-7BD7-4F73-ABC1-9FFAFCEEACEF}</Project>
-      <Name>KUL.MDS.Library</Name>
+      <Name>SIS.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIS.ScanModes\SIS.ScanModes.csproj">
       <Project>{c30788b7-5765-4215-90e4-d973ce0c15f2}</Project>
@@ -126,7 +126,7 @@
     </ProjectReference>
     <ProjectReference Include="..\SIS.Systemlayer\SIS.Systemlayer.csproj">
       <Project>{DD096382-A82E-4656-8ADC-85A5BC4476D7}</Project>
-      <Name>KUL.MDS.Systemlayer</Name>
+      <Name>SIS.Systemlayer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

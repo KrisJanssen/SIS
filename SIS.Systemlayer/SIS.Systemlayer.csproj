@@ -130,7 +130,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SIS.Base\SIS.Base.csproj">
       <Project>{4e58eefc-82a4-4afd-82c8-718f8a453d12}</Project>
-      <Name>KUL.MDS.Base</Name>
+      <Name>SIS.Base</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -237,19 +237,19 @@
   <ItemGroup>
     <ProjectReference Include="..\SIS.Base\SIS.Base.csproj">
       <Project>{4E58EEFC-82A4-4AFD-82C8-718F8A453D12}</Project>
-      <Name>KUL.MDS.Base</Name>
+      <Name>SIS.Base</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIS.Library\SIS.Library.csproj">
       <Project>{AFCE2F08-7BD7-4F73-ABC1-9FFAFCEEACEF}</Project>
-      <Name>KUL.MDS.Library</Name>
+      <Name>SIS.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIS.Resources\SIS.Resources.csproj">
       <Project>{04D2293F-76E4-4318-AF0F-10A24EC5899D}</Project>
-      <Name>KUL.MDS.Resources</Name>
+      <Name>SIS.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIS.Systemlayer\SIS.Systemlayer.csproj">
       <Project>{DD096382-A82E-4656-8ADC-85A5BC4476D7}</Project>
-      <Name>KUL.MDS.Systemlayer</Name>
+      <Name>SIS.Systemlayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

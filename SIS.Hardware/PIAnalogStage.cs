@@ -44,7 +44,7 @@ namespace SIS.Hardware
 
         // Set global range for the Voltage outputs as an additional safety.
         private const double m_dVoltageMax = 10.0;
-        private const double m_dVoltageMin = 0.0;
+        private const double m_dVoltageMin = -10.0;
 
         #endregion
 
@@ -574,7 +574,7 @@ namespace SIS.Hardware
             this.m_daqtskMasterClock.Stop();
             this.m_daqtskMoveStage.Stop();
 
-            this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
+            this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel % m_dMoveGeneratorCoordinates.GetLength(1);
 
             if (this.m_iSamplesToStageCurrent > 0)
             {

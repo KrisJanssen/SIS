@@ -206,8 +206,8 @@ namespace SIS.Documents
                 for (int _iI = 0; _iI < this.m_scnstSettings.Channels; _iI++)
                 {
                     _Max[_iI] = this.FindMax(
-                        this.m_ui32Pixels, 
-                        _iI, 
+                        this.m_ui32Pixels,
+                        _iI,
                         this.m_ui32Pixels.Length / this.m_scnstSettings.Channels);
                 }
 
@@ -226,8 +226,8 @@ namespace SIS.Documents
                 for (int _iI = 0; _iI < this.m_scnstSettings.Channels; _iI++)
                 {
                     _Min[_iI] = this.FindMin(
-                        this.m_ui32Pixels, 
-                        _iI, 
+                        this.m_ui32Pixels,
+                        _iI,
                         this.m_ui32Pixels.Length / this.m_scnstSettings.Channels);
                 }
 
@@ -431,6 +431,11 @@ namespace SIS.Documents
             {
                 this.m_ui32Pixels[_iStart + _iI] = __ui32Values[_iI];
             }
+
+            //Parallel.For(0, _iPixelCount, _iI =>
+
+            //{ this.m_ui32Pixels[_iStart + _iI] = __ui32Values[_iI]; }
+           // );
         }
 
         #endregion

@@ -338,7 +338,7 @@
             validationRule1.DataType = SIS.Validation.ValidationDataType.Double;
             validationRule1.InitialValue = "0";
             validationRule1.MaximumValue = "90000";
-            validationRule1.MinimumValue = "0";
+            validationRule1.MinimumValue = "-90000";
             this.validationProvider1.SetValidationRule(this.m_txtbxSetInitX, validationRule1);
             // 
             // m_txtbxSetInitY
@@ -354,7 +354,7 @@
             validationRule2.DataType = SIS.Validation.ValidationDataType.Double;
             validationRule2.InitialValue = "0";
             validationRule2.MaximumValue = "90000";
-            validationRule2.MinimumValue = "0";
+            validationRule2.MinimumValue = "-90000";
             this.validationProvider1.SetValidationRule(this.m_txtbxSetInitY, validationRule2);
             // 
             // m_txtbxSetInitZ

@@ -112,11 +112,11 @@
   <ItemGroup>
     <ProjectReference Include="..\SIS.Resources\SIS.Resources.csproj">
       <Project>{04D2293F-76E4-4318-AF0F-10A24EC5899D}</Project>
-      <Name>KUL.MDS.Resources</Name>
+      <Name>SIS.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIS.Systemlayer\SIS.Systemlayer.csproj">
       <Project>{DD096382-A82E-4656-8ADC-85A5BC4476D7}</Project>
-      <Name>KUL.MDS.Systemlayer</Name>
+      <Name>SIS.Systemlayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
