@@ -455,6 +455,7 @@
             this.btnValidateInput.TabIndex = 34;
             this.btnValidateInput.Text = "Validate";
             this.btnValidateInput.UseVisualStyleBackColor = true;
+            this.btnValidateInput.Click += new System.EventHandler(this.btnValidateInput_Click);
             // 
             // m_btnScanSettings
             // 

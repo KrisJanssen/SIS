@@ -49,36 +49,13 @@ namespace SIS.Hardware
         }
 
         /// <summary>
-        /// Given a binning time for photon counting, a suitable frequency will be calculated to sync all tasks properly.
-        ///     See Raman Imaging Timing Implementation.pptx in /Documentation/ folder for more details.
-        /// </summary>
-        /// <param name="__dBinTime">
-        /// The __d Bin Time.
-        /// </param>
-        /// <param name="__dPadTime">
-        /// The __d Pad Time.
-        /// </param>
-        /// <returns>
-        /// The <see cref="double"/>.
-        /// </returns>
-        public double Frequency(float __dBinTime, float __dPadTime)
-        {
-            // All operations in the program will be synchronized to one single clock.
-            // An Edge will fire every x miliseconds. The edge timing depends on the time to scan every px plus a safety.
-            // It is calculated here.
-            double _dFreq = 1000 * (1 / (__dBinTime + __dPadTime));
-
-            return _dFreq;
-        }
-
-        /// <summary>
         /// Creates a global timing pulse train that will be made available on RTSI0. The Pulse train always has a duty cycle
         ///     of .5
         /// </summary>
         /// <param name="__dFreq">
         /// The frequency in Hz at which all timed tasks will run
         /// </param>
-        public void SetupClock(double __dFreq)
+        public void SetupClock(string __sCounter, double __dFreq)
         {
             // Create a new task instance that will be passed to the globally available task.
             var _daqtskTask = new Task();
@@ -88,19 +65,19 @@ namespace SIS.Hardware
                 // Setup Global Sync Clock (GSC).
                 // Commit before start to speed things up later on when the task needs to be started.
                 _daqtskTask.COChannels.CreatePulseChannelFrequency(
-                    "/Dev1/Ctr0", 
+                    "/Dev1/" + __sCounter, 
                     "Sync", 
                     COPulseFrequencyUnits.Hertz, 
                     COPulseIdleState.Low, 
                     0.0, 
                     __dFreq, 
-                    0.1);
+                    0.5);
                 _daqtskTask.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples);
                 _daqtskTask.Control(TaskAction.Verify);
                 _daqtskTask.Control(TaskAction.Commit);
 
                 // Be sure to route the timing pulse to the RTSI line to make it available on all the installed DAQ boards of the system.
-                DaqSystem.Local.ConnectTerminals("/Dev1/Ctr0InternalOutput", "/Dev1/RTSI0");
+                //DaqSystem.Local.ConnectTerminals("/Dev1/Ctr0InternalOutput", "/Dev1/RTSI0");
 
                 // Finally pass the task.
                 this.m_daqtskGlobalSync = _daqtskTask;

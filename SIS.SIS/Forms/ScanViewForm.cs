@@ -34,6 +34,7 @@ namespace SIS.Forms
         private SIS.Forms.ProgressBarForm m_frmPBar = new ProgressBarForm();
         private SIS.Forms.TrajectoryPlotForm m_frmTrajectoryForm = new TrajectoryPlotForm();
         private SIS.Forms.ScanSettingsForm m_frmScanSettingsForm;
+        private SIS.Forms.CountRateForm m_frmCountRate;
 
         // Object to keep track of the current Scan Settings.
         private ScanSettings m_scnstSettings;
@@ -246,40 +247,21 @@ namespace SIS.Forms
             }
         }
 
-        // Validate user input for scan settings.
-        // Valid ranges for the different input controls are set up through the designer by selecting the control,
-        // Going to the properties pane and setting "Validationrule on validationprovider" to the desired values.
         private void btnValidateInput_Click(object sender, EventArgs e)
         {
-            //bool _boolPrimaryValidationPassed = false;
-            //bool _boolSecondaryValidationPassed = false;
+            if (this.m_frmCountRate == null)
+            {
+                this.m_frmCountRate = new CountRateForm();
+            }
 
-            //_boolPrimaryValidationPassed = this.valprovSISValidationProvider.Validate();
-            //this.valprovSISValidationProvider.ValidationMessages(!_boolPrimaryValidationPassed);
-
-            //if (_boolPrimaryValidationPassed == false)
-            //{
-            //    MessageBox.Show(m_strInvalidScanSettingsMsg1, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            //}
-            //else
-            //{
-            //    if (((Convert.ToUInt32(this.txtbxSetInitX.Text.Trim()) + Convert.ToUInt32(this.txtbxSetImageWidthnm.Text.Trim())) <= 90000) &&
-            //        ((Convert.ToUInt32(this.txtbxSetInitY.Text.Trim()) + Convert.ToUInt32(this.txtbxSetImageWidthnm.Text.Trim())) <= 90000))
-            //        _boolSecondaryValidationPassed = true;
-            //    //else
-            //    //MessageBox.Show(m_strInvalidScanSettingsMsg2 + m_iMaxPosition.ToString(), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            //}
-
-            //if ((_boolPrimaryValidationPassed == true) && (_boolSecondaryValidationPassed == true))
-            //    btnScanStart.Enabled = true;
-            //else
-            //    btnScanStart.Enabled = false;
+            this.m_frmCountRate.ShowDialog();
         }
 
         // Restore the full image after a Zoom operation.
         private void btnImageFit_Click(object sender, EventArgs e)
         {
             this.scanImageControl2.FitToScreen();
+
             // Update the UI.
             UpdateUI();
         }
@@ -1010,11 +992,11 @@ namespace SIS.Forms
             if (__evargsE.Cancelled)
             {
                 // Inform the user.
-                MessageBox.Show("Scan Cancelled, press OK to zero stage.");
+                //MessageBox.Show("Scan Cancelled, press OK to zero stage.");
             }
             else
             {
-                MessageBox.Show("Scan Completed, press OK to zero stage.");
+                //MessageBox.Show("Scan Completed, press OK to zero stage.");
             }
 
             // Handle auto-save.
@@ -1027,8 +1009,9 @@ namespace SIS.Forms
                 this.m_nupdFilenameCount.Value = this.m_nupdFilenameCount.Value + 1;
             }
 
-            this.EnableCtrls();
             this.m_Stage.MoveAbs(0.0, 0.0, 0.0);
+
+            this.EnableCtrls();
         }
 
         #endregion
