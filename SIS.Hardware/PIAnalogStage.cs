@@ -464,16 +464,16 @@ namespace SIS.Hardware
                 this.NmToVoltage(__dYPosNm),
                 1000);
 
-            int[] levels = Enumerable.Repeat(0, this.m_dScanCoordinates.GetLength(1)).ToArray();
+            int[] levels = Enumerable.Repeat(0, this.m_dMoveGeneratorCoordinates.GetLength(1)).ToArray();
 
             this.TimedMove(1.0, this.m_dMoveGeneratorCoordinates, levels);
 
-            //while (this.m_daqtskMoveStage.IsDone != true)
-            //{
-            //    Thread.Sleep(100);
-            //}
+            while (this.m_daqtskMoveStage.IsDone != true)
+            {
+                Thread.Sleep(100);
+            }
 
-            //this.Stop();
+            this.Stop();
         }
 
         public void MoveRel(double __dXPosNm, double __dYPosNm, double __dZPosNm)
@@ -539,11 +539,11 @@ namespace SIS.Hardware
 
         public void Stop()
         {
+            this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel; //% m_dMoveGeneratorCoordinates.GetLength(1);
+
             this.m_daqtskLineTrigger.Stop();
             this.m_daqtskMasterClock.Stop();
             this.m_daqtskMoveStage.Stop();
-
-            this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel % m_dMoveGeneratorCoordinates.GetLength(1);
 
             if (this.m_iSamplesToStageCurrent > 0)
             {
@@ -628,8 +628,8 @@ namespace SIS.Hardware
                 if (m_iSamplesToStageCurrent > 0)
                 {
                     this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
-                    m_dCurrentVoltageX = m_dScanCoordinates[0, m_iSamplesToStageCurrent - 1];
-                    m_dCurrentVoltageY = m_dScanCoordinates[1, m_iSamplesToStageCurrent - 1];
+                    m_dCurrentVoltageX = m_dMoveGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
+                    m_dCurrentVoltageY = m_dMoveGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
                 }
 
                 // Update Progress.
@@ -650,8 +650,6 @@ namespace SIS.Hardware
                 m_daqtskMoveStage.Stop();
                 m_daqtskLineTrigger.Stop();
             }
-
-            this.Stop();
         }
 
         #endregion

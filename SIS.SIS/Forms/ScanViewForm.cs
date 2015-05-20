@@ -891,6 +891,8 @@ namespace SIS.Forms
             UInt32[] _ui32AllReadValues1 = new UInt32[_docDocument.PixelCount];
             UInt32[] _ui32AllReadValues2 = new UInt32[_docDocument.PixelCount];
 
+            this.m_Stage.MoveAbs(_Scan.InitialX, _Scan.InitialY, _Scan.InitialZ);
+
             //List<UInt32> _lui32AllReadValues1 = new List<UInt32>(_docDocument.PixelCount);
             //List<UInt32> _lui32AllReadValues2 = new List<UInt32>(_docDocument.PixelCount);
 
@@ -933,7 +935,7 @@ namespace SIS.Forms
                     {
                         _bStop = true;
                     }
-                    if (this.checkBoxCont.Checked)
+                    else
                     {
                         _bStop = false;
                         this.m_Stage.Stop();
@@ -975,12 +977,12 @@ namespace SIS.Forms
                 // Update the rest of the UI.
                 Invoke(new UIUpdateDelegate(UpdateUI));
             }
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
             // Stop the move task for the stage.
             this.m_apdAPD1.StopAPDAcquisition();
             //this.m_apdAPD2.StopAPDAcquisition();
-            this.m_Stage.Stop();
+            //this.m_Stage.Stop();
         }
 
         private void btnStop_Click(object __oSender, EventArgs __evargsE)
@@ -998,14 +1000,15 @@ namespace SIS.Forms
 
         private void bckgwrkPerformScan_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs __evargsE)
         {
+
+            // Actually stop the stage from scanning.
+            this.m_Stage.Stop();
+
+            // Wait a bit.
+            Thread.Sleep(500);
+
             if (__evargsE.Cancelled)
             {
-                // Actually stop the stage from scanning.
-                this.m_Stage.Stop();
-
-                // Wait a bit.
-                Thread.Sleep(2000);
-
                 // Inform the user.
                 MessageBox.Show("Scan Cancelled, press OK to zero stage.");
             }
