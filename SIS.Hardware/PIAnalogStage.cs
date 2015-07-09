@@ -480,6 +480,12 @@ namespace SIS.Hardware
         {
         }
 
+        private double VoltageToNm(double __dVoltage)
+        {
+            double _dNm = __dVoltage * m_dNmPVolt;
+            return _dNm;
+        }
+
         private double NmToVoltage(double __dNmCoordinate)
         {
             double _dVoltage = __dNmCoordinate / m_dNmPVolt;
@@ -527,13 +533,18 @@ namespace SIS.Hardware
                 }
 
                 double _dMidX = this.NmToVoltage(__scmScanMode.XScanSizeNm) / 2 + this.m_dCurrentVoltageX;
-                double _dMidY = this.NmToVoltage(__scmScanMode.YScanSizeNm) / 2 + this.m_dCurrentVoltageY;
+                double _dMidY = this.m_dCurrentVoltageY;
 
                 for (int i = 0; i < coordinates.GetLength(1); i++)
                 {
-                    coordinates[0, i] = _dMidX + Math.Cos(__dRotation) * (coordinates[0, i] - _dMidX) - Math.Sin(__dRotation) * (coordinates[1, i] - _dMidY);
-                    coordinates[1, i] = _dMidY + Math.Sin(__dRotation) * (coordinates[0, i] - _dMidX) + Math.Cos(__dRotation) * (coordinates[1, i] - _dMidY);
+                    double xt = _dMidX + Math.Cos(__dRotation) * (coordinates[0, i] - _dMidX) - Math.Sin(__dRotation) * (coordinates[1, i] - _dMidY);
+                    double yt = _dMidY + Math.Sin(__dRotation) * (coordinates[0, i] - _dMidX) + Math.Cos(__dRotation) * (coordinates[1, i] - _dMidY);
+                    coordinates[0, i] = xt;
+                    coordinates[1, i] = yt;
+
                 }
+
+                this.MoveAbs(this.VoltageToNm(coordinates[0, 0]), this.VoltageToNm(coordinates[1, 0]), 0.0);
 
                 // Set the levels to achieve start of frame trigger.
                 longlevels[0] = 7;
