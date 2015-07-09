@@ -486,12 +486,12 @@ namespace SIS.Hardware
             return _dVoltage;
         }
 
-        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend)
+        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation)
         {
             if (__bResend | this.m_dScanCoordinates == null)
             {
-                int size = __scmScanMode.NMScanCoordinates.GetLength(1);
-                double delta = __scmScanMode.NMScanCoordinates[1, size - 1] - __scmScanMode.NMScanCoordinates[1, 0];
+                int size = __scmScanMode.ScanCoordinates.GetLength(1);
+                double delta = __scmScanMode.ScanCoordinates[1, size - 1] - __scmScanMode.ScanCoordinates[1, 0];
 
                 double[] linevolts = new double[size];
                 int[] levels = new int[size];
@@ -519,11 +519,20 @@ namespace SIS.Hardware
                 {
                     for (int j = 0; j < size; j++)
                     {
-                        coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.NMScanCoordinates[0, j]);
-                        coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.NMScanCoordinates[1, j] + i * delta);
+                        coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
+                        coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
                         coordinates[2, j + (i * size)] = 0.0;
                         longlevels[j + (i * size)] = levels[j];
                     }
+                }
+
+                double _dMidX = this.NmToVoltage(__scmScanMode.XScanSizeNm) / 2 + this.m_dCurrentVoltageX;
+                double _dMidY = this.NmToVoltage(__scmScanMode.YScanSizeNm) / 2 + this.m_dCurrentVoltageY;
+
+                for (int i = 0; i < coordinates.GetLength(1); i++)
+                {
+                    coordinates[0, i] = _dMidX + Math.Cos(__dRotation) * (coordinates[0, i] - _dMidX) - Math.Sin(__dRotation) * (coordinates[1, i] - _dMidY);
+                    coordinates[1, i] = _dMidY + Math.Sin(__dRotation) * (coordinates[0, i] - _dMidX) + Math.Cos(__dRotation) * (coordinates[1, i] - _dMidY);
                 }
 
                 // Set the levels to achieve start of frame trigger.

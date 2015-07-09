@@ -22,12 +22,11 @@ namespace SIS.ScanModes
         protected int m_iXOverScanPx;
         protected int m_iYOverScanPx;
         protected int m_iZOverScanPx;
-        protected double m_dInitXPosNm;
-        protected double m_dInitYPosNm;
-        protected double m_dInitZPosNm;
+        
         protected double m_dXScanSizeNm;
         protected double m_dYScanSizeNm;
         protected double m_dZScanSizeNm;
+
         protected double m_dBorderWidthX;
         protected double m_dMaxSpeed;
         protected double m_dCycleTime;
@@ -118,9 +117,6 @@ namespace SIS.ScanModes
         protected int m_iTrig2Type;
         protected int m_iTrig3Type;
         protected int m_iTrig4Type;
-
-        // Hashtable
-        protected Hashtable m_HT;
 
         protected int m_iRepeatNumber;
 
@@ -443,30 +439,6 @@ namespace SIS.ScanModes
             }
         }
 
-        public double InitialX
-        {
-            get
-            {
-                return this.m_dInitXPosNm;
-            }
-        }
-
-        public double InitialY
-        {
-            get
-            {
-                return this.m_dInitYPosNm;
-            }
-        }
-
-        public double InitialZ
-        {
-            get
-            {
-                return this.m_dInitZPosNm;
-            }
-        }
-
         public double XAmplitude
         {
             get
@@ -499,41 +471,15 @@ namespace SIS.ScanModes
             }
         }
 
-        //public double BorderWidthY
-        //{
-        //    get
-        //    {
-        //        return this.m_dRealInitYPosNm;
-        //    }
-        //}
-
         /// <summary>
         /// 
         /// </summary>
-        public double[,] NMScanCoordinates
+        public double[,] ScanCoordinates
         {
             get
             {
                 this.CalculateNMScanCoordinates();
                 return this.m_dNMScanCoordinates;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public double[,] AnalogScanCoordinates
-        {
-            get
-            {
-                if (this.m_dNMScanCoordinates != null)
-                {
-                    this.CalculateNMScanCoordinates();
-                }
-
-                this.CalculateAnalogScanCoordinates();
-
-                return m_dAnalogScanCoordinates;
             }
         }
 
@@ -550,12 +496,9 @@ namespace SIS.ScanModes
         /// <param name="__iXOverScanPx">The amount of extra pixels to scan in the X Dimension</param>
         /// <param name="__iYOverScanPx">The amount of extra pixels to scan in the Y Dimension</param>
         /// <param name="__iZOverScanPx">The amount of extra pixels to scan in the Z Dimension</param>
-        /// <param name="__dInitXPos">The physical start X-position for the scan in nm</param>
-        /// <param name="__dInitYPos">The physical start Y-position for the scan in nm</param>
-        /// <param name="__dInitZPos">The physical start Z-position for the scan in nm</param>
-        /// <param name="__dXScanSizeNm">The width (X-dimension) of the image to acquire in nm</param>
-        /// <param name="__dYScanSizeNm">The height (Y-dimension) of the image to acquire in nm</param>
-        /// <param name="__dZScanSizeNm">The depth (Z-dimension) of the image to acquire in nm</param>
+        /// <param name="__dXScanSize">The width (X-dimension) of the image to acquire in nm</param>
+        /// <param name="__dYScanSize">The height (Y-dimension) of the image to acquire in nm</param>
+        /// <param name="__dZScanSize">The depth (Z-dimension) of the image to acquire in nm</param>
         /// <param name="__iSpeedupPct">Value between 0 and 1 to indicate amount of speedup points in relation to image pixels</param>
         /// <param name="__iReturnSpeedFactor">Value to indicate how much faster return speed is relative to forward speed</param>
         /// <param name="__dMaxSpeed">This parameter is RESERVED for future use</param>
@@ -567,12 +510,9 @@ namespace SIS.ScanModes
             int __iXOverScanPx,
             int __iYOverScanPx,
             int __iZOverScanPx,
-            double __dInitXPosNm,
-            double __dInitYPosNm,
-            double __dInitZPosNm,
-            double __dXScanSizeNm,
-            double __dYScanSizeNm,
-            double __dZScanSizeNm,
+            double __dXScanSize,
+            double __dYScanSize,
+            double __dZScanSize,
             int __iSpeedupPct,
             int __iReturnSpeedFactor,
             double __dMaxSpeed,
@@ -583,13 +523,10 @@ namespace SIS.ScanModes
             this.m_iImageDepthPx = __iImageDepthPx;
             this.m_iXOverScanPx = __iXOverScanPx;
             this.m_iYOverScanPx = __iYOverScanPx;
-            this.m_iZOverScanPx = __iZOverScanPx; 
-            this.m_dInitXPosNm = __dInitXPosNm;
-            this.m_dInitYPosNm = __dInitYPosNm;
-            this.m_dInitZPosNm = __dInitZPosNm;
-            this.m_dXScanSizeNm = __dXScanSizeNm;
-            this.m_dYScanSizeNm = __dYScanSizeNm;
-            this.m_dZScanSizeNm = __dZScanSizeNm;
+            this.m_iZOverScanPx = __iZOverScanPx;
+            this.m_dXScanSizeNm = __dXScanSize;
+            this.m_dYScanSizeNm = __dYScanSize;
+            this.m_dZScanSizeNm = __dZScanSize;
             this.m_dSpeedupPct = (double)__iSpeedupPct / 100;
 
             if ((0 < __iReturnSpeedFactor) && (__iReturnSpeedFactor < 4))
@@ -630,14 +567,7 @@ namespace SIS.ScanModes
             m_iTrig2Type = (int)TriggerType.PulseTrigger;
             m_iTrig3Type = (int)TriggerType.PulseTrigger;
             m_iTrig4Type = (int)TriggerType.PulseTrigger;
-
-            this.CalculateAnalogScanCoordinates();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected abstract void CalculateAnalogScanCoordinates();
 
         /// <summary>
         /// 

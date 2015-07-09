@@ -23,8 +23,8 @@ namespace SIS.ScanModes
         /// <param name="__iYOverScanPx">The amount of extra pixels to scan in the Y Dimension</param>
         /// <param name="__dInitXPos">The physical start X-position for the scan in nm</param>
         /// <param name="__dInitYPos">The physical start Y-position for the scan in nm</param>
-        /// <param name="__dXScanSizeNm">The physical width of the scan in nm</param>
-        /// <param name="__dYScanSizeNm">The physical height of the scan in nm</param>
+        /// <param name="__dXScanSize">The physical width of the scan in nm</param>
+        /// <param name="__dYScanSize">The physical height of the scan in nm</param>
         /// <param name="__dMaxSpeed">This parameter is RESERVED for future use</param>
         /// <param name="__dCycleTime">This parameter is RESERVED for future use</param>
         public PointScan(
@@ -34,12 +34,9 @@ namespace SIS.ScanModes
             int __iXOverScanPx,
             int __iYOverScanPx,
             int __iZOverScanPx,
-            double __dInitXPos,
-            double __dInitYPos,
-            double __dInitZPos,
-            double __dXScanSizeNm,
-            double __dYScanSizeNm,
-            double __dZScanSizeNm,
+            double __dXScanSize,
+            double __dYScanSize,
+            double __dZScanSize,
             int __iSpeedupFactor,
             int __iReturnSpeedFactor,
             double __dMaxSpeed,
@@ -50,12 +47,9 @@ namespace SIS.ScanModes
                 __iXOverScanPx,
                 __iYOverScanPx,
                 __iZOverScanPx,
-                __dInitXPos,
-                __dInitYPos,
-                __dInitZPos,
-                __dXScanSizeNm,
-                __dYScanSizeNm,
-                __dZScanSizeNm,
+                __dXScanSize,
+                __dYScanSize,
+                __dZScanSize,
                 __iSpeedupFactor,
                 __iReturnSpeedFactor,
                 __dMaxSpeed,
@@ -158,12 +152,6 @@ namespace SIS.ScanModes
             // Since we are doing a point scan, there is no movement of the stage, hence no "special"  points.
             //this.m_iRepeatNumber = this.m_iImageHeightPx + this.m_iYOverScanPx;
             this.m_iRepeatNumber = this.m_iImageHeightPx;
-        }
-
-        // TODO: Implement.
-        protected override void CalculateAnalogScanCoordinates()
-        {
-            //this.m_dScanCoordinates = _dMovement;
         }
 
         // This method calculates XY scan coordinates expressed in nm for general use.

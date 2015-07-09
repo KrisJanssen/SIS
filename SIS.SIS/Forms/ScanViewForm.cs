@@ -814,7 +814,7 @@ namespace SIS.Forms
             _docDocument.Modified = true;
 
             this.m_frmTrajectoryForm.Visible = true;
-            this.m_frmTrajectoryForm.NMCoordinates = m_BiScan.NMScanCoordinates;
+            this.m_frmTrajectoryForm.NMCoordinates = m_BiScan.ScanCoordinates;
 
             // Continue with prepping and eventually running the scan.
             PrepnRunScan(m_BiScan);
@@ -873,7 +873,7 @@ namespace SIS.Forms
             UInt32[] _ui32AllReadValues1 = new UInt32[_docDocument.PixelCount];
             UInt32[] _ui32AllReadValues2 = new UInt32[_docDocument.PixelCount];
 
-            this.m_Stage.MoveAbs(_Scan.InitialX, _Scan.InitialY, _Scan.InitialZ);
+            //this.m_Stage.MoveAbs(_Scan.InitialX, _Scan.InitialY, _Scan.InitialZ);
 
             //List<UInt32> _lui32AllReadValues1 = new List<UInt32>(_docDocument.PixelCount);
             //List<UInt32> _lui32AllReadValues2 = new List<UInt32>(_docDocument.PixelCount);
@@ -882,7 +882,7 @@ namespace SIS.Forms
             this.m_apdAPD1.StartAPDAcquisition();
 
             // Initiate stage scan movement.
-            this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, this.checkBox1.Checked);
+            this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, this.checkBox1.Checked, Convert.ToDouble(this.textBox5.Text));
 
             while (_bStop != true)
             {
@@ -928,7 +928,7 @@ namespace SIS.Forms
                         //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         this.m_apdAPD1.StartAPDAcquisition();
                         //this.m_apdAPD2.StartAPDAcquisition();
-                        this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, false);
+                        this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, false, Convert.ToDouble(this.textBox5.Text));
                         _readsamples1 = 0;
                         _readsamples2 = 0;
                     }

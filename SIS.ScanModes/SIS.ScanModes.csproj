@@ -67,11 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Other\PointScan.cs" />
+    <Compile Include="XY\LineScan.cs" />
     <Compile Include="XY\BidirScanMode.cs" />
     <Compile Include="XY\BiDirScan.cs" />
     <Compile Include="XY\STEDXMultiLineScan.cs" />
-    <Compile Include="XY\YMultiLineScan.cs" />
-    <Compile Include="XY\XMultiLineScan.cs" />
     <Compile Include="XZ\STEDUniDirXZScan.cs" />
     <Compile Include="XZ\UniDirXZScan.cs" />
     <Compile Include="Enums\EnumScanAxes.cs" />
@@ -81,7 +80,6 @@
     <Compile Include="Core\ScanModeCollection.cs" />
     <Compile Include="XY\UniDirXYScan.cs" />
     <Compile Include="Core\Scanmode.cs" />
-    <Compile Include="Core\RasteredImageScanMode.cs" />
     <Compile Include="Core\ScanUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
