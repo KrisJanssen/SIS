@@ -262,6 +262,11 @@ namespace SIS.Hardware
 
         public void Configure(double __dCycleTimeMilisec, int __iSteps)
         {
+            this.Configure(__dCycleTimeMilisec, __iSteps, true);
+        }
+
+        public void Configure(double __dCycleTimeMilisec, int __iSteps, bool continuous)
+        {
             _logger.Info("Configuring stage timing....");
 
             if (this.m_daqtskMasterClock != null)
@@ -305,38 +310,73 @@ namespace SIS.Hardware
                     (int)dCycleDuration - 2,
                     (int)dCycleDuration);
 
-                _timingTask.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, __iSteps);
+                if (continuous)
+                {
+                    _timingTask.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples, __iSteps);
 
-                _timingTask.Control(TaskAction.Verify);
-                _timingTask.Control(TaskAction.Commit);
+                    _timingTask.Control(TaskAction.Verify);
+                    _timingTask.Control(TaskAction.Commit);
 
-                //this.m_daqtskMoveStage.Timing.SampleClockRate = 1000 / __dCycleTimeMilisec;
+                    this.m_daqtskMoveStage.Timing.SampleTimingType = SampleTimingType.SampleClock;
 
-                this.m_daqtskMoveStage.Timing.ConfigureSampleClock(
-                    "/Dev1/Ctr2InternalOutput",
-                    1000 / __dCycleTimeMilisec,
-                    SampleClockActiveEdge.Rising,
-                    SampleQuantityMode.FiniteSamples,
-                    __iSteps);
+                    this.m_daqtskMoveStage.Timing.ConfigureSampleClock(
+                        "/Dev1/Ctr2InternalOutput",
+                        1000 / __dCycleTimeMilisec,
+                        SampleClockActiveEdge.Rising,
+                        SampleQuantityMode.ContinuousSamples,
+                        __iSteps);
 
-                this.m_daqtskMoveStage.Timing.SampleTimingType = SampleTimingType.SampleClock;
+                    _lineTask.DOChannels.CreateChannel(
+                        "Dev1/port0",
+                        "test",
+                        ChannelLineGrouping.OneChannelForAllLines);
 
-                _lineTask.DOChannels.CreateChannel(
-                    "Dev1/port0",
-                    "test",
-                    ChannelLineGrouping.OneChannelForAllLines);
+                    _lineTask.Timing.SampleTimingType = SampleTimingType.SampleClock;
 
-                _lineTask.Timing.ConfigureSampleClock(
-                    "/Dev1/Ctr2InternalOutput",
-                    1000 / __dCycleTimeMilisec,
-                    SampleClockActiveEdge.Rising,
-                    SampleQuantityMode.FiniteSamples,
-                    __iSteps);
+                    _lineTask.Timing.ConfigureSampleClock(
+                        "/Dev1/Ctr2InternalOutput",
+                        1000 / __dCycleTimeMilisec,
+                        SampleClockActiveEdge.Rising,
+                        SampleQuantityMode.ContinuousSamples,
+                        __iSteps);
 
-                _lineTask.Timing.SampleTimingType = SampleTimingType.SampleClock;
+                    _lineTask.Control(TaskAction.Verify);
+                    _lineTask.Control(TaskAction.Commit);
+                }
 
-                _lineTask.Control(TaskAction.Verify);
-                _lineTask.Control(TaskAction.Commit);
+                if (!continuous)
+                {
+                    _timingTask.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, __iSteps);
+
+                    _timingTask.Control(TaskAction.Verify);
+                    _timingTask.Control(TaskAction.Commit);
+
+                    this.m_daqtskMoveStage.Timing.SampleTimingType = SampleTimingType.SampleClock;
+
+                    this.m_daqtskMoveStage.Timing.ConfigureSampleClock(
+                        "/Dev1/Ctr2InternalOutput",
+                        1000 / __dCycleTimeMilisec,
+                        SampleClockActiveEdge.Rising,
+                        SampleQuantityMode.FiniteSamples,
+                        __iSteps);
+
+                    _lineTask.DOChannels.CreateChannel(
+                        "Dev1/port0",
+                        "line",
+                        ChannelLineGrouping.OneChannelForAllLines);
+
+                    _lineTask.Timing.SampleTimingType = SampleTimingType.SampleClock;
+
+                    _lineTask.Timing.ConfigureSampleClock(
+                        "/Dev1/Ctr2InternalOutput",
+                        1000 / __dCycleTimeMilisec,
+                        SampleClockActiveEdge.Rising,
+                        SampleQuantityMode.FiniteSamples,
+                        __iSteps);
+
+                    _lineTask.Control(TaskAction.Verify);
+                    _lineTask.Control(TaskAction.Commit);
+                }
             }
 
             catch (DaqException ex)
@@ -466,7 +506,7 @@ namespace SIS.Hardware
 
             int[] levels = Enumerable.Repeat(0, this.m_dMoveGeneratorCoordinates.GetLength(1)).ToArray();
 
-            this.TimedMove(1.0, this.m_dMoveGeneratorCoordinates, levels);
+            this.TimedMove(1.0, this.m_dMoveGeneratorCoordinates, levels, false);
 
             while (this.m_daqtskMoveStage.IsDone != true)
             {
@@ -499,18 +539,19 @@ namespace SIS.Hardware
                 int size = __scmScanMode.ScanCoordinates.GetLength(1);
                 double delta = __scmScanMode.ScanCoordinates[1, size - 1] - __scmScanMode.ScanCoordinates[1, 0];
 
-                double[] linevolts = new double[size];
+                //double[] linevolts = new double[size];
                 int[] levels = new int[size];
 
-                for (int i = __scmScanMode.Trig1Start; i < __scmScanMode.Trig1End + 1; i++)
+                for (int i = __scmScanMode.Trig1Start; i < __scmScanMode.Trig1End; i++)
                 {
-                    linevolts[i] = 3;
+                    //linevolts[i] = 1;
                     levels[i] = 1;
 
                     // The start of line trigger.
                     if (i == __scmScanMode.Trig1Start)
                     {
-                        levels[i] = 3;
+                        //levels[i] = 257;
+                        levels[i] = 2;
                     }
                 }
 
@@ -544,17 +585,18 @@ namespace SIS.Hardware
 
                 }
 
-                this.MoveAbs(this.VoltageToNm(coordinates[0, 0]), this.VoltageToNm(coordinates[1, 0]), 0.0);
+                //this.MoveAbs(this.VoltageToNm(coordinates[0, 0]), this.VoltageToNm(coordinates[1, 0]), 0.0);
 
                 // Set the levels to achieve start of frame trigger.
-                longlevels[0] = 7;
+                //longlevels[0] = 512;
+                longlevels[0] = 4;
 
                 this.m_iLongLevels = longlevels;
                 this.m_dScanCoordinates = coordinates;
             }
             this.m_dMoveGeneratorCoordinates = this.m_dScanCoordinates;
             // Perform the actual scan as a timed move.
-            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels);
+            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, true);
         }
 
         public void Stop()
@@ -563,12 +605,17 @@ namespace SIS.Hardware
 
             this.m_daqtskLineTrigger.Stop();
             this.m_daqtskMasterClock.Stop();
-            this.m_daqtskMoveStage.Stop();
+            this.m_daqtskMoveStage.Stop(); 
 
             if (this.m_iSamplesToStageCurrent > 0)
             {
-                m_dCurrentVoltageX = m_dMoveGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
-                m_dCurrentVoltageY = m_dMoveGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
+                int temp = m_iSamplesToStageCurrent % this.m_dMoveGeneratorCoordinates.GetLength(1);
+                if (temp == 0)
+                {
+                    temp = m_iSamplesToStageCurrent;
+                }
+                m_dCurrentVoltageX = m_dMoveGeneratorCoordinates[0, temp - 1];
+                m_dCurrentVoltageY = m_dMoveGeneratorCoordinates[1, temp - 1];
             }
 
             _logger.Info("written : " + m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel.ToString());
@@ -579,7 +626,7 @@ namespace SIS.Hardware
             }
         }
 
-        private void TimedMove(double __dCycleTime, double[,] __dCoordinates, int[] __iLevels)
+        private void TimedMove(double __dCycleTime, double[,] __dCoordinates, int[] __iLevels, bool continuous)
         {
             Stopwatch watch = new Stopwatch();
 
@@ -588,7 +635,7 @@ namespace SIS.Hardware
             int _iSamplesPerChannel = __dCoordinates.Length / 3;
 
             // Prepare the stage control task for writing as many samples as necessary to complete Move.
-            this.Configure(__dCycleTime, _iSamplesPerChannel);
+            this.Configure(__dCycleTime, _iSamplesPerChannel, continuous);
 
             // Keep track of the progress on the output task.
             double _dProgress = 0.0;
@@ -598,17 +645,17 @@ namespace SIS.Hardware
 
             try
             {
-                this.m_daqtskMoveStage.Stream.Buffer.OutputBufferSize = __dCoordinates.GetLength(1);
-                this.m_daqtskLineTrigger.Stream.Buffer.OutputBufferSize = __iLevels.Length;
+                //this.m_daqtskMoveStage.Stream.Buffer.OutputBufferSize = __dCoordinates.GetLength(1);
+                //this.m_daqtskLineTrigger.Stream.Buffer.OutputBufferSize = __iLevels.Length;
 
-                _logger.Debug("Buffer size " +
-                    "Dev1 : " +
-                    m_daqtskMoveStage.Stream.Buffer.OutputBufferSize.ToString() +
-                    " samples and requested sample count = " +
-                    __dCoordinates.GetLength(1).ToString());
+                //_logger.Debug("Buffer size " +
+                //    "Dev1 : " +
+                //    m_daqtskMoveStage.Stream.Buffer.OutputBufferSize.ToString() +
+                //    " samples and requested sample count = " +
+                //    __dCoordinates.GetLength(1).ToString());
 
-                _logger.Debug("Start write:" + watch.ElapsedMilliseconds.ToString());
-                // Perform the actual AO write.
+                //_logger.Debug("Start write:" + watch.ElapsedMilliseconds.ToString());
+                //// Perform the actual AO write.
                 writerA.WriteMultiSample(false, __dCoordinates);
                 writerD.WriteMultiSamplePort(false, __iLevels);
                 _logger.Debug("End write:" + watch.ElapsedMilliseconds.ToString());
@@ -668,7 +715,7 @@ namespace SIS.Hardware
                 _logger.Error("Something went wrong! : \r\n", ex);
                 m_daqtskMasterClock.Stop();
                 m_daqtskMoveStage.Stop();
-                m_daqtskLineTrigger.Stop();
+                //m_daqtskLineTrigger.Stop();
             }
         }
 

@@ -891,17 +891,30 @@ namespace SIS.Forms
                 {
                     _ui32SingleReadValues1 = this.m_apdAPD1.Read();
 
-                    // Add the read samples to the previously read samples in memory.
-                    for (int _i = 0; _i < _ui32SingleReadValues1.Length; _i++)
+                    if (_ui32SingleReadValues1.Length >= _docDocument.PixelCount - _readsamples1)
                     {
-                        _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
+                        // Add the read samples to the previously read samples in memory.
+                        for (int _i = 0; _i < _docDocument.PixelCount - _readsamples1; _i++)
+                        {
+                            _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
+                        }
 
-                        // For debug purposes.
-                        //_ui32AllReadValues1[_readsamples1 + _i] = (UInt32)RandomClass.Next(1, 1600);
+                        // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+                        _readsamples1 = _docDocument.PixelCount;
+                    }
+                    else
+                    {
+                        // Add the read samples to the previously read samples in memory.
+                        for (int _i = 0; _i < _ui32SingleReadValues1.Length; _i++)
+                        {
+                            _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
+                        }
+
+                        // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+                        _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
                     }
 
-                    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                    _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
+                    
                 }
 
                 // Assign processed data to the actual document opject.
@@ -961,7 +974,7 @@ namespace SIS.Forms
             // Stop the move task for the stage.
             this.m_apdAPD1.StopAPDAcquisition();
             //this.m_apdAPD2.StopAPDAcquisition();
-            //this.m_Stage.Stop();
+            this.m_Stage.Stop();
         }
 
         private void btnStop_Click(object __oSender, EventArgs __evargsE)

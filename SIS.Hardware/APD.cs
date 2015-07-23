@@ -154,9 +154,9 @@ namespace SIS.Hardware
 
                 // We only want to collect as many counts as there are pixels or "steps" in the image.
                 // Every time we read from the buffer we will read all samples that are there at once.
-                _daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, __iSteps);
+                //_daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, __iSteps);
+                _daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples, __iSteps);
                 _daqtskAPD.Stream.ReadAllAvailableSamples = true;
-
 
 
                 // Verify
@@ -203,13 +203,18 @@ namespace SIS.Hardware
             m_daqtskGatePulse.Start();
         }
 
+        public UInt32[] Read()
+        {
+            return this.Read(-1);
+        }
+
         /// <summary>
         /// Returns all counts in buffer.
         /// </summary>
         /// <returns></returns>
-        public UInt32[] Read()
+        public UInt32[] Read(int number)
         {
-            UInt32[] _ui32Values = this.m_rdrCountReader.ReadMultiSampleUInt32(-1);
+            UInt32[] _ui32Values = this.m_rdrCountReader.ReadMultiSampleUInt32(number);
             this.m_dTotalCountsRead = m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
             return _ui32Values;
         }
