@@ -86,43 +86,43 @@ namespace SIS.Hardware
                 int _iBinTicks = Convert.ToInt32(__dBinTimeMilisec * m_iPulseGenTimeBase * 1000);
 
                 // Create new task instances that will be passed to the private member tasks.
-                Task _daqtskGate = new Task();
+                //Task _daqtskGate = new Task();
                 Task _daqtskAPD = new Task();
 
                 // Setup a pulsechannel that will determine the bin time for photon counts.
                 // This channel will create a single delayed edge upon triggering by the global sync pulsetrain or another source. 
                 // High time of the pulse determines bin time.
-                _daqtskGate.COChannels.CreatePulseChannelTicks(
-                    "/" + m_sBoardID + "/" + m_sPulseGenCtr,
-                    "GatePulse",
-                    "/" + m_sBoardID + "/" + m_iPulseGenTimeBase.ToString() + "MHzTimebase",
-                    COPulseIdleState.Low,
-                     m_iPulseGenTimeBase,
-                     m_iPulseGenTimeBase,
-                    _iBinTicks);
+                //_daqtskGate.COChannels.CreatePulseChannelTicks(
+                //    "/" + m_sBoardID + "/" + m_sPulseGenCtr,
+                //    "GatePulse",
+                //    "/" + m_sBoardID + "/" + m_iPulseGenTimeBase.ToString() + "MHzTimebase",
+                //    COPulseIdleState.Low,
+                //     m_iPulseGenTimeBase,
+                //     m_iPulseGenTimeBase,
+                //    _iBinTicks);
 
                 // We want to sync voltage out to Analog Piezo or  Digital Piezo with measurement without software intervention.
                 // Therefore we tap into the global sync pulsetrain of another timing source which is available from the RTSI cable (analog)
                 // or a PFI line (digital) to sync photon counting with movement.
                 // For each pixel a single pulse with a high duration equal to the photon binning time will be generated.
-                _daqtskGate.Triggers.StartTrigger.ConfigureDigitalEdgeTrigger(
-                    "/" + m_sBoardID + "/" + m_sPulseGenTrigger,
-                    DigitalEdgeStartTriggerEdge.Rising);
+                //_daqtskGate.Triggers.StartTrigger.ConfigureDigitalEdgeTrigger(
+                //    "/" + m_sBoardID + "/" + m_sPulseGenTrigger,
+                //    DigitalEdgeStartTriggerEdge.Rising);
 
 
 
 
                 // This trigger will occur for every pixel so it should be retriggerable.
-                _daqtskGate.Triggers.StartTrigger.Retriggerable = true;
-                _daqtskGate.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, 1);
+                //_daqtskGate.Triggers.StartTrigger.Retriggerable = true;
+                //_daqtskGate.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, 1);
 
                 // Be sure to route the timing pulse to the RTSI line to make it available on all the installed DAQ boards of the system.
                 // For syncing of other detection processess.
                 //DaqSystem.Local.ConnectTerminals("/Dev1/Ctr0InternalOutput", "/Dev1/RTSI0");
 
-                _daqtskGate.Control(TaskAction.Verify);
-                _daqtskGate.Control(TaskAction.Commit);
-                _daqtskGate.Control(TaskAction.Unreserve);
+                //_daqtskGate.Control(TaskAction.Verify);
+                //_daqtskGate.Control(TaskAction.Commit);
+                //_daqtskGate.Control(TaskAction.Unreserve);
 
                 _logger.Info("Exact pixel time is " + _iBinTicks + " ticks of " + m_iPulseGenTimeBase.ToString() + " MHz Timebase");
 
@@ -137,7 +137,8 @@ namespace SIS.Hardware
                     CIPulseWidthUnits.Ticks);
 
                 // On this terminal the timing pulse, that defines the bintime, will come in so that it's width can be counted.
-                _daqtskAPD.CIChannels.All.PulseWidthTerminal = "/" + m_sBoardID + "/" + m_sPulseGenCtr + "InternalOutput";
+                //_daqtskAPD.CIChannels.All.PulseWidthTerminal = "/" + m_sBoardID + "/" + m_sPulseGenCtr + "InternalOutput";
+                _daqtskAPD.CIChannels.All.PulseWidthTerminal = "/" + m_sBoardID + "/" + m_sPulseGenTrigger;
 
                 // On this line the TTLs from the APD will come in.
                 _daqtskAPD.CIChannels.All.CounterTimebaseSource = "/" + m_sBoardID + "/" + m_sAPDInputLine;
@@ -170,13 +171,13 @@ namespace SIS.Hardware
                 _daqtskAPD.Control(TaskAction.Commit);
 
                 // Finally pass the tasks.
-                this.m_daqtskGatePulse = _daqtskGate;
+                //this.m_daqtskGatePulse = _daqtskGate;
                 this.m_daqtskAPDCount = _daqtskAPD;
             }
 
             catch (DaqException ex)
             {
-                this.m_daqtskGatePulse = null;
+                //this.m_daqtskGatePulse = null;
                 this.m_daqtskAPDCount = null;
 
                 // Inform the user about the error.
@@ -200,7 +201,7 @@ namespace SIS.Hardware
             m_daqtskAPDCount.Start();
 
             // Now start the pulse with duration of bintime. The length of this pulse will be measured in TTL ticks from the actual APD.
-            m_daqtskGatePulse.Start();
+            //m_daqtskGatePulse.Start();
         }
 
         public UInt32[] Read()
@@ -225,7 +226,7 @@ namespace SIS.Hardware
         public void StopAPDAcquisition()
         {
             // Stop the pulse whose width is measured in TTL's coming from the APD.
-            m_daqtskGatePulse.Stop();
+            //m_daqtskGatePulse.Stop();
             // Stop the task that counts the TTL's
             m_daqtskAPDCount.Stop();
 
@@ -236,7 +237,7 @@ namespace SIS.Hardware
             m_daqtskAPDCount.Control(TaskAction.Unreserve);
 
             // Dispose of the tasks.
-            m_daqtskGatePulse.Dispose();
+            //m_daqtskGatePulse.Dispose();
             m_daqtskAPDCount.Dispose();
         }
     }
