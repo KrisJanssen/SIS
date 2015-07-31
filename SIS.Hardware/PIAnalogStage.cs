@@ -229,7 +229,7 @@ namespace SIS.Hardware
                 // Add AO channels.
                 _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao0", "aoChannelX", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
                 _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao1", "aoChannelY", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
-                _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao2", "aoChannelZ", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
+                _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao3", "aoChannelZ", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
 
                 // checked IFilteredTypeDescriptor everything is OK.
                 _daqtskTask.Control(TaskAction.Verify);
@@ -294,20 +294,23 @@ namespace SIS.Hardware
 
             try
             {
-                double dCycleDuration = __dCycleTimeMilisec * 100000 / 2;
+                double dCycleDuration = __dCycleTimeMilisec * 100000;
 
                 if (this.m_daqtskMoveStage == null)
                 {
                     this.Initialize();
                 }
 
+                //int iPadding = (int)Math.Round((int)dCycleDuration * 0.025 / 2);
+                int iPadding = 10;
+
                 _timingTask.COChannels.CreatePulseChannelTicks(
                     "/Dev1/Ctr2",
                     "MasterClk",
                     "/Dev1/100MHzTimebase",
                     COPulseIdleState.Low,
-                    2,
-                    (int)dCycleDuration - 2,
+                    iPadding,
+                    iPadding,
                     (int)dCycleDuration);
 
                 if (continuous)
@@ -542,18 +545,15 @@ namespace SIS.Hardware
                 //double[] linevolts = new double[size];
                 int[] levels = new int[size];
 
-                for (int i = __scmScanMode.Trig1Start; i < __scmScanMode.Trig1End; i++)
+                for (int i = __scmScanMode.Trig1Start; i < __scmScanMode.Trig1End + 1; i++)
                 {
                     //linevolts[i] = 1;
                     levels[i] = 1;
-
-                    // The start of line trigger.
-                    if (i == __scmScanMode.Trig1Start)
-                    {
-                        //levels[i] = 257;
-                        levels[i] = 2;
-                    }
+                  
                 }
+
+                levels[__scmScanMode.Trig1Start] = 3;
+                levels[__scmScanMode.Trig1End] = 2;
 
                 // Allocate space for the full image
                 double[,] coordinates =
@@ -590,6 +590,9 @@ namespace SIS.Hardware
                 // Set the levels to achieve start of frame trigger.
                 //longlevels[0] = 512;
                 longlevels[0] = 4;
+                longlevels[longlevels.GetLength(0)-3] = 4;
+                longlevels[longlevels.GetLength(0) - 2] = 4;
+                longlevels[longlevels.GetLength(0) - 1] = 4;
 
                 this.m_iLongLevels = longlevels;
                 this.m_dScanCoordinates = coordinates;

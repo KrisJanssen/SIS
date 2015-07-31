@@ -879,7 +879,7 @@ namespace SIS.Forms
             this.m_apdAPD1.StartAPDAcquisition();
 
             // Initiate stage scan movement.
-            this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, this.checkBox1.Checked, Convert.ToDouble(this.textBox5.Text));
+            this.m_Stage.Scan(_Scan, _docDocument.TimePPixel, this.checkBox1.Checked, Convert.ToDouble(this.textBox5.Text));
 
             while (_bStop != true)
             {
@@ -938,7 +938,7 @@ namespace SIS.Forms
                         //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         this.m_apdAPD1.StartAPDAcquisition();
                         //this.m_apdAPD2.StartAPDAcquisition();
-                        this.m_Stage.Scan(_Scan, _docDocument.TimePPixel * 2, false, Convert.ToDouble(this.textBox5.Text));
+                        this.m_Stage.Scan(_Scan, _docDocument.TimePPixel, false, Convert.ToDouble(this.textBox5.Text));
                         _readsamples1 = 0;
                         _readsamples2 = 0;
                     }

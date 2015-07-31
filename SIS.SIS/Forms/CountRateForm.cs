@@ -34,7 +34,7 @@ namespace SIS.Forms
             bool _bStop = false;
 
             this.m_tcClock = new TimingClock();
-            this.m_tcClock.SetupClock("Ctr2", 2);
+            this.m_tcClock.SetupClock("Ctr2", 0.5);
 
             this.m_APD = new SIS.Hardware.APD("Dev1", "Ctr0", 100, "Ctr2InternalOutput", "Ctr1", "PFI15", false);
 

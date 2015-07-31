@@ -64,6 +64,7 @@
             this.m_nupdFilenameCount = new System.Windows.Forms.NumericUpDown();
             this.m_chkbxAutosave = new System.Windows.Forms.CheckBox();
             this.checkBoxDMA = new System.Windows.Forms.CheckBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
@@ -96,7 +97,6 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
             this.ccdControl1 = new SIS.WPFControls.CCDControl.UI.CCDControl();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -499,6 +499,14 @@
             this.checkBoxDMA.TabIndex = 77;
             this.checkBoxDMA.Text = "Use DMA?";
             this.checkBoxDMA.UseVisualStyleBackColor = true;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(439, 139);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(100, 20);
+            this.textBox5.TabIndex = 78;
+            this.textBox5.Text = "0.0";
             // 
             // groupBox2
             // 
@@ -934,14 +942,6 @@
             this.elementHost2.TabIndex = 1;
             this.elementHost2.Text = "elementHost2";
             this.elementHost2.Child = this.ccdControl1;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(439, 139);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
-            this.textBox5.TabIndex = 78;
-            this.textBox5.Text = "0.0";
             // 
             // ScanViewForm
             // 

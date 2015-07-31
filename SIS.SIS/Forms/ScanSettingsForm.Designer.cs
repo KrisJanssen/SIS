@@ -528,7 +528,7 @@
             this.m_txtbxSetTimePPixel.TabIndex = 13;
             this.m_txtbxSetTimePPixel.Text = "0.2";
             validationRule13.InitialValue = "0.2";
-            validationRule13.MaximumValue = "20";
+            validationRule13.MaximumValue = "100";
             validationRule13.MinimumValue = "0.001";
             validationRule13.Operator = SIS.Validation.ValidationCompareOperator.GreaterThanEqual;
             validationRule13.ValueToCompare = "0.001";

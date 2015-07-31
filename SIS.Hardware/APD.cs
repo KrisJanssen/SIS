@@ -233,7 +233,7 @@ namespace SIS.Hardware
             this.m_dTotalCountsRead = m_daqtskAPDCount.Stream.TotalSamplesAcquiredPerChannel;
 
             // Free the resources used.
-            m_daqtskGatePulse.Control(TaskAction.Unreserve);
+            //m_daqtskGatePulse.Control(TaskAction.Unreserve);
             m_daqtskAPDCount.Control(TaskAction.Unreserve);
 
             // Dispose of the tasks.
