@@ -102,7 +102,7 @@ namespace SIS.Forms
 
             // The piezo stage is the most critical hardware resource. To prevent conflicts it is created as a singleton instance.
             //this.m_Stage = SIS.Hardware.PIDigitalStage.Instance;
-            this.m_Stage = SIS.Hardware.PIAnalogStage.Instance;
+            this.m_Stage = SIS.Hardware.NIAnalogStage.Instance;
 
 
             // Hook up EventHandler methods to the events of the stage.

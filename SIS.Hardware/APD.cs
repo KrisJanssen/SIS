@@ -237,7 +237,6 @@ namespace SIS.Hardware
             m_daqtskAPDCount.Control(TaskAction.Unreserve);
 
             // Dispose of the tasks.
-            //m_daqtskGatePulse.Dispose();
             m_daqtskAPDCount.Dispose();
         }
     }

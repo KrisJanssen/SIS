@@ -101,7 +101,7 @@
     <Compile Include="PhotoDiode.cs" />
     <Compile Include="MaxVoltageExceededException.cs" />
     <Compile Include="MinVoltageExceededException.cs" />
-    <Compile Include="PIAnalogStage.cs" />
+    <Compile Include="NIAnalogStage.cs" />
     <Compile Include="PIDigitalStage.cs" />
     <Compile Include="IPiezoStage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
