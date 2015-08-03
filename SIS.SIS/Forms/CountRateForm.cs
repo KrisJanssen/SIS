@@ -14,7 +14,7 @@ namespace SIS.Forms
 {
     public partial class CountRateForm : Form
     {
-        private TimingClock m_tcClock;
+        private SampleClock m_clock;
         private APD m_APD;
 
         public CountRateForm()
@@ -33,15 +33,14 @@ namespace SIS.Forms
         {
             bool _bStop = false;
 
-            this.m_tcClock = new TimingClock();
-            this.m_tcClock.SetupClock("Ctr2", 0.5);
+            this.m_clock = new SampleClock("Dev1", "Ctr2");
 
             this.m_APD = new SIS.Hardware.APD("Dev1", "Ctr0", 100, "Ctr2InternalOutput", "Ctr1", "PFI15", false);
 
             this.m_APD.SetupAPDCountAndTiming(100.0, 100000);
             this.m_APD.StartAPDAcquisition();
 
-            this.m_tcClock.Start();
+            this.m_clock.Start(0.1);
 
             uint[] data;
 
@@ -72,7 +71,7 @@ namespace SIS.Forms
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             this.m_APD.StopAPDAcquisition();
-            this.m_tcClock.DestroyClock();
+            this.m_clock.Stop();
             this.Hide();
         }
 
@@ -84,9 +83,5 @@ namespace SIS.Forms
             }
             
         }
-
-
-        
-        
     }
 }
