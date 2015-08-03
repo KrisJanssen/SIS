@@ -13,7 +13,7 @@ namespace SIS.Hardware
     using System.Net.Mime;
     using System.Xml.Serialization;
 
-    public class NIAnalogStage : IPiezoStage
+    public class SingleChannelAnalog : IPiezoStage
     {
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -38,10 +38,8 @@ namespace SIS.Hardware
         // MasterClock handles the global synchronizing pulse train.
         // MoveStage handles analog output.
         private Task m_daqtskLineTrigger;
+        private Task m_daqtskMasterClock;
         private Task m_daqtskMoveStage;
-
-        private NISampleClock m_sampleClock;
-        private double m_samplePeriod;
 
         // Current array of coordinates for timed stage motion
         private double[,] m_dScanCoordinates;
@@ -187,10 +185,10 @@ namespace SIS.Hardware
         // This class operates according to a singleton pattern. 
         // Having multiple PIAnalogStage could be dangerous because 
         // the hardware could be left in an unknown state.
-        private static volatile NIAnalogStage m_instance;
+        private static volatile PIAnalogStage m_instance;
         private static object m_syncRoot = new object();
 
-        public static NIAnalogStage Instance
+        public static PIAnalogStage Instance
         {
             get
             {
@@ -200,7 +198,7 @@ namespace SIS.Hardware
                     {
                         if (m_instance == null)
                         {
-                            m_instance = new NIAnalogStage();
+                            m_instance = new PIAnalogStage();
                         }
                     }
                 }
@@ -213,7 +211,7 @@ namespace SIS.Hardware
         #region Methods.
 
         // The constructor obviously needs to be private to prevent normal instantiation.
-        private NIAnalogStage()
+        private PIAnalogStage()
         {
             // The PIAnalogStage object should be instantiated in an uninitialized state.
             this.m_bIsInitialized = false;
@@ -260,8 +258,6 @@ namespace SIS.Hardware
             {
                 EngagedChanged(this, new EventArgs());
             }
-
-            _logger.Info("Init Piezo Done!");
         }
 
         public void Configure(double __dCycleTimeMilisec, int __iSteps)
@@ -273,10 +269,14 @@ namespace SIS.Hardware
         {
             _logger.Info("Configuring stage timing....");
 
-            if (this.m_sampleClock != null)
+            if (this.m_daqtskMasterClock != null)
             {
-                this.m_sampleClock = new NISampleClock("Dev1", "Ctr2");
-                this.m_samplePeriod = __dCycleTimeMilisec / 1000;
+                if (this.m_daqtskMasterClock.IsDone != true)
+                {
+                    this.m_daqtskMasterClock.Stop();
+                }
+
+                this.m_daqtskMasterClock.Control(TaskAction.Unreserve);
             }
 
             if (this.m_daqtskLineTrigger != null)
@@ -289,18 +289,37 @@ namespace SIS.Hardware
                 this.m_daqtskLineTrigger.Control(TaskAction.Unreserve);
             }
 
+            Task _timingTask = new Task();
             Task _lineTask = new Task();
 
             try
             {
+                double dCycleDuration = __dCycleTimeMilisec * 100000;
 
                 if (this.m_daqtskMoveStage == null)
                 {
                     this.Initialize();
                 }
 
+                //int iPadding = (int)Math.Round((int)dCycleDuration * 0.025 / 2);
+                int iPadding = 10;
+
+                _timingTask.COChannels.CreatePulseChannelTicks(
+                    "/Dev1/Ctr2",
+                    "MasterClk",
+                    "/Dev1/100MHzTimebase",
+                    COPulseIdleState.Low,
+                    iPadding,
+                    iPadding,
+                    (int)dCycleDuration);
+
                 if (continuous)
                 {
+                    _timingTask.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples, __iSteps);
+
+                    _timingTask.Control(TaskAction.Verify);
+                    _timingTask.Control(TaskAction.Commit);
+
                     this.m_daqtskMoveStage.Timing.SampleTimingType = SampleTimingType.SampleClock;
 
                     this.m_daqtskMoveStage.Timing.ConfigureSampleClock(
@@ -330,6 +349,11 @@ namespace SIS.Hardware
 
                 if (!continuous)
                 {
+                    _timingTask.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, __iSteps);
+
+                    _timingTask.Control(TaskAction.Verify);
+                    _timingTask.Control(TaskAction.Commit);
+
                     this.m_daqtskMoveStage.Timing.SampleTimingType = SampleTimingType.SampleClock;
 
                     this.m_daqtskMoveStage.Timing.ConfigureSampleClock(
@@ -360,12 +384,21 @@ namespace SIS.Hardware
 
             catch (DaqException ex)
             {
+                if (_timingTask != null)
+                {
+                    _timingTask.Dispose();
+                }
                 if (_lineTask != null)
                 {
                     _lineTask.Dispose();
                 }
 
                 _logger.Error("Error while setting timing!", ex);
+            }
+
+            if (_timingTask != null)
+            {
+                this.m_daqtskMasterClock = _timingTask;
             }
 
             if (_lineTask != null)
@@ -380,6 +413,14 @@ namespace SIS.Hardware
 
             try
             {
+                if (this.m_daqtskMasterClock != null)
+                {
+                    this.m_daqtskMasterClock.Stop();
+                    this.m_daqtskMasterClock.Control(TaskAction.Unreserve);
+                    this.m_daqtskMasterClock.Dispose();
+                    this.m_daqtskMasterClock = null;
+                }
+
                 // Properly dispose of the AO tasks that control the piezo stage.
                 if (this.m_daqtskMoveStage != null)
                 {
@@ -406,8 +447,6 @@ namespace SIS.Hardware
                 //MessageBox.Show(ex.Message);
                 this.m_bIsInitialized = false;
             }
-
-            this.m_sampleClock.Stop();
 
             // If everything went well, tell everyone :)
             if (EngagedChanged != null)
@@ -510,7 +549,7 @@ namespace SIS.Hardware
                 {
                     //linevolts[i] = 1;
                     levels[i] = 1;
-                  
+
                 }
 
                 levels[__scmScanMode.Trig1Start] = 3;
@@ -551,7 +590,7 @@ namespace SIS.Hardware
                 // Set the levels to achieve start of frame trigger.
                 //longlevels[0] = 512;
                 longlevels[0] = 4;
-                longlevels[longlevels.GetLength(0)-3] = 4;
+                longlevels[longlevels.GetLength(0) - 3] = 4;
                 longlevels[longlevels.GetLength(0) - 2] = 4;
                 longlevels[longlevels.GetLength(0) - 1] = 4;
 
@@ -568,8 +607,8 @@ namespace SIS.Hardware
             this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel; //% m_dMoveGeneratorCoordinates.GetLength(1);
 
             this.m_daqtskLineTrigger.Stop();
+            this.m_daqtskMasterClock.Stop();
             this.m_daqtskMoveStage.Stop();
-            this.m_sampleClock.Stop();
 
             if (this.m_iSamplesToStageCurrent > 0)
             {
@@ -609,14 +648,51 @@ namespace SIS.Hardware
 
             try
             {
-                // Perform the actual AO write.
+                //this.m_daqtskMoveStage.Stream.Buffer.OutputBufferSize = __dCoordinates.GetLength(1);
+                //this.m_daqtskLineTrigger.Stream.Buffer.OutputBufferSize = __iLevels.Length;
+
+                //_logger.Debug("Buffer size " +
+                //    "Dev1 : " +
+                //    m_daqtskMoveStage.Stream.Buffer.OutputBufferSize.ToString() +
+                //    " samples and requested sample count = " +
+                //    __dCoordinates.GetLength(1).ToString());
+
+                //_logger.Debug("Start write:" + watch.ElapsedMilliseconds.ToString());
+                //// Perform the actual AO write.
                 writerA.WriteMultiSample(false, __dCoordinates);
                 writerD.WriteMultiSamplePort(false, __iLevels);
                 _logger.Debug("End write:" + watch.ElapsedMilliseconds.ToString());
 
                 // Start all four tasks in the correct order. Global sync should be last.
-                this.m_sampleClock.Start(this.m_samplePeriod);
+                this.m_daqtskMoveStage.Start();
                 this.m_daqtskLineTrigger.Start();
+                this.m_daqtskMasterClock.Start();
+
+                //// While moving, we indirectly poll position by checking how many samples are written.
+                //while (this.m_daqtskMoveStage.IsDone != true)
+                //{
+                //    // Update the voltages.
+                //    m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
+
+                //    if (m_iSamplesToStageCurrent > 0)
+                //    {
+                //        m_dCurrentVoltageX = m_dGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
+                //        m_dCurrentVoltageY = m_dGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
+                //    }
+
+                //    _dProgress = ((double)m_iSamplesToStageCurrent / (_iSamplesPerChannel)) * 100;
+                //    _dProgress = Math.Round(_dProgress);
+
+                //    _logger.Info("Move Pct. done: " + _dProgress.ToString());
+
+                //    if (PositionChanged != null)
+                //    {
+                //        PositionChanged(this, new EventArgs());
+                //    }
+
+                //    // Update the UI every 0.1 seconds, more than fast enough.
+                //    Thread.Sleep(500);
+                //}
 
                 // Update the voltages one last time.
                 if (m_iSamplesToStageCurrent > 0)
@@ -640,7 +716,9 @@ namespace SIS.Hardware
             catch (Exception ex)
             {
                 _logger.Error("Something went wrong! : \r\n", ex);
+                m_daqtskMasterClock.Stop();
                 m_daqtskMoveStage.Stop();
+                //m_daqtskLineTrigger.Stop();
             }
         }
 
