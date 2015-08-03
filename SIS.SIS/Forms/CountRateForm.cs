@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SIS.Hardware;
 using System.Threading;
+using System.Globalization;
 
 namespace SIS.Forms
 {
@@ -55,11 +56,11 @@ namespace SIS.Forms
                 {
                     data = this.m_APD.Read();
 
-                    foreach (uint test in data)
+                    foreach (uint sample in data)
                     {
                         if (!this.Disposing && InvokeRequired)
                         {
-                            Invoke((MethodInvoker)delegate { this.label1.Text = (test * 10).ToString() + " CPS"; });
+                            Invoke((MethodInvoker)delegate { this.label1.Text = (sample * 10).ToString("E3"); });
                         }
                     }
                 }
