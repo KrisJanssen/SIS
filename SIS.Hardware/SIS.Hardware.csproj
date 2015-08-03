@@ -113,7 +113,7 @@
     <Compile Include="StageNotEngagedException.cs" />
     <Compile Include="StageNotReleasedException.cs" />
     <Compile Include="TimeHarpSettings.cs" />
-    <Compile Include="TimingClock.cs" />
+    <Compile Include="NISampleClock.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SIS.Library\SIS.Library.csproj">

@@ -5,7 +5,7 @@
     /// <summary>
     /// GlobalSync provides a standardized way to coordinate multipe DIO and/or AO/AI operations.
     /// </summary>
-    public class SampleClock
+    public class NISampleClock
     {
         /// <summary>
         /// The Daq counter channel.
@@ -27,7 +27,7 @@
         /// </summary>
         private static readonly log4net.ILog m_logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public SampleClock(string device, string counter)
+        public NISampleClock(string device, string counter)
         {
             this.m_device = device;
             this.m_counter = counter;

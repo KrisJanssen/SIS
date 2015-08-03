@@ -15,7 +15,7 @@ namespace SIS.Forms
 {
     public partial class CountRateForm : Form
     {
-        private SampleClock m_clock;
+        private NISampleClock m_clock;
         private APD m_APD;
 
         public CountRateForm()
@@ -34,7 +34,7 @@ namespace SIS.Forms
         {
             bool _bStop = false;
 
-            this.m_clock = new SampleClock("Dev1", "Ctr2");
+            this.m_clock = new NISampleClock("Dev1", "Ctr2");
 
             this.m_APD = new SIS.Hardware.APD("Dev1", "Ctr0", 100, "Ctr2InternalOutput", "Ctr1", "PFI15", false);
 
