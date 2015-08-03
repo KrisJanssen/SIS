@@ -27,7 +27,7 @@ namespace SIS.Forms
         private SIS.Hardware.APD m_apdAPD2;
         private SIS.Hardware.IPiezoStage m_Stage;
         private SIS.Hardware.PhotoDiode m_pdPhotoDiode;
-        private SIS.Hardware.TimingClock m_clckGlobalSync;
+        private SIS.Hardware.SampleClock m_clckGlobalSync;
 
 
         // A progress bar that we can use to indicate... progress of various tasks that are handled.

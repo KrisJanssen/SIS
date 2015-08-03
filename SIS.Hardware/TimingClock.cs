@@ -46,7 +46,7 @@
                 // Setup Global Sync Clock (GSC).
                 // Commit before start to speed things up later on when the task needs to be started.
                 _daqtskTask.COChannels.CreatePulseChannelTime(
-                    this.m_device + "/" + this.m_counter,
+                    "/" + this.m_device + "/" + this.m_counter,
                     "SampleClock",
                     COPulseTimeUnits.Seconds,
                     COPulseIdleState.Low,
@@ -54,7 +54,7 @@
                     period * 0.01,
                     period);
 
-                _daqtskTask.Timing.SampleQuantityMode = SampleQuantityMode.ContinuousSamples;
+                _daqtskTask.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples);
 
                 _daqtskTask.Control(TaskAction.Verify);
                 _daqtskTask.Control(TaskAction.Commit);
