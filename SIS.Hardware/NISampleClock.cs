@@ -87,13 +87,16 @@
         {
             try
             {
-                if (!this.m_sampleClock.IsDone)
+                if (this.m_sampleClock != null && !this.m_sampleClock.IsDone)
                 {
                     this.m_sampleClock.Stop();
                 }
 
-                this.m_sampleClock.Dispose();
-                this.m_sampleClock = null;
+                if (this.m_sampleClock != null)
+                {
+                    this.m_sampleClock.Dispose();
+                    this.m_sampleClock = null;
+                }
             }
             catch(DaqException ex)
             {
