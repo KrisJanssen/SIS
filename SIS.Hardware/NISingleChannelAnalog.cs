@@ -223,19 +223,28 @@ namespace SIS.Hardware
             _logger.Info("Init Piezo Done!");
         }
 
-        public void Configure(double __dCycleTimeMilisec, int __iSteps)
+        public void Configure(double __dCycleTimeMilisec, int __iSteps, bool slave)
         {
-            this.Configure(__dCycleTimeMilisec, __iSteps, true);
+            this.Configure(__dCycleTimeMilisec, __iSteps, slave, true);
         }
 
-        public void Configure(double __dCycleTimeMilisec, int __iSteps, bool continuous)
+        public void Configure(double __dCycleTimeMilisec, int __iSteps, bool slave, bool continuous)
         {
+            string trigger;
             _logger.Info("Configuring stage timing....");
 
             if (this.m_sampleClock != null)
             {
                 this.m_sampleClock = new NISampleClock("Dev1", "Ctr3");
                 this.m_samplePeriod = __dCycleTimeMilisec / 1000;
+            }
+            if(slave)
+            {
+                trigger = "/Dev1/Ctr2InternalOutput";
+            }
+            else
+            {
+                trigger = "/Dev1/Ctr3InternalOutput";
             }
 
             try
@@ -251,7 +260,7 @@ namespace SIS.Hardware
                     this.m_daqtskMoveStage.Timing.SampleTimingType = SampleTimingType.SampleClock;
 
                     this.m_daqtskMoveStage.Timing.ConfigureSampleClock(
-                        "/Dev1/Ctr3InternalOutput",
+                        trigger,
                         1000 / __dCycleTimeMilisec,
                         SampleClockActiveEdge.Rising,
                         SampleQuantityMode.ContinuousSamples,
@@ -263,7 +272,7 @@ namespace SIS.Hardware
                     this.m_daqtskMoveStage.Timing.SampleTimingType = SampleTimingType.SampleClock;
 
                     this.m_daqtskMoveStage.Timing.ConfigureSampleClock(
-                        "/Dev1/Ctr3InternalOutput",
+                        trigger,
                         1000 / __dCycleTimeMilisec,
                         SampleClockActiveEdge.Rising,
                         SampleQuantityMode.FiniteSamples,
@@ -354,7 +363,7 @@ namespace SIS.Hardware
 
             int[] levels = Enumerable.Repeat(0, this.m_dMoveGeneratorCoordinates.GetLength(1)).ToArray();
 
-            this.TimedMove(1.0, this.m_dMoveGeneratorCoordinates, false);
+            this.TimedMove(1.0, this.m_dMoveGeneratorCoordinates, false, false);
 
             while (this.m_daqtskMoveStage.IsDone != true)
             {
@@ -380,48 +389,54 @@ namespace SIS.Hardware
             return _dVoltage;
         }
 
-        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation)
+        public void Scan(int length, double __dPixelTime, bool __bResend)
         {
             if (__bResend | this.m_dScanCoordinates == null)
             {
-                int size = __scmScanMode.ScanCoordinates.GetLength(1);
-                double delta = __scmScanMode.ScanCoordinates[1, size - 1] - __scmScanMode.ScanCoordinates[1, 0];
-
-                //double[] linevolts = new double[size];
-                int[] levels = new int[size];
-
-                for (int i = __scmScanMode.Trig1Start; i < __scmScanMode.Trig1End + 1; i++)
-                {
-                    //linevolts[i] = 1;
-                    levels[i] = 1;
-
-                }
-
-                levels[__scmScanMode.Trig1Start] = 3;
-                levels[__scmScanMode.Trig1End] = 2;
-
                 // Allocate space for the full image
                 double[,] coordinates =
-                    new double[3, size * __scmScanMode.RepeatNumber];
+                    new double[1, length * 5];
 
-                int[] longlevels =
-                    new int[size * __scmScanMode.RepeatNumber];
+                int i = 0;
 
-                for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
+                for (int j = 0; j < length; j++)
                 {
-                    for (int j = 0; j < size; j++)
-                    {
-                        coordinates[0, j + (i * size)] = this.m_dCurrentVoltage + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
-                    }
+                    coordinates[0, j + (i * length)] = this.m_dCurrentVoltage;
                 }
 
-                double _dMidX = this.NmToVoltage(__scmScanMode.XScanSizeNm) / 2 + this.m_dCurrentVoltage;
+                i = 1;
+
+                for (int j = 0; j < length; j++)
+                {
+                    coordinates[0, j + (i * length)] = this.m_dCurrentVoltage + 1;
+                }
+
+                i = 2;
+
+                for (int j = 0; j < length; j++)
+                {
+                    coordinates[0, j + (i * length)] = this.m_dCurrentVoltage;
+                }
+
+                i = 3;
+
+                for (int j = 0; j < length; j++)
+                {
+                    coordinates[0, j + (i * length)] = this.m_dCurrentVoltage - 1;
+                }
+
+                i = 4;
+
+                for (int j = 0; j < length; j++)
+                {
+                    coordinates[0, j + (i * length)] = this.m_dCurrentVoltage - 1;
+                }
 
                 this.m_dScanCoordinates = coordinates;
             }
             this.m_dMoveGeneratorCoordinates = this.m_dScanCoordinates;
             // Perform the actual scan as a timed move.
-            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, true);
+            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, true, true);
         }
 
         public void Stop()
@@ -449,7 +464,7 @@ namespace SIS.Hardware
             }
         }
 
-        private void TimedMove(double __dCycleTime, double[,] __dCoordinates, bool continuous)
+        private void TimedMove(double __dCycleTime, double[,] __dCoordinates, bool slave, bool continuous)
         {
             Stopwatch watch = new Stopwatch();
 
@@ -458,7 +473,7 @@ namespace SIS.Hardware
             int _iSamplesPerChannel = __dCoordinates.Length / 3;
 
             // Prepare the stage control task for writing as many samples as necessary to complete Move.
-            this.Configure(__dCycleTime, _iSamplesPerChannel, continuous);
+            this.Configure(__dCycleTime, _iSamplesPerChannel, slave, continuous);
 
             // Keep track of the progress on the output task.
             double _dProgress = 0.0;

@@ -941,7 +941,12 @@ namespace SIS.Forms
                         //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         this.m_apdAPD1.StartAPDAcquisition();
                         //this.m_apdAPD2.StartAPDAcquisition();
+                        if (this.checkBoxWobble.Checked)
+                        {
+                            this.m_Focus.Scan(this.m_Stage.BufferSize, _docDocument.TimePPixel, true);
+                        }
                         this.m_Stage.Scan(_Scan, _docDocument.TimePPixel, false, Convert.ToDouble(this.textBox5.Text));
+
                         _readsamples1 = 0;
                         _readsamples2 = 0;
                     }
