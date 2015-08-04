@@ -231,7 +231,7 @@ namespace SIS.Hardware
                 // Add AO channels.
                 _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao0", "aoChannelX", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
                 _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao1", "aoChannelY", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
-                _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao3", "aoChannelZ", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
+                //_daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao3", "aoChannelZ", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
 
                 // checked IFilteredTypeDescriptor everything is OK.
                 _daqtskTask.Control(TaskAction.Verify);
@@ -433,7 +433,7 @@ namespace SIS.Hardware
             double _dVoltageResY = (__dFinVoltageY - __dInitVoltageY) / __iSteps;
 
             // Array to store the voltages for the entire move operation.
-            double[,] _dMovement = new double[3, __iSteps];
+            double[,] _dMovement = new double[2, __iSteps];
 
             // Calculate the actual voltages for the intended movement on X.
             // Movement will be one axis at a time.
@@ -518,7 +518,7 @@ namespace SIS.Hardware
 
                 // Allocate space for the full image
                 double[,] coordinates =
-                    new double[3, size * __scmScanMode.RepeatNumber];
+                    new double[2, size * __scmScanMode.RepeatNumber];
 
                 int[] longlevels =
                     new int[size * __scmScanMode.RepeatNumber];
@@ -596,7 +596,7 @@ namespace SIS.Hardware
 
             watch.Start();
             _logger.Debug("Start:" + watch.ElapsedMilliseconds.ToString());
-            int _iSamplesPerChannel = __dCoordinates.Length / 3;
+            int _iSamplesPerChannel = __dCoordinates.Length / 2;
 
             // Prepare the stage control task for writing as many samples as necessary to complete Move.
             this.Configure(__dCycleTime, _iSamplesPerChannel, continuous);

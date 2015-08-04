@@ -26,7 +26,7 @@ namespace SIS.Forms
         private SIS.Hardware.APD m_apdAPD1;
         private SIS.Hardware.APD m_apdAPD2;
         private SIS.Hardware.IPiezoStage m_Stage;
-        private SIS.Hardware.PhotoDiode m_pdPhotoDiode;
+        private SIS.Hardware.NISingleChannelAnalog m_Focus;
         private SIS.Hardware.NISampleClock m_clckGlobalSync;
 
 
@@ -103,12 +103,17 @@ namespace SIS.Forms
             // The piezo stage is the most critical hardware resource. To prevent conflicts it is created as a singleton instance.
             //this.m_Stage = SIS.Hardware.PIDigitalStage.Instance;
             this.m_Stage = SIS.Hardware.NIAnalogStage.Instance;
+            this.m_Focus = SIS.Hardware.NISingleChannelAnalog.Instance;
 
 
             // Hook up EventHandler methods to the events of the stage.
             this.m_Stage.PositionChanged += new EventHandler(m_Stage_PositionChanged);
             this.m_Stage.ErrorOccurred += new EventHandler(m_Stage_ErrorOccurred);
             this.m_Stage.EngagedChanged += new EventHandler(m_Stage_EngagedChanged);
+
+            this.m_Focus.PositionChanged += new EventHandler(m_Stage_PositionChanged);
+            this.m_Focus.ErrorOccurred += new EventHandler(m_Stage_ErrorOccurred);
+            this.m_Focus.EngagedChanged += new EventHandler(m_Stage_EngagedChanged);
 
             this.lblStageVoltageEngaged.Text = this.m_Stage.IsInitialized.ToString();
 
@@ -188,17 +193,9 @@ namespace SIS.Forms
             // Update the UI with the current voltage to stage.
             txtbxCurrXPos.Text = this.m_Stage.XPosition.ToString();
             txtbxCurrYPos.Text = this.m_Stage.YPosition.ToString();
-            txtbxCurrZPos.Text = this.m_Stage.ZPosition.ToString();
+            txtbxCurrZPos.Text = this.m_Focus.Position.ToString();
             textBox1.Text = this.m_apdAPD1.TotalSamplesAcuired.ToString();
-            //textBox2.Text = this.m_apdAPD2.TotalSamplesAcuired.ToString();
-            //if (this.m_apdAPD1.TotalSamplesAcuired > 0)
-            //{
-            //    textBox3.Text = _docDocument.GetChannelData(0)[this.m_apdAPD1.TotalSamplesAcuired - 1].ToString();
-            //}
-            //if (this.m_apdAPD1.TotalSamplesAcuired > 0)
-            //{
-            //    textBox4.Text = _docDocument.GetChannelData(1)[this.m_apdAPD2.TotalSamplesAcuired - 1].ToString();
-            //}
+            
             // Get the in memory bitmaps to the screen.
             PaintToScreen();
 
@@ -238,6 +235,10 @@ namespace SIS.Forms
                 this.m_Stage.PositionChanged -= new EventHandler(m_Stage_PositionChanged);
                 this.m_Stage.ErrorOccurred -= new EventHandler(m_Stage_ErrorOccurred);
                 this.m_Stage.EngagedChanged -= new EventHandler(m_Stage_EngagedChanged);
+
+                this.m_Focus.PositionChanged -= new EventHandler(m_Stage_PositionChanged);
+                this.m_Focus.ErrorOccurred -= new EventHandler(m_Stage_ErrorOccurred);
+                this.m_Focus.EngagedChanged -= new EventHandler(m_Stage_EngagedChanged);
             }
 
             catch (SIS.Hardware.StageNotReleasedException ex)
@@ -269,8 +270,7 @@ namespace SIS.Forms
         private void m_btnScanSettings_Click(object sender, EventArgs e)
         {
             ScanDocument _docDocument = this.Document as ScanDocument;
-
-            //this.m_frmScanSettingsForm = new ScanSettingsForm(_docDocument.Settings);
+            
             this.m_frmScanSettingsForm = new ScanSettingsForm(this.m_scnstSettings);
 
             this.m_frmScanSettingsForm.UpdateParameters += new EventHandler(m_frmScanSettingsForm_UpdateParameters);
@@ -655,9 +655,10 @@ namespace SIS.Forms
         {
             // Connect to the controller hardware and initialize it.
             this.m_Stage.Initialize();
+            this.m_Focus.Initialize();
 
             // Initialize stage control and update status indicator only if INIT worked.
-            if (this.m_Stage.IsInitialized)
+            if (this.m_Stage.IsInitialized && this.m_Focus.IsInitialized)
             {
                 // We cannot turn the stage on twice!
                 this.btnStageON.Enabled = false;
@@ -682,9 +683,10 @@ namespace SIS.Forms
         {
             // Disconnect from the stage hardware.
             this.m_Stage.Release();
+            this.m_Focus.Release();
 
             // Release stage control and update status.
-            if (!this.m_Stage.IsInitialized)
+            if (!this.m_Stage.IsInitialized && !this.m_Focus.IsInitialized)
             {
                 this.btnStageOFF.Enabled = false;
                 this.lblStageVoltageEngaged.ForeColor = Color.FromKnownColor(KnownColor.Red);
@@ -701,7 +703,7 @@ namespace SIS.Forms
             double[] _dXYCoordinates = new double[3];
             _dXYCoordinates[0] = 0.0;
             _dXYCoordinates[1] = 0.0;
-            _dXYCoordinates[2] = 0.0;
+            _dXYCoordinates[2] = 5.0;
             this.bckgwrkPerformMove.RunWorkerAsync(_dXYCoordinates);
         }
 
@@ -718,6 +720,7 @@ namespace SIS.Forms
         {
             double[] _dXYCoordinates = (double[])__evargsE.Argument;
             this.m_Stage.MoveAbs(_dXYCoordinates[0], _dXYCoordinates[1], _dXYCoordinates[2]);
+            this.m_Focus.MoveAbs(_dXYCoordinates[0], _dXYCoordinates[1], _dXYCoordinates[2]);
         }
 
         void m_Stage_PositionChanged(object __oSender, EventArgs __evargsE)
