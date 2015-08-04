@@ -273,7 +273,7 @@ namespace SIS.Hardware
         {
             _logger.Info("Configuring stage timing....");
 
-            if (this.m_sampleClock != null)
+            if (this.m_sampleClock == null)
             {
                 this.m_sampleClock = new NISampleClock("Dev1", "Ctr2");
                 this.m_samplePeriod = __dCycleTimeMilisec / 1000;
@@ -617,6 +617,7 @@ namespace SIS.Hardware
                 // Start all four tasks in the correct order. Global sync should be last.
                 this.m_sampleClock.Start(this.m_samplePeriod);
                 this.m_daqtskLineTrigger.Start();
+                this.m_daqtskMoveStage.Start();
 
                 // Update the voltages one last time.
                 if (m_iSamplesToStageCurrent > 0)
