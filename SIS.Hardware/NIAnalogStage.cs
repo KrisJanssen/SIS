@@ -51,6 +51,7 @@ namespace SIS.Hardware
         // Create variables to keep track of the currently set voltage to the Piezo stage.
         private double m_dCurrentVoltageX;
         private double m_dCurrentVoltageY;
+        private double m_dCurrentVoltageZ;
 
         // The UI will display data on the acquisition progress during the scan.
         // More specifically, total samples currently sent to stage and total samples taken from APD.
@@ -134,7 +135,7 @@ namespace SIS.Hardware
             {
                 if (this.m_bIsInitialized)
                 {
-                    return 0.0;
+                    return m_dCurrentVoltageZ;
                 }
                 else
                 {
@@ -246,7 +247,7 @@ namespace SIS.Hardware
                 // Add AO channels.
                 _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao0", "aoChannelX", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
                 _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao1", "aoChannelY", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
-                //_daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao3", "aoChannelZ", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
+                _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao2", "aoChannelZ", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
 
                 // checked IFilteredTypeDescriptor everything is OK.
                 _daqtskTask.Control(TaskAction.Verify);
@@ -437,18 +438,23 @@ namespace SIS.Hardware
         }
 
         // Calculates voltages for a direct move to a set of XY coordinates.
-        private double[,] CalculateMove(double __dInitVoltageX, double __dInitVoltageY, double __dFinVoltageX, double __dFinVoltageY, int __iSteps)
+        private double[,] CalculateMove(
+            double __dInitVoltageX, double __dInitVoltageY, double __dInitVoltageZ, 
+            double __dFinVoltageX, double __dFinVoltageY, double __dFinVoltageZ, 
+            int __iSteps)
         {
             // Init some variables.
             double _dCurrentVoltageX = __dInitVoltageX;
             double _dCurrentVoltageY = __dInitVoltageY;
+            double _dCurrentVoltageZ = __dInitVoltageZ;
 
             // Calculate the voltage resolution.
             double _dVoltageResX = (__dFinVoltageX - __dInitVoltageX) / __iSteps;
             double _dVoltageResY = (__dFinVoltageY - __dInitVoltageY) / __iSteps;
+            double _dVoltageResZ = (__dFinVoltageZ - __dInitVoltageZ) / __iSteps;
 
             // Array to store the voltages for the entire move operation.
-            double[,] _dMovement = new double[2, __iSteps];
+            double[,] _dMovement = new double[3, __iSteps];
 
             // Calculate the actual voltages for the intended movement on X.
             // Movement will be one axis at a time.
@@ -462,11 +468,18 @@ namespace SIS.Hardware
                 // Rounding to 4 digits is done since the voltage resolution of the DAQ board is 305 microvolts.
                 _dCurrentVoltageY = Math.Round((__dInitVoltageY + _dVoltageResY * (_iI + 1)), 4);
 
+                // Increment voltage. 
+                // Rounding to 4 digits is done since the voltage resolution of the DAQ board is 305 microvolts.
+                _dCurrentVoltageZ = Math.Round((__dInitVoltageZ + _dVoltageResZ * (_iI + 1)), 4);
+
                 // Write voltage for X.
                 _dMovement[0, _iI] = _dCurrentVoltageX;
 
                 // Write voltage for Y.
                 _dMovement[1, _iI] = _dCurrentVoltageY;
+
+                // Write voltage for Y.
+                _dMovement[2, _iI] = _dCurrentVoltageZ;
             }
 
 
@@ -479,8 +492,10 @@ namespace SIS.Hardware
             this.m_dMoveGeneratorCoordinates = this.CalculateMove(
                 m_dCurrentVoltageX,
                 m_dCurrentVoltageY,
+                m_dCurrentVoltageZ,
                 this.NmToVoltage(__dXPosNm),
                 this.NmToVoltage(__dYPosNm),
+                this.NmToVoltage(__dZPosNm),
                 1000);
 
             int[] levels = Enumerable.Repeat(0, this.m_dMoveGeneratorCoordinates.GetLength(1)).ToArray();
@@ -511,7 +526,7 @@ namespace SIS.Hardware
             return _dVoltage;
         }
 
-        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation)
+        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation, bool wobble, double wobbleAmplitude, double wobbleFrequency)
         {
             if (__bResend | this.m_dScanCoordinates == null)
             {
@@ -533,19 +548,36 @@ namespace SIS.Hardware
 
                 // Allocate space for the full image
                 double[,] coordinates =
-                    new double[2, size * __scmScanMode.RepeatNumber];
+                    new double[3, size * __scmScanMode.RepeatNumber];
 
                 int[] longlevels =
                     new int[size * __scmScanMode.RepeatNumber];
-
-                for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
+                if (wobble)
                 {
-                    for (int j = 0; j < size; j++)
+                    for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
                     {
-                        coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
-                        coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
-                        coordinates[2, j + (i * size)] = 0.0;
-                        longlevels[j + (i * size)] = levels[j];
+                        for (int j = 0; j < size; j++)
+                        {
+                            coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
+                            coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
+                            coordinates[2, j + (i * size)] = 0.0;
+                            longlevels[j + (i * size)] = levels[j];
+                        }
+                    }
+                }
+                else
+                {
+                    double[] sine = GenerateSineWave(wobbleFrequency, this.NmToVoltage(wobbleAmplitude), __dPixelTime, size * __scmScanMode.RepeatNumber);
+
+                    for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
+                    {
+                        for (int j = 0; j < size; j++)
+                        {
+                            coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
+                            coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
+                            coordinates[2, j + (i * size)] = sine[j + (i * size)];
+                            longlevels[j + (i * size)] = levels[j];
+                        }
                     }
                 }
 
@@ -566,14 +598,13 @@ namespace SIS.Hardware
                 // Set the levels to achieve start of frame trigger.
                 //longlevels[0] = 512;
                 longlevels[0] = 4;
-                longlevels[longlevels.GetLength(0)-3] = 4;
-                longlevels[longlevels.GetLength(0) - 2] = 4;
                 longlevels[longlevels.GetLength(0) - 1] = 4;
 
                 this.m_iLongLevels = longlevels;
                 this.m_dScanCoordinates = coordinates;
             }
             this.m_dMoveGeneratorCoordinates = this.m_dScanCoordinates;
+
             // Perform the actual scan as a timed move.
             this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, true);
         }
@@ -595,6 +626,7 @@ namespace SIS.Hardware
                 }
                 m_dCurrentVoltageX = m_dMoveGeneratorCoordinates[0, temp - 1];
                 m_dCurrentVoltageY = m_dMoveGeneratorCoordinates[1, temp - 1];
+                m_dCurrentVoltageZ = m_dMoveGeneratorCoordinates[2, temp - 1];
             }
 
             _logger.Info("written : " + m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel.ToString());
@@ -611,13 +643,10 @@ namespace SIS.Hardware
 
             watch.Start();
             _logger.Debug("Start:" + watch.ElapsedMilliseconds.ToString());
-            int _iSamplesPerChannel = __dCoordinates.Length / 2;
+            int _iSamplesPerChannel = __dCoordinates.Length / 3;
 
             // Prepare the stage control task for writing as many samples as necessary to complete Move.
             this.Configure(__dCycleTime, _iSamplesPerChannel, continuous);
-
-            // Keep track of the progress on the output task.
-            double _dProgress = 0.0;
 
             AnalogMultiChannelWriter writerA = new AnalogMultiChannelWriter(this.m_daqtskMoveStage.Stream);
             DigitalSingleChannelWriter writerD = new DigitalSingleChannelWriter(this.m_daqtskLineTrigger.Stream);
@@ -639,17 +668,8 @@ namespace SIS.Hardware
                     this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
                     m_dCurrentVoltageX = m_dMoveGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
                     m_dCurrentVoltageY = m_dMoveGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
+                    m_dCurrentVoltageZ = m_dMoveGeneratorCoordinates[2, m_iSamplesToStageCurrent - 1];
                 }
-
-                // Update Progress.
-                _dProgress = ((double)m_iSamplesToStageCurrent / (_iSamplesPerChannel)) * 100;
-
-                if (PositionChanged != null)
-                {
-                    PositionChanged(this, new EventArgs());
-                }
-
-                _logger.Info("Move Pct. done: " + _dProgress.ToString());
             }
 
             catch (Exception ex)
@@ -660,6 +680,22 @@ namespace SIS.Hardware
         }
 
         #endregion
+
+        public static double[] GenerateSineWave(
+            double frequency,
+            double amplitude,
+            double samplePeriod,
+            double samplesPerBuffer)
+        {
+            int intSamplesPerBuffer = (int)samplesPerBuffer;
+
+            double[] rVal = new double[intSamplesPerBuffer];
+
+            for (int i = 0; i < intSamplesPerBuffer; i++)
+                rVal[i] = amplitude * Math.Sin((2.0 * Math.PI) * frequency * (i * samplePeriod));
+
+            return rVal;
+        }
 
     }
 }
