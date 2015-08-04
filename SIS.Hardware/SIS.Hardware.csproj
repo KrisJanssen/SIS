@@ -110,6 +110,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="NISingleChannelAnalog.cs" />
     <Compile Include="StageNotEngagedException.cs" />
     <Compile Include="StageNotReleasedException.cs" />
     <Compile Include="TimeHarpSettings.cs" />
