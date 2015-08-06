@@ -95,7 +95,7 @@ namespace SIS.Hardware
         ///     Move the stage to its home position.
         /// </summary>
         void Home();
-
+        void Reset();
         /// <summary>
         ///     Initialize the stage hardware to prepare it for move and scan operations.
         /// </summary>

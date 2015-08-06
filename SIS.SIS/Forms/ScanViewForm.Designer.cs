@@ -65,6 +65,7 @@
             this.m_chkbxAutosave = new System.Windows.Forms.CheckBox();
             this.checkBoxDMA = new System.Windows.Forms.CheckBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
+            this.checkBoxWobble = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
@@ -97,7 +98,8 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
             this.ccdControl1 = new SIS.WPFControls.CCDControl.UI.CCDControl();
-            this.checkBoxWobble = new System.Windows.Forms.CheckBox();
+            this.txtWobbleAmp = new System.Windows.Forms.TextBox();
+            this.txtWobbleFreq = new System.Windows.Forms.TextBox();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -199,6 +201,8 @@
             this.tableLayoutPanel1.Controls.Add(this.checkBoxDMA, 4, 5);
             this.tableLayoutPanel1.Controls.Add(this.textBox5, 4, 4);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxWobble, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.txtWobbleAmp, 2, 6);
+            this.tableLayoutPanel1.Controls.Add(this.txtWobbleFreq, 3, 6);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -248,7 +252,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(3, 173);
+            this.checkBox2.Location = new System.Drawing.Point(112, 173);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(98, 17);
             this.checkBox2.TabIndex = 73;
@@ -260,7 +264,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(112, 173);
+            this.checkBox1.Location = new System.Drawing.Point(3, 173);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(68, 17);
             this.checkBox1.TabIndex = 72;
@@ -509,6 +513,16 @@
             this.textBox5.Size = new System.Drawing.Size(100, 20);
             this.textBox5.TabIndex = 78;
             this.textBox5.Text = "0.0";
+            // 
+            // checkBoxWobble
+            // 
+            this.checkBoxWobble.AutoSize = true;
+            this.checkBoxWobble.Location = new System.Drawing.Point(112, 207);
+            this.checkBoxWobble.Name = "checkBoxWobble";
+            this.checkBoxWobble.Size = new System.Drawing.Size(69, 17);
+            this.checkBoxWobble.TabIndex = 79;
+            this.checkBoxWobble.Text = "Wobble?";
+            this.checkBoxWobble.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -945,15 +959,21 @@
             this.elementHost2.Text = "elementHost2";
             this.elementHost2.Child = this.ccdControl1;
             // 
-            // checkBoxWobble
+            // txtWobbleAmp
             // 
-            this.checkBoxWobble.AutoSize = true;
-            this.checkBoxWobble.Location = new System.Drawing.Point(112, 207);
-            this.checkBoxWobble.Name = "checkBoxWobble";
-            this.checkBoxWobble.Size = new System.Drawing.Size(69, 17);
-            this.checkBoxWobble.TabIndex = 79;
-            this.checkBoxWobble.Text = "Wobble?";
-            this.checkBoxWobble.UseVisualStyleBackColor = true;
+            this.txtWobbleAmp.Location = new System.Drawing.Point(221, 207);
+            this.txtWobbleAmp.Name = "txtWobbleAmp";
+            this.txtWobbleAmp.Size = new System.Drawing.Size(100, 20);
+            this.txtWobbleAmp.TabIndex = 80;
+            this.txtWobbleAmp.Text = "5000";
+            // 
+            // txtWobbleFreq
+            // 
+            this.txtWobbleFreq.Location = new System.Drawing.Point(330, 207);
+            this.txtWobbleFreq.Name = "txtWobbleFreq";
+            this.txtWobbleFreq.Size = new System.Drawing.Size(100, 20);
+            this.txtWobbleFreq.TabIndex = 81;
+            this.txtWobbleFreq.Text = "2.0";
             // 
             // ScanViewForm
             // 
@@ -1056,5 +1076,7 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.CheckBox checkBoxWobble;
+        private System.Windows.Forms.TextBox txtWobbleAmp;
+        private System.Windows.Forms.TextBox txtWobbleFreq;
     }
 }

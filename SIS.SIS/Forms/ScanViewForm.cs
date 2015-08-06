@@ -785,7 +785,7 @@ namespace SIS.Forms
                                  _docDocument.XScanSizeNm,
                                  _docDocument.YScanSizeNm,
                                  _docDocument.ZScanSizeNm,
-                                 10,
+                                 25,
                                  2,
                                  1,
                                  0.2 };
@@ -869,7 +869,7 @@ namespace SIS.Forms
             this.m_apdAPD1.StartAPDAcquisition();
 
             // Initiate stage scan movement.
-            this.m_Stage.Scan(_Scan, _docDocument.TimePPixel, this.checkBox1.Checked, Convert.ToDouble(this.textBox5.Text), this.checkBoxWobble.Checked, 1.0, 2.0);
+            this.m_Stage.Scan(_Scan, _docDocument.TimePPixel, this.checkBox1.Checked, Convert.ToDouble(this.textBox5.Text), this.checkBoxWobble.Checked, Convert.ToDouble(this.txtWobbleAmp.Text), Convert.ToDouble(this.txtWobbleFreq.Text));
 
             while (_bStop != true)
             {
@@ -921,14 +921,14 @@ namespace SIS.Forms
                     {
                         _bStop = false;
                         this.m_Stage.Stop();
-                        this.m_Stage.MoveAbs(0.0, 0.0, 0.0);
+                        this.m_Stage.Reset();
                         this.m_apdAPD1.StopAPDAcquisition();
                         //this.m_apdAPD2.StopAPDAcquisition();
                         this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         this.m_apdAPD1.StartAPDAcquisition();
                         //this.m_apdAPD2.StartAPDAcquisition();
-                        this.m_Stage.Scan(_Scan, _docDocument.TimePPixel, this.checkBox1.Checked, Convert.ToDouble(this.textBox5.Text), this.checkBoxWobble.Checked, 1.0, 2.0);
+                        this.m_Stage.Scan(_Scan, _docDocument.TimePPixel, false, Convert.ToDouble(this.textBox5.Text), this.checkBoxWobble.Checked, Convert.ToDouble(this.txtWobbleAmp.Text), Convert.ToDouble(this.txtWobbleFreq.Text));
 
                         _readsamples1 = 0;
                         _readsamples2 = 0;
