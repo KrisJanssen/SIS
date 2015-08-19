@@ -527,12 +527,12 @@
             this.m_txtbxSetTimePPixel.Size = new System.Drawing.Size(138, 20);
             this.m_txtbxSetTimePPixel.TabIndex = 13;
             this.m_txtbxSetTimePPixel.Text = "0.2";
-            validationRule13.InitialValue = "0.2";
-            validationRule13.MaximumValue = "100";
-            validationRule13.MinimumValue = "0.001";
-            validationRule13.Operator = SIS.Validation.ValidationCompareOperator.GreaterThanEqual;
-            validationRule13.ValueToCompare = "0.001";
-            this.validationProvider1.SetValidationRule(this.m_txtbxSetTimePPixel, validationRule13);
+            //validationRule13.InitialValue = "0.2";
+            //validationRule13.MaximumValue = "100";
+            //validationRule13.MinimumValue = "0.001";
+            //validationRule13.Operator = SIS.Validation.ValidationCompareOperator.GreaterThanEqual;
+            //validationRule13.ValueToCompare = "0.001";
+            //this.validationProvider1.SetValidationRule(this.m_txtbxSetTimePPixel, validationRule13);
             // 
             // m_btnAccept
             // 

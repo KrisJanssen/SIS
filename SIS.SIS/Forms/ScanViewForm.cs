@@ -82,9 +82,9 @@ namespace SIS.Forms
             // 6) Input terminal carrying TTLs from physical APD
             //
             // TODO: Put this stuff in some sort of config file/the Windows registry.
-            //this.m_apdAPD1 = new SIS.Hardware.APD("Dev1", "Ctr1", 100, "Ctr2InternalOutput", "Ctr0", "PFI8", this.checkBoxDMA.Checked);
-            this.m_apdAPD1 = new SIS.Hardware.APD("Dev1", "Ctr0", 100, "PFI7", "Ctr1", "PFI15", this.checkBoxDMA.Checked);
-            //this.m_apdAPD2 = new SIS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", this.checkBoxDMA.Checked);
+            //this.m_apdAPD1 = new SIS.Hardware.APD("Dev1", "Ctr1", 100, "Ctr2InternalOutput", "Ctr0", "PFI8", true);
+            this.m_apdAPD1 = new SIS.Hardware.APD("Dev1", "Ctr0", 100, "PFI7", "Ctr1", "PFI15", true);
+            //this.m_apdAPD2 = new SIS.Hardware.APD("Dev1", "Ctr3", 20, "PFI31", "Ctr2", "PFI35", true);
             //this.m_pdPhotoDiode = new SIS.Hardware.PhotoDiode("Dev2", "Ctr0", "80MHzTimebase", "RTSI0", "ai0");
 
             // Create a new ColoredRichTextBoxAppender and give it a standard layout.
@@ -865,11 +865,25 @@ namespace SIS.Forms
             //List<UInt32> _lui32AllReadValues1 = new List<UInt32>(_docDocument.PixelCount);
             //List<UInt32> _lui32AllReadValues2 = new List<UInt32>(_docDocument.PixelCount);
 
+            this.m_Stage.MoveAbs(
+                Convert.ToDouble(this.m_txtbxGoToX.Text),
+                Convert.ToDouble(this.m_txtbxGoToY.Text),
+                Convert.ToDouble(this.m_txtbxGoToZ.Text));
+
             // Start the APD. It will now count photons every time it is triggered by either a clock or a digital controller.
             this.m_apdAPD1.StartAPDAcquisition();
 
             // Initiate stage scan movement.
-            this.m_Stage.Scan(_Scan, _docDocument.TimePPixel, this.checkBox1.Checked, Convert.ToDouble(this.textBox5.Text), this.checkBoxWobble.Checked, Convert.ToDouble(this.txtWobbleAmp.Text), Convert.ToDouble(this.txtWobbleFreq.Text));
+            this.m_Stage.Scan(
+                _Scan, 
+                _docDocument.TimePPixel, 
+                this.checkBox1.Checked, 
+                Convert.ToDouble(this.textBox5.Text), 
+                Convert.ToInt32(this.txtDelay.Text), 
+                this.checkBoxWobble.Checked,
+                Convert.ToDouble(this.txtWobbleAmp.Text),
+                Convert.ToDouble(this.txtWobbleFreq.Text),
+                this.checkBoxXY.Checked);
 
             while (_bStop != true)
             {
@@ -921,14 +935,34 @@ namespace SIS.Forms
                     {
                         _bStop = false;
                         this.m_Stage.Stop();
-                        this.m_Stage.Reset();
+
+                        Thread.Sleep(10);
+
                         this.m_apdAPD1.StopAPDAcquisition();
                         //this.m_apdAPD2.StopAPDAcquisition();
+
+                        this.m_Stage.MoveAbs(
+                            Convert.ToDouble(this.m_txtbxGoToX.Text),
+                            Convert.ToDouble(this.m_txtbxGoToY.Text),
+                            Convert.ToDouble(this.m_txtbxGoToZ.Text));
+
+                        Thread.Sleep(10);
+
                         this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         this.m_apdAPD1.StartAPDAcquisition();
                         //this.m_apdAPD2.StartAPDAcquisition();
-                        this.m_Stage.Scan(_Scan, _docDocument.TimePPixel, false, Convert.ToDouble(this.textBox5.Text), this.checkBoxWobble.Checked, Convert.ToDouble(this.txtWobbleAmp.Text), Convert.ToDouble(this.txtWobbleFreq.Text));
+
+                       
+                        this.m_Stage.Scan(
+                            _Scan, 
+                            _docDocument.TimePPixel, 
+                            false, Convert.ToDouble(this.textBox5.Text),
+                            Convert.ToInt32(this.txtDelay.Text),
+                            this.checkBoxWobble.Checked, 
+                            Convert.ToDouble(this.txtWobbleAmp.Text), 
+                            Convert.ToDouble(this.txtWobbleFreq.Text),
+                            this.checkBoxXY.Checked);
 
                         _readsamples1 = 0;
                         _readsamples2 = 0;
@@ -965,7 +999,7 @@ namespace SIS.Forms
             // Stop the move task for the stage.
             this.m_apdAPD1.StopAPDAcquisition();
             //this.m_apdAPD2.StopAPDAcquisition();
-            this.m_Stage.Stop();
+            
         }
 
         private void btnStop_Click(object __oSender, EventArgs __evargsE)
@@ -1010,7 +1044,10 @@ namespace SIS.Forms
                 this.m_nupdFilenameCount.Value = this.m_nupdFilenameCount.Value + 1;
             }
 
-            this.m_Stage.MoveAbs(0.0, 0.0, 0.0);
+            this.m_Stage.MoveAbs(
+                Convert.ToDouble(this.m_txtbxGoToX.Text),
+                Convert.ToDouble(this.m_txtbxGoToY.Text),
+                Convert.ToDouble(this.m_txtbxGoToZ.Text));
 
             this.EnableCtrls();
         }

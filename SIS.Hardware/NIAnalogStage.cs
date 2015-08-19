@@ -444,8 +444,8 @@ namespace SIS.Hardware
 
         // Calculates voltages for a direct move to a set of XY coordinates.
         private double[,] CalculateMove(
-            double __dInitVoltageX, double __dInitVoltageY, double __dInitVoltageZ, 
-            double __dFinVoltageX, double __dFinVoltageY, double __dFinVoltageZ, 
+            double __dInitVoltageX, double __dInitVoltageY, double __dInitVoltageZ,
+            double __dFinVoltageX, double __dFinVoltageY, double __dFinVoltageZ,
             int __iSteps)
         {
             // Init some variables.
@@ -493,7 +493,7 @@ namespace SIS.Hardware
 
         public void Reset()
         {
-            this.MoveAbs(this.m_startX, this.m_startY, this.m_startZ);
+            //this.MoveAbs(this.m_startX, this.m_startY, this.m_startZ);
         }
 
         public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
@@ -536,9 +536,9 @@ namespace SIS.Hardware
             return _dVoltage;
         }
 
-        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation, bool wobble, double wobbleAmplitude, double wobbleFrequency)
+        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation, int delay, bool wobble, double wobbleAmplitude, double wobbleFrequency, bool flip)
         {
-            int returnlength = 250;
+            int returnlength = 1000;
 
             if (__bResend | this.m_dScanCoordinates == null)
             {
@@ -548,15 +548,14 @@ namespace SIS.Hardware
                 //double[] linevolts = new double[size];
                 int[] levels = new int[size];
 
-                for (int i = __scmScanMode.Trig1Start; i < __scmScanMode.Trig1End + 1; i++)
+                for (int i = __scmScanMode.Trig1Start + delay; i < __scmScanMode.Trig1End + delay + 1; i++)
                 {
                     //linevolts[i] = 1;
-                    levels[i] = 1;
-                  
+                    levels[i] = 3;
                 }
 
-                levels[__scmScanMode.Trig1Start] = 3;
-                levels[__scmScanMode.Trig1End] = 3;
+                //levels[__scmScanMode.Trig1Start + delay] = 3;
+                levels[__scmScanMode.Trig1End + delay] = 3;
 
                 // Allocate space for the full image
                 double[,] coordinates =
@@ -565,39 +564,75 @@ namespace SIS.Hardware
                 //double[,] coordinates =
                 //    new double[3, size * __scmScanMode.RepeatNumber];
 
-                int[] longlevels  =
+                int[] longlevels =
                     new int[size * __scmScanMode.RepeatNumber + returnlength];
+
                 //int[] longlevels =
                 //    new int[size * __scmScanMode.RepeatNumber];
 
-                if (!wobble)
+                if (!flip)
                 {
-                    for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
+                    if (!wobble)
                     {
-                        for (int j = 0; j < size; j++)
+                        for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
                         {
-                            coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
-                            coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
-                            coordinates[2, j + (i * size)] = this.m_dCurrentVoltageZ + 0.0;
-                            longlevels[j + (i * size)] = levels[j];
+                            for (int j = 0; j < size; j++)
+                            {
+                                coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
+                                coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
+                                coordinates[2, j + (i * size)] = this.m_dCurrentVoltageZ + 0.0;
+                                longlevels[j + (i * size)] = levels[j];
+                            }
+                        }
+                    }
+                    else
+                    {
+                        double[] sine = GenerateSineWave(wobbleFrequency / (size * __scmScanMode.RepeatNumber * __dPixelTime), this.NmToVoltage(wobbleAmplitude), __dPixelTime, size * __scmScanMode.RepeatNumber);
+
+                        for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
+                        {
+                            for (int j = 0; j < size; j++)
+                            {
+                                coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
+                                coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
+                                coordinates[2, j + (i * size)] = this.m_dCurrentVoltageZ + sine[j + (i * size)];
+                                longlevels[j + (i * size)] = levels[j];
+                            }
                         }
                     }
                 }
                 else
                 {
-                    double[] sine = GenerateSineWave(wobbleFrequency / ( size * __scmScanMode.RepeatNumber), this.NmToVoltage(wobbleAmplitude), __dPixelTime, size * __scmScanMode.RepeatNumber);
-
-                    for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
+                    if (!wobble)
                     {
-                        for (int j = 0; j < size; j++)
+                        for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
                         {
-                            coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
-                            coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
-                            coordinates[2, j + (i * size)] = this.m_dCurrentVoltageZ + sine[j + (i * size)];
-                            longlevels[j + (i * size)] = levels[j];
+                            for (int j = 0; j < size; j++)
+                            {
+                                coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
+                                coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
+                                coordinates[2, j + (i * size)] = this.m_dCurrentVoltageZ + 0.0;
+                                longlevels[j + (i * size)] = levels[j];
+                            }
+                        }
+                    }
+                    else
+                    {
+                        double[] sine = GenerateSineWave(wobbleFrequency / (size * __scmScanMode.RepeatNumber * __dPixelTime), this.NmToVoltage(wobbleAmplitude), __dPixelTime, size * __scmScanMode.RepeatNumber);
+
+                        for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
+                        {
+                            for (int j = 0; j < size; j++)
+                            {
+                                coordinates[1, j + (i * size)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
+                                coordinates[0, j + (i * size)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
+                                coordinates[2, j + (i * size)] = this.m_dCurrentVoltageZ + sine[j + (i * size)];
+                                longlevels[j + (i * size)] = levels[j];
+                            }
                         }
                     }
                 }
+
 
                 double _dMidX = this.NmToVoltage(__scmScanMode.XScanSizeNm) / 2 + this.m_dCurrentVoltageX;
                 double _dMidY = this.m_dCurrentVoltageY;
@@ -612,13 +647,13 @@ namespace SIS.Hardware
                 }
 
                 double[,] returnpath = this.CalculateMove(
-                coordinates[0, size * __scmScanMode.RepeatNumber - 1],
-                coordinates[1, size * __scmScanMode.RepeatNumber - 1],
-                coordinates[2, size * __scmScanMode.RepeatNumber - 1],
-                coordinates[0, 0],
-                coordinates[1, 0],
-                coordinates[2, 0],
-                returnlength);
+                    coordinates[0, (size * __scmScanMode.RepeatNumber) - 1],
+                    coordinates[1, (size * __scmScanMode.RepeatNumber) - 1],
+                    coordinates[2, (size * __scmScanMode.RepeatNumber) - 1],
+                    coordinates[0, 0],
+                    coordinates[1, 0],
+                    coordinates[2, 0],
+                    returnlength);
 
                 for (int i = 0; i < returnlength; i++)
                 {
@@ -626,7 +661,10 @@ namespace SIS.Hardware
                     coordinates[1, size * __scmScanMode.RepeatNumber + i] = returnpath[1, i];
                     coordinates[2, size * __scmScanMode.RepeatNumber + i] = returnpath[2, i];
                 }
-                this.MoveAbs(this.VoltageToNm(coordinates[0, 0]), this.VoltageToNm(coordinates[1, 0]), 0.0);
+
+                //this.MoveAbs(this.VoltageToNm(coordinates[0, 0]), this.VoltageToNm(coordinates[1, 0]), this.VoltageToNm(coordinates[2, 0]));
+
+
 
                 // Set the levels to achieve start of frame trigger.
                 //longlevels[0] = 512;
@@ -643,16 +681,16 @@ namespace SIS.Hardware
             this.m_startZ = this.m_dScanCoordinates[2, 0];
 
             // Perform the actual scan as a timed move.
-            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, true);
+            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, false);
         }
 
         public void Stop()
         {
-            this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel; //% m_dMoveGeneratorCoordinates.GetLength(1);
-
             this.m_daqtskLineTrigger.Stop();
             this.m_daqtskMoveStage.Stop();
             this.m_sampleClock.Stop();
+
+            this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel; //% m_dMoveGeneratorCoordinates.GetLength(1);
 
             if (this.m_iSamplesToStageCurrent > 0)
             {
@@ -696,9 +734,10 @@ namespace SIS.Hardware
                 _logger.Debug("End write:" + watch.ElapsedMilliseconds.ToString());
 
                 // Start all four tasks in the correct order. Global sync should be last.
-                this.m_sampleClock.Start(this.m_samplePeriod);
+                
                 this.m_daqtskLineTrigger.Start();
                 this.m_daqtskMoveStage.Start();
+                this.m_sampleClock.Start(this.m_samplePeriod);
 
                 //// Update the voltages one last time.
                 //if (m_iSamplesToStageCurrent > 0)
@@ -730,7 +769,9 @@ namespace SIS.Hardware
             double[] rVal = new double[intSamplesPerBuffer];
 
             for (int i = 0; i < intSamplesPerBuffer; i++)
-            rVal[i] = amplitude * Math.Sin((2.0 * Math.PI) * frequency * (i * samplePeriod));
+            {
+                rVal[i] = amplitude * Math.Sin((2.0 * Math.PI) * frequency * (i * samplePeriod));
+            }
 
             return rVal;
         }
