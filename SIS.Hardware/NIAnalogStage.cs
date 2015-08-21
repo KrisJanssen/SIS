@@ -536,7 +536,7 @@ namespace SIS.Hardware
             return _dVoltage;
         }
 
-        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation, int delay, bool wobble, double wobbleAmplitude, double wobbleFrequency, bool flip)
+        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation, int delay, bool wobble, double wobbleAmplitude, bool flip)
         {
             int returnlength = 1000;
 
@@ -545,30 +545,22 @@ namespace SIS.Hardware
                 int size = __scmScanMode.ScanCoordinates.GetLength(1);
                 double delta = __scmScanMode.ScanCoordinates[1, size - 1] - __scmScanMode.ScanCoordinates[1, 0];
 
-                //double[] linevolts = new double[size];
                 int[] levels = new int[size];
 
                 for (int i = __scmScanMode.Trig1Start + delay; i < __scmScanMode.Trig1End + delay + 1; i++)
                 {
-                    //linevolts[i] = 1;
-                    levels[i] = 3;
+                    levels[i] = 1;
                 }
 
-                //levels[__scmScanMode.Trig1Start + delay] = 3;
+                levels[__scmScanMode.Trig1Start + delay] = 3;
                 levels[__scmScanMode.Trig1End + delay] = 3;
 
                 // Allocate space for the full image
                 double[,] coordinates =
                     new double[3, size * __scmScanMode.RepeatNumber + returnlength];
 
-                //double[,] coordinates =
-                //    new double[3, size * __scmScanMode.RepeatNumber];
-
                 int[] longlevels =
                     new int[size * __scmScanMode.RepeatNumber + returnlength];
-
-                //int[] longlevels =
-                //    new int[size * __scmScanMode.RepeatNumber];
 
                 if (!flip)
                 {
@@ -587,7 +579,7 @@ namespace SIS.Hardware
                     }
                     else
                     {
-                        double[] sine = GenerateSineWave(wobbleFrequency / (size * __scmScanMode.RepeatNumber * __dPixelTime), this.NmToVoltage(wobbleAmplitude), __dPixelTime, size * __scmScanMode.RepeatNumber);
+                        double[] sine = GenerateWobbleBuffer(this.NmToVoltage(wobbleAmplitude), size * __scmScanMode.RepeatNumber);
 
                         for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
                         {
@@ -618,7 +610,7 @@ namespace SIS.Hardware
                     }
                     else
                     {
-                        double[] sine = GenerateSineWave(wobbleFrequency / (size * __scmScanMode.RepeatNumber * __dPixelTime), this.NmToVoltage(wobbleAmplitude), __dPixelTime, size * __scmScanMode.RepeatNumber);
+                        double[] sine = GenerateWobbleBuffer(this.NmToVoltage(wobbleAmplitude), size * __scmScanMode.RepeatNumber);
 
                         for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
                         {
@@ -662,12 +654,7 @@ namespace SIS.Hardware
                     coordinates[2, size * __scmScanMode.RepeatNumber + i] = returnpath[2, i];
                 }
 
-                //this.MoveAbs(this.VoltageToNm(coordinates[0, 0]), this.VoltageToNm(coordinates[1, 0]), this.VoltageToNm(coordinates[2, 0]));
-
-
-
-                // Set the levels to achieve start of frame trigger.
-                //longlevels[0] = 512;
+                // Set the levels to achieve start of frame and end of frame trigger.
                 longlevels[0] = 4;
                 longlevels[longlevels.GetLength(0) - 1] = 4;
 
@@ -734,19 +721,9 @@ namespace SIS.Hardware
                 _logger.Debug("End write:" + watch.ElapsedMilliseconds.ToString());
 
                 // Start all four tasks in the correct order. Global sync should be last.
-                
                 this.m_daqtskLineTrigger.Start();
                 this.m_daqtskMoveStage.Start();
                 this.m_sampleClock.Start(this.m_samplePeriod);
-
-                //// Update the voltages one last time.
-                //if (m_iSamplesToStageCurrent > 0)
-                //{
-                //    this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel;
-                //    m_dCurrentVoltageX = m_dMoveGeneratorCoordinates[0, m_iSamplesToStageCurrent - 1];
-                //    m_dCurrentVoltageY = m_dMoveGeneratorCoordinates[1, m_iSamplesToStageCurrent - 1];
-                //    m_dCurrentVoltageZ = m_dMoveGeneratorCoordinates[2, m_iSamplesToStageCurrent - 1];
-                //}
             }
 
             catch (Exception ex)
@@ -758,19 +735,33 @@ namespace SIS.Hardware
 
         #endregion
 
-        public static double[] GenerateSineWave(
-            double frequency,
+        public static double[] GenerateWobbleBuffer(
             double amplitude,
-            double samplePeriod,
             double samplesPerBuffer)
         {
             int intSamplesPerBuffer = (int)samplesPerBuffer;
 
+            int intRamp = Convert.ToInt32(samplesPerBuffer * 0.05);
+            int intMiddle = intSamplesPerBuffer - 2 * intRamp;
+
+            double rise = amplitude / intRamp;
+            double middle = 2 * amplitude / intMiddle;
+
             double[] rVal = new double[intSamplesPerBuffer];
 
-            for (int i = 0; i < intSamplesPerBuffer; i++)
+            for (int i = 0; i < intRamp; i++)
             {
-                rVal[i] = amplitude * Math.Sin((2.0 * Math.PI) * frequency * (i * samplePeriod));
+                rVal[i] = i * rise;
+            }
+
+            for (int i = intRamp; i < intRamp + intMiddle; i++)
+            {
+                rVal[i] = amplitude - (i - intRamp) * middle;
+            }
+
+            for (int i = intRamp + intMiddle; i < 2 * intRamp + intMiddle; i++)
+            {
+                rVal[i] = - amplitude + (i - (intRamp + intMiddle)) * rise;
             }
 
             return rVal;

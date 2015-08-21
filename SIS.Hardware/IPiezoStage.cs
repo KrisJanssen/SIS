@@ -138,7 +138,7 @@ namespace SIS.Hardware
         /// Perform a scan.
         /// </summary>
         /// <param name="__scmScanMode">Scanmode that holds all spatial information for a scan and defines it completely.</param>
-        void Scan(Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation, int delay, bool wobble, double wobbleAmplitude, double wobbleFrequency, bool flip);
+        void Scan(Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation, int delay, bool wobble, double wobbleAmplitude, bool flip);
 
         /// <summary>
         ///     Stop a scan in progress. Leaves the stage in a recoverable state.

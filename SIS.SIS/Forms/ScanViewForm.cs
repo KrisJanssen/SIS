@@ -882,7 +882,6 @@ namespace SIS.Forms
                 Convert.ToInt32(this.txtDelay.Text), 
                 this.checkBoxWobble.Checked,
                 Convert.ToDouble(this.txtWobbleAmp.Text),
-                Convert.ToDouble(this.txtWobbleFreq.Text),
                 this.checkBoxXY.Checked);
 
             while (_bStop != true)
@@ -960,8 +959,7 @@ namespace SIS.Forms
                             false, Convert.ToDouble(this.textBox5.Text),
                             Convert.ToInt32(this.txtDelay.Text),
                             this.checkBoxWobble.Checked, 
-                            Convert.ToDouble(this.txtWobbleAmp.Text), 
-                            Convert.ToDouble(this.txtWobbleFreq.Text),
+                            Convert.ToDouble(this.txtWobbleAmp.Text),
                             this.checkBoxXY.Checked);
 
                         _readsamples1 = 0;
