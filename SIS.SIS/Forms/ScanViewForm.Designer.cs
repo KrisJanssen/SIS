@@ -49,7 +49,7 @@
             this.m_lblGoToY = new System.Windows.Forms.Label();
             this.m_lblGoToX = new System.Windows.Forms.Label();
             this.scanModeComboBox1 = new SIS.Controls.ScanModeComboBox();
-            this.btnScanStart = new System.Windows.Forms.Button();
+            this.btnFrameStart = new System.Windows.Forms.Button();
             this.lblStageVoltageEngaged = new System.Windows.Forms.Label();
             this.btnStageOFF = new System.Windows.Forms.Button();
             this.txtbxCurrYPos = new System.Windows.Forms.TextBox();
@@ -100,6 +100,13 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
             this.ccdControl1 = new SIS.WPFControls.CCDControl.UI.CCDControl();
+            this.button1 = new System.Windows.Forms.Button();
+            this.txtParkX = new System.Windows.Forms.TextBox();
+            this.txtParkY = new System.Windows.Forms.TextBox();
+            this.txtParkZ = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -135,7 +142,7 @@
             this.m_TabControl.Location = new System.Drawing.Point(0, 0);
             this.m_TabControl.Name = "m_TabControl";
             this.m_TabControl.SelectedIndex = 0;
-            this.m_TabControl.Size = new System.Drawing.Size(1194, 722);
+            this.m_TabControl.Size = new System.Drawing.Size(1384, 861);
             this.m_TabControl.TabIndex = 0;
             // 
             // tabPage1
@@ -148,7 +155,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1186, 696);
+            this.tabPage1.Size = new System.Drawing.Size(1376, 835);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Scan View";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -157,9 +164,9 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox3.Location = new System.Drawing.Point(12, 0);
+            this.groupBox3.Location = new System.Drawing.Point(6, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(552, 246);
+            this.groupBox3.Size = new System.Drawing.Size(552, 317);
             this.groupBox3.TabIndex = 40;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Experiment Control";
@@ -174,17 +181,11 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.Controls.Add(this.txtbxCurrZPos, 4, 2);
             this.tableLayoutPanel1.Controls.Add(this.label3, 4, 1);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxCont, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.checkBox2, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.checkBox1, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.m_txtbxGoToZ, 3, 4);
-            this.tableLayoutPanel1.Controls.Add(this.m_txtbxGoToY, 2, 4);
-            this.tableLayoutPanel1.Controls.Add(this.m_txtbxGoToX, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.m_lblGoToZ, 3, 3);
-            this.tableLayoutPanel1.Controls.Add(this.m_lblGoToY, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this.m_lblGoToX, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.m_lblGoToZ, 4, 3);
+            this.tableLayoutPanel1.Controls.Add(this.m_lblGoToY, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this.m_lblGoToX, 2, 3);
             this.tableLayoutPanel1.Controls.Add(this.scanModeComboBox1, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btnScanStart, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.btnFrameStart, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.lblStageVoltageEngaged, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnStageOFF, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtbxCurrYPos, 3, 2);
@@ -193,28 +194,44 @@
             this.tableLayoutPanel1.Controls.Add(this.lblStageCurrYPos, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblStageCurrXPos, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnMoveAbs, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btnStop, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.btnStop, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.btnCountRate, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.m_btnScanSettings, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.m_nupdFilenameCount, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this.m_chkbxAutosave, 3, 5);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxXY, 4, 5);
-            this.tableLayoutPanel1.Controls.Add(this.textBox5, 4, 4);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxWobble, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.txtWobbleAmp, 2, 6);
-            this.tableLayoutPanel1.Controls.Add(this.txtDelay, 4, 6);
+            this.tableLayoutPanel1.Controls.Add(this.m_txtbxGoToZ, 4, 4);
+            this.tableLayoutPanel1.Controls.Add(this.m_txtbxGoToY, 3, 4);
+            this.tableLayoutPanel1.Controls.Add(this.m_txtbxGoToX, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxCont, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.checkBox1, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxXY, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxWobble, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.txtWobbleAmp, 2, 8);
+            this.tableLayoutPanel1.Controls.Add(this.checkBox2, 2, 9);
+            this.tableLayoutPanel1.Controls.Add(this.m_chkbxAutosave, 3, 9);
+            this.tableLayoutPanel1.Controls.Add(this.m_nupdFilenameCount, 4, 9);
+            this.tableLayoutPanel1.Controls.Add(this.txtDelay, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.textBox5, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.button1, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.txtParkX, 2, 6);
+            this.tableLayoutPanel1.Controls.Add(this.txtParkY, 3, 6);
+            this.tableLayoutPanel1.Controls.Add(this.txtParkZ, 4, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 4, 5);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 10;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(546, 227);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(546, 298);
             this.tableLayoutPanel1.TabIndex = 34;
             // 
             // txtbxCurrZPos
@@ -240,7 +257,7 @@
             // checkBoxCont
             // 
             this.checkBoxCont.AutoSize = true;
-            this.checkBoxCont.Location = new System.Drawing.Point(3, 207);
+            this.checkBoxCont.Location = new System.Drawing.Point(3, 277);
             this.checkBoxCont.Name = "checkBoxCont";
             this.checkBoxCont.Size = new System.Drawing.Size(85, 17);
             this.checkBoxCont.TabIndex = 74;
@@ -252,7 +269,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(112, 173);
+            this.checkBox2.Location = new System.Drawing.Point(221, 277);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(98, 17);
             this.checkBox2.TabIndex = 73;
@@ -264,9 +281,9 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(3, 173);
+            this.checkBox1.Location = new System.Drawing.Point(3, 256);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(68, 17);
+            this.checkBox1.Size = new System.Drawing.Size(68, 15);
             this.checkBox1.TabIndex = 72;
             this.checkBox1.Text = "Re-Send";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -276,9 +293,9 @@
             this.m_txtbxGoToZ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtbxGoToZ.Location = new System.Drawing.Point(330, 139);
+            this.m_txtbxGoToZ.Location = new System.Drawing.Point(439, 139);
             this.m_txtbxGoToZ.Name = "m_txtbxGoToZ";
-            this.m_txtbxGoToZ.Size = new System.Drawing.Size(103, 20);
+            this.m_txtbxGoToZ.Size = new System.Drawing.Size(104, 20);
             this.m_txtbxGoToZ.TabIndex = 67;
             this.m_txtbxGoToZ.Text = "0";
             // 
@@ -287,7 +304,7 @@
             this.m_txtbxGoToY.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtbxGoToY.Location = new System.Drawing.Point(221, 139);
+            this.m_txtbxGoToY.Location = new System.Drawing.Point(330, 139);
             this.m_txtbxGoToY.Name = "m_txtbxGoToY";
             this.m_txtbxGoToY.Size = new System.Drawing.Size(103, 20);
             this.m_txtbxGoToY.TabIndex = 66;
@@ -298,7 +315,7 @@
             this.m_txtbxGoToX.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtbxGoToX.Location = new System.Drawing.Point(112, 139);
+            this.m_txtbxGoToX.Location = new System.Drawing.Point(221, 139);
             this.m_txtbxGoToX.Name = "m_txtbxGoToX";
             this.m_txtbxGoToX.Size = new System.Drawing.Size(103, 20);
             this.m_txtbxGoToX.TabIndex = 65;
@@ -308,9 +325,9 @@
             // 
             this.m_lblGoToZ.AutoSize = true;
             this.m_lblGoToZ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_lblGoToZ.Location = new System.Drawing.Point(330, 102);
+            this.m_lblGoToZ.Location = new System.Drawing.Point(439, 102);
             this.m_lblGoToZ.Name = "m_lblGoToZ";
-            this.m_lblGoToZ.Size = new System.Drawing.Size(103, 34);
+            this.m_lblGoToZ.Size = new System.Drawing.Size(104, 34);
             this.m_lblGoToZ.TabIndex = 64;
             this.m_lblGoToZ.Text = "GotoZ";
             this.m_lblGoToZ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -319,7 +336,7 @@
             // 
             this.m_lblGoToY.AutoSize = true;
             this.m_lblGoToY.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_lblGoToY.Location = new System.Drawing.Point(221, 102);
+            this.m_lblGoToY.Location = new System.Drawing.Point(330, 102);
             this.m_lblGoToY.Name = "m_lblGoToY";
             this.m_lblGoToY.Size = new System.Drawing.Size(103, 34);
             this.m_lblGoToY.TabIndex = 63;
@@ -330,7 +347,7 @@
             // 
             this.m_lblGoToX.AutoSize = true;
             this.m_lblGoToX.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_lblGoToX.Location = new System.Drawing.Point(112, 102);
+            this.m_lblGoToX.Location = new System.Drawing.Point(221, 102);
             this.m_lblGoToX.Name = "m_lblGoToX";
             this.m_lblGoToX.Size = new System.Drawing.Size(103, 34);
             this.m_lblGoToX.TabIndex = 62;
@@ -346,16 +363,16 @@
             this.scanModeComboBox1.Size = new System.Drawing.Size(103, 21);
             this.scanModeComboBox1.TabIndex = 60;
             // 
-            // btnScanStart
+            // btnFrameStart
             // 
-            this.btnScanStart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnScanStart.Location = new System.Drawing.Point(3, 105);
-            this.btnScanStart.Name = "btnScanStart";
-            this.btnScanStart.Size = new System.Drawing.Size(103, 28);
-            this.btnScanStart.TabIndex = 50;
-            this.btnScanStart.Text = "Scan";
-            this.btnScanStart.UseVisualStyleBackColor = true;
-            this.btnScanStart.Click += new System.EventHandler(this.btnScanStart_Click);
+            this.btnFrameStart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnFrameStart.Location = new System.Drawing.Point(3, 105);
+            this.btnFrameStart.Name = "btnFrameStart";
+            this.btnFrameStart.Size = new System.Drawing.Size(103, 28);
+            this.btnFrameStart.TabIndex = 50;
+            this.btnFrameStart.Text = "FRAME";
+            this.btnFrameStart.UseVisualStyleBackColor = true;
+            this.btnFrameStart.Click += new System.EventHandler(this.btnFrameStart_Click);
             // 
             // lblStageVoltageEngaged
             // 
@@ -414,7 +431,7 @@
             // 
             this.lblStageCurrYPos.AutoSize = true;
             this.lblStageCurrYPos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblStageCurrYPos.Location = new System.Drawing.Point(221, 34);
+            this.lblStageCurrYPos.Location = new System.Drawing.Point(330, 34);
             this.lblStageCurrYPos.Name = "lblStageCurrYPos";
             this.lblStageCurrYPos.Size = new System.Drawing.Size(103, 34);
             this.lblStageCurrYPos.TabIndex = 52;
@@ -425,7 +442,7 @@
             // 
             this.lblStageCurrXPos.AutoSize = true;
             this.lblStageCurrXPos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblStageCurrXPos.Location = new System.Drawing.Point(330, 34);
+            this.lblStageCurrXPos.Location = new System.Drawing.Point(221, 34);
             this.lblStageCurrXPos.Name = "lblStageCurrXPos";
             this.lblStageCurrXPos.Size = new System.Drawing.Size(103, 34);
             this.lblStageCurrXPos.TabIndex = 51;
@@ -446,7 +463,7 @@
             // btnStop
             // 
             this.btnStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnStop.Location = new System.Drawing.Point(3, 139);
+            this.btnStop.Location = new System.Drawing.Point(3, 173);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(103, 28);
             this.btnStop.TabIndex = 57;
@@ -479,7 +496,7 @@
             // 
             // m_nupdFilenameCount
             // 
-            this.m_nupdFilenameCount.Location = new System.Drawing.Point(221, 173);
+            this.m_nupdFilenameCount.Location = new System.Drawing.Point(439, 277);
             this.m_nupdFilenameCount.Name = "m_nupdFilenameCount";
             this.m_nupdFilenameCount.Size = new System.Drawing.Size(103, 20);
             this.m_nupdFilenameCount.TabIndex = 70;
@@ -489,7 +506,7 @@
             this.m_chkbxAutosave.AutoSize = true;
             this.m_chkbxAutosave.Checked = true;
             this.m_chkbxAutosave.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.m_chkbxAutosave.Location = new System.Drawing.Point(330, 173);
+            this.m_chkbxAutosave.Location = new System.Drawing.Point(330, 277);
             this.m_chkbxAutosave.Name = "m_chkbxAutosave";
             this.m_chkbxAutosave.Size = new System.Drawing.Size(74, 17);
             this.m_chkbxAutosave.TabIndex = 71;
@@ -499,7 +516,7 @@
             // checkBoxXY
             // 
             this.checkBoxXY.AutoSize = true;
-            this.checkBoxXY.Location = new System.Drawing.Point(439, 173);
+            this.checkBoxXY.Location = new System.Drawing.Point(112, 277);
             this.checkBoxXY.Name = "checkBoxXY";
             this.checkBoxXY.Size = new System.Drawing.Size(59, 17);
             this.checkBoxXY.TabIndex = 77;
@@ -508,7 +525,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(439, 139);
+            this.textBox5.Location = new System.Drawing.Point(112, 207);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 20);
             this.textBox5.TabIndex = 78;
@@ -517,16 +534,16 @@
             // checkBoxWobble
             // 
             this.checkBoxWobble.AutoSize = true;
-            this.checkBoxWobble.Location = new System.Drawing.Point(112, 207);
+            this.checkBoxWobble.Location = new System.Drawing.Point(112, 256);
             this.checkBoxWobble.Name = "checkBoxWobble";
-            this.checkBoxWobble.Size = new System.Drawing.Size(69, 17);
+            this.checkBoxWobble.Size = new System.Drawing.Size(69, 15);
             this.checkBoxWobble.TabIndex = 79;
             this.checkBoxWobble.Text = "Wobble?";
             this.checkBoxWobble.UseVisualStyleBackColor = true;
             // 
             // txtWobbleAmp
             // 
-            this.txtWobbleAmp.Location = new System.Drawing.Point(221, 207);
+            this.txtWobbleAmp.Location = new System.Drawing.Point(221, 256);
             this.txtWobbleAmp.Name = "txtWobbleAmp";
             this.txtWobbleAmp.Size = new System.Drawing.Size(100, 20);
             this.txtWobbleAmp.TabIndex = 80;
@@ -534,7 +551,7 @@
             // 
             // txtDelay
             // 
-            this.txtDelay.Location = new System.Drawing.Point(439, 207);
+            this.txtDelay.Location = new System.Drawing.Point(112, 139);
             this.txtDelay.Name = "txtDelay";
             this.txtDelay.Size = new System.Drawing.Size(100, 20);
             this.txtDelay.TabIndex = 82;
@@ -545,9 +562,9 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.tableLayoutPanel3);
-            this.groupBox2.Location = new System.Drawing.Point(9, 262);
+            this.groupBox2.Location = new System.Drawing.Point(9, 401);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1167, 426);
+            this.groupBox2.Size = new System.Drawing.Size(1357, 426);
             this.groupBox2.TabIndex = 39;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Images";
@@ -602,16 +619,16 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1161, 407);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1351, 407);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // checkBox9
             // 
             this.checkBox9.AutoSize = true;
             this.checkBox9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkBox9.Location = new System.Drawing.Point(1071, 123);
+            this.checkBox9.Location = new System.Drawing.Point(1214, 123);
             this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(87, 34);
+            this.checkBox9.Size = new System.Drawing.Size(134, 34);
             this.checkBox9.TabIndex = 48;
             this.checkBox9.Text = "Overlay";
             this.checkBox9.UseVisualStyleBackColor = true;
@@ -623,7 +640,7 @@
             this.checkBox8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkBox8.Location = new System.Drawing.Point(3, 123);
             this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(84, 34);
+            this.checkBox8.Size = new System.Drawing.Size(131, 34);
             this.checkBox8.TabIndex = 47;
             this.checkBox8.Text = "Overlay";
             this.checkBox8.UseVisualStyleBackColor = true;
@@ -635,7 +652,7 @@
             this.checkBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkBox7.Location = new System.Drawing.Point(3, 83);
             this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(84, 34);
+            this.checkBox7.Size = new System.Drawing.Size(131, 34);
             this.checkBox7.TabIndex = 46;
             this.checkBox7.Text = "Green";
             this.checkBox7.UseVisualStyleBackColor = true;
@@ -647,7 +664,7 @@
             this.checkBox6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkBox6.Location = new System.Drawing.Point(3, 43);
             this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(84, 34);
+            this.checkBox6.Size = new System.Drawing.Size(131, 34);
             this.checkBox6.TabIndex = 45;
             this.checkBox6.Text = "Red";
             this.checkBox6.UseVisualStyleBackColor = true;
@@ -657,9 +674,9 @@
             // 
             this.checkBox5.AutoSize = true;
             this.checkBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkBox5.Location = new System.Drawing.Point(1071, 83);
+            this.checkBox5.Location = new System.Drawing.Point(1214, 83);
             this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(87, 34);
+            this.checkBox5.Size = new System.Drawing.Size(134, 34);
             this.checkBox5.TabIndex = 44;
             this.checkBox5.Text = "Green";
             this.checkBox5.UseVisualStyleBackColor = true;
@@ -669,9 +686,9 @@
             // 
             this.checkBox4.AutoSize = true;
             this.checkBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkBox4.Location = new System.Drawing.Point(1071, 43);
+            this.checkBox4.Location = new System.Drawing.Point(1214, 43);
             this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(87, 34);
+            this.checkBox4.Size = new System.Drawing.Size(134, 34);
             this.checkBox4.TabIndex = 43;
             this.checkBox4.Text = "Red";
             this.checkBox4.UseVisualStyleBackColor = true;
@@ -680,10 +697,10 @@
             // textBox4
             // 
             this.textBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox4.Location = new System.Drawing.Point(1071, 163);
+            this.textBox4.Location = new System.Drawing.Point(1214, 163);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(87, 20);
+            this.textBox4.Size = new System.Drawing.Size(134, 20);
             this.textBox4.TabIndex = 42;
             // 
             // textBox3
@@ -692,7 +709,7 @@
             this.textBox3.Location = new System.Drawing.Point(3, 163);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(84, 20);
+            this.textBox3.Size = new System.Drawing.Size(131, 20);
             this.textBox3.TabIndex = 41;
             // 
             // label2
@@ -700,9 +717,9 @@
             this.label2.AutoSize = true;
             this.tableLayoutPanel3.SetColumnSpan(this.label2, 2);
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(518, 240);
+            this.label2.Location = new System.Drawing.Point(579, 240);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(122, 40);
+            this.label2.Size = new System.Drawing.Size(190, 40);
             this.label2.TabIndex = 39;
             this.label2.Text = "Samples APD2";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -712,9 +729,9 @@
             this.label1.AutoSize = true;
             this.tableLayoutPanel3.SetColumnSpan(this.label1, 2);
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(518, 160);
+            this.label1.Location = new System.Drawing.Point(579, 160);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(122, 40);
+            this.label1.Size = new System.Drawing.Size(190, 40);
             this.label1.TabIndex = 38;
             this.label1.Text = "Samples APD1";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -723,20 +740,20 @@
             // 
             this.tableLayoutPanel3.SetColumnSpan(this.textBox2, 2);
             this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox2.Location = new System.Drawing.Point(518, 283);
+            this.textBox2.Location = new System.Drawing.Point(579, 283);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(122, 20);
+            this.textBox2.Size = new System.Drawing.Size(190, 20);
             this.textBox2.TabIndex = 37;
             // 
             // textBox1
             // 
             this.tableLayoutPanel3.SetColumnSpan(this.textBox1, 2);
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(518, 203);
+            this.textBox1.Location = new System.Drawing.Point(579, 203);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(122, 20);
+            this.textBox1.Size = new System.Drawing.Size(190, 20);
             this.textBox1.TabIndex = 36;
             // 
             // lblColorBarMaxInt1
@@ -746,7 +763,7 @@
             this.lblColorBarMaxInt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblColorBarMaxInt1.Location = new System.Drawing.Point(3, 0);
             this.lblColorBarMaxInt1.Name = "lblColorBarMaxInt1";
-            this.lblColorBarMaxInt1.Size = new System.Drawing.Size(84, 40);
+            this.lblColorBarMaxInt1.Size = new System.Drawing.Size(131, 40);
             this.lblColorBarMaxInt1.TabIndex = 30;
             this.lblColorBarMaxInt1.Text = "Max";
             // 
@@ -757,9 +774,9 @@
             this.chkbxNormalized.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tableLayoutPanel3.SetColumnSpan(this.chkbxNormalized, 2);
             this.chkbxNormalized.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkbxNormalized.Location = new System.Drawing.Point(518, 123);
+            this.chkbxNormalized.Location = new System.Drawing.Point(579, 123);
             this.chkbxNormalized.Name = "chkbxNormalized";
-            this.chkbxNormalized.Size = new System.Drawing.Size(122, 34);
+            this.chkbxNormalized.Size = new System.Drawing.Size(190, 34);
             this.chkbxNormalized.TabIndex = 35;
             this.chkbxNormalized.Text = "Normalized";
             this.chkbxNormalized.UseVisualStyleBackColor = true;
@@ -772,7 +789,7 @@
             this.lblColorBarMinInt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblColorBarMinInt1.Location = new System.Drawing.Point(3, 360);
             this.lblColorBarMinInt1.Name = "lblColorBarMinInt1";
-            this.lblColorBarMinInt1.Size = new System.Drawing.Size(84, 40);
+            this.lblColorBarMinInt1.Size = new System.Drawing.Size(131, 40);
             this.lblColorBarMinInt1.TabIndex = 31;
             this.lblColorBarMinInt1.Text = "Min";
             this.lblColorBarMinInt1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -782,9 +799,9 @@
             this.chkbxCorrectedImage.AutoSize = true;
             this.tableLayoutPanel3.SetColumnSpan(this.chkbxCorrectedImage, 2);
             this.chkbxCorrectedImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkbxCorrectedImage.Location = new System.Drawing.Point(518, 83);
+            this.chkbxCorrectedImage.Location = new System.Drawing.Point(579, 83);
             this.chkbxCorrectedImage.Name = "chkbxCorrectedImage";
-            this.chkbxCorrectedImage.Size = new System.Drawing.Size(122, 34);
+            this.chkbxCorrectedImage.Size = new System.Drawing.Size(190, 34);
             this.chkbxCorrectedImage.TabIndex = 34;
             this.chkbxCorrectedImage.Text = "Corrected Image";
             this.chkbxCorrectedImage.UseVisualStyleBackColor = true;
@@ -797,7 +814,7 @@
             this.scanImageControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.scanImageControl1.Image = null;
             this.scanImageControl1.ImageText = "APD1";
-            this.scanImageControl1.Location = new System.Drawing.Point(115, 0);
+            this.scanImageControl1.Location = new System.Drawing.Point(176, 0);
             this.scanImageControl1.Margin = new System.Windows.Forms.Padding(0);
             this.scanImageControl1.Name = "scanImageControl1";
             this.scanImageControl1.Origin = new System.Drawing.Point(0, 0);
@@ -819,7 +836,7 @@
             this.scanImageControl2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.scanImageControl2.Image = null;
             this.scanImageControl2.ImageText = "APD2";
-            this.scanImageControl2.Location = new System.Drawing.Point(643, 0);
+            this.scanImageControl2.Location = new System.Drawing.Point(772, 0);
             this.scanImageControl2.Margin = new System.Windows.Forms.Padding(0);
             this.scanImageControl2.Name = "scanImageControl2";
             this.scanImageControl2.Origin = new System.Drawing.Point(0, 0);
@@ -842,13 +859,13 @@
             this.drwcnvColorBar2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.drwcnvColorBar2.Image = null;
             this.drwcnvColorBar2.ImageText = null;
-            this.drwcnvColorBar2.Location = new System.Drawing.Point(1046, 3);
+            this.drwcnvColorBar2.Location = new System.Drawing.Point(1175, 3);
             this.drwcnvColorBar2.Name = "drwcnvColorBar2";
             this.drwcnvColorBar2.Origin = new System.Drawing.Point(0, 0);
             this.drwcnvColorBar2.PanButton = System.Windows.Forms.MouseButtons.Left;
             this.drwcnvColorBar2.PanMode = true;
             this.tableLayoutPanel3.SetRowSpan(this.drwcnvColorBar2, 10);
-            this.drwcnvColorBar2.Size = new System.Drawing.Size(19, 394);
+            this.drwcnvColorBar2.Size = new System.Drawing.Size(33, 394);
             this.drwcnvColorBar2.StretchImageToFit = true;
             this.drwcnvColorBar2.TabIndex = 29;
             this.drwcnvColorBar2.ZoomFactor = 1D;
@@ -862,13 +879,13 @@
             this.drwcnvColorBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.drwcnvColorBar1.Image = null;
             this.drwcnvColorBar1.ImageText = null;
-            this.drwcnvColorBar1.Location = new System.Drawing.Point(93, 3);
+            this.drwcnvColorBar1.Location = new System.Drawing.Point(140, 3);
             this.drwcnvColorBar1.Name = "drwcnvColorBar1";
             this.drwcnvColorBar1.Origin = new System.Drawing.Point(0, 0);
             this.drwcnvColorBar1.PanButton = System.Windows.Forms.MouseButtons.Left;
             this.drwcnvColorBar1.PanMode = true;
             this.tableLayoutPanel3.SetRowSpan(this.drwcnvColorBar1, 10);
-            this.drwcnvColorBar1.Size = new System.Drawing.Size(19, 394);
+            this.drwcnvColorBar1.Size = new System.Drawing.Size(33, 394);
             this.drwcnvColorBar1.StretchImageToFit = true;
             this.drwcnvColorBar1.TabIndex = 33;
             this.drwcnvColorBar1.ZoomFactor = 1D;
@@ -879,9 +896,9 @@
             this.lblColorBarMaxInt2.AutoSize = true;
             this.lblColorBarMaxInt2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblColorBarMaxInt2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColorBarMaxInt2.Location = new System.Drawing.Point(1071, 0);
+            this.lblColorBarMaxInt2.Location = new System.Drawing.Point(1214, 0);
             this.lblColorBarMaxInt2.Name = "lblColorBarMaxInt2";
-            this.lblColorBarMaxInt2.Size = new System.Drawing.Size(87, 40);
+            this.lblColorBarMaxInt2.Size = new System.Drawing.Size(134, 40);
             this.lblColorBarMaxInt2.TabIndex = 18;
             this.lblColorBarMaxInt2.Text = "Max";
             this.lblColorBarMaxInt2.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -891,9 +908,9 @@
             this.lblColorBarMinInt2.AutoSize = true;
             this.lblColorBarMinInt2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblColorBarMinInt2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColorBarMinInt2.Location = new System.Drawing.Point(1071, 360);
+            this.lblColorBarMinInt2.Location = new System.Drawing.Point(1214, 360);
             this.lblColorBarMinInt2.Name = "lblColorBarMinInt2";
-            this.lblColorBarMinInt2.Size = new System.Drawing.Size(87, 40);
+            this.lblColorBarMinInt2.Size = new System.Drawing.Size(134, 40);
             this.lblColorBarMinInt2.TabIndex = 19;
             this.lblColorBarMinInt2.Text = "Min";
             this.lblColorBarMinInt2.TextAlign = System.Drawing.ContentAlignment.BottomRight;
@@ -902,10 +919,10 @@
             // 
             this.tableLayoutPanel3.SetColumnSpan(this.btnImageFit, 2);
             this.btnImageFit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnImageFit.Location = new System.Drawing.Point(518, 3);
+            this.btnImageFit.Location = new System.Drawing.Point(579, 3);
             this.btnImageFit.Name = "btnImageFit";
             this.tableLayoutPanel3.SetRowSpan(this.btnImageFit, 2);
-            this.btnImageFit.Size = new System.Drawing.Size(122, 74);
+            this.btnImageFit.Size = new System.Drawing.Size(190, 74);
             this.btnImageFit.TabIndex = 33;
             this.btnImageFit.Text = "Full Image";
             this.btnImageFit.UseVisualStyleBackColor = true;
@@ -914,7 +931,7 @@
             // buttonExp
             // 
             this.tableLayoutPanel3.SetColumnSpan(this.buttonExp, 2);
-            this.buttonExp.Location = new System.Drawing.Point(518, 323);
+            this.buttonExp.Location = new System.Drawing.Point(579, 323);
             this.buttonExp.Name = "buttonExp";
             this.tableLayoutPanel3.SetRowSpan(this.buttonExp, 2);
             this.buttonExp.Size = new System.Drawing.Size(122, 74);
@@ -928,9 +945,9 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.richTextBox1);
             this.groupBox1.Controls.Add(this.m_txtbxScanPropertiesFromFile);
-            this.groupBox1.Location = new System.Drawing.Point(570, -1);
+            this.groupBox1.Location = new System.Drawing.Point(594, -1);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(606, 246);
+            this.groupBox1.Size = new System.Drawing.Size(772, 246);
             this.groupBox1.TabIndex = 38;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Experiment Properties";
@@ -940,19 +957,19 @@
             this.richTextBox1.Location = new System.Drawing.Point(155, 16);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBox1.Size = new System.Drawing.Size(445, 224);
+            this.richTextBox1.Size = new System.Drawing.Size(563, 224);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
             // 
             // m_txtbxScanPropertiesFromFile
             // 
-            this.m_txtbxScanPropertiesFromFile.Location = new System.Drawing.Point(3, 16);
+            this.m_txtbxScanPropertiesFromFile.Location = new System.Drawing.Point(6, 16);
             this.m_txtbxScanPropertiesFromFile.Multiline = true;
             this.m_txtbxScanPropertiesFromFile.Name = "m_txtbxScanPropertiesFromFile";
             this.m_txtbxScanPropertiesFromFile.ReadOnly = true;
             this.m_txtbxScanPropertiesFromFile.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.m_txtbxScanPropertiesFromFile.Size = new System.Drawing.Size(146, 227);
+            this.m_txtbxScanPropertiesFromFile.Size = new System.Drawing.Size(143, 227);
             this.m_txtbxScanPropertiesFromFile.TabIndex = 0;
             this.m_txtbxScanPropertiesFromFile.WordWrap = false;
             // 
@@ -975,11 +992,75 @@
             this.elementHost2.Text = "elementHost2";
             this.elementHost2.Child = this.ccdControl1;
             // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.Location = new System.Drawing.Point(3, 139);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(103, 28);
+            this.button1.TabIndex = 83;
+            this.button1.Text = "LINE";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // txtParkX
+            // 
+            this.txtParkX.Location = new System.Drawing.Point(221, 207);
+            this.txtParkX.Name = "txtParkX";
+            this.txtParkX.Size = new System.Drawing.Size(100, 20);
+            this.txtParkX.TabIndex = 84;
+            this.txtParkX.Text = "0";
+            // 
+            // txtParkY
+            // 
+            this.txtParkY.Location = new System.Drawing.Point(330, 207);
+            this.txtParkY.Name = "txtParkY";
+            this.txtParkY.Size = new System.Drawing.Size(100, 20);
+            this.txtParkY.TabIndex = 85;
+            this.txtParkY.Text = "0";
+            // 
+            // txtParkZ
+            // 
+            this.txtParkZ.Location = new System.Drawing.Point(439, 207);
+            this.txtParkZ.Name = "txtParkZ";
+            this.txtParkZ.Size = new System.Drawing.Size(100, 20);
+            this.txtParkZ.TabIndex = 86;
+            this.txtParkZ.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Location = new System.Drawing.Point(221, 170);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(103, 34);
+            this.label4.TabIndex = 87;
+            this.label4.Text = "Park X";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Location = new System.Drawing.Point(330, 170);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(103, 34);
+            this.label5.TabIndex = 88;
+            this.label5.Text = "Park Y";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Location = new System.Drawing.Point(439, 170);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(104, 34);
+            this.label6.TabIndex = 89;
+            this.label6.Text = "Park Z";
+            // 
             // ScanViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1194, 722);
+            this.ClientSize = new System.Drawing.Size(1384, 861);
             this.Controls.Add(this.m_TabControl);
             this.DoubleBuffered = false;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -1043,7 +1124,7 @@
         private System.Windows.Forms.Label lblStageCurrYPos;
         private System.Windows.Forms.Label lblStageCurrXPos;
         private System.Windows.Forms.Button btnMoveAbs;
-        private System.Windows.Forms.Button btnScanStart;
+        private System.Windows.Forms.Button btnFrameStart;
         private System.Windows.Forms.Button btnStop;
         private SIS.Controls.ScanModeComboBox scanModeComboBox1;
         private System.Windows.Forms.Button m_btnScanSettings;
@@ -1078,5 +1159,12 @@
         private System.Windows.Forms.CheckBox checkBoxWobble;
         private System.Windows.Forms.TextBox txtWobbleAmp;
         private System.Windows.Forms.TextBox txtDelay;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtParkX;
+        private System.Windows.Forms.TextBox txtParkY;
+        private System.Windows.Forms.TextBox txtParkZ;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }

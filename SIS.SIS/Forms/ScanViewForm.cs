@@ -189,7 +189,7 @@ namespace SIS.Forms
             txtbxCurrYPos.Text = this.m_Stage.YPosition.ToString();
             txtbxCurrZPos.Text = this.m_Stage.ZPosition.ToString();
             textBox1.Text = this.m_apdAPD1.TotalSamplesAcuired.ToString();
-            
+
             // Get the in memory bitmaps to the screen.
             PaintToScreen();
 
@@ -201,7 +201,7 @@ namespace SIS.Forms
         private void EnableCtrls()
         {
             // Disable the Scan button because validation is always necessary before scanning can start.
-            this.btnScanStart.Enabled = true;
+            this.btnFrameStart.Enabled = true;
             this.btnCountRate.Enabled = true;
             this.btnStop.Enabled = true;
         }
@@ -210,7 +210,7 @@ namespace SIS.Forms
         private void DisableCtrls()
         {
             // Disable the Scan button.
-            this.btnScanStart.Enabled = false;
+            this.btnFrameStart.Enabled = false;
             this.btnCountRate.Enabled = false;
             this.btnStop.Enabled = true;
         }
@@ -260,7 +260,7 @@ namespace SIS.Forms
         private void m_btnScanSettings_Click(object sender, EventArgs e)
         {
             ScanDocument _docDocument = this.Document as ScanDocument;
-            
+
             this.m_frmScanSettingsForm = new ScanSettingsForm(this.m_scnstSettings);
 
             this.m_frmScanSettingsForm.UpdateParameters += new EventHandler(m_frmScanSettingsForm_UpdateParameters);
@@ -732,10 +732,8 @@ namespace SIS.Forms
 
         #region Scan/Experimental Control
 
-        private void btnScanStart_Click(object __oSender, EventArgs __evargsE)
+        private void btnFrameStart_Click(object __oSender, EventArgs __evargsE)
         {
-            #region Filename Increment
-
             // Acces the ScanDocument object related to this form.
             ScanDocument _docDocument = this.Document as ScanDocument;
 
@@ -765,8 +763,6 @@ namespace SIS.Forms
 
                 _docDocument.SaveDocument(_sTempPath);
             }
-
-            #endregion
 
             // Store the settings to the document.
             _docDocument.AllocateData(this.m_scnstSettings);
@@ -805,6 +801,8 @@ namespace SIS.Forms
 
             // Continue with prepping and eventually running the scan.
             PrepnRunScan(m_BiScan);
+
+
         }
 
         private void PrepnRunScan(Scanmode __scnmScan)
@@ -875,11 +873,11 @@ namespace SIS.Forms
 
             // Initiate stage scan movement.
             this.m_Stage.Scan(
-                _Scan, 
-                _docDocument.TimePPixel, 
-                this.checkBox1.Checked, 
-                Convert.ToDouble(this.textBox5.Text), 
-                Convert.ToInt32(this.txtDelay.Text), 
+                _Scan,
+                _docDocument.TimePPixel,
+                this.checkBox1.Checked,
+                Convert.ToDouble(this.textBox5.Text),
+                Convert.ToInt32(this.txtDelay.Text),
                 this.checkBoxWobble.Checked,
                 Convert.ToDouble(this.txtWobbleAmp.Text),
                 this.checkBoxXY.Checked);
@@ -917,7 +915,7 @@ namespace SIS.Forms
                         _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
                     }
 
-                    
+
                 }
 
                 // Assign processed data to the actual document opject.
@@ -952,13 +950,13 @@ namespace SIS.Forms
                         this.m_apdAPD1.StartAPDAcquisition();
                         //this.m_apdAPD2.StartAPDAcquisition();
 
-                       
+
                         this.m_Stage.Scan(
-                            _Scan, 
-                            _docDocument.TimePPixel, 
+                            _Scan,
+                            _docDocument.TimePPixel,
                             false, Convert.ToDouble(this.textBox5.Text),
                             Convert.ToInt32(this.txtDelay.Text),
-                            this.checkBoxWobble.Checked, 
+                            this.checkBoxWobble.Checked,
                             Convert.ToDouble(this.txtWobbleAmp.Text),
                             this.checkBoxXY.Checked);
 
@@ -997,7 +995,7 @@ namespace SIS.Forms
             // Stop the move task for the stage.
             this.m_apdAPD1.StopAPDAcquisition();
             //this.m_apdAPD2.StopAPDAcquisition();
-            
+
         }
 
         private void btnStop_Click(object __oSender, EventArgs __evargsE)
@@ -1010,7 +1008,7 @@ namespace SIS.Forms
 
             // Disable the Stop button again.
             this.btnStop.Enabled = false;
-            this.btnScanStart.Enabled = true;
+            this.btnFrameStart.Enabled = true;
         }
 
         private void bckgwrkPerformScan_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs __evargsE)
@@ -1143,6 +1141,5 @@ namespace SIS.Forms
             }
 
         }
-
     }
 }
