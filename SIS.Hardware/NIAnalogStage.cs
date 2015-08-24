@@ -617,7 +617,7 @@ namespace SIS.Hardware
                     // Generate the wobble waveform
                     double[] wobblewf = GenerateWobbleBuffer(this.NmToVoltage(wobbleAmplitude), framesize);
 
-                    for (int i = 0; i < linesize; i++)
+                    for (int i = 0; i < framesize; i++)
                     {
                         wobblewf[i] = wobblewf[i] + this.m_dCurrentVoltageZ;
                     }
@@ -631,7 +631,8 @@ namespace SIS.Hardware
 
                         System.Buffer.BlockCopy(linebuffer, 0 * szdouble, coordinates, (i * linesize) * szdouble, linesize * szdouble);
                         System.Buffer.BlockCopy(linebuffer, linesize * szdouble, coordinates, ((i * linesize) + framesize + returnlength) * szdouble, linesize * szdouble);
-                        
+                        System.Buffer.BlockCopy(linebuffer, 2 * linesize * szdouble, coordinates, ((i * linesize) + 2 * (framesize + returnlength)) * szdouble, linesize * szdouble);
+
                         System.Buffer.BlockCopy(levels, 0 * szint, longlevels, i * linesize * szint, (linesize - 1) * szint);
                     }
 
