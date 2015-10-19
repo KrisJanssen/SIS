@@ -863,10 +863,24 @@ namespace SIS.Forms
             //List<UInt32> _lui32AllReadValues1 = new List<UInt32>(_docDocument.PixelCount);
             //List<UInt32> _lui32AllReadValues2 = new List<UInt32>(_docDocument.PixelCount);
 
-            this.m_Stage.MoveAbs(
-                Convert.ToDouble(this.m_txtbxGoToX.Text),
-                Convert.ToDouble(this.m_txtbxGoToY.Text),
-                Convert.ToDouble(this.m_txtbxGoToZ.Text));
+            if (!this.checkBoxStack.Checked)
+            {
+                this.m_Stage.MoveAbs(
+                    Convert.ToDouble(this.m_txtbxGoToX.Text),
+                    Convert.ToDouble(this.m_txtbxGoToY.Text),
+                    Convert.ToDouble(this.m_txtbxGoToZ.Text));
+            }
+            else
+            {
+                this.m_Stage.MoveAbs(
+                    Convert.ToDouble(this.m_txtbxGoToX.Text),
+                    Convert.ToDouble(this.m_txtbxGoToY.Text),
+                    Convert.ToDouble(this.m_txtbxStackMin.Text));
+            }
+
+            double stackPos = Convert.ToDouble(this.m_txtbxStackMin.Text);
+            double stackInc = Convert.ToDouble(this.m_txtbxStackInc.Text);
+            double stackEnd = Convert.ToDouble(this.m_txtbxStackMax.Text);
 
             // Start the APD. It will now count photons every time it is triggered by either a clock or a digital controller.
             this.m_apdAPD1.StartAPDAcquisition();
@@ -924,7 +938,12 @@ namespace SIS.Forms
 
                 if ((_readsamples1 == _docDocument.PixelCount))
                 {
-                    if (!this.checkBoxCont.Checked)
+                    if (this.checkBoxStack.Checked)
+                    {
+                        stackPos = stackPos + stackInc;
+                    }
+
+                    if (!(this.checkBoxCont.Checked || this.checkBoxStack.Checked))
                     {
                         _bStop = true;
                     }
@@ -938,30 +957,69 @@ namespace SIS.Forms
                         this.m_apdAPD1.StopAPDAcquisition();
                         //this.m_apdAPD2.StopAPDAcquisition();
 
-                        this.m_Stage.MoveAbs(
-                            Convert.ToDouble(this.m_txtbxGoToX.Text),
-                            Convert.ToDouble(this.m_txtbxGoToY.Text),
-                            Convert.ToDouble(this.m_txtbxGoToZ.Text));
+                        if (!this.checkBoxStack.Checked)
+                        {
+                            this.m_Stage.MoveAbs(
+                                Convert.ToDouble(this.m_txtbxGoToX.Text),
+                                Convert.ToDouble(this.m_txtbxGoToY.Text),
+                                Convert.ToDouble(this.m_txtbxGoToZ.Text));
+                        }
+                        else
+                        { 
+                            if (stackPos < stackEnd)
+                            {
+                                this.m_Stage.MoveAbs(
+                                    Convert.ToDouble(this.m_txtbxGoToX.Text),
+                                    Convert.ToDouble(this.m_txtbxGoToY.Text),
+                                    Convert.ToDouble(stackPos));
+                            }
+                            else
+                            {
+                                _bStop = true;
+                            }
+                        }
 
                         Thread.Sleep(10);
 
                         this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
                         //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
-                        this.m_apdAPD1.StartAPDAcquisition();
-                        //this.m_apdAPD2.StartAPDAcquisition();
 
+                        if (!_bStop)
+                        {
+                            Thread.Sleep(10);
 
-                        this.m_Stage.Scan(
-                            _Scan,
-                            _docDocument.TimePPixel,
-                            false, Convert.ToDouble(this.textBox5.Text),
-                            Convert.ToInt32(this.txtDelay.Text),
-                            this.checkBoxWobble.Checked,
-                            Convert.ToDouble(this.txtWobbleAmp.Text),
-                            this.checkBoxXY.Checked);
+                            this.m_apdAPD1.StartAPDAcquisition();
+                            //this.m_apdAPD2.StartAPDAcquisition();
 
-                        _readsamples1 = 0;
-                        _readsamples2 = 0;
+                            if (!this.checkBoxStack.Checked)
+                            {
+                                this.m_Stage.Scan(
+                                    _Scan,
+                                    _docDocument.TimePPixel,
+                                    false,
+                                    Convert.ToDouble(this.textBox5.Text),
+                                    Convert.ToInt32(this.txtDelay.Text),
+                                    this.checkBoxWobble.Checked,
+                                    Convert.ToDouble(this.txtWobbleAmp.Text),
+                                    this.checkBoxXY.Checked);
+                            }
+                            else
+                            {
+                                this.m_Stage.Scan(
+                                    _Scan,
+                                    _docDocument.TimePPixel,
+                                    true,
+                                    Convert.ToDouble(this.textBox5.Text),
+                                    Convert.ToInt32(this.txtDelay.Text),
+                                    this.checkBoxWobble.Checked,
+                                    Convert.ToDouble(this.txtWobbleAmp.Text),
+                                    this.checkBoxXY.Checked);
+                            }
+
+                            _readsamples1 = 0;
+                            _readsamples2 = 0;
+                        }
+                        
                     }
                 }
 

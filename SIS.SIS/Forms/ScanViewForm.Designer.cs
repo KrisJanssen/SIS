@@ -109,6 +109,10 @@
             this.ccdControl1 = new SIS.WPFControls.CCDControl.UI.CCDControl();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.checkBoxStack = new System.Windows.Forms.CheckBox();
+            this.m_txtbxStackMin = new System.Windows.Forms.TextBox();
+            this.m_txtbxStackInc = new System.Windows.Forms.TextBox();
+            this.m_txtbxStackMax = new System.Windows.Forms.TextBox();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -168,7 +172,7 @@
             this.groupBox3.Controls.Add(this.tableLayoutPanel1);
             this.groupBox3.Location = new System.Drawing.Point(6, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(552, 317);
+            this.groupBox3.Size = new System.Drawing.Size(552, 366);
             this.groupBox3.TabIndex = 40;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Experiment Control";
@@ -221,6 +225,10 @@
             this.tableLayoutPanel1.Controls.Add(this.label6, 4, 5);
             this.tableLayoutPanel1.Controls.Add(this.label7, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.label8, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxStack, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.m_txtbxStackMin, 2, 7);
+            this.tableLayoutPanel1.Controls.Add(this.m_txtbxStackInc, 3, 7);
+            this.tableLayoutPanel1.Controls.Add(this.m_txtbxStackMax, 4, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -233,15 +241,15 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(546, 298);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(546, 347);
             this.tableLayoutPanel1.TabIndex = 34;
             // 
             // txtbxCurrZPos
             // 
             this.txtbxCurrZPos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtbxCurrZPos.Location = new System.Drawing.Point(439, 71);
+            this.txtbxCurrZPos.Location = new System.Drawing.Point(439, 87);
             this.txtbxCurrZPos.Name = "txtbxCurrZPos";
             this.txtbxCurrZPos.ReadOnly = true;
             this.txtbxCurrZPos.Size = new System.Drawing.Size(104, 20);
@@ -251,9 +259,9 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(439, 34);
+            this.label3.Location = new System.Drawing.Point(439, 42);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(104, 34);
+            this.label3.Size = new System.Drawing.Size(104, 42);
             this.label3.TabIndex = 75;
             this.label3.Text = "Z Position (nm):";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -262,9 +270,9 @@
             // 
             this.m_lblGoToZ.AutoSize = true;
             this.m_lblGoToZ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_lblGoToZ.Location = new System.Drawing.Point(439, 102);
+            this.m_lblGoToZ.Location = new System.Drawing.Point(439, 126);
             this.m_lblGoToZ.Name = "m_lblGoToZ";
-            this.m_lblGoToZ.Size = new System.Drawing.Size(104, 34);
+            this.m_lblGoToZ.Size = new System.Drawing.Size(104, 42);
             this.m_lblGoToZ.TabIndex = 64;
             this.m_lblGoToZ.Text = "GotoZ";
             this.m_lblGoToZ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -273,9 +281,9 @@
             // 
             this.m_lblGoToY.AutoSize = true;
             this.m_lblGoToY.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_lblGoToY.Location = new System.Drawing.Point(330, 102);
+            this.m_lblGoToY.Location = new System.Drawing.Point(330, 126);
             this.m_lblGoToY.Name = "m_lblGoToY";
-            this.m_lblGoToY.Size = new System.Drawing.Size(103, 34);
+            this.m_lblGoToY.Size = new System.Drawing.Size(103, 42);
             this.m_lblGoToY.TabIndex = 63;
             this.m_lblGoToY.Text = "GotoY";
             this.m_lblGoToY.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -284,9 +292,9 @@
             // 
             this.m_lblGoToX.AutoSize = true;
             this.m_lblGoToX.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_lblGoToX.Location = new System.Drawing.Point(221, 102);
+            this.m_lblGoToX.Location = new System.Drawing.Point(221, 126);
             this.m_lblGoToX.Name = "m_lblGoToX";
-            this.m_lblGoToX.Size = new System.Drawing.Size(103, 34);
+            this.m_lblGoToX.Size = new System.Drawing.Size(103, 42);
             this.m_lblGoToX.TabIndex = 62;
             this.m_lblGoToX.Text = "GotoX";
             this.m_lblGoToX.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -295,7 +303,7 @@
             // 
             this.scanModeComboBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scanModeComboBox1.FormattingEnabled = true;
-            this.scanModeComboBox1.Location = new System.Drawing.Point(3, 71);
+            this.scanModeComboBox1.Location = new System.Drawing.Point(3, 87);
             this.scanModeComboBox1.Name = "scanModeComboBox1";
             this.scanModeComboBox1.Size = new System.Drawing.Size(103, 21);
             this.scanModeComboBox1.TabIndex = 60;
@@ -303,9 +311,9 @@
             // btnFrameStart
             // 
             this.btnFrameStart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnFrameStart.Location = new System.Drawing.Point(3, 105);
+            this.btnFrameStart.Location = new System.Drawing.Point(3, 129);
             this.btnFrameStart.Name = "btnFrameStart";
-            this.btnFrameStart.Size = new System.Drawing.Size(103, 28);
+            this.btnFrameStart.Size = new System.Drawing.Size(103, 36);
             this.btnFrameStart.TabIndex = 50;
             this.btnFrameStart.Text = "FRAME";
             this.btnFrameStart.UseVisualStyleBackColor = true;
@@ -319,7 +327,7 @@
             this.lblStageVoltageEngaged.ForeColor = System.Drawing.Color.Red;
             this.lblStageVoltageEngaged.Location = new System.Drawing.Point(221, 0);
             this.lblStageVoltageEngaged.Name = "lblStageVoltageEngaged";
-            this.lblStageVoltageEngaged.Size = new System.Drawing.Size(212, 34);
+            this.lblStageVoltageEngaged.Size = new System.Drawing.Size(212, 42);
             this.lblStageVoltageEngaged.TabIndex = 55;
             this.lblStageVoltageEngaged.Text = "STAGE";
             this.lblStageVoltageEngaged.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -327,9 +335,9 @@
             // btnStageOFF
             // 
             this.btnStageOFF.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnStageOFF.Location = new System.Drawing.Point(112, 37);
+            this.btnStageOFF.Location = new System.Drawing.Point(112, 45);
             this.btnStageOFF.Name = "btnStageOFF";
-            this.btnStageOFF.Size = new System.Drawing.Size(103, 28);
+            this.btnStageOFF.Size = new System.Drawing.Size(103, 36);
             this.btnStageOFF.TabIndex = 58;
             this.btnStageOFF.Text = "OFF";
             this.btnStageOFF.UseVisualStyleBackColor = true;
@@ -338,7 +346,7 @@
             // txtbxCurrYPos
             // 
             this.txtbxCurrYPos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtbxCurrYPos.Location = new System.Drawing.Point(330, 71);
+            this.txtbxCurrYPos.Location = new System.Drawing.Point(330, 87);
             this.txtbxCurrYPos.Name = "txtbxCurrYPos";
             this.txtbxCurrYPos.ReadOnly = true;
             this.txtbxCurrYPos.Size = new System.Drawing.Size(103, 20);
@@ -347,7 +355,7 @@
             // txtbxCurrXPos
             // 
             this.txtbxCurrXPos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtbxCurrXPos.Location = new System.Drawing.Point(221, 71);
+            this.txtbxCurrXPos.Location = new System.Drawing.Point(221, 87);
             this.txtbxCurrXPos.Name = "txtbxCurrXPos";
             this.txtbxCurrXPos.ReadOnly = true;
             this.txtbxCurrXPos.Size = new System.Drawing.Size(103, 20);
@@ -358,7 +366,7 @@
             this.btnStageON.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnStageON.Location = new System.Drawing.Point(112, 3);
             this.btnStageON.Name = "btnStageON";
-            this.btnStageON.Size = new System.Drawing.Size(103, 28);
+            this.btnStageON.Size = new System.Drawing.Size(103, 36);
             this.btnStageON.TabIndex = 56;
             this.btnStageON.Text = "ON";
             this.btnStageON.UseVisualStyleBackColor = true;
@@ -368,9 +376,9 @@
             // 
             this.lblStageCurrYPos.AutoSize = true;
             this.lblStageCurrYPos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblStageCurrYPos.Location = new System.Drawing.Point(330, 34);
+            this.lblStageCurrYPos.Location = new System.Drawing.Point(221, 42);
             this.lblStageCurrYPos.Name = "lblStageCurrYPos";
-            this.lblStageCurrYPos.Size = new System.Drawing.Size(103, 34);
+            this.lblStageCurrYPos.Size = new System.Drawing.Size(103, 42);
             this.lblStageCurrYPos.TabIndex = 52;
             this.lblStageCurrYPos.Text = "X Position (nm):";
             this.lblStageCurrYPos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -379,9 +387,9 @@
             // 
             this.lblStageCurrXPos.AutoSize = true;
             this.lblStageCurrXPos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblStageCurrXPos.Location = new System.Drawing.Point(221, 34);
+            this.lblStageCurrXPos.Location = new System.Drawing.Point(330, 42);
             this.lblStageCurrXPos.Name = "lblStageCurrXPos";
-            this.lblStageCurrXPos.Size = new System.Drawing.Size(103, 34);
+            this.lblStageCurrXPos.Size = new System.Drawing.Size(103, 42);
             this.lblStageCurrXPos.TabIndex = 51;
             this.lblStageCurrXPos.Text = "Y Position (nm):";
             this.lblStageCurrXPos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -389,9 +397,9 @@
             // btnMoveAbs
             // 
             this.btnMoveAbs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnMoveAbs.Location = new System.Drawing.Point(112, 71);
+            this.btnMoveAbs.Location = new System.Drawing.Point(112, 87);
             this.btnMoveAbs.Name = "btnMoveAbs";
-            this.btnMoveAbs.Size = new System.Drawing.Size(103, 28);
+            this.btnMoveAbs.Size = new System.Drawing.Size(103, 36);
             this.btnMoveAbs.TabIndex = 59;
             this.btnMoveAbs.Text = "Move Abs";
             this.btnMoveAbs.UseVisualStyleBackColor = true;
@@ -400,9 +408,9 @@
             // btnStop
             // 
             this.btnStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnStop.Location = new System.Drawing.Point(3, 173);
+            this.btnStop.Location = new System.Drawing.Point(3, 213);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(103, 28);
+            this.btnStop.Size = new System.Drawing.Size(103, 36);
             this.btnStop.TabIndex = 57;
             this.btnStop.Text = "STOP";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -412,9 +420,9 @@
             // 
             this.btnCountRate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnCountRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCountRate.Location = new System.Drawing.Point(3, 37);
+            this.btnCountRate.Location = new System.Drawing.Point(3, 45);
             this.btnCountRate.Name = "btnCountRate";
-            this.btnCountRate.Size = new System.Drawing.Size(103, 28);
+            this.btnCountRate.Size = new System.Drawing.Size(103, 36);
             this.btnCountRate.TabIndex = 34;
             this.btnCountRate.Text = "Countrate";
             this.btnCountRate.UseVisualStyleBackColor = true;
@@ -425,7 +433,7 @@
             this.m_btnScanSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.m_btnScanSettings.Location = new System.Drawing.Point(3, 3);
             this.m_btnScanSettings.Name = "m_btnScanSettings";
-            this.m_btnScanSettings.Size = new System.Drawing.Size(103, 28);
+            this.m_btnScanSettings.Size = new System.Drawing.Size(103, 36);
             this.m_btnScanSettings.TabIndex = 61;
             this.m_btnScanSettings.Text = "Scan Settings";
             this.m_btnScanSettings.UseVisualStyleBackColor = true;
@@ -436,7 +444,7 @@
             this.m_txtbxGoToZ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtbxGoToZ.Location = new System.Drawing.Point(439, 139);
+            this.m_txtbxGoToZ.Location = new System.Drawing.Point(439, 171);
             this.m_txtbxGoToZ.Name = "m_txtbxGoToZ";
             this.m_txtbxGoToZ.Size = new System.Drawing.Size(104, 20);
             this.m_txtbxGoToZ.TabIndex = 67;
@@ -447,7 +455,7 @@
             this.m_txtbxGoToY.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtbxGoToY.Location = new System.Drawing.Point(330, 139);
+            this.m_txtbxGoToY.Location = new System.Drawing.Point(330, 171);
             this.m_txtbxGoToY.Name = "m_txtbxGoToY";
             this.m_txtbxGoToY.Size = new System.Drawing.Size(103, 20);
             this.m_txtbxGoToY.TabIndex = 66;
@@ -458,7 +466,7 @@
             this.m_txtbxGoToX.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtbxGoToX.Location = new System.Drawing.Point(221, 139);
+            this.m_txtbxGoToX.Location = new System.Drawing.Point(221, 171);
             this.m_txtbxGoToX.Name = "m_txtbxGoToX";
             this.m_txtbxGoToX.Size = new System.Drawing.Size(103, 20);
             this.m_txtbxGoToX.TabIndex = 65;
@@ -467,9 +475,9 @@
             // checkBoxCont
             // 
             this.checkBoxCont.AutoSize = true;
-            this.checkBoxCont.Location = new System.Drawing.Point(3, 277);
+            this.checkBoxCont.Location = new System.Drawing.Point(3, 329);
             this.checkBoxCont.Name = "checkBoxCont";
-            this.checkBoxCont.Size = new System.Drawing.Size(85, 17);
+            this.checkBoxCont.Size = new System.Drawing.Size(85, 15);
             this.checkBoxCont.TabIndex = 74;
             this.checkBoxCont.Text = "Continuous?";
             this.checkBoxCont.UseVisualStyleBackColor = true;
@@ -479,9 +487,9 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(3, 256);
+            this.checkBox1.Location = new System.Drawing.Point(3, 304);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(68, 15);
+            this.checkBox1.Size = new System.Drawing.Size(68, 17);
             this.checkBox1.TabIndex = 72;
             this.checkBox1.Text = "Re-Send";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -489,9 +497,9 @@
             // checkBoxXY
             // 
             this.checkBoxXY.AutoSize = true;
-            this.checkBoxXY.Location = new System.Drawing.Point(112, 277);
+            this.checkBoxXY.Location = new System.Drawing.Point(112, 329);
             this.checkBoxXY.Name = "checkBoxXY";
-            this.checkBoxXY.Size = new System.Drawing.Size(59, 17);
+            this.checkBoxXY.Size = new System.Drawing.Size(59, 15);
             this.checkBoxXY.TabIndex = 77;
             this.checkBoxXY.Text = "Flip XY";
             this.checkBoxXY.UseVisualStyleBackColor = true;
@@ -499,18 +507,19 @@
             // checkBoxWobble
             // 
             this.checkBoxWobble.AutoSize = true;
-            this.checkBoxWobble.Location = new System.Drawing.Point(112, 256);
+            this.checkBoxWobble.Location = new System.Drawing.Point(112, 304);
             this.checkBoxWobble.Name = "checkBoxWobble";
-            this.checkBoxWobble.Size = new System.Drawing.Size(69, 15);
+            this.checkBoxWobble.Size = new System.Drawing.Size(69, 17);
             this.checkBoxWobble.TabIndex = 79;
             this.checkBoxWobble.Text = "Wobble?";
             this.checkBoxWobble.UseVisualStyleBackColor = true;
             // 
             // txtWobbleAmp
             // 
-            this.txtWobbleAmp.Location = new System.Drawing.Point(221, 256);
+            this.txtWobbleAmp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtWobbleAmp.Location = new System.Drawing.Point(221, 304);
             this.txtWobbleAmp.Name = "txtWobbleAmp";
-            this.txtWobbleAmp.Size = new System.Drawing.Size(100, 20);
+            this.txtWobbleAmp.Size = new System.Drawing.Size(103, 20);
             this.txtWobbleAmp.TabIndex = 80;
             this.txtWobbleAmp.Text = "5000";
             // 
@@ -519,9 +528,9 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(221, 277);
+            this.checkBox2.Location = new System.Drawing.Point(221, 329);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(98, 17);
+            this.checkBox2.Size = new System.Drawing.Size(98, 15);
             this.checkBox2.TabIndex = 73;
             this.checkBox2.Text = "Auto-Increment";
             this.checkBox2.UseVisualStyleBackColor = true;
@@ -531,23 +540,24 @@
             this.m_chkbxAutosave.AutoSize = true;
             this.m_chkbxAutosave.Checked = true;
             this.m_chkbxAutosave.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.m_chkbxAutosave.Location = new System.Drawing.Point(330, 277);
+            this.m_chkbxAutosave.Location = new System.Drawing.Point(330, 329);
             this.m_chkbxAutosave.Name = "m_chkbxAutosave";
-            this.m_chkbxAutosave.Size = new System.Drawing.Size(74, 17);
+            this.m_chkbxAutosave.Size = new System.Drawing.Size(74, 15);
             this.m_chkbxAutosave.TabIndex = 71;
             this.m_chkbxAutosave.Text = "Auto-save";
             this.m_chkbxAutosave.UseVisualStyleBackColor = true;
             // 
             // m_nupdFilenameCount
             // 
-            this.m_nupdFilenameCount.Location = new System.Drawing.Point(439, 277);
+            this.m_nupdFilenameCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_nupdFilenameCount.Location = new System.Drawing.Point(439, 329);
             this.m_nupdFilenameCount.Name = "m_nupdFilenameCount";
-            this.m_nupdFilenameCount.Size = new System.Drawing.Size(103, 20);
+            this.m_nupdFilenameCount.Size = new System.Drawing.Size(104, 20);
             this.m_nupdFilenameCount.TabIndex = 70;
             // 
             // txtDelay
             // 
-            this.txtDelay.Location = new System.Drawing.Point(112, 139);
+            this.txtDelay.Location = new System.Drawing.Point(112, 171);
             this.txtDelay.Name = "txtDelay";
             this.txtDelay.Size = new System.Drawing.Size(100, 20);
             this.txtDelay.TabIndex = 82;
@@ -555,7 +565,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(112, 207);
+            this.textBox5.Location = new System.Drawing.Point(112, 255);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 20);
             this.textBox5.TabIndex = 78;
@@ -564,34 +574,37 @@
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(3, 139);
+            this.button1.Location = new System.Drawing.Point(3, 171);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(103, 28);
+            this.button1.Size = new System.Drawing.Size(103, 36);
             this.button1.TabIndex = 83;
             this.button1.Text = "LINE";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // txtParkX
             // 
-            this.txtParkX.Location = new System.Drawing.Point(221, 207);
+            this.txtParkX.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtParkX.Location = new System.Drawing.Point(221, 255);
             this.txtParkX.Name = "txtParkX";
-            this.txtParkX.Size = new System.Drawing.Size(100, 20);
+            this.txtParkX.Size = new System.Drawing.Size(103, 20);
             this.txtParkX.TabIndex = 84;
             this.txtParkX.Text = "0";
             // 
             // txtParkY
             // 
-            this.txtParkY.Location = new System.Drawing.Point(330, 207);
+            this.txtParkY.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtParkY.Location = new System.Drawing.Point(330, 255);
             this.txtParkY.Name = "txtParkY";
-            this.txtParkY.Size = new System.Drawing.Size(100, 20);
+            this.txtParkY.Size = new System.Drawing.Size(103, 20);
             this.txtParkY.TabIndex = 85;
             this.txtParkY.Text = "0";
             // 
             // txtParkZ
             // 
-            this.txtParkZ.Location = new System.Drawing.Point(439, 207);
+            this.txtParkZ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtParkZ.Location = new System.Drawing.Point(439, 255);
             this.txtParkZ.Name = "txtParkZ";
-            this.txtParkZ.Size = new System.Drawing.Size(100, 20);
+            this.txtParkZ.Size = new System.Drawing.Size(104, 20);
             this.txtParkZ.TabIndex = 86;
             this.txtParkZ.Text = "0";
             // 
@@ -599,9 +612,9 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(221, 170);
+            this.label4.Location = new System.Drawing.Point(221, 210);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(103, 34);
+            this.label4.Size = new System.Drawing.Size(103, 42);
             this.label4.TabIndex = 87;
             this.label4.Text = "Park X";
             // 
@@ -609,9 +622,9 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(330, 170);
+            this.label5.Location = new System.Drawing.Point(330, 210);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(103, 34);
+            this.label5.Size = new System.Drawing.Size(103, 42);
             this.label5.TabIndex = 88;
             this.label5.Text = "Park Y";
             // 
@@ -619,9 +632,9 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Location = new System.Drawing.Point(439, 170);
+            this.label6.Location = new System.Drawing.Point(439, 210);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(104, 34);
+            this.label6.Size = new System.Drawing.Size(104, 42);
             this.label6.TabIndex = 89;
             this.label6.Text = "Park Z";
             // 
@@ -1064,9 +1077,9 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(112, 170);
+            this.label7.Location = new System.Drawing.Point(112, 210);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(103, 34);
+            this.label7.Size = new System.Drawing.Size(103, 42);
             this.label7.TabIndex = 90;
             this.label7.Text = "Rotation";
             // 
@@ -1074,12 +1087,50 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Location = new System.Drawing.Point(112, 102);
+            this.label8.Location = new System.Drawing.Point(112, 126);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(103, 34);
+            this.label8.Size = new System.Drawing.Size(103, 42);
             this.label8.TabIndex = 91;
             this.label8.Text = "Timeshift";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // checkBoxStack
+            // 
+            this.checkBoxStack.AutoSize = true;
+            this.checkBoxStack.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkBoxStack.Location = new System.Drawing.Point(112, 280);
+            this.checkBoxStack.Name = "checkBoxStack";
+            this.checkBoxStack.Size = new System.Drawing.Size(103, 18);
+            this.checkBoxStack.TabIndex = 92;
+            this.checkBoxStack.Text = "Stack";
+            this.checkBoxStack.UseVisualStyleBackColor = true;
+            // 
+            // m_txtbxStackMin
+            // 
+            this.m_txtbxStackMin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_txtbxStackMin.Location = new System.Drawing.Point(221, 280);
+            this.m_txtbxStackMin.Name = "m_txtbxStackMin";
+            this.m_txtbxStackMin.Size = new System.Drawing.Size(103, 20);
+            this.m_txtbxStackMin.TabIndex = 93;
+            this.m_txtbxStackMin.Text = "0";
+            // 
+            // m_txtbxStackInc
+            // 
+            this.m_txtbxStackInc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_txtbxStackInc.Location = new System.Drawing.Point(330, 280);
+            this.m_txtbxStackInc.Name = "m_txtbxStackInc";
+            this.m_txtbxStackInc.Size = new System.Drawing.Size(103, 20);
+            this.m_txtbxStackInc.TabIndex = 94;
+            this.m_txtbxStackInc.Text = "100";
+            // 
+            // m_txtbxStackMax
+            // 
+            this.m_txtbxStackMax.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_txtbxStackMax.Location = new System.Drawing.Point(439, 280);
+            this.m_txtbxStackMax.Name = "m_txtbxStackMax";
+            this.m_txtbxStackMax.Size = new System.Drawing.Size(104, 20);
+            this.m_txtbxStackMax.TabIndex = 95;
+            this.m_txtbxStackMax.Text = "1000";
             // 
             // ScanViewForm
             // 
@@ -1193,5 +1244,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox checkBoxStack;
+        private System.Windows.Forms.TextBox m_txtbxStackMin;
+        private System.Windows.Forms.TextBox m_txtbxStackInc;
+        private System.Windows.Forms.TextBox m_txtbxStackMax;
     }
 }
