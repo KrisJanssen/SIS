@@ -103,7 +103,7 @@ namespace SIS.Hardware
             {
                 if (this.m_bIsInitialized)
                 {
-                    return m_dCurrentVoltageX;
+                    return this.VoltageToNm(m_dCurrentVoltageX);
                 }
                 else
                 {
@@ -121,7 +121,7 @@ namespace SIS.Hardware
             {
                 if (this.m_bIsInitialized)
                 {
-                    return m_dCurrentVoltageY;
+                    return this.VoltageToNm(m_dCurrentVoltageY);
                 }
                 else
                 {
@@ -139,7 +139,7 @@ namespace SIS.Hardware
             {
                 if (this.m_bIsInitialized)
                 {
-                    return m_dCurrentVoltageZ;
+                    return this.VoltageToNm(m_dCurrentVoltageZ);
                 }
                 else
                 {

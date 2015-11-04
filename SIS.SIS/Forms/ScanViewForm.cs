@@ -764,6 +764,11 @@ namespace SIS.Forms
                 _docDocument.SaveDocument(_sTempPath);
             }
 
+            this.m_scnstSettings.InitXNm = this.m_Stage.XPosition;
+            this.m_scnstSettings.InitYNm = this.m_Stage.YPosition;
+            this.m_scnstSettings.InitZNm = this.m_Stage.ZPosition;
+
+
             // Store the settings to the document.
             _docDocument.AllocateData(this.m_scnstSettings);
 

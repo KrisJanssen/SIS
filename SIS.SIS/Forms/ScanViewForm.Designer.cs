@@ -75,6 +75,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.checkBoxStack = new System.Windows.Forms.CheckBox();
+            this.m_txtbxStackMin = new System.Windows.Forms.TextBox();
+            this.m_txtbxStackInc = new System.Windows.Forms.TextBox();
+            this.m_txtbxStackMax = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
@@ -107,12 +113,6 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
             this.ccdControl1 = new SIS.WPFControls.CCDControl.UI.CCDControl();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.checkBoxStack = new System.Windows.Forms.CheckBox();
-            this.m_txtbxStackMin = new System.Windows.Forms.TextBox();
-            this.m_txtbxStackInc = new System.Windows.Forms.TextBox();
-            this.m_txtbxStackMax = new System.Windows.Forms.TextBox();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -638,6 +638,65 @@
             this.label6.TabIndex = 89;
             this.label6.Text = "Park Z";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label7.Location = new System.Drawing.Point(112, 210);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(103, 42);
+            this.label7.TabIndex = 90;
+            this.label7.Text = "Rotation";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label8.Location = new System.Drawing.Point(112, 126);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(103, 42);
+            this.label8.TabIndex = 91;
+            this.label8.Text = "Timeshift";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // checkBoxStack
+            // 
+            this.checkBoxStack.AutoSize = true;
+            this.checkBoxStack.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkBoxStack.Location = new System.Drawing.Point(112, 280);
+            this.checkBoxStack.Name = "checkBoxStack";
+            this.checkBoxStack.Size = new System.Drawing.Size(103, 18);
+            this.checkBoxStack.TabIndex = 92;
+            this.checkBoxStack.Text = "Stack";
+            this.checkBoxStack.UseVisualStyleBackColor = true;
+            // 
+            // m_txtbxStackMin
+            // 
+            this.m_txtbxStackMin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_txtbxStackMin.Location = new System.Drawing.Point(221, 280);
+            this.m_txtbxStackMin.Name = "m_txtbxStackMin";
+            this.m_txtbxStackMin.Size = new System.Drawing.Size(103, 20);
+            this.m_txtbxStackMin.TabIndex = 93;
+            this.m_txtbxStackMin.Text = "0";
+            // 
+            // m_txtbxStackInc
+            // 
+            this.m_txtbxStackInc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_txtbxStackInc.Location = new System.Drawing.Point(330, 280);
+            this.m_txtbxStackInc.Name = "m_txtbxStackInc";
+            this.m_txtbxStackInc.Size = new System.Drawing.Size(103, 20);
+            this.m_txtbxStackInc.TabIndex = 94;
+            this.m_txtbxStackInc.Text = "100";
+            // 
+            // m_txtbxStackMax
+            // 
+            this.m_txtbxStackMax.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_txtbxStackMax.Location = new System.Drawing.Point(439, 280);
+            this.m_txtbxStackMax.Name = "m_txtbxStackMax";
+            this.m_txtbxStackMax.Size = new System.Drawing.Size(104, 20);
+            this.m_txtbxStackMax.TabIndex = 95;
+            this.m_txtbxStackMax.Text = "1000";
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -1072,65 +1131,6 @@
             this.elementHost2.TabIndex = 1;
             this.elementHost2.Text = "elementHost2";
             this.elementHost2.Child = this.ccdControl1;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(112, 210);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(103, 42);
-            this.label7.TabIndex = 90;
-            this.label7.Text = "Rotation";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Location = new System.Drawing.Point(112, 126);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(103, 42);
-            this.label8.TabIndex = 91;
-            this.label8.Text = "Timeshift";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // checkBoxStack
-            // 
-            this.checkBoxStack.AutoSize = true;
-            this.checkBoxStack.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkBoxStack.Location = new System.Drawing.Point(112, 280);
-            this.checkBoxStack.Name = "checkBoxStack";
-            this.checkBoxStack.Size = new System.Drawing.Size(103, 18);
-            this.checkBoxStack.TabIndex = 92;
-            this.checkBoxStack.Text = "Stack";
-            this.checkBoxStack.UseVisualStyleBackColor = true;
-            // 
-            // m_txtbxStackMin
-            // 
-            this.m_txtbxStackMin.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_txtbxStackMin.Location = new System.Drawing.Point(221, 280);
-            this.m_txtbxStackMin.Name = "m_txtbxStackMin";
-            this.m_txtbxStackMin.Size = new System.Drawing.Size(103, 20);
-            this.m_txtbxStackMin.TabIndex = 93;
-            this.m_txtbxStackMin.Text = "0";
-            // 
-            // m_txtbxStackInc
-            // 
-            this.m_txtbxStackInc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_txtbxStackInc.Location = new System.Drawing.Point(330, 280);
-            this.m_txtbxStackInc.Name = "m_txtbxStackInc";
-            this.m_txtbxStackInc.Size = new System.Drawing.Size(103, 20);
-            this.m_txtbxStackInc.TabIndex = 94;
-            this.m_txtbxStackInc.Text = "100";
-            // 
-            // m_txtbxStackMax
-            // 
-            this.m_txtbxStackMax.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_txtbxStackMax.Location = new System.Drawing.Point(439, 280);
-            this.m_txtbxStackMax.Name = "m_txtbxStackMax";
-            this.m_txtbxStackMax.Size = new System.Drawing.Size(104, 20);
-            this.m_txtbxStackMax.TabIndex = 95;
-            this.m_txtbxStackMax.Text = "1000";
             // 
             // ScanViewForm
             // 
