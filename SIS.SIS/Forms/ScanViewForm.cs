@@ -796,6 +796,7 @@ namespace SIS.Forms
 
             _docDocument.ScanAxes = (UInt16)m_BiScan.ScanAxes;
             _docDocument.XBorderWidth = m_BiScan.BorderWidthX;
+            
 
             // Indicate that the document data was modified by the scan operation just performed.
             // This will prompt a notification when the user tries to exit without saving.
@@ -907,126 +908,126 @@ namespace SIS.Forms
                 Thread.Sleep(100);
 
                 // Perform a read of all samples currently in the buffer.
-                if (_readsamples1 < _docDocument.PixelCount)
-                {
-                    _ui32SingleReadValues1 = this.m_apdAPD1.Read();
+                //if (_readsamples1 < _docDocument.PixelCount)
+                //{
+                //    _ui32SingleReadValues1 = this.m_apdAPD1.Read();
 
-                    if (_ui32SingleReadValues1.Length >= _docDocument.PixelCount - _readsamples1)
-                    {
-                        // Add the read samples to the previously read samples in memory.
-                        for (int _i = 0; _i < _docDocument.PixelCount - _readsamples1; _i++)
-                        {
-                            _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
-                        }
+                //    if (_ui32SingleReadValues1.Length >= _docDocument.PixelCount - _readsamples1)
+                //    {
+                //        // Add the read samples to the previously read samples in memory.
+                //        for (int _i = 0; _i < _docDocument.PixelCount - _readsamples1; _i++)
+                //        {
+                //            _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
+                //        }
 
-                        // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                        _readsamples1 = _docDocument.PixelCount;
-                    }
-                    else
-                    {
-                        // Add the read samples to the previously read samples in memory.
-                        for (int _i = 0; _i < _ui32SingleReadValues1.Length; _i++)
-                        {
-                            _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
-                        }
+                //        // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+                //        _readsamples1 = _docDocument.PixelCount;
+                //    }
+                //    else
+                //    {
+                //        // Add the read samples to the previously read samples in memory.
+                //        for (int _i = 0; _i < _ui32SingleReadValues1.Length; _i++)
+                //        {
+                //            _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
+                //        }
 
-                        // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                        _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
-                    }
+                //        // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+                //        _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
+                //    }
 
 
-                }
+                //}
 
                 // Assign processed data to the actual document opject.
-                _docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
-                _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
+                //_docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
+                //_docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
 
-                if ((_readsamples1 == _docDocument.PixelCount))
-                {
-                    if (this.checkBoxStack.Checked)
-                    {
-                        stackPos = stackPos + stackInc;
-                    }
+                //if ((_readsamples1 == _docDocument.PixelCount))
+                //{
+                //    if (this.checkBoxStack.Checked)
+                //    {
+                //        stackPos = stackPos + stackInc;
+                //    }
 
-                    if (!(this.checkBoxCont.Checked || this.checkBoxStack.Checked))
-                    {
-                        _bStop = true;
-                    }
-                    else
-                    {
-                        _bStop = false;
-                        this.m_Stage.Stop();
+                //    if (!(this.checkBoxCont.Checked || this.checkBoxStack.Checked))
+                //    {
+                //        _bStop = true;
+                //    }
+                //    else
+                //    {
+                //        _bStop = false;
+                //        this.m_Stage.Stop();
 
-                        Thread.Sleep(10);
+                //        Thread.Sleep(10);
 
-                        this.m_apdAPD1.StopAPDAcquisition();
-                        //this.m_apdAPD2.StopAPDAcquisition();
+                //        this.m_apdAPD1.StopAPDAcquisition();
+                //        //this.m_apdAPD2.StopAPDAcquisition();
 
-                        if (!this.checkBoxStack.Checked)
-                        {
-                            this.m_Stage.MoveAbs(
-                                Convert.ToDouble(this.m_txtbxGoToX.Text),
-                                Convert.ToDouble(this.m_txtbxGoToY.Text),
-                                Convert.ToDouble(this.m_txtbxGoToZ.Text));
-                        }
-                        else
-                        { 
-                            if (stackPos < stackEnd)
-                            {
-                                this.m_Stage.MoveAbs(
-                                    Convert.ToDouble(this.m_txtbxGoToX.Text),
-                                    Convert.ToDouble(this.m_txtbxGoToY.Text),
-                                    Convert.ToDouble(stackPos));
-                            }
-                            else
-                            {
-                                _bStop = true;
-                            }
-                        }
+                //        if (!this.checkBoxStack.Checked)
+                //        {
+                //            this.m_Stage.MoveAbs(
+                //                Convert.ToDouble(this.m_txtbxGoToX.Text),
+                //                Convert.ToDouble(this.m_txtbxGoToY.Text),
+                //                Convert.ToDouble(this.m_txtbxGoToZ.Text));
+                //        }
+                //        else
+                //        { 
+                //            if (stackPos < stackEnd)
+                //            {
+                //                this.m_Stage.MoveAbs(
+                //                    Convert.ToDouble(this.m_txtbxGoToX.Text),
+                //                    Convert.ToDouble(this.m_txtbxGoToY.Text),
+                //                    Convert.ToDouble(stackPos));
+                //            }
+                //            else
+                //            {
+                //                _bStop = true;
+                //            }
+                //        }
 
-                        Thread.Sleep(10);
+                //        Thread.Sleep(10);
 
-                        this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
-                        //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+                //        this.m_apdAPD1.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
+                //        //this.m_apdAPD2.SetupAPDCountAndTiming(_docDocument.TimePPixel, _docDocument.PixelCount);
 
-                        if (!_bStop)
-                        {
-                            Thread.Sleep(10);
+                //        if (!_bStop)
+                //        {
+                //            Thread.Sleep(10);
 
-                            this.m_apdAPD1.StartAPDAcquisition();
-                            //this.m_apdAPD2.StartAPDAcquisition();
+                //            this.m_apdAPD1.StartAPDAcquisition();
+                //            //this.m_apdAPD2.StartAPDAcquisition();
 
-                            if (!this.checkBoxStack.Checked)
-                            {
-                                this.m_Stage.Scan(
-                                    _Scan,
-                                    _docDocument.TimePPixel,
-                                    false,
-                                    Convert.ToDouble(this.textBox5.Text),
-                                    Convert.ToInt32(this.txtDelay.Text),
-                                    this.checkBoxWobble.Checked,
-                                    Convert.ToDouble(this.txtWobbleAmp.Text),
-                                    this.checkBoxXY.Checked);
-                            }
-                            else
-                            {
-                                this.m_Stage.Scan(
-                                    _Scan,
-                                    _docDocument.TimePPixel,
-                                    true,
-                                    Convert.ToDouble(this.textBox5.Text),
-                                    Convert.ToInt32(this.txtDelay.Text),
-                                    this.checkBoxWobble.Checked,
-                                    Convert.ToDouble(this.txtWobbleAmp.Text),
-                                    this.checkBoxXY.Checked);
-                            }
+                //            if (!this.checkBoxStack.Checked)
+                //            {
+                //                this.m_Stage.Scan(
+                //                    _Scan,
+                //                    _docDocument.TimePPixel,
+                //                    false,
+                //                    Convert.ToDouble(this.textBox5.Text),
+                //                    Convert.ToInt32(this.txtDelay.Text),
+                //                    this.checkBoxWobble.Checked,
+                //                    Convert.ToDouble(this.txtWobbleAmp.Text),
+                //                    this.checkBoxXY.Checked);
+                //            }
+                //            else
+                //            {
+                //                this.m_Stage.Scan(
+                //                    _Scan,
+                //                    _docDocument.TimePPixel,
+                //                    true,
+                //                    Convert.ToDouble(this.textBox5.Text),
+                //                    Convert.ToInt32(this.txtDelay.Text),
+                //                    this.checkBoxWobble.Checked,
+                //                    Convert.ToDouble(this.txtWobbleAmp.Text),
+                //                    this.checkBoxXY.Checked);
+                //            }
 
-                            _readsamples1 = 0;
-                            _readsamples2 = 0;
-                        }
+                //            _readsamples1 = 0;
+                //            _readsamples2 = 0;
+                //        }
                         
-                    }
-                }
+                //    }
+                //}
 
                 // Update the UI.
                 if (InvokeRequired)

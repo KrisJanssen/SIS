@@ -538,14 +538,15 @@ namespace SIS.Hardware
 
         public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation, int delay, bool wobble, double wobbleAmplitude, bool flip)
         {
-            int returnlength = 1000;
+            //int returnlength = 1000;
 
             if (__bResend | this.m_dScanCoordinates == null)
             {
                 // We need to figure out the size of the full coordinate buffer.
                 // This is the size of 1 period buffer * the number of lines/repeats of that buffer.
                 int linesize = __scmScanMode.ScanCoordinates.GetLength(1);
-                int numlines = __scmScanMode.RepeatNumber;
+                //int numlines = __scmScanMode.RepeatNumber;
+                int numlines = 1;
                 int framesize = linesize * numlines;
 
 
@@ -553,15 +554,19 @@ namespace SIS.Hardware
                 double delta = this.NmToVoltage(__scmScanMode.ScanCoordinates[1, linesize - 1] - __scmScanMode.ScanCoordinates[1, 0]);
 
                 // Allocate space for the full image
+                //double[,] coordinates =
+                //    new double[3, framesize + returnlength];
                 double[,] coordinates =
-                    new double[3, framesize + returnlength];
+                    new double[3, framesize];
 
                 // We compose line triggers for a single line and later copy it to the frame buffer.
                 int[] levels = new int[linesize];
 
                 // The trigger buffer for the full frame.
+                //int[] longlevels =
+                //    new int[framesize + returnlength];
                 int[] longlevels =
-                    new int[framesize + returnlength];
+                    new int[framesize];
 
                 // Set pixel trigger to ensure data acq on the actual scanline only (and not the ramping period)
                 for (int i = __scmScanMode.Trig1Start + delay; i < __scmScanMode.Trig1End + delay + 1; i++)
@@ -597,19 +602,14 @@ namespace SIS.Hardware
 
                         // Coordinates.
                         System.Buffer.BlockCopy(linebuffer, 0 * szdouble, coordinates, (i * linesize) * szdouble, linesize * szdouble);
-                        System.Buffer.BlockCopy(linebuffer, linesize * szdouble, coordinates, ((i * linesize) + framesize + returnlength) * szdouble, linesize * szdouble);
-                        System.Buffer.BlockCopy(linebuffer, 2 * linesize * szdouble, coordinates, ((i * linesize) + 2 * (framesize + returnlength)) * szdouble, linesize * szdouble);
+                        //System.Buffer.BlockCopy(linebuffer, linesize * szdouble, coordinates, ((i * linesize) + framesize + returnlength) * szdouble, linesize * szdouble);
+                        //System.Buffer.BlockCopy(linebuffer, 2 * linesize * szdouble, coordinates, ((i * linesize) + 2 * (framesize + returnlength)) * szdouble, linesize * szdouble);
+                        System.Buffer.BlockCopy(linebuffer, linesize * szdouble, coordinates, ((i * linesize) + framesize) * szdouble, linesize * szdouble);
+                        System.Buffer.BlockCopy(linebuffer, 2 * linesize * szdouble, coordinates, ((i * linesize) + 2 * (framesize)) * szdouble, linesize * szdouble);
 
                         // Triggers.
                         System.Buffer.BlockCopy(levels, 0 * szint, longlevels, i * linesize * szint, (linesize - 1) * szint);
 
-                        //for (int j = 0; j < linesize; j++)
-                        //{
-                        //    coordinates[0, j + (i * linesize)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
-                        //    coordinates[1, j + (i * linesize)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
-                        //    coordinates[2, j + (i * linesize)] = this.m_dCurrentVoltageZ + 0.0;
-                        //    longlevels[j + (i * linesize)] = levels[j];
-                        //}
                     }
                 }
                 else
@@ -630,85 +630,23 @@ namespace SIS.Hardware
                         }
 
                         System.Buffer.BlockCopy(linebuffer, 0 * szdouble, coordinates, (i * linesize) * szdouble, linesize * szdouble);
-                        System.Buffer.BlockCopy(linebuffer, linesize * szdouble, coordinates, ((i * linesize) + framesize + returnlength) * szdouble, linesize * szdouble);
-                        System.Buffer.BlockCopy(linebuffer, 2 * linesize * szdouble, coordinates, ((i * linesize) + 2 * (framesize + returnlength)) * szdouble, linesize * szdouble);
+                        //System.Buffer.BlockCopy(linebuffer, linesize * szdouble, coordinates, ((i * linesize) + framesize + returnlength) * szdouble, linesize * szdouble);
+                        //System.Buffer.BlockCopy(linebuffer, 2 * linesize * szdouble, coordinates, ((i * linesize) + 2 * (framesize + returnlength)) * szdouble, linesize * szdouble);
+                        System.Buffer.BlockCopy(linebuffer, linesize * szdouble, coordinates, ((i * linesize) + framesize) * szdouble, linesize * szdouble);
+                        System.Buffer.BlockCopy(linebuffer, 2 * linesize * szdouble, coordinates, ((i * linesize) + 2 * (framesize)) * szdouble, linesize * szdouble);
 
                         System.Buffer.BlockCopy(levels, 0 * szint, longlevels, i * linesize * szint, (linesize - 1) * szint);
                     }
 
-                    System.Buffer.BlockCopy(wobblewf, 0 * szdouble, coordinates, 2 * (framesize + returnlength) * szdouble, framesize * szdouble);
+                    //System.Buffer.BlockCopy(wobblewf, 0 * szdouble, coordinates, 2 * (framesize + returnlength) * szdouble, framesize * szdouble);
+                    System.Buffer.BlockCopy(wobblewf, 0 * szdouble, coordinates, 2 * (framesize) * szdouble, framesize * szdouble);
 
                     // We might need to flip channels.
                     if (flip)
                     {
 
                     }
-
-
-
-                    //if (!wobble)
-                    //{
-                    //    for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
-                    //    {
-                    //        for (int j = 0; j < linesize; j++)
-                    //        {
-                    //            coordinates[1, j + (i * linesize)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
-                    //            coordinates[0, j + (i * linesize)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
-                    //            coordinates[2, j + (i * linesize)] = this.m_dCurrentVoltageZ + 0.0;
-                    //            longlevels[j + (i * linesize)] = levels[j];
-                    //        }
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    double[] sine = GenerateWobbleBuffer(this.NmToVoltage(wobbleAmplitude), linesize * __scmScanMode.RepeatNumber);
-
-                    //    for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
-                    //    {
-                    //        for (int j = 0; j < linesize; j++)
-                    //        {
-                    //            coordinates[1, j + (i * linesize)] = this.m_dCurrentVoltageY + this.NmToVoltage(__scmScanMode.ScanCoordinates[0, j]);
-                    //            coordinates[0, j + (i * linesize)] = this.m_dCurrentVoltageX + this.NmToVoltage(__scmScanMode.ScanCoordinates[1, j] + i * delta);
-                    //            coordinates[2, j + (i * linesize)] = this.m_dCurrentVoltageZ + sine[j + (i * linesize)];
-                    //            longlevels[j + (i * linesize)] = levels[j];
-                    //        }
-                    //    }
-                    //}
                 }
-
-                // TODO: Evaluate if rotation is still a desirable function to have.
-                //double _dMidX = this.NmToVoltage(__scmScanMode.XScanSizeNm) / 2 + this.m_dCurrentVoltageX;
-                //double _dMidY = this.m_dCurrentVoltageY;
-
-                //for (int i = 0; i < coordinates.GetLength(1); i++)
-                //{
-                //    double xt = _dMidX + Math.Cos(__dRotation) * (coordinates[0, i] - _dMidX) - Math.Sin(__dRotation) * (coordinates[1, i] - _dMidY);
-                //    double yt = _dMidY + Math.Sin(__dRotation) * (coordinates[0, i] - _dMidX) + Math.Cos(__dRotation) * (coordinates[1, i] - _dMidY);
-                //    coordinates[0, i] = xt;
-                //    coordinates[1, i] = yt;
-
-                //}
-
-                // Calculate a smooth return upon frame end. This is FlipXY independent.
-                double[,] returnpath = this.CalculateMove(
-                    coordinates[0, (linesize * __scmScanMode.RepeatNumber) - 1],
-                    coordinates[1, (linesize * __scmScanMode.RepeatNumber) - 1],
-                    coordinates[2, (linesize * __scmScanMode.RepeatNumber) - 1],
-                    coordinates[0, 0],
-                    coordinates[1, 0],
-                    coordinates[2, 0],
-                    returnlength);
-
-                //for (int i = 0; i < returnlength; i++)
-                //{
-                //    coordinates[0, linesize * __scmScanMode.RepeatNumber + i] = returnpath[0, i];
-                //    coordinates[1, linesize * __scmScanMode.RepeatNumber + i] = returnpath[1, i];
-                //    coordinates[2, linesize * __scmScanMode.RepeatNumber + i] = returnpath[2, i];
-                //}
-
-                System.Buffer.BlockCopy(returnpath, 0 * szdouble, coordinates, framesize * szdouble, returnlength * szdouble);
-                System.Buffer.BlockCopy(returnpath, returnlength * szdouble, coordinates, (2 * framesize + returnlength) * szdouble, returnlength * szdouble);
-                System.Buffer.BlockCopy(returnpath, 2 * returnlength * szdouble, coordinates, (2 * (framesize + returnlength) + framesize) * szdouble, returnlength * szdouble);
 
                 // Set the levels to achieve start of frame and end of frame trigger.
                 longlevels[0] = 4;
@@ -727,7 +665,7 @@ namespace SIS.Hardware
             this.m_startZ = this.m_dScanCoordinates[2, 0];
 
             // Perform the actual scan as a timed move.
-            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, false);
+            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, true);
         }
 
         public void Stop()

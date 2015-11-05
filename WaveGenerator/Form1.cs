@@ -26,7 +26,7 @@ namespace WaveGenerator
             InitializeComponent();
 
             // Create a suitable stage.
-            this.m_Stage = SIS.Hardware.NIAnalogStage.Instance;
+            this.m_Stage = SIS.Hardware.NILineScanner.Instance;
 
             // Hook up EventHandler methods to the events of the stage.
             this.m_Stage.PositionChanged += new EventHandler(m_Stage_PositionChanged);
@@ -235,7 +235,7 @@ namespace WaveGenerator
             // Initiate stage scan movement.
             this.m_Stage.Scan(
                 _Scan,
-                Convert.ToDouble(this.txtTPL) / Convert.ToDouble(this.txtPIXELS),
+                Convert.ToDouble(this.txtTPL.Text) / Convert.ToDouble(this.txtPIXELS.Text),
                 true,
                 0.0,
                 0,
@@ -271,6 +271,32 @@ namespace WaveGenerator
                 // Update the rest of the UI.
                 Invoke(new UIUpdateDelegate(UpdateUI));
             }
+        }
+
+        private void workerScan_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            // Actually stop the stage from scanning.
+            this.m_Stage.Stop();
+
+            // Wait a bit.
+            Thread.Sleep(500);
+
+            if (e.Cancelled)
+            {
+                // Inform the user.
+                //MessageBox.Show("Scan Cancelled, press OK to zero stage.");
+            }
+            else
+            {
+                //MessageBox.Show("Scan Completed, press OK to zero stage.");
+            }
+
+            this.m_Stage.MoveAbs(
+                Convert.ToDouble(this.txtMOVE.Text),
+                0.0,
+                0.0);
+
+            this.EnableCtrls();
         }
     }
 }

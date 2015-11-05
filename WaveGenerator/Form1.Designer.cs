@@ -165,7 +165,9 @@
             // 
             // workerScan
             // 
+            this.workerScan.WorkerSupportsCancellation = true;
             this.workerScan.DoWork += new System.ComponentModel.DoWorkEventHandler(this.workerScan_DoWork);
+            this.workerScan.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.workerScan_RunWorkerCompleted);
             // 
             // Form1
             // 

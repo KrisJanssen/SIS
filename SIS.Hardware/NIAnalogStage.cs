@@ -727,7 +727,8 @@ namespace SIS.Hardware
             this.m_startZ = this.m_dScanCoordinates[2, 0];
 
             // Perform the actual scan as a timed move.
-            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, false);
+            //this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, false);
+            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, true);
         }
 
         public void Stop()
