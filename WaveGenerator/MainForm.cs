@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace WaveGenerator
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private SIS.Hardware.IPiezoStage m_Stage;
         private SIS.Forms.TrajectoryPlotForm m_frmTrajectoryForm = new TrajectoryPlotForm();
@@ -21,7 +21,7 @@ namespace WaveGenerator
         // Delegate involved in handling cross thread passing of data from Hardware to UI.
         private delegate void UIUpdateDelegate();
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -187,6 +187,10 @@ namespace WaveGenerator
 
             this.m_frmTrajectoryForm.Visible = true;
             this.m_frmTrajectoryForm.NMCoordinates = Scan.ScanCoordinates;
+
+            double dMaxT = Scan.ScanCoordinates.GetLength(1) * Scan.RepeatNumber * Convert.ToDouble(this.txtTPL.Text) * 0.9;
+
+            this.lblMAXT.Text = "Max Frame time: " + dMaxT.ToString();
 
             PrepnRun(Scan);
         }

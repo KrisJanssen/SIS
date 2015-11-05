@@ -89,41 +89,6 @@ namespace SIS.Hardware
                 //Task _daqtskGate = new Task();
                 Task _daqtskAPD = new Task();
 
-                // Setup a pulsechannel that will determine the bin time for photon counts.
-                // This channel will create a single delayed edge upon triggering by the global sync pulsetrain or another source. 
-                // High time of the pulse determines bin time.
-                //_daqtskGate.COChannels.CreatePulseChannelTicks(
-                //    "/" + m_sBoardID + "/" + m_sPulseGenCtr,
-                //    "GatePulse",
-                //    "/" + m_sBoardID + "/" + m_iPulseGenTimeBase.ToString() + "MHzTimebase",
-                //    COPulseIdleState.Low,
-                //     m_iPulseGenTimeBase,
-                //     m_iPulseGenTimeBase,
-                //    _iBinTicks);
-
-                // We want to sync voltage out to Analog Piezo or  Digital Piezo with measurement without software intervention.
-                // Therefore we tap into the global sync pulsetrain of another timing source which is available from the RTSI cable (analog)
-                // or a PFI line (digital) to sync photon counting with movement.
-                // For each pixel a single pulse with a high duration equal to the photon binning time will be generated.
-                //_daqtskGate.Triggers.StartTrigger.ConfigureDigitalEdgeTrigger(
-                //    "/" + m_sBoardID + "/" + m_sPulseGenTrigger,
-                //    DigitalEdgeStartTriggerEdge.Rising);
-
-
-
-
-                // This trigger will occur for every pixel so it should be retriggerable.
-                //_daqtskGate.Triggers.StartTrigger.Retriggerable = true;
-                //_daqtskGate.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, 1);
-
-                // Be sure to route the timing pulse to the RTSI line to make it available on all the installed DAQ boards of the system.
-                // For syncing of other detection processess.
-                //DaqSystem.Local.ConnectTerminals("/Dev1/Ctr0InternalOutput", "/Dev1/RTSI0");
-
-                //_daqtskGate.Control(TaskAction.Verify);
-                //_daqtskGate.Control(TaskAction.Commit);
-                //_daqtskGate.Control(TaskAction.Unreserve);
-
                 _logger.Info("Exact pixel time is " + _iBinTicks + " ticks of " + m_iPulseGenTimeBase.ToString() + " MHz Timebase");
 
                 // Setup countertask for the actual timed APD counting.

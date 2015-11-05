@@ -1,6 +1,6 @@
 ﻿namespace WaveGenerator
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -45,6 +45,7 @@
             this.txtAMP = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.lblMAXT = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnON
@@ -198,11 +199,21 @@
             this.label2.TabIndex = 14;
             this.label2.Text = "Position (mV)";
             // 
-            // Form1
+            // lblMAXT
+            // 
+            this.lblMAXT.AutoSize = true;
+            this.lblMAXT.Location = new System.Drawing.Point(98, 239);
+            this.lblMAXT.Name = "lblMAXT";
+            this.lblMAXT.Size = new System.Drawing.Size(84, 13);
+            this.lblMAXT.TabIndex = 15;
+            this.lblMAXT.Text = "Max Frame time:";
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.lblMAXT);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtAMP);
@@ -218,7 +229,7 @@
             this.Controls.Add(this.lblSTATUS);
             this.Controls.Add(this.btnOFF);
             this.Controls.Add(this.btnON);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.ResumeLayout(false);
@@ -245,6 +256,7 @@
         private System.Windows.Forms.TextBox txtAMP;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblMAXT;
     }
 }
 
