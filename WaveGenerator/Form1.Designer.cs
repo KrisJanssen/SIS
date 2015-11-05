@@ -42,6 +42,9 @@
             this.lblTPL = new System.Windows.Forms.Label();
             this.workerMove = new System.ComponentModel.BackgroundWorker();
             this.workerScan = new System.ComponentModel.BackgroundWorker();
+            this.txtAMP = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnON
@@ -169,11 +172,40 @@
             this.workerScan.DoWork += new System.ComponentModel.DoWorkEventHandler(this.workerScan_DoWork);
             this.workerScan.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.workerScan_RunWorkerCompleted);
             // 
+            // txtAMP
+            // 
+            this.txtAMP.Location = new System.Drawing.Point(172, 197);
+            this.txtAMP.Name = "txtAMP";
+            this.txtAMP.Size = new System.Drawing.Size(100, 20);
+            this.txtAMP.TabIndex = 12;
+            this.txtAMP.Text = "1000";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(89, 200);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Amplitude (mV)";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(98, 119);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(68, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Position (mV)";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtAMP);
             this.Controls.Add(this.lblTPL);
             this.Controls.Add(this.lblPIXELS);
             this.Controls.Add(this.txtTPL);
@@ -210,6 +242,9 @@
         private System.Windows.Forms.Label lblTPL;
         private System.ComponentModel.BackgroundWorker workerMove;
         private System.ComponentModel.BackgroundWorker workerScan;
+        private System.Windows.Forms.TextBox txtAMP;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

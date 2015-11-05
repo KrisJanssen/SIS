@@ -60,7 +60,7 @@ namespace WaveGenerator
         private void UpdateUI()
         {
             // Update the UI with the current voltage to stage.
-            this.lblPOS.Text = this.m_Stage.XPosition.ToString();
+            this.lblPOS.Text = (this.m_Stage.XPosition / 10.0).ToString() + " mV";
 
             // Process any events that might be waiting.
             Application.DoEvents();
@@ -156,7 +156,7 @@ namespace WaveGenerator
         private void btnMOVE_Click(object sender, EventArgs e)
         {
             double[] _dXYCoordinates = new double[3];
-            _dXYCoordinates[0] = Convert.ToDouble(this.txtMOVE.Text);
+            _dXYCoordinates[0] = 10.0 * Convert.ToDouble(this.txtMOVE.Text);
             _dXYCoordinates[1] = 0.0;
             _dXYCoordinates[2] = 0.0;
             this.workerMove.RunWorkerAsync(_dXYCoordinates);
@@ -177,9 +177,9 @@ namespace WaveGenerator
                 0,
                 0,
                 0,
-                1000.0,
-                1000.0,
-                1000.0,
+                10.0 * Convert.ToDouble(this.txtAMP.Text),
+                0.0,
+                0.0,
                 25,
                 1,
                 1,
@@ -292,7 +292,7 @@ namespace WaveGenerator
             }
 
             this.m_Stage.MoveAbs(
-                Convert.ToDouble(this.txtMOVE.Text),
+                10 * Convert.ToDouble(this.txtMOVE.Text),
                 0.0,
                 0.0);
 
