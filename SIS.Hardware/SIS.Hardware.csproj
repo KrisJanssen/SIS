@@ -98,6 +98,7 @@
     <Compile Include="APDSettings.cs" />
     <Compile Include="E7XXController.cs" />
     <Compile Include="IDetector.cs" />
+    <Compile Include="NILineScanner.cs" />
     <Compile Include="PhotoDiode.cs" />
     <Compile Include="MaxVoltageExceededException.cs" />
     <Compile Include="MinVoltageExceededException.cs" />
