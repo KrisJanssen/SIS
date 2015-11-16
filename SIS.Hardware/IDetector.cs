@@ -16,6 +16,8 @@ namespace SIS.Hardware
     {
         #region Public Properties
 
+        bool IsRunning { get;  }
+
         /// <summary>
         /// Gets the total samples acquired.
         /// </summary>
