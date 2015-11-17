@@ -18,7 +18,7 @@ namespace SIS.Forms
 {
     public partial class ScanViewForm : SIS.MDITemplate.MdiViewForm
     {
-
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         #region Member Variables
 
         // The various essential objects representing hardware.
@@ -325,6 +325,18 @@ namespace SIS.Forms
             this.scanImageControl1.XDpu = _docDocument.ImageWidthPx / _docDocument.XScanSizeNm;
             this.scanImageControl1.YDpu = _docDocument.ImageHeightPx / _docDocument.YScanSizeNm;
 
+            //_bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
+            //    _docDocument.MaxIntensity[0],
+            //    _docDocument.MinIntensity[0],
+            //    _docDocument.ImageWidthPx,
+            //    _docDocument.ImageHeightPx,
+            //    _docDocument.XOverScanPx,
+            //    _docDocument.YOverScanPx,
+            //    this.chkbxCorrectedImage.Checked,
+            //    false,
+            //    false,
+            //    false);
+
             _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
                 _docDocument.MaxIntensity[0],
                 _docDocument.MinIntensity[0],
@@ -333,7 +345,7 @@ namespace SIS.Forms
                 _docDocument.XOverScanPx,
                 _docDocument.YOverScanPx,
                 this.chkbxCorrectedImage.Checked,
-                false,
+                true,
                 false,
                 false);
 
@@ -342,175 +354,178 @@ namespace SIS.Forms
 
             m_bmpBitmapsAPD1[0] = _bmpTemp;
 
-            _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
-                _docDocument.MaxIntensity[0],
-                _docDocument.MinIntensity[0],
-                _docDocument.ImageWidthPx,
-                _docDocument.ImageHeightPx,
-                _docDocument.XOverScanPx,
-                _docDocument.YOverScanPx,
-                this.chkbxCorrectedImage.Checked,
-                true,
-                false,
-                false);
+            //_bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
+            //    _docDocument.MaxIntensity[0],
+            //    _docDocument.MinIntensity[0],
+            //    _docDocument.ImageWidthPx,
+            //    _docDocument.ImageHeightPx,
+            //    _docDocument.XOverScanPx,
+            //    _docDocument.YOverScanPx,
+            //    this.chkbxCorrectedImage.Checked,
+            //    true,
+            //    false,
+            //    false);
 
-            _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            AForge.Imaging.Image.FormatImage(ref _bmpTemp);
+            //_bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD1[1] = _bmpTemp;
+            //m_bmpBitmapsAPD1[1] = _bmpTemp;
 
-            _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
-                _docDocument.MaxIntensity[0],
-                _docDocument.MinIntensity[0],
-                _docDocument.ImageWidthPx,
-                _docDocument.ImageHeightPx,
-                _docDocument.XOverScanPx,
-                _docDocument.YOverScanPx,
-                this.chkbxCorrectedImage.Checked,
-                false,
-                true,
-                false);
+            //_bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
+            //    _docDocument.MaxIntensity[0],
+            //    _docDocument.MinIntensity[0],
+            //    _docDocument.ImageWidthPx,
+            //    _docDocument.ImageHeightPx,
+            //    _docDocument.XOverScanPx,
+            //    _docDocument.YOverScanPx,
+            //    this.chkbxCorrectedImage.Checked,
+            //    false,
+            //    true,
+            //    false);
 
-            _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            AForge.Imaging.Image.FormatImage(ref _bmpTemp);
+            //_bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD1[2] = _bmpTemp;
+            //m_bmpBitmapsAPD1[2] = _bmpTemp;
 
-            _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
-                _docDocument.MaxIntensity[0],
-                _docDocument.MinIntensity[0],
-                _docDocument.ImageWidthPx,
-                _docDocument.ImageHeightPx,
-                _docDocument.XOverScanPx,
-                _docDocument.YOverScanPx,
-                this.chkbxCorrectedImage.Checked,
-                false,
-                false,
-                true);
+            //_bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
+            //    _docDocument.MaxIntensity[0],
+            //    _docDocument.MinIntensity[0],
+            //    _docDocument.ImageWidthPx,
+            //    _docDocument.ImageHeightPx,
+            //    _docDocument.XOverScanPx,
+            //    _docDocument.YOverScanPx,
+            //    this.chkbxCorrectedImage.Checked,
+            //    false,
+            //    false,
+            //    true);
 
-            _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            AForge.Imaging.Image.FormatImage(ref _bmpTemp);
+            //_bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD1[3] = _bmpTemp;
+            //m_bmpBitmapsAPD1[3] = _bmpTemp;
 
-            this.scanImageControl2.ImageHeight = _docDocument.XScanSizeNm;
-            this.scanImageControl2.ImageWidth = _docDocument.YScanSizeNm;
-            this.scanImageControl2.XDpu = _docDocument.ImageWidthPx / _docDocument.XScanSizeNm;
-            this.scanImageControl2.YDpu = _docDocument.ImageHeightPx / _docDocument.YScanSizeNm;
+            //this.scanImageControl2.ImageHeight = _docDocument.XScanSizeNm;
+            //this.scanImageControl2.ImageWidth = _docDocument.YScanSizeNm;
+            //this.scanImageControl2.XDpu = _docDocument.ImageWidthPx / _docDocument.XScanSizeNm;
+            //this.scanImageControl2.YDpu = _docDocument.ImageHeightPx / _docDocument.YScanSizeNm;
 
-            _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
-                _docDocument.MaxIntensity[1],
-                _docDocument.MinIntensity[1],
-                _docDocument.ImageWidthPx,
-                _docDocument.ImageHeightPx,
-                _docDocument.XOverScanPx,
-                _docDocument.YOverScanPx,
-                this.chkbxCorrectedImage.Checked,
-                false,
-                false,
-                false);
+            //_bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
+            //    _docDocument.MaxIntensity[1],
+            //    _docDocument.MinIntensity[1],
+            //    _docDocument.ImageWidthPx,
+            //    _docDocument.ImageHeightPx,
+            //    _docDocument.XOverScanPx,
+            //    _docDocument.YOverScanPx,
+            //    this.chkbxCorrectedImage.Checked,
+            //    false,
+            //    false,
+            //    false);
 
-            _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            AForge.Imaging.Image.FormatImage(ref _bmpTemp);
+            //_bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD2[0] = _bmpTemp;
+            //m_bmpBitmapsAPD2[0] = _bmpTemp;
 
-            _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
-                _docDocument.MaxIntensity[1],
-                _docDocument.MinIntensity[1],
-                _docDocument.ImageWidthPx,
-                _docDocument.ImageHeightPx,
-                _docDocument.XOverScanPx,
-                _docDocument.YOverScanPx,
-                this.chkbxCorrectedImage.Checked,
-                true,
-                false,
-                false);
+            //_bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
+            //    _docDocument.MaxIntensity[1],
+            //    _docDocument.MinIntensity[1],
+            //    _docDocument.ImageWidthPx,
+            //    _docDocument.ImageHeightPx,
+            //    _docDocument.XOverScanPx,
+            //    _docDocument.YOverScanPx,
+            //    this.chkbxCorrectedImage.Checked,
+            //    true,
+            //    false,
+            //    false);
 
-            _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            AForge.Imaging.Image.FormatImage(ref _bmpTemp);
+            //_bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD2[1] = _bmpTemp;
+            //m_bmpBitmapsAPD2[1] = _bmpTemp;
 
-            _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
-                _docDocument.MaxIntensity[1],
-                _docDocument.MinIntensity[1],
-                _docDocument.ImageWidthPx,
-                _docDocument.ImageHeightPx,
-                _docDocument.XOverScanPx,
-                _docDocument.YOverScanPx,
-                this.chkbxCorrectedImage.Checked,
-                false,
-                true,
-                false);
+            //_bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
+            //    _docDocument.MaxIntensity[1],
+            //    _docDocument.MinIntensity[1],
+            //    _docDocument.ImageWidthPx,
+            //    _docDocument.ImageHeightPx,
+            //    _docDocument.XOverScanPx,
+            //    _docDocument.YOverScanPx,
+            //    this.chkbxCorrectedImage.Checked,
+            //    false,
+            //    true,
+            //    false);
 
-            _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            AForge.Imaging.Image.FormatImage(ref _bmpTemp);
+            //_bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD2[2] = _bmpTemp;
+            //m_bmpBitmapsAPD2[2] = _bmpTemp;
 
-            _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
-                _docDocument.MaxIntensity[1],
-                _docDocument.MinIntensity[1],
-                _docDocument.ImageWidthPx,
-                _docDocument.ImageHeightPx,
-                _docDocument.XOverScanPx,
-                _docDocument.YOverScanPx,
-                this.chkbxCorrectedImage.Checked,
-                false,
-                false,
-                true);
+            //_bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(1),
+            //    _docDocument.MaxIntensity[1],
+            //    _docDocument.MinIntensity[1],
+            //    _docDocument.ImageWidthPx,
+            //    _docDocument.ImageHeightPx,
+            //    _docDocument.XOverScanPx,
+            //    _docDocument.YOverScanPx,
+            //    this.chkbxCorrectedImage.Checked,
+            //    false,
+            //    false,
+            //    true);
 
-            _bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            AForge.Imaging.Image.FormatImage(ref _bmpTemp);
+            //_bmpTemp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //AForge.Imaging.Image.FormatImage(ref _bmpTemp);
 
-            m_bmpBitmapsAPD2[3] = _bmpTemp;
+            //m_bmpBitmapsAPD2[3] = _bmpTemp;
 
-            if (this.checkBox8.Checked)
-            {
-                this.m_filter.OverlayImage = m_bmpBitmapsAPD2[3];
-                System.Drawing.Bitmap newImage = this.m_filter.Apply(m_bmpBitmapsAPD1[2]);
-                this.scanImageControl1.Image = newImage;
-                this.scanImageControl2.Image = m_bmpBitmapsAPD2[1];
-            }
+            //if (this.checkBox8.Checked)
+            //{
+            //    this.m_filter.OverlayImage = m_bmpBitmapsAPD2[3];
+            //    System.Drawing.Bitmap newImage = this.m_filter.Apply(m_bmpBitmapsAPD1[2]);
+            //    this.scanImageControl1.Image = newImage;
+            //    this.scanImageControl2.Image = m_bmpBitmapsAPD2[1];
+            //}
 
-            else if (this.checkBox9.Checked)
-            {
-                this.m_filter.OverlayImage = m_bmpBitmapsAPD1[3];
-                System.Drawing.Bitmap newImage = this.m_filter.Apply(m_bmpBitmapsAPD2[2]);
-                this.scanImageControl2.Image = newImage;
-                this.scanImageControl1.Image = m_bmpBitmapsAPD1[1];
-            }
+            //else if (this.checkBox9.Checked)
+            //{
+            //    this.m_filter.OverlayImage = m_bmpBitmapsAPD1[3];
+            //    System.Drawing.Bitmap newImage = this.m_filter.Apply(m_bmpBitmapsAPD2[2]);
+            //    this.scanImageControl2.Image = newImage;
+            //    this.scanImageControl1.Image = m_bmpBitmapsAPD1[1];
+            //}
 
-            else
-            {
-                if (this.checkBox4.Checked)
-                {
-                    this.scanImageControl2.Image = m_bmpBitmapsAPD2[2];
-                }
-                if (this.checkBox5.Checked)
-                {
-                    this.scanImageControl2.Image = m_bmpBitmapsAPD2[3];
-                }
-                if (!this.checkBox4.Checked & !this.checkBox5.Checked)
-                {
+            //else
+            //{
+            //    if (this.checkBox4.Checked)
+            //    {
+            //        this.scanImageControl2.Image = m_bmpBitmapsAPD2[2];
+            //    }
+            //    if (this.checkBox5.Checked)
+            //    {
+            //        this.scanImageControl2.Image = m_bmpBitmapsAPD2[3];
+            //    }
+            //    if (!this.checkBox4.Checked & !this.checkBox5.Checked)
+            //    {
 
-                    this.scanImageControl2.Image = m_bmpBitmapsAPD2[1];
-                }
+            //        this.scanImageControl2.Image = m_bmpBitmapsAPD2[1];
+            //    }
 
-                if (this.checkBox6.Checked)
-                {
-                    this.scanImageControl1.Image = m_bmpBitmapsAPD1[2];
-                }
-                if (this.checkBox7.Checked)
-                {
-                    this.scanImageControl1.Image = m_bmpBitmapsAPD1[3];
-                }
-                if (!this.checkBox6.Checked & !this.checkBox7.Checked)
-                {
-                    this.scanImageControl1.Image = m_bmpBitmapsAPD1[1];
-                }
-            }
+            //    if (this.checkBox6.Checked)
+            //    {
+            //        this.scanImageControl1.Image = m_bmpBitmapsAPD1[2];
+            //    }
+            //    if (this.checkBox7.Checked)
+            //    {
+            //        this.scanImageControl1.Image = m_bmpBitmapsAPD1[3];
+            //    }
+            //    if (!this.checkBox6.Checked & !this.checkBox7.Checked)
+            //    {
+            //        this.scanImageControl1.Image = m_bmpBitmapsAPD1[1];
+            //    }
+            //}
+
+            this.scanImageControl1.Image = _bmpTemp;
+            this.scanImageControl2.Image = _bmpTemp;
 
             this.drwcnvColorBar1.Image = Utility.RainbowColorBar(_docDocument.ImageWidthPx, _docDocument.MinIntensity[0], _docDocument.MaxIntensity[0], this.chkbxNormalized.Checked, this.checkBox6.Checked, this.checkBox7.Checked);
 
@@ -905,14 +920,14 @@ namespace SIS.Forms
             while (_bStop != true)
             {
                 // Update the UI every 0.1 seconds, more than fast enough.
-                Thread.Sleep(100);
+                Thread.Sleep(5);
 
                 // Perform a read of all samples currently in the buffer.
                 if (_readsamples1 < _docDocument.PixelCount)
                 {
                     if (this.m_apdAPD1.IsRunning)
                     {
-                        _ui32SingleReadValues1 = this.m_apdAPD1.Read();
+                        _ui32SingleReadValues1 = this.m_apdAPD1.Read(2000);
 
                         if (_ui32SingleReadValues1.Length >= _docDocument.PixelCount - _readsamples1)
                         {
@@ -943,8 +958,10 @@ namespace SIS.Forms
 
 
                 //Assign processed data to the actual document opject.
-                //_docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
-                //_docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
+                _docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
+                _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
+
+                _logger.Info(_readsamples1.ToString());
 
                 if ((_readsamples1 == _docDocument.PixelCount))
                 {
@@ -1040,7 +1057,7 @@ namespace SIS.Forms
                 if (InvokeRequired)
                 {
                     // Get the in memory bitmap to the screen.
-                    Invoke(new UIUpdateDelegate(PaintToScreen));
+                    //Invoke(new UIUpdateDelegate(PaintToScreen));
                     // Update the rest of the UI.
                     Invoke(new UIUpdateDelegate(UpdateUI));
                 }

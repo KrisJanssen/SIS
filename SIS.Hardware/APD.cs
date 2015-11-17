@@ -137,17 +137,18 @@ namespace SIS.Hardware
                     _daqtskAPD.CIChannels.All.DataTransferMechanism = CIDataTransferMechanism.UsbBulk;
                 }
 
-                _daqtskAPD.Triggers.StartTrigger.Type = StartTriggerType.DigitalEdge;
-                _daqtskAPD.Triggers.StartTrigger.DigitalEdge.Edge = DigitalEdgeStartTriggerEdge.Rising;
-                _daqtskAPD.Triggers.StartTrigger.DigitalEdge.Source = "/" + m_sBoardID + "/PFI35";
-                _daqtskAPD.Triggers.StartTrigger.Retriggerable = true;
+                
 
                 // We only want to collect as many counts as there are pixels or "steps" in the image.
                 // Every time we read from the buffer we will read all samples that are there at once.
-                _daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, __iSteps);
-                //_daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples, __iSteps);
+                //_daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, __iSteps);
+                _daqtskAPD.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples, __iSteps);
                 _daqtskAPD.Stream.ReadAllAvailableSamples = true;
-               
+
+                //_daqtskAPD.Triggers.StartTrigger.Type = StartTriggerType.DigitalEdge;
+                //_daqtskAPD.Triggers.StartTrigger.DigitalEdge.Edge = DigitalEdgeStartTriggerEdge.Rising;
+                //_daqtskAPD.Triggers.StartTrigger.DigitalEdge.Source = "/" + m_sBoardID + "/PFI13";
+                //_daqtskAPD.Triggers.StartTrigger.Retriggerable = true;
 
                 // Verify
                 _daqtskAPD.Control(TaskAction.Verify);
