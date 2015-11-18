@@ -108,7 +108,7 @@ namespace SIS.Forms
             var list2 = new PointPairList();
             var list3 = new PointPairList();
 
-            for (int i = 0; i < this.m_NMCoordinates.Length / 3; i++)
+            for (int i = 0; i < this.m_NMCoordinates.Length / 2; i++)
             {
                 list1.Add(i, this.m_NMCoordinates[0, i]);
                 list2.Add(i, this.m_NMCoordinates[1, i]);

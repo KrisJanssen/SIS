@@ -561,15 +561,21 @@ namespace SIS.Hardware
                 int[] longlevels =
                     new int[framesize];
 
-                // Set pixel trigger to ensure data acq on the actual scanline only (and not the ramping period)
-                for (int i = __scmScanMode.Trig1Start + delay; i < __scmScanMode.Trig1End + delay + 1; i++)
+                foreach (Trigger t in __scmScanMode.Triggers)
                 {
-                    levels[i] = 1;
-                }
+                    if (t.Active)
+                    {
+                        // Set pixel trigger to ensure data acq on the actual scanline only (and not the ramping period)
+                        for (int i = t.Start + delay; i < t.End + delay + 1; i++)
+                        {
+                            levels[i] = 1;
+                        }
 
-                // Additionally set the line start and end triggers.
-                levels[__scmScanMode.Trig1Start + delay] = 3;
-                //levels[__scmScanMode.Trig1End + delay] = 3;
+                        // Additionally set the line start and end triggers.
+                        levels[t.Start + delay] = 3;
+                        //levels[t.End + delay] = 3;
+                    }
+                }
 
                 // Final linebuffer
                 double[,] linebuffer = __scmScanMode.ScanCoordinates;
@@ -598,7 +604,7 @@ namespace SIS.Hardware
 
                         if (i == 0)
                         {
-                            levels[__scmScanMode.Trig1Start + delay] = 1;
+                            levels[__scmScanMode.Triggers[0].Start + delay] = 1;
                         }
                     }
                 }

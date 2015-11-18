@@ -175,15 +175,10 @@ namespace WaveGenerator
                 Convert.ToUInt16(this.txtPIXELS.Text),
                 0,
                 0,
-                0,
-                0,
                 10.0 * Convert.ToDouble(this.txtAMP.Text),
                 0.0,
-                0.0,
-                25,
-                1,
-                1,
-                0.2);
+                10,
+                4);
 
             this.m_frmTrajectoryForm.Visible = true;
             this.m_frmTrajectoryForm.NMCoordinates = Scan.ScanCoordinates;

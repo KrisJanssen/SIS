@@ -13,7 +13,6 @@ namespace SIS.Hardware
         // The Various NI-Daqmx tasks.
         // APDCount will handle the actual counting of TTLs from the APD and is gated by GatePulse (to get the correct pixel time).
         private Task m_daqtskAPDCount;
-        private Task m_daqtskGatePulse;
 
         // Strings holding NI Channel names for Tasks.
         private string m_sBoardID;

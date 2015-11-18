@@ -794,22 +794,17 @@ namespace SIS.Forms
             object[] _oScanParameters = {
                                  _docDocument.ImageWidthPx,
                                  _docDocument.ImageHeightPx,
-                                 _docDocument.ImageDepthPx,
                                  _docDocument.XOverScanPx,
                                  _docDocument.YOverScanPx,
-                                 _docDocument.ZOverScanPx,
                                  _docDocument.XScanSizeNm,
                                  _docDocument.YScanSizeNm,
-                                 _docDocument.ZScanSizeNm,
-                                 25,
-                                 2,
                                  1,
-                                 0.2 };
+                                 2};
 
             ConstructorInfo[] ci = item.Value.GetConstructors();
             Scanmode m_BiScan = (Scanmode)ci[0].Invoke(_oScanParameters);
 
-            _docDocument.ScanAxes = (UInt16)m_BiScan.ScanAxes;
+            _docDocument.ScanAxes = 1;
             _docDocument.XBorderWidth = m_BiScan.BorderWidthX;
             
 
@@ -958,8 +953,11 @@ namespace SIS.Forms
 
 
                 //Assign processed data to the actual document opject.
-                _docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
-                _docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
+                //_docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
+                //_docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
+
+                _docDocument.StoreChannelData(0, _ui32AllReadValues1);
+                _docDocument.StoreChannelData(1, _ui32AllReadValues1);
 
                 _logger.Info(_readsamples1.ToString());
 
