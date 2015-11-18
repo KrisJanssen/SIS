@@ -798,7 +798,7 @@ namespace SIS.Forms
                                  _docDocument.YOverScanPx,
                                  _docDocument.XScanSizeNm,
                                  _docDocument.YScanSizeNm,
-                                 1,
+                                 10,
                                  2};
 
             ConstructorInfo[] ci = item.Value.GetConstructors();

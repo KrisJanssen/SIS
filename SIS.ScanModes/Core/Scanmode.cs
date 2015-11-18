@@ -177,7 +177,7 @@ namespace SIS.ScanModes
         {
             get
             {
-                return this.Triggers;
+                return this.m_Triggers;
             }
         }
 

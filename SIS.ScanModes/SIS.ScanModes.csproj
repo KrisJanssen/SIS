@@ -66,19 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Other\PointScan.cs" />
-    <Compile Include="Trigger.cs" />
-    <Compile Include="XY\LineScan.cs" />
-    <Compile Include="XY\BidirScanMode.cs" />
-    <Compile Include="XY\BiDirScan.cs" />
-    <Compile Include="XY\STEDXMultiLineScan.cs" />
-    <Compile Include="XZ\STEDUniDirXZScan.cs" />
-    <Compile Include="XZ\UniDirXZScan.cs" />
+    <Compile Include="Core\Trigger.cs" />
     <Compile Include="Enums\EnumScanAxes.cs" />
     <Compile Include="Enums\EnumTriggerType.cs" />
-    <Compile Include="XY\STEDUniDirXYScan.cs" />
     <Compile Include="Core\ScanModeAttribute.cs" />
     <Compile Include="Core\ScanModeCollection.cs" />
+    <Compile Include="XY\BiDirXYScan.cs" />
     <Compile Include="XY\UniDirXYScan.cs" />
     <Compile Include="Core\Scanmode.cs" />
     <Compile Include="Core\ScanUtility.cs" />
@@ -89,6 +82,9 @@
       <Project>{DD096382-A82E-4656-8ADC-85A5BC4476D7}</Project>
       <Name>SIS.Systemlayer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Other\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

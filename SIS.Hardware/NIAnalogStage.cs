@@ -580,16 +580,17 @@ namespace SIS.Hardware
                 }
 
                 // Final linebuffer
-                double[,] linebuffer = __scmScanMode.ScanCoordinates;
+                double[,] linebuffer = new double[3, __scmScanMode.ScanCoordinates.Length / 2];
 
                 int szdouble = sizeof(double);
                 int szint = sizeof(int);
 
                 for (int i = 0; i < linesize; i++)
                 {
-                    linebuffer[0, i] = this.NmToVoltage(linebuffer[0, i]) + this.m_dCurrentVoltageX;
-                    linebuffer[1, i] = this.NmToVoltage(linebuffer[1, i]) + this.m_dCurrentVoltageY;
-                    linebuffer[2, i] = this.NmToVoltage(linebuffer[2, i]) + this.m_dCurrentVoltageZ;
+                    linebuffer[0, i] = this.NmToVoltage(__scmScanMode.ScanCoordinates[0, i]) + this.m_dCurrentVoltageX;
+                    linebuffer[1, i] = this.NmToVoltage(__scmScanMode.ScanCoordinates[1, i]) + this.m_dCurrentVoltageY;
+                    //linebuffer[2, i] = this.NmToVoltage(linebuffer[2, i]) + this.m_dCurrentVoltageZ;
+                    linebuffer[2, i] = this.m_dCurrentVoltageZ;
                 }
 
                 if (!wobble)
