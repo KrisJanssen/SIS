@@ -915,7 +915,7 @@ namespace SIS.Forms
             while (_bStop != true)
             {
                 // Update the UI every 0.1 seconds, more than fast enough.
-                Thread.Sleep(5);
+                Thread.Sleep(1);
 
                 // Perform a read of all samples currently in the buffer.
                 if (_readsamples1 < _docDocument.PixelCount)
