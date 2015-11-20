@@ -106,6 +106,7 @@ namespace SIS.ScanModes
                 this.m_iXPAfwd,
                 this.m_iXPSfwd,
                 this.m_iXCPfwd,
+                this.m_iXPTfwd,
                 0.0,
                 this.m_dXGL);
 
@@ -113,7 +114,8 @@ namespace SIS.ScanModes
             _dCurrentSegmentbckwd = ScanUtility.LinSegment(
                 this.m_iXPAbckwd, this.m_iXPSbckwd,
                 this.m_iXCPbckwd,
-                0.0 + this.m_dXGL,
+                this.m_iXPTbckwd,
+                this.m_dXGL,
                 -this.m_dXGL);
 
             // The X motion will go Forward/Backward/Forward/Backward so we add segments accordingly.
@@ -128,6 +130,7 @@ namespace SIS.ScanModes
                 this.m_iYPAfwd,
                 this.m_iYPSfwd,
                 this.m_iYCPfwd,
+                this.m_iYPTfwd,
                 0.0,
                 this.m_dYGL);
 
@@ -144,6 +147,13 @@ namespace SIS.ScanModes
             this.m_dNMScanCoordinates = _dMovement;
         }
 
-        #endregion
-    }
+        public override UInt32[] PostProcessData(
+            UInt32[] __ui32Rawdata)
+        {
+            // Finally we return the processed data.
+            // In this case, no processing is necessary, data are already in the correct order.
+            return __ui32Rawdata;
+        }
+    #endregion
+}
 }

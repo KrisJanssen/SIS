@@ -13,6 +13,7 @@ using System.IO;
 using log4net;
 using log4net.Layout;
 using DevDefined.Common.Appenders;
+using System.Linq;
 
 namespace SIS.Forms
 {
@@ -315,6 +316,23 @@ namespace SIS.Forms
 
         #region Scan Drawing
 
+        public static uint[] PostProcessData(
+            UInt32[] __ui32Rawdata, int width, int height)
+        {
+            int szUint = sizeof(uint);
+            // Finally we return the processed data.
+            // In this case, no processing is necessary, data are already in the correct order.
+            UInt32[] buffer = new UInt32[width];
+            UInt32[] processed = __ui32Rawdata;
+            for (int i = 1; i < height; i += 2)
+            {
+                Buffer.BlockCopy(__ui32Rawdata, i * width * szUint, buffer, 0,width * szUint);
+                buffer.Reverse();
+                Buffer.BlockCopy(buffer, 0, processed, i * width * szUint, width * szUint);
+            }
+            return processed;
+        }
+
         private void PaintToScreen()
         {
             ScanDocument _docDocument = this.Document as ScanDocument;
@@ -337,7 +355,7 @@ namespace SIS.Forms
             //    false,
             //    false);
 
-            _bmpTemp = Utility.DrawScanToBmp(_docDocument.GetChannelData(0),
+            _bmpTemp = Utility.DrawScanToBmp(PostProcessData(_docDocument.GetChannelData(0), _docDocument.ImageWidthPx, _docDocument.ImageHeightPx),
                 _docDocument.MaxIntensity[0],
                 _docDocument.MinIntensity[0],
                 _docDocument.ImageWidthPx,

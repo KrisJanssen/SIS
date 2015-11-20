@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using SIS.SystemLayer;
-
+using System.Linq;
 
 namespace SIS.ScanModes
 {
@@ -43,8 +43,10 @@ namespace SIS.ScanModes
         {
             // X-Movement forward.
             this.m_iXPSfwd = Convert.ToInt32(Math.Round(this.m_iImageWidthPx * this.m_dSpeedupPct, 0));
-            this.m_iXPAfwd = this.m_iXPSfwd * 1;
-            this.m_iXPEfwd = this.m_iXPAfwd;
+            //this.m_iXPAfwd = this.m_iXPSfwd * 1;
+            this.m_iXPAfwd = 0;
+            //this.m_iXPEfwd = this.m_iXPAfwd;
+            this.m_iXPEfwd = 0;
             this.m_iXCPfwd = this.m_iImageWidthPx + this.m_iXOverScanPx + 2 * this.m_iXPSfwd;
             this.m_iXPTfwd = this.m_iXPAfwd + this.m_iXCPfwd + this.m_iXPEfwd;
 
@@ -53,25 +55,26 @@ namespace SIS.ScanModes
 
             // X-Movement backward.
             this.m_iXPSbckwd = this.m_iXPSfwd;
+            //this.m_iXPAbckwd = this.m_iXPAfwd;
             this.m_iXPAbckwd = this.m_iXPAfwd;
             this.m_iXPEbckwd = this.m_iXPEfwd;
             //this.m_iXCPbckwd = Convert.ToInt32(Math.Round((double)this.m_iXCPfwd / this.m_iReturnSpeedFactor, 0));
-            this.m_iXCPbckwd = Convert.ToInt32(Math.Round((double)this.m_iXCPfwd, 0));
+            this.m_iXCPbckwd = this.m_iXCPfwd;
             this.m_iXPTbckwd = this.m_iXPAbckwd + this.m_iXCPbckwd + this.m_iXPEbckwd;
 
             // The total amount of points can be assigned.
-            this.m_iPtsPerScanline = this.m_iXPTfwd + this.m_iXPTbckwd;
+            this.m_iPtsPerScanline = 2 * this.m_iXPTfwd + this.m_iXPTbckwd;
 
             // Y-Movement (Y only advances forward in this ScanMode).
             /* 
                 X and Y movement need to be in phase. Therefore int _iYSegmentPts = int _iXSegmentPts * 2
                 The Y axis will move after the X axis has moved and before it is about to move back.
             */
-            this.m_iYPTfwd = this.m_iPtsPerScanline;
-            this.m_iYCPfwd = this.m_iXPAbckwd + this.m_iXPEfwd;
-            this.m_iYPSfwd = Convert.ToInt32(Math.Round(this.m_iYCPfwd * 0.10, 0));
-            this.m_iYPAfwd = this.m_iXPTfwd - this.m_iXPEfwd;
-            this.m_iYPEfwd = this.m_iYPTfwd - this.m_iYCPfwd - this.m_iYPAfwd;
+            this.m_iYPSfwd = (this.m_iXPSfwd + this.m_iXPEfwd) / 2;
+            this.m_iYCPfwd = 2 * this.m_iYPSfwd + (this.m_iXPSfwd + this.m_iXPEfwd) % 2;
+            this.m_iYPAfwd = this.m_iXCPfwd - this.m_iXPSfwd;
+            this.m_iYPEfwd = 0;
+            this.m_iYPTfwd = this.m_iYPAfwd + this.m_iYCPfwd + this.m_iYPEfwd;
             this.m_dYGL = (this.m_dYScanSizeNm / (this.m_iImageHeightPx));
 
             // Calculate the width of the speedup border (points that will not be visible in the scan image).
@@ -90,6 +93,12 @@ namespace SIS.ScanModes
                 TriggerType.PulseTrigger,
                 this.m_iXPTfwd + this.m_iXPAfwd + this.m_iXPSfwd + 1,
                 this.m_iXPTfwd + this.m_iXPAfwd + this.m_iXPSfwd + this.m_iImageWidthPx + this.m_iXOverScanPx);
+
+            this.m_Triggers[2] = new Trigger(
+                true,
+                TriggerType.PulseTrigger,
+                2 * this.m_iXPTfwd + this.m_iXPAfwd + this.m_iXPSfwd + 1,
+                2 * this.m_iXPTfwd + this.m_iXPAfwd + this.m_iXPSfwd + this.m_iImageWidthPx + this.m_iXOverScanPx);
 
             // Set the amount of scanlines necessary.
             this.m_iRepeatNumber = (this.m_iImageHeightPx + this.m_iYOverScanPx) / 2 ;
@@ -113,30 +122,50 @@ namespace SIS.ScanModes
                 this.m_iXPAfwd,
                 this.m_iXPSfwd,
                 this.m_iXCPfwd,
+                this.m_iXPTfwd,
                 0.0,
                 this.m_dXGL);
 
             // Generate the Backward segment for X and append it to the full list of coordinates, it will be repeated twice.
             _dCurrentSegmentbckwd = ScanUtility.LinSegment(
-                this.m_iXPAbckwd, this.m_iXPSbckwd,
+                this.m_iXPAbckwd, 
+                this.m_iXPSbckwd,
                 this.m_iXCPbckwd,
-                0.0 + this.m_dXGL,
+                this.m_iXCPbckwd,
+                this.m_dXGL,
                 -this.m_dXGL);
 
             // The X motion will go Forward/Backward/Forward/Backward so we add segments accordingly.
             _ldCoordinateBuilder.AddRange(_dCurrentSegmentfwd);
             _ldCoordinateBuilder.AddRange(_dCurrentSegmentbckwd);
+            _ldCoordinateBuilder.AddRange(_dCurrentSegmentfwd);
 
             // Transfer the List<double> to an array.
             double[] _dX = _ldCoordinateBuilder.ToArray();
 
+            _ldCoordinateBuilder.Clear();
+            
             // Generate the Y coordinates. Y movement contains only one segment here so we do not need a List<double>.
-            double[] _dY = ScanUtility.LinSegment(
+            double[] _sectionOne = ScanUtility.LinSegment(
                 this.m_iYPAfwd,
                 this.m_iYPSfwd,
                 this.m_iYCPfwd,
+                this.m_iYPTfwd,
                 0.0,
                 this.m_dYGL);
+
+            double[] _sectionTwo = ScanUtility.LinSegment(
+                this.m_iYPAfwd,
+                this.m_iYPSfwd,
+                this.m_iYCPfwd,
+                this.m_iYPTfwd + this.m_iYPTfwd,
+                this.m_dYGL,
+                this.m_dYGL);
+
+            _ldCoordinateBuilder.AddRange(_sectionOne);
+            _ldCoordinateBuilder.AddRange(_sectionTwo);
+
+            double[] _dY = _ldCoordinateBuilder.ToArray();
 
             // Fill the 2D array containing all coordinates for both X and Y.
             for (int _iI = 0; _iI < this.m_iPtsPerScanline; _iI++)
@@ -149,6 +178,23 @@ namespace SIS.ScanModes
 
             // Assign the coordinates.
             this.m_dNMScanCoordinates = _dMovement;
+        }
+
+        public override UInt32[] PostProcessData(
+            UInt32[] __ui32Rawdata)
+        {
+            int szUint = sizeof(UInt32);
+            // Finally we return the processed data.
+            // In this case, no processing is necessary, data are already in the correct order.
+            UInt32[] buffer = new UInt32[this.ImageWidthPx];
+            UInt32[] processed = __ui32Rawdata;
+            for (int i=1; i<this.ImageHeightPx; i+=2)
+            {
+                Buffer.BlockCopy(__ui32Rawdata, i * this.ImageWidthPx * szUint, buffer, 0, this.ImageWidthPx * szUint);
+                buffer.Reverse();
+                Buffer.BlockCopy(buffer, 0, processed, i * this.ImageWidthPx * szUint, this.ImageWidthPx * szUint);
+            }
+            return processed;
         }
 
         #endregion

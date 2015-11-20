@@ -260,6 +260,14 @@ namespace SIS.ScanModes
         /// </summary>
         protected abstract void CalculateNMScanCoordinates();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="__ui32Rawdata"></param>
+        /// <returns></returns>
+        public abstract UInt32[] PostProcessData(
+            UInt32[] __ui32Rawdata);
+
         #endregion
     }
 }
