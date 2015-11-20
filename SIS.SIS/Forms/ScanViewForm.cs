@@ -847,7 +847,7 @@ namespace SIS.Forms
             }
 
             // Update the UI.
-            UpdateUI();
+            //UpdateUI();
         }
 
         private void bckgwrkPerformScan_DoWork(object __oSender, System.ComponentModel.DoWorkEventArgs __evargsE)

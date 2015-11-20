@@ -719,7 +719,7 @@ namespace SIS.Hardware
 
                 // Set the levels to achieve start of frame and end of frame trigger.
                 longlevels[0] = 4;
-                longlevels[longlevels.GetLength(0) - 1] = 4;
+                longlevels[longlevels.GetLength(0) - returnlength] = 4;
 
                 // Persist.
                 this.m_iLongLevels = longlevels;
