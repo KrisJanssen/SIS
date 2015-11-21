@@ -63,7 +63,7 @@ namespace SIS.ScanModes
             this.m_iXPTbckwd = this.m_iXPAbckwd + this.m_iXCPbckwd + this.m_iXPEbckwd;
 
             // The total amount of points can be assigned.
-            this.m_iPtsPerScanline = 2 * this.m_iXPTfwd + this.m_iXPTbckwd;
+            this.m_iPtsPerScanline = this.m_iXPTfwd + this.m_iXPTbckwd;
 
             // Y-Movement (Y only advances forward in this ScanMode).
             /* 
@@ -94,11 +94,11 @@ namespace SIS.ScanModes
                 this.m_iXPTfwd + this.m_iXPAfwd + this.m_iXPSfwd + 1,
                 this.m_iXPTfwd + this.m_iXPAfwd + this.m_iXPSfwd + this.m_iImageWidthPx + this.m_iXOverScanPx);
 
-            this.m_Triggers[2] = new Trigger(
-                true,
-                TriggerType.PulseTrigger,
-                2 * this.m_iXPTfwd + this.m_iXPAfwd + this.m_iXPSfwd + 1,
-                2 * this.m_iXPTfwd + this.m_iXPAfwd + this.m_iXPSfwd + this.m_iImageWidthPx + this.m_iXOverScanPx);
+            //this.m_Triggers[2] = new Trigger(
+            //    true,
+            //    TriggerType.PulseTrigger,
+            //    2 * this.m_iXPTfwd + this.m_iXPAfwd + this.m_iXPSfwd + 1,
+            //    2 * this.m_iXPTfwd + this.m_iXPAfwd + this.m_iXPSfwd + this.m_iImageWidthPx + this.m_iXOverScanPx);
 
             // Set the amount of scanlines necessary.
             this.m_iRepeatNumber = (this.m_iImageHeightPx + this.m_iYOverScanPx) / 2 ;
@@ -138,7 +138,6 @@ namespace SIS.ScanModes
             // The X motion will go Forward/Backward/Forward/Backward so we add segments accordingly.
             _ldCoordinateBuilder.AddRange(_dCurrentSegmentfwd);
             _ldCoordinateBuilder.AddRange(_dCurrentSegmentbckwd);
-            _ldCoordinateBuilder.AddRange(_dCurrentSegmentfwd);
 
             // Transfer the List<double> to an array.
             double[] _dX = _ldCoordinateBuilder.ToArray();
