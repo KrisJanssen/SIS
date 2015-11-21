@@ -870,6 +870,8 @@ namespace SIS.Forms
 
         private void bckgwrkPerformScan_DoWork(object __oSender, System.ComponentModel.DoWorkEventArgs __evargsE)
         {
+            int szUint32 = sizeof(UInt32);
+
             // Boolean value to indicate wheter or not the running scan should be stopped.
             bool _bStop = false;
 
@@ -891,11 +893,6 @@ namespace SIS.Forms
             // because the measured data needs to be processed before it can be assigned to the actual document object.
             UInt32[] _ui32AllReadValues1 = new UInt32[_docDocument.PixelCount];
             UInt32[] _ui32AllReadValues2 = new UInt32[_docDocument.PixelCount];
-
-            //this.m_Stage.MoveAbs(_Scan.InitialX, _Scan.InitialY, _Scan.InitialZ);
-
-            //List<UInt32> _lui32AllReadValues1 = new List<UInt32>(_docDocument.PixelCount);
-            //List<UInt32> _lui32AllReadValues2 = new List<UInt32>(_docDocument.PixelCount);
 
             if (!this.checkBoxStack.Checked)
             {
@@ -942,40 +939,37 @@ namespace SIS.Forms
                     {
                         _ui32SingleReadValues1 = this.m_apdAPD1.Read(2000);
 
-                        if (_ui32SingleReadValues1.Length >= _docDocument.PixelCount - _readsamples1)
-                        {
-                            // Add the read samples to the previously read samples in memory.
-                            for (int _i = 0; _i < _docDocument.PixelCount - _readsamples1; _i++)
-                            {
-                                _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
-                            }
+                        Buffer.BlockCopy(_ui32AllReadValues1, 0, _ui32AllReadValues1, _readsamples1 * szUint32, 2000 * szUint32 );
+                        _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
 
-                            // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                            _readsamples1 = _docDocument.PixelCount;
-                        }
-                        else
-                        {
-                            // Add the read samples to the previously read samples in memory.
-                            for (int _i = 0; _i < _ui32SingleReadValues1.Length; _i++)
-                            {
-                                _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
-                            }
+                        //if (_ui32SingleReadValues1.Length >= _docDocument.PixelCount - _readsamples1)
+                        //{
+                        //    // Add the read samples to the previously read samples in memory.
+                        //    for (int _i = 0; _i < _docDocument.PixelCount - _readsamples1; _i++)
+                        //    {
+                        //        _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
+                        //    }
 
-                            // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
-                            _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
-                        }
+                        //    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+                        //    _readsamples1 = _docDocument.PixelCount;
+                        //}
+                        //else
+                        //{
+                        //    // Add the read samples to the previously read samples in memory.
+                        //    for (int _i = 0; _i < _ui32SingleReadValues1.Length; _i++)
+                        //    {
+                        //        _ui32AllReadValues1[_readsamples1 + _i] = _ui32SingleReadValues1[_i];
+                        //    }
+
+                        //    // Increment the total number of acquired samples AFTER this number has been used to store values in the array!!
+                        //    _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
+                        //}
                     }
-
 
                 }
 
-
-                //Assign processed data to the actual document opject.
-                //_docDocument.StoreChannelData(0, _Scan.PostProcessData(_ui32AllReadValues1));
-                //_docDocument.StoreChannelData(1, _Scan.PostProcessData(_ui32AllReadValues1));
-
                 _docDocument.StoreChannelData(0, _ui32AllReadValues1);
-                _docDocument.StoreChannelData(1, _ui32AllReadValues1);
+                //_docDocument.StoreChannelData(1, _ui32AllReadValues1);
 
                 _logger.Info(_readsamples1.ToString());
 
@@ -1070,13 +1064,11 @@ namespace SIS.Forms
                 }
 
                 // Update the UI.
-                if (InvokeRequired)
-                {
-                    // Get the in memory bitmap to the screen.
-                    //Invoke(new UIUpdateDelegate(PaintToScreen));
-                    // Update the rest of the UI.
-                    Invoke(new UIUpdateDelegate(UpdateUI));
-                }
+                //if (InvokeRequired)
+                //{
+                //    // Update the rest of the UI.
+                //    Invoke(new UIUpdateDelegate(UpdateUI));
+                //}
 
                 // Check if the worker was not cancelled.
                 if (bckgwrkPerformScan.CancellationPending)
@@ -1089,12 +1081,10 @@ namespace SIS.Forms
             // Update the UI.
             if (InvokeRequired)
             {
-                // Get the in memory bitmap to the screen.
-                Invoke(new UIUpdateDelegate(PaintToScreen));
                 // Update the rest of the UI.
                 Invoke(new UIUpdateDelegate(UpdateUI));
             }
-            Thread.Sleep(500);
+            Thread.Sleep(100);
 
             // Stop the move task for the stage.
             this.m_apdAPD1.StopAPDAcquisition();
@@ -1106,6 +1096,7 @@ namespace SIS.Forms
         {
             // Cancel de backgroundworker.
             bckgwrkPerformScan.CancelAsync();
+            wrkUpdate.CancelAsync();
 
             // Enable all controls again.
             EnableCtrls();
@@ -1244,6 +1235,27 @@ namespace SIS.Forms
 
             }
 
+        }
+
+        private void wrkUpdate_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            bool _bStop = false;
+
+            while(!_bStop)
+            {
+                // Update the UI.
+                if (InvokeRequired)
+                {
+                    // Update the rest of the UI.
+                    Invoke(new UIUpdateDelegate(UpdateUI));
+                }
+
+                Thread.Sleep(20);
+            }
+            if (wrkUpdate.CancellationPending)
+            {
+                _bStop = true;
+            }
         }
     }
 }
