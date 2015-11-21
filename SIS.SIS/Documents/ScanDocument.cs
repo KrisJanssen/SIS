@@ -423,19 +423,18 @@ namespace SIS.Documents
         /// </param>
         public void StoreChannelData(int __iChannel, uint[] __ui32Values)
         {
+            int szUint = sizeof(uint);
             int _iPixelCount = this.m_ui32Pixels.Length / this.m_scnstSettings.Channels;
 
             int _iStart = __iChannel * _iPixelCount;
 
-            for (int _iI = 0; _iI < _iPixelCount; _iI++)
-            {
-                this.m_ui32Pixels[_iStart + _iI] = __ui32Values[_iI];
-            }
+            Buffer.BlockCopy(__ui32Values, 0, this.m_ui32Pixels, _iStart * szUint, __ui32Values.Length * szUint);
 
-            //Parallel.For(0, _iPixelCount, _iI =>
+            //for (int _iI = 0; _iI < _iPixelCount; _iI++)
+            //{
+            //    this.m_ui32Pixels[_iStart + _iI] = __ui32Values[_iI];
+            //}
 
-            //{ this.m_ui32Pixels[_iStart + _iI] = __ui32Values[_iI]; }
-           // );
         }
 
         #endregion
