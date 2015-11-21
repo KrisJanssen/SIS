@@ -862,7 +862,11 @@ namespace SIS.Forms
                 // Run the actual measurement in a separate thread to the UI thread. This will prevent the UI from blocking and it will
                 // enable continuous updates of the UI with scan data.
                 bckgwrkPerformScan.RunWorkerAsync(__scnmScan);
-                wrkUpdate.RunWorkerAsync();
+                if (!wrkUpdate.IsBusy)
+                {
+                    wrkUpdate.RunWorkerAsync();
+                }
+                
             }
 
             // Update the UI.
@@ -938,9 +942,9 @@ namespace SIS.Forms
                 {
                     if (this.m_apdAPD1.IsRunning)
                     {
-                        _ui32SingleReadValues1 = this.m_apdAPD1.Read(5000);
+                        _ui32SingleReadValues1 = this.m_apdAPD1.Read(10000);
 
-                        Buffer.BlockCopy(_ui32SingleReadValues1, 0, _ui32AllReadValues1, _readsamples1 * szUint32, 2000 * szUint32 );
+                        Buffer.BlockCopy(_ui32SingleReadValues1, 0, _ui32AllReadValues1, _readsamples1 * szUint32, 10000 * szUint32 );
                         _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
 
                         //if (_ui32SingleReadValues1.Length >= _docDocument.PixelCount - _readsamples1)
@@ -972,7 +976,7 @@ namespace SIS.Forms
                 _docDocument.StoreChannelData(0, _ui32AllReadValues1);
                 _docDocument.StoreChannelData(1, _ui32AllReadValues1);
 
-                _logger.Info(_readsamples1.ToString());
+                //_logger.Info(_readsamples1.ToString());
 
                 if ((_readsamples1 == _docDocument.PixelCount))
                 {
