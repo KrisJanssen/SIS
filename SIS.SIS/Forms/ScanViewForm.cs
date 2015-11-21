@@ -862,6 +862,7 @@ namespace SIS.Forms
                 // Run the actual measurement in a separate thread to the UI thread. This will prevent the UI from blocking and it will
                 // enable continuous updates of the UI with scan data.
                 bckgwrkPerformScan.RunWorkerAsync(__scnmScan);
+                wrkUpdate.RunWorkerAsync();
             }
 
             // Update the UI.
@@ -930,16 +931,16 @@ namespace SIS.Forms
             while (_bStop != true)
             {
                 // Update the UI every 0.1 seconds, more than fast enough.
-                Thread.Sleep(1);
+                //Thread.Sleep(1);
 
                 // Perform a read of all samples currently in the buffer.
                 if (_readsamples1 < _docDocument.PixelCount)
                 {
                     if (this.m_apdAPD1.IsRunning)
                     {
-                        _ui32SingleReadValues1 = this.m_apdAPD1.Read(2000);
+                        _ui32SingleReadValues1 = this.m_apdAPD1.Read(5000);
 
-                        Buffer.BlockCopy(_ui32AllReadValues1, 0, _ui32AllReadValues1, _readsamples1 * szUint32, 2000 * szUint32 );
+                        Buffer.BlockCopy(_ui32SingleReadValues1, 0, _ui32AllReadValues1, _readsamples1 * szUint32, 2000 * szUint32 );
                         _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
 
                         //if (_ui32SingleReadValues1.Length >= _docDocument.PixelCount - _readsamples1)
@@ -969,7 +970,7 @@ namespace SIS.Forms
                 }
 
                 _docDocument.StoreChannelData(0, _ui32AllReadValues1);
-                //_docDocument.StoreChannelData(1, _ui32AllReadValues1);
+                _docDocument.StoreChannelData(1, _ui32AllReadValues1);
 
                 _logger.Info(_readsamples1.ToString());
 
@@ -1248,6 +1249,10 @@ namespace SIS.Forms
                 {
                     // Update the rest of the UI.
                     Invoke(new UIUpdateDelegate(UpdateUI));
+                }
+                else
+                {
+                    UpdateUI();
                 }
 
                 Thread.Sleep(20);
