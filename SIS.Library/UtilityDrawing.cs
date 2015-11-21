@@ -221,30 +221,54 @@ namespace SIS.Library
             // Processing on the data during aqcuisition will ensure that the data array is ALWAYS supplied in the same layout!
             #endregion
 
-            for (int _intI = 0; _intI < __iImageWidth; _intI++)
+            //for (int _intI = 0; _intI < __iImageWidth; _intI++)
+            //{
+            //    for (int _intJ = 0; _intJ < __iImageWidth + __iXOverScanPx; _intJ++)
+            //    {
+            //        if (__bCorrected)
+            //        {
+            //            if (_intI % 2 == 0)
+            //            {
+            //                if (_intJ >= __iXOverScanPx)
+            //                {
+            //                    _fbmpFastBitmap.SetPixel(_intJ - __iXOverScanPx, __iImageHeight - _intI - 1, Utility.ColorPicker((int)__ui32Intensities[_intI * (__iImageWidth + __iXOverScanPx) + _intJ], (int)_ui32MaxIntensity, __bNormalized, __bRed, __bGreen));
+            //                }
+            //            }
+            //            else
+            //            {
+            //                if (_intJ < __iImageWidth)
+            //                {
+            //                    _fbmpFastBitmap.SetPixel(_intJ, __iImageHeight - _intI - 1, Utility.ColorPicker((int)__ui32Intensities[_intI * (__iImageWidth + __iXOverScanPx) + _intJ], (int)_ui32MaxIntensity, __bNormalized, __bRed, __bGreen));
+            //                }
+            //            }
+            //        }
+            //        else
+            //        {
+            //            _fbmpFastBitmap.SetPixel(_intJ, (__iImageHeight + __iYOverScanPx) - _intI - 1, Utility.ColorPicker((int)__ui32Intensities[_intI * (__iImageWidth + __iXOverScanPx) + _intJ], (int)_ui32MaxIntensity, __bNormalized, __bRed, __bGreen));
+            //        }
+            //    }
+            //}
+
+            for (int _intI = 0; _intI < __iImageHeight + __iYOverScanPx; _intI++)
             {
-                for (int _intJ = 0; _intJ < __iImageWidth + __iXOverScanPx; _intJ++)
+                if (__bCorrected && _intI % 2 == 0)
                 {
-                    if (__bCorrected)
+                    for (int _intJ = 0; _intJ < __iImageWidth + __iXOverScanPx; _intJ++)
                     {
-                        if (_intI % 2 == 0)
-                        {
-                            if (_intJ >= __iXOverScanPx)
-                            {
-                                _fbmpFastBitmap.SetPixel(_intJ - __iXOverScanPx, __iImageHeight - _intI - 1, Utility.ColorPicker((int)__ui32Intensities[_intI * (__iImageWidth + __iXOverScanPx) + _intJ], (int)_ui32MaxIntensity, __bNormalized, __bRed, __bGreen));
-                            }
-                        }
-                        else
-                        {
-                            if (_intJ < __iImageWidth)
-                            {
-                                _fbmpFastBitmap.SetPixel(_intJ, __iImageHeight - _intI - 1, Utility.ColorPicker((int)__ui32Intensities[_intI * (__iImageWidth + __iXOverScanPx) + _intJ], (int)_ui32MaxIntensity, __bNormalized, __bRed, __bGreen));
-                            }
-                        }
+                        _fbmpFastBitmap.SetPixel(
+                            __iImageWidth + __iXOverScanPx - _intJ - 1, 
+                            (__iImageHeight + __iYOverScanPx) - _intI - 1, 
+                            Utility.ColorPicker((int)__ui32Intensities[_intI * (__iImageWidth + __iXOverScanPx) + _intJ], (int)_ui32MaxIntensity, __bNormalized, __bRed, __bGreen));
                     }
-                    else
+                }
+                else
+                {
+                    for (int _intJ = 0; _intJ < __iImageWidth + __iXOverScanPx; _intJ++)
                     {
-                        _fbmpFastBitmap.SetPixel(_intJ, (__iImageHeight + __iYOverScanPx) - _intI - 1, Utility.ColorPicker((int)__ui32Intensities[_intI * (__iImageWidth + __iXOverScanPx) + _intJ], (int)_ui32MaxIntensity, __bNormalized, __bRed, __bGreen));
+                        _fbmpFastBitmap.SetPixel(
+                            _intJ, 
+                            (__iImageHeight + __iYOverScanPx) - _intI - 1, 
+                            Utility.ColorPicker((int)__ui32Intensities[_intI * (__iImageWidth + __iXOverScanPx) + _intJ], (int)_ui32MaxIntensity, __bNormalized, __bRed, __bGreen));
                     }
                 }
             }
