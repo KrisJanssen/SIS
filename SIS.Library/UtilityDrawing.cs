@@ -251,7 +251,7 @@ namespace SIS.Library
 
             for (int _intI = 0; _intI < __iImageHeight + __iYOverScanPx; _intI++)
             {
-                if (__bCorrected && _intI % 2 == 0)
+                if (__bCorrected && _intI % 2 != 0)
                 {
                     for (int _intJ = 0; _intJ < __iImageWidth + __iXOverScanPx; _intJ++)
                     {

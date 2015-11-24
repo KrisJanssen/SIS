@@ -129,6 +129,7 @@ namespace SIS.Forms
             this.YCoordGraph.AxisChange();
             this.XYCoordGraph.AxisChange();
 
+
             this.XCoordGraph.Invalidate();
             this.YCoordGraph.Invalidate();
             this.XYCoordGraph.Invalidate();

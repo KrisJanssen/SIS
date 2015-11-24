@@ -568,14 +568,17 @@ namespace SIS.Hardware
                     if (t.Active)
                     {
                         // Set pixel trigger to ensure data acq on the actual scanline only (and not the ramping period)
-                        for (int i = t.Start + delay; i < t.End + delay + 1; i++)
+                        //for (int i = t.Start + delay; i < t.End + delay + 1; i++)
+                        for (int i = t.Start; i < t.End + 1; i++)
                         {
                             levels[i] = 1;
                         }
 
                         // Additionally set the line start and end triggers.
-                        levels[t.Start + delay] = 3;
-                        levels[t.End + delay] = 3;
+                        //levels[t.Start + delay] = 3;
+                        //levels[t.End + delay] = 3;
+                        levels[t.Start] = 3;
+                        levels[t.End] = 3;
                     }
                 }
 
@@ -608,7 +611,8 @@ namespace SIS.Hardware
                         System.Buffer.BlockCopy(linebuffer, 2 * linesize * szdouble, coordinates, ((i * linesize) + 2 * (framesize + returnlength)) * szdouble, linesize * szdouble);
 
                         // Triggers.
-                        System.Buffer.BlockCopy(levels, 0 * szint, longlevels, i * linesize * szint, (linesize - 1) * szint);
+                        //System.Buffer.BlockCopy(levels, 0 * szint, longlevels, i * linesize * szint, (linesize - 1) * szint);
+                        System.Buffer.BlockCopy(levels, 0 * szint, longlevels, (delay + (i * linesize)) * szint, (linesize - 1) * szint);
 
                         //for (int j = 0; j < linesize; j++)
                         //{
@@ -640,7 +644,8 @@ namespace SIS.Hardware
                         System.Buffer.BlockCopy(linebuffer, linesize * szdouble, coordinates, ((i * linesize) + framesize + returnlength) * szdouble, linesize * szdouble);
                         System.Buffer.BlockCopy(linebuffer, 2 * linesize * szdouble, coordinates, ((i * linesize) + 2 * (framesize + returnlength)) * szdouble, linesize * szdouble);
 
-                        System.Buffer.BlockCopy(levels, 0 * szint, longlevels, i * linesize * szint, (linesize - 1) * szint);
+                        //System.Buffer.BlockCopy(levels, 0 * szint, longlevels, i * linesize * szint, (linesize - 1) * szint);
+                        System.Buffer.BlockCopy(levels, 0 * szint, longlevels, (delay + (i * linesize)) * szint, (linesize - 1) * szint);
                     }
 
                     System.Buffer.BlockCopy(wobblewf, 0 * szdouble, coordinates, 2 * (framesize + returnlength) * szdouble, framesize * szdouble);
