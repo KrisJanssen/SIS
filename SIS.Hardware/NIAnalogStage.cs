@@ -723,8 +723,8 @@ namespace SIS.Hardware
                 System.Buffer.BlockCopy(returnpath, 2 * returnlength * szdouble, coordinates, (2 * (framesize + returnlength) + framesize) * szdouble, returnlength * szdouble);
 
                 // Set the levels to achieve start of frame and end of frame trigger.
-                longlevels[0] = 4;
-                longlevels[longlevels.GetLength(0) - returnlength] = 4;
+                longlevels[0 + delay] = 4;
+                longlevels[longlevels.GetLength(0) + delay - returnlength] = 4;
 
                 // Persist.
                 this.m_iLongLevels = longlevels;

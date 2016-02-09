@@ -933,9 +933,6 @@ namespace SIS.Forms
 
             while (_bStop != true)
             {
-                // Update the UI every 0.1 seconds, more than fast enough.
-                //Thread.Sleep(1);
-
                 // Perform a read of all samples currently in the buffer.
                 if (_readsamples1 < _docDocument.PixelCount)
                 {
@@ -946,7 +943,6 @@ namespace SIS.Forms
                         Buffer.BlockCopy(_ui32SingleReadValues1, 0, _ui32AllReadValues1, _readsamples1 * szUint32, 10000 * szUint32 );
                         _readsamples1 = _readsamples1 + _ui32SingleReadValues1.Length;
                     }
-
                 }
 
                 _docDocument.StoreChannelData(0, _ui32AllReadValues1);
