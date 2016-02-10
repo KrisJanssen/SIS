@@ -27,6 +27,14 @@
         /// </summary>
         private static readonly log4net.ILog m_logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        public string Terminal
+        {
+            get
+            {
+                return "/" + this.m_device + "/" + this.m_counter + "InternalOutput";
+            }
+        }
+
         public NISampleClock(string device, string counter)
         {
             this.m_device = device;

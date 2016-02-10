@@ -48,7 +48,7 @@ namespace SIS.Hardware
         private double[,] m_dMoveGeneratorCoordinates;
         private int[] m_iLongLevels;
 
-        // Create variables to keep track of the currently set voltage to the Piezo stage.
+        // Create variables to keep track of the currently set voltage to the stage.
         private double m_dCurrentVoltageX;
         private double m_dCurrentVoltageY;
         private double m_dCurrentVoltageZ;
@@ -63,6 +63,10 @@ namespace SIS.Hardware
 
         // Status of the stage
         private bool m_bIsInitialized;
+
+        private bool m_bMaster;
+        private string m_sTimingSource;
+        private string m_sDevice;
 
         #endregion
 
@@ -202,56 +206,31 @@ namespace SIS.Hardware
 
         #endregion
 
-        #region Singleton Pattern.
-
-        // This class operates according to a singleton pattern. 
-        // Having multiple PIAnalogStage could be dangerous because 
-        // the hardware could be left in an unknown state.
-        private static volatile NIAnalogStage m_instance;
-        private static object m_syncRoot = new object();
-
-        public static NIAnalogStage Instance
-        {
-            get
-            {
-                if (m_instance == null)
-                {
-                    lock (m_syncRoot)
-                    {
-                        if (m_instance == null)
-                        {
-                            m_instance = new NIAnalogStage();
-                        }
-                    }
-                }
-
-                return m_instance;
-            }
-        }
-        #endregion
-
         #region Methods.
 
         // The constructor obviously needs to be private to prevent normal instantiation.
-        private NIAnalogStage()
+        public NIAnalogStage(string _sDevice, bool _bMaster, string _sTimingSource)
         {
             // The PIAnalogStage object should be instantiated in an uninitialized state.
             this.m_bIsInitialized = false;
+            this.m_sDevice = _sDevice;
+            this.m_bMaster = _bMaster;
+            this.m_sTimingSource = _sTimingSource;
         }
 
         public void Initialize()
         {
-            _logger.Info("Initializing analog Piezo....");
+            _logger.Info("Initializing analog Stage....");
 
-            // Setup an Analog Out task to move the Piezo stage along X and Y.
+            // Setup an Analog Out task to move the stage along X and Y.
             Task _daqtskTask = new Task();
 
             try
             {
                 // Add AO channels.
-                _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao0", "aoChannelX", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
-                _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao1", "aoChannelY", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
-                _daqtskTask.AOChannels.CreateVoltageChannel("/Dev1/ao2", "aoChannelZ", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
+                _daqtskTask.AOChannels.CreateVoltageChannel("/" + this.m_sDevice + "/ao0", "aoChannelX", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
+                _daqtskTask.AOChannels.CreateVoltageChannel("/" + this.m_sDevice + "/ao1", "aoChannelY", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
+                _daqtskTask.AOChannels.CreateVoltageChannel("/" + this.m_sDevice + "/ao2", "aoChannelZ", m_dVoltageMin, m_dVoltageMax, AOVoltageUnits.Volts);
 
                 // checked IFilteredTypeDescriptor everything is OK.
                 _daqtskTask.Control(TaskAction.Verify);
@@ -281,7 +260,7 @@ namespace SIS.Hardware
                 EngagedChanged(this, new EventArgs());
             }
 
-            _logger.Info("Init Piezo Done!");
+            _logger.Info("Init Stage Done!");
         }
 
         public void Configure(double __dCycleTimeMilisec, int __iSteps)
@@ -295,9 +274,9 @@ namespace SIS.Hardware
 
             this.m_samplePeriod = __dCycleTimeMilisec / 1000;
 
-            if (this.m_sampleClock == null)
+            if (this.m_bMaster && this.m_sampleClock == null)
             {
-                this.m_sampleClock = new NISampleClock("Dev1", "Ctr2");
+                this.m_sampleClock = new NISampleClock(this.m_sDevice, "Ctr2");
             }
 
             if (this.m_daqtskLineTrigger != null)
@@ -320,63 +299,31 @@ namespace SIS.Hardware
                     this.Initialize();
                 }
 
-                if (continuous)
-                {
-                    this.m_daqtskMoveStage.Timing.SampleTimingType = SampleTimingType.SampleClock;
+                this.m_daqtskMoveStage.Timing.SampleTimingType = SampleTimingType.SampleClock;
 
-                    this.m_daqtskMoveStage.Timing.ConfigureSampleClock(
-                        "/Dev1/Ctr2InternalOutput",
-                        1000 / __dCycleTimeMilisec,
-                        SampleClockActiveEdge.Rising,
-                        SampleQuantityMode.ContinuousSamples,
-                        __iSteps);
+                this.m_daqtskMoveStage.Timing.ConfigureSampleClock(
+                    this.m_bMaster ? this.m_sampleClock.Terminal : this.m_sTimingSource,
+                    1000 / __dCycleTimeMilisec,
+                    SampleClockActiveEdge.Rising,
+                    continuous ? SampleQuantityMode.ContinuousSamples : SampleQuantityMode.FiniteSamples,
+                    __iSteps);
 
-                    _lineTask.DOChannels.CreateChannel(
-                        "Dev1/port0",
-                        "test",
-                        ChannelLineGrouping.OneChannelForAllLines);
+                _lineTask.DOChannels.CreateChannel(
+                    this.m_sDevice + "/port0",
+                    "test",
+                    ChannelLineGrouping.OneChannelForAllLines);
 
-                    _lineTask.Timing.SampleTimingType = SampleTimingType.SampleClock;
+                _lineTask.Timing.SampleTimingType = SampleTimingType.SampleClock;
 
-                    _lineTask.Timing.ConfigureSampleClock(
-                        "/Dev1/Ctr2InternalOutput",
-                        1000 / __dCycleTimeMilisec,
-                        SampleClockActiveEdge.Rising,
-                        SampleQuantityMode.ContinuousSamples,
-                        __iSteps);
+                _lineTask.Timing.ConfigureSampleClock(
+                    this.m_bMaster ? this.m_sampleClock.Terminal : this.m_sTimingSource,
+                    1000 / __dCycleTimeMilisec,
+                    SampleClockActiveEdge.Rising,
+                    continuous ? SampleQuantityMode.ContinuousSamples : SampleQuantityMode.FiniteSamples,
+                    __iSteps);
 
-                    _lineTask.Control(TaskAction.Verify);
-                    _lineTask.Control(TaskAction.Commit);
-                }
-
-                if (!continuous)
-                {
-                    this.m_daqtskMoveStage.Timing.SampleTimingType = SampleTimingType.SampleClock;
-
-                    this.m_daqtskMoveStage.Timing.ConfigureSampleClock(
-                        "/Dev1/Ctr2InternalOutput",
-                        1000 / __dCycleTimeMilisec,
-                        SampleClockActiveEdge.Rising,
-                        SampleQuantityMode.FiniteSamples,
-                        __iSteps);
-
-                    _lineTask.DOChannels.CreateChannel(
-                        "Dev1/port0",
-                        "line",
-                        ChannelLineGrouping.OneChannelForAllLines);
-
-                    _lineTask.Timing.SampleTimingType = SampleTimingType.SampleClock;
-
-                    _lineTask.Timing.ConfigureSampleClock(
-                        "/Dev1/Ctr2InternalOutput",
-                        1000 / __dCycleTimeMilisec,
-                        SampleClockActiveEdge.Rising,
-                        SampleQuantityMode.FiniteSamples,
-                        __iSteps);
-
-                    _lineTask.Control(TaskAction.Verify);
-                    _lineTask.Control(TaskAction.Commit);
-                }
+                _lineTask.Control(TaskAction.Verify);
+                _lineTask.Control(TaskAction.Commit);
             }
 
             catch (DaqException ex)
@@ -401,7 +348,7 @@ namespace SIS.Hardware
 
             try
             {
-                // Properly dispose of the AO tasks that control the piezo stage.
+                // Properly dispose of the AO tasks that control the stage.
                 if (this.m_daqtskMoveStage != null)
                 {
                     this.m_daqtskMoveStage.Stop();
@@ -428,7 +375,10 @@ namespace SIS.Hardware
                 this.m_bIsInitialized = false;
             }
 
-            this.m_sampleClock.Stop();
+            if (this.m_bMaster && this.m_sampleClock != null)
+            {
+                this.m_sampleClock.Stop();
+            }
 
             // If everything went well, tell everyone :)
             if (EngagedChanged != null)
@@ -747,7 +697,11 @@ namespace SIS.Hardware
         {
             this.m_daqtskLineTrigger.Stop();
             this.m_daqtskMoveStage.Stop();
-            this.m_sampleClock.Stop();
+
+            if (this.m_bMaster && this.m_sampleClock != null)
+            {
+                this.m_sampleClock.Stop();
+            }
 
             this.m_iSamplesToStageCurrent = (int)m_daqtskMoveStage.Stream.TotalSamplesGeneratedPerChannel; //% m_dMoveGeneratorCoordinates.GetLength(1);
 
@@ -795,7 +749,10 @@ namespace SIS.Hardware
                 // Start all four tasks in the correct order. Global sync should be last.
                 this.m_daqtskLineTrigger.Start();
                 this.m_daqtskMoveStage.Start();
-                this.m_sampleClock.Start(this.m_samplePeriod);
+                if (this.m_bMaster && this.m_sampleClock != null)
+                {
+                    this.m_sampleClock.Start(this.m_samplePeriod);
+                }
             }
 
             catch (Exception ex)

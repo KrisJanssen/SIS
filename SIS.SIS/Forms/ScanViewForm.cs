@@ -27,6 +27,7 @@ namespace SIS.Forms
         private SIS.Hardware.APD m_apdAPD1;
         private SIS.Hardware.APD m_apdAPD2;
         private SIS.Hardware.IPiezoStage m_Stage;
+        private SIS.Hardware.IPiezoStage m_FocusStage;
         private SIS.Hardware.NISampleClock m_clckGlobalSync;
 
 
@@ -102,13 +103,17 @@ namespace SIS.Forms
 
             // The piezo stage is the most critical hardware resource. To prevent conflicts it is created as a singleton instance.
             //this.m_Stage = SIS.Hardware.PIDigitalStage.Instance;
-            this.m_Stage = SIS.Hardware.NIAnalogStage.Instance;
+            this.m_Stage = new SIS.Hardware.NIAnalogStage("Dev1", true, "Ctr2");
+            this.m_FocusStage = new SIS.Hardware.NIAnalogStage("Dev 2", true, "Ctr2");
 
 
             // Hook up EventHandler methods to the events of the stage.
             this.m_Stage.PositionChanged += new EventHandler(m_Stage_PositionChanged);
             this.m_Stage.ErrorOccurred += new EventHandler(m_Stage_ErrorOccurred);
             this.m_Stage.EngagedChanged += new EventHandler(m_Stage_EngagedChanged);
+            this.m_FocusStage.PositionChanged += new EventHandler(m_Stage_PositionChanged);
+            this.m_FocusStage.ErrorOccurred += new EventHandler(m_Stage_ErrorOccurred);
+            this.m_FocusStage.EngagedChanged += new EventHandler(m_Stage_EngagedChanged);
 
             this.lblStageVoltageEngaged.Text = this.m_Stage.IsInitialized.ToString();
 
@@ -188,7 +193,7 @@ namespace SIS.Forms
             // Update the UI with the current voltage to stage.
             txtbxCurrXPos.Text = this.m_Stage.XPosition.ToString();
             txtbxCurrYPos.Text = this.m_Stage.YPosition.ToString();
-            txtbxCurrZPos.Text = this.m_Stage.ZPosition.ToString();
+            txtbxCurrZPos.Text = this.m_FocusStage.ZPosition.ToString();
             textBox1.Text = this.m_apdAPD1.TotalSamplesAcuired.ToString();
 
             // Get the in memory bitmaps to the screen.
@@ -223,13 +228,16 @@ namespace SIS.Forms
         {
             try
             {
-                if (m_Stage.IsInitialized)
+                if (m_Stage.IsInitialized || m_FocusStage.IsInitialized)
                 {
                     throw new SIS.Hardware.StageNotReleasedException("The stage was not released! Please use stage control to turn it off!");
                 }
                 this.m_Stage.PositionChanged -= new EventHandler(m_Stage_PositionChanged);
                 this.m_Stage.ErrorOccurred -= new EventHandler(m_Stage_ErrorOccurred);
                 this.m_Stage.EngagedChanged -= new EventHandler(m_Stage_EngagedChanged);
+                this.m_FocusStage.PositionChanged -= new EventHandler(m_Stage_PositionChanged);
+                this.m_FocusStage.ErrorOccurred -= new EventHandler(m_Stage_ErrorOccurred);
+                this.m_FocusStage.EngagedChanged -= new EventHandler(m_Stage_EngagedChanged);
             }
 
             catch (SIS.Hardware.StageNotReleasedException ex)
@@ -678,9 +686,10 @@ namespace SIS.Forms
         {
             // Connect to the controller hardware and initialize it.
             this.m_Stage.Initialize();
+            this.m_FocusStage.Initialize();
 
             // Initialize stage control and update status indicator only if INIT worked.
-            if (this.m_Stage.IsInitialized)
+            if (this.m_Stage.IsInitialized && this.m_FocusStage.IsInitialized)
             {
                 // We cannot turn the stage on twice!
                 this.btnStageON.Enabled = false;
@@ -705,9 +714,10 @@ namespace SIS.Forms
         {
             // Disconnect from the stage hardware.
             this.m_Stage.Release();
+            this.m_FocusStage.Release();
 
             // Release stage control and update status.
-            if (!this.m_Stage.IsInitialized)
+            if (!this.m_Stage.IsInitialized && !this.m_FocusStage.IsInitialized)
             {
                 this.btnStageOFF.Enabled = false;
                 this.lblStageVoltageEngaged.ForeColor = Color.FromKnownColor(KnownColor.Red);
@@ -726,6 +736,7 @@ namespace SIS.Forms
             _dXYCoordinates[1] = 0.0;
             _dXYCoordinates[2] = 0.0;
             this.bckgwrkPerformMove.RunWorkerAsync(_dXYCoordinates);
+            this.bckgwrkPerformFocus.RunWorkerAsync(_dXYCoordinates);
         }
 
         private void btnMoveAbs_Click(object __oSender, EventArgs __evargsE)
@@ -735,12 +746,19 @@ namespace SIS.Forms
             _dXYCoordinates[1] = Convert.ToDouble(this.m_txtbxGoToY.Text);
             _dXYCoordinates[2] = Convert.ToDouble(this.m_txtbxGoToZ.Text);
             this.bckgwrkPerformMove.RunWorkerAsync(_dXYCoordinates);
+            this.bckgwrkPerformFocus.RunWorkerAsync(_dXYCoordinates);
         }
 
         private void bckgwrkPerformMove_DoWork(object __oSender, System.ComponentModel.DoWorkEventArgs __evargsE)
         {
             double[] _dXYCoordinates = (double[])__evargsE.Argument;
             this.m_Stage.MoveAbs(_dXYCoordinates[0], _dXYCoordinates[1], _dXYCoordinates[2]);
+        }
+
+        private void bckgwrkPerformFocus_DoWork(object __oSender, System.ComponentModel.DoWorkEventArgs __evargsE)
+        {
+            double[] _dXYCoordinates = (double[])__evargsE.Argument;
+            this.m_FocusStage.MoveAbs(_dXYCoordinates[0], _dXYCoordinates[1], _dXYCoordinates[2]);
         }
 
         void m_Stage_PositionChanged(object __oSender, EventArgs __evargsE)
@@ -1140,6 +1158,24 @@ namespace SIS.Forms
                     _bStop = true;
                 }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            double[] _dXYCoordinates = new double[3];
+            _dXYCoordinates[0] = 0;
+            _dXYCoordinates[1] = 0;
+            _dXYCoordinates[2] = this.m_FocusStage.ZPosition + Convert.ToDouble(this.txtFocus.Text);
+            this.bckgwrkPerformFocus.RunWorkerAsync(_dXYCoordinates);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            double[] _dXYCoordinates = new double[3];
+            _dXYCoordinates[0] = 0;
+            _dXYCoordinates[1] = 0;
+            _dXYCoordinates[2] = this.m_FocusStage.ZPosition - Convert.ToDouble(this.txtFocus.Text);
+            this.bckgwrkPerformFocus.RunWorkerAsync(_dXYCoordinates);
         }
     }
 }
