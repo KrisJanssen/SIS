@@ -209,12 +209,12 @@ namespace SIS.Hardware
         #region Methods.
 
         // The constructor obviously needs to be private to prevent normal instantiation.
-        public NIAnalogStage(string _sDevice, bool _bMaster, string _sTimingSource)
+        public NIAnalogStage(string _sDevice, string _sTimingSource)
         {
             // The PIAnalogStage object should be instantiated in an uninitialized state.
             this.m_bIsInitialized = false;
             this.m_sDevice = _sDevice;
-            this.m_bMaster = _bMaster;
+            this.m_bMaster = true;
             this.m_sTimingSource = _sTimingSource;
         }
 
@@ -265,10 +265,10 @@ namespace SIS.Hardware
 
         public void Configure(double __dCycleTimeMilisec, int __iSteps)
         {
-            this.Configure(__dCycleTimeMilisec, __iSteps, true);
+            this.Configure(__dCycleTimeMilisec, __iSteps, true, true);
         }
 
-        public void Configure(double __dCycleTimeMilisec, int __iSteps, bool continuous)
+        public void Configure(double __dCycleTimeMilisec, int __iSteps, bool master, bool continuous)
         {
             _logger.Info("Configuring stage timing....");
 
@@ -389,7 +389,7 @@ namespace SIS.Hardware
 
         public void Home()
         {
-            this.MoveAbs(0.0, 0.0, 0.0);
+            this.MoveAbs(0.0, 0.0, 0.0, false);
         }
 
         // Calculates voltages for a direct move to a set of XY coordinates.
@@ -412,7 +412,6 @@ namespace SIS.Hardware
             double[,] _dMovement = new double[3, __iSteps];
 
             // Calculate the actual voltages for the intended movement on X.
-            // Movement will be one axis at a time.
             for (int _iI = 0; _iI < __iSteps; _iI++)
             {
                 // Increment voltage. 
@@ -446,7 +445,7 @@ namespace SIS.Hardware
             //this.MoveAbs(this.m_startX, this.m_startY, this.m_startZ);
         }
 
-        public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm)
+        public void MoveAbs(double __dXPosNm, double __dYPosNm, double __dZPosNm, bool __bFast)
         {
             // Calculate the voltages that make up the full scan.
             this.m_dMoveGeneratorCoordinates = this.CalculateMove(
@@ -456,11 +455,11 @@ namespace SIS.Hardware
                 this.NmToVoltage(__dXPosNm),
                 this.NmToVoltage(__dYPosNm),
                 this.NmToVoltage(__dZPosNm),
-                1000);
+                __bFast ? 10 : 1000);
 
             int[] levels = Enumerable.Repeat(0, this.m_dMoveGeneratorCoordinates.GetLength(1)).ToArray();
 
-            this.TimedMove(1.0, this.m_dMoveGeneratorCoordinates, levels, false);
+            this.TimedMove(1.0, this.m_dMoveGeneratorCoordinates, levels, true, false);
 
             while (this.m_daqtskMoveStage.IsDone != true)
             {
@@ -486,7 +485,7 @@ namespace SIS.Hardware
             return _dVoltage;
         }
 
-        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, double __dRotation, int delay, bool wobble, double wobbleAmplitude, bool flip)
+        public void Scan(ScanModes.Scanmode __scmScanMode, double __dPixelTime, bool __bResend, bool master, double __dRotation, int delay, bool wobble, double wobbleAmplitude, bool flip)
         {
             int returnlength = 1000;
 
@@ -497,7 +496,6 @@ namespace SIS.Hardware
                 int linesize = __scmScanMode.ScanCoordinates.GetLength(1);
                 int numlines = __scmScanMode.RepeatNumber;
                 int framesize = linesize * numlines;
-
 
                 // The position offset between consecutive scanlines.
                 double delta = this.NmToVoltage(__scmScanMode.ScanCoordinates[1, linesize - 1] - __scmScanMode.ScanCoordinates[1, 0]);
@@ -606,8 +604,6 @@ namespace SIS.Hardware
 
                     }
 
-
-
                     //if (!wobble)
                     //{
                     //    for (int i = 0; i < __scmScanMode.RepeatNumber; i++)
@@ -690,7 +686,7 @@ namespace SIS.Hardware
 
             // Perform the actual scan as a timed move.
             //this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, false);
-            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, true);
+            this.TimedMove(__dPixelTime, this.m_dScanCoordinates, this.m_iLongLevels, master, true);
         }
 
         public void Stop()
@@ -725,7 +721,7 @@ namespace SIS.Hardware
             }
         }
 
-        private void TimedMove(double __dCycleTime, double[,] __dCoordinates, int[] __iLevels, bool continuous)
+        private void TimedMove(double __dCycleTime, double[,] __dCoordinates, int[] __iLevels, bool master, bool continuous)
         {
             Stopwatch watch = new Stopwatch();
 
@@ -734,7 +730,7 @@ namespace SIS.Hardware
             int _iSamplesPerChannel = __dCoordinates.Length / 3;
 
             // Prepare the stage control task for writing as many samples as necessary to complete Move.
-            this.Configure(__dCycleTime, _iSamplesPerChannel, continuous);
+            this.Configure(__dCycleTime, _iSamplesPerChannel, master, continuous);
 
             AnalogMultiChannelWriter writerA = new AnalogMultiChannelWriter(this.m_daqtskMoveStage.Stream);
             DigitalSingleChannelWriter writerD = new DigitalSingleChannelWriter(this.m_daqtskLineTrigger.Stream);

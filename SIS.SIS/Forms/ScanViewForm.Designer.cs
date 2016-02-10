@@ -35,6 +35,7 @@
             this.bckgwrkPerformMove = new System.ComponentModel.BackgroundWorker();
             this.m_TabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.txtFocus = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -117,7 +118,6 @@
             this.ccdControl1 = new SIS.WPFControls.CCDControl.UI.CCDControl();
             this.wrkUpdate = new System.ComponentModel.BackgroundWorker();
             this.bckgwrkPerformFocus = new System.ComponentModel.BackgroundWorker();
-            this.txtFocus = new System.Windows.Forms.TextBox();
             this.m_TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -174,13 +174,21 @@
             this.tabPage1.Text = "Scan View";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // txtFocus
+            // 
+            this.txtFocus.Location = new System.Drawing.Point(19, 164);
+            this.txtFocus.Name = "txtFocus";
+            this.txtFocus.Size = new System.Drawing.Size(100, 20);
+            this.txtFocus.TabIndex = 43;
+            this.txtFocus.Text = "100";
+            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(37, 229);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 42;
-            this.button3.Text = "button3";
+            this.button3.Text = " ↓  ↓  ↓ ";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -190,7 +198,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 41;
-            this.button2.Text = "button2";
+            this.button2.Text = " ↑  ↑  ↑ ";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -1170,14 +1178,6 @@
             this.bckgwrkPerformFocus.WorkerReportsProgress = true;
             this.bckgwrkPerformFocus.WorkerSupportsCancellation = true;
             this.bckgwrkPerformFocus.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bckgwrkPerformFocus_DoWork);
-            // 
-            // txtFocus
-            // 
-            this.txtFocus.Location = new System.Drawing.Point(19, 164);
-            this.txtFocus.Name = "txtFocus";
-            this.txtFocus.Size = new System.Drawing.Size(100, 20);
-            this.txtFocus.TabIndex = 43;
-            this.txtFocus.Text = "100";
             // 
             // ScanViewForm
             // 

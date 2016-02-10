@@ -103,8 +103,8 @@ namespace SIS.Forms
 
             // The piezo stage is the most critical hardware resource. To prevent conflicts it is created as a singleton instance.
             //this.m_Stage = SIS.Hardware.PIDigitalStage.Instance;
-            this.m_Stage = new SIS.Hardware.NIAnalogStage("Dev1", true, "Ctr2");
-            this.m_FocusStage = new SIS.Hardware.NIAnalogStage("Dev 2", true, "Ctr2");
+            this.m_Stage = new SIS.Hardware.NIAnalogStage("Dev1", "Ctr2");
+            this.m_FocusStage = new SIS.Hardware.NIAnalogStage("Dev2", "Ctr2");
 
 
             // Hook up EventHandler methods to the events of the stage.
@@ -752,13 +752,13 @@ namespace SIS.Forms
         private void bckgwrkPerformMove_DoWork(object __oSender, System.ComponentModel.DoWorkEventArgs __evargsE)
         {
             double[] _dXYCoordinates = (double[])__evargsE.Argument;
-            this.m_Stage.MoveAbs(_dXYCoordinates[0], _dXYCoordinates[1], _dXYCoordinates[2]);
+            this.m_Stage.MoveAbs(_dXYCoordinates[0], _dXYCoordinates[1], _dXYCoordinates[2], false);
         }
 
         private void bckgwrkPerformFocus_DoWork(object __oSender, System.ComponentModel.DoWorkEventArgs __evargsE)
         {
             double[] _dXYCoordinates = (double[])__evargsE.Argument;
-            this.m_FocusStage.MoveAbs(_dXYCoordinates[0], _dXYCoordinates[1], _dXYCoordinates[2]);
+            this.m_FocusStage.MoveAbs(_dXYCoordinates[0], _dXYCoordinates[1], _dXYCoordinates[2], true);
         }
 
         void m_Stage_PositionChanged(object __oSender, EventArgs __evargsE)
@@ -921,14 +921,16 @@ namespace SIS.Forms
                 this.m_Stage.MoveAbs(
                     Convert.ToDouble(this.m_txtbxGoToX.Text),
                     Convert.ToDouble(this.m_txtbxGoToY.Text),
-                    Convert.ToDouble(this.m_txtbxGoToZ.Text));
+                    Convert.ToDouble(this.m_txtbxGoToZ.Text),
+                    false);
             }
             else
             {
                 this.m_Stage.MoveAbs(
                     Convert.ToDouble(this.m_txtbxGoToX.Text),
                     Convert.ToDouble(this.m_txtbxGoToY.Text),
-                    Convert.ToDouble(this.m_txtbxStackMin.Text));
+                    Convert.ToDouble(this.m_txtbxStackMin.Text),
+                    false);
             }
 
             double stackPos = Convert.ToDouble(this.m_txtbxStackMin.Text);
@@ -938,11 +940,26 @@ namespace SIS.Forms
             // Start the APD. It will now count photons every time it is triggered by either a clock or a digital controller.
             this.m_apdAPD1.StartAPDAcquisition();
 
+            if (this.checkBoxWobble.Checked)
+            {
+                this.m_FocusStage.Scan(
+                _Scan,
+                _docDocument.TimePPixel,
+                this.checkBox1.Checked,
+                false,
+                Convert.ToDouble(this.textBox5.Text),
+                Convert.ToInt32(this.txtDelay.Text),
+                this.checkBoxWobble.Checked,
+                Convert.ToDouble(this.txtWobbleAmp.Text),
+                this.checkBoxXY.Checked);
+            }
+
             // Initiate stage scan movement.
             this.m_Stage.Scan(
                 _Scan,
                 _docDocument.TimePPixel,
                 this.checkBox1.Checked,
+                true,
                 Convert.ToDouble(this.textBox5.Text),
                 Convert.ToInt32(this.txtDelay.Text),
                 this.checkBoxWobble.Checked,
@@ -1007,7 +1024,12 @@ namespace SIS.Forms
         {
 
             // Actually stop the stage from scanning.
+            if(this.checkBoxWobble.Checked)
+            {
+                this.m_FocusStage.Stop();
+            }
             this.m_Stage.Stop();
+
 
             // Wait a bit.
             Thread.Sleep(500);
@@ -1035,7 +1057,14 @@ namespace SIS.Forms
             this.m_Stage.MoveAbs(
                 Convert.ToDouble(this.m_txtbxGoToX.Text),
                 Convert.ToDouble(this.m_txtbxGoToY.Text),
-                Convert.ToDouble(this.m_txtbxGoToZ.Text));
+                Convert.ToDouble(this.m_txtbxGoToZ.Text),
+                false);
+
+            this.m_FocusStage.MoveAbs(
+                Convert.ToDouble(this.m_txtbxGoToX.Text),
+                Convert.ToDouble(this.m_txtbxGoToY.Text),
+                Convert.ToDouble(this.m_txtbxGoToZ.Text),
+                false);
 
             this.EnableCtrls();
         }
